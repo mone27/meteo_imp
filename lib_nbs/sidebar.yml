@@ -1,0 +1,7 @@
+website:
+  sidebar:
+    contents:
+      - index.ipynb
+      - 00_GPFA.ipynb
+      - 01_Learner.ipynb
+      - 02_Imputation.ipynb
