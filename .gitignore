@@ -1,6 +1,7 @@
 _docs/
 _proc/
 .virtual_documents/
+data
 
 *.bak
 .gitattributes
