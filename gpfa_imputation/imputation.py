@@ -14,6 +14,7 @@ from fastcore.foundation import patch
 
 import matplotlib.pyplot as plt
 import altair as alt
+from altair import datum
 
 # %% ../lib_nbs/02_Imputation.ipynb 7
 class GPFADataGenerator:
@@ -154,47 +155,79 @@ class GPFAImputation:
     
 
 # %% ../lib_nbs/02_Imputation.ipynb 45
-@patch()
-def plot_pred(
-    self: GPFAImputation,
-    complete = None # Optional true data to be plotted agaist predictions
-):
+def _plot_variable(imp, complete, variable, y_label=""):
     
-    imp = self._impute_tidy(add_time=True) if hasattr(self, "pred") else self.impute(tidy=True, add_time=True)
+    imp = imp[imp.variable == variable]
+
     
     error = alt.Chart(imp).mark_errorband().encode(
         x = "time",    
-        y = alt.Y("err_low:Q", title=""),
+        y = alt.Y("err_low:Q", title = y_label, scale=alt.Scale(zero=False)),
         y2 = "err_high:Q",
         color="variable"
     ).transform_calculate(
         err_low = "datum.mean - 2 * datum.std",
         err_high = "datum.mean + 2 * datum.std"
-    )
+    ).interactive()
 
     pred = alt.Chart(imp).mark_line().encode(
         x = "time",    
-        y = alt.Y("mean:Q", title="value variable"),
+        y = alt.Y("mean:Q", title = y_label, scale=alt.Scale(zero=False)),
         color="variable"
-    )
+    ).interactive()
 
-    plot = error + pred
+    base_plot = error + pred
     
     if complete is not None:
         
+        complete = complete[complete.variable == variable]
         truth_plt = alt.Chart(complete).mark_point().encode(
             x = "time",
-            y = alt.Y("value", title="value variable"),
+            y = alt.Y("value", title = y_label, scale=alt.Scale(zero=False)),
             color="variable",
-            shape = "is_missing"
+            shape = "is_missing",
+        ).interactive()
+
+    base_plot = error + pred
+
+    if complete is not None:
+
+        complete = complete[complete.variable == variable]
+        truth_plt = alt.Chart(complete).mark_point().encode(
+            x = "time",
+            y = alt.Y("value", title = y_label, scale=alt.Scale(zero=False)),
+            color="variable",
+            shape = "is_missing",
         )
+
+        base_plot += truth_plt
         
-        plot = plot + truth_plt
+    return base_plot
     
+
+# %% ../lib_nbs/02_Imputation.ipynb 49
+@patch()
+def plot_pred(
+    self: GPFAImputation,
+    complete = None, # Optional true data to be plotted agaist predictions
+    units: dict = None, # Optional dict where keys are col name and value the unit (y axis labels)
+    n_cols: int = 2
+):
+    "Plot the prediction for each variable, optionally including true values"
+    imp = self._impute_tidy(add_time=True) if hasattr(self, "pred") else self.impute(tidy=True, add_time=True)
+    
+   
+    plot_list = [alt.hconcat() for _ in range(0, imp.shape[0], n_cols)]
+    selection_scale = alt.selection_interval(bind="scales")
+    for idx, variable in enumerate(pd.unique(imp.variable)):
+        plot_list[idx // n_cols] |= _plot_variable(imp, complete, variable,
+                                                   y_label = f"variable [{units[variable]}]" if units is not None else variable)
+    
+    plot = alt.vconcat(*plot_list)
     
     return plot
 
-# %% ../lib_nbs/02_Imputation.ipynb 50
+# %% ../lib_nbs/02_Imputation.ipynb 54
 @patch
 def __repr__(self: GPFAImputation):
     return f"""GPFA Imputation:
