@@ -2,6 +2,9 @@ _docs/
 _proc/
 .virtual_documents/
 data
+# Quarto build artifacts
+.html
+*_files/
 
 *.bak
 .gitattributes
@@ -151,3 +154,4 @@ checklink/cookies.txt
 
 # Quarto
 .quarto
+.Rproj.user

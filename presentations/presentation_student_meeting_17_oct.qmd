@@ -1,0 +1,183 @@
+---
+title: Meterological time series imputation with Gaussian Processes Factor Analysis
+author: Simone Massaro
+Date: 17 Oct 2022
+format: 
+  revealjs:
+    transition: slide
+    slide-number: true
+---
+
+```{r}
+#| include: false
+
+```
+
+## Outline
+
+1.  Introduction
+2.  Modelling approach
+3.  Model flow
+4.  First results
+5.  Next steps
+
+## 1. Introduction
+
+-   I am master student in "Ecosystem Analysis and Modelling" from the forestry department
+-   master thesis on Gap filling meterological data with Fabian Sinz as co-supervisor
+
+## Thesis Aim
+
+-   to measure **greenhouse gas exchanges** "Eddy Covariance" state of the art technique
+-   measurement set-up includes meteorological variables (eg. air temperature, wind speed ...)
+-   technical issues (eg. broken sensor) result in **meteo time series** with **gaps**
+-   presence of gaps is a problem for many applications of the Eddy Covariance data (eg. ecosystem modelling)
+
+## How to fill gaps (or imputation approaches)
+
+-   use previous and following measurements for one variable and temporal auto-correlation (eg. diurnal cycles)
+-   correlation with other variables measures (eg. solar radiation and temperature)
+-   other measurements of meteo variables
+
+## Why this is relevant
+
+-   imputation of meteo time series is already implemented in processing pipelines
+-   main limitations
+    -   simple algorithms (mainly linear models)
+    -   no uncertainty for the predictions
+    -   don't combine the different imputation approaches
+
+## Dataset
+
+-   meteorological measurements every 30 mins
+-   focusing on 4 variables
+    -   Air temperature: `TA`
+    -   Incoming shortwave radiation: `SW_IN`
+    -   Incoming longwave radiation: `LW_IN`
+    -   Vapour Pressure Deficit: `VPD`
+-   more than 20 years of data
+
+# 2. Model 
+## 2. Approach
+
+First model: Gaussian Process Factor Analysis
+
+Model one latent variable ($z$) over time with a Gaussian Process
+
+$$x_{:,t} = \Lambda z_{:,t} + \epsilon $$
+
+$\Lambda$ express relation between observed variables and latent variable at each time step
+
+## Gaussian Process
+
+Kernel of Gaussian Process: $$K(t,t \prime) = \Lambda k(t,t \prime) \Lambda^T + \delta(t - t \prime)\psi$$
+
+-   $k(t,t \prime)$ is the kernel for the latent variable
+-   $\delta(t - t \prime)\psi$ is the random noise
+
+## 3. Model flow {.smaller}
+
+```{mermaid}
+flowchart TB
+  A(Dataframe with missing data) -->  B["training data
+   (row without missing data)"]
+  A --> C["prediction time
+  (rows with a least one var missing)"]
+  B --> D[Normalize data] --> E["Fit kernel hyperameters
+  (gradient descend)"]
+  E & C --> F[Predict missing data]
+  C --> H[Rows with at least 1 var present]
+  F & H --> I[Conditional distribution] --> L[Impute dataframe]
+```
+
+# 4. First Results
+
+## Random gaps in dataset - plot {.smaller}
+
+```{python}
+#| cache: true
+import altair as alt
+from pathlib import Path
+from pyprojroot import here
+
+alt.Chart.from_json(
+    (Path(here()) / "analysis" / 'plots' / "plot_hai_winter_4_var_200_obs_random_gaps_row_20_value_10.vl.json").read_text())
+```
+
+Results GPFA (dataset: 200 rows; prob. missing row: 20%; prob. missing value: 10%)
+
+## Random gaps in dataset {.smaller}
+
+::: columns
+::: {.column width="50%"}
+| Variable | RMSE  | Unit  |
+|----------|-------|-------|
+| TA       | 0.09  | °C    |
+| SW_IN    | 41.11 | W m-2 |
+| LW_IN    | 19.31 | W m-2 |
+| VPD      | 0.22  | hPa   |
+
+$\Lambda$
+
+|       |            |
+|-------|------------|
+| TA    | 0.933      |
+| SW_IN | **-0.001** |
+| LW_IN | 0.364      |
+| VPD   | 0.595      |
+:::
+
+::: {.column width="50%"}
+Lengthscale: 7.61 (\~3.5 hours)
+
+$\psi$
+
+|       |        |
+|-------|--------|
+| TA    | 0.0018 |
+| SW_IN | 0.9988 |
+| LW_IN | 0.8362 |
+| VPD   | 0.5784 |
+
+![](images/loss_plot_hai_winter_4_var_200_obs_random_gaps_row_20_value_10.png)
+:::
+:::
+
+## Summer
+
+-   the value of $\Lambda$ for the `SW_IN` is basically 0
+-   possible explanation: in winter main driver for `SW_IN` is cloud cover in winter
+-   trained model with a few days from summer (mainly sunny)
+
+
+|       |            |
+|-------|------------|
+| TA    | 0.87     |
+| SW_IN | **0.368** |
+| LW_IN | 0.506      |
+| VPD   | 0.696      |
+
+: $\Lambda$
+
+# Next steps
+
+## Measure model performance
+
+-   make sure artificial gaps are representative of real conditions
+-   other metrics beside RMSE
+-   compute Loss (log likelihood) also on prediction?
+
+## GPFA improvements
+
+-   test different kernels
+-   use more than one latent variables
+-   make it faster (GPU + Sparse Gaussian Processes)
+-   time encoding
+
+# Questions & Comments
+
+:::{.footer}
+Github repo: [https://github.com/mone27/gpfa_imputation](https://mone27.quarto.pub/presentation_meteo_gpfa_imputation_17_oct22)  
+Website: [https://mone27.github.io/gpfa_imputation](https://mone27.github.io/gpfa_imputation)   
+This presentation: [https://mone27.quarto.pub/presentation_meteo_gpfa_imputation_17_oct22](https://mone27.quarto.pub/presentation_meteo_gpfa_imputation_17_oct22)
+:::

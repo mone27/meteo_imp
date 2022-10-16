@@ -16,6 +16,8 @@ import matplotlib.pyplot as plt
 import altair as alt
 from altair import datum
 
+from functools import lru_cache
+
 # %% ../lib_nbs/02_Imputation.ipynb 7
 class GPFADataGenerator:
     def __init__(self,
@@ -95,8 +97,11 @@ class GPFAImputation:
     def __init__(
         self,
         data: pd.DataFrame , #observed data with missing data as NA
+        complete_data: pd.DataFrame = None # Optional complete dataframe (for testing)
     ):
         self.data = data
+        self.data_complete = complete_data # TODO polish this, is this tidy or wide? check has required cols
+        
         self.T = torch.arange(0, len(data), dtype=torch.float32) # time is encoded with a increase of 1
         
         # Training data
@@ -112,12 +117,15 @@ class GPFAImputation:
         self.cond_obs = torch.tensor(self.data[~self.train_idx].to_numpy().astype(np.float32).flatten()[self.cond_idx])
         
         
+    @lru_cache
     def impute(self,
                add_time = True, # add column with time?
                tidy = True # tidy data?
                ):
-        self.learner.train()
-        self.pred = self.learner.predict(self.pred_T, obs = self.cond_obs, idx = self.cond_idx)
+        
+        if not hasattr(self, "pred"):
+            self.learner.train()
+            self.pred = self.learner.predict(self.pred_T, obs = self.cond_obs, idx = self.cond_idx)
         
         if tidy: return self._impute_tidy(add_time)
         else: return self._impute_wide(add_time)
@@ -151,11 +159,13 @@ class GPFAImputation:
                
         imp_data = pd.concat((train_data, pred))
         
+        self.pred_wide = imp_data
+        
         return imp_data
     
 
 # %% ../lib_nbs/02_Imputation.ipynb 45
-def _plot_variable(imp, complete, variable, y_label=""):
+def _plot_variable(imp, complete, variable, y_label="", sel=None, properties = {}):
     
     imp = imp[imp.variable == variable]
 
@@ -164,17 +174,20 @@ def _plot_variable(imp, complete, variable, y_label=""):
         x = "time",    
         y = alt.Y("err_low:Q", title = y_label, scale=alt.Scale(zero=False)),
         y2 = "err_high:Q",
-        color="variable"
+        color="variable",
+        tooltip = alt.Tooltip(['std', 'mean'], format=".4")
     ).transform_calculate(
         err_low = "datum.mean - 2 * datum.std",
         err_high = "datum.mean + 2 * datum.std"
-    ).interactive()
+    ).properties( **properties)
 
     pred = alt.Chart(imp).mark_line().encode(
         x = "time",    
         y = alt.Y("mean:Q", title = y_label, scale=alt.Scale(zero=False)),
-        color="variable"
-    ).interactive()
+        color="variable",
+    ).add_selection(
+        sel if sel is not None else alt.selection_interval(bind="scales")
+    ).properties(title = variable)
 
     base_plot = error + pred
     
@@ -186,7 +199,7 @@ def _plot_variable(imp, complete, variable, y_label=""):
             y = alt.Y("value", title = y_label, scale=alt.Scale(zero=False)),
             color="variable",
             shape = "is_missing",
-        ).interactive()
+        )
 
     base_plot = error + pred
 
@@ -205,29 +218,34 @@ def _plot_variable(imp, complete, variable, y_label=""):
     return base_plot
     
 
-# %% ../lib_nbs/02_Imputation.ipynb 49
+# %% ../lib_nbs/02_Imputation.ipynb 47
 @patch()
 def plot_pred(
     self: GPFAImputation,
-    complete = None, # Optional true data to be plotted agaist predictions
+    complete = True, # Optional true data to be plotted agaist predictions
     units: dict = None, # Optional dict where keys are col name and value the unit (y axis labels)
-    n_cols: int = 2
+    n_cols: int = 2,
+    bind_interaction: bool =True, # Whether the sub-plots for each variable should be connected for zooming/panning
+    properties:dict = {} # addtional properties (eg. size) for altair plot
 ):
     "Plot the prediction for each variable, optionally including true values"
     imp = self._impute_tidy(add_time=True) if hasattr(self, "pred") else self.impute(tidy=True, add_time=True)
     
    
     plot_list = [alt.hconcat() for _ in range(0, imp.shape[0], n_cols)]
-    selection_scale = alt.selection_interval(bind="scales")
+    selection_scale = alt.selection_interval(bind="scales", encodings=['x']) if bind_interaction else None
     for idx, variable in enumerate(pd.unique(imp.variable)):
-        plot_list[idx // n_cols] |= _plot_variable(imp, complete, variable,
-                                                   y_label = f"variable [{units[variable]}]" if units is not None else variable)
+        plot_list[idx // n_cols] |= _plot_variable(imp,
+                                                   self.data_complete if complete else None,
+                                                   variable,
+                                                   y_label = f"{variable} [{units[variable]}]" if units is not None else variable,
+                                                   sel = selection_scale, properties=properties)
     
     plot = alt.vconcat(*plot_list)
     
     return plot
 
-# %% ../lib_nbs/02_Imputation.ipynb 54
+# %% ../lib_nbs/02_Imputation.ipynb 52
 @patch
 def __repr__(self: GPFAImputation):
     return f"""GPFA Imputation:
@@ -238,3 +256,20 @@ def __repr__(self: GPFAImputation):
 @patch
 def __str__(self: GPFAImputation):
     return self.__repr__()
+
+# %% ../lib_nbs/02_Imputation.ipynb 56
+@patch
+def rmse(self: GPFAImputation):
+    pred = self.impute(tidy=True, add_time=True)
+    
+    df = pd.merge(pred, self.data_complete, on = ['time','variable'])
+    
+    df = df[df.is_missing==True] # only on pred data
+    
+    # thanks to limits in pandas groupby seems is not possible to do transformation and aggregation in one step ....
+    
+    df['err'] = df['mean'] - df['value']
+    
+    rmse = df.groupby('variable')[['err']].agg(rmse = ("err", lambda x: np.sqrt(x.pow(2).mean()))).reset_index()
+    
+    return rmse
