@@ -10,42 +10,51 @@ format:
 
 ```{r}
 #| include: false
-
+# this is to executed with knitr and not jupyter
+NULL
 ```
 
 ## Outline
 
 1.  Introduction
-2.  Modelling approach
-3.  Model flow
-4.  First results
-5.  Next steps
+2.  Model
+3.  First results
+4.  Next steps
 
 ## 1. Introduction
 
+## About me
+
 -   I am master student in "Ecosystem Analysis and Modelling" from the forestry department
--   master thesis on Gap filling meterological data with Fabian Sinz as co-supervisor
+-   master thesis on Gap filling meteorological data with Fabian Sinz as co-supervisor
 
-## Thesis Aim
+## Background
 
--   to measure **greenhouse gas exchanges** "Eddy Covariance" state of the art technique
--   measurement set-up includes meteorological variables (eg. air temperature, wind speed ...)
+-   "Eddy Covariance" state of the art technique to measure **greenhouse gas exchanges**
+-   measurement set-up includes instruments for meteorological variables (eg. air temperature, wind speed)
 -   technical issues (eg. broken sensor) result in **meteo time series** with **gaps**
 -   presence of gaps is a problem for many applications of the Eddy Covariance data (eg. ecosystem modelling)
+-   gaps are filled using models
 
-## How to fill gaps (or imputation approaches)
+## How to fill gaps
 
--   use previous and following measurements for one variable and temporal auto-correlation (eg. diurnal cycles)
--   correlation with other variables measures (eg. solar radiation and temperature)
--   other measurements of meteo variables
+1.  use previous and following measurements for one variable and temporal auto-correlation (eg. diurnal cycles)
+2.  correlation with other variables measures (eg. solar radiation and temperature)
+3.  other measurements of meteo variables
 
-## Why this is relevant
+## State of the art
 
 -   imputation of meteo time series is already implemented in processing pipelines
 -   main limitations
     -   simple algorithms (mainly linear models)
     -   no uncertainty for the predictions
     -   don't combine the different imputation approaches
+
+## Thesis goal
+
+-   develop model to impute missing data in meteorological time series
+-   include all 3 imputation approaches
+-   provide an uncertanty of the predictions
 
 ## Dataset
 
@@ -57,7 +66,8 @@ format:
     -   Vapour Pressure Deficit: `VPD`
 -   more than 20 years of data
 
-# 2. Model 
+# 2. Model
+
 ## 2. Approach
 
 First model: Gaussian Process Factor Analysis
@@ -75,9 +85,10 @@ Kernel of Gaussian Process: $$K(t,t \prime) = \Lambda k(t,t \prime) \Lambda^T + 
 -   $k(t,t \prime)$ is the kernel for the latent variable
 -   $\delta(t - t \prime)\psi$ is the random noise
 
-## 3. Model flow {.smaller}
+## Model flow {.smaller}
+![](images/mermaid-diagram-model_flow.png){width="700"} 
 
-```{mermaid}
+```{mermaid, include=FALSE}
 flowchart TB
   A(Dataframe with missing data) -->  B["training data
    (row without missing data)"]
@@ -117,20 +128,18 @@ Results GPFA (dataset: 200 rows; prob. missing row: 20%; prob. missing value: 10
 | LW_IN    | 19.31 | W m-2 |
 | VPD      | 0.22  | hPa   |
 
-$\Lambda$
-
 |       |            |
 |-------|------------|
 | TA    | 0.933      |
 | SW_IN | **-0.001** |
 | LW_IN | 0.364      |
 | VPD   | 0.595      |
+
+: $\Lambda$
 :::
 
 ::: {.column width="50%"}
 Lengthscale: 7.61 (\~3.5 hours)
-
-$\psi$
 
 |       |        |
 |-------|--------|
@@ -139,7 +148,9 @@ $\psi$
 | LW_IN | 0.8362 |
 | VPD   | 0.5784 |
 
-![](images/loss_plot_hai_winter_4_var_200_obs_random_gaps_row_20_value_10.png)
+: $\psi$
+
+![](../analysis/plots/loss_plot_hai_winter_4_var_200_obs_random_gaps_row_20_value_10.png)
 :::
 :::
 
@@ -149,15 +160,66 @@ $\psi$
 -   possible explanation: in winter main driver for `SW_IN` is cloud cover in winter
 -   trained model with a few days from summer (mainly sunny)
 
-
-|       |            |
-|-------|------------|
-| TA    | 0.87     |
+|       |           |
+|-------|-----------|
+| TA    | 0.87      |
 | SW_IN | **0.368** |
-| LW_IN | 0.506      |
-| VPD   | 0.696      |
+| LW_IN | 0.506     |
+| VPD   | 0.696     |
 
 : $\Lambda$
+
+## Continous gap - plot {.smaller}
+
+```{python}
+#import altair as alt
+#from pathlib import Path
+#from pyprojroot import here
+
+#alt.Chart.from_json(
+#    (here("analysis/plots") /" plot_hai_winter_4_var_200_obs_gap_20.vl.json").read_text())
+```
+
+![](../analysis/plots/plot_hai_winter_4_var_200_obs_gap_20.png)
+
+Results GPFA (dataset: 200 rows; gap all var: 20 obs)
+
+## Continous gap {.smaller}
+
+::: columns
+::: {.column width="50%"}
+| variable |     RMSE | Unit  |
+|:---------|---------:|-------|
+| TA       | 0.881245 | °C    |
+| SW_IN    |  12.3115 | W m-2 |
+| LW_IN    |  23.0622 | W m-2 |
+| VPD      | 0.283288 | hPa   |
+
+|       |            |
+|:------|-----------:|
+| TA    |   0.765103 |
+| SW_IN | -0.0438414 |
+| LW_IN |   0.473248 |
+| VPD   |   0.458882 |
+
+: $\Lambda$
+:::
+
+::: {.column width="50%"}
+Lengthscale: 6.1
+
+|       |            |
+|:------|-----------:|
+| TA    | 0.00155208 |
+| SW_IN |   0.990057 |
+| LW_IN |   0.614207 |
+| VPD   |   0.638808 |
+
+: $\psi$
+
+![](../analysis/plots/loss_plot_hai_winter_4_var_200_obs_gap_20.png)
+:::
+:::
 
 # Next steps
 
@@ -170,14 +232,19 @@ $\psi$
 ## GPFA improvements
 
 -   test different kernels
+
 -   use more than one latent variables
+
 -   make it faster (GPU + Sparse Gaussian Processes)
+
 -   time encoding
+
+-   include other meteo measurements for the predictions
 
 # Questions & Comments
 
-:::{.footer}
-Github repo: [https://github.com/mone27/gpfa_imputation](https://mone27.quarto.pub/presentation_meteo_gpfa_imputation_17_oct22)  
-Website: [https://mone27.github.io/gpfa_imputation](https://mone27.github.io/gpfa_imputation)   
-This presentation: [https://mone27.quarto.pub/presentation_meteo_gpfa_imputation_17_oct22](https://mone27.quarto.pub/presentation_meteo_gpfa_imputation_17_oct22)
+::: footer
+Github repo: [https://github.com/mone27/gpfa_imputation](https://mone27.quarto.pub/presentation_meteo_gpfa_imputation_17_oct22)\
+Website: <https://mone27.github.io/gpfa_imputation>\
+This presentation: <https://mone27.quarto.pub/presentation_meteo_gpfa_imputation_17_oct22>
 :::

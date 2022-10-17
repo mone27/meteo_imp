@@ -55,10 +55,11 @@ class GPFALearner():
         self.prepare_X(X)
         if T is None: self.default_time(X)
         else: self.T = T
+        self.T = self.T.to(X.device) # to support GPUs
         
-        self.likelihood = gpytorch.likelihoods.GaussianLikelihood()
-        latent_kernel = gpytorch.kernels.RBFKernel()
-        self.model = GPFA(self.T, self.X, self.likelihood, self.n_features, latent_kernel)
+        self.likelihood = gpytorch.likelihoods.GaussianLikelihood().to(X.device)
+        latent_kernel = gpytorch.kernels.RBFKernel().to(X.device)
+        self.model = GPFA(self.T, self.X, self.likelihood, self.n_features, latent_kernel).to(X.device)
         
     @torch.no_grad()
     def prepare_X(self, X):
@@ -210,7 +211,7 @@ def predict(self: GPFALearner,
     
     return self.prediction_from_raw(pred_merge.mean, pred_merge.std)
 
-# %% ../lib_nbs/01_Learner.ipynb 80
+# %% ../lib_nbs/01_Learner.ipynb 91
 def get_parameter_value(name, param, constraint):
     if constraint is not None:
         value = constraint.transform(param.data.detach())
@@ -219,7 +220,7 @@ def get_parameter_value(name, param, constraint):
         value = param.data.detach()
     return (name, value)
 
-# %% ../lib_nbs/01_Learner.ipynb 82
+# %% ../lib_nbs/01_Learner.ipynb 93
 def tensor_to_first_item(tensor):
     if tensor.dim() > 0:
         return tensor_to_first_item(tensor[0])
@@ -231,7 +232,7 @@ def format_parameter(name, value):
     name = name.split(".")[-1] # get only last part of name
     return f"{name}: {value:.3f}"
 
-# %% ../lib_nbs/01_Learner.ipynb 83
+# %% ../lib_nbs/01_Learner.ipynb 94
 @patch
 def get_formatted_params(self: GPFALearner):
     return ", ".join([
@@ -240,7 +241,7 @@ def get_formatted_params(self: GPFALearner):
         self.model.named_parameters_and_constraints()
     ])
 
-# %% ../lib_nbs/01_Learner.ipynb 86
+# %% ../lib_nbs/01_Learner.ipynb 97
 @patch
 def printer(self: GPFALearner, i_iter):
 
