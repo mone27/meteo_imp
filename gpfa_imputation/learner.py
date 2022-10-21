@@ -14,7 +14,7 @@ from collections import namedtuple
 import math
 
 from fastcore.foundation import *
-from fastprogress.fastprogress import progress_bar, master_bar
+from tqdm.auto import tqdm
 from fastcore.foundation import patch
 
 # %% ../lib_nbs/01_Learner.ipynb 10
@@ -50,16 +50,16 @@ class GPFALearner():
     def __init__(self,
                  X: Tensor, # (n_features * n_obs) Multivariate time series
                  T: Tensor = None # (n_obs) Vector of time of observations.
-                 # If none each observation is considered to be at the same distance
+                 # If none each observation are considered to be at the same distance
                 ):
         self.prepare_X(X)
         if T is None: self.default_time(X)
         else: self.T = T
         self.T = self.T.to(X.device) # to support GPUs
         
-        self.likelihood = gpytorch.likelihoods.GaussianLikelihood().to(X.device)
-        latent_kernel = gpytorch.kernels.RBFKernel().to(X.device)
-        self.model = GPFA(self.T, self.X, self.likelihood, self.n_features, latent_kernel).to(X.device)
+        self.likelihood = gpytorch.likelihoods.GaussianLikelihood()
+        latent_kernel = gpytorch.kernels.RBFKernel
+        self.model = GPFA(self.T, self.X, self.likelihood, self.n_features, latent_kernel)
         
     @torch.no_grad()
     def prepare_X(self, X):
@@ -69,7 +69,6 @@ class GPFALearner():
         self.X = X.reshape(-1) 
         self.n_features = X.shape[1]
         
-    @torch.no_grad()
     def default_time(self, X):
         self.T = torch.arange(X.shape[0])
         
@@ -85,20 +84,18 @@ class GPFALearner():
         self.losses = torch.zeros(n_iter)
         # "Loss" for GPs - the marginal log likelihood
         mll = gpytorch.mlls.ExactMarginalLogLikelihood(self.likelihood, self.model)
-        self.pb = master_bar([1])
-        for _ in self.pb:
-            for i in progress_bar(range(n_iter), parent=self.pb):
-                # Zero gradients from previous iteration
-                optimizer.zero_grad()
-                # Output from model
-                output = self.model(self.T)
-                # Calc loss and backprop gradients
-                loss = -mll(output, self.X)
-                self.losses[i] = loss.detach()
-                loss.backward()
-                self.printer(i)
+        for i in tqdm(range(n_iter)):
+            # Zero gradients from previous iteration
+            optimizer.zero_grad()
+            # Output from model
+            output = self.model(self.T)
+            # Calc loss and backprop gradients
+            loss = -mll(output, self.X)
+            self.losses[i] = loss.detach()
+            loss.backward()
+            self.printer(i)
 
-                optimizer.step()
+            optimizer.step()
         
         
     def printer(self, i):
@@ -130,7 +127,7 @@ def prediction_from_raw(self: GPFALearner, raw_mean, raw_std):
     #remove pytorch gradients
     return NormParam(pred_mean.detach(), pred_std.detach())
 
-# %% ../lib_nbs/01_Learner.ipynb 54
+# %% ../lib_nbs/01_Learner.ipynb 55
 def conditional_guassian(gauss: MultivariateNormal,
                          obs,
                          idx # Boolean tensor specifying for each variable is observed (True) or not (False)
@@ -154,7 +151,7 @@ def conditional_guassian(gauss: MultivariateNormal,
     return MultivariateNormal(mean, cov)
     
 
-# %% ../lib_nbs/01_Learner.ipynb 59
+# %% ../lib_nbs/01_Learner.ipynb 60
 def _merge_raw_cond_pred(pred_raw,
                          pred_cond,
                          obs,
@@ -179,7 +176,7 @@ def _normalize_obs(self: GPFALearner,
                    idx
                   ) -> Tensor: # (n_obs)
     """ reshape the observations so they can normalized"""
-    obs_compl = torch.zeros(idx.shape)
+    obs_compl = torch.zeros_like(idx, dtype=obs.dtype)
     obs_compl[idx] = obs
     obs_compl = obs_compl.reshape(-1, self.n_features)
     obs_norm = self.norm.normalize(obs_compl)
@@ -211,7 +208,16 @@ def predict(self: GPFALearner,
     
     return self.prediction_from_raw(pred_merge.mean, pred_merge.std)
 
-# %% ../lib_nbs/01_Learner.ipynb 91
+# %% ../lib_nbs/01_Learner.ipynb 83
+@patch
+def cuda(self: GPFALearner):
+    """Moves all learner to gpu"""
+    for par in ['T', 'X', 'model', 'likelihood']:
+        self.__getattribute__(par).cuda()
+    self.norm.x_mean.cuda()
+    self.norm.x_std.cuda()
+
+# %% ../lib_nbs/01_Learner.ipynb 90
 def get_parameter_value(name, param, constraint):
     if constraint is not None:
         value = constraint.transform(param.data.detach())
@@ -220,7 +226,7 @@ def get_parameter_value(name, param, constraint):
         value = param.data.detach()
     return (name, value)
 
-# %% ../lib_nbs/01_Learner.ipynb 93
+# %% ../lib_nbs/01_Learner.ipynb 92
 def tensor_to_first_item(tensor):
     if tensor.dim() > 0:
         return tensor_to_first_item(tensor[0])
@@ -232,7 +238,7 @@ def format_parameter(name, value):
     name = name.split(".")[-1] # get only last part of name
     return f"{name}: {value:.3f}"
 
-# %% ../lib_nbs/01_Learner.ipynb 94
+# %% ../lib_nbs/01_Learner.ipynb 93
 @patch
 def get_formatted_params(self: GPFALearner):
     return ", ".join([
@@ -241,7 +247,7 @@ def get_formatted_params(self: GPFALearner):
         self.model.named_parameters_and_constraints()
     ])
 
-# %% ../lib_nbs/01_Learner.ipynb 97
+# %% ../lib_nbs/01_Learner.ipynb 96
 @patch
 def printer(self: GPFALearner, i_iter):
 

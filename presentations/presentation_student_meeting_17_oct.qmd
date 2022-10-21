@@ -21,7 +21,7 @@ NULL
 3.  First results
 4.  Next steps
 
-## 1. Introduction
+# 1. Introduction
 
 ## About me
 

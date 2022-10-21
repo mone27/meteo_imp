@@ -11,6 +11,8 @@ import torch
 
 import pandas as pd
 import numpy as np
+import sklearn
+
 from fastcore.foundation import patch
 
 import matplotlib.pyplot as plt
@@ -24,24 +26,30 @@ class GPFAImputation:
     def __init__(
         self,
         data: pd.DataFrame , #observed data with missing data as NA
-        complete_data: pd.DataFrame = None # Optional complete dataframe (for testing)
+        complete_data: pd.DataFrame = None, # Optional complete dataframe (for testing)
+        cuda = True # Use GPU?
     ):
         self.data = data
         self.data_complete = complete_data # TODO polish this, is this tidy or wide? check has required cols
         
-        self.T = torch.arange(0, len(data), dtype=torch.float32) # time is encoded with a increase of 1
+        device = 'cuda' if cuda else 'cpu'
+        
+        self.T = torch.arange(0, len(data), dtype=torch.float32, device=device) # time is encoded with a increase of 1
         
         # Training data
         self.train_idx = ~self.data.isna().any(axis=1)
-        self.train_data = torch.tensor(self.data[self.train_idx].to_numpy().astype(np.float32))
+        self.train_data = torch.tensor(self.data[self.train_idx].to_numpy().astype(np.float32), device=device)
         self.train_T = self.T[self.train_idx]
         
         self.learner = GPFALearner(X = self.train_data, T = self.train_T)
+        
 
         # Prediction data
         self.pred_T = self.T[~self.train_idx]
-        self.cond_idx = torch.tensor(~self.data[~self.train_idx].isna().to_numpy().flatten()) # conditional obsevations
-        self.cond_obs = torch.tensor(self.data[~self.train_idx].to_numpy().astype(np.float32).flatten()[self.cond_idx])
+        self.cond_idx = torch.tensor(~self.data[~self.train_idx].isna().to_numpy().flatten(), device=device) # conditional obsevations
+        self.cond_obs = torch.tensor(self.data[~self.train_idx].to_numpy().astype(np.float32).flatten()[self.cond_idx.cpu()], device=device)
+        
+        if cuda: self.learner.cuda()
         
         
     @lru_cache
@@ -63,12 +71,12 @@ class GPFAImputation:
         
         imp_data = self.data.copy()
         for col_idx, col_name in enumerate(imp_data.columns):
-            imp_data.loc[~self.train_idx, col_name] = self.pred.mean[:, col_idx].numpy()
-            imp_data.loc[~self.train_idx, col_name + "_std"] = self.pred.std[:, col_idx].numpy()
+            imp_data.loc[~self.train_idx, col_name] = self.pred.mean[:, col_idx].cpu().numpy()
+            imp_data.loc[~self.train_idx, col_name + "_std"] = self.pred.std[:, col_idx].cpu().numpy()
         
         idx_vars = []
         if add_time:
-            imp_data["time"] = self.T
+            imp_data["time"] = self.T.cpu()
             idx_vars.append("time")
         
         return imp_data 
@@ -77,12 +85,12 @@ class GPFAImputation:
         """ transform the pred output into a tidy dataframe suitable for plotting"""
         feature_names = self.data.columns
 
-        pred_mean = pd.DataFrame(self.pred.mean, columns = feature_names).assign(time = self.pred_T).melt("time", value_name="mean")
-        pred_std = pd.DataFrame(self.pred.std, columns = feature_names).assign(time = self.pred_T).melt("time", value_name="std")
+        pred_mean = pd.DataFrame(self.pred.mean.cpu(), columns = feature_names).assign(time = self.pred_T.cpu()).melt("time", value_name="mean")
+        pred_std = pd.DataFrame(self.pred.std.cpu(), columns = feature_names).assign(time = self.pred_T.cpu()).melt("time", value_name="std")
         
         pred = pd.merge(pred_mean, pred_std, on=['time', 'variable'])  
         
-        train_data = self.data[self.train_idx].assign(time = self.train_T).melt("time", value_name = "mean")
+        train_data = self.data[self.train_idx].assign(time = self.train_T.cpu()).melt("time", value_name = "mean")
                
         imp_data = pd.concat((train_data, pred))
         
@@ -91,7 +99,7 @@ class GPFAImputation:
         return imp_data
     
 
-# %% ../lib_nbs/03_Imputation.ipynb 25
+# %% ../lib_nbs/03_Imputation.ipynb 29
 def _plot_variable(imp, complete, variable, y_label="", sel=None, properties = {}):
     
     imp = imp[imp.variable == variable]
@@ -140,7 +148,7 @@ def _plot_variable(imp, complete, variable, y_label="", sel=None, properties = {
     return base_plot
     
 
-# %% ../lib_nbs/03_Imputation.ipynb 27
+# %% ../lib_nbs/03_Imputation.ipynb 31
 @patch()
 def plot_pred(
     self: GPFAImputation,
@@ -167,7 +175,7 @@ def plot_pred(
     
     return plot
 
-# %% ../lib_nbs/03_Imputation.ipynb 32
+# %% ../lib_nbs/03_Imputation.ipynb 36
 @patch
 def __repr__(self: GPFAImputation):
     return f"""GPFA Imputation:
@@ -179,19 +187,32 @@ def __repr__(self: GPFAImputation):
 def __str__(self: GPFAImputation):
     return self.__repr__()
 
-# %% ../lib_nbs/03_Imputation.ipynb 36
+# %% ../lib_nbs/03_Imputation.ipynb 40
 @patch
-def rmse(self: GPFAImputation):
+def compute_metric(self: GPFAImputation,
+                   metric, # function that takes as argument true and pred and returns the metric
+                   metric_name = 'metric'):
     pred = self.impute(tidy=True, add_time=True)
     
     df = pd.merge(pred, self.data_complete, on = ['time','variable'])
     
-    df = df[df.is_missing==True] # only on pred data
+    vars = []
     
-    # thanks to limits in pandas groupby seems is not possible to do transformation and aggregation in one step ....
+    for var in df.variable.unique():
+        df_var = df[df.variable == var]
+        vars.append({'variable': var,
+                      metric_name: metric(df_var['value'], df_var['mean'])})
     
-    df['err'] = df['mean'] - df['value']
+    return pd.DataFrame(vars)
+
+# %% ../lib_nbs/03_Imputation.ipynb 41
+@patch
+def rmse(self: GPFAImputation):
     
-    rmse = df.groupby('variable')[['err']].agg(rmse = ("err", lambda x: np.sqrt(x.pow(2).mean()))).reset_index()
+    return self.compute_metric(lambda x, y: np.sqrt(sklearn.metrics.mean_squared_error(x,y)), "rmse")
     
-    return rmse
+
+# %% ../lib_nbs/03_Imputation.ipynb 43
+@patch
+def r2(self: GPFAImputation):
+    return self.compute_metric(sklearn.metrics.r2_score, "r2")
