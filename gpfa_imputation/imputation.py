@@ -12,6 +12,7 @@ import torch
 import pandas as pd
 import numpy as np
 import sklearn
+from sklearn.metrics import mean_squared_error, r2_score
 
 from fastcore.foundation import patch
 
@@ -27,6 +28,7 @@ class GPFAImputation:
         self,
         data: pd.DataFrame , #observed data with missing data as NA
         complete_data: pd.DataFrame = None, # Optional complete dataframe (for testing)
+        latent_dims = 1,
         cuda = True # Use GPU?
     ):
         self.data = data
@@ -41,7 +43,7 @@ class GPFAImputation:
         self.train_data = torch.tensor(self.data[self.train_idx].to_numpy().astype(np.float32), device=device)
         self.train_T = self.T[self.train_idx]
         
-        self.learner = GPFALearner(X = self.train_data, T = self.train_T)
+        self.learner = GPFALearner(X = self.train_data, T = self.train_T, latent_dims=latent_dims)
         
 
         # Prediction data
@@ -209,10 +211,10 @@ def compute_metric(self: GPFAImputation,
 @patch
 def rmse(self: GPFAImputation):
     
-    return self.compute_metric(lambda x, y: np.sqrt(sklearn.metrics.mean_squared_error(x,y)), "rmse")
+    return self.compute_metric(lambda x, y: np.sqrt(mean_squared_error(x,y)), "rmse")
     
 
 # %% ../lib_nbs/03_Imputation.ipynb 43
 @patch
 def r2(self: GPFAImputation):
-    return self.compute_metric(sklearn.metrics.r2_score, "r2")
+    return self.compute_metric(r2_score, "r2")
