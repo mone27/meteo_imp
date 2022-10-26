@@ -29,7 +29,7 @@ class GPFAKernel(gpytorch.kernels.Kernel):
         # see GPyTorch Kernels
         self.register_parameter(
             name = "Lambda",
-            parameter = torch.nn.Parameter(torch.ones(self.n_features, self.latent_dims)))
+            parameter = torch.nn.Parameter(torch.rand(self.n_features, self.latent_dims)))
         
         # each dim has it's own latent kernel
         self.latent_kernels = torch.nn.ModuleList([latent_kernel() for _ in range(self.latent_dims)])
@@ -90,7 +90,7 @@ def compute_gpfa_covariance(Lambda, kT, psi, n_features, n_obs):
             X_cov[i*n_features:(i*n_features + n_features),j*n_features:(j*n_features+n_features)] = cov
     return X_cov
 
-# %% ../lib_nbs/00_GPFA.ipynb 23
+# %% ../lib_nbs/00_GPFA.ipynb 24
 class GPFAZeroMean(gpytorch.means.Mean):
     """
     Zero Mean function to be used in GPFA, as it takes into account the number of features
@@ -103,7 +103,7 @@ class GPFAZeroMean(gpytorch.means.Mean):
         shape = input.shape[0] * self.n_features
         return torch.zeros(shape, device=self.device)
 
-# %% ../lib_nbs/00_GPFA.ipynb 24
+# %% ../lib_nbs/00_GPFA.ipynb 25
 class GPFA(gpytorch.models.ExactGP):
     def __init__(self, train_x, train_y, likelihood, n_features, latent_kernel, latent_dims=1):
         super(GPFA, self).__init__(train_x, train_y, likelihood)
@@ -112,5 +112,5 @@ class GPFA(gpytorch.models.ExactGP):
 
     def forward(self, x, **params):
         mean_x = self.mean_module(x)
-        covar_x = self.covar_module(x, **params).evaluate() # for debugging
+        covar_x = self.covar_module(x, **params)
         return gpytorch.distributions.MultivariateNormal(mean_x, covar_x)
