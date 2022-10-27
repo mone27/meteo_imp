@@ -62,12 +62,14 @@ class GPFAImputation:
     @lru_cache
     def impute(self,
                add_time = True, # add column with time?
-               tidy = True # tidy data?
+               tidy = True, # tidy data?
+               ret_self = False, # return the impute object instead of the imputed data
                ):
         
         if not hasattr(self, "pred"):
             self.learner.train()
             self.pred = self.learner.predict(self.pred_T, obs = self.cond_obs, idx = self.cond_idx)
+            if ret_self: return self # TODO refactor this
         
         if tidy: return self._impute_tidy(add_time)
         else: return self._impute_wide(add_time)
@@ -118,7 +120,14 @@ def __repr__(self: GPFAImputation):
 def __str__(self: GPFAImputation):
     return self.__repr__()
 
-# %% ../lib_nbs/03_Imputation.ipynb 39
+# %% ../lib_nbs/03_Imputation.ipynb 35
+@patch_to(GPFADataTest)
+@delegates(GPFAImputation, but='complete_data')
+def to_imp(self: GPFADataTest, **kwargs):
+    "Makes GPFAImputation object from data"
+    return GPFAImputation(self.data, self.tidy_df(complete=True, is_missing=True), **kwargs)
+
+# %% ../lib_nbs/03_Imputation.ipynb 40
 @patch
 def compute_metric(self: GPFAImputation,
                    metric, # function that takes as argument true and pred and returns the metric
@@ -130,25 +139,25 @@ def compute_metric(self: GPFAImputation,
     vars = []
     
     for var in df.variable.unique():
-        df_var = df[df.variable == var]
+        df_var = df[df.variable == var][df.is_missing == True]
         vars.append({'variable': var,
                       metric_name: metric(df_var['value'], df_var['mean'])})
     
     return pd.DataFrame(vars)
 
-# %% ../lib_nbs/03_Imputation.ipynb 40
+# %% ../lib_nbs/03_Imputation.ipynb 41
 @patch
 def rmse(self: GPFAImputation):
     
     return self.compute_metric(lambda x, y: np.sqrt(mean_squared_error(x,y)), "rmse")
     
 
-# %% ../lib_nbs/03_Imputation.ipynb 42
+# %% ../lib_nbs/03_Imputation.ipynb 43
 @patch
 def r2(self: GPFAImputation):
     return self.compute_metric(r2_score, "r2")
 
-# %% ../lib_nbs/03_Imputation.ipynb 45
+# %% ../lib_nbs/03_Imputation.ipynb 46
 def _plot_variable(imp, complete, variable, y_label="", sel=None, properties = {}):
     
     imp = imp[imp.variable == variable]
@@ -197,7 +206,7 @@ def _plot_variable(imp, complete, variable, y_label="", sel=None, properties = {
     return base_plot
     
 
-# %% ../lib_nbs/03_Imputation.ipynb 47
+# %% ../lib_nbs/03_Imputation.ipynb 48
 @patch()
 def plot_pred(
     self: GPFAImputation,
@@ -223,3 +232,65 @@ def plot_pred(
     plot = alt.vconcat(*plot_list)
     
     return plot
+
+# %% ../lib_nbs/03_Imputation.ipynb 52
+from IPython.display import HTML
+
+from ipywidgets import HBox, VBox, interact, widgets
+from ipywidgets.widgets import Output
+
+# %% ../lib_nbs/03_Imputation.ipynb 53
+def _to_widget(x, title=""):
+    """Convert an object into a output widget"""
+    out = Output()
+    with out:
+        display(HTML(f"<h4>{title}</h4>"))
+        display(x)
+    return out
+
+def _plot_to_widget(x, title=""):
+    """Convert an matplotlib plot into a output widget"""
+    out = Output()
+    with out:
+        display(HTML(f"<h4>{title}</h4>"))
+        plt.show(x)
+    return out
+
+def _style_df(df):
+    """style dataframe for better printing """
+    return df.style.hide(axis="index").format(precision = 4)
+
+# %% ../lib_nbs/03_Imputation.ipynb 54
+@patch 
+def display_results(self: GPFAImputation):
+    plot = self.plot_pred(units=self.units, properties =  {'height': 150 , 'width': 300})
+    
+    r2 = self.r2()
+    
+    variables = pd.DataFrame({'variable': self.data.columns})
+    latent_names = [f"z{i}" for i in range(self.latent_dims)]
+    
+    Lambda = pd.concat([
+        variables,
+        pd.DataFrame(
+            self.learner.model.covar_module.Lambda.detach().cpu().numpy(),
+            columns=latent_names)
+    ], axis=1)
+    
+    
+    lengthscale = pd.DataFrame({
+        'latent': latent_names,
+        'lengthscale': [self.learner.model.covar_module.latent_kernels[i].lengthscale.detach().item() for i in range(self.latent_dims)]
+    })
+    
+    loss = plt.plot(self.learner.losses)
+    
+    
+    metrics =  [_to_widget(_style_df(df), title=title) for df, title in zip([r2, Lambda, lengthscale], ["r2", "Λ", "Lengthscale"])]
+    metrics.append(_plot_to_widget(loss, title="Loss"))
+    
+    # use ipywidget layout
+    bottom = HBox(metrics)
+    
+    return VBox([_to_widget(plot), bottom])
+        
