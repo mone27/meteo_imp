@@ -3,11 +3,11 @@
 # %% auto 0
 __all__ = ['GPFAKernel', 'compute_gpfa_covariance', 'GPFAZeroMean', 'GPFA']
 
-# %% ../lib_nbs/00_GPFA.ipynb 15
+# %% ../lib_nbs/00_GPFA.ipynb 16
 import torch
 import gpytorch
 
-# %% ../lib_nbs/00_GPFA.ipynb 17
+# %% ../lib_nbs/00_GPFA.ipynb 18
 class GPFAKernel(gpytorch.kernels.Kernel):
     """
     Kernel to implement Gaussian Processes Factor Analysis
@@ -90,7 +90,7 @@ def compute_gpfa_covariance(Lambda, kT, psi, n_features, n_obs):
             X_cov[i*n_features:(i*n_features + n_features),j*n_features:(j*n_features+n_features)] = cov
     return X_cov
 
-# %% ../lib_nbs/00_GPFA.ipynb 24
+# %% ../lib_nbs/00_GPFA.ipynb 25
 class GPFAZeroMean(gpytorch.means.Mean):
     """
     Zero Mean function to be used in GPFA, as it takes into account the number of features
@@ -103,7 +103,7 @@ class GPFAZeroMean(gpytorch.means.Mean):
         shape = input.shape[0] * self.n_features
         return torch.zeros(shape, device=self.device)
 
-# %% ../lib_nbs/00_GPFA.ipynb 25
+# %% ../lib_nbs/00_GPFA.ipynb 26
 class GPFA(gpytorch.models.ExactGP):
     def __init__(self, train_x, train_y, likelihood, n_features, latent_kernel, latent_dims=1):
         super(GPFA, self).__init__(train_x, train_y, likelihood)
