@@ -14,7 +14,8 @@ import numpy as np
 import sklearn
 from sklearn.metrics import mean_squared_error, r2_score
 
-from fastcore.foundation import patch
+from fastcore.foundation import patch, patch_to
+from fastcore.meta import delegates
 
 import matplotlib.pyplot as plt
 import altair as alt
@@ -29,10 +30,14 @@ class GPFAImputation:
         data: pd.DataFrame , #observed data with missing data as NA
         complete_data: pd.DataFrame = None, # Optional complete dataframe (for testing)
         latent_dims = 1,
-        cuda = True # Use GPU?
+        cuda = True, # Use GPU?
+        units = None # Dict of unit for each column. Used for plotting
     ):
         self.data = data
         self.data_complete = complete_data # TODO polish this, is this tidy or wide? check has required cols
+        self.units=units
+        self.latent_dims = latent_dims
+        
         
         device = 'cuda' if cuda else 'cpu'
         
@@ -101,7 +106,49 @@ class GPFAImputation:
         return imp_data
     
 
-# %% ../lib_nbs/03_Imputation.ipynb 29
+# %% ../lib_nbs/03_Imputation.ipynb 31
+@patch
+def __repr__(self: GPFAImputation):
+    return f"""GPFA Imputation:
+    N obs: {self.data.shape[0]}
+    N features {self.data.shape[1]} ({', '.join(self.data.columns)})
+    N missing observations {(~self.cond_idx).sum()}"""
+
+@patch
+def __str__(self: GPFAImputation):
+    return self.__repr__()
+
+# %% ../lib_nbs/03_Imputation.ipynb 39
+@patch
+def compute_metric(self: GPFAImputation,
+                   metric, # function that takes as argument true and pred and returns the metric
+                   metric_name = 'metric'):
+    pred = self.impute(tidy=True, add_time=True)
+    
+    df = pd.merge(pred, self.data_complete, on = ['time','variable'])
+    
+    vars = []
+    
+    for var in df.variable.unique():
+        df_var = df[df.variable == var]
+        vars.append({'variable': var,
+                      metric_name: metric(df_var['value'], df_var['mean'])})
+    
+    return pd.DataFrame(vars)
+
+# %% ../lib_nbs/03_Imputation.ipynb 40
+@patch
+def rmse(self: GPFAImputation):
+    
+    return self.compute_metric(lambda x, y: np.sqrt(mean_squared_error(x,y)), "rmse")
+    
+
+# %% ../lib_nbs/03_Imputation.ipynb 42
+@patch
+def r2(self: GPFAImputation):
+    return self.compute_metric(r2_score, "r2")
+
+# %% ../lib_nbs/03_Imputation.ipynb 45
 def _plot_variable(imp, complete, variable, y_label="", sel=None, properties = {}):
     
     imp = imp[imp.variable == variable]
@@ -150,7 +197,7 @@ def _plot_variable(imp, complete, variable, y_label="", sel=None, properties = {
     return base_plot
     
 
-# %% ../lib_nbs/03_Imputation.ipynb 31
+# %% ../lib_nbs/03_Imputation.ipynb 47
 @patch()
 def plot_pred(
     self: GPFAImputation,
@@ -176,45 +223,3 @@ def plot_pred(
     plot = alt.vconcat(*plot_list)
     
     return plot
-
-# %% ../lib_nbs/03_Imputation.ipynb 36
-@patch
-def __repr__(self: GPFAImputation):
-    return f"""GPFA Imputation:
-    N obs: {self.data.shape[0]}
-    N features {self.data.shape[1]} ({', '.join(self.data.columns)})
-    N missing observations {(~self.cond_idx).sum()}"""
-
-@patch
-def __str__(self: GPFAImputation):
-    return self.__repr__()
-
-# %% ../lib_nbs/03_Imputation.ipynb 40
-@patch
-def compute_metric(self: GPFAImputation,
-                   metric, # function that takes as argument true and pred and returns the metric
-                   metric_name = 'metric'):
-    pred = self.impute(tidy=True, add_time=True)
-    
-    df = pd.merge(pred, self.data_complete, on = ['time','variable'])
-    
-    vars = []
-    
-    for var in df.variable.unique():
-        df_var = df[df.variable == var]
-        vars.append({'variable': var,
-                      metric_name: metric(df_var['value'], df_var['mean'])})
-    
-    return pd.DataFrame(vars)
-
-# %% ../lib_nbs/03_Imputation.ipynb 41
-@patch
-def rmse(self: GPFAImputation):
-    
-    return self.compute_metric(lambda x, y: np.sqrt(mean_squared_error(x,y)), "rmse")
-    
-
-# %% ../lib_nbs/03_Imputation.ipynb 43
-@patch
-def r2(self: GPFAImputation):
-    return self.compute_metric(r2_score, "r2")
