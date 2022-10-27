@@ -4,4 +4,7 @@ website:
       - index.ipynb
       - 00_GPFA.ipynb
       - 01_Learner.ipynb
-      - 02_Imputation.ipynb
+      - 02_data_preparation.ipynb
+      - 03_Imputation.ipynb
+      - 20_gap_finder.ipynb
+      - 30_SimpleGP_Imputation.ipynb
