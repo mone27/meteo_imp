@@ -33,6 +33,7 @@ class GPFALearner():
         if T is None: self.default_time(X)
         else: self.T = T
         self.T = self.T.to(X.device) # to support GPUs
+        self.latent_dims = latent_dims
         
         self.likelihood = gpytorch.likelihoods.GaussianLikelihood()
         latent_kernel = gpytorch.kernels.RBFKernel
@@ -201,7 +202,7 @@ def cuda(self: GPFALearner):
     self.norm.x_mean.cuda()
     self.norm.x_std.cuda()
 
-# %% ../lib_nbs/01_Learner.ipynb 98
+# %% ../lib_nbs/01_Learner.ipynb 91
 def get_parameter_value(name, param, constraint):
     if constraint is not None:
         value = constraint.transform(param.data.detach())
@@ -210,7 +211,7 @@ def get_parameter_value(name, param, constraint):
         value = param.data.detach()
     return (name, value)
 
-# %% ../lib_nbs/01_Learner.ipynb 100
+# %% ../lib_nbs/01_Learner.ipynb 93
 def tensor_to_first_item(tensor):
     if tensor.dim() > 0:
         return tensor_to_first_item(tensor[0])
@@ -222,7 +223,7 @@ def format_parameter(name, value):
     name = name.split(".")[-1] # get only last part of name
     return f"{name}: {value:.3f}"
 
-# %% ../lib_nbs/01_Learner.ipynb 101
+# %% ../lib_nbs/01_Learner.ipynb 94
 @patch
 def get_formatted_params(self: GPFALearner):
     return ", ".join([
@@ -231,7 +232,7 @@ def get_formatted_params(self: GPFALearner):
         self.model.named_parameters_and_constraints()
     ])
 
-# %% ../lib_nbs/01_Learner.ipynb 104
+# %% ../lib_nbs/01_Learner.ipynb 97
 @patch
 def printer(self: GPFALearner, i_iter):
 
