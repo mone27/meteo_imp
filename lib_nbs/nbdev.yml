@@ -1,5 +1,5 @@
 project:
-  output-dir: _docs
+  output-dir: lib
 
 website:
   title: "gpfa_imputation"

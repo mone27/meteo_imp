@@ -8,3 +8,4 @@ website:
       - 03_Imputation.ipynb
       - 20_gap_finder.ipynb
       - 30_SimpleGP_Imputation.ipynb
+      - 99_utils.ipynb
