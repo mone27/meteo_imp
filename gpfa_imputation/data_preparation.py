@@ -120,7 +120,12 @@ def tidy_df(self: GPFADataTest,
         
     return df
 
-# %% ../lib_nbs/02_data_preparation.ipynb 37
+# %% ../lib_nbs/02_data_preparation.ipynb 34
+@patch(as_prop=True)
+def data_compl_tidy(self: GPFADataTest):
+    return self.tidy_df(complete=True, is_missing=True)
+
+# %% ../lib_nbs/02_data_preparation.ipynb 39
 class Normalizer:
     def __init__(self,
                  x: Tensor # up to 2D Tensor
