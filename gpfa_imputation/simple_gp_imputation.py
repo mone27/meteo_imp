@@ -6,7 +6,9 @@ __all__ = ['SimpleGP', 'SimpleGPLearner', 'SimpleGPImputationExplorer']
 # %% ../lib_nbs/30_SimpleGP_Imputation.ipynb 2
 from .data_preparation import *
 from .learner import NormParam
-from .imputation import GPFAResult
+from .results import GPFAResult
+
+from fastcore.foundation import patch 
 import gpytorch
 import torch
 from torch import Tensor
@@ -29,7 +31,21 @@ class SimpleGP(gpytorch.models.ExactGP):
         covar_x = self.covar_module(x, **params)
         return gpytorch.distributions.MultivariateNormal(mean_x, covar_x)
 
-# %% ../lib_nbs/30_SimpleGP_Imputation.ipynb 6
+# %% ../lib_nbs/30_SimpleGP_Imputation.ipynb 9
+@patch
+def get_info(self: SimpleGP,
+             var_names = None # Optional variable names for better printing
+            ) -> dict[str, pd.DataFrame]:
+    "Model info for a GPFA with a RBFKernel"
+    out = {}
+
+    out["lengthscale"] = pd.DataFrame({'lengthscale': [self.covar_module.base_kernel.lengthscale.item()]})
+    out["outputscale"] = pd.DataFrame({'outputscale': [self.covar_module.outputscale.item()]})
+    out["likelihood"] = pd.DataFrame({'noise': [self.likelihood.noise_covar.noise.item()]})
+
+    return out
+
+# %% ../lib_nbs/30_SimpleGP_Imputation.ipynb 12
 class SimpleGPLearner():
     "Learner for a simple GP process. It handles only 1 dimensional time series"
     def __init__(self,
@@ -108,7 +124,7 @@ class SimpleGPLearner():
         pred_raw = self.predict_raw(T)
         return self.prediction_from_raw(pred_raw.mean, pred_raw.stddev)
 
-# %% ../lib_nbs/30_SimpleGP_Imputation.ipynb 13
+# %% ../lib_nbs/30_SimpleGP_Imputation.ipynb 19
 class SimpleGPImputationExplorer:
     def __init__(
         self,
@@ -169,10 +185,7 @@ class SimpleGPImputationExplorer:
     def fit_predict(self):
         self.fit()
         return self.predict()
-    
-    def to_result(self, data_complete, units=None):
-        # small hack set learner as None
-        return GPFAResult(self.predict(), data_complete, learner=None, units=units)
+
     
     def __repr__(self):
         return f"""Simple GP Imputation Explorer:
@@ -182,3 +195,20 @@ class SimpleGPImputationExplorer:
 
     def __str__(self):
         return self.__repr__()
+
+# %% ../lib_nbs/30_SimpleGP_Imputation.ipynb 32
+@patch
+def model_info(self: SimpleGPImputationExplorer):
+    "Combine parameters of different kernels into one output" 
+    infos = [learner.model.get_info() for learner in self.learners]
+    out = {}
+    for key in infos[0].keys():
+        values = pd.concat([info[key] for info in infos])
+        values.insert(0, "variable", self.data.columns)
+        out[key] = values 
+    return out
+
+# %% ../lib_nbs/30_SimpleGP_Imputation.ipynb 34
+@patch
+def to_result(self: SimpleGPImputationExplorer, data_complete, units=None):
+    return GPFAResult(self.predict(), data_complete, self.model_info(), units=units)

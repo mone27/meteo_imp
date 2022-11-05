@@ -27,7 +27,8 @@ class GPFALearner():
                  X: Tensor, # (n_features * n_obs) Multivariate time series
                  T: Tensor = None, # (n_obs) Vector of time of observations.
                  # If none each observation are considered to be at the same distance
-                 latent_dims: int = 1 # Number of latent variables in GPFA
+                 latent_dims: int = 1, # Number of latent variables in GPFA
+                 model = GPFA # sub-class of `GPFA`
                 ):
         self.prepare_X(X)
         if T is None: self.default_time(X)
@@ -36,8 +37,7 @@ class GPFALearner():
         self.latent_dims = latent_dims
         
         self.likelihood = gpytorch.likelihoods.GaussianLikelihood()
-        latent_kernel = gpytorch.kernels.RBFKernel
-        self.model = GPFA(self.T, self.X, self.likelihood, self.n_features, latent_kernel, latent_dims=latent_dims)
+        self.model = model(self.T, self.X, self.likelihood, self.n_features, latent_dims=latent_dims)
         
     @torch.no_grad()
     def prepare_X(self, X):
@@ -61,10 +61,12 @@ class GPFALearner():
         
         if not hasattr(self, 'losses'):
             self.losses = torch.zeros(n_iter)
-            loss_offset = 0
+            self.model_infos = [None] # put one element so it can be indexed from 0
+            offset = 0
         else:
-            loss_offset = self.losses.shape[0]
+            offset = self.losses.shape[0]
             self.losses = torch.concat([self.losses, torch.zeros(n_iter)])
+            self.model_infos.append(None)
             
         
         # "Loss" for GPs - the marginal log likelihood
@@ -76,15 +78,11 @@ class GPFALearner():
             output = self.model(self.T)
             # Calc loss and backprop gradients
             loss = -mll(output, self.X)
-            self.losses[i + loss_offset] = loss.detach()
+            self.losses[i + offset] = loss.detach()
             loss.backward()
-            self.printer(i)
+            self.model_infos[offset] = self.model.get_info()
 
             optimizer.step()
-        
-        
-    def printer(self, i):
-        pass
         
 
 # %% ../lib_nbs/01_Learner.ipynb 19
@@ -201,43 +199,3 @@ def cuda(self: GPFALearner):
         self.__getattribute__(par).cuda()
     self.norm.x_mean.cuda()
     self.norm.x_std.cuda()
-
-# %% ../lib_nbs/01_Learner.ipynb 91
-def get_parameter_value(name, param, constraint):
-    if constraint is not None:
-        value = constraint.transform(param.data.detach())
-        name = name.replace("raw_", "") # parameter is not raw anymore
-    else:
-        value = param.data.detach()
-    return (name, value)
-
-# %% ../lib_nbs/01_Learner.ipynb 93
-def tensor_to_first_item(tensor):
-    if tensor.dim() > 0:
-        return tensor_to_first_item(tensor[0])
-    return tensor.item()
-
-
-def format_parameter(name, value):
-    value = tensor_to_first_item(value)
-    name = name.split(".")[-1] # get only last part of name
-    return f"{name}: {value:.3f}"
-
-# %% ../lib_nbs/01_Learner.ipynb 94
-@patch
-def get_formatted_params(self: GPFALearner):
-    return ", ".join([
-        format_parameter(*get_parameter_value(name, value, constraint))
-        for name, value, constraint in
-        self.model.named_parameters_and_constraints()
-    ])
-
-# %% ../lib_nbs/01_Learner.ipynb 97
-@patch
-def printer(self: GPFALearner, i_iter):
-
-    if i_iter%10 == 0:
-        update_str = f"loss: {self.losses[i_iter].item():.3f}, " + self.get_formatted_params()
-        #self.plot_loss(i_iter)
-    
-    #self.pb.write(update_str)

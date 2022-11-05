@@ -7,6 +7,9 @@ __all__ = ['GPFAKernel', 'compute_gpfa_covariance', 'GPFAZeroMean', 'GPFA']
 import torch
 import gpytorch
 
+from fastcore.foundation import patch
+import pandas as pd
+
 # %% ../lib_nbs/00_GPFA.ipynb 18
 class GPFAKernel(gpytorch.kernels.Kernel):
     """
@@ -103,14 +106,49 @@ class GPFAZeroMean(gpytorch.means.Mean):
         shape = input.shape[0] * self.n_features
         return torch.zeros(shape, device=self.device)
 
-# %% ../lib_nbs/00_GPFA.ipynb 26
+# %% ../lib_nbs/00_GPFA.ipynb 27
 class GPFA(gpytorch.models.ExactGP):
-    def __init__(self, train_x, train_y, likelihood, n_features, latent_kernel, latent_dims=1):
+    latent_kernel = gpytorch.kernels.RBFKernel
+    def __init__(self, train_x, train_y, likelihood, n_features,latent_dims=1):
         super(GPFA, self).__init__(train_x, train_y, likelihood)
+        self.likelihood = likelihood
         self.mean_module = GPFAZeroMean(n_features, train_x.device) # gets device from train_x
-        self.covar_module = GPFAKernel(n_features, latent_kernel, latent_dims = latent_dims)
+        self.covar_module = GPFAKernel(n_features, self.latent_kernel, latent_dims = latent_dims)
 
     def forward(self, x, **params):
         mean_x = self.mean_module(x)
         covar_x = self.covar_module(x, **params)
         return gpytorch.distributions.MultivariateNormal(mean_x, covar_x)
+
+# %% ../lib_nbs/00_GPFA.ipynb 56
+@patch
+def get_info(self: GPFA,
+             var_names = None # Optional variable names for better printing
+            ) -> dict[str, pd.DataFrame]:
+    "Model info for a GPFA with a RBFKernel"
+    out = {}
+    
+    latent_names = [f"z{i}" for i in range(self.covar_module.latent_dims)]
+    
+    out["Lambda"] = pd.concat([
+        None if var_names is None else pd.Series(var_names),
+        pd.DataFrame(
+            self.covar_module.Lambda.detach().cpu().numpy(),
+            columns=latent_names)],
+        axis=1)
+    
+    ls = [self.covar_module.latent_kernels[i].lengthscale.detach().item() for i in range(self.covar_module.latent_dims)]
+    out["lengthscale"] = pd.DataFrame({
+        'latent': latent_names,
+        'lengthscale': ls
+    })
+    
+    psi = self.covar_module.psi.detach().cpu().numpy()
+    out["psi"] = pd.DataFrame({
+        'variable': var_names,
+        'psi': psi 
+    })
+    
+    out["likelihood"] = pd.DataFrame({'noise': [self.likelihood.noise_covar.noise.item()]})
+    
+    return out
