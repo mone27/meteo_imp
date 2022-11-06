@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.1.251">
+<meta name="generator" content="quarto-1.2.262">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -230,7 +230,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul class="collapse">
   <li><a href="#kernel" id="toc-kernel" class="nav-link" data-scroll-target="#kernel">Kernel</a>
   <ul class="collapse">
-  <li><a href="#scriptfunction-object-at-0x7f9b22c87100" id="toc-scriptfunction-object-at-0x7f9b22c87100" class="nav-link" data-scroll-target="#scriptfunction-object-at-0x7f9b22c87100">ScriptFunction object at 0x7f9b22c87100&gt;</a></li>
+  <li><a href="#scriptfunction-object-at-0x7f193a5d3600" id="toc-scriptfunction-object-at-0x7f193a5d3600" class="nav-link" data-scroll-target="#scriptfunction-object-at-0x7f193a5d3600">ScriptFunction object at 0x7f193a5d3600&gt;</a></li>
   <li><a href="#gpfakernel" id="toc-gpfakernel" class="nav-link" data-scroll-target="#gpfakernel">GPFAKernel</a></li>
   </ul></li>
   <li><a href="#gpfa" id="toc-gpfa" class="nav-link" data-scroll-target="#gpfa">GPFA</a>
@@ -261,6 +261,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="quarto-title-meta">
 
     
+  
     
   </div>
   
@@ -476,8 +477,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X_cov</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<section id="scriptfunction-object-at-0x7f9b22c87100" class="level3">
-<h3 class="anchored" data-anchor-id="scriptfunction-object-at-0x7f9b22c87100">ScriptFunction object at 0x7f9b22c87100&gt;</h3>
+<section id="scriptfunction-object-at-0x7f193a5d3600" class="level3">
+<h3 class="anchored" data-anchor-id="scriptfunction-object-at-0x7f193a5d3600">ScriptFunction object at 0x7f193a5d3600&gt;</h3>
 <hr>
 <p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/gpfa.py#L14" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
@@ -486,8 +487,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <blockquote class="blockquote">
 <pre><code> GPFAKernel (n_features:int, latent_kernel:gpytorch.kernels.kernel.Kernel,
              latent_dims:int=1, Lambda:&lt;built-
-             inmethodtensoroftypeobjectat0x7f9b7eceb9c0&gt;=None, psi:&lt;built-
-             inmethodtensoroftypeobjectat0x7f9b7eceb9c0&gt;=None, **kwargs)</code></pre>
+             inmethodtensoroftypeobjectat0x7f19964c29c0&gt;=None, psi:&lt;built-
+             inmethodtensoroftypeobjectat0x7f19964c29c0&gt;=None, **kwargs)</code></pre>
 </blockquote>
 <p>Kernel to implement Gaussian Processes Factor Analysis</p>
 <table class="table">
@@ -1032,7 +1033,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -1068,24 +1086,42 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>
