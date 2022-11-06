@@ -1,0 +1,3043 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>GPFA Imputation Analysis – analyze_gaps_fluxnet</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GPFA Imputation Analysis</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./lib">Library Docs</a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#analyze-gaps-fluxnet" id="toc-analyze-gaps-fluxnet" class="nav-link active" data-scroll-target="#analyze-gaps-fluxnet">Analyze gaps fluxnet</a>
+  <ul class="collapse">
+  <li><a href="#interactive-histograms" id="toc-interactive-histograms" class="nav-link" data-scroll-target="#interactive-histograms">Interactive histograms</a></li>
+  <li><a href="#difference-sites" id="toc-difference-sites" class="nav-link" data-scroll-target="#difference-sites">Difference sites</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/gpfa_imputation/blob/master/analyze_gaps_fluxnet.ipynb" class="toc-action">View source</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+<section id="analyze-gaps-fluxnet" class="level1">
+<h1>Analyze gaps fluxnet</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipywidgets <span class="im">import</span> widgets, interact</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.utils <span class="im">import</span> <span class="op">*</span> <span class="co"># support of ls for paths</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>out_dir <span class="op">=</span> Path(<span class="st">"../../fluxnet/gap_stat"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>download_dir <span class="op">=</span> Path(<span class="st">"/run/media/simone/Simone DATI/fluxnet_all"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>site_info <span class="op">=</span> pl.read_parquet(out_dir <span class="op">/</span> <span class="st">"../site_info.parquet"</span>).select([</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"start"</span>).cast(pl.Utf8).<span class="bu">str</span>.strptime(pl.Datetime, <span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">%H%M"</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"end"</span>).cast(pl.Utf8).<span class="bu">str</span>.strptime(pl.Datetime, <span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">%H%M"</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"site"</span>).cast(pl.Categorical).sort()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>site_info.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+<small>shape: (5, 3)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+start
+</th>
+<th>
+end
+</th>
+<th>
+site
+</th>
+</tr>
+<tr>
+<td>
+datetime[μs]
+</td>
+<td>
+datetime[μs]
+</td>
+<td>
+cat
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+2009-01-01 00:30:00
+</td>
+<td>
+2012-01-01 00:00:00
+</td>
+<td>
+"AR-SLu"
+</td>
+</tr>
+<tr>
+<td>
+2009-01-01 00:30:00
+</td>
+<td>
+2013-01-01 00:00:00
+</td>
+<td>
+"AR-Vir"
+</td>
+</tr>
+<tr>
+<td>
+2002-01-01 00:30:00
+</td>
+<td>
+2013-01-01 00:00:00
+</td>
+<td>
+"AT-Neu"
+</td>
+</tr>
+<tr>
+<td>
+2007-01-01 00:30:00
+</td>
+<td>
+2010-01-01 00:00:00
+</td>
+<td>
+"AU-Ade"
+</td>
+</tr>
+<tr>
+<td>
+2010-01-01 00:30:00
+</td>
+<td>
+2015-01-01 00:00:00
+</td>
+<td>
+"AU-ASM"
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> duration_n_obs(duration):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"converts a duration into a n of fluxnet observations"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">abs</span>(<span class="bu">int</span>(duration.total_seconds() <span class="op">/</span> (<span class="dv">30</span> <span class="op">*</span> <span class="dv">60</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>duration_n_obs(site_info[<span class="dv">1</span>, <span class="st">"start"</span>] <span class="op">-</span> site_info[<span class="dv">1</span>, <span class="st">"end"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>70127</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># maybe this code should actually go in 20_gap_finding</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> out_dir.ls()</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>files.sort() <span class="co"># need to sort to match the site_info</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>sites <span class="op">=</span> []</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, path <span class="kw">in</span> <span class="bu">enumerate</span>(files):</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    sites.append(pl.scan_parquet(path).with_columns([</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        pl.lit(site_info[i, <span class="st">"site"</span>]).alias(<span class="st">"site"</span>),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        pl.lit(duration_n_obs(site_info[i, <span class="st">"start"</span>] <span class="op">-</span>  site_info[i, <span class="st">"end"</span>])).alias(<span class="st">"total_obs"</span>),</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"TIMESTAMP_END"</span>).cast(pl.Utf8).<span class="bu">str</span>.strptime(pl.Datetime, <span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">%H%M"</span>).alias(<span class="st">"end"</span>),</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    ]).drop(<span class="st">"TIMESTAMP_END"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>gap_stat <span class="op">=</span> pl.concat(sites)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>gap_stat.head().fetch(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+<small>shape: (5, 5)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+gap_len
+</th>
+<th>
+variable
+</th>
+<th>
+site
+</th>
+<th>
+total_obs
+</th>
+<th>
+end
+</th>
+</tr>
+<tr>
+<td>
+u32
+</td>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+i32
+</td>
+<td>
+datetime[μs]
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+16992
+</td>
+<td>
+"TA_F_MDS_QC"
+</td>
+<td>
+"AR-SLu"
+</td>
+<td>
+52559
+</td>
+<td>
+2009-01-01 00:30:00
+</td>
+</tr>
+<tr>
+<td>
+5
+</td>
+<td>
+"TA_F_MDS_QC"
+</td>
+<td>
+"AR-SLu"
+</td>
+<td>
+52559
+</td>
+<td>
+2009-12-21 11:00:00
+</td>
+</tr>
+<tr>
+<td>
+1
+</td>
+<td>
+"TA_F_MDS_QC"
+</td>
+<td>
+"AR-SLu"
+</td>
+<td>
+52559
+</td>
+<td>
+2009-12-21 17:00:00
+</td>
+</tr>
+<tr>
+<td>
+1
+</td>
+<td>
+"TA_F_MDS_QC"
+</td>
+<td>
+"AR-SLu"
+</td>
+<td>
+52559
+</td>
+<td>
+2010-01-06 13:00:00
+</td>
+</tr>
+<tr>
+<td>
+3
+</td>
+<td>
+"TA_F_MDS_QC"
+</td>
+<td>
+"AR-SLu"
+</td>
+<td>
+52559
+</td>
+<td>
+2010-01-07 13:00:00
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> filter_variables(variables <span class="op">=</span> [<span class="st">"TA_F_QC"</span>, <span class="st">"SW_IN_QC"</span>, <span class="st">"LW_IN_QC"</span>, <span class="st">"VPD_F_QC"</span>]):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    expr <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> var <span class="kw">in</span> variables:</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        expr <span class="op">|=</span> pl.col(<span class="st">"variable"</span>) <span class="op">==</span> var</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> expr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> pl_in(col, values):</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    expr <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> val <span class="kw">in</span> values:</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        expr <span class="op">|=</span> pl.col(col) <span class="op">==</span> val</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> expr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>some sites have a lot of data missing, with the avg gap length of several years, so is seems that the year can have an impact</p>
+<p>Important! here the 3 possibles gap value of a QC variable are considered as one (null, 1, 2) we should co</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>gap_stat.<span class="bu">filter</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"variable"</span>) <span class="op">==</span> <span class="st">"TA_F_QC"</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>).groupby(<span class="st">"site"</span>).agg([</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"gap_len"</span>).mean().alias(<span class="st">"mean"</span>),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    (pl.col(<span class="st">"gap_len"</span>).<span class="bu">sum</span>() <span class="op">/</span> pl.col(<span class="st">"total_obs"</span>).first()).alias(<span class="st">"frac_gap"</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>]).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+<small>shape: (205, 3)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+site
+</th>
+<th>
+mean
+</th>
+<th>
+frac_gap
+</th>
+</tr>
+<tr>
+<td>
+str
+</td>
+<td>
+f64
+</td>
+<td>
+f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+"US-Blo"
+</td>
+<td>
+188.373874
+</td>
+<td>
+0.216887
+</td>
+</tr>
+<tr>
+<td>
+"SN-Dhr"
+</td>
+<td>
+1113.466667
+</td>
+<td>
+0.238168
+</td>
+</tr>
+<tr>
+<td>
+"US-Wi0"
+</td>
+<td>
+175.793103
+</td>
+<td>
+0.581997
+</td>
+</tr>
+<tr>
+<td>
+"FI-Jok"
+</td>
+<td>
+88.463235
+</td>
+<td>
+0.17156
+</td>
+</tr>
+<tr>
+<td>
+"US-Me1"
+</td>
+<td>
+29.280702
+</td>
+<td>
+0.142702
+</td>
+</tr>
+<tr>
+<td>
+"AR-SLu"
+</td>
+<td>
+962.96875
+</td>
+<td>
+0.586293
+</td>
+</tr>
+<tr>
+<td>
+"AU-Cpr"
+</td>
+<td>
+1174.846154
+</td>
+<td>
+0.174256
+</td>
+</tr>
+<tr>
+<td>
+"AU-RDF"
+</td>
+<td>
+242.125
+</td>
+<td>
+0.441842
+</td>
+</tr>
+<tr>
+<td>
+"IT-Isp"
+</td>
+<td>
+2.0
+</td>
+<td>
+0.000114
+</td>
+</tr>
+<tr>
+<td>
+"US-ARM"
+</td>
+<td>
+2042.666667
+</td>
+<td>
+0.034949
+</td>
+</tr>
+<tr>
+<td>
+"CN-Cng"
+</td>
+<td>
+2228.0
+</td>
+<td>
+0.158855
+</td>
+</tr>
+<tr>
+<td>
+"CA-SF3"
+</td>
+<td>
+345.108108
+</td>
+<td>
+0.242833
+</td>
+</tr>
+<tr>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+</tr>
+<tr>
+<td>
+"AU-Wom"
+</td>
+<td>
+19.779264
+</td>
+<td>
+0.067475
+</td>
+</tr>
+<tr>
+<td>
+"FI-Hyy"
+</td>
+<td>
+16.82732
+</td>
+<td>
+0.039199
+</td>
+</tr>
+<tr>
+<td>
+"US-SRG"
+</td>
+<td>
+152.857143
+</td>
+<td>
+0.034872
+</td>
+</tr>
+<tr>
+<td>
+"US-Myb"
+</td>
+<td>
+13728.0
+</td>
+<td>
+0.156628
+</td>
+</tr>
+<tr>
+<td>
+"FR-LBr"
+</td>
+<td>
+490.478261
+</td>
+<td>
+0.049489
+</td>
+</tr>
+<tr>
+<td>
+"US-Tw3"
+</td>
+<td>
+6864.0
+</td>
+<td>
+0.195896
+</td>
+</tr>
+<tr>
+<td>
+"DE-Tha"
+</td>
+<td>
+34.736842
+</td>
+<td>
+0.009906
+</td>
+</tr>
+<tr>
+<td>
+"US-Tw1"
+</td>
+<td>
+9312.0
+</td>
+<td>
+0.177011
+</td>
+</tr>
+<tr>
+<td>
+"AU-Stp"
+</td>
+<td>
+63.535897
+</td>
+<td>
+0.20189
+</td>
+</tr>
+<tr>
+<td>
+"CA-TP2"
+</td>
+<td>
+109.571429
+</td>
+<td>
+0.029173
+</td>
+</tr>
+<tr>
+<td>
+"BE-Lon"
+</td>
+<td>
+14.16
+</td>
+<td>
+0.067913
+</td>
+</tr>
+<tr>
+<td>
+"US-Wi5"
+</td>
+<td>
+45.790249
+</td>
+<td>
+2.299027
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>gaps_year_site_ta <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"variable"</span>) <span class="op">==</span> <span class="st">"TA_F_QC"</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>).with_column(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  pl.col(<span class="st">"end"</span>).dt.year().alias(<span class="st">"year"</span>)  </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>).groupby([<span class="st">"site"</span>, <span class="st">"year"</span>]).agg([</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"gap_len"</span>).mean().alias(<span class="st">"mean"</span>),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    (pl.col(<span class="st">"gap_len"</span>).<span class="bu">sum</span>() <span class="op">/</span> (<span class="dv">48</span> <span class="op">*</span> <span class="dv">365</span>)).alias(<span class="st">"frac_gap"</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>]).sort([<span class="st">"site"</span>, <span class="st">"year"</span>]).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>gaps_year_site_ta.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+<small>shape: (7, 5)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+describe
+</th>
+<th>
+site
+</th>
+<th>
+year
+</th>
+<th>
+mean
+</th>
+<th>
+frac_gap
+</th>
+</tr>
+<tr>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+f64
+</td>
+<td>
+f64
+</td>
+<td>
+f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+"count"
+</td>
+<td>
+"1232"
+</td>
+<td>
+1232.0
+</td>
+<td>
+1232.0
+</td>
+<td>
+1232.0
+</td>
+</tr>
+<tr>
+<td>
+"null_count"
+</td>
+<td>
+"0"
+</td>
+<td>
+0.0
+</td>
+<td>
+0.0
+</td>
+<td>
+0.0
+</td>
+</tr>
+<tr>
+<td>
+"mean"
+</td>
+<td>
+null
+</td>
+<td>
+2007.18263
+</td>
+<td>
+826.696712
+</td>
+<td>
+0.156607
+</td>
+</tr>
+<tr>
+<td>
+"std"
+</td>
+<td>
+null
+</td>
+<td>
+4.633427
+</td>
+<td>
+3339.649175
+</td>
+<td>
+0.350794
+</td>
+</tr>
+<tr>
+<td>
+"min"
+</td>
+<td>
+"AR-SLu"
+</td>
+<td>
+1991.0
+</td>
+<td>
+1.0
+</td>
+<td>
+0.000057
+</td>
+</tr>
+<tr>
+<td>
+"max"
+</td>
+<td>
+"ZM-Mon"
+</td>
+<td>
+2015.0
+</td>
+<td>
+52608.0
+</td>
+<td>
+7.686073
+</td>
+</tr>
+<tr>
+<td>
+"median"
+</td>
+<td>
+null
+</td>
+<td>
+2008.0
+</td>
+<td>
+42.166667
+</td>
+<td>
+0.030822
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>gaps_year_site_ta.<span class="bu">filter</span>(pl.col(<span class="st">"frac_gap"</span>) <span class="op">&gt;=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+<small>shape: (15, 4)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+site
+</th>
+<th>
+year
+</th>
+<th>
+mean
+</th>
+<th>
+frac_gap
+</th>
+</tr>
+<tr>
+<td>
+str
+</td>
+<td>
+i32
+</td>
+<td>
+f64
+</td>
+<td>
+f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+"BE-Bra"
+</td>
+<td>
+2003
+</td>
+<td>
+17738.0
+</td>
+<td>
+1.012443
+</td>
+</tr>
+<tr>
+<td>
+"BR-Sa1"
+</td>
+<td>
+2006
+</td>
+<td>
+4167.4
+</td>
+<td>
+1.189326
+</td>
+</tr>
+<tr>
+<td>
+"CA-NS1"
+</td>
+<td>
+2001
+</td>
+<td>
+1219.941176
+</td>
+<td>
+1.183733
+</td>
+</tr>
+<tr>
+<td>
+"CA-NS3"
+</td>
+<td>
+2002
+</td>
+<td>
+4580.8
+</td>
+<td>
+1.307306
+</td>
+</tr>
+<tr>
+<td>
+"DE-Lnf"
+</td>
+<td>
+2007
+</td>
+<td>
+52608.0
+</td>
+<td>
+3.00274
+</td>
+</tr>
+<tr>
+<td>
+"IT-Cpz"
+</td>
+<td>
+1998
+</td>
+<td>
+228.990566
+</td>
+<td>
+1.385445
+</td>
+</tr>
+<tr>
+<td>
+"IT-Ro2"
+</td>
+<td>
+2008
+</td>
+<td>
+1464.5
+</td>
+<td>
+1.504623
+</td>
+</tr>
+<tr>
+<td>
+"RU-Cok"
+</td>
+<td>
+2003
+</td>
+<td>
+411.729167
+</td>
+<td>
+1.128025
+</td>
+</tr>
+<tr>
+<td>
+"SJ-Adv"
+</td>
+<td>
+2011
+</td>
+<td>
+7235.0
+</td>
+<td>
+1.23887
+</td>
+</tr>
+<tr>
+<td>
+"US-Blo"
+</td>
+<td>
+1997
+</td>
+<td>
+292.784615
+</td>
+<td>
+1.086244
+</td>
+</tr>
+<tr>
+<td>
+"US-CRT"
+</td>
+<td>
+2004
+</td>
+<td>
+17545.0
+</td>
+<td>
+1.001427
+</td>
+</tr>
+<tr>
+<td>
+"US-LWW"
+</td>
+<td>
+2011
+</td>
+<td>
+52608.0
+</td>
+<td>
+3.00274
+</td>
+</tr>
+<tr>
+<td>
+"US-Syv"
+</td>
+<td>
+2009
+</td>
+<td>
+52560.0
+</td>
+<td>
+3.0
+</td>
+</tr>
+<tr>
+<td>
+"US-WCr"
+</td>
+<td>
+2007
+</td>
+<td>
+17520.0
+</td>
+<td>
+1.0
+</td>
+</tr>
+<tr>
+<td>
+"ZM-Mon"
+</td>
+<td>
+2000
+</td>
+<td>
+22443.333333
+</td>
+<td>
+7.686073
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>gap_stat.<span class="bu">filter</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"variable"</span>) <span class="op">==</span> <span class="st">"TA_F_QC"</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>).<span class="bu">filter</span>(pl_in(<span class="st">"site"</span>, [<span class="st">"ZM-Mon"</span>])).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+<small>shape: (8, 5)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+gap_len
+</th>
+<th>
+variable
+</th>
+<th>
+site
+</th>
+<th>
+total_obs
+</th>
+<th>
+end
+</th>
+</tr>
+<tr>
+<td>
+u32
+</td>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+i32
+</td>
+<td>
+datetime[μs]
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+2913
+</td>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"ZM-Mon"
+</td>
+<td>
+175343
+</td>
+<td>
+2000-01-01 00:30:00
+</td>
+</tr>
+<tr>
+<td>
+1
+</td>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"ZM-Mon"
+</td>
+<td>
+175343
+</td>
+<td>
+2000-03-02 17:30:00
+</td>
+</tr>
+<tr>
+<td>
+1
+</td>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"ZM-Mon"
+</td>
+<td>
+175343
+</td>
+<td>
+2000-03-04 04:30:00
+</td>
+</tr>
+<tr>
+<td>
+1
+</td>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"ZM-Mon"
+</td>
+<td>
+175343
+</td>
+<td>
+2000-03-04 09:00:00
+</td>
+</tr>
+<tr>
+<td>
+1
+</td>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"ZM-Mon"
+</td>
+<td>
+175343
+</td>
+<td>
+2000-03-10 11:30:00
+</td>
+</tr>
+<tr>
+<td>
+131743
+</td>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"ZM-Mon"
+</td>
+<td>
+175343
+</td>
+<td>
+2000-03-11 02:00:00
+</td>
+</tr>
+<tr>
+<td>
+1
+</td>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"ZM-Mon"
+</td>
+<td>
+175343
+</td>
+<td>
+2008-01-30 12:00:00
+</td>
+</tr>
+<tr>
+<td>
+7753
+</td>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"ZM-Mon"
+</td>
+<td>
+175343
+</td>
+<td>
+2009-07-23 12:00:00
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>gap_stat.<span class="bu">filter</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"variable"</span>) <span class="op">==</span> <span class="st">"TA_F_QC"</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>).<span class="bu">filter</span>(pl_in(<span class="st">"site"</span>, [<span class="st">"DE-Lnf"</span>])).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+<small>shape: (6, 5)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+gap_len
+</th>
+<th>
+variable
+</th>
+<th>
+site
+</th>
+<th>
+total_obs
+</th>
+<th>
+end
+</th>
+</tr>
+<tr>
+<td>
+u32
+</td>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+i32
+</td>
+<td>
+datetime[μs]
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+5116
+</td>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"DE-Lnf"
+</td>
+<td>
+192863
+</td>
+<td>
+2002-01-01 00:30:00
+</td>
+</tr>
+<tr>
+<td>
+52608
+</td>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"DE-Lnf"
+</td>
+<td>
+192863
+</td>
+<td>
+2007-01-01 00:30:00
+</td>
+</tr>
+<tr>
+<td>
+1
+</td>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"DE-Lnf"
+</td>
+<td>
+192863
+</td>
+<td>
+2010-04-15 10:00:00
+</td>
+</tr>
+<tr>
+<td>
+20
+</td>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"DE-Lnf"
+</td>
+<td>
+192863
+</td>
+<td>
+2012-08-14 13:00:00
+</td>
+</tr>
+<tr>
+<td>
+45
+</td>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"DE-Lnf"
+</td>
+<td>
+192863
+</td>
+<td>
+2012-10-09 14:00:00
+</td>
+</tr>
+<tr>
+<td>
+2
+</td>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"DE-Lnf"
+</td>
+<td>
+192863
+</td>
+<td>
+2012-10-16 13:30:00
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> visualize_by_site(df):</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    sites <span class="op">=</span> df[<span class="st">"site"</span>].unique()</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> site <span class="kw">in</span> sites:</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">yield</span> df.<span class="bu">filter</span>(pl.col(<span class="st">"site"</span>) <span class="op">==</span> site)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>by_site <span class="op">=</span> <span class="bu">list</span>(visualize_by_site(gaps_year_site_ta))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>button_next <span class="op">=</span> widgets.Button(description<span class="op">=</span><span class="st">"Next"</span>, icon<span class="op">=</span><span class="st">"arrow-right"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>button_prev <span class="op">=</span> widgets.Button(description<span class="op">=</span><span class="st">"Previous"</span>, icon<span class="op">=</span><span class="st">"arrow-left"</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> widgets.Output()</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>display(button_next, button_prev, output)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_view():</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> output:</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss"> of </span><span class="sc">{</span><span class="bu">len</span>(by_site)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>        display(by_site[i])</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    output.clear_output(wait<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> on_next(b):</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">global</span> i</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">&lt;</span> <span class="bu">len</span>(by_site):</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>        i <span class="op">+=</span><span class="dv">1</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>        button_next.disabled <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    update_view()</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> on_prev(b):</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">global</span> i</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>        i <span class="op">-=</span><span class="dv">1</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>        button_prev.disabled <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>    update_view()</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>button_next.on_click(on_next)</span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>button_prev.on_click(on_prev)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"c23b5f915b36446d8ca29d1ac13842ee","version_major":2,"version_minor":0}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"15cc0745125a4ba5b1c35c17be17aa9a","version_major":2,"version_minor":0}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"17eb1aff991e461b91a4344c435eac3b","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ta_gaps <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"variable"</span>) <span class="op">==</span> <span class="st">"TA_F_QC"</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ta_gaps.to_pandas().hist(column<span class="op">=</span><span class="st">"gap_len"</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>plt.yscale(<span class="st">'log'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="analyze_gaps_fluxnet_files/figure-html/cell-24-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<section id="interactive-histograms" class="level2">
+<h2 class="anchored" data-anchor-id="interactive-histograms">Interactive histograms</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>all_vars <span class="op">=</span> gap_stat.select(pl.col(<span class="st">"variable"</span>).unique().sort()).collect()[<span class="st">"variable"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="at">@interact</span>(var <span class="op">=</span> all_vars)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_var_dist(var):</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    ta_gaps <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"variable"</span>) <span class="op">==</span> var </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    ).collect().to_pandas().hist(<span class="st">"gap_len"</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    plt.yscale(<span class="st">'log'</span>) </span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    plt.title(var)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"edc5fae937cd4cf289d7f02585d35355","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>all_sites <span class="op">=</span> gap_stat.select(pl.col(<span class="st">"site"</span>).unique().sort()).collect()[<span class="st">"site"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="at">@interact</span>(var <span class="op">=</span> all_vars, site <span class="op">=</span> all_sites)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_var_dist(var, site):</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    ta_gaps <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"variable"</span>) <span class="op">==</span> var) <span class="op">&amp;</span> (pl.col(<span class="st">"site"</span>) <span class="op">==</span> site)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    ).collect().to_pandas().hist(<span class="st">"gap_len"</span>)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    plt.yscale(<span class="st">'log'</span>) </span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    plt.title(var)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"df28156c8d724203a566a561be453e4c","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="at">@interact</span>(var <span class="op">=</span> all_vars, site <span class="op">=</span> all_sites)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_var_dist(var, site, small<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    ta_gaps <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"variable"</span>) <span class="op">==</span> var) <span class="op">&amp;</span> (pl.col(<span class="st">"site"</span>) <span class="op">==</span> site)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    ).<span class="bu">filter</span>(</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"gap_len"</span>) <span class="op">&lt;</span> <span class="dv">200</span> <span class="cf">if</span> small <span class="cf">else</span> <span class="va">True</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    ).collect().to_pandas().hist(<span class="st">"gap_len"</span>)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f"</span><span class="sc">{</span>site<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span> <span class="st">'gaps &lt; 200'</span> <span class="cf">if</span> small <span class="cf">else</span> <span class="st">'all gaps'</span><span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"fee447d05140436283fdc84f9209d4df","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+</section>
+<section id="difference-sites" class="level2">
+<h2 class="anchored" data-anchor-id="difference-sites">Difference sites</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>var_gaps <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"variable"</span>) <span class="op">==</span> <span class="st">'TA_F_QC'</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    ).<span class="bu">filter</span>(</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"gap_len"</span>) <span class="op">&lt;</span> <span class="dv">20000</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    ).sort(pl.col(<span class="st">"gap</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="er">        </span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="er">    ).collect().to_pandas()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>alt.data_transformers.enable(<span class="st">'data_server'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>DataTransformerRegistry.enable('data_server')</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(var_gaps).mark_boxplot().encode(</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>alt.Y(<span class="st">'site'</span>, sort<span class="op">=</span>alt.Sort(alt.EncodingSortField(field<span class="op">=</span><span class="st">"y"</span>, op<span class="op">=</span><span class="st">"mean"</span>, order<span class="op">=</span><span class="st">"ascending"</span>))),</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">'gap_len'</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div id="altair-viz-6b0416866dbe433a8f1295a6d6351778"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-6b0416866dbe433a8f1295a6d6351778") {
+      outputDiv = document.getElementById("altair-viz-6b0416866dbe433a8f1295a6d6351778");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "4.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"url": "http://localhost:45743/0e214442d9cbcb3900f81482fa52dec7.json"}, "mark": "boxplot", "encoding": {"x": {"field": "gap_len", "type": "quantitative"}, "y": {"field": "site", "sort": {"field": "y", "op": "mean", "order": "ascending"}, "type": "nominal"}}, "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json"}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>widgets.IntSlider?</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">Init signature:</span> widgets<span class="ansi-blue-fg">.</span>IntSlider<span class="ansi-blue-fg">(</span>value<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> min<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> max<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> step<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-red-fg">Docstring:</span>     
+Slider widget that represents an integer bounded from above and below.
+    
+<span class="ansi-red-fg">Init docstring:</span>
+Parameters
+----------
+value: integer
+    The initial value.
+min: integer
+    The lower limit for the value.
+max: integer
+    The upper limit for the value.
+step: integer
+    The step between allowed values.
+behavior : str
+    slider handle and connector dragging behavior. Default is 'drag-tap'.
+<span class="ansi-red-fg">File:</span>           ~/.local/lib/python3.10/site-packages/ipywidgets/widgets/widget_int.py
+<span class="ansi-red-fg">Type:</span>           MetaHasTraits
+<span class="ansi-red-fg">Subclasses:</span>     
+</pre>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="at">@interact</span>(var <span class="op">=</span> all_vars)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_var_dist(var, max_len<span class="op">=</span>widgets.IntSlider(<span class="dv">1000</span>, <span class="dv">100</span>, <span class="dv">20_000</span>, <span class="dv">100</span>)):</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    var_gaps <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"variable"</span>) <span class="op">==</span> var)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    ).<span class="bu">filter</span>(</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"gap_len"</span>) <span class="op">&lt;</span> max_len</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    ).collect().to_pandas()</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    display(alt.Chart(var_gaps).mark_boxplot().encode(</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=</span>alt.Y(<span class="st">'site'</span>, sort<span class="op">=</span>alt.Sort(alt.EncodingSortField(field<span class="op">=</span><span class="st">"y"</span>, op<span class="op">=</span><span class="st">"mean"</span>, order<span class="op">=</span><span class="st">"ascending"</span>))),</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="st">'gap_len'</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>    ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"a769dd47b23a4d62812098a9fbc28b7c","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>gap_stat.with_columns(</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    (pl.col(<span class="st">"gap_len"</span>) <span class="op">/</span> pl.col(<span class="st">"total_obs"</span>)).alias(<span class="st">"frac_gap"</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>).head().collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+<small>shape: (5, 6)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+gap_len
+</th>
+<th>
+variable
+</th>
+<th>
+site
+</th>
+<th>
+total_obs
+</th>
+<th>
+end
+</th>
+<th>
+frac_gap
+</th>
+</tr>
+<tr>
+<td>
+u32
+</td>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+i32
+</td>
+<td>
+datetime[μs]
+</td>
+<td>
+f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+16992
+</td>
+<td>
+"TA_F_MDS_QC"
+</td>
+<td>
+"AR-SLu"
+</td>
+<td>
+52559
+</td>
+<td>
+2009-01-01 00:30:00
+</td>
+<td>
+0.323294
+</td>
+</tr>
+<tr>
+<td>
+5
+</td>
+<td>
+"TA_F_MDS_QC"
+</td>
+<td>
+"AR-SLu"
+</td>
+<td>
+52559
+</td>
+<td>
+2009-12-21 11:00:00
+</td>
+<td>
+0.000095
+</td>
+</tr>
+<tr>
+<td>
+1
+</td>
+<td>
+"TA_F_MDS_QC"
+</td>
+<td>
+"AR-SLu"
+</td>
+<td>
+52559
+</td>
+<td>
+2009-12-21 17:00:00
+</td>
+<td>
+0.000019
+</td>
+</tr>
+<tr>
+<td>
+1
+</td>
+<td>
+"TA_F_MDS_QC"
+</td>
+<td>
+"AR-SLu"
+</td>
+<td>
+52559
+</td>
+<td>
+2010-01-06 13:00:00
+</td>
+<td>
+0.000019
+</td>
+</tr>
+<tr>
+<td>
+3
+</td>
+<td>
+"TA_F_MDS_QC"
+</td>
+<td>
+"AR-SLu"
+</td>
+<td>
+52559
+</td>
+<td>
+2010-01-07 13:00:00
+</td>
+<td>
+0.000057
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>gap_stat.with_columns(</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    (pl.col(<span class="st">"gap_len"</span>) <span class="op">/</span> pl.col(<span class="st">"total_obs"</span>)).alias(<span class="st">"frac_gap"</span>)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>).groupby([<span class="st">"variable"</span>, <span class="st">"site"</span>]).agg(pl.col(<span class="st">"gap_len"</span>).<span class="bu">sum</span>()).head().collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+<small>shape: (5, 3)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+variable
+</th>
+<th>
+site
+</th>
+<th>
+gap_len
+</th>
+</tr>
+<tr>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+u32
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+"TA_F_MDS_QC"
+</td>
+<td>
+"CH-Fru"
+</td>
+<td>
+16804
+</td>
+</tr>
+<tr>
+<td>
+"SW_IN_F_QC"
+</td>
+<td>
+"CZ-BK2"
+</td>
+<td>
+50520
+</td>
+</tr>
+<tr>
+<td>
+"NEE_VUT_MEAN_Q...
+</td>
+<td>
+"DE-Lkb"
+</td>
+<td>
+66368
+</td>
+</tr>
+<tr>
+<td>
+"SW_IN_F_QC"
+</td>
+<td>
+"AU-DaP"
+</td>
+<td>
+23880
+</td>
+</tr>
+<tr>
+<td>
+"NEE_CUT_REF_QC...
+</td>
+<td>
+"CG-Tch"
+</td>
+<td>
+51474
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>gap_stat.with_columns(</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    (pl.col(<span class="st">"gap_len"</span>) <span class="op">/</span> pl.col(<span class="st">"total_obs"</span>)).alias(<span class="st">"frac_gap"</span>)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>).groupby([<span class="st">"variable"</span>, <span class="st">"site"</span>]).agg(</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"gap_len"</span>).<span class="bu">sum</span>() <span class="op">/</span> pl.col(<span class="st">"total_obs"</span>).first()</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>).groupby(<span class="st">"variable"</span>).agg(pl.col(<span class="st">"gap_len"</span>).mean()).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+<small>shape: (53, 2)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+variable
+</th>
+<th>
+gap_len
+</th>
+</tr>
+<tr>
+<td>
+str
+</td>
+<td>
+f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+"NEE_CUT_95_QC"
+</td>
+<td>
+0.831628
+</td>
+</tr>
+<tr>
+<td>
+"SWC_F_MDS_6_QC...
+</td>
+<td>
+0.519709
+</td>
+</tr>
+<tr>
+<td>
+"TS_F_MDS_4_QC"
+</td>
+<td>
+0.410402
+</td>
+</tr>
+<tr>
+<td>
+"TS_F_MDS_7_QC"
+</td>
+<td>
+0.53222
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+0.198846
+</td>
+</tr>
+<tr>
+<td>
+"NEE_CUT_REF_QC...
+</td>
+<td>
+0.785538
+</td>
+</tr>
+<tr>
+<td>
+"CO2_F_MDS_QC"
+</td>
+<td>
+0.408158
+</td>
+</tr>
+<tr>
+<td>
+"VPD_F_MDS_QC"
+</td>
+<td>
+0.245457
+</td>
+</tr>
+<tr>
+<td>
+"NEE_CUT_MEAN_Q...
+</td>
+<td>
+0.954132
+</td>
+</tr>
+<tr>
+<td>
+"SWC_F_MDS_1_QC...
+</td>
+<td>
+0.314847
+</td>
+</tr>
+<tr>
+<td>
+"TS_F_MDS_6_QC"
+</td>
+<td>
+0.424062
+</td>
+</tr>
+<tr>
+<td>
+"TS_F_MDS_5_QC"
+</td>
+<td>
+0.40489
+</td>
+</tr>
+<tr>
+<td>
+...
+</td>
+<td>
+...
+</td>
+</tr>
+<tr>
+<td>
+"NEE_VUT_84_QC"
+</td>
+<td>
+0.773485
+</td>
+</tr>
+<tr>
+<td>
+"TS_F_MDS_2_QC"
+</td>
+<td>
+0.287485
+</td>
+</tr>
+<tr>
+<td>
+"SWC_F_MDS_5_QC...
+</td>
+<td>
+0.528756
+</td>
+</tr>
+<tr>
+<td>
+"LW_IN_JSB_QC"
+</td>
+<td>
+0.260428
+</td>
+</tr>
+<tr>
+<td>
+"NEE_VUT_REF_QC...
+</td>
+<td>
+0.754275
+</td>
+</tr>
+<tr>
+<td>
+"NEE_VUT_16_QC"
+</td>
+<td>
+0.76001
+</td>
+</tr>
+<tr>
+<td>
+"H_F_MDS_QC"
+</td>
+<td>
+0.401424
+</td>
+</tr>
+<tr>
+<td>
+"P_F_QC"
+</td>
+<td>
+0.311598
+</td>
+</tr>
+<tr>
+<td>
+"SW_IN_F_MDS_QC...
+</td>
+<td>
+0.16772
+</td>
+</tr>
+<tr>
+<td>
+"NEE_VUT_75_QC"
+</td>
+<td>
+0.763633
+</td>
+</tr>
+<tr>
+<td>
+"WS_F_QC"
+</td>
+<td>
+0.257303
+</td>
+</tr>
+<tr>
+<td>
+"NEE_VUT_50_QC"
+</td>
+<td>
+0.751421
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>gap_stat.with_columns(</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    (pl.col(<span class="st">"gap_len"</span>) <span class="op">/</span> pl.col(<span class="st">"total_obs"</span>)).alias(<span class="st">"frac_gap"</span>)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>).groupby([<span class="st">"variable"</span>, <span class="st">"site"</span>]).agg(</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"gap_len"</span>).<span class="bu">sum</span>() <span class="op">/</span> pl.col(<span class="st">"total_obs"</span>).first()</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>).<span class="bu">filter</span>(pl.col(<span class="st">"variable"</span>) <span class="op">==</span> <span class="st">"TA_F_QC"</span>).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+<small>shape: (205, 3)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+variable
+</th>
+<th>
+site
+</th>
+<th>
+gap_len
+</th>
+</tr>
+<tr>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"CH-Dav"
+</td>
+<td>
+0.062063
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"US-Tw2"
+</td>
+<td>
+0.518483
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"PA-SPs"
+</td>
+<td>
+0.081377
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"US-Wi6"
+</td>
+<td>
+0.240018
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"DK-Fou"
+</td>
+<td>
+0.040242
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"AU-GWW"
+</td>
+<td>
+0.593282
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"US-Ivo"
+</td>
+<td>
+0.093088
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"RU-Che"
+</td>
+<td>
+0.384089
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"CA-TPD"
+</td>
+<td>
+0.044025
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"AU-Cum"
+</td>
+<td>
+0.26736
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"DE-Geb"
+</td>
+<td>
+0.004645
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"BR-Sa1"
+</td>
+<td>
+0.168888
+</td>
+</tr>
+<tr>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"US-Ne2"
+</td>
+<td>
+0.038275
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"CA-Gro"
+</td>
+<td>
+0.141903
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"CZ-wet"
+</td>
+<td>
+0.042611
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"GL-ZaF"
+</td>
+<td>
+0.490097
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"IT-CA1"
+</td>
+<td>
+0.229968
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"IT-La2"
+</td>
+<td>
+0.529701
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"US-UMB"
+</td>
+<td>
+0.015757
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"AU-Ade"
+</td>
+<td>
+0.24837
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"CA-NS6"
+</td>
+<td>
+0.205061
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"AU-TTE"
+</td>
+<td>
+0.182124
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"CH-Fru"
+</td>
+<td>
+0.095861
+</td>
+</tr>
+<tr>
+<td>
+"TA_F_QC"
+</td>
+<td>
+"US-MMS"
+</td>
+<td>
+0.03284
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script type="application/vnd.jupyter.widget-state+json">
+{"state":{},"version_major":2,"version_minor":0}
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

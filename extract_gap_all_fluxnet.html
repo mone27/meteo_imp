@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>GPFA Imputation Analysis – extract_gap_all_fluxnet</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GPFA Imputation Analysis</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./lib">Library Docs</a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+<div class="cell" data-pycharm="{&quot;name&quot;:&quot;#%%\n&quot;}" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext autoreload</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>autoreload <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gpfa_imputation.gap_finder <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>links are obtained from this https://fluxnet.org/data-and-manifest/ page(requires login) by running in the browser console this code</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> x <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">querySelectorAll</span>(<span class="st">"a"</span>)<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> myarray <span class="op">=</span> []</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">var</span> i<span class="op">=</span><span class="dv">0</span><span class="op">;</span> i<span class="op">&lt;</span>x<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>){</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> nametext <span class="op">=</span> x[i]<span class="op">.</span><span class="at">textContent</span><span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> cleantext <span class="op">=</span> nametext<span class="op">.</span><span class="fu">replace</span>(<span class="ss">/</span><span class="sc">\s+</span><span class="ss">/g</span><span class="op">,</span> <span class="st">' '</span>)<span class="op">.</span><span class="fu">trim</span>()<span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> cleanlink <span class="op">=</span> x[i]<span class="op">.</span><span class="at">href</span><span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>myarray<span class="op">.</span><span class="fu">push</span>([cleantext<span class="op">,</span>cleanlink])<span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">make_table</span>() {</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> table <span class="op">=</span> <span class="st">'&lt;table&gt;&lt;thead&gt;&lt;th&gt;Links&lt;/th&gt;&lt;/thead&gt;&lt;tbody&gt;'</span><span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>   <span class="cf">for</span> (<span class="kw">var</span> i<span class="op">=</span><span class="dv">0</span><span class="op">;</span> i<span class="op">&lt;</span>myarray<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>            table <span class="op">+=</span> <span class="st">'&lt;tr&gt;&lt;td&gt;'</span><span class="op">+</span>myarray[i][<span class="dv">1</span>]<span class="op">+</span><span class="st">'&lt;/td&gt;&lt;/tr&gt;'</span><span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> w <span class="op">=</span> <span class="bu">window</span><span class="op">.</span><span class="fu">open</span>(<span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>w<span class="op">.</span><span class="at">document</span><span class="op">.</span><span class="fu">write</span>(table)<span class="op">;</span> </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">make_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>code inspired from https://towardsdatascience.com/quickly-extract-all-links-from-a-web-page-using-javascript-and-the-browser-console-49bb6f48127b</p>
+<p>and then doing some smart copy pasting</p>
+<p>acually download in parallel all files with, so is faster than download with python</p>
+<p><code>parallel -a fluxnet_parallel_wget.txt --jobs 10 wget</code></p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fluxnet_links <span class="im">import</span> all_fluxnet_link</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm.auto <span class="im">import</span> tqdm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>test_file <span class="op">=</span> Path(<span class="st">"../../fluxnet/FLX_DE-Hai_FLUXNET2015_FULLSET_2000-2012_1-4.zip"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>tmp_dir <span class="op">=</span> Path(<span class="st">"/tmp"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>out_dir <span class="op">=</span> Path(<span class="st">"../../fluxnet/gap_stat"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>download_dir <span class="op">=</span> Path(<span class="st">"/run/media/simone/Simone DATI/fluxnet_all"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>site_info <span class="op">=</span> download_and_find_gaps(all_fluxnet_link, download_dir, out_dir, tmp_dir)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"d2ad6bdcb18f4a87b66ce9555a7cba24","version_major":2,"version_minor":0}
+</script>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>FLX_AR-SLu_FLUXNET2015_FULLSET_HH_2009-2011_1-4
+FLX_AR-Vir_FLUXNET2015_FULLSET_HH_2009-2012_1-4
+FLX_AT-Neu_FLUXNET2015_FULLSET_HH_2002-2012_1-4
+FLX_AU-Ade_FLUXNET2015_FULLSET_HH_2007-2009_1-4
+FLX_AU-ASM_FLUXNET2015_FULLSET_HH_2010-2014_2-4
+FLX_AU-Cpr_FLUXNET2015_FULLSET_HH_2010-2014_2-4
+FLX_AU-Cum_FLUXNET2015_FULLSET_HH_2012-2014_2-4
+FLX_AU-DaP_FLUXNET2015_FULLSET_HH_2007-2013_2-4
+FLX_AU-DaS_FLUXNET2015_FULLSET_HH_2008-2014_2-4
+FLX_AU-Dry_FLUXNET2015_FULLSET_HH_2008-2014_2-4
+FLX_AU-Emr_FLUXNET2015_FULLSET_HH_2011-2013_1-4
+FLX_AU-Fog_FLUXNET2015_FULLSET_HH_2006-2008_1-4
+FLX_AU-Gin_FLUXNET2015_FULLSET_HH_2011-2014_1-4
+FLX_AU-GWW_FLUXNET2015_FULLSET_HH_2013-2014_1-4
+FLX_AU-How_FLUXNET2015_FULLSET_HH_2001-2014_1-4
+FLX_AU-Lox_FLUXNET2015_FULLSET_HH_2008-2009_1-4
+FLX_AU-RDF_FLUXNET2015_FULLSET_HH_2011-2013_1-4
+FLX_AU-Rig_FLUXNET2015_FULLSET_HH_2011-2014_2-4
+FLX_AU-Rob_FLUXNET2015_FULLSET_HH_2014-2014_1-4
+FLX_AU-Stp_FLUXNET2015_FULLSET_HH_2008-2014_1-4
+FLX_AU-TTE_FLUXNET2015_FULLSET_HH_2012-2014_1-4
+FLX_AU-Tum_FLUXNET2015_FULLSET_HR_2001-2014_2-4
+FLX_AU-Wac_FLUXNET2015_FULLSET_HH_2005-2008_1-4
+FLX_AU-Whr_FLUXNET2015_FULLSET_HH_2011-2014_2-4
+FLX_AU-Wom_FLUXNET2015_FULLSET_HH_2010-2014_1-4
+FLX_AU-Ync_FLUXNET2015_FULLSET_HH_2012-2014_1-4
+FLX_BE-Bra_FLUXNET2015_FULLSET_HH_1996-2014_2-4
+FLX_BE-Lon_FLUXNET2015_FULLSET_HH_2004-2014_1-4
+FLX_BE-Vie_FLUXNET2015_FULLSET_HH_1996-2014_1-4
+FLX_BR-Sa1_FLUXNET2015_FULLSET_HR_2002-2011_1-4
+FLX_BR-Sa3_FLUXNET2015_FULLSET_HH_2000-2004_1-4
+FLX_CA-Gro_FLUXNET2015_FULLSET_HH_2003-2014_1-4
+FLX_CA-Man_FLUXNET2015_FULLSET_HH_1994-2008_1-4
+FLX_CA-NS1_FLUXNET2015_FULLSET_HH_2001-2005_2-4
+FLX_CA-NS2_FLUXNET2015_FULLSET_HH_2001-2005_1-4
+FLX_CA-NS3_FLUXNET2015_FULLSET_HH_2001-2005_1-4
+FLX_CA-NS4_FLUXNET2015_FULLSET_HH_2002-2005_1-4
+FLX_CA-NS5_FLUXNET2015_FULLSET_HH_2001-2005_1-4
+FLX_CA-NS6_FLUXNET2015_FULLSET_HH_2001-2005_1-4
+FLX_CA-NS7_FLUXNET2015_FULLSET_HH_2002-2005_1-4
+FLX_CA-Oas_FLUXNET2015_FULLSET_HH_1996-2010_1-4
+FLX_CA-Obs_FLUXNET2015_FULLSET_HH_1997-2010_1-4
+FLX_CA-Qfo_FLUXNET2015_FULLSET_HH_2003-2010_1-4
+FLX_CA-SF1_FLUXNET2015_FULLSET_HH_2003-2006_1-4
+FLX_CA-SF2_FLUXNET2015_FULLSET_HH_2001-2005_1-4
+FLX_CA-SF3_FLUXNET2015_FULLSET_HH_2001-2006_1-4
+FLX_CA-TP1_FLUXNET2015_FULLSET_HH_2002-2014_2-4
+FLX_CA-TP2_FLUXNET2015_FULLSET_HH_2002-2007_1-4
+FLX_CA-TP3_FLUXNET2015_FULLSET_HH_2002-2014_1-4
+FLX_CA-TP4_FLUXNET2015_FULLSET_HH_2002-2014_1-4
+FLX_CA-TPD_FLUXNET2015_FULLSET_HH_2012-2014_1-4
+FLX_CG-Tch_FLUXNET2015_FULLSET_HH_2006-2009_1-4
+FLX_CH-Cha_FLUXNET2015_FULLSET_HH_2005-2014_2-4
+FLX_CH-Dav_FLUXNET2015_FULLSET_HH_1997-2014_1-4
+FLX_CH-Fru_FLUXNET2015_FULLSET_HH_2005-2014_2-4
+FLX_CH-Lae_FLUXNET2015_FULLSET_HH_2004-2014_1-4
+FLX_CH-Oe1_FLUXNET2015_FULLSET_HH_2002-2008_2-4
+FLX_CH-Oe2_FLUXNET2015_FULLSET_HH_2004-2014_1-4
+FLX_CN-Cha_FLUXNET2015_FULLSET_HH_2003-2005_1-4
+FLX_CN-Cng_FLUXNET2015_FULLSET_HH_2007-2010_1-4
+FLX_CN-Dan_FLUXNET2015_FULLSET_HH_2004-2005_1-4
+FLX_CN-Din_FLUXNET2015_FULLSET_HH_2003-2005_1-4
+FLX_CN-Du2_FLUXNET2015_FULLSET_HH_2006-2008_1-4
+FLX_CN-Du3_FLUXNET2015_FULLSET_HH_2009-2010_1-4
+FLX_CN-Ha2_FLUXNET2015_FULLSET_HH_2003-2005_1-4
+FLX_CN-HaM_FLUXNET2015_FULLSET_HH_2002-2004_1-4
+FLX_CN-Qia_FLUXNET2015_FULLSET_HH_2003-2005_1-4
+FLX_CN-Sw2_FLUXNET2015_FULLSET_HH_2010-2012_1-4
+FLX_CZ-BK1_FLUXNET2015_FULLSET_HH_2004-2014_2-4
+FLX_CZ-BK2_FLUXNET2015_FULLSET_HH_2004-2012_2-4
+FLX_CZ-wet_FLUXNET2015_FULLSET_HH_2006-2014_1-4
+FLX_DE-Akm_FLUXNET2015_FULLSET_HH_2009-2014_1-4
+FLX_DE-Geb_FLUXNET2015_FULLSET_HH_2001-2014_1-4
+FLX_DE-Gri_FLUXNET2015_FULLSET_HH_2004-2014_1-4
+FLX_DE-Hai_FLUXNET2015_FULLSET_HH_2000-2012_1-4
+FLX_DE-Kli_FLUXNET2015_FULLSET_HH_2004-2014_1-4
+FLX_DE-Lkb_FLUXNET2015_FULLSET_HH_2009-2013_1-4
+FLX_DE-Lnf_FLUXNET2015_FULLSET_HH_2002-2012_1-4
+FLX_DE-Obe_FLUXNET2015_FULLSET_HH_2008-2014_1-4
+FLX_DE-RuR_FLUXNET2015_FULLSET_HH_2011-2014_1-4
+FLX_DE-RuS_FLUXNET2015_FULLSET_HH_2011-2014_1-4
+FLX_DE-Seh_FLUXNET2015_FULLSET_HH_2007-2010_1-4
+FLX_DE-SfN_FLUXNET2015_FULLSET_HH_2012-2014_1-4
+FLX_DE-Spw_FLUXNET2015_FULLSET_HH_2010-2014_1-4
+FLX_DE-Tha_FLUXNET2015_FULLSET_HH_1996-2014_1-4
+FLX_DE-Zrk_FLUXNET2015_FULLSET_HH_2013-2014_2-4
+FLX_DK-Eng_FLUXNET2015_FULLSET_HH_2005-2008_1-4
+FLX_DK-Fou_FLUXNET2015_FULLSET_HH_2005-2005_1-4
+FLX_DK-Sor_FLUXNET2015_FULLSET_HH_1996-2014_2-4
+FLX_ES-Amo_FLUXNET2015_FULLSET_HH_2007-2012_1-4
+FLX_ES-LgS_FLUXNET2015_FULLSET_HH_2007-2009_1-4
+FLX_ES-LJu_FLUXNET2015_FULLSET_HH_2004-2013_1-4
+FLX_ES-Ln2_FLUXNET2015_FULLSET_HH_2009-2009_1-4
+FLX_FI-Hyy_FLUXNET2015_FULLSET_HH_1996-2014_1-4
+FLX_FI-Jok_FLUXNET2015_FULLSET_HH_2000-2003_1-4
+FLX_FI-Let_FLUXNET2015_FULLSET_HH_2009-2012_1-4
+FLX_FI-Lom_FLUXNET2015_FULLSET_HH_2007-2009_1-4
+FLX_FI-Sod_FLUXNET2015_FULLSET_HH_2001-2014_1-4
+FLX_FR-Fon_FLUXNET2015_FULLSET_HH_2005-2014_1-4
+FLX_FR-Gri_FLUXNET2015_FULLSET_HH_2004-2014_1-4
+FLX_FR-LBr_FLUXNET2015_FULLSET_HH_1996-2008_1-4
+FLX_FR-Pue_FLUXNET2015_FULLSET_HH_2000-2014_2-4
+FLX_GF-Guy_FLUXNET2015_FULLSET_HH_2004-2014_2-4
+FLX_GH-Ank_FLUXNET2015_FULLSET_HH_2011-2014_1-4
+FLX_GL-NuF_FLUXNET2015_FULLSET_HH_2008-2014_1-4
+FLX_GL-ZaF_FLUXNET2015_FULLSET_HH_2008-2011_2-4
+FLX_GL-ZaH_FLUXNET2015_FULLSET_HH_2000-2014_2-4
+FLX_IT-BCi_FLUXNET2015_FULLSET_HH_2004-2014_2-4
+FLX_IT-CA1_FLUXNET2015_FULLSET_HH_2011-2014_2-4
+FLX_IT-CA2_FLUXNET2015_FULLSET_HH_2011-2014_2-4
+FLX_IT-CA3_FLUXNET2015_FULLSET_HH_2011-2014_2-4
+FLX_IT-Col_FLUXNET2015_FULLSET_HH_1996-2014_1-4
+FLX_IT-Cp2_FLUXNET2015_FULLSET_HH_2012-2014_2-4
+FLX_IT-Cpz_FLUXNET2015_FULLSET_HH_1997-2009_1-4
+FLX_IT-Isp_FLUXNET2015_FULLSET_HH_2013-2014_1-4
+FLX_IT-La2_FLUXNET2015_FULLSET_HH_2000-2002_1-4
+FLX_IT-Lav_FLUXNET2015_FULLSET_HH_2003-2014_2-4
+FLX_IT-MBo_FLUXNET2015_FULLSET_HH_2003-2013_1-4
+FLX_IT-Noe_FLUXNET2015_FULLSET_HH_2004-2014_2-4
+FLX_IT-PT1_FLUXNET2015_FULLSET_HH_2002-2004_1-4
+FLX_IT-Ren_FLUXNET2015_FULLSET_HH_1998-2013_1-4
+FLX_IT-Ro1_FLUXNET2015_FULLSET_HH_2000-2008_1-4
+FLX_IT-Ro2_FLUXNET2015_FULLSET_HH_2002-2012_1-4
+FLX_IT-SR2_FLUXNET2015_FULLSET_HH_2013-2014_1-4
+FLX_IT-SRo_FLUXNET2015_FULLSET_HH_1999-2012_1-4
+FLX_IT-Tor_FLUXNET2015_FULLSET_HH_2008-2014_2-4
+FLX_JP-MBF_FLUXNET2015_FULLSET_HH_2003-2005_1-4
+FLX_JP-SMF_FLUXNET2015_FULLSET_HH_2002-2006_1-4
+FLX_MY-PSO_FLUXNET2015_FULLSET_HH_2003-2009_1-4
+FLX_NL-Hor_FLUXNET2015_FULLSET_HH_2004-2011_1-4
+FLX_NL-Loo_FLUXNET2015_FULLSET_HH_1996-2014_1-4
+FLX_PA-SPn_FLUXNET2015_FULLSET_HH_2007-2009_1-4
+FLX_PA-SPs_FLUXNET2015_FULLSET_HH_2007-2009_1-4
+FLX_RU-Che_FLUXNET2015_FULLSET_HH_2002-2005_1-4
+FLX_RU-Cok_FLUXNET2015_FULLSET_HH_2003-2014_2-4
+FLX_RU-Fyo_FLUXNET2015_FULLSET_HH_1998-2014_2-4
+FLX_RU-Ha1_FLUXNET2015_FULLSET_HH_2002-2004_1-4
+FLX_SD-Dem_FLUXNET2015_FULLSET_HH_2005-2009_2-4
+FLX_SJ-Adv_FLUXNET2015_FULLSET_HH_2011-2014_1-4
+FLX_SJ-Blv_FLUXNET2015_FULLSET_HR_2008-2009_1-4
+FLX_SN-Dhr_FLUXNET2015_FULLSET_HH_2010-2013_1-4
+FLX_US-AR1_FLUXNET2015_FULLSET_HH_2009-2012_1-4
+FLX_US-AR2_FLUXNET2015_FULLSET_HH_2009-2012_1-4
+FLX_US-ARb_FLUXNET2015_FULLSET_HH_2005-2006_1-4
+FLX_US-ARc_FLUXNET2015_FULLSET_HH_2005-2006_1-4
+FLX_US-ARM_FLUXNET2015_FULLSET_HH_2003-2012_1-4
+FLX_US-Atq_FLUXNET2015_FULLSET_HH_2003-2008_1-4
+FLX_US-Blo_FLUXNET2015_FULLSET_HH_1997-2007_1-4
+FLX_US-Cop_FLUXNET2015_FULLSET_HR_2001-2007_1-4
+FLX_US-CRT_FLUXNET2015_FULLSET_HH_2011-2013_1-4
+FLX_US-GBT_FLUXNET2015_FULLSET_HH_1999-2006_1-4
+FLX_US-GLE_FLUXNET2015_FULLSET_HH_2004-2014_1-4
+FLX_US-Goo_FLUXNET2015_FULLSET_HH_2002-2006_1-4
+FLX_US-Ha1_FLUXNET2015_FULLSET_HR_1991-2012_1-4
+FLX_US-IB2_FLUXNET2015_FULLSET_HH_2004-2011_1-4
+FLX_US-Ivo_FLUXNET2015_FULLSET_HH_2004-2007_1-4
+FLX_US-KS1_FLUXNET2015_FULLSET_HH_2002-2002_1-4
+FLX_US-KS2_FLUXNET2015_FULLSET_HH_2003-2006_1-4
+FLX_US-Lin_FLUXNET2015_FULLSET_HH_2009-2010_1-4
+FLX_US-Los_FLUXNET2015_FULLSET_HH_2000-2014_2-4
+FLX_US-LWW_FLUXNET2015_FULLSET_HH_1997-1998_1-4
+FLX_US-Me1_FLUXNET2015_FULLSET_HH_2004-2005_1-4
+FLX_US-Me2_FLUXNET2015_FULLSET_HH_2002-2014_1-4
+FLX_US-Me3_FLUXNET2015_FULLSET_HH_2004-2009_1-4
+FLX_US-Me4_FLUXNET2015_FULLSET_HH_1996-2000_1-4
+FLX_US-Me5_FLUXNET2015_FULLSET_HH_2000-2002_1-4
+FLX_US-Me6_FLUXNET2015_FULLSET_HH_2010-2014_2-4
+FLX_US-MMS_FLUXNET2015_FULLSET_HR_1999-2014_1-4
+FLX_US-Myb_FLUXNET2015_FULLSET_HH_2010-2014_2-4
+FLX_US-Ne1_FLUXNET2015_FULLSET_HR_2001-2013_1-4
+FLX_US-Ne2_FLUXNET2015_FULLSET_HR_2001-2013_1-4
+FLX_US-Ne3_FLUXNET2015_FULLSET_HR_2001-2013_1-4
+FLX_US-NR1_FLUXNET2015_FULLSET_HH_1998-2014_1-4
+FLX_US-Oho_FLUXNET2015_FULLSET_HH_2004-2013_1-4
+FLX_US-ORv_FLUXNET2015_FULLSET_HH_2011-2011_1-4
+FLX_US-PFa_FLUXNET2015_FULLSET_HR_1995-2014_1-4
+FLX_US-Prr_FLUXNET2015_FULLSET_HH_2010-2014_1-4
+FLX_US-SRC_FLUXNET2015_FULLSET_HH_2008-2014_1-4
+FLX_US-SRG_FLUXNET2015_FULLSET_HH_2008-2014_1-4
+FLX_US-SRM_FLUXNET2015_FULLSET_HH_2004-2014_1-4
+FLX_US-Sta_FLUXNET2015_FULLSET_HH_2005-2009_1-4
+FLX_US-Syv_FLUXNET2015_FULLSET_HH_2001-2014_1-4
+FLX_US-Ton_FLUXNET2015_FULLSET_HH_2001-2014_1-4
+FLX_US-Tw1_FLUXNET2015_FULLSET_HH_2012-2014_1-4
+FLX_US-Tw2_FLUXNET2015_FULLSET_HH_2012-2013_1-4
+FLX_US-Tw3_FLUXNET2015_FULLSET_HH_2013-2014_2-4
+FLX_US-Tw4_FLUXNET2015_FULLSET_HH_2013-2014_1-4
+FLX_US-Twt_FLUXNET2015_FULLSET_HH_2009-2014_1-4
+FLX_US-UMB_FLUXNET2015_FULLSET_HR_2000-2014_1-4
+FLX_US-UMd_FLUXNET2015_FULLSET_HH_2007-2014_1-4
+FLX_US-Var_FLUXNET2015_FULLSET_HH_2000-2014_1-4
+FLX_US-WCr_FLUXNET2015_FULLSET_HH_1999-2014_1-4
+FLX_US-Whs_FLUXNET2015_FULLSET_HH_2007-2014_1-4
+FLX_US-Wi0_FLUXNET2015_FULLSET_HH_2002-2002_1-4
+FLX_US-Wi1_FLUXNET2015_FULLSET_HH_2003-2003_1-4
+FLX_US-Wi2_FLUXNET2015_FULLSET_HH_2003-2003_1-4
+FLX_US-Wi3_FLUXNET2015_FULLSET_HH_2002-2004_1-4
+FLX_US-Wi4_FLUXNET2015_FULLSET_HH_2002-2005_1-4
+FLX_US-Wi5_FLUXNET2015_FULLSET_HH_2004-2004_1-4
+FLX_US-Wi6_FLUXNET2015_FULLSET_HH_2002-2003_1-4
+FLX_US-Wi7_FLUXNET2015_FULLSET_HH_2005-2005_1-4
+FLX_US-Wi8_FLUXNET2015_FULLSET_HH_2002-2002_1-4
+FLX_US-Wi9_FLUXNET2015_FULLSET_HH_2004-2005_1-4
+FLX_US-Wkg_FLUXNET2015_FULLSET_HH_2004-2014_1-4
+FLX_US-WPT_FLUXNET2015_FULLSET_HH_2011-2013_1-4
+FLX_ZM-Mon_FLUXNET2015_FULLSET_HH_2000-2009_2-4</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>site_info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+<small>shape: (206, 3)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+start
+</th>
+<th>
+end
+</th>
+<th>
+site
+</th>
+</tr>
+<tr>
+<td>
+i64
+</td>
+<td>
+i64
+</td>
+<td>
+str
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+200901010030
+</td>
+<td>
+201201010000
+</td>
+<td>
+"AR-SLu"
+</td>
+</tr>
+<tr>
+<td>
+200901010030
+</td>
+<td>
+201301010000
+</td>
+<td>
+"AR-Vir"
+</td>
+</tr>
+<tr>
+<td>
+200201010030
+</td>
+<td>
+201301010000
+</td>
+<td>
+"AT-Neu"
+</td>
+</tr>
+<tr>
+<td>
+200701010030
+</td>
+<td>
+201001010000
+</td>
+<td>
+"AU-Ade"
+</td>
+</tr>
+<tr>
+<td>
+201001010030
+</td>
+<td>
+201501010000
+</td>
+<td>
+"AU-ASM"
+</td>
+</tr>
+<tr>
+<td>
+201001010030
+</td>
+<td>
+201501010000
+</td>
+<td>
+"AU-Cpr"
+</td>
+</tr>
+<tr>
+<td>
+201201010030
+</td>
+<td>
+201501010000
+</td>
+<td>
+"AU-Cum"
+</td>
+</tr>
+<tr>
+<td>
+200701010030
+</td>
+<td>
+201401010000
+</td>
+<td>
+"AU-DaP"
+</td>
+</tr>
+<tr>
+<td>
+200801010030
+</td>
+<td>
+201501010000
+</td>
+<td>
+"AU-DaS"
+</td>
+</tr>
+<tr>
+<td>
+200801010030
+</td>
+<td>
+201501010000
+</td>
+<td>
+"AU-Dry"
+</td>
+</tr>
+<tr>
+<td>
+201101010030
+</td>
+<td>
+201401010000
+</td>
+<td>
+"AU-Emr"
+</td>
+</tr>
+<tr>
+<td>
+200601010030
+</td>
+<td>
+200901010000
+</td>
+<td>
+"AU-Fog"
+</td>
+</tr>
+<tr>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+</tr>
+<tr>
+<td>
+200301010030
+</td>
+<td>
+200401010000
+</td>
+<td>
+"US-Wi1"
+</td>
+</tr>
+<tr>
+<td>
+200301010030
+</td>
+<td>
+200401010000
+</td>
+<td>
+"US-Wi2"
+</td>
+</tr>
+<tr>
+<td>
+200201010030
+</td>
+<td>
+200501010000
+</td>
+<td>
+"US-Wi3"
+</td>
+</tr>
+<tr>
+<td>
+200201010030
+</td>
+<td>
+200601010000
+</td>
+<td>
+"US-Wi4"
+</td>
+</tr>
+<tr>
+<td>
+200401010030
+</td>
+<td>
+200501010000
+</td>
+<td>
+"US-Wi5"
+</td>
+</tr>
+<tr>
+<td>
+200201010030
+</td>
+<td>
+200401010000
+</td>
+<td>
+"US-Wi6"
+</td>
+</tr>
+<tr>
+<td>
+200501010030
+</td>
+<td>
+200601010000
+</td>
+<td>
+"US-Wi7"
+</td>
+</tr>
+<tr>
+<td>
+200201010030
+</td>
+<td>
+200301010000
+</td>
+<td>
+"US-Wi8"
+</td>
+</tr>
+<tr>
+<td>
+200401010030
+</td>
+<td>
+200601010000
+</td>
+<td>
+"US-Wi9"
+</td>
+</tr>
+<tr>
+<td>
+200401010030
+</td>
+<td>
+201501010000
+</td>
+<td>
+"US-Wkg"
+</td>
+</tr>
+<tr>
+<td>
+201101010030
+</td>
+<td>
+201401010000
+</td>
+<td>
+"US-WPT"
+</td>
+</tr>
+<tr>
+<td>
+200001010030
+</td>
+<td>
+201001010000
+</td>
+<td>
+"ZM-Mon"
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>site_info.write_parquet(out_dir <span class="op">/</span> <span class="st">"../site_info.parquet"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
