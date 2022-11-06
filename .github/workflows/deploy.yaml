@@ -6,7 +6,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    using: "composite"
     permissions:
       contents: write
     steps:
