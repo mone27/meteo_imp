@@ -61,12 +61,12 @@ class GPFALearner():
         
         if not hasattr(self, 'losses'):
             self.losses = torch.zeros(n_iter)
-            self.model_infos = [None] # put one element so it can be indexed from 0
+            self.model_infos = [None for _ in range(n_iter)] # put one element so it can be indexed from 0
             offset = 0
         else:
             offset = self.losses.shape[0]
             self.losses = torch.concat([self.losses, torch.zeros(n_iter)])
-            self.model_infos.append(None)
+            self.model_infos.extend([None for _ in range(n_iter)])
             
         
         # "Loss" for GPs - the marginal log likelihood
@@ -80,12 +80,12 @@ class GPFALearner():
             loss = -mll(output, self.X)
             self.losses[i + offset] = loss.detach()
             loss.backward()
-            self.model_infos[offset] = self.model.get_info()
+            self.model_infos[i + offset] = self.model.get_info()
 
             optimizer.step()
         
 
-# %% ../lib_nbs/01_Learner.ipynb 19
+# %% ../lib_nbs/01_Learner.ipynb 21
 @torch.no_grad() # don't calc gradients on predictions
 @patch()
 def predict_raw(self: GPFALearner, T):
@@ -93,10 +93,10 @@ def predict_raw(self: GPFALearner, T):
     self.likelihood.eval()
     return self.likelihood(self.model(T))
 
-# %% ../lib_nbs/01_Learner.ipynb 26
+# %% ../lib_nbs/01_Learner.ipynb 28
 NormParam = namedtuple("NormalParameters", ["mean", "std"])
 
-# %% ../lib_nbs/01_Learner.ipynb 28
+# %% ../lib_nbs/01_Learner.ipynb 30
 @torch.no_grad() # needed because raw output still has gradients attached
 @patch
 def prediction_from_raw(self: GPFALearner, raw_mean, raw_std):
@@ -110,7 +110,7 @@ def prediction_from_raw(self: GPFALearner, raw_mean, raw_std):
     #remove pytorch gradients
     return NormParam(pred_mean.detach(), pred_std.detach())
 
-# %% ../lib_nbs/01_Learner.ipynb 50
+# %% ../lib_nbs/01_Learner.ipynb 52
 def conditional_guassian(gauss: MultivariateNormal,
                          obs,
                          idx # Boolean tensor specifying for each variable is observed (True) or not (False)
@@ -134,7 +134,7 @@ def conditional_guassian(gauss: MultivariateNormal,
     return MultivariateNormal(mean, cov)
     
 
-# %% ../lib_nbs/01_Learner.ipynb 55
+# %% ../lib_nbs/01_Learner.ipynb 57
 def _merge_raw_cond_pred(pred_raw,
                          pred_cond,
                          obs,
@@ -152,7 +152,7 @@ def _merge_raw_cond_pred(pred_raw,
     
     return NormParam(mean, std)
 
-# %% ../lib_nbs/01_Learner.ipynb 60
+# %% ../lib_nbs/01_Learner.ipynb 62
 @patch
 def _normalize_obs(self: GPFALearner,
                    obs, # (n_obs)
@@ -165,7 +165,7 @@ def _normalize_obs(self: GPFALearner,
     obs_norm = self.norm.normalize(obs_compl)
     return obs_norm.reshape(-1)[idx]
 
-# %% ../lib_nbs/01_Learner.ipynb 65
+# %% ../lib_nbs/01_Learner.ipynb 67
 @patch
 def predict(self: GPFALearner,
             T: Tensor, # (n_pred) time where prediction is needed
@@ -191,7 +191,7 @@ def predict(self: GPFALearner,
     
     return self.prediction_from_raw(pred_merge.mean, pred_merge.std)
 
-# %% ../lib_nbs/01_Learner.ipynb 78
+# %% ../lib_nbs/01_Learner.ipynb 80
 @patch
 def cuda(self: GPFALearner):
     """Moves all learner to gpu"""

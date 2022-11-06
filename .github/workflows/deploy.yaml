@@ -6,4 +6,67 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    steps: [uses: fastai/workflows/quarto-ghp@master]
+    using: "composite"
+    permissions:
+      contents: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Render and Publish
+        uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages
+          path: analysis
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ inputs.version }}
+          cache: "pip"
+          cache-dependency-path: settings.ini
+      - name: Install Dependencies
+        env:
+          USE_PRE: ${{ inputs.pre }}
+        shell: bash
+        run: |
+          set -ux
+          python -m pip install --upgrade pip
+          if [ $USE_PRE ]; then
+            pip install -Uq git+https://github.com/fastai/ghapi.git
+            pip install -Uq git+https://github.com/fastai/fastcore.git
+            pip install -Uq git+https://github.com/fastai/execnb.git
+            pip install -Uq git+https://github.com/fastai/nbdev.git
+            wget -q $(curl https://latest.fast.ai/pre/quarto-dev/quarto-cli/linux-amd64.deb)
+            sudo dpkg -i quarto*.deb
+          else
+            pip install -Uq nbdev
+          fi
+          test -f setup.py && pip install -e ".[dev]"
+          nbdev_docs
+      - name: Enable GitHub Pages
+        shell: python
+        run: |
+          import ghapi.core,nbdev.config,sys
+          msg="Please ensure GitHub Pages can publish from the root of the `gh-pages` branch per these instructions - https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-from-a-branch"
+          try:
+            api = ghapi.core.GhApi(owner=nbdev.config.get_config().user, repo=nbdev.config.get_config().repo, token="${{inputs.ghtoken}}")
+            api.enable_pages(branch='gh-pages')
+          except Exception as e:
+            print(f'::warning title="Could not enable GitHub Pages Automatically":: {msg}\n{e}')
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ github.token }}
+          force_orphan: true
+          publish_dir: ./_docs
+          destination_dir: lib
+          # The following lines assign commit authorship to the official GH-Actions bot for deploys to `gh-pages` branch.
+          # You can swap them out with your own user credentials.
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+      
+    

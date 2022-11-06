@@ -1,9 +1,9 @@
 project:
-  output-dir: lib
+  output-dir: _docs
 
 website:
   title: "gpfa_imputation"
-  site-url: "https://mone27.github.io/gpfa_imputation"
+  site-url: "https://mone27.github.io//gpfa_imputation/lib"
   description: "Time series imputation using Gaussian Processes Factor Analsysis (GPFA)"
   repo-branch: master
   repo-url: "https://github.com/mone27/gpfa_imputation"

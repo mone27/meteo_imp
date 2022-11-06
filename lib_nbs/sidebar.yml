@@ -6,6 +6,7 @@ website:
       - 01_Learner.ipynb
       - 02_data_preparation.ipynb
       - 03_Imputation.ipynb
+      - 04_Results.ipynb
       - 20_gap_finder.ipynb
       - 30_SimpleGP_Imputation.ipynb
       - 99_utils.ipynb

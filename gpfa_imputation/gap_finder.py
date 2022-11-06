@@ -37,7 +37,7 @@ def find_gap(df, col_name):
     )
 
 # %% ../lib_nbs/20_gap_finder.ipynb 25
-def scan_fluxnet_csv(f):
+def scan_fluxnet_csv(f, convert_dates=False):
     
     # col names may be different between the stations, so read them from the csv before parsing the whole file
     col_names = pl.read_csv(f, n_rows=1).columns
@@ -51,13 +51,20 @@ def scan_fluxnet_csv(f):
         "TIMESTAMP_END": pl.Int64
     } 
     
-    return pl.scan_csv(
+    df = pl.scan_csv(
         f, null_values=["-9999", "-9999.99"], dtypes=types
         ).rename({
             "TIMESTAMP_START": "start",
             "TIMESTAMP_END": "end", 
         })
     
+    if convert_dates:
+        df = df.with_columns([
+            pl.col("start").cast(pl.Utf8).str.strptime(pl.Datetime, "%Y%m%d%H%M"),
+            pl.col("end").cast(pl.Utf8).str.strptime(pl.Datetime, "%Y%m%d%H%M"),
+        ])
+        
+    return df       
 
 # %% ../lib_nbs/20_gap_finder.ipynb 27
 def get_site_info(df):

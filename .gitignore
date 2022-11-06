@@ -5,6 +5,7 @@ data
 # Quarto build artifacts
 .html
 *_files/
+*website/
 
 *.bak
 .gitattributes

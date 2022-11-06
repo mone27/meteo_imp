@@ -11,12 +11,14 @@ import pandas as pd
 import numpy as np
 from fastcore.foundation import patch
 from fastcore.test import *
+from fastcore.basics import *
 
 import matplotlib.pyplot as plt
 import altair as alt
 from altair import datum
 
 from functools import lru_cache
+from typing import Collection
 
 # %% ../lib_nbs/02_data_preparation.ipynb 7
 class GPFADataGenerator:
@@ -152,3 +154,14 @@ class Normalizer:
         x_std_norm, # Normalized array of standard deviations
                           ) -> Tensor:       # Array after reversing normalization
         return x_std_norm * self.x_std
+
+# %% ../lib_nbs/02_data_preparation.ipynb 42
+@patch
+def log_transform(self: GPFADataTest,
+                  vars: str | Collection[str], # list of variables names to log-transform
+                 )-> GPFADataTest:
+    "Tranform the given var with log(x+1)"
+    for var in listify(vars):
+        self.data["log_" + var] = np.log(self.data[var] + 1)
+    self.data = self.data.drop(columns=vars)
+    return self
