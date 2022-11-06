@@ -13,7 +13,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
+        run: |
+          wget -q $(curl https://latest.fast.ai/pre/quarto-dev/quarto-cli/linux-amd64.deb)
+          sudo dpkg -i quarto*.deb
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
@@ -28,22 +30,16 @@ jobs:
           cache: "pip"
           cache-dependency-path: settings.ini
       - name: Install Dependencies
-        env:
-          USE_PRE: ${{ inputs.pre }}
         shell: bash
         run: |
           set -ux
           python -m pip install --upgrade pip
-          if [ $USE_PRE ]; then
-            pip install -Uq git+https://github.com/fastai/ghapi.git
-            pip install -Uq git+https://github.com/fastai/fastcore.git
-            pip install -Uq git+https://github.com/fastai/execnb.git
-            pip install -Uq git+https://github.com/fastai/nbdev.git
-            wget -q $(curl https://latest.fast.ai/pre/quarto-dev/quarto-cli/linux-amd64.deb)
-            sudo dpkg -i quarto*.deb
-          else
-            pip install -Uq nbdev
-          fi
+          
+          pip install -Uq git+https://github.com/fastai/ghapi.git
+          pip install -Uq git+https://github.com/fastai/fastcore.git
+          pip install -Uq git+https://github.com/fastai/execnb.git
+          pip install -Uq git+https://github.com/fastai/nbdev.git
+          
           test -f setup.py && pip install -e ".[dev]"
           nbdev_docs
       - name: Enable GitHub Pages
