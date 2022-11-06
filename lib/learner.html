@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Utilities to train and visualize a GPFA model">
+
+<title>gpfa_imputation - GPFA Learner</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="gpfa_imputation - GPFA Learner">
+<meta property="og:description" content="Utilities to train and visualize a GPFA model">
+<meta property="og:site-name" content="gpfa_imputation">
+<meta name="twitter:title" content="gpfa_imputation - GPFA Learner">
+<meta name="twitter:description" content="Utilities to train and visualize a GPFA model">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">gpfa_imputation</span>
+    </a>
+  </div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">GPFA Learner</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">GPFA Imputation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./learner.html" class="sidebar-item-text sidebar-link active">GPFA Learner</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_preparation.html" class="sidebar-item-text sidebar-link">Data Preparation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./imputation.html" class="sidebar-item-text sidebar-link">Imputation time series</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./results.html" class="sidebar-item-text sidebar-link">Results</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./gap_finder.html" class="sidebar-item-text sidebar-link">Find Gaps in Fluxnet data</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./simplegp_imputation.html" class="sidebar-item-text sidebar-link">Simple GP Imputation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./utils.html" class="sidebar-item-text sidebar-link">Utils</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#learner" id="toc-learner" class="nav-link active" data-scroll-target="#learner">Learner</a>
+  <ul class="collapse">
+  <li><a href="#gpfalearner" id="toc-gpfalearner" class="nav-link" data-scroll-target="#gpfalearner">GPFALearner</a></li>
+  </ul></li>
+  <li><a href="#predictions" id="toc-predictions" class="nav-link" data-scroll-target="#predictions">Predictions</a>
+  <ul class="collapse">
+  <li><a href="#gpfalearner.predict_raw" id="toc-gpfalearner.predict_raw" class="nav-link" data-scroll-target="#gpfalearner.predict_raw">GPFALearner.predict_raw</a></li>
+  <li><a href="#gpfalearner.prediction_from_raw" id="toc-gpfalearner.prediction_from_raw" class="nav-link" data-scroll-target="#gpfalearner.prediction_from_raw">GPFALearner.prediction_from_raw</a></li>
+  <li><a href="#check-learning-is-working" id="toc-check-learning-is-working" class="nav-link" data-scroll-target="#check-learning-is-working">Check learning is working</a></li>
+  <li><a href="#conditional-predictions" id="toc-conditional-predictions" class="nav-link" data-scroll-target="#conditional-predictions">Conditional Predictions</a></li>
+  <li><a href="#gpfalearner.predict" id="toc-gpfalearner.predict" class="nav-link" data-scroll-target="#gpfalearner.predict">GPFALearner.predict</a></li>
+  </ul></li>
+  <li><a href="#gpu-support" id="toc-gpu-support" class="nav-link" data-scroll-target="#gpu-support">GPU Support</a>
+  <ul class="collapse">
+  <li><a href="#gpfalearner.cuda" id="toc-gpfalearner.cuda" class="nav-link" data-scroll-target="#gpfalearner.cuda">GPFALearner.cuda</a></li>
+  </ul></li>
+  <li><a href="#multi-dimensional-latent" id="toc-multi-dimensional-latent" class="nav-link" data-scroll-target="#multi-dimensional-latent">Multi-dimensional latent</a></li>
+  <li><a href="#export" id="toc-export" class="nav-link" data-scroll-target="#export">Export</a></li>
+  <li><a href="#printing" id="toc-printing" class="nav-link" data-scroll-target="#printing">Printing</a>
+  <ul class="collapse">
+  <li><a href="#other" id="toc-other" class="nav-link" data-scroll-target="#other">Other</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/gpfa_imputation/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">GPFA Learner</h1>
+</div>
+
+<div>
+  <div class="description">
+    Utilities to train and visualize a GPFA model
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.test <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The first thing that we need is a Learner object to keep track of:</p>
+<ul>
+<li>input data, output data</li>
+<li>model</li>
+<li>likelihood</li>
+</ul>
+<p>and that has methods to help with:</p>
+<ul>
+<li>training</li>
+<li>prediction</li>
+<li>visualization</li>
+</ul>
+<p>The first thing we need is a training loop, just wrap in a function the example one from GPyTorch</p>
+<section id="learner" class="level2">
+<h2 class="anchored" data-anchor-id="learner">Learner</h2>
+<hr>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/learner.py#L25" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="gpfalearner" class="level3">
+<h3 class="anchored" data-anchor-id="gpfalearner">GPFALearner</h3>
+<blockquote class="blockquote">
+<pre><code> GPFALearner (X:torch.Tensor, T:torch.Tensor=None, latent_dims:int=1,
+              model=&lt;class 'gpfa_imputation.gpfa.GPFA'&gt;)</code></pre>
+</blockquote>
+<p>Initialize self. See help(type(self)) for accurate signature.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>X</td>
+<td>Tensor</td>
+<td></td>
+<td>(n_features * n_obs) Multivariate time series</td>
+</tr>
+<tr class="even">
+<td>T</td>
+<td>Tensor</td>
+<td>None</td>
+<td>(n_obs) Vector of time of observations.</td>
+</tr>
+<tr class="odd">
+<td>latent_dims</td>
+<td>int</td>
+<td>1</td>
+<td>Number of latent variables in GPFA</td>
+</tr>
+<tr class="even">
+<td>model</td>
+<td>type</td>
+<td>GPFA</td>
+<td>sub-class of <a href="https://mone27.github.io/gpfa_imputation/lib/gpfa.html#gpfa"><code>GPFA</code></a></td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># test data</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> torch.arange(<span class="dv">0</span>,<span class="dv">6</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> torch.vstack([(torch.arange(<span class="dv">0</span>,<span class="dv">3</span>, dtype<span class="op">=</span>torch.float32) <span class="op">+</span> <span class="dv">2</span> <span class="op">+</span> i) <span class="op">*</span> i <span class="cf">for</span> i <span class="kw">in</span> T])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>X</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[ 0.,  0.,  0.],
+        [ 3.,  4.,  5.],
+        [ 8., 10., 12.],
+        [15., 18., 21.],
+        [24., 28., 32.],
+        [35., 40., 45.]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># l for learner</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> GPFALearner(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>test_eq(T, l.T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># with explicit time</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>test_eq(T, GPFALearner(X, T).T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>test_eq(l.n_features, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>l.X</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([-1.0590, -1.0955, -1.1236, -0.8347, -0.8326, -0.8305, -0.4610, -0.4382,
+        -0.4201,  0.0623,  0.0876,  0.1075,  0.7350,  0.7449,  0.7523,  1.5573,
+         1.5337,  1.5145])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>l.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"46c7c9a12e0942b7b78b50b850c64f7d","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+<p>check that can train for more than once</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>l.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"1d2a8087ccf64168af98062ea2bd1c96","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>l.losses</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([ 1.3875,  1.3412,  1.2952,  1.2515,  1.2120,  1.1761,  1.1403,  1.1030,
+         1.0644,  1.0249,  0.9848,  0.9445,  0.9043,  0.8644,  0.8248,  0.7852,
+         0.7454,  0.7046,  0.6627,  0.6198,  0.5764,  0.5333,  0.4910,  0.4490,
+         0.4067,  0.3636,  0.3202,  0.2773,  0.2355,  0.1936,  0.1508,  0.1076,
+         0.0655,  0.0238, -0.0190, -0.0618, -0.1035, -0.1455, -0.1883, -0.2299,
+        -0.2714, -0.3136, -0.3546, -0.3959, -0.4372, -0.4775, -0.5185, -0.5583,
+        -0.5986, -0.6380, -0.6776, -0.7162, -0.7546, -0.7900, -0.8300, -0.8682,
+        -0.9026, -0.9405, -0.9765, -1.0097, -1.0448, -1.0804, -1.1123, -1.1417,
+        -1.1708, -1.1997, -1.2224, -1.2525, -1.2880, -1.3045, -1.3355, -1.3613,
+        -1.3731, -1.4074, -1.4237, -1.4331, -1.4655, -1.4761, -1.4839, -1.5108,
+        -1.5190, -1.5217, -1.5401, -1.5276, -1.4662, -1.5441, -1.5399, -1.5408,
+        -1.5678, -1.5540, -1.5865, -1.5616, -1.6051, -1.5710, -1.6148, -1.5850,
+        -1.6196, -1.5999, -1.6246, -1.6134])</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="predictions" class="level2">
+<h2 class="anchored" data-anchor-id="predictions">Predictions</h2>
+<p>add a function to get predictions from the model</p>
+<hr>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/learner.py#L91" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="gpfalearner.predict_raw" class="level3">
+<h3 class="anchored" data-anchor-id="gpfalearner.predict_raw">GPFALearner.predict_raw</h3>
+<blockquote class="blockquote">
+<pre><code> GPFALearner.predict_raw (T)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>raw_out <span class="op">=</span> l.predict_raw(T)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>raw_out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/simone/anaconda3/envs/data-science/lib/python3.10/site-packages/gpytorch/models/exact_gp.py:273: GPInputWarning: The input matches the stored training data. Did you forget to call model.train()?
+  warnings.warn(</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>MultivariateNormal(loc: torch.Size([18]))</code></pre>
+</div>
+</div>
+<p>the model prediction is a distribution with <code>len(T)*n_features</code> dimensions</p>
+<p>which is in the in the wrong shape and need to be rescaled after the normalization</p>
+<p>Also we don’t need th full distribution but only the mean and stddev for each variable at every time step</p>
+<p>And we can “fix” the shape by transforming back to a matrix</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>raw_stddev <span class="op">=</span> raw_out.stddev.reshape(<span class="op">-</span><span class="dv">1</span>, l.n_features)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>raw_mean <span class="op">=</span> raw_out.mean.reshape(<span class="op">-</span><span class="dv">1</span>, l.n_features)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>raw_stddev</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[0.0251, 0.0198, 0.0227],
+        [0.0242, 0.0187, 0.0217],
+        [0.0239, 0.0183, 0.0214],
+        [0.0239, 0.0183, 0.0214],
+        [0.0242, 0.0187, 0.0218],
+        [0.0251, 0.0197, 0.0227]], grad_fn=&lt;ReshapeAliasBackward0&gt;)</code></pre>
+</div>
+</div>
+<p>This function transforms the raw output of the Gaussian Process (<code>p(X)</code>) into a prediction that can be used. need to do two things:</p>
+<ul>
+<li>take mean and stddev (this is the diagonal of the covariance matrix) for each variable</li>
+<li>reshape so that each row is a time step and each column a variable</li>
+<li>reverse the normalization</li>
+</ul>
+<p>the mean and the std are passed individually because in the conditional predictions is not possible to have the whole covariance matrix (and thus a MultiNormal) but the mean and stddev are enough.</p>
+<hr>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/learner.py#L102" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="gpfalearner.prediction_from_raw" class="level3">
+<h3 class="anchored" data-anchor-id="gpfalearner.prediction_from_raw">GPFALearner.prediction_from_raw</h3>
+<blockquote class="blockquote">
+<pre><code> GPFALearner.prediction_from_raw (raw_mean, raw_std)</code></pre>
+</blockquote>
+<p>Takes a raw prediction and produces and final prediction, by reshaping and reversing normalization</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co"> document this function better</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict(<span class="va">self</span>: GPFALearner, T):</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    pred_raw <span class="op">=</span> <span class="va">self</span>.predict_raw(T)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.prediction_from_raw(pred_raw.mean, pred_raw.stddev)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>l.predict(T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>NormalParameters(mean=tensor([[-5.1709e-01, -2.8349e-02,  5.4034e-01],
+        [ 3.0475e+00,  4.0246e+00,  5.0628e+00],
+        [ 8.2432e+00,  9.9321e+00,  1.1652e+01],
+        [ 1.5310e+01,  1.7969e+01,  2.0619e+01],
+        [ 2.4245e+01,  2.8124e+01,  3.1951e+01],
+        [ 3.4665e+01,  3.9972e+01,  4.5168e+01]]), std=tensor([[0.3357, 0.3006, 0.3877],
+        [0.3243, 0.2841, 0.3709],
+        [0.3201, 0.2782, 0.3654],
+        [0.3202, 0.2780, 0.3656],
+        [0.3243, 0.2841, 0.3713],
+        [0.3358, 0.3004, 0.3874]]))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> l.predict(T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>pred.mean.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([6, 3])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>pred.std.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([6, 3])</code></pre>
+</div>
+</div>
+</section>
+<section id="check-learning-is-working" class="level3">
+<h3 class="anchored" data-anchor-id="check-learning-is-working">Check learning is working</h3>
+<p>The idea is to use the current model to generate a dataset, that can be for sure modelled using a GPFA (because is the output of GPFA) and then train another model and see if the parameters converge</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a dummy GPFA with 3 features</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>Lt <span class="op">=</span> GPFALearner(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>test_params <span class="op">=</span> {</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>   <span class="st">"Lambda"</span>: torch.tensor([<span class="op">-</span><span class="dv">1</span>, <span class="fl">0.3</span>, <span class="fl">.8</span>]).reshape(Lt.n_features, <span class="op">-</span><span class="dv">1</span>),</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>   <span class="st">"psi"</span>: torch.tensor([<span class="fl">1e-5</span>, <span class="fl">5e-5</span>, <span class="fl">2e-5</span>]),</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>Lt.model.covar_module.initialize(<span class="op">**</span>test_params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>GPFAKernel(
+  (latent_kernels): ModuleList(
+    (0): RBFKernel(
+      (raw_lengthscale_constraint): Positive()
+    )
+  )
+  (raw_psi_diag_constraint): Positive()
+)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>Lt.model.covar_module.latent_kernels[<span class="dv">0</span>].initialize(lengthscale <span class="op">=</span> torch.tensor(<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>RBFKernel(
+  (raw_lengthscale_constraint): Positive()
+)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>target_X <span class="op">=</span> Lt.predict(T).mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>l2 <span class="op">=</span> GPFALearner(target_X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>l2.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"31d8d90331474ec4aa0f2de225909da4","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>l2.predict(T).mean <span class="op">-</span> target_X</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/simone/anaconda3/envs/data-science/lib/python3.10/site-packages/gpytorch/models/exact_gp.py:273: GPInputWarning: The input matches the stored training data. Did you forget to call model.train()?
+  warnings.warn(</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[ 0.0060,  0.0016,  0.0008],
+        [ 0.0034,  0.0011,  0.0009],
+        [ 0.0011,  0.0004,  0.0003],
+        [-0.0012, -0.0004, -0.0004],
+        [-0.0036, -0.0011, -0.0008],
+        [-0.0058, -0.0015, -0.0008]])</code></pre>
+</div>
+</div>
+<p>they seems pretty small numbers, so the model is working!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Lambda:</span><span class="ch">\n</span><span class="st">"</span>, l2.model.covar_module.Lambda.detach())</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"psi: "</span>, l2.model.covar_module.psi.detach())</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"lengthscale:"</span>, l2.model.covar_module.latent_kernels[<span class="dv">0</span>].lengthscale.item())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Lambda:
+ tensor([[-1.6031],
+        [ 1.5766],
+        [ 1.5863]])
+psi:  tensor([4.8988e-05, 4.2124e-05, 4.1885e-05])
+lengthscale: 5.493414402008057</code></pre>
+</div>
+</div>
+</section>
+<section id="conditional-predictions" class="level3">
+<h3 class="anchored" data-anchor-id="conditional-predictions">Conditional Predictions</h3>
+<p>This add the supports for conditional predictions, which means that at the time (t) when we are making the predictions some of the variables have been actually observed. Since the model prediction is a normal distribution we can condition on the observed values and thus improve the predictions.</p>
+<p>Therefore we need to compute the conditional distribution of a normal <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p><span class="math display">\[ X = \left[\begin{array}{c} x \\ o \end{array} \right] \]</span></p>
+<p><span class="math display">\[ p(X) = N\left(\left[ \begin{array}{c} \mu_x \\ \mu_o \end{array} \right], \left[\begin{array}{cc} \Sigma_{xx} &amp; \Sigma_{xo} \\ \Sigma_{ox} &amp; \Sigma_{oo} \end{array} \right]\right)\]</span></p>
+<p>where <span class="math inline">\(X\)</span> is a vector of variable that need to predicted and <span class="math inline">\(o\)</span> is a vector of the variables that have been observed</p>
+<p>The mean is in “flat format”, where all the features from one time step are next to each other followed by the features of the next time step.</p>
+<p>then</p>
+<p><span class="math display">\[p(x|o) = N(\mu_x + \Sigma_{xo}\Sigma_{oo}^{-1}(o - \mu_o), \Sigma_{xx} - \Sigma_{xo}\Sigma_{oo}^{-1}\Sigma_{ox})\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># example distribution with only 2 variables</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>μ <span class="op">=</span> torch.tensor([<span class="fl">.5</span>, <span class="fl">1.</span>])</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>Σ <span class="op">=</span> torch.tensor([[<span class="fl">1.</span>, <span class="fl">.5</span>], [<span class="fl">.5</span> ,<span class="fl">1.</span>]])</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>gauss <span class="op">=</span> MultivariateNormal(μ, Σ)</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> torch.tensor([<span class="va">True</span>, <span class="va">False</span>]) <span class="co"># second variable is the observed one</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>obs <span class="op">=</span> torch.tensor(<span class="fl">5.</span>) <span class="co"># value of second variable</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>gauss_cond <span class="op">=</span> conditional_guassian(gauss, obs, idx)</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a><span class="co"># hardcoded values to test that the code is working, see also for alternative implementation https://python.quantecon.org/multivariate_normal.html</span></span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>test_close(<span class="fl">3.25</span>, gauss_cond.mean.item())</span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>test_close(<span class="fl">.75</span>, gauss_cond.covariance_matrix.item())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Test with multiple variables?</p>
+<p>overwrite the predict method to add support for conditional predictions</p>
+<p>Need to have the mean and std for both the conditional predictions and the observations, with the same shape and order of the complete prediction.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>gauss_cond.covariance_matrix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[0.7500]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>merge_pred <span class="op">=</span> _merge_raw_cond_pred(gauss, gauss_cond, obs, idx)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>merge_pred</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>NormalParameters(mean=tensor([5.0000, 3.2500]), std=tensor([0.0000, 0.8660]))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># manually calculated</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>test_close(merge_pred.mean, torch.tensor([<span class="fl">5.</span>, <span class="fl">3.25</span>]))</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>test_close(merge_pred.std, torch.tensor([<span class="fl">0.</span>, math.sqrt(<span class="fl">.75</span>)]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The problem is that the mean and the std for normalization are different for each feature, so in order to have the normalization working it is necessary to give the observations as a 2D array and not like a 1D array (like required by the model)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>T_pred <span class="op">=</span> torch.tensor([<span class="dv">6</span>, <span class="dv">7</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>l.predict(T_pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>NormalParameters(mean=tensor([[45.7915, 52.6208, 59.2834],
+        [56.5321, 64.8324, 72.9081]]), std=tensor([[0.6919, 0.7510, 0.8597],
+        [1.7853, 2.0160, 2.2576]]))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> torch.zeros(T_pred.shape[<span class="dv">0</span>] <span class="op">*</span> X.shape[<span class="dv">1</span>], dtype<span class="op">=</span>torch.<span class="bu">bool</span>)</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="co"># simulate an observation using sensible numbers from the prediction</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>idx[[<span class="dv">0</span>,<span class="dv">2</span>]] <span class="op">=</span> torch.tensor([<span class="va">True</span>, <span class="va">True</span>])</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>obs <span class="op">=</span> torch.tensor([<span class="fl">42.</span>, <span class="fl">61.</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>l._normalize_obs(obs, idx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([2.0806, 2.4525])</code></pre>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/learner.py#L170" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="gpfalearner.predict" class="level3">
+<h3 class="anchored" data-anchor-id="gpfalearner.predict">GPFALearner.predict</h3>
+<blockquote class="blockquote">
+<pre><code> GPFALearner.predict (T:torch.Tensor, obs:torch.Tensor=None,
+                      idx:torch.Tensor=None)</code></pre>
+</blockquote>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>T</td>
+<td>Tensor</td>
+<td></td>
+<td>(n_pred) time where prediction is needed</td>
+</tr>
+<tr class="even">
+<td>obs</td>
+<td>Tensor</td>
+<td>None</td>
+<td>(n_obs_pred) Optional - if at the times of the prediction there are some observations<br>array with the values of observations to condition distribution</td>
+</tr>
+<tr class="odd">
+<td>idx</td>
+<td>Tensor</td>
+<td>None</td>
+<td>((n_pred*n_features)) Optional - necessary if obs are present<br>Boolean array that is True where an observation is present and False where a prediction is needed<br>This is a 1D array with the length equal to n_pred (number time steps to predict) times n_features</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>l._normalize_obs(obs, idx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([2.0806, 2.4525])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>obs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([42., 61.])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>l.predict_raw(T_pred).mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([2.3640, 2.3632, 2.3518, 3.1668, 3.1659, 3.1506],
+       grad_fn=&lt;ViewBackward0&gt;)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>l.predict(T_pred, obs, idx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>NormalParameters(mean=tensor([[42.0000, 51.6759, 61.0000],
+        [54.2909, 62.2784, 70.0641]]), std=tensor([[0.0000, 0.3322, 0.0000],
+        [0.7696, 0.8428, 0.9601]]))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>l.predict(T_pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>NormalParameters(mean=tensor([[45.7915, 52.6208, 59.2834],
+        [56.5321, 64.8324, 72.9081]]), std=tensor([[0.6919, 0.7510, 0.8597],
+        [1.7853, 2.0160, 2.2576]]))</code></pre>
+</div>
+</div>
+<p>There is a small change in the predicted values after conditioning as you would expect</p>
+</section>
+</section>
+<section id="gpu-support" class="level2">
+<h2 class="anchored" data-anchor-id="gpu-support">GPU Support</h2>
+<p>add support for CUDA to model</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># l for learner</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>l_cuda <span class="op">=</span> GPFALearner(X.cuda())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Attrs of interest are:</p>
+<ul>
+<li>T</li>
+<li>X</li>
+<li>likelihood</li>
+<li>model</li>
+<li>norm</li>
+</ul>
+<p><code>cuda()</code> modifies in place the tensors and the modules!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>l_cuda.T.cuda()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([0, 1, 2, 3, 4, 5], device='cuda:0')</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>l_cuda.T.device</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>device(type='cuda', index=0)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cuda(<span class="va">self</span>: GPFALearner):</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Moves all learner to gpu"""</span></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> par <span class="kw">in</span> [<span class="st">'T'</span>, <span class="st">'X'</span>, <span class="st">'model'</span>, <span class="st">'likelihood'</span>]:</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.<span class="fu">__getattribute__</span>(par).cuda()</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.norm.x_mean.cuda()</span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.norm.x_std.cuda()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/learner.py#L196" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="gpfalearner.cuda" class="level3">
+<h3 class="anchored" data-anchor-id="gpfalearner.cuda">GPFALearner.cuda</h3>
+<blockquote class="blockquote">
+<pre><code> GPFALearner.cuda ()</code></pre>
+</blockquote>
+<p>Moves all learner to gpu</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>l_cuda.cuda()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>parameters are on the gpu!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="bu">next</span>(l_cuda.likelihood.parameters()).device</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>device(type='cuda', index=0)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>gpytorch.distributions.MultivariateNormal(torch.zeros(<span class="dv">1</span>).cuda(), torch.ones(<span class="dv">1</span>, <span class="dv">1</span>).cuda())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>MultivariateNormal(loc: tensor([0.], device='cuda:0'), covariance_matrix: tensor([[1.]], device='cuda:0'))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>l_cuda.model.covar_module.latent_kernels[<span class="dv">0</span>].lengthscale.device</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>device(type='cuda', index=0)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>l_cuda.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"c9dfccc41c2d4ea8b0dbf525c8a138f8","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+</section>
+</section>
+<section id="multi-dimensional-latent" class="level2">
+<h2 class="anchored" data-anchor-id="multi-dimensional-latent">Multi-dimensional latent</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>l2 <span class="op">=</span> GPFALearner(X, T, latent_dims<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>l2.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"d94af2fc84384975a8c3b4b657a1fe1e","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>plt.plot(l2.losses)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="01_Learner_files/figure-html/cell-61-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>l2.model.covar_module.Lambda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Parameter containing:
+tensor([[0.9218, 1.7595],
+        [0.9006, 1.7484],
+        [0.9687, 1.6968]], requires_grad=True)</code></pre>
+</div>
+</div>
+</section>
+<section id="export" class="level2">
+<h2 class="anchored" data-anchor-id="export">Export</h2>
+</section>
+<section id="printing" class="level2">
+<h2 class="anchored" data-anchor-id="printing">Printing</h2>
+<section id="other" class="level3">
+<h3 class="anchored" data-anchor-id="other">Other</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># #| exporti</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="co"># def get_parameter_value(name, param, constraint):</span></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     if constraint is not None:</span></span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a><span class="co">#         value = constraint.transform(param.data.detach())</span></span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a><span class="co">#         name = name.replace("raw_", "") # parameter is not raw anymore</span></span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     else:</span></span>
+<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a><span class="co">#         value = param.data.detach()</span></span>
+<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     return (name, value)</span></span>
+<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a><span class="co"># name = "covar_module.psi"</span></span>
+<span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a><span class="co"># test_eq(l.model.covar_module.psi.detach(), get_parameter_value(name, l.model.covar_module.raw_psi_diag, l.model.covar_module.raw_psi_diag_constraint)[1])</span></span>
+<span id="cb90-12"><a href="#cb90-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-13"><a href="#cb90-13" aria-hidden="true" tabindex="-1"></a><span class="co"># #| exporti</span></span>
+<span id="cb90-14"><a href="#cb90-14" aria-hidden="true" tabindex="-1"></a><span class="co"># def tensor_to_first_item(tensor):</span></span>
+<span id="cb90-15"><a href="#cb90-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     if tensor.dim() &gt; 0:</span></span>
+<span id="cb90-16"><a href="#cb90-16" aria-hidden="true" tabindex="-1"></a><span class="co">#         return tensor_to_first_item(tensor[0])</span></span>
+<span id="cb90-17"><a href="#cb90-17" aria-hidden="true" tabindex="-1"></a><span class="co">#     return tensor.item()</span></span>
+<span id="cb90-18"><a href="#cb90-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-19"><a href="#cb90-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-20"><a href="#cb90-20" aria-hidden="true" tabindex="-1"></a><span class="co"># def format_parameter(name, value):</span></span>
+<span id="cb90-21"><a href="#cb90-21" aria-hidden="true" tabindex="-1"></a><span class="co">#     value = tensor_to_first_item(value)</span></span>
+<span id="cb90-22"><a href="#cb90-22" aria-hidden="true" tabindex="-1"></a><span class="co">#     name = name.split(".")[-1] # get only last part of name</span></span>
+<span id="cb90-23"><a href="#cb90-23" aria-hidden="true" tabindex="-1"></a><span class="co">#     return f"{name}: {value:.3f}"</span></span>
+<span id="cb90-24"><a href="#cb90-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-25"><a href="#cb90-25" aria-hidden="true" tabindex="-1"></a><span class="co"># #| export</span></span>
+<span id="cb90-26"><a href="#cb90-26" aria-hidden="true" tabindex="-1"></a><span class="co"># @patch</span></span>
+<span id="cb90-27"><a href="#cb90-27" aria-hidden="true" tabindex="-1"></a><span class="co"># def get_formatted_params(self: GPFALearner):</span></span>
+<span id="cb90-28"><a href="#cb90-28" aria-hidden="true" tabindex="-1"></a><span class="co">#     return ", ".join([</span></span>
+<span id="cb90-29"><a href="#cb90-29" aria-hidden="true" tabindex="-1"></a><span class="co">#         format_parameter(*get_parameter_value(name, value, constraint))</span></span>
+<span id="cb90-30"><a href="#cb90-30" aria-hidden="true" tabindex="-1"></a><span class="co">#         for name, value, constraint in</span></span>
+<span id="cb90-31"><a href="#cb90-31" aria-hidden="true" tabindex="-1"></a><span class="co">#         self.model.named_parameters_and_constraints()</span></span>
+<span id="cb90-32"><a href="#cb90-32" aria-hidden="true" tabindex="-1"></a><span class="co">#     ])</span></span>
+<span id="cb90-33"><a href="#cb90-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-34"><a href="#cb90-34" aria-hidden="true" tabindex="-1"></a><span class="co"># l.get_formatted_params()</span></span>
+<span id="cb90-35"><a href="#cb90-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-36"><a href="#cb90-36" aria-hidden="true" tabindex="-1"></a><span class="co"># # this is not really working at the moment, but it's not important</span></span>
+<span id="cb90-37"><a href="#cb90-37" aria-hidden="true" tabindex="-1"></a><span class="co"># @patch</span></span>
+<span id="cb90-38"><a href="#cb90-38" aria-hidden="true" tabindex="-1"></a><span class="co"># def plot_loss_printer(self: GPFALearner, i_iter):</span></span>
+<span id="cb90-39"><a href="#cb90-39" aria-hidden="true" tabindex="-1"></a><span class="co">#     if i_iter ==0: return</span></span>
+<span id="cb90-40"><a href="#cb90-40" aria-hidden="true" tabindex="-1"></a><span class="co">#     x = torch.arange(0, i_iter)</span></span>
+<span id="cb90-41"><a href="#cb90-41" aria-hidden="true" tabindex="-1"></a><span class="co">#     y = self.losses[:i_iter]</span></span>
+<span id="cb90-42"><a href="#cb90-42" aria-hidden="true" tabindex="-1"></a><span class="co">#     plot_data = [[x, y]]</span></span>
+<span id="cb90-43"><a href="#cb90-43" aria-hidden="true" tabindex="-1"></a><span class="co">#     self.pb.update_graph(plot_data)</span></span>
+<span id="cb90-44"><a href="#cb90-44" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb90-45"><a href="#cb90-45" aria-hidden="true" tabindex="-1"></a><span class="co">#     x_bounds = [x.min(), x.max()+1]</span></span>
+<span id="cb90-46"><a href="#cb90-46" aria-hidden="true" tabindex="-1"></a><span class="co">#     y_bounds = [y.min(), y.max()]</span></span>
+<span id="cb90-47"><a href="#cb90-47" aria-hidden="true" tabindex="-1"></a><span class="co">#     self.pb.names = ["Training loss"]</span></span>
+<span id="cb90-48"><a href="#cb90-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-49"><a href="#cb90-49" aria-hidden="true" tabindex="-1"></a><span class="co"># #|export</span></span>
+<span id="cb90-50"><a href="#cb90-50" aria-hidden="true" tabindex="-1"></a><span class="co"># @patch</span></span>
+<span id="cb90-51"><a href="#cb90-51" aria-hidden="true" tabindex="-1"></a><span class="co"># def printer(self: GPFALearner, i_iter):</span></span>
+<span id="cb90-52"><a href="#cb90-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-53"><a href="#cb90-53" aria-hidden="true" tabindex="-1"></a><span class="co">#     if i_iter%10 == 0:</span></span>
+<span id="cb90-54"><a href="#cb90-54" aria-hidden="true" tabindex="-1"></a><span class="co">#         update_str = f"loss: {self.losses[i_iter].item():.3f}, " + self.get_formatted_params()</span></span>
+<span id="cb90-55"><a href="#cb90-55" aria-hidden="true" tabindex="-1"></a><span class="co">#         #self.plot_loss(i_iter)</span></span>
+<span id="cb90-56"><a href="#cb90-56" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb90-57"><a href="#cb90-57" aria-hidden="true" tabindex="-1"></a><span class="co">#     #self.pb.write(update_str)</span></span>
+<span id="cb90-58"><a href="#cb90-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-59"><a href="#cb90-59" aria-hidden="true" tabindex="-1"></a><span class="co"># l.train(lr = 0.01)</span></span>
+<span id="cb90-60"><a href="#cb90-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-61"><a href="#cb90-61" aria-hidden="true" tabindex="-1"></a><span class="co"># import matplotlib.pyplot as plt</span></span>
+<span id="cb90-62"><a href="#cb90-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-63"><a href="#cb90-63" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.plot(l.losses)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>https://cs.nyu.edu/~roweis/notes/gaussid.pdf eq, 5a, 5d<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script type="application/vnd.jupyter.widget-state+json">
+{"state":{"0603163c5132420282b55b5d929d5e2c":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_b61534343b1544e38261d707c7350070","style":"IPY_MODEL_73857f8bd7da4fc89c162ec50bd9ca32","value":"100%"}},"09ebfc7614894fa48b9280da4a182272":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"0d45a2b7b8ad48c18af947221b57013e":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"11a9a3d834a04b2095d65c6e1ae563ea":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"13671ae64f134d789121c119929ff4a1":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"13c9dc9acf354175a0562ec6b7a72357":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"14518a91de3c431bbb3072a76556f0d2":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"1bdd54105a04450c94eb34c95b44b2ac":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_5aa6a03c2d8e4ccc918cb3bacb227a52","style":"IPY_MODEL_13c9dc9acf354175a0562ec6b7a72357","value":"100%"}},"1d2a8087ccf64168af98062ea2bd1c96":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_3a6b0ac7ef6a455598a63a39919e9c81","IPY_MODEL_51ab0c34f3794ebdbbfaaad1ba1892d6","IPY_MODEL_285aa03df5954b54a36838f4f5514389"],"layout":"IPY_MODEL_14518a91de3c431bbb3072a76556f0d2"}},"254ccd06df134c2f99114692e39cd073":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_986f684665784f72b38751c0becb3560","style":"IPY_MODEL_cf5bf364625d4b7d83b432a854b8f307","value":"  0%"}},"285aa03df5954b54a36838f4f5514389":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_ac72fde7e67a4f0ab0b01785722f19b1","style":"IPY_MODEL_8e133b280dc24c73b5b6b6671b59e389","value":" 100/100 [00:00&lt;00:00, 135.22it/s]"}},"2903be34da18439298258da14595298b":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_993fc09055744450bf6ef09648274bb6","style":"IPY_MODEL_6fa368081c3e40d488dab9ca36f82be7","value":" 100/100 [00:00&lt;00:00, 123.09it/s]"}},"2aaa9132286a4a649e1c346f3b94d113":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"2eb41ce1c11a46c2a4295909e41f92cf":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_3da115a2483e4bd396bc73f3b035e4d5","style":"IPY_MODEL_e9a00aa7210c4590b5588047cdc2e8a7","value":"  1%"}},"305e6e21d54240d0adc43bf5ca44d449":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"danger","layout":"IPY_MODEL_858beba731fe4fe2a2c47bb180cc4b76","style":"IPY_MODEL_30859b7501834c618d596c734746f794","value":1}},"30859b7501834c618d596c734746f794":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"30d7d49aa8c243adbe03ddf88f325fbe":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_2eb41ce1c11a46c2a4295909e41f92cf","IPY_MODEL_ce735cd56bd94fd38a2311c5dfbc6b50","IPY_MODEL_b0ff5f7e4a2c432b9a2266e95105faa8"],"layout":"IPY_MODEL_7a1c89c4bc8449179e685fd8751f7a89"}},"32182d22f29c44e590bb7830261895e1":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"success","layout":"IPY_MODEL_aeee3c434b3445a3b48598c1e1e2dc6d","style":"IPY_MODEL_d22c9636c4ff428cb746f1f776ccaa9e","value":100}},"3a6b0ac7ef6a455598a63a39919e9c81":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_0d45a2b7b8ad48c18af947221b57013e","style":"IPY_MODEL_43373bab61d04ca2998bcef241188b51","value":"100%"}},"3da115a2483e4bd396bc73f3b035e4d5":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"42be81ff60c74784886d533d99a33bd5":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"43373bab61d04ca2998bcef241188b51":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"46c7c9a12e0942b7b78b50b850c64f7d":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_0603163c5132420282b55b5d929d5e2c","IPY_MODEL_cd48263245dd41f2ac9fa3fcd3699e96","IPY_MODEL_2903be34da18439298258da14595298b"],"layout":"IPY_MODEL_80c8131f8c464523a9adc972b6ff22e5"}},"4c8e21b344ca4c7883d79dbdeb74011e":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"51ab0c34f3794ebdbbfaaad1ba1892d6":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"success","layout":"IPY_MODEL_7dba653d20e54e3180d6d02a5cc391a3","style":"IPY_MODEL_42be81ff60c74784886d533d99a33bd5","value":100}},"5204c74add96466fb73670c77c998cbe":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"5aa6a03c2d8e4ccc918cb3bacb227a52":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"5f7aaf7810f04e80aed614a79bd77fbf":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_254ccd06df134c2f99114692e39cd073","IPY_MODEL_77a1f5d2cce94c21b112d6fc422d8100","IPY_MODEL_b917caacaf7749d98aa051fd81040b96"],"layout":"IPY_MODEL_950e5fa72fb74dfd9426bf0b6f76f2b1"}},"69dc35a5ec224786901ccee1bae65447":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"6a973d72b21f4743bffe7a3d2a19df57":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_5204c74add96466fb73670c77c998cbe","style":"IPY_MODEL_7759358071774afeb11216a80fe2489a","value":"  1%"}},"6ca14cba575f4bd6a15ff4a099cb4f95":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"6f5ac8070a484aad9ee7afa3e62a35f8":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"success","layout":"IPY_MODEL_13671ae64f134d789121c119929ff4a1","style":"IPY_MODEL_db636c969da845b09ce09a0454f013c5","value":100}},"6fa368081c3e40d488dab9ca36f82be7":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"70aaf0c0e3e34afb99552e16a6f0231c":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"73857f8bd7da4fc89c162ec50bd9ca32":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"7759358071774afeb11216a80fe2489a":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"77a1f5d2cce94c21b112d6fc422d8100":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"danger","layout":"IPY_MODEL_dff21f6d738d46b880ba5f72605a2e97","style":"IPY_MODEL_09ebfc7614894fa48b9280da4a182272"}},"7a06830d2a864f35972a972989b44059":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"7a1c89c4bc8449179e685fd8751f7a89":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"7dba653d20e54e3180d6d02a5cc391a3":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"7f4544c8a54c45a5a8afe6c75370122a":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"80c8131f8c464523a9adc972b6ff22e5":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"858beba731fe4fe2a2c47bb180cc4b76":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"8e133b280dc24c73b5b6b6671b59e389":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"8f9160babfef48d788b291e5923b803b":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"94188595f0874dddbdf590af7a06c039":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_c0db762d4d224420b518fcce4585fc39","IPY_MODEL_6f5ac8070a484aad9ee7afa3e62a35f8","IPY_MODEL_f3cf6878008448349e6ecdb3509690f9"],"layout":"IPY_MODEL_70aaf0c0e3e34afb99552e16a6f0231c"}},"946cf8b0d5e04e6f8dc709cb0e6d9c2e":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"950e5fa72fb74dfd9426bf0b6f76f2b1":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"986f684665784f72b38751c0becb3560":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"993fc09055744450bf6ef09648274bb6":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"9b8752d9210c465991f8a5cfc9d771a8":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_d744ee0fe27e4f209d741c5dc002ec10","style":"IPY_MODEL_c3fe63d254c34b538469e104799de696","value":" 100/100 [00:00&lt;00:00, 134.70it/s]"}},"a716dd09a9014f44bb4782d1efbe5bef":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_6a973d72b21f4743bffe7a3d2a19df57","IPY_MODEL_305e6e21d54240d0adc43bf5ca44d449","IPY_MODEL_f81b20d2c4c64d6db9f71199fb6ff645"],"layout":"IPY_MODEL_eabf69a46a9040dd9a7108c76a2d4bae"}},"a86da4f537c343e79dfd74b69fabb148":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"ac5773f2b9ba4cfebfd652d47086b2b1":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"ac72fde7e67a4f0ab0b01785722f19b1":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"ae4ea664de3047abadc6fba6881173a4":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"aeee3c434b3445a3b48598c1e1e2dc6d":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"b0ff5f7e4a2c432b9a2266e95105faa8":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_ac5773f2b9ba4cfebfd652d47086b2b1","style":"IPY_MODEL_2aaa9132286a4a649e1c346f3b94d113","value":" 1/100 [00:00&lt;00:02, 34.76it/s]"}},"b61534343b1544e38261d707c7350070":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"b917caacaf7749d98aa051fd81040b96":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_11a9a3d834a04b2095d65c6e1ae563ea","style":"IPY_MODEL_69dc35a5ec224786901ccee1bae65447","value":" 0/100 [00:00&lt;?, ?it/s]"}},"c0db762d4d224420b518fcce4585fc39":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_a86da4f537c343e79dfd74b69fabb148","style":"IPY_MODEL_4c8e21b344ca4c7883d79dbdeb74011e","value":"100%"}},"c3fe63d254c34b538469e104799de696":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"cd48263245dd41f2ac9fa3fcd3699e96":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"success","layout":"IPY_MODEL_7f4544c8a54c45a5a8afe6c75370122a","style":"IPY_MODEL_ae4ea664de3047abadc6fba6881173a4","value":100}},"ce735cd56bd94fd38a2311c5dfbc6b50":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"danger","layout":"IPY_MODEL_d99f8cb80f4c4c46807cd43cc43eba0a","style":"IPY_MODEL_6ca14cba575f4bd6a15ff4a099cb4f95","value":1}},"cf5bf364625d4b7d83b432a854b8f307":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"d22c9636c4ff428cb746f1f776ccaa9e":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"d514d72757464dd1ab6e88e3f5373af5":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_1bdd54105a04450c94eb34c95b44b2ac","IPY_MODEL_32182d22f29c44e590bb7830261895e1","IPY_MODEL_9b8752d9210c465991f8a5cfc9d771a8"],"layout":"IPY_MODEL_7a06830d2a864f35972a972989b44059"}},"d744ee0fe27e4f209d741c5dc002ec10":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"d99f8cb80f4c4c46807cd43cc43eba0a":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"db636c969da845b09ce09a0454f013c5":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"dff21f6d738d46b880ba5f72605a2e97":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"e4ef26ae13d24cbdad49520e6b4cbc3b":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"e9a00aa7210c4590b5588047cdc2e8a7":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"eabf69a46a9040dd9a7108c76a2d4bae":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"f3cf6878008448349e6ecdb3509690f9":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_946cf8b0d5e04e6f8dc709cb0e6d9c2e","style":"IPY_MODEL_8f9160babfef48d788b291e5923b803b","value":" 100/100 [00:01&lt;00:00, 120.44it/s]"}},"f7a9c84810d54aa59f15e48c075b9950":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"f81b20d2c4c64d6db9f71199fb6ff645":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_e4ef26ae13d24cbdad49520e6b4cbc3b","style":"IPY_MODEL_f7a9c84810d54aa59f15e48c075b9950","value":" 1/100 [00:00&lt;00:02, 33.87it/s]"}}},"version_major":2,"version_minor":0}
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

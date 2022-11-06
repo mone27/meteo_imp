@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="This handles results of a GPFA/SimpleGP Imputation with plotting and metrics">
+
+<title>gpfa_imputation - Results</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="gpfa_imputation - Results">
+<meta property="og:description" content="This handles results of a GPFA/SimpleGP Imputation with plotting and metrics">
+<meta property="og:site-name" content="gpfa_imputation">
+<meta name="twitter:title" content="gpfa_imputation - Results">
+<meta name="twitter:description" content="This handles results of a GPFA/SimpleGP Imputation with plotting and metrics">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">gpfa_imputation</span>
+    </a>
+  </div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Results</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">GPFA Imputation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./learner.html" class="sidebar-item-text sidebar-link">GPFA Learner</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_preparation.html" class="sidebar-item-text sidebar-link">Data Preparation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./imputation.html" class="sidebar-item-text sidebar-link">Imputation time series</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./results.html" class="sidebar-item-text sidebar-link active">Results</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./gap_finder.html" class="sidebar-item-text sidebar-link">Find Gaps in Fluxnet data</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./simplegp_imputation.html" class="sidebar-item-text sidebar-link">Simple GP Imputation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./utils.html" class="sidebar-item-text sidebar-link">Utils</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#gpfaresult" id="toc-gpfaresult" class="nav-link active" data-scroll-target="#gpfaresult">GPFAResult</a></li>
+  <li><a href="#gpfaimputation.to_result" id="toc-gpfaimputation.to_result" class="nav-link" data-scroll-target="#gpfaimputation.to_result">GPFAImputation.to_result</a></li>
+  <li><a href="#gpfaimputationexplorer.to_result" id="toc-gpfaimputationexplorer.to_result" class="nav-link" data-scroll-target="#gpfaimputationexplorer.to_result">GPFAImputationExplorer.to_result</a></li>
+  <li><a href="#metrics" id="toc-metrics" class="nav-link" data-scroll-target="#metrics">Metrics</a></li>
+  <li><a href="#gpfaresult.compute_metric" id="toc-gpfaresult.compute_metric" class="nav-link" data-scroll-target="#gpfaresult.compute_metric">GPFAResult.compute_metric</a></li>
+  <li><a href="#gpfaresult.rmse" id="toc-gpfaresult.rmse" class="nav-link" data-scroll-target="#gpfaresult.rmse">GPFAResult.rmse</a></li>
+  <li><a href="#gpfaresult.r2" id="toc-gpfaresult.r2" class="nav-link" data-scroll-target="#gpfaresult.r2">GPFAResult.r2</a></li>
+  <li><a href="#gpfaresult.print_metrics" id="toc-gpfaresult.print_metrics" class="nav-link" data-scroll-target="#gpfaresult.print_metrics">GPFAResult.print_metrics</a></li>
+  <li><a href="#prediction-plot" id="toc-prediction-plot" class="nav-link" data-scroll-target="#prediction-plot">Prediction plot</a></li>
+  <li><a href="#gpfaresult.plot_pred" id="toc-gpfaresult.plot_pred" class="nav-link" data-scroll-target="#gpfaresult.plot_pred">GPFAResult.plot_pred</a></li>
+  <li><a href="#display-results" id="toc-display-results" class="nav-link" data-scroll-target="#display-results">Display results</a></li>
+  <li><a href="#gpfaresult.display_results" id="toc-gpfaresult.display_results" class="nav-link" data-scroll-target="#gpfaresult.display_results">GPFAResult.display_results</a></li>
+  <li><a href="#export" id="toc-export" class="nav-link" data-scroll-target="#export">Export</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/gpfa_imputation/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Results</h1>
+</div>
+
+<div>
+  <div class="description">
+    This handles results of a GPFA/SimpleGP Imputation with plotting and metrics
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<hr>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/results.py#L34" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="gpfaresult" class="level3">
+<h3 class="anchored" data-anchor-id="gpfaresult">GPFAResult</h3>
+<blockquote class="blockquote">
+<pre><code> GPFAResult (data_imputed, data_complete, model_info, units=None,
+             metrics_all_data=True)</code></pre>
+</blockquote>
+<p>Initialize self. See help(type(self)) for accurate signature.</p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>data_imputed</td>
+<td></td>
+<td></td>
+<td>imputed data in tidy format</td>
+</tr>
+<tr class="even">
+<td>data_complete</td>
+<td></td>
+<td></td>
+<td>complete data in tidy format</td>
+</tr>
+<tr class="odd">
+<td>model_info</td>
+<td></td>
+<td></td>
+<td>learner for parameters display</td>
+</tr>
+<tr class="even">
+<td>units</td>
+<td>NoneType</td>
+<td>None</td>
+<td>units for plots</td>
+</tr>
+<tr class="odd">
+<td>metrics_all_data</td>
+<td>bool</td>
+<td>True</td>
+<td>Compute metrics only for gap or for all data?</td>
+</tr>
+</tbody>
+</table>
+<p>constructor methods from <a href="https://mone27.github.io/gpfa_imputation/lib/imputation.html#gpfaimputation"><code>GPFAImputation</code></a> and <code>GPFAImputationResults</code></p>
+<hr>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/results.py#L46" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="gpfaimputation.to_result" class="level3">
+<h3 class="anchored" data-anchor-id="gpfaimputation.to_result">GPFAImputation.to_result</h3>
+<blockquote class="blockquote">
+<pre><code> GPFAImputation.to_result (data_complete, units=None)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/results.py#L52" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="gpfaimputationexplorer.to_result" class="level3">
+<h3 class="anchored" data-anchor-id="gpfaimputationexplorer.to_result">GPFAImputationExplorer.to_result</h3>
+<blockquote class="blockquote">
+<pre><code> GPFAImputationExplorer.to_result (data_complete, units=None)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>reset_seed()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fd <span class="op">=</span> GPFADataTest.generate(<span class="dv">2</span>, <span class="dv">10</span>, Lambda<span class="op">=</span>[<span class="dv">1</span>,<span class="fl">2.</span>]).add_random_missing()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>imp <span class="op">=</span> GPFAImputation(fd.data)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>imp_exp <span class="op">=</span> GPFAImputationExplorer(fd.data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fd.data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>x0</th>
+      <th>x1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.352996</td>
+      <td>0.013275</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NaN</td>
+      <td>0.248802</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.264305</td>
+      <td>-0.657965</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.248825</td>
+      <td>0.822856</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-0.896081</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.773089</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>-0.841634</td>
+      <td>-1.945134</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1.269603</td>
+      <td>2.074223</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> imp.to_result(fd.data_compl_tidy, units <span class="op">=</span> {<span class="st">'x0'</span>: <span class="st">'x0 units'</span>, <span class="st">'x1'</span>: <span class="st">'x1 unitssss'</span>})</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>res_exp <span class="op">=</span> imp_exp.to_result(fd.data_compl_tidy, units <span class="op">=</span> {<span class="st">'x0'</span>: <span class="st">'x0 units'</span>, <span class="st">'x1'</span>: <span class="st">'x1 unitssss'</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="metrics" class="level3">
+<h3 class="anchored" data-anchor-id="metrics">Metrics</h3>
+<hr>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/results.py#L58" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="gpfaresult.compute_metric" class="level3">
+<h3 class="anchored" data-anchor-id="gpfaresult.compute_metric">GPFAResult.compute_metric</h3>
+<blockquote class="blockquote">
+<pre><code> GPFAResult.compute_metric (metric, metric_name='metric')</code></pre>
+</blockquote>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>metric</td>
+<td></td>
+<td></td>
+<td>function that takes as argument true and pred and returns the metric</td>
+</tr>
+<tr class="even">
+<td>metric_name</td>
+<td>str</td>
+<td>metric</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rmse(<span class="va">self</span>: GPFAResult):</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    rmse <span class="op">=</span> <span class="va">self</span>.compute_metric(<span class="kw">lambda</span> x, y: np.sqrt(mean_squared_error(x,y)), <span class="st">"rmse"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="va">self</span>.units: rmse <span class="op">=</span> rmse.assign(units<span class="op">=</span> <span class="va">self</span>.units.values())</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rmse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/results.py#L76" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="gpfaresult.rmse" class="level3">
+<h3 class="anchored" data-anchor-id="gpfaresult.rmse">GPFAResult.rmse</h3>
+<blockquote class="blockquote">
+<pre><code> GPFAResult.rmse ()</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>res_exp.rmse()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>variable</th>
+      <th>rmse</th>
+      <th>units</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>x0</td>
+      <td>0.735627</td>
+      <td>x0 units</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>x1</td>
+      <td>1.338239</td>
+      <td>x1 unitssss</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>res.rmse()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>variable</th>
+      <th>rmse</th>
+      <th>units</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>x0</td>
+      <td>0.861892</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>x1</td>
+      <td>1.485962</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> r2(<span class="va">self</span>: GPFAResult):</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.compute_metric(r2_score, <span class="st">"r2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/results.py#L83" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="gpfaresult.r2" class="level3">
+<h3 class="anchored" data-anchor-id="gpfaresult.r2">GPFAResult.r2</h3>
+<blockquote class="blockquote">
+<pre><code> GPFAResult.r2 ()</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>res.r2()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>variable</th>
+      <th>r2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>x0</td>
+      <td>-0.279686</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>x1</td>
+      <td>-0.018969</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/results.py#L88" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="gpfaresult.print_metrics" class="level3">
+<h3 class="anchored" data-anchor-id="gpfaresult.print_metrics">GPFAResult.print_metrics</h3>
+<blockquote class="blockquote">
+<pre><code> GPFAResult.print_metrics ()</code></pre>
+</blockquote>
+</section>
+<section id="prediction-plot" class="level3">
+<h3 class="anchored" data-anchor-id="prediction-plot">Prediction plot</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _plot_variable(imp, complete, variable, y_label<span class="op">=</span><span class="st">""</span>, sel<span class="op">=</span><span class="va">None</span>, properties <span class="op">=</span> {}):</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    imp <span class="op">=</span> imp[imp.variable <span class="op">==</span> variable]</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    error <span class="op">=</span> alt.Chart(imp).mark_errorband().encode(</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="st">"time"</span>,    </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> alt.Y(<span class="st">"err_low:Q"</span>, title <span class="op">=</span> y_label, scale<span class="op">=</span>alt.Scale(zero<span class="op">=</span><span class="va">False</span>)),</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        y2 <span class="op">=</span> <span class="st">"err_high:Q"</span>,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>alt.Color(<span class="st">"variable"</span>,</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                        legend <span class="op">=</span> alt.Legend(title<span class="op">=</span>[<span class="st">"Line: pred. mean"</span>, <span class="st">"area: +/- 2 std"</span>, <span class="st">"(variable)"</span>])</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>                       ),</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        tooltip <span class="op">=</span> alt.Tooltip([<span class="st">'std'</span>, <span class="st">'mean'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">".4"</span>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    ).transform_calculate(</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>        err_low <span class="op">=</span> <span class="st">"datum.mean - 2 * datum.std"</span>,</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>        err_high <span class="op">=</span> <span class="st">"datum.mean + 2 * datum.std"</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    ).properties( <span class="op">**</span>properties)</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    pred <span class="op">=</span> alt.Chart(imp).mark_line().encode(</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="st">"time"</span>,    </span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> alt.Y(<span class="st">"mean:Q"</span>, title <span class="op">=</span> y_label, scale<span class="op">=</span>alt.Scale(zero<span class="op">=</span><span class="va">False</span>)),</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span><span class="st">"variable"</span>,</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    ).add_selection(</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>        sel <span class="cf">if</span> sel <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="cf">else</span> alt.selection_interval(bind<span class="op">=</span><span class="st">"scales"</span>)</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    ).properties(title <span class="op">=</span> variable)</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    base_plot <span class="op">=</span> error <span class="op">+</span> pred</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> complete <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>        complete <span class="op">=</span> complete[complete.variable <span class="op">==</span> variable]</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>        truth_plt <span class="op">=</span> alt.Chart(complete).mark_point(</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>            strokeWidth <span class="op">=</span> <span class="dv">1</span>,</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>            fillOpacity <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>        ).encode(</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> <span class="st">"time"</span>,</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>            y <span class="op">=</span> alt.Y(<span class="st">"value"</span>, title <span class="op">=</span> y_label, scale<span class="op">=</span>alt.Scale(zero<span class="op">=</span><span class="va">False</span>)),</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>            fill<span class="op">=</span> alt.Fill(<span class="st">"is_missing"</span>, scale <span class="op">=</span> alt.Scale(<span class="bu">range</span><span class="op">=</span>[<span class="st">"#ffffff00"</span>, <span class="st">"black"</span>]),</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>                           legend <span class="op">=</span> alt.Legend(title <span class="op">=</span>[<span class="st">"Observed data"</span>,<span class="st">"(is missing)"</span>])),</span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>            shape <span class="op">=</span> <span class="st">"is_missing"</span>,</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>        base_plot <span class="op">=</span> truth_plt <span class="op">+</span> base_plot</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> base_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>imp_d <span class="op">=</span> imp.impute(tidy<span class="op">=</span><span class="va">True</span>, add_time<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>_plot_variable(imp_d, <span class="va">None</span>, <span class="st">"x1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/simone/.local/lib/python3.10/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
+  for col_name, dtype in df.dtypes.iteritems():</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<div id="altair-viz-ee2c29cc8ec14880b8e75952f23eceda"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-ee2c29cc8ec14880b8e75952f23eceda") {
+      outputDiv = document.getElementById("altair-viz-ee2c29cc8ec14880b8e75952f23eceda");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "4.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "", "type": "quantitative"}, "y2": {"field": "err_high"}}, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}]}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "", "type": "quantitative"}}, "selection": {"selector001": {"type": "interval", "bind": "scales"}}, "title": "x1"}], "data": {"name": "data-6b847a89d08affb568a975515bc5a397"}, "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-6b847a89d08affb568a975515bc5a397": [{"time": 0.0, "variable": "x1", "mean": 0.0132747832685709, "std": null}, {"time": 2.0, "variable": "x1", "mean": -0.657964825630188, "std": null}, {"time": 3.0, "variable": "x1", "mean": 0.8228557705879211, "std": null}, {"time": 8.0, "variable": "x1", "mean": -1.945134162902832, "std": null}, {"time": 9.0, "variable": "x1", "mean": 2.0742228031158447, "std": null}, {"time": 1.0, "variable": "x1", "mean": 0.24880185723304749, "std": 0.0}, {"time": 4.0, "variable": "x1", "mean": -0.1992415487766266, "std": 1.8688976764678955}, {"time": 5.0, "variable": "x1", "mean": 0.17954692244529724, "std": 1.8718758821487427}, {"time": 6.0, "variable": "x1", "mean": 0.13846366107463837, "std": 1.9094343185424805}, {"time": 7.0, "variable": "x1", "mean": -0.13254201412200928, "std": 1.9083836078643799}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span>()</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_pred(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>: GPFAResult,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    n_cols: <span class="bu">int</span> <span class="op">=</span> <span class="dv">2</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    bind_interaction: <span class="bu">bool</span> <span class="op">=</span><span class="va">True</span>, <span class="co"># Whether the sub-plots for each variable should be connected for zooming/panning</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    properties:<span class="bu">dict</span> <span class="op">=</span> {} <span class="co"># additional properties (eg. size) for altair plot</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Plot the prediction for each variable"</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    plot_list <span class="op">=</span> [alt.hconcat() <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="va">self</span>.data_imputed.shape[<span class="dv">0</span>], n_cols)]</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    selection_scale <span class="op">=</span> alt.selection_interval(bind<span class="op">=</span><span class="st">"scales"</span>, encodings<span class="op">=</span>[<span class="st">'x'</span>]) <span class="cf">if</span> bind_interaction <span class="cf">else</span> <span class="va">None</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx, variable <span class="kw">in</span> <span class="bu">enumerate</span>(pd.unique(<span class="va">self</span>.data_imputed.variable)):</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>        plot_list[idx <span class="op">//</span> n_cols] <span class="op">|=</span> _plot_variable(<span class="va">self</span>.data_imputed,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>                                                   <span class="va">self</span>.data_complete,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>                                                   variable,</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>                                                   y_label <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>variable<span class="sc">}</span><span class="ss"> [</span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>units[variable]<span class="sc">}</span><span class="ss">]"</span> <span class="cf">if</span> <span class="va">self</span>.units <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="cf">else</span> variable,</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>                                                   sel <span class="op">=</span> selection_scale, properties<span class="op">=</span>properties)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    plot <span class="op">=</span> alt.vconcat(<span class="op">*</span>plot_list)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/results.py#L145" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="gpfaresult.plot_pred" class="level3">
+<h3 class="anchored" data-anchor-id="gpfaresult.plot_pred">GPFAResult.plot_pred</h3>
+<blockquote class="blockquote">
+<pre><code> GPFAResult.plot_pred (n_cols:int=2, bind_interaction:bool=True,
+                       properties:dict={})</code></pre>
+</blockquote>
+<p>Plot the prediction for each variable</p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>n_cols</td>
+<td>int</td>
+<td>2</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>bind_interaction</td>
+<td>bool</td>
+<td>True</td>
+<td>Whether the sub-plots for each variable should be connected for zooming/panning</td>
+</tr>
+<tr class="odd">
+<td>properties</td>
+<td>dict</td>
+<td>{}</td>
+<td>additional properties (eg. size) for altair plot</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>res.plot_pred()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div id="altair-viz-1b8f6cb47170453da3248aac6a7ecd22"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-1b8f6cb47170453da3248aac6a7ecd22") {
+      outputDiv = document.getElementById("altair-viz-1b8f6cb47170453da3248aac6a7ecd22");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "4.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"hconcat": [{"layer": [{"data": {"name": "data-e81d2144f040e9eaee9917835d7e5b22"}, "mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_missing", "legend": {"title": ["Observed data", "(is missing)"]}, "scale": {"range": ["#ffffff00", "black"]}, "type": "nominal"}, "shape": {"field": "is_missing", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}}}, {"layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}, "y2": {"field": "err_high"}}, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}]}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}}, "selection": {"selector002": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "title": "x0"}], "data": {"name": "data-e47889cb36a1ec6a8066b2249e8c02c0"}}]}, {"layer": [{"data": {"name": "data-8f2aafb359cb71b6d770947a717d8f17"}, "mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_missing", "legend": {"title": ["Observed data", "(is missing)"]}, "scale": {"range": ["#ffffff00", "black"]}, "type": "nominal"}, "shape": {"field": "is_missing", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}}}, {"layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}, "y2": {"field": "err_high"}}, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}]}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}}, "selection": {"selector002": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "title": "x1"}], "data": {"name": "data-6b847a89d08affb568a975515bc5a397"}}]}]}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}], "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-e81d2144f040e9eaee9917835d7e5b22": [{"time": 0.0, "variable": "x0", "value": 0.352995902299881, "is_missing": false}, {"time": 1.0, "variable": "x0", "value": 0.12700305879116058, "is_missing": true}, {"time": 2.0, "variable": "x0", "value": -0.2643048167228699, "is_missing": false}, {"time": 3.0, "variable": "x0", "value": 0.24882519245147705, "is_missing": false}, {"time": 4.0, "variable": "x0", "value": -0.896080732345581, "is_missing": false}, {"time": 5.0, "variable": "x0", "value": 0.773088812828064, "is_missing": false}, {"time": 6.0, "variable": "x0", "value": -0.7895084023475647, "is_missing": true}, {"time": 7.0, "variable": "x0", "value": 1.0766730308532715, "is_missing": true}, {"time": 8.0, "variable": "x0", "value": -0.8416340947151184, "is_missing": false}, {"time": 9.0, "variable": "x0", "value": 1.2696034908294678, "is_missing": false}], "data-e47889cb36a1ec6a8066b2249e8c02c0": [{"time": 0.0, "variable": "x0", "mean": 0.352995902299881, "std": null}, {"time": 2.0, "variable": "x0", "mean": -0.2643048167228699, "std": null}, {"time": 3.0, "variable": "x0", "mean": 0.24882519245147705, "std": null}, {"time": 8.0, "variable": "x0", "mean": -0.8416340947151184, "std": null}, {"time": 9.0, "variable": "x0", "mean": 1.2696034908294678, "std": null}, {"time": 1.0, "variable": "x0", "mean": 0.13031640648841858, "std": 1.0783995389938354}, {"time": 4.0, "variable": "x0", "mean": -0.896080732345581, "std": 0.0}, {"time": 5.0, "variable": "x0", "mean": 0.773088812828064, "std": 0.0}, {"time": 6.0, "variable": "x0", "mean": 0.22222448885440826, "std": 1.107781171798706}, {"time": 7.0, "variable": "x0", "mean": -0.02103264629840851, "std": 1.1063209772109985}], "data-8f2aafb359cb71b6d770947a717d8f17": [{"time": 0.0, "variable": "x1", "value": 0.0132747832685709, "is_missing": false}, {"time": 1.0, "variable": "x1", "value": 0.2488018423318863, "is_missing": false}, {"time": 2.0, "variable": "x1", "value": -0.657964825630188, "is_missing": false}, {"time": 3.0, "variable": "x1", "value": 0.8228557705879211, "is_missing": false}, {"time": 4.0, "variable": "x1", "value": -1.1485517024993896, "is_missing": true}, {"time": 5.0, "variable": "x1", "value": 1.419529676437378, "is_missing": true}, {"time": 6.0, "variable": "x1", "value": -1.4002081155776978, "is_missing": true}, {"time": 7.0, "variable": "x1", "value": 1.8739652633666992, "is_missing": true}, {"time": 8.0, "variable": "x1", "value": -1.945134162902832, "is_missing": false}, {"time": 9.0, "variable": "x1", "value": 2.0742228031158447, "is_missing": false}], "data-6b847a89d08affb568a975515bc5a397": [{"time": 0.0, "variable": "x1", "mean": 0.0132747832685709, "std": null}, {"time": 2.0, "variable": "x1", "mean": -0.657964825630188, "std": null}, {"time": 3.0, "variable": "x1", "mean": 0.8228557705879211, "std": null}, {"time": 8.0, "variable": "x1", "mean": -1.945134162902832, "std": null}, {"time": 9.0, "variable": "x1", "mean": 2.0742228031158447, "std": null}, {"time": 1.0, "variable": "x1", "mean": 0.24880185723304749, "std": 0.0}, {"time": 4.0, "variable": "x1", "mean": -0.1992415487766266, "std": 1.8688976764678955}, {"time": 5.0, "variable": "x1", "mean": 0.17954692244529724, "std": 1.8718758821487427}, {"time": 6.0, "variable": "x1", "mean": 0.13846366107463837, "std": 1.9094343185424805}, {"time": 7.0, "variable": "x1", "mean": -0.13254201412200928, "std": 1.9083836078643799}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<p>The code is running correctly and as expected around the missing data point the error is band is wider</p>
+</section>
+<section id="display-results" class="level3">
+<h3 class="anchored" data-anchor-id="display-results">Display results</h3>
+<p>show the prediction plot, metrics and model parameters in one convinient view</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>_display_as_row({<span class="st">"test"</span>: pd.DataFrame([<span class="dv">1</span>,<span class="dv">2</span>])}, <span class="st">"hello"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<p style="font-size: 1.5rem; font-decoration: bold">hello</p><p></p><div style="display: flex; column-gap: 20px;"> <div> <p style="font-size: 1.3rem;">test</p><p> <style type="text/css">
+</style>
+</p><table id="T_31352">
+  <thead>
+    <tr>
+      <th id="T_31352_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_31352_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_31352_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div></div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>_display_as_row({<span class="ss">f"test</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>: pd.DataFrame([<span class="dv">1</span>,<span class="dv">2</span>]) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>)})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<p style="font-size: 1.5rem; font-decoration: bold"></p><p></p><div style="display: flex; column-gap: 20px;"> <div> <p style="font-size: 1.3rem;">test0</p><p> <style type="text/css">
+</style>
+</p><table id="T_450b6">
+  <thead>
+    <tr>
+      <th id="T_450b6_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_450b6_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_450b6_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">test1</p><p> <style type="text/css">
+</style>
+</p><table id="T_be0c5">
+  <thead>
+    <tr>
+      <th id="T_be0c5_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_be0c5_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_be0c5_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">test2</p><p> <style type="text/css">
+</style>
+</p><table id="T_37909">
+  <thead>
+    <tr>
+      <th id="T_37909_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_37909_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_37909_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">test3</p><p> <style type="text/css">
+</style>
+</p><table id="T_c654c">
+  <thead>
+    <tr>
+      <th id="T_c654c_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_c654c_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_c654c_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">test4</p><p> <style type="text/css">
+</style>
+</p><table id="T_50ccc">
+  <thead>
+    <tr>
+      <th id="T_50ccc_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_50ccc_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_50ccc_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">test5</p><p> <style type="text/css">
+</style>
+</p><table id="T_684e6">
+  <thead>
+    <tr>
+      <th id="T_684e6_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_684e6_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_684e6_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">test6</p><p> <style type="text/css">
+</style>
+</p><table id="T_7bdeb">
+  <thead>
+    <tr>
+      <th id="T_7bdeb_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_7bdeb_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_7bdeb_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">test7</p><p> <style type="text/css">
+</style>
+</p><table id="T_ac09b">
+  <thead>
+    <tr>
+      <th id="T_ac09b_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_ac09b_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_ac09b_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">test8</p><p> <style type="text/css">
+</style>
+</p><table id="T_d2689">
+  <thead>
+    <tr>
+      <th id="T_d2689_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_d2689_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_d2689_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">test9</p><p> <style type="text/css">
+</style>
+</p><table id="T_d2a3d">
+  <thead>
+    <tr>
+      <th id="T_d2a3d_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_d2a3d_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_d2a3d_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div></div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> display_results(<span class="va">self</span>: GPFAResult, plot_args<span class="op">=</span>{}):</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    plot_args <span class="op">=</span> {<span class="st">'properties'</span>: {<span class="st">'height'</span>: <span class="dv">200</span> , <span class="st">'width'</span>: <span class="dv">350</span>}, <span class="op">**</span>plot_args} <span class="co"># set default plot size</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    plot <span class="op">=</span> <span class="va">self</span>.plot_pred(<span class="op">**</span>plot_args)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    display(plot)    </span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    _display_as_row(<span class="va">self</span>.print_metrics(), <span class="st">"Metrics"</span>)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    _display_as_row(<span class="va">self</span>.model_info, <span class="st">"Model Info"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/results.py#L187" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="gpfaresult.display_results" class="level3">
+<h3 class="anchored" data-anchor-id="gpfaresult.display_results">GPFAResult.display_results</h3>
+<blockquote class="blockquote">
+<pre><code> GPFAResult.display_results (plot_args={})</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>res.model_info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>{'Lambda':     0        z0
+ 0  x0  0.796563
+ 1  x1  0.459402,
+ 'lengthscale':   latent  lengthscale
+ 0     z0     0.693147,
+ 'psi':   variable       psi
+ 0       x0  0.693147
+ 1       x1  0.693147,
+ 'likelihood':       noise
+ 0  0.693247}</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>res.display_results()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/simone/.local/lib/python3.10/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
+  for col_name, dtype in df.dtypes.iteritems():</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<div id="altair-viz-5b12495aa3a64a5183dece6f2d531fa4"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-5b12495aa3a64a5183dece6f2d531fa4") {
+      outputDiv = document.getElementById("altair-viz-5b12495aa3a64a5183dece6f2d531fa4");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "4.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"hconcat": [{"layer": [{"data": {"name": "data-e81d2144f040e9eaee9917835d7e5b22"}, "mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_missing", "legend": {"title": ["Observed data", "(is missing)"]}, "scale": {"range": ["#ffffff00", "black"]}, "type": "nominal"}, "shape": {"field": "is_missing", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}}}, {"layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}, "y2": {"field": "err_high"}}, "height": 200, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}], "width": 350}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}}, "selection": {"selector003": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "title": "x0"}], "data": {"name": "data-e47889cb36a1ec6a8066b2249e8c02c0"}}]}, {"layer": [{"data": {"name": "data-8f2aafb359cb71b6d770947a717d8f17"}, "mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_missing", "legend": {"title": ["Observed data", "(is missing)"]}, "scale": {"range": ["#ffffff00", "black"]}, "type": "nominal"}, "shape": {"field": "is_missing", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}}}, {"layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}, "y2": {"field": "err_high"}}, "height": 200, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}], "width": 350}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}}, "selection": {"selector003": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "title": "x1"}], "data": {"name": "data-6b847a89d08affb568a975515bc5a397"}}]}]}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}], "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-e81d2144f040e9eaee9917835d7e5b22": [{"time": 0.0, "variable": "x0", "value": 0.352995902299881, "is_missing": false}, {"time": 1.0, "variable": "x0", "value": 0.12700305879116058, "is_missing": true}, {"time": 2.0, "variable": "x0", "value": -0.2643048167228699, "is_missing": false}, {"time": 3.0, "variable": "x0", "value": 0.24882519245147705, "is_missing": false}, {"time": 4.0, "variable": "x0", "value": -0.896080732345581, "is_missing": false}, {"time": 5.0, "variable": "x0", "value": 0.773088812828064, "is_missing": false}, {"time": 6.0, "variable": "x0", "value": -0.7895084023475647, "is_missing": true}, {"time": 7.0, "variable": "x0", "value": 1.0766730308532715, "is_missing": true}, {"time": 8.0, "variable": "x0", "value": -0.8416340947151184, "is_missing": false}, {"time": 9.0, "variable": "x0", "value": 1.2696034908294678, "is_missing": false}], "data-e47889cb36a1ec6a8066b2249e8c02c0": [{"time": 0.0, "variable": "x0", "mean": 0.352995902299881, "std": null}, {"time": 2.0, "variable": "x0", "mean": -0.2643048167228699, "std": null}, {"time": 3.0, "variable": "x0", "mean": 0.24882519245147705, "std": null}, {"time": 8.0, "variable": "x0", "mean": -0.8416340947151184, "std": null}, {"time": 9.0, "variable": "x0", "mean": 1.2696034908294678, "std": null}, {"time": 1.0, "variable": "x0", "mean": 0.13031640648841858, "std": 1.0783995389938354}, {"time": 4.0, "variable": "x0", "mean": -0.896080732345581, "std": 0.0}, {"time": 5.0, "variable": "x0", "mean": 0.773088812828064, "std": 0.0}, {"time": 6.0, "variable": "x0", "mean": 0.22222448885440826, "std": 1.107781171798706}, {"time": 7.0, "variable": "x0", "mean": -0.02103264629840851, "std": 1.1063209772109985}], "data-8f2aafb359cb71b6d770947a717d8f17": [{"time": 0.0, "variable": "x1", "value": 0.0132747832685709, "is_missing": false}, {"time": 1.0, "variable": "x1", "value": 0.2488018423318863, "is_missing": false}, {"time": 2.0, "variable": "x1", "value": -0.657964825630188, "is_missing": false}, {"time": 3.0, "variable": "x1", "value": 0.8228557705879211, "is_missing": false}, {"time": 4.0, "variable": "x1", "value": -1.1485517024993896, "is_missing": true}, {"time": 5.0, "variable": "x1", "value": 1.419529676437378, "is_missing": true}, {"time": 6.0, "variable": "x1", "value": -1.4002081155776978, "is_missing": true}, {"time": 7.0, "variable": "x1", "value": 1.8739652633666992, "is_missing": true}, {"time": 8.0, "variable": "x1", "value": -1.945134162902832, "is_missing": false}, {"time": 9.0, "variable": "x1", "value": 2.0742228031158447, "is_missing": false}], "data-6b847a89d08affb568a975515bc5a397": [{"time": 0.0, "variable": "x1", "mean": 0.0132747832685709, "std": null}, {"time": 2.0, "variable": "x1", "mean": -0.657964825630188, "std": null}, {"time": 3.0, "variable": "x1", "mean": 0.8228557705879211, "std": null}, {"time": 8.0, "variable": "x1", "mean": -1.945134162902832, "std": null}, {"time": 9.0, "variable": "x1", "mean": 2.0742228031158447, "std": null}, {"time": 1.0, "variable": "x1", "mean": 0.24880185723304749, "std": 0.0}, {"time": 4.0, "variable": "x1", "mean": -0.1992415487766266, "std": 1.8688976764678955}, {"time": 5.0, "variable": "x1", "mean": 0.17954692244529724, "std": 1.8718758821487427}, {"time": 6.0, "variable": "x1", "mean": 0.13846366107463837, "std": 1.9094343185424805}, {"time": 7.0, "variable": "x1", "mean": -0.13254201412200928, "std": 1.9083836078643799}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+<div class="cell-output cell-output-display">
+
+<p style="font-size: 1.5rem; font-decoration: bold">Metrics</p><p></p><div style="display: flex; column-gap: 20px;"> <div> <p style="font-size: 1.3rem;">r2</p><p> <style type="text/css">
+</style>
+</p><table id="T_4d016">
+  <thead>
+    <tr>
+      <th id="T_4d016_level0_col0" class="col_heading level0 col0">variable</th>
+      <th id="T_4d016_level0_col1" class="col_heading level0 col1">r2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_4d016_row0_col0" class="data row0 col0">x0</td>
+      <td id="T_4d016_row0_col1" class="data row0 col1">-0.2797</td>
+    </tr>
+    <tr>
+      <td id="T_4d016_row1_col0" class="data row1 col0">x1</td>
+      <td id="T_4d016_row1_col1" class="data row1 col1">-0.0190</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">RMSE</p><p> <style type="text/css">
+</style>
+</p><table id="T_b3601">
+  <thead>
+    <tr>
+      <th id="T_b3601_level0_col0" class="col_heading level0 col0">variable</th>
+      <th id="T_b3601_level0_col1" class="col_heading level0 col1">rmse</th>
+      <th id="T_b3601_level0_col2" class="col_heading level0 col2">units</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_b3601_row0_col0" class="data row0 col0">x0</td>
+      <td id="T_b3601_row0_col1" class="data row0 col1">0.8619</td>
+      <td id="T_b3601_row0_col2" class="data row0 col2">nan</td>
+    </tr>
+    <tr>
+      <td id="T_b3601_row1_col0" class="data row1 col0">x1</td>
+      <td id="T_b3601_row1_col1" class="data row1 col1">1.4860</td>
+      <td id="T_b3601_row1_col2" class="data row1 col2">nan</td>
+    </tr>
+  </tbody>
+</table>
+ </div></div>
+</div>
+<div class="cell-output cell-output-display">
+
+<p style="font-size: 1.5rem; font-decoration: bold">Model Info</p><p></p><div style="display: flex; column-gap: 20px;"> <div> <p style="font-size: 1.3rem;">Lambda</p><p> <style type="text/css">
+</style>
+</p><table id="T_ad87f">
+  <thead>
+    <tr>
+      <th id="T_ad87f_level0_col0" class="col_heading level0 col0">0</th>
+      <th id="T_ad87f_level0_col1" class="col_heading level0 col1">z0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_ad87f_row0_col0" class="data row0 col0">x0</td>
+      <td id="T_ad87f_row0_col1" class="data row0 col1">0.7966</td>
+    </tr>
+    <tr>
+      <td id="T_ad87f_row1_col0" class="data row1 col0">x1</td>
+      <td id="T_ad87f_row1_col1" class="data row1 col1">0.4594</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">lengthscale</p><p> <style type="text/css">
+</style>
+</p><table id="T_f53d5">
+  <thead>
+    <tr>
+      <th id="T_f53d5_level0_col0" class="col_heading level0 col0">latent</th>
+      <th id="T_f53d5_level0_col1" class="col_heading level0 col1">lengthscale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_f53d5_row0_col0" class="data row0 col0">z0</td>
+      <td id="T_f53d5_row0_col1" class="data row0 col1">0.6931</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">psi</p><p> <style type="text/css">
+</style>
+</p><table id="T_0ef0b">
+  <thead>
+    <tr>
+      <th id="T_0ef0b_level0_col0" class="col_heading level0 col0">variable</th>
+      <th id="T_0ef0b_level0_col1" class="col_heading level0 col1">psi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_0ef0b_row0_col0" class="data row0 col0">x0</td>
+      <td id="T_0ef0b_row0_col1" class="data row0 col1">0.6931</td>
+    </tr>
+    <tr>
+      <td id="T_0ef0b_row1_col0" class="data row1 col0">x1</td>
+      <td id="T_0ef0b_row1_col1" class="data row1 col1">0.6931</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">likelihood</p><p> <style type="text/css">
+</style>
+</p><table id="T_57a63">
+  <thead>
+    <tr>
+      <th id="T_57a63_level0_col0" class="col_heading level0 col0">noise</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_57a63_row0_col0" class="data row0 col0">0.6932</td>
+    </tr>
+  </tbody>
+</table>
+ </div></div>
+</div>
+</div>
+</section>
+<section id="export" class="level2">
+<h2 class="anchored" data-anchor-id="export">Export</h2>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
