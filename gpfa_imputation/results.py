@@ -65,9 +65,10 @@ def compute_metric(self: GPFAResult,
     
     for var in df.variable.unique():
         mask = (df.variable == var) & (df.is_missing == True) if not self.metrics_all_data else df.variable == var
+        
         df_var = df[mask]
         vars.append({'variable': var,
-                      metric_name: metric(df_var['value'], df_var['mean'])})
+                      metric_name: metric(df_var['value'], df_var['mean']) if len(df_var) > 0 else None})
     
     return pd.DataFrame(vars)
 
@@ -86,16 +87,29 @@ def r2(self: GPFAResult):
 # %% ../lib_nbs/04_Results.ipynb 18
 @patch
 def print_metrics(self: GPFAResult):
-    return {
+    
+    old = self.metrics_all_data
+    
+    self.metrics_all_data = True
+    all_met = {
     'r2': self.r2(),
     'RMSE': self.rmse()
     }
+    
+    self.metrics_all_data = False
+    met = {**all_met,
+    'r2 - Only GAP': self.r2(),
+    'RMSE - Only GAP': self.rmse()
+    }
+    
+    self.metrics_all_data = old
+    return met
 
-# %% ../lib_nbs/04_Results.ipynb 20
+# %% ../lib_nbs/04_Results.ipynb 21
 def _plot_variable(imp, complete, variable, y_label="", sel=None, properties = {}):
     
     imp = imp[imp.variable == variable]
-
+    sel = sel if sel is not None else alt.selection_interval(bind="scales")
     
     error = alt.Chart(imp).mark_errorband().encode(
         x = "time",    
@@ -115,7 +129,7 @@ def _plot_variable(imp, complete, variable, y_label="", sel=None, properties = {
         y = alt.Y("mean:Q", title = y_label, scale=alt.Scale(zero=False)),
         color="variable",
     ).add_selection(
-        sel if sel is not None else alt.selection_interval(bind="scales")
+        sel
     ).properties(title = variable)
 
     base_plot = error + pred
@@ -128,19 +142,29 @@ def _plot_variable(imp, complete, variable, y_label="", sel=None, properties = {
             strokeWidth = 1,
             fillOpacity = 1
         ).encode(
-            x = "time",
+            x = alt.X("time", axis=alt.Axis(domain=False, labels = False, ticks=False, title=None)),
             y = alt.Y("value", title = y_label, scale=alt.Scale(zero=False)),
             fill= alt.Fill("is_missing", scale = alt.Scale(range=["#ffffff00", "black"]),
                            legend = alt.Legend(title =["Observed data","(is missing)"])),
             shape = "is_missing",
         )
+       
+        p = {'width': properties['width']} if properties else {}
+        missing = alt.Chart(complete).mark_tick(
+            color='black',
+        ).encode(
+            x = "time",
+            color = alt.condition(datum.is_missing, alt.value('black'), alt.value('white'))
+        ).add_selection(
+            sel
+        ).properties(**p)
 
-        base_plot = truth_plt + base_plot
+        base_plot = alt.VConcatChart(vconcat=[(truth_plt + base_plot), missing], spacing=-10)
         
     return base_plot
     
 
-# %% ../lib_nbs/04_Results.ipynb 22
+# %% ../lib_nbs/04_Results.ipynb 23
 @patch()
 def plot_pred(
     self: GPFAResult,
@@ -163,13 +187,13 @@ def plot_pred(
     
     return plot
 
-# %% ../lib_nbs/04_Results.ipynb 26
+# %% ../lib_nbs/04_Results.ipynb 28
 from IPython.display import HTML
 
 from ipywidgets import HBox, VBox, interact, widgets
 from ipywidgets.widgets import Output
 
-# %% ../lib_nbs/04_Results.ipynb 27
+# %% ../lib_nbs/04_Results.ipynb 29
 def _style_df(df):
     """style dataframe for better printing """
     return df.style.hide(axis="index").format(precision = 4)
@@ -178,11 +202,12 @@ def _display_as_row(dfs: dict[str, pd.DataFrame], title="", styler=_style_df):
     """display multiple dataframes in the same row"""
     out = []
     for df_title, df in dfs.items():
-        out.append(f"<div> <p style='font-size: 1.3rem;'>{df_title}<p> {_style_df(df).to_html()} </div>")
-    out = f"<div style=\"display: flex; column-gap: 20px;\"> {''.join(out)}</div>"
+        df_html = _style_df(df).to_html()
+        out.append(f"<div> <p style='font-size: 1.3rem;'>{df_title}</p> {df_html} </div>")
+    out = f"<div style=\"display: flex; column-gap: 20px; flex-wrap: wrap;\" class='table table-striped table-sm'> {''.join(out)}</div>"
     display(HTML(f"<p style='font-size: 1.5rem; font-decoration: bold'>{title}<p>" + "".join(out)))
 
-# %% ../lib_nbs/04_Results.ipynb 30
+# %% ../lib_nbs/04_Results.ipynb 33
 @patch 
 def display_results(self: GPFAResult, plot_args={}):
     
