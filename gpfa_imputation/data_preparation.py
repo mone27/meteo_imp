@@ -82,12 +82,13 @@ def add_random_missing(self: GPFADataTest,
 # %% ../lib_nbs/02_data_preparation.ipynb 20
 def _make_random_gap(
     gap_length: int, # The length of the gap
-    total_length: int # The total number of observations
+    total_length: int, # The total number of observations
+    gap_start: int = None # Optional start of gap
 ): # (total_length) array of bools to indicicate if the data is missing or not
     "Add a continous gap of ginve length at random position"
     if(gap_length >= total_length):
         return np.repeat(True, total_length)
-    gap_start = np.random.randint(total_length - gap_length)
+    gap_start = np.random.randint(total_length - gap_length) if gap_start is None else gap_start
     return np.hstack([
         np.repeat(False, gap_start),
         np.repeat(True, gap_length),
@@ -98,11 +99,12 @@ def _make_random_gap(
 @patch
 def add_gap(self: GPFADataTest,
             gap_length:int, # length of gap
-            variables: list # variables that should be affected by the gap
+            variables: Collection[str], # variables that should be affected by the gap
+            gap_start: int = None # Optional start of the gap
            ):    
     
     
-    self.is_gap = _make_random_gap(gap_length, self.data.shape[0])
+    self.is_gap = _make_random_gap(gap_length, self.data.shape[0], gap_start)
     self.data.loc[self.is_gap, variables] = np.nan
     return self
 
@@ -163,5 +165,7 @@ def log_transform(self: GPFADataTest,
     "Tranform the given var with log(x+1)"
     for var in listify(vars):
         self.data["log_" + var] = np.log(self.data[var] + 1)
+        self.data_complete["log_" + var] = np.log(self.data_complete[var] + 1)
     self.data = self.data.drop(columns=vars)
+    self.data_complete = self.data_complete.drop(columns=vars)
     return self
