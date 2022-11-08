@@ -7,15 +7,20 @@ __all__ = ['cache_disk', 'reset_seed']
 # dill is an improved version of pickle, using it to support namedtuples
 import dill
 from pathlib import Path
+import inspect
+import hashlib
 
-# %% ../lib_nbs/99_utils.ipynb 4
+# %% ../lib_nbs/99_utils.ipynb 5
 # inspired from https://gist.github.com/shantanuo/c6a376309d6bac6bd55bf77e3961b5fb
-def cache_disk(base_file):
+def cache_disk(base_file, rm_cache=False):
     "Decorator to cache function output to disk"
     base_file = Path(base_file)
     def decorator(original_func):
         
-        filename = base_file.parent / (base_file.stem + ".pickle")
+        f_hash = hashlib.md5(inspect.getsource(original_func).encode()).hexdigest()
+        filename = base_file.parent / (base_file.stem + f_hash + ".pickle")
+        
+        if rm_cache: filename.unlink()
         
         try:
             cache = dill.load(open(filename, 'rb'))
@@ -35,11 +40,11 @@ def cache_disk(base_file):
 
     return decorator
 
-# %% ../lib_nbs/99_utils.ipynb 18
+# %% ../lib_nbs/99_utils.ipynb 17
 import torch
 import numpy as np
 
-# %% ../lib_nbs/99_utils.ipynb 19
+# %% ../lib_nbs/99_utils.ipynb 18
 def reset_seed(seed=27):
     torch.manual_seed(seed)
     np.random.seed(seed)
