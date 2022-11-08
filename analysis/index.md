@@ -1,8 +1,8 @@
 ---
-#listing:
-#  contents: "*"
-#  type: table
-#  fields: [title]
+listing:
+  contents: "*"
+  type: table
+  fields: [title]
 website:
     sidebar:
         style: floating
