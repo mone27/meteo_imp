@@ -131,7 +131,7 @@ def get_info(self: GPFA,
     latent_names = [f"z{i}" for i in range(self.covar_module.latent_dims)]
     
     out["Lambda"] = pd.concat([
-        None if var_names is None else pd.Series(var_names),
+        None if var_names is None else pd.Series(var_names, name='variable'),
         pd.DataFrame(
             self.covar_module.Lambda.detach().cpu().numpy(),
             columns=latent_names)],
@@ -149,6 +149,6 @@ def get_info(self: GPFA,
         'psi': psi 
     })
     
-    out["likelihood"] = pd.DataFrame({'noise': [self.likelihood.noise_covar.noise.item()]})
+    out["likelihood"] = pd.DataFrame({'noise': [self.likelihood.noise_covar.noise.detach().item()]})
     
     return out

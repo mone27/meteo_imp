@@ -20,6 +20,11 @@ from tqdm.auto import tqdm
 from fastcore.foundation import patch
 
 import matplotlib.pyplot as plt
+from pathlib import Path
+
+import pandas as pd
+import numpy as np
+import altair as alt
 
 # %% ../lib_nbs/01_Learner.ipynb 8
 class GPFALearner():
@@ -28,13 +33,15 @@ class GPFALearner():
                  T: Tensor = None, # (n_obs) Vector of time of observations.
                  # If none each observation are considered to be at the same distance
                  latent_dims: int = 1, # Number of latent variables in GPFA
-                 model = GPFA # sub-class of `GPFA`
+                 model = GPFA, # sub-class of `GPFA`
+                 var_names = None # for model info
                 ):
         self.prepare_X(X)
         if T is None: self.default_time(X)
         else: self.T = T
         self.T = self.T.to(X.device) # to support GPUs
         self.latent_dims = latent_dims
+        self.var_names = var_names
         
         self.likelihood = gpytorch.likelihoods.GaussianLikelihood()
         self.model = model(self.T, self.X, self.likelihood, self.n_features, latent_dims=latent_dims)
@@ -80,7 +87,7 @@ class GPFALearner():
             loss = -mll(output, self.X)
             self.losses[i + offset] = loss.detach()
             loss.backward()
-            self.model_infos[i + offset] = self.model.get_info()
+            self.model_infos[i + offset] = self.model.get_info(self.var_names)
 
             optimizer.step()
         
@@ -148,7 +155,7 @@ def _merge_raw_cond_pred(pred_raw,
     
     std = torch.zeros_like(pred_raw.stddev)
     std[~idx] = pred_cond.stddev
-    std[idx] = 0 # there is no uncertainty as it's an oberservation
+    std[idx] = 0 # uncertainty of an oberservation doesn't make sense
     
     return NormParam(mean, std)
 
@@ -199,3 +206,55 @@ def cuda(self: GPFALearner):
         self.__getattribute__(par).cuda()
     self.norm.x_mean.cuda()
     self.norm.x_std.cuda()
+
+# %% ../lib_nbs/01_Learner.ipynb 93
+@patch
+def save(self: GPFALearner, path: Path|str):
+    model_state = self.model.state_dict()
+    ll_state = self.likelihood.state_dict()
+    torch.save((model_state, ll_state), path)
+@patch
+def load(self: GPFALearner, path: Path|str):
+    model_state, ll_state = torch.load(path)
+    self.model.load_state_dict(model_state)
+    self.likelihood.load_state_dict(ll_state)
+
+# %% ../lib_nbs/01_Learner.ipynb 100
+@patch
+def plot_progress(self: GPFALearner, size={'width': 250, 'height': 120}):
+    
+    sel = alt.selection_interval(bind="scales", encodings=['x'])
+    
+    plt_losses = alt.Chart(
+        pd.DataFrame({'loss': self.losses, 'n_iter': range(self.losses.shape[0])})
+    ).mark_line().encode(
+        x = 'n_iter',
+        y = 'loss'
+    ).properties(title="loss", **size).add_selection(sel)
+    
+    out_plot = [plt_losses]
+    for info_name in self.model_infos[0].keys():
+        
+        values = pd.concat([info[info_name].assign(n_iter=i) for i, info in enumerate(self.model_infos)])
+        
+        if values.shape[1] == 2:
+            # only one column so add fake facet
+            values.insert(0, 'info', info_name)
+        
+        facet = values.columns[0] # first column is either latent or variable
+        
+        values = values.melt([facet, 'n_iter'], var_name='prop')
+        
+        plt = alt.Chart(values).mark_line().encode(
+            x = 'n_iter',
+            y = 'value',
+            color = 'prop',
+            facet = facet
+        ).properties(title=info_name, **size).add_selection(sel)
+        
+        out_plot.append(plt)
+    
+    return alt.VConcatChart(vconcat=out_plot).resolve_scale(
+        color='independent'
+    )
+    
