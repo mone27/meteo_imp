@@ -3,6 +3,10 @@
 #  contents: "*"
 #  type: table
 #  fields: [title]
+website:
+    sidebar:
+        style: floating
+        contents: auto
 ---
 # GPFA Imputation
 

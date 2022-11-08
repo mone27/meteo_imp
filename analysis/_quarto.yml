@@ -6,16 +6,16 @@ format:
   html:
     theme: simplex
     toc: true
+    page-layout: full
 
 website:
   title: "GPFA Imputation Analysis"
   site-url: "https://mone27.github.io/gpfa_imputation"
   description: "Time series imputation using Gaussian Processes Factor Analsysis (GPFA)"
   repo-branch: master
-  repo-url: "https://github.com/mone27/gpfa_imputation"
+  repo-url: "https://github.com/mone27/gpfa_imputation/"
   twitter-card: true
   open-graph: true
-  repo-actions: [source]
   navbar:
     background: primary
     search: true
