@@ -34,13 +34,10 @@ class GPFAImputation:
         data: pd.DataFrame , #observed data with missing data as NA
         latent_dims = 1,
         cuda = False, # Use GPU?
-        units = None, # Dict of unit for each column. Used for plotting
         model = GPFA # sub-class of `GPFA` 
     ):
         self.data = data.copy()
-        self.units=units
         self.latent_dims = latent_dims
-        
         
         device = 'cuda' if cuda else 'cpu'
         
@@ -51,7 +48,7 @@ class GPFAImputation:
         self.train_data = torch.tensor(self.data[self.train_idx].to_numpy().astype(np.float32), device=device)
         self.train_T = self.T[self.train_idx]
         
-        self.learner = GPFALearner(X = self.train_data, T = self.train_T, latent_dims=latent_dims, model=model)
+        self.learner = GPFALearner(X = self.train_data, T = self.train_T, latent_dims=latent_dims, model=model, var_names= self.data.columns)
         
 
         # Prediction data
@@ -61,9 +58,10 @@ class GPFAImputation:
         
         if cuda: self.learner.cuda()
         
-    def fit(self):
+                                   
+    def fit(self, n_iter=100):
         "Fit learner to training data"
-        self.learner.train()
+        self.learner.train(n_iter = n_iter)
         return self
 
     def impute(self,
@@ -124,55 +122,47 @@ def __str__(self: GPFAImputation):
     return self.__repr__()
 
 # %% ../lib_nbs/03_Imputation.ipynb 37
-class GPFAImputationExplorer:
-    def __init__(
-        self,
-        data: pd.DataFrame , #observed data with missing data as NA
-        latent_dims = 1,
-        cuda = False, # Use GPU?
-        model = GPFA # sub-class of `GPFA` 
-    ):
-        self.data = data
-        self.latent_dims = latent_dims
-        
-        device = 'cuda' if cuda else 'cpu'
-        
-        self.T = torch.arange(0, len(data), dtype=torch.float32, device=device) # time is encoded with a increase of 1
-        
-        # Training data
-        self.train_idx = ~self.data.isna().any(axis=1)
-        self.train_data = torch.tensor(self.data[self.train_idx].to_numpy().astype(np.float32), device=device)
-        self.train_T = self.T[self.train_idx]
-        
-        self.learner = GPFALearner(X = self.train_data, T = self.train_T, latent_dims=latent_dims, model=model)
-        
-        
-        # There is no conditional observation here since it probably doesn't make much sense here
-               
-        if cuda: self.learner.cuda()
-        
-    def fit(self):
-        "Fit learner to training data"
-        self.learner.train()
-        return self
-
-    def predict(self):
-        
-        # return always tidy df
-        
-        self.pred = self.learner.predict(self.T)
-        
-        feature_names = self.data.columns
-        pred_mean = pd.DataFrame(self.pred.mean.cpu(), columns = feature_names).assign(time = self.T.cpu()).melt("time", value_name="mean")
-        pred_std = pd.DataFrame(self.pred.std.cpu(), columns = feature_names).assign(time = self.T.cpu()).melt("time", value_name="std")
-        
-        return pd.merge(pred_mean, pred_std, on=['time', 'variable'])
+class GPFAImputationExplorer(GPFAImputation):
+    "GPFAImputation where predictions are for all times not only missing data"
     
-    def fit_predict(self):
-        self.fit()
-        return self.predict()
+    def predict(self):
+        "Predict for all times, also when there is an observation, supporting cond obs, with valid std"
+        imp_mean = pd.DataFrame({'time': self.T.cpu()})
+        imp_std = pd.DataFrame({'time': self.T.cpu()})
+        
+        # Fill using general predictions
+        
+        all_pred = self.learner.predict(self.T)
+        
+        for col_idx, col_name in enumerate(self.data.columns):
+            imp_mean.loc[:, col_name] = all_pred.mean[:, col_idx].cpu().numpy()
+            imp_std.loc[:, col_name] = all_pred.std[:, col_idx].cpu().numpy()
+        
+        # Fine tune with cond predictions
+        
+        pred_cond = self.learner.predict(self.pred_T, obs = self.cond_obs, idx = self.cond_idx)
+        obs_mask = self.cond_idx.reshape(-1, self.data.shape[1]).cpu().numpy()
 
-# %% ../lib_nbs/03_Imputation.ipynb 39
+        for col_idx, col_name in enumerate(self.data.columns):
+            mean= pred_cond.mean[:, col_idx].cpu().numpy()
+            std = pred_cond.std[:, col_idx].cpu().numpy()
+
+            # when there is a cond obs the std is nan, which is replaced with the std without the conditional prediction
+            mask_data = ~self.train_idx.to_numpy()
+            mask_data[mask_data] = ~obs_mask[:, col_idx]
+
+            imp_mean.loc[mask_data, col_name] = mean[~obs_mask[:, col_idx]]
+            imp_std.loc[mask_data, col_name] = std[~obs_mask[:, col_idx]]
+        
+        # make tidy
+        
+        return pd.merge(
+            imp_mean.melt('time', value_name = "mean"),
+            imp_std.melt('time', value_name = "std"),
+            on = ['time', 'variable']
+        )
+
+# %% ../lib_nbs/03_Imputation.ipynb 40
 @patch
 def __repr__(self: GPFAImputationExplorer):
     return f"""GPFA Imputation Explorer:
