@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.262">
+<meta name="generator" content="quarto-1.2.267">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -125,6 +125,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -301,7 +302,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>train_idx <span class="op">=</span> <span class="op">~</span>t_df.isna().<span class="bu">any</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_108391/3664883938.py:1: FutureWarning: In a future version of pandas all arguments of DataFrame.any and Series.any will be keyword-only.
+<pre><code>/tmp/ipykernel_151862/3664883938.py:1: FutureWarning: In a future version of pandas all arguments of DataFrame.any and Series.any will be keyword-only.
   train_idx = ~t_df.isna().any(1)</code></pre>
 </div>
 </div>
@@ -411,81 +412,79 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        data: pd.DataFrame , <span class="co">#observed data with missing data as NA</span></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        latent_dims <span class="op">=</span> <span class="dv">1</span>,</span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        cuda <span class="op">=</span> <span class="va">False</span>, <span class="co"># Use GPU?</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        units <span class="op">=</span> <span class="va">None</span>, <span class="co"># Dict of unit for each column. Used for plotting</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> GPFA <span class="co"># sub-class of `GPFA` </span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    ):</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.data <span class="op">=</span> data.copy()</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.units<span class="op">=</span>units</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.latent_dims <span class="op">=</span> latent_dims</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> GPFA <span class="co"># sub-class of `GPFA` </span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    ):</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.data <span class="op">=</span> data.copy()</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.latent_dims <span class="op">=</span> latent_dims</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        device <span class="op">=</span> <span class="st">'cuda'</span> <span class="cf">if</span> cuda <span class="cf">else</span> <span class="st">'cpu'</span></span>
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        device <span class="op">=</span> <span class="st">'cuda'</span> <span class="cf">if</span> cuda <span class="cf">else</span> <span class="st">'cpu'</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.T <span class="op">=</span> torch.arange(<span class="dv">0</span>, <span class="bu">len</span>(data), dtype<span class="op">=</span>torch.float32, device<span class="op">=</span>device) <span class="co"># time is encoded with a increase of 1</span></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Training data</span></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.train_idx <span class="op">=</span> <span class="op">~</span><span class="va">self</span>.data.isna().<span class="bu">any</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.train_data <span class="op">=</span> torch.tensor(<span class="va">self</span>.data[<span class="va">self</span>.train_idx].to_numpy().astype(np.float32), device<span class="op">=</span>device)</span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.train_T <span class="op">=</span> <span class="va">self</span>.T[<span class="va">self</span>.train_idx]</span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.learner <span class="op">=</span> GPFALearner(X <span class="op">=</span> <span class="va">self</span>.train_data, T <span class="op">=</span> <span class="va">self</span>.train_T, latent_dims<span class="op">=</span>latent_dims, model<span class="op">=</span>model, var_names<span class="op">=</span> <span class="va">self</span>.data.columns)</span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Prediction data</span></span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pred_T <span class="op">=</span> <span class="va">self</span>.T[<span class="op">~</span><span class="va">self</span>.train_idx]</span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.cond_idx <span class="op">=</span> torch.tensor(<span class="op">~</span><span class="va">self</span>.data[<span class="op">~</span><span class="va">self</span>.train_idx].isna().to_numpy().flatten(), device<span class="op">=</span>device) <span class="co"># conditional obsevations</span></span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.cond_obs <span class="op">=</span> torch.tensor(<span class="va">self</span>.data[<span class="op">~</span><span class="va">self</span>.train_idx].to_numpy().astype(np.float32).flatten()[<span class="va">self</span>.cond_idx.cpu()], device<span class="op">=</span>device)</span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> cuda: <span class="va">self</span>.learner.cuda()</span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, n_iter<span class="op">=</span><span class="dv">100</span>):</span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>        <span class="co">"Fit learner to training data"</span></span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.learner.train(n_iter <span class="op">=</span> n_iter)</span>
-<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> impute(<span class="va">self</span>,</span>
-<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>               add_time <span class="op">=</span> <span class="va">True</span>, <span class="co"># add column with time?</span></span>
-<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>               tidy <span class="op">=</span> <span class="va">True</span>, <span class="co"># tidy data?</span></span>
-<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>               ):</span>
-<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pred <span class="op">=</span> <span class="va">self</span>.learner.predict(<span class="va">self</span>.pred_T, obs <span class="op">=</span> <span class="va">self</span>.cond_obs, idx <span class="op">=</span> <span class="va">self</span>.cond_idx)</span>
-<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> <span class="bu">hasattr</span>(<span class="va">self</span>, <span class="st">"pred"</span>):</span>
-<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.fit()</span>
-<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> tidy: <span class="cf">return</span> <span class="va">self</span>._impute_tidy(add_time)</span>
-<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>: <span class="cf">return</span> <span class="va">self</span>._impute_wide(add_time)</span>
-<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _impute_wide(<span class="va">self</span>, add_time):</span>
-<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>        <span class="co">""" Impute in wide format"""</span></span>
-<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>        imp_data <span class="op">=</span> <span class="va">self</span>.data.copy()</span>
-<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> col_idx, col_name <span class="kw">in</span> <span class="bu">enumerate</span>(imp_data.columns):</span>
-<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>            imp_data.loc[<span class="op">~</span><span class="va">self</span>.train_idx, col_name] <span class="op">=</span> <span class="va">self</span>.pred.mean[:, col_idx].cpu().numpy()</span>
-<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>            imp_data.loc[<span class="op">~</span><span class="va">self</span>.train_idx, col_name <span class="op">+</span> <span class="st">"_std"</span>] <span class="op">=</span> <span class="va">self</span>.pred.std[:, col_idx].cpu().numpy()</span>
-<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> add_time:</span>
-<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>            imp_data[<span class="st">"time"</span>] <span class="op">=</span> <span class="va">self</span>.T.cpu()</span>
-<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> imp_data </span>
-<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _impute_tidy(<span class="va">self</span>, add_time):</span>
-<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>        <span class="co">""" transform the pred output into a tidy dataframe suitable for plotting"""</span></span>
-<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>        feature_names <span class="op">=</span> <span class="va">self</span>.data.columns</span>
-<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>        pred_mean <span class="op">=</span> pd.DataFrame(<span class="va">self</span>.pred.mean.cpu(), columns <span class="op">=</span> feature_names).assign(time <span class="op">=</span> <span class="va">self</span>.pred_T.cpu()).melt(<span class="st">"time"</span>, value_name<span class="op">=</span><span class="st">"mean"</span>)</span>
-<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a>        pred_std <span class="op">=</span> pd.DataFrame(<span class="va">self</span>.pred.std.cpu(), columns <span class="op">=</span> feature_names).assign(time <span class="op">=</span> <span class="va">self</span>.pred_T.cpu()).melt(<span class="st">"time"</span>, value_name<span class="op">=</span><span class="st">"std"</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.T <span class="op">=</span> torch.arange(<span class="dv">0</span>, <span class="bu">len</span>(data), dtype<span class="op">=</span>torch.float32, device<span class="op">=</span>device) <span class="co"># time is encoded with a increase of 1</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Training data</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.train_idx <span class="op">=</span> <span class="op">~</span><span class="va">self</span>.data.isna().<span class="bu">any</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.train_data <span class="op">=</span> torch.tensor(<span class="va">self</span>.data[<span class="va">self</span>.train_idx].to_numpy().astype(np.float32), device<span class="op">=</span>device)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.train_T <span class="op">=</span> <span class="va">self</span>.T[<span class="va">self</span>.train_idx]</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.learner <span class="op">=</span> GPFALearner(X <span class="op">=</span> <span class="va">self</span>.train_data, T <span class="op">=</span> <span class="va">self</span>.train_T, latent_dims<span class="op">=</span>latent_dims, model<span class="op">=</span>model, var_names<span class="op">=</span> <span class="va">self</span>.data.columns)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Prediction data</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pred_T <span class="op">=</span> <span class="va">self</span>.T[<span class="op">~</span><span class="va">self</span>.train_idx]</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.cond_idx <span class="op">=</span> torch.tensor(<span class="op">~</span><span class="va">self</span>.data[<span class="op">~</span><span class="va">self</span>.train_idx].isna().to_numpy().flatten(), device<span class="op">=</span>device) <span class="co"># conditional obsevations</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.cond_obs <span class="op">=</span> torch.tensor(<span class="va">self</span>.data[<span class="op">~</span><span class="va">self</span>.train_idx].to_numpy().astype(np.float32).flatten()[<span class="va">self</span>.cond_idx.cpu()], device<span class="op">=</span>device)</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> cuda: <span class="va">self</span>.learner.cuda()</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>                                   </span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, n_iter<span class="op">=</span><span class="dv">100</span>):</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>        <span class="co">"Fit learner to training data"</span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.learner.train(n_iter <span class="op">=</span> n_iter)</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> impute(<span class="va">self</span>,</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>               add_time <span class="op">=</span> <span class="va">True</span>, <span class="co"># add column with time?</span></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>               tidy <span class="op">=</span> <span class="va">True</span>, <span class="co"># tidy data?</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>               ):</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pred <span class="op">=</span> <span class="va">self</span>.learner.predict(<span class="va">self</span>.pred_T, obs <span class="op">=</span> <span class="va">self</span>.cond_obs, idx <span class="op">=</span> <span class="va">self</span>.cond_idx)</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> <span class="bu">hasattr</span>(<span class="va">self</span>, <span class="st">"pred"</span>):</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.fit()</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> tidy: <span class="cf">return</span> <span class="va">self</span>._impute_tidy(add_time)</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>: <span class="cf">return</span> <span class="va">self</span>._impute_wide(add_time)</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _impute_wide(<span class="va">self</span>, add_time):</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>        <span class="co">""" Impute in wide format"""</span></span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>        imp_data <span class="op">=</span> <span class="va">self</span>.data.copy()</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> col_idx, col_name <span class="kw">in</span> <span class="bu">enumerate</span>(imp_data.columns):</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>            imp_data.loc[<span class="op">~</span><span class="va">self</span>.train_idx, col_name] <span class="op">=</span> <span class="va">self</span>.pred.mean[:, col_idx].cpu().numpy()</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>            imp_data.loc[<span class="op">~</span><span class="va">self</span>.train_idx, col_name <span class="op">+</span> <span class="st">"_std"</span>] <span class="op">=</span> <span class="va">self</span>.pred.std[:, col_idx].cpu().numpy()</span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> add_time:</span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>            imp_data[<span class="st">"time"</span>] <span class="op">=</span> <span class="va">self</span>.T.cpu()</span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> imp_data </span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _impute_tidy(<span class="va">self</span>, add_time):</span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>        <span class="co">""" transform the pred output into a tidy dataframe suitable for plotting"""</span></span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>        feature_names <span class="op">=</span> <span class="va">self</span>.data.columns</span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>        pred_mean <span class="op">=</span> pd.DataFrame(<span class="va">self</span>.pred.mean.cpu(), columns <span class="op">=</span> feature_names).assign(time <span class="op">=</span> <span class="va">self</span>.pred_T.cpu()).melt(<span class="st">"time"</span>, value_name<span class="op">=</span><span class="st">"mean"</span>)</span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>        pred_std <span class="op">=</span> pd.DataFrame(<span class="va">self</span>.pred.std.cpu(), columns <span class="op">=</span> feature_names).assign(time <span class="op">=</span> <span class="va">self</span>.pred_T.cpu()).melt(<span class="st">"time"</span>, value_name<span class="op">=</span><span class="st">"std"</span>)</span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> pd.merge(pred_mean, pred_std, on<span class="op">=</span>[<span class="st">'time'</span>, <span class="st">'variable'</span>])  </span>
 <span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> pd.merge(pred_mean, pred_std, on<span class="op">=</span>[<span class="st">'time'</span>, <span class="st">'variable'</span>])  </span>
-<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a>        train_data <span class="op">=</span> <span class="va">self</span>.data[<span class="va">self</span>.train_idx].assign(time <span class="op">=</span> <span class="va">self</span>.train_T.cpu()).melt(<span class="st">"time"</span>, value_name <span class="op">=</span> <span class="st">"mean"</span>)</span>
-<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a>               </span>
-<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a>        imp_data <span class="op">=</span> pd.concat((train_data, pred))</span>
+<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a>        train_data <span class="op">=</span> <span class="va">self</span>.data[<span class="va">self</span>.train_idx].assign(time <span class="op">=</span> <span class="va">self</span>.train_T.cpu()).melt(<span class="st">"time"</span>, value_name <span class="op">=</span> <span class="st">"mean"</span>)</span>
+<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a>               </span>
+<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a>        imp_data <span class="op">=</span> pd.concat((train_data, pred))</span>
+<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pred_wide <span class="op">=</span> imp_data</span>
 <span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pred_wide <span class="op">=</span> imp_data</span>
-<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> imp_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> imp_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
 <p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/imputation.py#L31" target="_blank" style="float:right; font-size:smaller">source</a></p>
@@ -493,8 +492,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="gpfaimputation">GPFAImputation</h3>
 <blockquote class="blockquote">
 <pre><code> GPFAImputation (data:pandas.core.frame.DataFrame, latent_dims=1,
-                 cuda=False, units=None, model=&lt;class
-                 'gpfa_imputation.gpfa.GPFA'&gt;)</code></pre>
+                 cuda=False, model=&lt;class 'gpfa_imputation.gpfa.GPFA'&gt;)</code></pre>
 </blockquote>
 <p>Initialize self. See help(type(self)) for accurate signature.</p>
 <table class="table">
@@ -526,12 +524,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>Use GPU?</td>
 </tr>
 <tr class="even">
-<td>units</td>
-<td>NoneType</td>
-<td>None</td>
-<td>Dict of unit for each column. Used for plotting</td>
-</tr>
-<tr class="odd">
 <td>model</td>
 <td>type</td>
 <td>GPFA</td>
@@ -1123,58 +1115,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This is a class that is used for exploring the results for a GPFAImputation, the main difference is that it always return the model predictions and not only the training data</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GPFAImputationExplorer(GPFAImputation):</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>,</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>        data: pd.DataFrame , <span class="co">#observed data with missing data as NA</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>        latent_dims <span class="op">=</span> <span class="dv">1</span>,</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>        cuda <span class="op">=</span> <span class="va">False</span>, <span class="co"># Use GPU?</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> GPFA <span class="co"># sub-class of `GPFA` </span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    ):</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.data <span class="op">=</span> data</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.latent_dims <span class="op">=</span> latent_dims</span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>        device <span class="op">=</span> <span class="st">'cuda'</span> <span class="cf">if</span> cuda <span class="cf">else</span> <span class="st">'cpu'</span></span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.T <span class="op">=</span> torch.arange(<span class="dv">0</span>, <span class="bu">len</span>(data), dtype<span class="op">=</span>torch.float32, device<span class="op">=</span>device) <span class="co"># time is encoded with a increase of 1</span></span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Training data</span></span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.train_idx <span class="op">=</span> <span class="op">~</span><span class="va">self</span>.data.isna().<span class="bu">any</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.train_data <span class="op">=</span> torch.tensor(<span class="va">self</span>.data[<span class="va">self</span>.train_idx].to_numpy().astype(np.float32), device<span class="op">=</span>device)</span>
-<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.train_T <span class="op">=</span> <span class="va">self</span>.T[<span class="va">self</span>.train_idx]</span>
-<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.learner <span class="op">=</span> GPFALearner(X <span class="op">=</span> <span class="va">self</span>.train_data, T <span class="op">=</span> <span class="va">self</span>.train_T, latent_dims<span class="op">=</span>latent_dims, model<span class="op">=</span>model, var_names<span class="op">=</span> <span class="va">self</span>.data.columns)</span>
-<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Prediction data</span></span>
-<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pred_T <span class="op">=</span> <span class="va">self</span>.T[<span class="op">~</span><span class="va">self</span>.train_idx]</span>
-<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.cond_idx <span class="op">=</span> torch.tensor(<span class="op">~</span><span class="va">self</span>.data[<span class="op">~</span><span class="va">self</span>.train_idx].isna().to_numpy().flatten(), device<span class="op">=</span>device) <span class="co"># conditional obsevations</span></span>
-<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.cond_obs <span class="op">=</span> torch.tensor(<span class="va">self</span>.data[<span class="op">~</span><span class="va">self</span>.train_idx].to_numpy().astype(np.float32).flatten()[<span class="va">self</span>.cond_idx.cpu()], device<span class="op">=</span>device)</span>
-<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>               </span>
-<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> cuda: <span class="va">self</span>.learner.cuda()</span>
-<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, n_iter<span class="op">=</span><span class="dv">100</span>):</span>
-<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>        <span class="co">"Fit learner to training data"</span></span>
-<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.learner.train(n_iter<span class="op">=</span>n_iter)</span>
-<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predict(<span class="va">self</span>):</span>
-<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a>        <span class="co"># return always tidy df</span></span>
-<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pred <span class="op">=</span> <span class="va">self</span>.learner.predict(<span class="va">self</span>.T)</span>
-<span id="cb31-41"><a href="#cb31-41" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb31-42"><a href="#cb31-42" aria-hidden="true" tabindex="-1"></a>        feature_names <span class="op">=</span> <span class="va">self</span>.data.columns</span>
-<span id="cb31-43"><a href="#cb31-43" aria-hidden="true" tabindex="-1"></a>        pred_mean <span class="op">=</span> pd.DataFrame(<span class="va">self</span>.pred.mean.cpu(), columns <span class="op">=</span> feature_names).assign(time <span class="op">=</span> <span class="va">self</span>.T.cpu()).melt(<span class="st">"time"</span>, value_name<span class="op">=</span><span class="st">"mean"</span>)</span>
-<span id="cb31-44"><a href="#cb31-44" aria-hidden="true" tabindex="-1"></a>        pred_std <span class="op">=</span> pd.DataFrame(<span class="va">self</span>.pred.std.cpu(), columns <span class="op">=</span> feature_names).assign(time <span class="op">=</span> <span class="va">self</span>.T.cpu()).melt(<span class="st">"time"</span>, value_name<span class="op">=</span><span class="st">"std"</span>)</span>
-<span id="cb31-45"><a href="#cb31-45" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb31-46"><a href="#cb31-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.merge(pred_mean, pred_std, on<span class="op">=</span>[<span class="st">'time'</span>, <span class="st">'variable'</span>])</span>
-<span id="cb31-47"><a href="#cb31-47" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb31-48"><a href="#cb31-48" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> fit_predict(<span class="va">self</span>):</span>
-<span id="cb31-49"><a href="#cb31-49" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.fit()</span>
-<span id="cb31-50"><a href="#cb31-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.predict()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"GPFAImputation where predictions are for all times not only missing data"</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predict(<span class="va">self</span>):</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">"Predict for all times, also when there is an observation, supporting cond obs, with valid std"</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>        imp_mean <span class="op">=</span> pd.DataFrame({<span class="st">'time'</span>: <span class="va">self</span>.T.cpu()})</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>        imp_std <span class="op">=</span> pd.DataFrame({<span class="st">'time'</span>: <span class="va">self</span>.T.cpu()})</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Fill using general predictions</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>        all_pred <span class="op">=</span> <span class="va">self</span>.learner.predict(<span class="va">self</span>.T)</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> col_idx, col_name <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.data.columns):</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>            imp_mean.loc[:, col_name] <span class="op">=</span> all_pred.mean[:, col_idx].cpu().numpy()</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>            imp_std.loc[:, col_name] <span class="op">=</span> all_pred.std[:, col_idx].cpu().numpy()</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Fine tune with cond predictions</span></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>        pred_cond <span class="op">=</span> <span class="va">self</span>.learner.predict(<span class="va">self</span>.pred_T, obs <span class="op">=</span> <span class="va">self</span>.cond_obs, idx <span class="op">=</span> <span class="va">self</span>.cond_idx)</span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>        obs_mask <span class="op">=</span> <span class="va">self</span>.cond_idx.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="va">self</span>.data.shape[<span class="dv">1</span>]).cpu().numpy()</span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> col_idx, col_name <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.data.columns):</span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>            mean<span class="op">=</span> pred_cond.mean[:, col_idx].cpu().numpy()</span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>            std <span class="op">=</span> pred_cond.std[:, col_idx].cpu().numpy()</span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>            <span class="co"># when there is a cond obs the std is nan, which is replaced with the std without the conditional prediction</span></span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>            mask_data <span class="op">=</span> <span class="op">~</span><span class="va">self</span>.train_idx.to_numpy()</span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>            mask_data[mask_data] <span class="op">=</span> <span class="op">~</span>obs_mask[:, col_idx]</span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a>            imp_mean.loc[mask_data, col_name] <span class="op">=</span> mean[<span class="op">~</span>obs_mask[:, col_idx]]</span>
+<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a>            imp_std.loc[mask_data, col_name] <span class="op">=</span> std[<span class="op">~</span>obs_mask[:, col_idx]]</span>
+<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># make tidy</span></span>
+<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.merge(</span>
+<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a>            imp_mean.melt(<span class="st">'time'</span>, value_name <span class="op">=</span> <span class="st">"mean"</span>),</span>
+<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a>            imp_std.melt(<span class="st">'time'</span>, value_name <span class="op">=</span> <span class="st">"std"</span>),</span>
+<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a>            on <span class="op">=</span> [<span class="st">'time'</span>, <span class="st">'variable'</span>]</span>
+<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/imputation.py#L127" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/imputation.py#L125" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="gpfaimputationexplorer" class="level3">
 <h3 class="anchored" data-anchor-id="gpfaimputationexplorer">GPFAImputationExplorer</h3>
 <blockquote class="blockquote">
@@ -1182,7 +1163,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                          cuda=False, model=&lt;class
                          'gpfa_imputation.gpfa.GPFA'&gt;)</code></pre>
 </blockquote>
-<p>Initialize self. See help(type(self)) for accurate signature.</p>
+<p>GPFAImputation where predictions are for all times not only missing data</p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -1219,44 +1200,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-</section>
-<section id="repr-1" class="level3">
-<h3 class="anchored" data-anchor-id="repr-1">Repr</h3>
-<p>add <code>__repr__</code> and <code>__str__</code> to imputation objects</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__repr__</span>(<span class="va">self</span>: GPFAImputationExplorer):</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"""GPFA Imputation Explorer:</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="ss">    N obs: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>data<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="ss">    N features </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>data<span class="sc">.</span>shape[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="st">', '</span><span class="sc">.</span>join(<span class="va">self</span>.data.columns)<span class="sc">}</span><span class="ss">)</span></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="ss">    N missing observations </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>data<span class="sc">.</span>isna()<span class="sc">.</span>to_numpy()<span class="sc">.</span>flatten()<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="ss">    N latent: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>learner<span class="sc">.</span>latent_dims<span class="sc">}</span><span class="ss">"""</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__str__</span>(<span class="va">self</span>: GPFAImputationExplorer):</span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.<span class="fu">__repr__</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>imp_exp <span class="op">=</span> GPFAImputationExplorer(fd.data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>imp_exp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>GPFAImputationExplorer(fd.data).fit().predict()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>GPFA Imputation Explorer:
-    N obs: 10
-    N features 2 (x0, x1)
-    N missing observations 8
-    N latent: 1</code></pre>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"754d12a643d34f6ab83968d847cd311d","version_major":2,"version_minor":0}
+</script>
 </div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="bu">str</span>(imp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<pre><code>'GPFA Imputation:\n    N obs: 10\n    N features 2 (x0, x1)\n    N missing observations 8\n    N latent: 1'</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>imp_exp.predict()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <div>
@@ -1276,146 +1226,175 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <th>0</th>
       <td>0.0</td>
       <td>x0</td>
-      <td>-0.297978</td>
-      <td>0.341699</td>
+      <td>-0.139681</td>
+      <td>0.123077</td>
     </tr>
     <tr>
       <th>1</th>
       <td>1.0</td>
       <td>x0</td>
-      <td>-0.320394</td>
-      <td>0.341324</td>
+      <td>-0.117523</td>
+      <td>0.122828</td>
     </tr>
     <tr>
       <th>2</th>
       <td>2.0</td>
       <td>x0</td>
-      <td>-0.391404</td>
-      <td>0.341698</td>
+      <td>-0.398910</td>
+      <td>0.123055</td>
     </tr>
     <tr>
       <th>3</th>
       <td>3.0</td>
       <td>x0</td>
-      <td>-0.388192</td>
-      <td>0.345208</td>
+      <td>-0.472752</td>
+      <td>0.149371</td>
     </tr>
     <tr>
       <th>4</th>
       <td>4.0</td>
       <td>x0</td>
-      <td>-0.390354</td>
-      <td>0.342071</td>
+      <td>-0.564477</td>
+      <td>0.123241</td>
     </tr>
     <tr>
       <th>5</th>
       <td>5.0</td>
       <td>x0</td>
-      <td>-0.389361</td>
-      <td>0.345208</td>
+      <td>-0.985978</td>
+      <td>0.149474</td>
     </tr>
     <tr>
       <th>6</th>
       <td>6.0</td>
       <td>x0</td>
-      <td>-0.408291</td>
-      <td>0.342072</td>
+      <td>-0.609512</td>
+      <td>0.123253</td>
     </tr>
     <tr>
       <th>7</th>
       <td>7.0</td>
       <td>x0</td>
-      <td>-0.381646</td>
-      <td>0.345724</td>
+      <td>0.120754</td>
+      <td>0.123318</td>
     </tr>
     <tr>
       <th>8</th>
       <td>8.0</td>
       <td>x0</td>
-      <td>-0.367911</td>
-      <td>0.346240</td>
+      <td>-0.781911</td>
+      <td>0.123618</td>
     </tr>
     <tr>
       <th>9</th>
       <td>9.0</td>
       <td>x0</td>
-      <td>-0.367281</td>
-      <td>0.346241</td>
+      <td>-1.257758</td>
+      <td>0.183116</td>
     </tr>
     <tr>
       <th>10</th>
       <td>0.0</td>
       <td>x1</td>
-      <td>-0.515997</td>
-      <td>0.829065</td>
+      <td>0.132758</td>
+      <td>0.157152</td>
     </tr>
     <tr>
       <th>11</th>
       <td>1.0</td>
       <td>x1</td>
-      <td>-0.523846</td>
-      <td>0.829046</td>
+      <td>0.198283</td>
+      <td>0.155439</td>
     </tr>
     <tr>
       <th>12</th>
       <td>2.0</td>
       <td>x1</td>
-      <td>-0.548710</td>
-      <td>0.829065</td>
+      <td>-0.633801</td>
+      <td>0.157002</td>
     </tr>
     <tr>
       <th>13</th>
       <td>3.0</td>
       <td>x1</td>
-      <td>-0.547585</td>
-      <td>0.829244</td>
+      <td>-0.852159</td>
+      <td>0.295531</td>
     </tr>
     <tr>
       <th>14</th>
       <td>4.0</td>
       <td>x1</td>
-      <td>-0.548342</td>
-      <td>0.829084</td>
+      <td>-1.123397</td>
+      <td>0.158273</td>
     </tr>
     <tr>
       <th>15</th>
       <td>5.0</td>
       <td>x1</td>
-      <td>-0.547994</td>
-      <td>0.829244</td>
+      <td>-2.369811</td>
+      <td>0.295987</td>
     </tr>
     <tr>
       <th>16</th>
       <td>6.0</td>
       <td>x1</td>
-      <td>-0.554623</td>
-      <td>0.829084</td>
+      <td>-1.256571</td>
+      <td>0.158355</td>
     </tr>
     <tr>
       <th>17</th>
       <td>7.0</td>
       <td>x1</td>
-      <td>-0.545293</td>
-      <td>0.829270</td>
+      <td>-0.990232</td>
+      <td>0.472671</td>
     </tr>
     <tr>
       <th>18</th>
       <td>8.0</td>
       <td>x1</td>
-      <td>-0.540484</td>
-      <td>0.829296</td>
+      <td>-0.674940</td>
+      <td>0.615601</td>
     </tr>
     <tr>
       <th>19</th>
       <td>9.0</td>
       <td>x1</td>
-      <td>-0.540263</td>
-      <td>0.829296</td>
+      <td>-3.173487</td>
+      <td>0.430637</td>
     </tr>
   </tbody>
 </table>
 </div>
 </div>
+</div>
+</section>
+<section id="repr-1" class="level3">
+<h3 class="anchored" data-anchor-id="repr-1">Repr</h3>
+<p>add <code>__repr__</code> and <code>__str__</code> to imputation objects</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__repr__</span>(<span class="va">self</span>: GPFAImputationExplorer):</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"""GPFA Imputation Explorer:</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="ss">    N obs: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>data<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="ss">    N features </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>data<span class="sc">.</span>shape[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="st">', '</span><span class="sc">.</span>join(<span class="va">self</span>.data.columns)<span class="sc">}</span><span class="ss">)</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="ss">    N missing observations </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>data<span class="sc">.</span>isna()<span class="sc">.</span>to_numpy()<span class="sc">.</span>flatten()<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="ss">    N latent: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>learner<span class="sc">.</span>latent_dims<span class="sc">}</span><span class="ss">"""</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__str__</span>(<span class="va">self</span>: GPFAImputationExplorer):</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.<span class="fu">__repr__</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>imp_exp <span class="op">=</span> GPFAImputationExplorer(fd.data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>imp_exp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="bu">str</span>(imp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>imp_exp.predict()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -1426,6 +1405,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 
 </main> <!-- /main -->
+<script type="application/vnd.jupyter.widget-state+json">
+{"state":{},"version_major":2,"version_minor":0}
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

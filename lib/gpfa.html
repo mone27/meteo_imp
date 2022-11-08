@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.262">
+<meta name="generator" content="quarto-1.2.267">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -230,7 +230,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul class="collapse">
   <li><a href="#kernel" id="toc-kernel" class="nav-link" data-scroll-target="#kernel">Kernel</a>
   <ul class="collapse">
-  <li><a href="#scriptfunction-object-at-0x7f3dd7157ba0" id="toc-scriptfunction-object-at-0x7f3dd7157ba0" class="nav-link" data-scroll-target="#scriptfunction-object-at-0x7f3dd7157ba0">ScriptFunction object at 0x7f3dd7157ba0&gt;</a></li>
+  <li><a href="#scriptfunction-object-at-0x7f6990aa0220" id="toc-scriptfunction-object-at-0x7f6990aa0220" class="nav-link" data-scroll-target="#scriptfunction-object-at-0x7f6990aa0220">ScriptFunction object at 0x7f6990aa0220&gt;</a></li>
   <li><a href="#gpfakernel" id="toc-gpfakernel" class="nav-link" data-scroll-target="#gpfakernel">GPFAKernel</a></li>
   </ul></li>
   <li><a href="#gpfa" id="toc-gpfa" class="nav-link" data-scroll-target="#gpfa">GPFA</a>
@@ -477,8 +477,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X_cov</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<section id="scriptfunction-object-at-0x7f3dd7157ba0" class="level3">
-<h3 class="anchored" data-anchor-id="scriptfunction-object-at-0x7f3dd7157ba0">ScriptFunction object at 0x7f3dd7157ba0&gt;</h3>
+<section id="scriptfunction-object-at-0x7f6990aa0220" class="level3">
+<h3 class="anchored" data-anchor-id="scriptfunction-object-at-0x7f6990aa0220">ScriptFunction object at 0x7f6990aa0220&gt;</h3>
 <hr>
 <p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/gpfa.py#L14" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
@@ -487,8 +487,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <blockquote class="blockquote">
 <pre><code> GPFAKernel (n_features:int, latent_kernel:gpytorch.kernels.kernel.Kernel,
              latent_dims:int=1, Lambda:&lt;built-
-             inmethodtensoroftypeobjectat0x7f3e32a309c0&gt;=None, psi:&lt;built-
-             inmethodtensoroftypeobjectat0x7f3e32a309c0&gt;=None, **kwargs)</code></pre>
+             inmethodtensoroftypeobjectat0x7f69ec9989c0&gt;=None, psi:&lt;built-
+             inmethodtensoroftypeobjectat0x7f69ec9989c0&gt;=None, **kwargs)</code></pre>
 </blockquote>
 <p>Kernel to implement Gaussian Processes Factor Analysis</p>
 <table class="table">
@@ -880,7 +880,7 @@ tensor([[0.1433, 0.6319, 0.2940, 0.8762, 0.6009],
 <span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    latent_names <span class="op">=</span> [<span class="ss">f"z</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="va">self</span>.covar_module.latent_dims)]</span>
 <span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    out[<span class="st">"Lambda"</span>] <span class="op">=</span> pd.concat([</span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">None</span> <span class="cf">if</span> var_names <span class="kw">is</span> <span class="va">None</span> <span class="cf">else</span> pd.Series(var_names),</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">None</span> <span class="cf">if</span> var_names <span class="kw">is</span> <span class="va">None</span> <span class="cf">else</span> pd.Series(var_names, name<span class="op">=</span><span class="st">'variable'</span>),</span>
 <span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>        pd.DataFrame(</span>
 <span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.covar_module.Lambda.detach().cpu().numpy(),</span>
 <span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>            columns<span class="op">=</span>latent_names)],</span>
@@ -898,9 +898,12 @@ tensor([[0.1433, 0.6319, 0.2940, 0.8762, 0.6009],
 <span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">'psi'</span>: psi </span>
 <span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a>    })</span>
 <span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>    out[<span class="st">"likelihood"</span>] <span class="op">=</span> pd.DataFrame({<span class="st">'noise'</span>: [<span class="va">self</span>.likelihood.noise_covar.noise.item()]})</span>
+<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>    out[<span class="st">"likelihood"</span>] <span class="op">=</span> pd.DataFrame({<span class="st">'noise'</span>: [<span class="va">self</span>.likelihood.noise_covar.noise.detach().item()]})</span>
 <span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>NameError: name 'patch' is not defined</code></pre>
+</div>
 </div>
 <hr>
 <p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/gpfa.py#L125" target="_blank" style="float:right; font-size:smaller">source</a></p>
@@ -941,7 +944,7 @@ tensor([[0.1433, 0.6319, 0.2940, 0.8762, 0.6009],
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>model_m.get_info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>model_m.get_info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>{'Lambda':          z0        z1        z2        z3        z4
  0  0.143287  0.631874  0.294008  0.876215  0.600861
@@ -962,7 +965,7 @@ tensor([[0.1433, 0.6319, 0.2940, 0.8762, 0.6009],
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>model_m.get_info([<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>model_m.get_info([<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>{'Lambda':    0        z0        z1        z2        z3        z4
  0  a  0.143287  0.631874  0.294008  0.876215  0.600861

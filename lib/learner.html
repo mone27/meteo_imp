@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.262">
+<meta name="generator" content="quarto-1.2.267">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -238,6 +238,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#gpfalearner.cuda" id="toc-gpfalearner.cuda" class="nav-link" data-scroll-target="#gpfalearner.cuda">GPFALearner.cuda</a></li>
   </ul></li>
   <li><a href="#multi-dimensional-latent" id="toc-multi-dimensional-latent" class="nav-link" data-scroll-target="#multi-dimensional-latent">Multi-dimensional latent</a></li>
+  <li><a href="#saving" id="toc-saving" class="nav-link" data-scroll-target="#saving">Saving</a>
+  <ul class="collapse">
+  <li><a href="#gpfalearner.load" id="toc-gpfalearner.load" class="nav-link" data-scroll-target="#gpfalearner.load">GPFALearner.load</a></li>
+  <li><a href="#gpfalearner.save" id="toc-gpfalearner.save" class="nav-link" data-scroll-target="#gpfalearner.save">GPFALearner.save</a></li>
+  </ul></li>
+  <li><a href="#plot-learning-progress" id="toc-plot-learning-progress" class="nav-link" data-scroll-target="#plot-learning-progress">Plot learning progress</a>
+  <ul class="collapse">
+  <li><a href="#gpfalearner.plot_progress" id="toc-gpfalearner.plot_progress" class="nav-link" data-scroll-target="#gpfalearner.plot_progress">GPFALearner.plot_progress</a></li>
+  </ul></li>
   <li><a href="#export" id="toc-export" class="nav-link" data-scroll-target="#export">Export</a></li>
   <li><a href="#printing" id="toc-printing" class="nav-link" data-scroll-target="#printing">Printing</a>
   <ul class="collapse">
@@ -291,12 +300,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="learner" class="level2">
 <h2 class="anchored" data-anchor-id="learner">Learner</h2>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/learner.py#L25" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/learner.py#L30" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="gpfalearner" class="level3">
 <h3 class="anchored" data-anchor-id="gpfalearner">GPFALearner</h3>
 <blockquote class="blockquote">
 <pre><code> GPFALearner (X:torch.Tensor, T:torch.Tensor=None, latent_dims:int=1,
-              model=&lt;class 'gpfa_imputation.gpfa.GPFA'&gt;)</code></pre>
+              model=&lt;class 'gpfa_imputation.gpfa.GPFA'&gt;, var_names=None)</code></pre>
 </blockquote>
 <p>Initialize self. See help(type(self)) for accurate signature.</p>
 <table class="table">
@@ -332,6 +341,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>type</td>
 <td>GPFA</td>
 <td>sub-class of <a href="https://mone27.github.io/gpfa_imputation/lib/gpfa.html#gpfa"><code>GPFA</code></a></td>
+</tr>
+<tr class="odd">
+<td>var_names</td>
+<td>NoneType</td>
+<td>None</td>
+<td>for model info</td>
 </tr>
 </tbody>
 </table>
@@ -378,35 +393,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>l.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"46c7c9a12e0942b7b78b50b850c64f7d","version_major":2,"version_minor":0}
+{"model_id":"3e899e4f39304718914c65ef7fe9470f","version_major":2,"version_minor":0}
 </script>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/simone/anaconda3/envs/data-science/lib/python3.10/site-packages/gpytorch/lazy/triangular_lazy_tensor.py:136: UserWarning: torch.triangular_solve is deprecated in favor of torch.linalg.solve_triangularand will be removed in a future PyTorch release.
+torch.linalg.solve_triangular has its arguments reversed and does not return a copy of one of the inputs.
+X = torch.triangular_solve(B, A).solution
+should be replaced with
+X = torch.linalg.solve_triangular(A, B). (Triggered internally at  ../aten/src/ATen/native/BatchLinearAlgebra.cpp:2183.)
+  res = torch.triangular_solve(right_tensor, self.evaluate(), upper=self.upper).solution
+/home/simone/anaconda3/envs/data-science/lib/python3.10/site-packages/torch/autograd/__init__.py:173: UserWarning: operator() profile_node %840 : int[] = prim::profile_ivalue(%838)
+ does not have profile information (Triggered internally at  ../torch/csrc/jit/codegen/cuda/graph_fuser.cpp:104.)
+  Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass</code></pre>
 </div>
 </div>
 <p>check that can train for more than once</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>l.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>l.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"1d2a8087ccf64168af98062ea2bd1c96","version_major":2,"version_minor":0}
+{"model_id":"7b5753901d5c407bb12c9cbfa2e16b1e","version_major":2,"version_minor":0}
 </script>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>l.losses</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>l.losses</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([ 1.3875,  1.3412,  1.2952,  1.2515,  1.2120,  1.1761,  1.1403,  1.1030,
-         1.0644,  1.0249,  0.9848,  0.9445,  0.9043,  0.8644,  0.8248,  0.7852,
-         0.7454,  0.7046,  0.6627,  0.6198,  0.5764,  0.5333,  0.4910,  0.4490,
-         0.4067,  0.3636,  0.3202,  0.2773,  0.2355,  0.1936,  0.1508,  0.1076,
-         0.0655,  0.0238, -0.0190, -0.0618, -0.1035, -0.1455, -0.1883, -0.2299,
-        -0.2714, -0.3136, -0.3546, -0.3959, -0.4372, -0.4775, -0.5185, -0.5583,
-        -0.5986, -0.6380, -0.6776, -0.7162, -0.7546, -0.7900, -0.8300, -0.8682,
-        -0.9026, -0.9405, -0.9765, -1.0097, -1.0448, -1.0804, -1.1123, -1.1417,
-        -1.1708, -1.1997, -1.2224, -1.2525, -1.2880, -1.3045, -1.3355, -1.3613,
-        -1.3731, -1.4074, -1.4237, -1.4331, -1.4655, -1.4761, -1.4839, -1.5108,
-        -1.5190, -1.5217, -1.5401, -1.5276, -1.4662, -1.5441, -1.5399, -1.5408,
-        -1.5678, -1.5540, -1.5865, -1.5616, -1.6051, -1.5710, -1.6148, -1.5850,
-        -1.6196, -1.5999, -1.6246, -1.6134])</code></pre>
+<pre><code>tensor([ 1.3296,  1.2945,  1.2630,  1.2317,  1.1983,  1.1633,  1.1273,  1.0915,
+         1.0561,  1.0198,  0.9821,  0.9435,  0.9047,  0.8661,  0.8274,  0.7877,
+         0.7471,  0.7068,  0.6666,  0.6257,  0.5840,  0.5424,  0.5011,  0.4592,
+         0.4168,  0.3747,  0.3328,  0.2903,  0.2478,  0.2058,  0.1632,  0.1208,
+         0.0787,  0.0362, -0.0059, -0.0480, -0.0902, -0.1319, -0.1740, -0.2154,
+        -0.2572, -0.2983, -0.3392, -0.3799, -0.4211, -0.4619, -0.5016, -0.5415,
+        -0.5816, -0.6208, -0.6600, -0.6988, -0.7369, -0.7744, -0.8126, -0.8503,
+        -0.8857, -0.9197, -0.9565, -0.9942, -1.0264, -1.0582, -1.0942, -1.1273,
+        -1.1544, -1.1754, -1.2033, -1.2374, -1.2625, -1.2955, -1.3143, -1.3451,
+        -1.3672, -1.3847, -1.4156, -1.4248, -1.4469, -1.4715, -1.4763, -1.4943,
+        -1.5117, -1.5084, -1.5107, -1.5298, -1.5394, -1.5553, -1.5611, -1.5556,
+        -1.5822, -1.5848, -1.5757, -1.5974, -1.5959, -1.5997, -1.6132, -1.6039,
+        -1.6129, -1.6179, -1.6158, -1.6293, -1.6285,  0.1917, -1.5204, -1.2648,
+        -0.6628, -0.9405, -1.4350, -1.6218, -1.4769, -1.2650, -1.2038, -1.3100,
+        -1.4713, -1.5763, -1.5778, -1.5071, -1.4330, -1.4128, -1.4546, -1.5237,
+        -1.5767, -1.5884, -1.5644, -1.5310, -1.5164, -1.5322, -1.5678, -1.6008,
+        -1.6139, -1.6054, -1.5900, -1.5842, -1.5947, -1.6160, -1.6348, -1.6384,
+        -1.6304, -1.6230, -1.6268, -1.6393, -1.6516, -1.6559, -1.6522, -1.6476,
+        -1.6516, -1.6607, -1.6683, -1.6683, -1.6663, -1.6671, -1.6728, -1.6798,
+        -1.6823, -1.6815, -1.6818, -1.6862, -1.6910, -1.6927, -1.6924, -1.6934,
+        -1.6969, -1.6997, -1.7004, -1.7005, -1.7014, -1.7046, -1.7057, -1.7060,
+        -1.7069, -1.7081, -1.7101, -1.7114, -1.7111, -1.7121, -1.7137, -1.7143,
+        -1.7146, -1.7153, -1.7165, -1.7165, -1.7165, -1.7176, -1.7183, -1.7185,
+        -1.7185, -1.7195, -1.7197, -1.7202, -1.7204, -1.7209, -1.7210, -1.7213,
+        -1.7217, -1.7222, -1.7219, -1.7221, -1.7227, -1.7231, -1.7233, -1.7232])</code></pre>
 </div>
 </div>
 </section>
@@ -415,15 +453,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored" data-anchor-id="predictions">Predictions</h2>
 <p>add a function to get predictions from the model</p>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/learner.py#L91" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/learner.py#L98" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="gpfalearner.predict_raw" class="level3">
 <h3 class="anchored" data-anchor-id="gpfalearner.predict_raw">GPFALearner.predict_raw</h3>
 <blockquote class="blockquote">
 <pre><code> GPFALearner.predict_raw (T)</code></pre>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>raw_out <span class="op">=</span> l.predict_raw(T)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>raw_out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>raw_out <span class="op">=</span> l.predict_raw(T)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>raw_out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/simone/anaconda3/envs/data-science/lib/python3.10/site-packages/gpytorch/models/exact_gp.py:273: GPInputWarning: The input matches the stored training data. Did you forget to call model.train()?
   warnings.warn(</code></pre>
@@ -437,18 +475,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Also we don’t need th full distribution but only the mean and stddev for each variable at every time step</p>
 <p>And we can “fix” the shape by transforming back to a matrix</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>raw_stddev <span class="op">=</span> raw_out.stddev.reshape(<span class="op">-</span><span class="dv">1</span>, l.n_features)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>raw_mean <span class="op">=</span> raw_out.mean.reshape(<span class="op">-</span><span class="dv">1</span>, l.n_features)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>raw_stddev <span class="op">=</span> raw_out.stddev.reshape(<span class="op">-</span><span class="dv">1</span>, l.n_features)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>raw_mean <span class="op">=</span> raw_out.mean.reshape(<span class="op">-</span><span class="dv">1</span>, l.n_features)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>raw_stddev</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>raw_stddev</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([[0.0251, 0.0198, 0.0227],
-        [0.0242, 0.0187, 0.0217],
-        [0.0239, 0.0183, 0.0214],
-        [0.0239, 0.0183, 0.0214],
-        [0.0242, 0.0187, 0.0218],
-        [0.0251, 0.0197, 0.0227]], grad_fn=&lt;ReshapeAliasBackward0&gt;)</code></pre>
+<pre><code>tensor([[0.0277, 0.0138, 0.0198],
+        [0.0272, 0.0128, 0.0191],
+        [0.0270, 0.0125, 0.0189],
+        [0.0270, 0.0125, 0.0189],
+        [0.0272, 0.0128, 0.0191],
+        [0.0277, 0.0138, 0.0198]], grad_fn=&lt;ReshapeAliasBackward0&gt;)</code></pre>
 </div>
 </div>
 <p>This function transforms the raw output of the Gaussian Process (<code>p(X)</code>) into a prediction that can be used. need to do two things:</p>
@@ -459,7 +497,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>the mean and the std are passed individually because in the conditional predictions is not possible to have the whole covariance matrix (and thus a MultiNormal) but the mean and stddev are enough.</p>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/learner.py#L102" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/learner.py#L109" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="gpfalearner.prediction_from_raw" class="level3">
 <h3 class="anchored" data-anchor-id="gpfalearner.prediction_from_raw">GPFALearner.prediction_from_raw</h3>
@@ -468,41 +506,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </blockquote>
 <p>Takes a raw prediction and produces and final prediction, by reshaping and reversing normalization</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co"> document this function better</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co"> document this function better</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict(<span class="va">self</span>: GPFALearner, T):</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    pred_raw <span class="op">=</span> <span class="va">self</span>.predict_raw(T)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.prediction_from_raw(pred_raw.mean, pred_raw.stddev)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict(<span class="va">self</span>: GPFALearner, T):</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    pred_raw <span class="op">=</span> <span class="va">self</span>.predict_raw(T)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.prediction_from_raw(pred_raw.mean, pred_raw.stddev)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>l.predict(T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>l.predict(T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>NormalParameters(mean=tensor([[-5.1709e-01, -2.8349e-02,  5.4034e-01],
-        [ 3.0475e+00,  4.0246e+00,  5.0628e+00],
-        [ 8.2432e+00,  9.9321e+00,  1.1652e+01],
-        [ 1.5310e+01,  1.7969e+01,  2.0619e+01],
-        [ 2.4245e+01,  2.8124e+01,  3.1951e+01],
-        [ 3.4665e+01,  3.9972e+01,  4.5168e+01]]), std=tensor([[0.3357, 0.3006, 0.3877],
-        [0.3243, 0.2841, 0.3709],
-        [0.3201, 0.2782, 0.3654],
-        [0.3202, 0.2780, 0.3656],
-        [0.3243, 0.2841, 0.3713],
-        [0.3358, 0.3004, 0.3874]]))</code></pre>
+<pre><code>NormalParameters(mean=tensor([[-0.5299, -0.0512,  0.4296],
+        [ 3.0692,  4.0439,  5.0183],
+        [ 8.2873,  9.9780, 11.6701],
+        [15.3390, 17.9992, 20.6602],
+        [24.2186, 28.1023, 31.9813],
+        [34.6174, 39.9281, 45.2374]]), std=tensor([[0.3701, 0.2104, 0.3373],
+        [0.3641, 0.1952, 0.3262],
+        [0.3613, 0.1894, 0.3222],
+        [0.3617, 0.1897, 0.3217],
+        [0.3638, 0.1954, 0.3260],
+        [0.3701, 0.2099, 0.3373]]))</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> l.predict(T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> l.predict(T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>pred.mean.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>pred.mean.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>torch.Size([6, 3])</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>pred.std.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>pred.std.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>torch.Size([6, 3])</code></pre>
 </div>
@@ -512,17 +550,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="check-learning-is-working">Check learning is working</h3>
 <p>The idea is to use the current model to generate a dataset, that can be for sure modelled using a GPFA (because is the output of GPFA) and then train another model and see if the parameters converge</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a dummy GPFA with 3 features</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>Lt <span class="op">=</span> GPFALearner(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a dummy GPFA with 3 features</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>Lt <span class="op">=</span> GPFALearner(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>test_params <span class="op">=</span> {</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>   <span class="st">"Lambda"</span>: torch.tensor([<span class="op">-</span><span class="dv">1</span>, <span class="fl">0.3</span>, <span class="fl">.8</span>]).reshape(Lt.n_features, <span class="op">-</span><span class="dv">1</span>),</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>   <span class="st">"psi"</span>: torch.tensor([<span class="fl">1e-5</span>, <span class="fl">5e-5</span>, <span class="fl">2e-5</span>]),</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>test_params <span class="op">=</span> {</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>   <span class="st">"Lambda"</span>: torch.tensor([<span class="op">-</span><span class="dv">1</span>, <span class="fl">0.3</span>, <span class="fl">.8</span>]).reshape(Lt.n_features, <span class="op">-</span><span class="dv">1</span>),</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>   <span class="st">"psi"</span>: torch.tensor([<span class="fl">1e-5</span>, <span class="fl">5e-5</span>, <span class="fl">2e-5</span>]),</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>Lt.model.covar_module.initialize(<span class="op">**</span>test_params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>Lt.model.covar_module.initialize(<span class="op">**</span>test_params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>GPFAKernel(
   (latent_kernels): ModuleList(
@@ -535,7 +573,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>Lt.model.covar_module.latent_kernels[<span class="dv">0</span>].initialize(lengthscale <span class="op">=</span> torch.tensor(<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>Lt.model.covar_module.latent_kernels[<span class="dv">0</span>].initialize(lengthscale <span class="op">=</span> torch.tensor(<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>RBFKernel(
   (raw_lengthscale_constraint): Positive()
@@ -543,48 +581,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>target_X <span class="op">=</span> Lt.predict(T).mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>target_X <span class="op">=</span> Lt.predict(T).mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>l2 <span class="op">=</span> GPFALearner(target_X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>l2 <span class="op">=</span> GPFALearner(target_X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>l2.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>l2.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"31d8d90331474ec4aa0f2de225909da4","version_major":2,"version_minor":0}
+{"model_id":"5d56b4392469422fb2094d092e752707","version_major":2,"version_minor":0}
 </script>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>l2.predict(T).mean <span class="op">-</span> target_X</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>l2.predict(T).mean <span class="op">-</span> target_X</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/simone/anaconda3/envs/data-science/lib/python3.10/site-packages/gpytorch/models/exact_gp.py:273: GPInputWarning: The input matches the stored training data. Did you forget to call model.train()?
   warnings.warn(</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([[ 0.0060,  0.0016,  0.0008],
-        [ 0.0034,  0.0011,  0.0009],
-        [ 0.0011,  0.0004,  0.0003],
-        [-0.0012, -0.0004, -0.0004],
-        [-0.0036, -0.0011, -0.0008],
-        [-0.0058, -0.0015, -0.0008]])</code></pre>
+<pre><code>tensor([[ 0.0061,  0.0011,  0.0029],
+        [ 0.0035,  0.0008,  0.0022],
+        [ 0.0011,  0.0003,  0.0007],
+        [-0.0012, -0.0003, -0.0009],
+        [-0.0037, -0.0008, -0.0021],
+        [-0.0060, -0.0010, -0.0028]])</code></pre>
 </div>
 </div>
 <p>they seems pretty small numbers, so the model is working!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Lambda:</span><span class="ch">\n</span><span class="st">"</span>, l2.model.covar_module.Lambda.detach())</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"psi: "</span>, l2.model.covar_module.psi.detach())</span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"lengthscale:"</span>, l2.model.covar_module.latent_kernels[<span class="dv">0</span>].lengthscale.item())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Lambda:</span><span class="ch">\n</span><span class="st">"</span>, l2.model.covar_module.Lambda.detach())</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"psi: "</span>, l2.model.covar_module.psi.detach())</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"lengthscale:"</span>, l2.model.covar_module.latent_kernels[<span class="dv">0</span>].lengthscale.item())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Lambda:
- tensor([[-1.6031],
-        [ 1.5766],
-        [ 1.5863]])
-psi:  tensor([4.8988e-05, 4.2124e-05, 4.1885e-05])
-lengthscale: 5.493414402008057</code></pre>
+ tensor([[-1.6125],
+        [ 1.5892],
+        [ 1.5900]])
+psi:  tensor([3.9927e-05, 4.5339e-05, 4.5291e-05])
+lengthscale: 5.491497039794922</code></pre>
 </div>
 </div>
 </section>
@@ -599,69 +637,69 @@ lengthscale: 5.493414402008057</code></pre>
 <p>then</p>
 <p><span class="math display">\[p(x|o) = N(\mu_x + \Sigma_{xo}\Sigma_{oo}^{-1}(o - \mu_o), \Sigma_{xx} - \Sigma_{xo}\Sigma_{oo}^{-1}\Sigma_{ox})\]</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># example distribution with only 2 variables</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>μ <span class="op">=</span> torch.tensor([<span class="fl">.5</span>, <span class="fl">1.</span>])</span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>Σ <span class="op">=</span> torch.tensor([[<span class="fl">1.</span>, <span class="fl">.5</span>], [<span class="fl">.5</span> ,<span class="fl">1.</span>]])</span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>gauss <span class="op">=</span> MultivariateNormal(μ, Σ)</span>
-<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> torch.tensor([<span class="va">True</span>, <span class="va">False</span>]) <span class="co"># second variable is the observed one</span></span>
-<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>obs <span class="op">=</span> torch.tensor(<span class="fl">5.</span>) <span class="co"># value of second variable</span></span>
-<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>gauss_cond <span class="op">=</span> conditional_guassian(gauss, obs, idx)</span>
-<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a><span class="co"># hardcoded values to test that the code is working, see also for alternative implementation https://python.quantecon.org/multivariate_normal.html</span></span>
-<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>test_close(<span class="fl">3.25</span>, gauss_cond.mean.item())</span>
-<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>test_close(<span class="fl">.75</span>, gauss_cond.covariance_matrix.item())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># example distribution with only 2 variables</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>μ <span class="op">=</span> torch.tensor([<span class="fl">.5</span>, <span class="fl">1.</span>])</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>Σ <span class="op">=</span> torch.tensor([[<span class="fl">1.</span>, <span class="fl">.5</span>], [<span class="fl">.5</span> ,<span class="fl">1.</span>]])</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>gauss <span class="op">=</span> MultivariateNormal(μ, Σ)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> torch.tensor([<span class="va">True</span>, <span class="va">False</span>]) <span class="co"># second variable is the observed one</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>obs <span class="op">=</span> torch.tensor(<span class="fl">5.</span>) <span class="co"># value of second variable</span></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>gauss_cond <span class="op">=</span> conditional_guassian(gauss, obs, idx)</span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a><span class="co"># hardcoded values to test that the code is working, see also for alternative implementation https://python.quantecon.org/multivariate_normal.html</span></span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>test_close(<span class="fl">3.25</span>, gauss_cond.mean.item())</span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>test_close(<span class="fl">.75</span>, gauss_cond.covariance_matrix.item())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Test with multiple variables?</p>
 <p>overwrite the predict method to add support for conditional predictions</p>
 <p>Need to have the mean and std for both the conditional predictions and the observations, with the same shape and order of the complete prediction.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>gauss_cond.covariance_matrix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>gauss_cond.covariance_matrix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>tensor([[0.7500]])</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>merge_pred <span class="op">=</span> _merge_raw_cond_pred(gauss, gauss_cond, obs, idx)</span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>merge_pred</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>merge_pred <span class="op">=</span> _merge_raw_cond_pred(gauss, gauss_cond, obs, idx)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>merge_pred</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>NormalParameters(mean=tensor([5.0000, 3.2500]), std=tensor([0.0000, 0.8660]))</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># manually calculated</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>test_close(merge_pred.mean, torch.tensor([<span class="fl">5.</span>, <span class="fl">3.25</span>]))</span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>test_close(merge_pred.std, torch.tensor([<span class="fl">0.</span>, math.sqrt(<span class="fl">.75</span>)]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># manually calculated</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>test_close(merge_pred.mean, torch.tensor([<span class="fl">5.</span>, <span class="fl">3.25</span>]))</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>test_close(merge_pred.std, torch.tensor([<span class="fl">0.</span>, math.sqrt(<span class="fl">.75</span>)]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The problem is that the mean and the std for normalization are different for each feature, so in order to have the normalization working it is necessary to give the observations as a 2D array and not like a 1D array (like required by the model)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>T_pred <span class="op">=</span> torch.tensor([<span class="dv">6</span>, <span class="dv">7</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>T_pred <span class="op">=</span> torch.tensor([<span class="dv">6</span>, <span class="dv">7</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>l.predict(T_pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>l.predict(T_pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>NormalParameters(mean=tensor([[45.7915, 52.6208, 59.2834],
-        [56.5321, 64.8324, 72.9081]]), std=tensor([[0.6919, 0.7510, 0.8597],
-        [1.7853, 2.0160, 2.2576]]))</code></pre>
+<pre><code>NormalParameters(mean=tensor([[45.8680, 52.7259, 59.5802],
+        [57.0317, 65.4239, 73.8126]]), std=tensor([[0.6181, 0.6006, 0.7151],
+        [1.5100, 1.6784, 1.8967]]))</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> torch.zeros(T_pred.shape[<span class="dv">0</span>] <span class="op">*</span> X.shape[<span class="dv">1</span>], dtype<span class="op">=</span>torch.<span class="bu">bool</span>)</span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="co"># simulate an observation using sensible numbers from the prediction</span></span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>idx[[<span class="dv">0</span>,<span class="dv">2</span>]] <span class="op">=</span> torch.tensor([<span class="va">True</span>, <span class="va">True</span>])</span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>obs <span class="op">=</span> torch.tensor([<span class="fl">42.</span>, <span class="fl">61.</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> torch.zeros(T_pred.shape[<span class="dv">0</span>] <span class="op">*</span> X.shape[<span class="dv">1</span>], dtype<span class="op">=</span>torch.<span class="bu">bool</span>)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="co"># simulate an observation using sensible numbers from the prediction</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>idx[[<span class="dv">0</span>,<span class="dv">2</span>]] <span class="op">=</span> torch.tensor([<span class="va">True</span>, <span class="va">True</span>])</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>obs <span class="op">=</span> torch.tensor([<span class="fl">42.</span>, <span class="fl">61.</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>l._normalize_obs(obs, idx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>l._normalize_obs(obs, idx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>tensor([2.0806, 2.4525])</code></pre>
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/learner.py#L170" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/learner.py#L177" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="gpfalearner.predict" class="level3">
 <h3 class="anchored" data-anchor-id="gpfalearner.predict">GPFALearner.predict</h3>
@@ -706,38 +744,38 @@ lengthscale: 5.493414402008057</code></pre>
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>l._normalize_obs(obs, idx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>l._normalize_obs(obs, idx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>tensor([2.0806, 2.4525])</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>obs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>obs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>tensor([42., 61.])</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>l.predict_raw(T_pred).mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>l.predict_raw(T_pred).mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([2.3640, 2.3632, 2.3518, 3.1668, 3.1659, 3.1506],
+<pre><code>tensor([2.3697, 2.3701, 2.3692, 3.2042, 3.2048, 3.2036],
        grad_fn=&lt;ViewBackward0&gt;)</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>l.predict(T_pred, obs, idx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>l.predict(T_pred, obs, idx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>NormalParameters(mean=tensor([[42.0000, 51.6759, 61.0000],
-        [54.2909, 62.2784, 70.0641]]), std=tensor([[0.0000, 0.3322, 0.0000],
-        [0.7696, 0.8428, 0.9601]]))</code></pre>
+<pre><code>NormalParameters(mean=tensor([[42.0000, 52.2807, 61.0000],
+        [55.9377, 64.1794, 72.4175]]), std=tensor([[0.0000, 0.2663, 0.0000],
+        [0.7358, 0.7527, 0.8781]]))</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>l.predict(T_pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>l.predict(T_pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>NormalParameters(mean=tensor([[45.7915, 52.6208, 59.2834],
-        [56.5321, 64.8324, 72.9081]]), std=tensor([[0.6919, 0.7510, 0.8597],
-        [1.7853, 2.0160, 2.2576]]))</code></pre>
+<pre><code>NormalParameters(mean=tensor([[45.8680, 52.7259, 59.5802],
+        [57.0317, 65.4239, 73.8126]]), std=tensor([[0.6181, 0.6006, 0.7151],
+        [1.5100, 1.6784, 1.8967]]))</code></pre>
 </div>
 </div>
 <p>There is a small change in the predicted values after conditioning as you would expect</p>
@@ -747,8 +785,8 @@ lengthscale: 5.493414402008057</code></pre>
 <h2 class="anchored" data-anchor-id="gpu-support">GPU Support</h2>
 <p>add support for CUDA to model</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># l for learner</span></span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>l_cuda <span class="op">=</span> GPFALearner(X.cuda())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># l for learner</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>l_cuda <span class="op">=</span> GPFALearner(X.cuda())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Attrs of interest are:</p>
 <ul>
@@ -760,28 +798,28 @@ lengthscale: 5.493414402008057</code></pre>
 </ul>
 <p><code>cuda()</code> modifies in place the tensors and the modules!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>l_cuda.T.cuda()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>l_cuda.T.cuda()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>tensor([0, 1, 2, 3, 4, 5], device='cuda:0')</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>l_cuda.T.device</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>l_cuda.T.device</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>device(type='cuda', index=0)</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cuda(<span class="va">self</span>: GPFALearner):</span>
-<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Moves all learner to gpu"""</span></span>
-<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> par <span class="kw">in</span> [<span class="st">'T'</span>, <span class="st">'X'</span>, <span class="st">'model'</span>, <span class="st">'likelihood'</span>]:</span>
-<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.<span class="fu">__getattribute__</span>(par).cuda()</span>
-<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.norm.x_mean.cuda()</span>
-<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.norm.x_std.cuda()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cuda(<span class="va">self</span>: GPFALearner):</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Moves all learner to gpu"""</span></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> par <span class="kw">in</span> [<span class="st">'T'</span>, <span class="st">'X'</span>, <span class="st">'model'</span>, <span class="st">'likelihood'</span>]:</span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.<span class="fu">__getattribute__</span>(par).cuda()</span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.norm.x_mean.cuda()</span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.norm.x_std.cuda()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/learner.py#L196" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/learner.py#L203" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="gpfalearner.cuda" class="level3">
 <h3 class="anchored" data-anchor-id="gpfalearner.cuda">GPFALearner.cuda</h3>
 <blockquote class="blockquote">
@@ -789,32 +827,32 @@ lengthscale: 5.493414402008057</code></pre>
 </blockquote>
 <p>Moves all learner to gpu</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>l_cuda.cuda()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>l_cuda.cuda()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>parameters are on the gpu!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="bu">next</span>(l_cuda.likelihood.parameters()).device</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="bu">next</span>(l_cuda.likelihood.parameters()).device</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>device(type='cuda', index=0)</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>gpytorch.distributions.MultivariateNormal(torch.zeros(<span class="dv">1</span>).cuda(), torch.ones(<span class="dv">1</span>, <span class="dv">1</span>).cuda())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>gpytorch.distributions.MultivariateNormal(torch.zeros(<span class="dv">1</span>).cuda(), torch.ones(<span class="dv">1</span>, <span class="dv">1</span>).cuda())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>MultivariateNormal(loc: tensor([0.], device='cuda:0'), covariance_matrix: tensor([[1.]], device='cuda:0'))</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>l_cuda.model.covar_module.latent_kernels[<span class="dv">0</span>].lengthscale.device</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>l_cuda.model.covar_module.latent_kernels[<span class="dv">0</span>].lengthscale.device</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>device(type='cuda', index=0)</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>l_cuda.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>l_cuda.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"c9dfccc41c2d4ea8b0dbf525c8a138f8","version_major":2,"version_minor":0}
+{"model_id":"5ebba24631f343a9a709c5e6dab61791","version_major":2,"version_minor":0}
 </script>
 </div>
 </div>
@@ -823,31 +861,263 @@ lengthscale: 5.493414402008057</code></pre>
 <section id="multi-dimensional-latent" class="level2">
 <h2 class="anchored" data-anchor-id="multi-dimensional-latent">Multi-dimensional latent</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>l2 <span class="op">=</span> GPFALearner(X, T, latent_dims<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>l2 <span class="op">=</span> GPFALearner(X, T, latent_dims<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>l2.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>l2.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"d94af2fc84384975a8c3b4b657a1fe1e","version_major":2,"version_minor":0}
+{"model_id":"1d3ec9f1f0aa4ee5a39c439bc867bcd2","version_major":2,"version_minor":0}
 </script>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>plt.plot(l2.losses)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>plt.plot(l2.losses)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="01_Learner_files/figure-html/cell-61-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>l2.model.covar_module.Lambda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>l2.model.covar_module.Lambda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>Parameter containing:
-tensor([[0.9218, 1.7595],
-        [0.9006, 1.7484],
-        [0.9687, 1.6968]], requires_grad=True)</code></pre>
+tensor([[1.6995, 1.0409],
+        [1.5840, 1.0859],
+        [1.4720, 1.1650]], requires_grad=True)</code></pre>
 </div>
 </div>
+</section>
+<section id="saving" class="level2">
+<h2 class="anchored" data-anchor-id="saving">Saving</h2>
+<p>load and save models parameters</p>
+<hr>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/learner.py#L217" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="gpfalearner.load" class="level3">
+<h3 class="anchored" data-anchor-id="gpfalearner.load">GPFALearner.load</h3>
+<blockquote class="blockquote">
+<pre><code> GPFALearner.load (path:pathlib.Path|str)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/learner.py#L212" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="gpfalearner.save" class="level3">
+<h3 class="anchored" data-anchor-id="gpfalearner.save">GPFALearner.save</h3>
+<blockquote class="blockquote">
+<pre><code> GPFALearner.save (path:pathlib.Path|str)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tempfile <span class="im">import</span> tempdir</span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> Path(tempdir) <span class="op">/</span> <span class="st">"model_test.pickle"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>l.save(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>nl <span class="op">=</span> GPFALearner(X)</span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>nl.model.state_dict()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>OrderedDict([('likelihood.noise_covar.raw_noise', tensor([0.])),
+             ('likelihood.noise_covar.raw_noise_constraint.lower_bound',
+              tensor(1.0000e-04)),
+             ('likelihood.noise_covar.raw_noise_constraint.upper_bound',
+              tensor(inf)),
+             ('covar_module.Lambda',
+              tensor([[0.9177],
+                      [0.3370],
+                      [0.5760]])),
+             ('covar_module.raw_psi_diag', tensor([0., 0., 0.])),
+             ('covar_module.latent_kernels.0.raw_lengthscale', tensor([[0.]])),
+             ('covar_module.latent_kernels.0.raw_lengthscale_constraint.lower_bound',
+              tensor(0.)),
+             ('covar_module.latent_kernels.0.raw_lengthscale_constraint.upper_bound',
+              tensor(inf)),
+             ('covar_module.raw_psi_diag_constraint.lower_bound', tensor(0.)),
+             ('covar_module.raw_psi_diag_constraint.upper_bound',
+              tensor(inf))])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>nl.load(p)</span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>nl.model.state_dict()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>OrderedDict([('likelihood.noise_covar.raw_noise', tensor([-11.0793])),
+             ('likelihood.noise_covar.raw_noise_constraint.lower_bound',
+              tensor(1.0000e-04)),
+             ('likelihood.noise_covar.raw_noise_constraint.upper_bound',
+              tensor(inf)),
+             ('covar_module.Lambda',
+              tensor([[2.2641],
+                      [2.2645],
+                      [2.2637]])),
+             ('covar_module.raw_psi_diag',
+              tensor([ -7.4571, -13.0640,  -8.5047])),
+             ('covar_module.latent_kernels.0.raw_lengthscale',
+              tensor([[5.6052]])),
+             ('covar_module.latent_kernels.0.raw_lengthscale_constraint.lower_bound',
+              tensor(0.)),
+             ('covar_module.latent_kernels.0.raw_lengthscale_constraint.upper_bound',
+              tensor(inf)),
+             ('covar_module.raw_psi_diag_constraint.lower_bound', tensor(0.)),
+             ('covar_module.raw_psi_diag_constraint.upper_bound',
+              tensor(inf))])</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="plot-learning-progress" class="level2">
+<h2 class="anchored" data-anchor-id="plot-learning-progress">Plot learning progress</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> GPFALearner(X, var_names<span class="op">=</span>[<span class="st">'x0'</span>, <span class="st">'x1'</span>, <span class="st">'x2'</span>])</span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>l.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"30ba74de09a94f84a9373734ef6969cd","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/learner.py#L224" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="gpfalearner.plot_progress" class="level3">
+<h3 class="anchored" data-anchor-id="gpfalearner.plot_progress">GPFALearner.plot_progress</h3>
+<blockquote class="blockquote">
+<pre><code> GPFALearner.plot_progress (size={'width': 250, 'height': 120})</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>l.plot_progress()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/simone/.local/lib/python3.10/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
+  for col_name, dtype in df.dtypes.iteritems():</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<div id="altair-viz-058e19fd8c2b4e10acacdf1ebdeab671"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-058e19fd8c2b4e10acacdf1ebdeab671") {
+      outputDiv = document.getElementById("altair-viz-058e19fd8c2b4e10acacdf1ebdeab671");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "4.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"data": {"name": "data-7d71b1aeb33b90c30195ae496711ed73"}, "mark": "line", "encoding": {"x": {"field": "n_iter", "type": "quantitative"}, "y": {"field": "loss", "type": "quantitative"}}, "height": 120, "selection": {"selector002": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "title": "loss", "width": 250}, {"data": {"name": "data-f4cf94811fdd86da9d3689c69b9c1d93"}, "mark": "line", "encoding": {"color": {"field": "prop", "type": "nominal"}, "facet": {"field": "variable", "type": "nominal"}, "x": {"field": "n_iter", "type": "quantitative"}, "y": {"field": "value", "type": "quantitative"}}, "height": 120, "selection": {"selector002": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "title": "Lambda", "width": 250}, {"data": {"name": "data-331ba4ea895f7ecb93d1c5318928b13d"}, "mark": "line", "encoding": {"color": {"field": "prop", "type": "nominal"}, "facet": {"field": "latent", "type": "nominal"}, "x": {"field": "n_iter", "type": "quantitative"}, "y": {"field": "value", "type": "quantitative"}}, "height": 120, "selection": {"selector002": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "title": "lengthscale", "width": 250}, {"data": {"name": "data-c168157ecccc8c57e79bb6036f66c343"}, "mark": "line", "encoding": {"color": {"field": "prop", "type": "nominal"}, "facet": {"field": "variable", "type": "nominal"}, "x": {"field": "n_iter", "type": "quantitative"}, "y": {"field": "value", "type": "quantitative"}}, "height": 120, "selection": {"selector002": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "title": "psi", "width": 250}, {"data": {"name": "data-ee29adc4f1a6e39dd6c70115c86b4ea2"}, "mark": "line", "encoding": {"color": {"field": "prop", "type": "nominal"}, "facet": {"field": "info", "type": "nominal"}, "x": {"field": "n_iter", "type": "quantitative"}, "y": {"field": "value", "type": "quantitative"}}, "height": 120, "selection": {"selector002": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "title": "likelihood", "width": 250}], "resolve": {"scale": {"color": "independent"}}, "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-7d71b1aeb33b90c30195ae496711ed73": [{"loss": 1.3433738946914673, "n_iter": 0}, {"loss": 1.3024859428405762, "n_iter": 1}, {"loss": 1.265859842300415, "n_iter": 2}, {"loss": 1.2320642471313477, "n_iter": 3}, {"loss": 1.1994917392730713, "n_iter": 4}, {"loss": 1.166903018951416, "n_iter": 5}, {"loss": 1.1324422359466553, "n_iter": 6}, {"loss": 1.0953967571258545, "n_iter": 7}, {"loss": 1.0568897724151611, "n_iter": 8}, {"loss": 1.018454670906067, "n_iter": 9}, {"loss": 0.9809300899505615, "n_iter": 10}, {"loss": 0.9439373016357422, "n_iter": 11}, {"loss": 0.9064287543296814, "n_iter": 12}, {"loss": 0.8676117062568665, "n_iter": 13}, {"loss": 0.827412486076355, "n_iter": 14}, {"loss": 0.7864125370979309, "n_iter": 15}, {"loss": 0.7454508543014526, "n_iter": 16}, {"loss": 0.7051375508308411, "n_iter": 17}, {"loss": 0.665240466594696, "n_iter": 18}, {"loss": 0.6246615648269653, "n_iter": 19}, {"loss": 0.5827572345733643, "n_iter": 20}, {"loss": 0.5403521656990051, "n_iter": 21}, {"loss": 0.49882444739341736, "n_iter": 22}, {"loss": 0.4579313099384308, "n_iter": 23}, {"loss": 0.41604936122894287, "n_iter": 24}, {"loss": 0.373188853263855, "n_iter": 25}, {"loss": 0.3306640386581421, "n_iter": 26}, {"loss": 0.28883785009384155, "n_iter": 27}, {"loss": 0.246829092502594, "n_iter": 28}, {"loss": 0.20378351211547852, "n_iter": 29}, {"loss": 0.16109398007392883, "n_iter": 30}, {"loss": 0.11932240426540375, "n_iter": 31}, {"loss": 0.07683716714382172, "n_iter": 32}, {"loss": 0.03400654345750809, "n_iter": 33}, {"loss": -0.007983101531863213, "n_iter": 34}, {"loss": -0.0498826764523983, "n_iter": 35}, {"loss": -0.0925174281001091, "n_iter": 36}, {"loss": -0.13422393798828125, "n_iter": 37}, {"loss": -0.17595693469047546, "n_iter": 38}, {"loss": -0.21804291009902954, "n_iter": 39}, {"loss": -0.2592464089393616, "n_iter": 40}, {"loss": -0.3008970618247986, "n_iter": 41}, {"loss": -0.34207725524902344, "n_iter": 42}, {"loss": -0.3829256594181061, "n_iter": 43}, {"loss": -0.42407703399658203, "n_iter": 44}, {"loss": -0.46441447734832764, "n_iter": 45}, {"loss": -0.5050967335700989, "n_iter": 46}, {"loss": -0.5448850989341736, "n_iter": 47}, {"loss": -0.5847068428993225, "n_iter": 48}, {"loss": -0.6236855387687683, "n_iter": 49}, {"loss": -0.6617059707641602, "n_iter": 50}, {"loss": -0.7022717595100403, "n_iter": 51}, {"loss": -0.7405784130096436, "n_iter": 52}, {"loss": -0.7774577736854553, "n_iter": 53}, {"loss": -0.8161048889160156, "n_iter": 54}, {"loss": -0.8535068035125732, "n_iter": 55}, {"loss": -0.8894447684288025, "n_iter": 56}, {"loss": -0.9257562160491943, "n_iter": 57}, {"loss": -0.962315022945404, "n_iter": 58}, {"loss": -0.9968780875205994, "n_iter": 59}, {"loss": -1.0281982421875, "n_iter": 60}, {"loss": -1.057813048362732, "n_iter": 61}, {"loss": -1.0962837934494019, "n_iter": 62}, {"loss": -1.1277313232421875, "n_iter": 63}, {"loss": -1.1528491973876953, "n_iter": 64}, {"loss": -1.1891307830810547, "n_iter": 65}, {"loss": -1.22038733959198, "n_iter": 66}, {"loss": -1.2419577836990356, "n_iter": 67}, {"loss": -1.2756505012512207, "n_iter": 68}, {"loss": -1.3032313585281372, "n_iter": 69}, {"loss": -1.3187811374664307, "n_iter": 70}, {"loss": -1.3455560207366943, "n_iter": 71}, {"loss": -1.3662018775939941, "n_iter": 72}, {"loss": -1.3802517652511597, "n_iter": 73}, {"loss": -1.4162442684173584, "n_iter": 74}, {"loss": -1.4308744668960571, "n_iter": 75}, {"loss": -1.4388084411621094, "n_iter": 76}, {"loss": -1.4734374284744263, "n_iter": 77}, {"loss": -1.4792450666427612, "n_iter": 78}, {"loss": -1.4879491329193115, "n_iter": 79}, {"loss": -1.5149320363998413, "n_iter": 80}, {"loss": -1.5109171867370605, "n_iter": 81}, {"loss": -1.5183767080307007, "n_iter": 82}, {"loss": -1.5340194702148438, "n_iter": 83}, {"loss": -1.533139705657959, "n_iter": 84}, {"loss": -1.5604103803634644, "n_iter": 85}, {"loss": -1.5690449476242065, "n_iter": 86}, {"loss": -1.557447910308838, "n_iter": 87}, {"loss": -1.5780762434005737, "n_iter": 88}, {"loss": -1.5812015533447266, "n_iter": 89}, {"loss": -1.5849195718765259, "n_iter": 90}, {"loss": -1.60220468044281, "n_iter": 91}, {"loss": -1.5923703908920288, "n_iter": 92}, {"loss": -1.598243236541748, "n_iter": 93}, {"loss": -1.6051229238510132, "n_iter": 94}, {"loss": -1.6013283729553223, "n_iter": 95}, {"loss": -1.6196202039718628, "n_iter": 96}, {"loss": -1.619444489479065, "n_iter": 97}, {"loss": -1.6239806413650513, "n_iter": 98}, {"loss": -1.6304408311843872, "n_iter": 99}], "data-f4cf94811fdd86da9d3689c69b9c1d93": [{"variable": "x0", "n_iter": 0, "prop": "z0", "value": 0.5385743379592896}, {"variable": "x1", "n_iter": 0, "prop": "z0", "value": 0.2981683611869812}, {"variable": "x2", "n_iter": 0, "prop": "z0", "value": 0.8333781361579895}, {"variable": "x0", "n_iter": 1, "prop": "z0", "value": 0.6385743021965027}, {"variable": "x1", "n_iter": 1, "prop": "z0", "value": 0.3981683552265167}, {"variable": "x2", "n_iter": 1, "prop": "z0", "value": 0.7333781719207764}, {"variable": "x0", "n_iter": 2, "prop": "z0", "value": 0.7038124203681946}, {"variable": "x1", "n_iter": 2, "prop": "z0", "value": 0.49743402004241943}, {"variable": "x2", "n_iter": 2, "prop": "z0", "value": 0.6395636796951294}, {"variable": "x0", "n_iter": 3, "prop": "z0", "value": 0.7021762132644653}, {"variable": "x1", "n_iter": 3, "prop": "z0", "value": 0.5940279960632324}, {"variable": "x2", "n_iter": 3, "prop": "z0", "value": 0.5714592933654785}, {"variable": "x0", "n_iter": 4, "prop": "z0", "value": 0.6729514002799988}, {"variable": "x1", "n_iter": 4, "prop": "z0", "value": 0.6832994818687439}, {"variable": "x2", "n_iter": 4, "prop": "z0", "value": 0.550130307674408}, {"variable": "x0", "n_iter": 5, "prop": "z0", "value": 0.6494593024253845}, {"variable": "x1", "n_iter": 5, "prop": "z0", "value": 0.7572878003120422}, {"variable": "x2", "n_iter": 5, "prop": "z0", "value": 0.5674676895141602}, {"variable": "x0", "n_iter": 6, "prop": "z0", "value": 0.6596686244010925}, {"variable": "x1", "n_iter": 6, "prop": "z0", "value": 0.8083656430244446}, {"variable": "x2", "n_iter": 6, "prop": "z0", "value": 0.6081742644309998}, {"variable": "x0", "n_iter": 7, "prop": "z0", "value": 0.6970005035400391}, {"variable": "x1", "n_iter": 7, "prop": "z0", "value": 0.8354694843292236}, {"variable": "x2", "n_iter": 7, "prop": "z0", "value": 0.6626051068305969}, {"variable": "x0", "n_iter": 8, "prop": "z0", "value": 0.7491701245307922}, {"variable": "x1", "n_iter": 8, "prop": "z0", "value": 0.84334397315979}, {"variable": "x2", "n_iter": 8, "prop": "z0", "value": 0.7244585752487183}, {"variable": "x0", "n_iter": 9, "prop": "z0", "value": 0.8063361644744873}, {"variable": "x1", "n_iter": 9, "prop": "z0", "value": 0.8388442993164062}, {"variable": "x2", "n_iter": 9, "prop": "z0", "value": 0.7884469032287598}, {"variable": "x0", "n_iter": 10, "prop": "z0", "value": 0.8573924899101257}, {"variable": "x1", "n_iter": 10, "prop": "z0", "value": 0.8293240666389465}, {"variable": "x2", "n_iter": 10, "prop": "z0", "value": 0.8491649627685547}, {"variable": "x0", "n_iter": 11, "prop": "z0", "value": 0.8919713497161865}, {"variable": "x1", "n_iter": 11, "prop": "z0", "value": 0.8221187591552734}, {"variable": "x2", "n_iter": 11, "prop": "z0", "value": 0.9009547233581543}, {"variable": "x0", "n_iter": 12, "prop": "z0", "value": 0.9073890447616577}, {"variable": "x1", "n_iter": 12, "prop": "z0", "value": 0.8232681155204773}, {"variable": "x2", "n_iter": 12, "prop": "z0", "value": 0.9386757016181946}, {"variable": "x0", "n_iter": 13, "prop": "z0", "value": 0.9083454608917236}, {"variable": "x1", "n_iter": 13, "prop": "z0", "value": 0.8357252478599548}, {"variable": "x2", "n_iter": 13, "prop": "z0", "value": 0.9592348337173462}, {"variable": "x0", "n_iter": 14, "prop": "z0", "value": 0.9025653600692749}, {"variable": "x1", "n_iter": 14, "prop": "z0", "value": 0.8588885068893433}, {"variable": "x2", "n_iter": 14, "prop": "z0", "value": 0.9627193808555603}, {"variable": "x0", "n_iter": 15, "prop": "z0", "value": 0.8986527323722839}, {"variable": "x1", "n_iter": 15, "prop": "z0", "value": 0.8895310759544373}, {"variable": "x2", "n_iter": 15, "prop": "z0", "value": 0.9521287083625793}, {"variable": "x0", "n_iter": 16, "prop": "z0", "value": 0.903521716594696}, {"variable": "x1", "n_iter": 16, "prop": "z0", "value": 0.9226781129837036}, {"variable": "x2", "n_iter": 16, "prop": "z0", "value": 0.9326695203781128}, {"variable": "x0", "n_iter": 17, "prop": "z0", "value": 0.9188315868377686}, {"variable": "x1", "n_iter": 17, "prop": "z0", "value": 0.9522746801376343}, {"variable": "x2", "n_iter": 17, "prop": "z0", "value": 0.9117668271064758}, {"variable": "x0", "n_iter": 18, "prop": "z0", "value": 0.9405276775360107}, {"variable": "x1", "n_iter": 18, "prop": "z0", "value": 0.9727973341941833}, {"variable": "x2", "n_iter": 18, "prop": "z0", "value": 0.8988614082336426}, {"variable": "x0", "n_iter": 19, "prop": "z0", "value": 0.9609282612800598}, {"variable": "x1", "n_iter": 19, "prop": "z0", "value": 0.9817452430725098}, {"variable": "x2", "n_iter": 19, "prop": "z0", "value": 0.9018074870109558}, {"variable": "x0", "n_iter": 20, "prop": "z0", "value": 0.972724437713623}, {"variable": "x1", "n_iter": 20, "prop": "z0", "value": 0.9806087613105774}, {"variable": "x2", "n_iter": 20, "prop": "z0", "value": 0.921893835067749}, {"variable": "x0", "n_iter": 21, "prop": "z0", "value": 0.9750250577926636}, {"variable": "x1", "n_iter": 21, "prop": "z0", "value": 0.9738308787345886}, {"variable": "x2", "n_iter": 21, "prop": "z0", "value": 0.9544801712036133}, {"variable": "x0", "n_iter": 22, "prop": "z0", "value": 0.9753994941711426}, {"variable": "x1", "n_iter": 22, "prop": "z0", "value": 0.9678182601928711}, {"variable": "x2", "n_iter": 22, "prop": "z0", "value": 0.9914777874946594}, {"variable": "x0", "n_iter": 23, "prop": "z0", "value": 0.9855812191963196}, {"variable": "x1", "n_iter": 23, "prop": "z0", "value": 0.9699217081069946}, {"variable": "x2", "n_iter": 23, "prop": "z0", "value": 1.0225673913955688}, {"variable": "x0", "n_iter": 24, "prop": "z0", "value": 1.010116696357727}, {"variable": "x1", "n_iter": 24, "prop": "z0", "value": 0.9855424165725708}, {"variable": "x2", "n_iter": 24, "prop": "z0", "value": 1.0402882099151611}, {"variable": "x0", "n_iter": 25, "prop": "z0", "value": 1.0419080257415771}, {"variable": "x1", "n_iter": 25, "prop": "z0", "value": 1.0149805545806885}, {"variable": "x2", "n_iter": 25, "prop": "z0", "value": 1.0459975004196167}, {"variable": "x0", "n_iter": 26, "prop": "z0", "value": 1.0677461624145508}, {"variable": "x1", "n_iter": 26, "prop": "z0", "value": 1.0537487268447876}, {"variable": "x2", "n_iter": 26, "prop": "z0", "value": 1.0484479665756226}, {"variable": "x0", "n_iter": 27, "prop": "z0", "value": 1.0819696187973022}, {"variable": "x1", "n_iter": 27, "prop": "z0", "value": 1.0935200452804565}, {"variable": "x2", "n_iter": 27, "prop": "z0", "value": 1.0584524869918823}, {"variable": "x0", "n_iter": 28, "prop": "z0", "value": 1.0958000421524048}, {"variable": "x1", "n_iter": 28, "prop": "z0", "value": 1.1237120628356934}, {"variable": "x2", "n_iter": 28, "prop": "z0", "value": 1.0818339586257935}, {"variable": "x0", "n_iter": 29, "prop": "z0", "value": 1.1223156452178955}, {"variable": "x1", "n_iter": 29, "prop": "z0", "value": 1.1395715475082397}, {"variable": "x2", "n_iter": 29, "prop": "z0", "value": 1.1169209480285645}, {"variable": "x0", "n_iter": 30, "prop": "z0", "value": 1.1586076021194458}, {"variable": "x1", "n_iter": 30, "prop": "z0", "value": 1.1481434106826782}, {"variable": "x2", "n_iter": 30, "prop": "z0", "value": 1.157495379447937}, {"variable": "x0", "n_iter": 31, "prop": "z0", "value": 1.1901435852050781}, {"variable": "x1", "n_iter": 31, "prop": "z0", "value": 1.1632018089294434}, {"variable": "x2", "n_iter": 31, "prop": "z0", "value": 1.1953308582305908}, {"variable": "x0", "n_iter": 32, "prop": "z0", "value": 1.2098650932312012}, {"variable": "x1", "n_iter": 32, "prop": "z0", "value": 1.1930559873580933}, {"variable": "x2", "n_iter": 32, "prop": "z0", "value": 1.2231215238571167}, {"variable": "x0", "n_iter": 33, "prop": "z0", "value": 1.2303475141525269}, {"variable": "x1", "n_iter": 33, "prop": "z0", "value": 1.2336492538452148}, {"variable": "x2", "n_iter": 33, "prop": "z0", "value": 1.23939847946167}, {"variable": "x0", "n_iter": 34, "prop": "z0", "value": 1.2620010375976562}, {"variable": "x1", "n_iter": 34, "prop": "z0", "value": 1.2735801935195923}, {"variable": "x2", "n_iter": 34, "prop": "z0", "value": 1.2525413036346436}, {"variable": "x0", "n_iter": 35, "prop": "z0", "value": 1.296664834022522}, {"variable": "x1", "n_iter": 35, "prop": "z0", "value": 1.302536964416504}, {"variable": "x2", "n_iter": 35, "prop": "z0", "value": 1.275878667831421}, {"variable": "x0", "n_iter": 36, "prop": "z0", "value": 1.3196523189544678}, {"variable": "x1", "n_iter": 36, "prop": "z0", "value": 1.3208668231964111}, {"variable": "x2", "n_iter": 36, "prop": "z0", "value": 1.3132919073104858}, {"variable": "x0", "n_iter": 37, "prop": "z0", "value": 1.339704990386963}, {"variable": "x1", "n_iter": 37, "prop": "z0", "value": 1.336778163909912}, {"variable": "x2", "n_iter": 37, "prop": "z0", "value": 1.35397469997406}, {"variable": "x0", "n_iter": 38, "prop": "z0", "value": 1.3718677759170532}, {"variable": "x1", "n_iter": 38, "prop": "z0", "value": 1.3605244159698486}, {"variable": "x2", "n_iter": 38, "prop": "z0", "value": 1.3815677165985107}, {"variable": "x0", "n_iter": 39, "prop": "z0", "value": 1.4029966592788696}, {"variable": "x1", "n_iter": 39, "prop": "z0", "value": 1.3959399461746216}, {"variable": "x2", "n_iter": 39, "prop": "z0", "value": 1.3967995643615723}, {"variable": "x0", "n_iter": 40, "prop": "z0", "value": 1.4197378158569336}, {"variable": "x1", "n_iter": 40, "prop": "z0", "value": 1.4333910942077637}, {"variable": "x2", "n_iter": 40, "prop": "z0", "value": 1.4149152040481567}, {"variable": "x0", "n_iter": 41, "prop": "z0", "value": 1.4482861757278442}, {"variable": "x1", "n_iter": 41, "prop": "z0", "value": 1.4551717042922974}, {"variable": "x2", "n_iter": 41, "prop": "z0", "value": 1.4435243606567383}, {"variable": "x0", "n_iter": 42, "prop": "z0", "value": 1.4801151752471924}, {"variable": "x1", "n_iter": 42, "prop": "z0", "value": 1.4684418439865112}, {"variable": "x2", "n_iter": 42, "prop": "z0", "value": 1.4791276454925537}, {"variable": "x0", "n_iter": 43, "prop": "z0", "value": 1.4948664903640747}, {"variable": "x1", "n_iter": 43, "prop": "z0", "value": 1.4936208724975586}, {"variable": "x2", "n_iter": 43, "prop": "z0", "value": 1.5086588859558105}, {"variable": "x0", "n_iter": 44, "prop": "z0", "value": 1.5280449390411377}, {"variable": "x1", "n_iter": 44, "prop": "z0", "value": 1.5272916555404663}, {"variable": "x2", "n_iter": 44, "prop": "z0", "value": 1.5214860439300537}, {"variable": "x0", "n_iter": 45, "prop": "z0", "value": 1.5503349304199219}, {"variable": "x1", "n_iter": 45, "prop": "z0", "value": 1.5573807954788208}, {"variable": "x2", "n_iter": 45, "prop": "z0", "value": 1.5424368381500244}, {"variable": "x0", "n_iter": 46, "prop": "z0", "value": 1.572543740272522}, {"variable": "x1", "n_iter": 46, "prop": "z0", "value": 1.5732141733169556}, {"variable": "x2", "n_iter": 46, "prop": "z0", "value": 1.5772544145584106}, {"variable": "x0", "n_iter": 47, "prop": "z0", "value": 1.6048451662063599}, {"variable": "x1", "n_iter": 47, "prop": "z0", "value": 1.592476487159729}, {"variable": "x2", "n_iter": 47, "prop": "z0", "value": 1.605247974395752}, {"variable": "x0", "n_iter": 48, "prop": "z0", "value": 1.6148077249526978}, {"variable": "x1", "n_iter": 48, "prop": "z0", "value": 1.6294444799423218}, {"variable": "x2", "n_iter": 48, "prop": "z0", "value": 1.6232669353485107}, {"variable": "x0", "n_iter": 49, "prop": "z0", "value": 1.662127137184143}, {"variable": "x1", "n_iter": 49, "prop": "z0", "value": 1.6496504545211792}, {"variable": "x2", "n_iter": 49, "prop": "z0", "value": 1.6403470039367676}, {"variable": "x0", "n_iter": 50, "prop": "z0", "value": 1.6514729261398315}, {"variable": "x1", "n_iter": 50, "prop": "z0", "value": 1.673344373703003}, {"variable": "x2", "n_iter": 50, "prop": "z0", "value": 1.6814920902252197}, {"variable": "x0", "n_iter": 51, "prop": "z0", "value": 1.6979492902755737}, {"variable": "x1", "n_iter": 51, "prop": "z0", "value": 1.6860387325286865}, {"variable": "x2", "n_iter": 51, "prop": "z0", "value": 1.6879929304122925}, {"variable": "x0", "n_iter": 52, "prop": "z0", "value": 1.7173360586166382}, {"variable": "x1", "n_iter": 52, "prop": "z0", "value": 1.7134042978286743}, {"variable": "x2", "n_iter": 52, "prop": "z0", "value": 1.7029237747192383}, {"variable": "x0", "n_iter": 53, "prop": "z0", "value": 1.716028094291687}, {"variable": "x1", "n_iter": 53, "prop": "z0", "value": 1.7348405122756958}, {"variable": "x2", "n_iter": 53, "prop": "z0", "value": 1.7399816513061523}, {"variable": "x0", "n_iter": 54, "prop": "z0", "value": 1.7576656341552734}, {"variable": "x1", "n_iter": 54, "prop": "z0", "value": 1.7428826093673706}, {"variable": "x2", "n_iter": 54, "prop": "z0", "value": 1.7476177215576172}, {"variable": "x0", "n_iter": 55, "prop": "z0", "value": 1.7700276374816895}, {"variable": "x1", "n_iter": 55, "prop": "z0", "value": 1.7754104137420654}, {"variable": "x2", "n_iter": 55, "prop": "z0", "value": 1.7619621753692627}, {"variable": "x0", "n_iter": 56, "prop": "z0", "value": 1.779731035232544}, {"variable": "x1", "n_iter": 56, "prop": "z0", "value": 1.785027027130127}, {"variable": "x2", "n_iter": 56, "prop": "z0", "value": 1.7986633777618408}, {"variable": "x0", "n_iter": 57, "prop": "z0", "value": 1.8158891201019287}, {"variable": "x1", "n_iter": 57, "prop": "z0", "value": 1.8084559440612793}, {"variable": "x2", "n_iter": 57, "prop": "z0", "value": 1.7979748249053955}, {"variable": "x0", "n_iter": 58, "prop": "z0", "value": 1.8193820714950562}, {"variable": "x1", "n_iter": 58, "prop": "z0", "value": 1.8293800354003906}, {"variable": "x2", "n_iter": 58, "prop": "z0", "value": 1.828197717666626}, {"variable": "x0", "n_iter": 59, "prop": "z0", "value": 1.845504641532898}, {"variable": "x1", "n_iter": 59, "prop": "z0", "value": 1.8356271982192993}, {"variable": "x2", "n_iter": 59, "prop": "z0", "value": 1.8492705821990967}, {"variable": "x0", "n_iter": 60, "prop": "z0", "value": 1.862443447113037}, {"variable": "x1", "n_iter": 60, "prop": "z0", "value": 1.8783713579177856}, {"variable": "x2", "n_iter": 60, "prop": "z0", "value": 1.8492655754089355}, {"variable": "x0", "n_iter": 61, "prop": "z0", "value": 1.8832303285598755}, {"variable": "x1", "n_iter": 61, "prop": "z0", "value": 1.8575634956359863}, {"variable": "x2", "n_iter": 61, "prop": "z0", "value": 1.8948856592178345}, {"variable": "x0", "n_iter": 62, "prop": "z0", "value": 1.8822757005691528}, {"variable": "x1", "n_iter": 62, "prop": "z0", "value": 1.9024839401245117}, {"variable": "x2", "n_iter": 62, "prop": "z0", "value": 1.8848648071289062}, {"variable": "x0", "n_iter": 63, "prop": "z0", "value": 1.9156572818756104}, {"variable": "x1", "n_iter": 63, "prop": "z0", "value": 1.9090158939361572}, {"variable": "x2", "n_iter": 63, "prop": "z0", "value": 1.892784833908081}, {"variable": "x0", "n_iter": 64, "prop": "z0", "value": 1.9029641151428223}, {"variable": "x1", "n_iter": 64, "prop": "z0", "value": 1.90793776512146}, {"variable": "x2", "n_iter": 64, "prop": "z0", "value": 1.9372954368591309}, {"variable": "x0", "n_iter": 65, "prop": "z0", "value": 1.9413849115371704}, {"variable": "x1", "n_iter": 65, "prop": "z0", "value": 1.9341312646865845}, {"variable": "x2", "n_iter": 65, "prop": "z0", "value": 1.9187133312225342}, {"variable": "x0", "n_iter": 66, "prop": "z0", "value": 1.938649296760559}, {"variable": "x1", "n_iter": 66, "prop": "z0", "value": 1.951366662979126}, {"variable": "x2", "n_iter": 66, "prop": "z0", "value": 1.9347856044769287}, {"variable": "x0", "n_iter": 67, "prop": "z0", "value": 1.9483036994934082}, {"variable": "x1", "n_iter": 67, "prop": "z0", "value": 1.936445951461792}, {"variable": "x2", "n_iter": 67, "prop": "z0", "value": 1.9677088260650635}, {"variable": "x0", "n_iter": 68, "prop": "z0", "value": 1.967534065246582}, {"variable": "x1", "n_iter": 68, "prop": "z0", "value": 1.9705626964569092}, {"variable": "x2", "n_iter": 68, "prop": "z0", "value": 1.9531751871109009}, {"variable": "x0", "n_iter": 69, "prop": "z0", "value": 1.9690425395965576}, {"variable": "x1", "n_iter": 69, "prop": "z0", "value": 1.981343388557434}, {"variable": "x2", "n_iter": 69, "prop": "z0", "value": 1.9680014848709106}, {"variable": "x0", "n_iter": 70, "prop": "z0", "value": 1.9886534214019775}, {"variable": "x1", "n_iter": 70, "prop": "z0", "value": 1.9650647640228271}, {"variable": "x2", "n_iter": 70, "prop": "z0", "value": 1.9952245950698853}, {"variable": "x0", "n_iter": 71, "prop": "z0", "value": 1.978020429611206}, {"variable": "x1", "n_iter": 71, "prop": "z0", "value": 2.0052947998046875}, {"variable": "x2", "n_iter": 71, "prop": "z0", "value": 1.9852944612503052}, {"variable": "x0", "n_iter": 72, "prop": "z0", "value": 2.019484043121338}, {"variable": "x1", "n_iter": 72, "prop": "z0", "value": 1.9975749254226685}, {"variable": "x2", "n_iter": 72, "prop": "z0", "value": 1.9904429912567139}, {"variable": "x0", "n_iter": 73, "prop": "z0", "value": 1.9910780191421509}, {"variable": "x1", "n_iter": 73, "prop": "z0", "value": 2.006075859069824}, {"variable": "x2", "n_iter": 73, "prop": "z0", "value": 2.02864933013916}, {"variable": "x0", "n_iter": 74, "prop": "z0", "value": 2.0210087299346924}, {"variable": "x1", "n_iter": 74, "prop": "z0", "value": 2.024310350418091}, {"variable": "x2", "n_iter": 74, "prop": "z0", "value": 2.0080955028533936}, {"variable": "x0", "n_iter": 75, "prop": "z0", "value": 2.0385608673095703}, {"variable": "x1", "n_iter": 75, "prop": "z0", "value": 2.0212841033935547}, {"variable": "x2", "n_iter": 75, "prop": "z0", "value": 2.015927314758301}, {"variable": "x0", "n_iter": 76, "prop": "z0", "value": 2.013432264328003}, {"variable": "x1", "n_iter": 76, "prop": "z0", "value": 2.0336592197418213}, {"variable": "x2", "n_iter": 76, "prop": "z0", "value": 2.047159433364868}, {"variable": "x0", "n_iter": 77, "prop": "z0", "value": 2.041916847229004}, {"variable": "x1", "n_iter": 77, "prop": "z0", "value": 2.0399839878082275}, {"variable": "x2", "n_iter": 77, "prop": "z0", "value": 2.033867835998535}, {"variable": "x0", "n_iter": 78, "prop": "z0", "value": 2.0582311153411865}, {"variable": "x1", "n_iter": 78, "prop": "z0", "value": 2.0421512126922607}, {"variable": "x2", "n_iter": 78, "prop": "z0", "value": 2.0349600315093994}, {"variable": "x0", "n_iter": 79, "prop": "z0", "value": 2.0357391834259033}, {"variable": "x1", "n_iter": 79, "prop": "z0", "value": 2.058133602142334}, {"variable": "x2", "n_iter": 79, "prop": "z0", "value": 2.0631866455078125}, {"variable": "x0", "n_iter": 80, "prop": "z0", "value": 2.0602314472198486}, {"variable": "x1", "n_iter": 80, "prop": "z0", "value": 2.050821542739868}, {"variable": "x2", "n_iter": 80, "prop": "z0", "value": 2.0593419075012207}, {"variable": "x0", "n_iter": 81, "prop": "z0", "value": 2.072307586669922}, {"variable": "x1", "n_iter": 81, "prop": "z0", "value": 2.0731277465820312}, {"variable": "x2", "n_iter": 81, "prop": "z0", "value": 2.0478243827819824}, {"variable": "x0", "n_iter": 82, "prop": "z0", "value": 2.062189817428589}, {"variable": "x1", "n_iter": 82, "prop": "z0", "value": 2.0557901859283447}, {"variable": "x2", "n_iter": 82, "prop": "z0", "value": 2.083937168121338}, {"variable": "x0", "n_iter": 83, "prop": "z0", "value": 2.0661516189575195}, {"variable": "x1", "n_iter": 83, "prop": "z0", "value": 2.0902466773986816}, {"variable": "x2", "n_iter": 83, "prop": "z0", "value": 2.070566177368164}, {"variable": "x0", "n_iter": 84, "prop": "z0", "value": 2.098228693008423}, {"variable": "x1", "n_iter": 84, "prop": "z0", "value": 2.068528175354004}, {"variable": "x2", "n_iter": 84, "prop": "z0", "value": 2.0743680000305176}, {"variable": "x0", "n_iter": 85, "prop": "z0", "value": 2.0759263038635254}, {"variable": "x1", "n_iter": 85, "prop": "z0", "value": 2.0905728340148926}, {"variable": "x2", "n_iter": 85, "prop": "z0", "value": 2.0913710594177246}, {"variable": "x0", "n_iter": 86, "prop": "z0", "value": 2.0823700428009033}, {"variable": "x1", "n_iter": 86, "prop": "z0", "value": 2.0971171855926514}, {"variable": "x2", "n_iter": 86, "prop": "z0", "value": 2.093073606491089}, {"variable": "x0", "n_iter": 87, "prop": "z0", "value": 2.1103155612945557}, {"variable": "x1", "n_iter": 87, "prop": "z0", "value": 2.0832977294921875}, {"variable": "x2", "n_iter": 87, "prop": "z0", "value": 2.0901002883911133}, {"variable": "x0", "n_iter": 88, "prop": "z0", "value": 2.0932493209838867}, {"variable": "x1", "n_iter": 88, "prop": "z0", "value": 2.1104609966278076}, {"variable": "x2", "n_iter": 88, "prop": "z0", "value": 2.0975663661956787}, {"variable": "x0", "n_iter": 89, "prop": "z0", "value": 2.096768856048584}, {"variable": "x1", "n_iter": 89, "prop": "z0", "value": 2.102511405944824}, {"variable": "x2", "n_iter": 89, "prop": "z0", "value": 2.1161954402923584}, {"variable": "x0", "n_iter": 90, "prop": "z0", "value": 2.1195991039276123}, {"variable": "x1", "n_iter": 90, "prop": "z0", "value": 2.107534408569336}, {"variable": "x2", "n_iter": 90, "prop": "z0", "value": 2.0989301204681396}, {"variable": "x0", "n_iter": 91, "prop": "z0", "value": 2.112398624420166}, {"variable": "x1", "n_iter": 91, "prop": "z0", "value": 2.1165168285369873}, {"variable": "x2", "n_iter": 91, "prop": "z0", "value": 2.1117515563964844}, {"variable": "x0", "n_iter": 92, "prop": "z0", "value": 2.1087262630462646}, {"variable": "x1", "n_iter": 92, "prop": "z0", "value": 2.115459442138672}, {"variable": "x2", "n_iter": 92, "prop": "z0", "value": 2.129901885986328}, {"variable": "x0", "n_iter": 93, "prop": "z0", "value": 2.1272878646850586}, {"variable": "x1", "n_iter": 93, "prop": "z0", "value": 2.1281211376190186}, {"variable": "x2", "n_iter": 93, "prop": "z0", "value": 2.1108171939849854}, {"variable": "x0", "n_iter": 94, "prop": "z0", "value": 2.1318557262420654}, {"variable": "x1", "n_iter": 94, "prop": "z0", "value": 2.1166605949401855}, {"variable": "x2", "n_iter": 94, "prop": "z0", "value": 2.1276769638061523}, {"variable": "x0", "n_iter": 95, "prop": "z0", "value": 2.1174423694610596}, {"variable": "x1", "n_iter": 95, "prop": "z0", "value": 2.1402487754821777}, {"variable": "x2", "n_iter": 95, "prop": "z0", "value": 2.132744073867798}, {"variable": "x0", "n_iter": 96, "prop": "z0", "value": 2.13671612739563}, {"variable": "x1", "n_iter": 96, "prop": "z0", "value": 2.1284680366516113}, {"variable": "x2", "n_iter": 96, "prop": "z0", "value": 2.134915828704834}, {"variable": "x0", "n_iter": 97, "prop": "z0", "value": 2.144378185272217}, {"variable": "x1", "n_iter": 97, "prop": "z0", "value": 2.1368985176086426}, {"variable": "x2", "n_iter": 97, "prop": "z0", "value": 2.1300015449523926}, {"variable": "x0", "n_iter": 98, "prop": "z0", "value": 2.1335744857788086}, {"variable": "x1", "n_iter": 98, "prop": "z0", "value": 2.144965648651123}, {"variable": "x2", "n_iter": 98, "prop": "z0", "value": 2.145648241043091}, {"variable": "x0", "n_iter": 99, "prop": "z0", "value": 2.1422476768493652}, {"variable": "x1", "n_iter": 99, "prop": "z0", "value": 2.1427836418151855}, {"variable": "x2", "n_iter": 99, "prop": "z0", "value": 2.1496775150299072}], "data-331ba4ea895f7ecb93d1c5318928b13d": [{"latent": "z0", "n_iter": 0, "prop": "lengthscale", "value": 0.6931471824645996}, {"latent": "z0", "n_iter": 1, "prop": "lengthscale", "value": 0.7443966269493103}, {"latent": "z0", "n_iter": 2, "prop": "lengthscale", "value": 0.7982117533683777}, {"latent": "z0", "n_iter": 3, "prop": "lengthscale", "value": 0.8546311855316162}, {"latent": "z0", "n_iter": 4, "prop": "lengthscale", "value": 0.9136412143707275}, {"latent": "z0", "n_iter": 5, "prop": "lengthscale", "value": 0.9751938581466675}, {"latent": "z0", "n_iter": 6, "prop": "lengthscale", "value": 1.0392305850982666}, {"latent": "z0", "n_iter": 7, "prop": "lengthscale", "value": 1.1056976318359375}, {"latent": "z0", "n_iter": 8, "prop": "lengthscale", "value": 1.1745339632034302}, {"latent": "z0", "n_iter": 9, "prop": "lengthscale", "value": 1.2456607818603516}, {"latent": "z0", "n_iter": 10, "prop": "lengthscale", "value": 1.3189787864685059}, {"latent": "z0", "n_iter": 11, "prop": "lengthscale", "value": 1.3943634033203125}, {"latent": "z0", "n_iter": 12, "prop": "lengthscale", "value": 1.4716496467590332}, {"latent": "z0", "n_iter": 13, "prop": "lengthscale", "value": 1.5506243705749512}, {"latent": "z0", "n_iter": 14, "prop": "lengthscale", "value": 1.631030797958374}, {"latent": "z0", "n_iter": 15, "prop": "lengthscale", "value": 1.712581992149353}, {"latent": "z0", "n_iter": 16, "prop": "lengthscale", "value": 1.79498291015625}, {"latent": "z0", "n_iter": 17, "prop": "lengthscale", "value": 1.877953052520752}, {"latent": "z0", "n_iter": 18, "prop": "lengthscale", "value": 1.9612369537353516}, {"latent": "z0", "n_iter": 19, "prop": "lengthscale", "value": 2.0446019172668457}, {"latent": "z0", "n_iter": 20, "prop": "lengthscale", "value": 2.1278228759765625}, {"latent": "z0", "n_iter": 21, "prop": "lengthscale", "value": 2.210660934448242}, {"latent": "z0", "n_iter": 22, "prop": "lengthscale", "value": 2.2928643226623535}, {"latent": "z0", "n_iter": 23, "prop": "lengthscale", "value": 2.374202251434326}, {"latent": "z0", "n_iter": 24, "prop": "lengthscale", "value": 2.45451021194458}, {"latent": "z0", "n_iter": 25, "prop": "lengthscale", "value": 2.5336945056915283}, {"latent": "z0", "n_iter": 26, "prop": "lengthscale", "value": 2.611708164215088}, {"latent": "z0", "n_iter": 27, "prop": "lengthscale", "value": 2.688511848449707}, {"latent": "z0", "n_iter": 28, "prop": "lengthscale", "value": 2.7640621662139893}, {"latent": "z0", "n_iter": 29, "prop": "lengthscale", "value": 2.8383431434631348}, {"latent": "z0", "n_iter": 30, "prop": "lengthscale", "value": 2.9113986492156982}, {"latent": "z0", "n_iter": 31, "prop": "lengthscale", "value": 2.983320951461792}, {"latent": "z0", "n_iter": 32, "prop": "lengthscale", "value": 3.0541951656341553}, {"latent": "z0", "n_iter": 33, "prop": "lengthscale", "value": 3.124056100845337}, {"latent": "z0", "n_iter": 34, "prop": "lengthscale", "value": 3.1929333209991455}, {"latent": "z0", "n_iter": 35, "prop": "lengthscale", "value": 3.260895013809204}, {"latent": "z0", "n_iter": 36, "prop": "lengthscale", "value": 3.328016519546509}, {"latent": "z0", "n_iter": 37, "prop": "lengthscale", "value": 3.3943216800689697}, {"latent": "z0", "n_iter": 38, "prop": "lengthscale", "value": 3.4598217010498047}, {"latent": "z0", "n_iter": 39, "prop": "lengthscale", "value": 3.524554967880249}, {"latent": "z0", "n_iter": 40, "prop": "lengthscale", "value": 3.5885376930236816}, {"latent": "z0", "n_iter": 41, "prop": "lengthscale", "value": 3.6517341136932373}, {"latent": "z0", "n_iter": 42, "prop": "lengthscale", "value": 3.7141427993774414}, {"latent": "z0", "n_iter": 43, "prop": "lengthscale", "value": 3.7757678031921387}, {"latent": "z0", "n_iter": 44, "prop": "lengthscale", "value": 3.8365511894226074}, {"latent": "z0", "n_iter": 45, "prop": "lengthscale", "value": 3.8964786529541016}, {"latent": "z0", "n_iter": 46, "prop": "lengthscale", "value": 3.95550537109375}, {"latent": "z0", "n_iter": 47, "prop": "lengthscale", "value": 4.013586044311523}, {"latent": "z0", "n_iter": 48, "prop": "lengthscale", "value": 4.070708274841309}, {"latent": "z0", "n_iter": 49, "prop": "lengthscale", "value": 4.126780986785889}, {"latent": "z0", "n_iter": 50, "prop": "lengthscale", "value": 4.18181037902832}, {"latent": "z0", "n_iter": 51, "prop": "lengthscale", "value": 4.235665321350098}, {"latent": "z0", "n_iter": 52, "prop": "lengthscale", "value": 4.288244247436523}, {"latent": "z0", "n_iter": 53, "prop": "lengthscale", "value": 4.339452743530273}, {"latent": "z0", "n_iter": 54, "prop": "lengthscale", "value": 4.389197826385498}, {"latent": "z0", "n_iter": 55, "prop": "lengthscale", "value": 4.437362194061279}, {"latent": "z0", "n_iter": 56, "prop": "lengthscale", "value": 4.4838762283325195}, {"latent": "z0", "n_iter": 57, "prop": "lengthscale", "value": 4.528672218322754}, {"latent": "z0", "n_iter": 58, "prop": "lengthscale", "value": 4.571685791015625}, {"latent": "z0", "n_iter": 59, "prop": "lengthscale", "value": 4.612875938415527}, {"latent": "z0", "n_iter": 60, "prop": "lengthscale", "value": 4.652190208435059}, {"latent": "z0", "n_iter": 61, "prop": "lengthscale", "value": 4.689642906188965}, {"latent": "z0", "n_iter": 62, "prop": "lengthscale", "value": 4.725180149078369}, {"latent": "z0", "n_iter": 63, "prop": "lengthscale", "value": 4.758687973022461}, {"latent": "z0", "n_iter": 64, "prop": "lengthscale", "value": 4.790165901184082}, {"latent": "z0", "n_iter": 65, "prop": "lengthscale", "value": 4.819562911987305}, {"latent": "z0", "n_iter": 66, "prop": "lengthscale", "value": 4.846915245056152}, {"latent": "z0", "n_iter": 67, "prop": "lengthscale", "value": 4.872212886810303}, {"latent": "z0", "n_iter": 68, "prop": "lengthscale", "value": 4.895452976226807}, {"latent": "z0", "n_iter": 69, "prop": "lengthscale", "value": 4.916738986968994}, {"latent": "z0", "n_iter": 70, "prop": "lengthscale", "value": 4.936131954193115}, {"latent": "z0", "n_iter": 71, "prop": "lengthscale", "value": 4.953741550445557}, {"latent": "z0", "n_iter": 72, "prop": "lengthscale", "value": 4.969639778137207}, {"latent": "z0", "n_iter": 73, "prop": "lengthscale", "value": 4.984039306640625}, {"latent": "z0", "n_iter": 74, "prop": "lengthscale", "value": 4.997074127197266}, {"latent": "z0", "n_iter": 75, "prop": "lengthscale", "value": 5.0089216232299805}, {"latent": "z0", "n_iter": 76, "prop": "lengthscale", "value": 5.019733905792236}, {"latent": "z0", "n_iter": 77, "prop": "lengthscale", "value": 5.029712677001953}, {"latent": "z0", "n_iter": 78, "prop": "lengthscale", "value": 5.039010524749756}, {"latent": "z0", "n_iter": 79, "prop": "lengthscale", "value": 5.047797203063965}, {"latent": "z0", "n_iter": 80, "prop": "lengthscale", "value": 5.056321620941162}, {"latent": "z0", "n_iter": 81, "prop": "lengthscale", "value": 5.064669609069824}, {"latent": "z0", "n_iter": 82, "prop": "lengthscale", "value": 5.073054313659668}, {"latent": "z0", "n_iter": 83, "prop": "lengthscale", "value": 5.081529140472412}, {"latent": "z0", "n_iter": 84, "prop": "lengthscale", "value": 5.090342044830322}, {"latent": "z0", "n_iter": 85, "prop": "lengthscale", "value": 5.0994954109191895}, {"latent": "z0", "n_iter": 86, "prop": "lengthscale", "value": 5.109147548675537}, {"latent": "z0", "n_iter": 87, "prop": "lengthscale", "value": 5.119347095489502}, {"latent": "z0", "n_iter": 88, "prop": "lengthscale", "value": 5.130033016204834}, {"latent": "z0", "n_iter": 89, "prop": "lengthscale", "value": 5.141312122344971}, {"latent": "z0", "n_iter": 90, "prop": "lengthscale", "value": 5.153171062469482}, {"latent": "z0", "n_iter": 91, "prop": "lengthscale", "value": 5.165524005889893}, {"latent": "z0", "n_iter": 92, "prop": "lengthscale", "value": 5.1783766746521}, {"latent": "z0", "n_iter": 93, "prop": "lengthscale", "value": 5.191683769226074}, {"latent": "z0", "n_iter": 94, "prop": "lengthscale", "value": 5.2053608894348145}, {"latent": "z0", "n_iter": 95, "prop": "lengthscale", "value": 5.219249248504639}, {"latent": "z0", "n_iter": 96, "prop": "lengthscale", "value": 5.2333879470825195}, {"latent": "z0", "n_iter": 97, "prop": "lengthscale", "value": 5.247562408447266}, {"latent": "z0", "n_iter": 98, "prop": "lengthscale", "value": 5.261695384979248}, {"latent": "z0", "n_iter": 99, "prop": "lengthscale", "value": 5.275765895843506}], "data-c168157ecccc8c57e79bb6036f66c343": [{"variable": "x0", "n_iter": 0, "prop": "psi", "value": 0.6931471824645996}, {"variable": "x1", "n_iter": 0, "prop": "psi", "value": 0.6931471824645996}, {"variable": "x2", "n_iter": 0, "prop": "psi", "value": 0.6931471824645996}, {"variable": "x0", "n_iter": 1, "prop": "psi", "value": 0.6443966627120972}, {"variable": "x1", "n_iter": 1, "prop": "psi", "value": 0.6443966627120972}, {"variable": "x2", "n_iter": 1, "prop": "psi", "value": 0.6443966627120972}, {"variable": "x0", "n_iter": 2, "prop": "psi", "value": 0.5980927348136902}, {"variable": "x1", "n_iter": 2, "prop": "psi", "value": 0.5980783700942993}, {"variable": "x2", "n_iter": 2, "prop": "psi", "value": 0.5980799794197083}, {"variable": "x0", "n_iter": 3, "prop": "psi", "value": 0.554213285446167}, {"variable": "x1", "n_iter": 3, "prop": "psi", "value": 0.5541502237319946}, {"variable": "x2", "n_iter": 3, "prop": "psi", "value": 0.5541694760322571}, {"variable": "x0", "n_iter": 4, "prop": "psi", "value": 0.5127242803573608}, {"variable": "x1", "n_iter": 4, "prop": "psi", "value": 0.5125762820243835}, {"variable": "x2", "n_iter": 4, "prop": "psi", "value": 0.5126557350158691}, {"variable": "x0", "n_iter": 5, "prop": "psi", "value": 0.4735811948776245}, {"variable": "x1", "n_iter": 5, "prop": "psi", "value": 0.47332844138145447}, {"variable": "x2", "n_iter": 5, "prop": "psi", "value": 0.4735121428966522}, {"variable": "x0", "n_iter": 6, "prop": "psi", "value": 0.4367384612560272}, {"variable": "x1", "n_iter": 6, "prop": "psi", "value": 0.43637824058532715}, {"variable": "x2", "n_iter": 6, "prop": "psi", "value": 0.43668052554130554}, {"variable": "x0", "n_iter": 7, "prop": "psi", "value": 0.40213826298713684}, {"variable": "x1", "n_iter": 7, "prop": "psi", "value": 0.40168067812919617}, {"variable": "x2", "n_iter": 7, "prop": "psi", "value": 0.4020861089229584}, {"variable": "x0", "n_iter": 8, "prop": "psi", "value": 0.3697097599506378}, {"variable": "x1", "n_iter": 8, "prop": "psi", "value": 0.36916983127593994}, {"variable": "x2", "n_iter": 8, "prop": "psi", "value": 0.36965078115463257}, {"variable": "x0", "n_iter": 9, "prop": "psi", "value": 0.33937862515449524}, {"variable": "x1", "n_iter": 9, "prop": "psi", "value": 0.3387686610221863}, {"variable": "x2", "n_iter": 9, "prop": "psi", "value": 0.33929991722106934}, {"variable": "x0", "n_iter": 10, "prop": "psi", "value": 0.3110721707344055}, {"variable": "x1", "n_iter": 10, "prop": "psi", "value": 0.3103993535041809}, {"variable": "x2", "n_iter": 10, "prop": "psi", "value": 0.3109632432460785}, {"variable": "x0", "n_iter": 11, "prop": "psi", "value": 0.2847176790237427}, {"variable": "x1", "n_iter": 11, "prop": "psi", "value": 0.2839882969856262}, {"variable": "x2", "n_iter": 11, "prop": "psi", "value": 0.2845722436904907}, {"variable": "x0", "n_iter": 12, "prop": "psi", "value": 0.2602379620075226}, {"variable": "x1", "n_iter": 12, "prop": "psi", "value": 0.25946325063705444}, {"variable": "x2", "n_iter": 12, "prop": "psi", "value": 0.26005610823631287}, {"variable": "x0", "n_iter": 13, "prop": "psi", "value": 0.23754993081092834}, {"variable": "x1", "n_iter": 13, "prop": "psi", "value": 0.23674628138542175}, {"variable": "x2", "n_iter": 13, "prop": "psi", "value": 0.2373383343219757}, {"variable": "x0", "n_iter": 14, "prop": "psi", "value": 0.21656690537929535}, {"variable": "x1", "n_iter": 14, "prop": "psi", "value": 0.21575020253658295}, {"variable": "x2", "n_iter": 14, "prop": "psi", "value": 0.21633508801460266}, {"variable": "x0", "n_iter": 15, "prop": "psi", "value": 0.19720110297203064}, {"variable": "x1", "n_iter": 15, "prop": "psi", "value": 0.19638127088546753}, {"variable": "x2", "n_iter": 15, "prop": "psi", "value": 0.19695571064949036}, {"variable": "x0", "n_iter": 16, "prop": "psi", "value": 0.1793643832206726}, {"variable": "x1", "n_iter": 16, "prop": "psi", "value": 0.1785454899072647}, {"variable": "x2", "n_iter": 16, "prop": "psi", "value": 0.17910616099834442}, {"variable": "x0", "n_iter": 17, "prop": "psi", "value": 0.16296786069869995}, {"variable": "x1", "n_iter": 17, "prop": "psi", "value": 0.16215269267559052}, {"variable": "x2", "n_iter": 17, "prop": "psi", "value": 0.1626945286989212}, {"variable": "x0", "n_iter": 18, "prop": "psi", "value": 0.14792248606681824}, {"variable": "x1", "n_iter": 18, "prop": "psi", "value": 0.14711612462997437}, {"variable": "x2", "n_iter": 18, "prop": "psi", "value": 0.14763465523719788}, {"variable": "x0", "n_iter": 19, "prop": "psi", "value": 0.1341407150030136}, {"variable": "x1", "n_iter": 19, "prop": "psi", "value": 0.1333494931459427}, {"variable": "x2", "n_iter": 19, "prop": "psi", "value": 0.1338445246219635}, {"variable": "x0", "n_iter": 20, "prop": "psi", "value": 0.12153741717338562}, {"variable": "x1", "n_iter": 20, "prop": "psi", "value": 0.12076592445373535}, {"variable": "x2", "n_iter": 20, "prop": "psi", "value": 0.12124019116163254}, {"variable": "x0", "n_iter": 21, "prop": "psi", "value": 0.11002980172634125}, {"variable": "x1", "n_iter": 21, "prop": "psi", "value": 0.10928022861480713}, {"variable": "x2", "n_iter": 21, "prop": "psi", "value": 0.1097344383597374}, {"variable": "x0", "n_iter": 22, "prop": "psi", "value": 0.09953781217336655}, {"variable": "x1", "n_iter": 22, "prop": "psi", "value": 0.09881153702735901}, {"variable": "x2", "n_iter": 22, "prop": "psi", "value": 0.09924265742301941}, {"variable": "x0", "n_iter": 23, "prop": "psi", "value": 0.08998528122901917}, {"variable": "x1", "n_iter": 23, "prop": "psi", "value": 0.08928412199020386}, {"variable": "x2", "n_iter": 23, "prop": "psi", "value": 0.0896882489323616}, {"variable": "x0", "n_iter": 24, "prop": "psi", "value": 0.0812995657324791}, {"variable": "x1", "n_iter": 24, "prop": "psi", "value": 0.08062631636857986}, {"variable": "x2", "n_iter": 24, "prop": "psi", "value": 0.08100070804357529}, {"variable": "x0", "n_iter": 25, "prop": "psi", "value": 0.07341085374355316}, {"variable": "x1", "n_iter": 25, "prop": "psi", "value": 0.07276833802461624}, {"variable": "x2", "n_iter": 25, "prop": "psi", "value": 0.07311089336872101}, {"variable": "x0", "n_iter": 26, "prop": "psi", "value": 0.06625355035066605}, {"variable": "x1", "n_iter": 26, "prop": "psi", "value": 0.06564238667488098}, {"variable": "x2", "n_iter": 26, "prop": "psi", "value": 0.06595251709222794}, {"variable": "x0", "n_iter": 27, "prop": "psi", "value": 0.0597664974629879}, {"variable": "x1", "n_iter": 27, "prop": "psi", "value": 0.059185147285461426}, {"variable": "x2", "n_iter": 27, "prop": "psi", "value": 0.05946531146764755}, {"variable": "x0", "n_iter": 28, "prop": "psi", "value": 0.053892381489276886}, {"variable": "x1", "n_iter": 28, "prop": "psi", "value": 0.05333968997001648}, {"variable": "x2", "n_iter": 28, "prop": "psi", "value": 0.05359339341521263}, {"variable": "x0", "n_iter": 29, "prop": "psi", "value": 0.04857814684510231}, {"variable": "x1", "n_iter": 29, "prop": "psi", "value": 0.04805341362953186}, {"variable": "x2", "n_iter": 29, "prop": "psi", "value": 0.04828291013836861}, {"variable": "x0", "n_iter": 30, "prop": "psi", "value": 0.043774113059043884}, {"variable": "x1", "n_iter": 30, "prop": "psi", "value": 0.043275944888591766}, {"variable": "x2", "n_iter": 30, "prop": "psi", "value": 0.043483078479766846}, {"variable": "x0", "n_iter": 31, "prop": "psi", "value": 0.039434242993593216}, {"variable": "x1", "n_iter": 31, "prop": "psi", "value": 0.03896160423755646}, {"variable": "x2", "n_iter": 31, "prop": "psi", "value": 0.03914767503738403}, {"variable": "x0", "n_iter": 32, "prop": "psi", "value": 0.035516295582056046}, {"variable": "x1", "n_iter": 32, "prop": "psi", "value": 0.03506916016340256}, {"variable": "x2", "n_iter": 32, "prop": "psi", "value": 0.03523479402065277}, {"variable": "x0", "n_iter": 33, "prop": "psi", "value": 0.03198133781552315}, {"variable": "x1", "n_iter": 33, "prop": "psi", "value": 0.03155891224741936}, {"variable": "x2", "n_iter": 33, "prop": "psi", "value": 0.03170568495988846}, {"variable": "x0", "n_iter": 34, "prop": "psi", "value": 0.02879374474287033}, {"variable": "x1", "n_iter": 34, "prop": "psi", "value": 0.02839423343539238}, {"variable": "x2", "n_iter": 34, "prop": "psi", "value": 0.028524313122034073}, {"variable": "x0", "n_iter": 35, "prop": "psi", "value": 0.02592064067721367}, {"variable": "x1", "n_iter": 35, "prop": "psi", "value": 0.02554268203675747}, {"variable": "x2", "n_iter": 35, "prop": "psi", "value": 0.025658318772912025}, {"variable": "x0", "n_iter": 36, "prop": "psi", "value": 0.02333209104835987}, {"variable": "x1", "n_iter": 36, "prop": "psi", "value": 0.022974437102675438}, {"variable": "x2", "n_iter": 36, "prop": "psi", "value": 0.02307800203561783}, {"variable": "x0", "n_iter": 37, "prop": "psi", "value": 0.02100081741809845}, {"variable": "x1", "n_iter": 37, "prop": "psi", "value": 0.020662138238549232}, {"variable": "x2", "n_iter": 37, "prop": "psi", "value": 0.020755184814333916}, {"variable": "x0", "n_iter": 38, "prop": "psi", "value": 0.018902041018009186}, {"variable": "x1", "n_iter": 38, "prop": "psi", "value": 0.018581213429570198}, {"variable": "x2", "n_iter": 38, "prop": "psi", "value": 0.018665026873350143}, {"variable": "x0", "n_iter": 39, "prop": "psi", "value": 0.017013054341077805}, {"variable": "x1", "n_iter": 39, "prop": "psi", "value": 0.016709227114915848}, {"variable": "x2", "n_iter": 39, "prop": "psi", "value": 0.016784854233264923}, {"variable": "x0", "n_iter": 40, "prop": "psi", "value": 0.01531332079321146}, {"variable": "x1", "n_iter": 40, "prop": "psi", "value": 0.015025333501398563}, {"variable": "x2", "n_iter": 40, "prop": "psi", "value": 0.015093954280018806}, {"variable": "x0", "n_iter": 41, "prop": "psi", "value": 0.013784238137304783}, {"variable": "x1", "n_iter": 41, "prop": "psi", "value": 0.01351112499833107}, {"variable": "x2", "n_iter": 41, "prop": "psi", "value": 0.013573828153312206}, {"variable": "x0", "n_iter": 42, "prop": "psi", "value": 0.012408892624080181}, {"variable": "x1", "n_iter": 42, "prop": "psi", "value": 0.012149636633694172}, {"variable": "x2", "n_iter": 42, "prop": "psi", "value": 0.012207436375319958}, {"variable": "x0", "n_iter": 43, "prop": "psi", "value": 0.011172033846378326}, {"variable": "x1", "n_iter": 43, "prop": "psi", "value": 0.010925764217972755}, {"variable": "x2", "n_iter": 43, "prop": "psi", "value": 0.010979373008012772}, {"variable": "x0", "n_iter": 44, "prop": "psi", "value": 0.010059899650514126}, {"variable": "x1", "n_iter": 44, "prop": "psi", "value": 0.0098256915807724}, {"variable": "x2", "n_iter": 44, "prop": "psi", "value": 0.009875919669866562}, {"variable": "x0", "n_iter": 45, "prop": "psi", "value": 0.009059935808181763}, {"variable": "x1", "n_iter": 45, "prop": "psi", "value": 0.008836898021399975}, {"variable": "x2", "n_iter": 45, "prop": "psi", "value": 0.008884494192898273}, {"variable": "x0", "n_iter": 46, "prop": "psi", "value": 0.008160893805325031}, {"variable": "x1", "n_iter": 46, "prop": "psi", "value": 0.007948264479637146}, {"variable": "x2", "n_iter": 46, "prop": "psi", "value": 0.007993890903890133}, {"variable": "x0", "n_iter": 47, "prop": "psi", "value": 0.007352651562541723}, {"variable": "x1", "n_iter": 47, "prop": "psi", "value": 0.0071496376767754555}, {"variable": "x2", "n_iter": 47, "prop": "psi", "value": 0.007193781901150942}, {"variable": "x0", "n_iter": 48, "prop": "psi", "value": 0.006626059301197529}, {"variable": "x1", "n_iter": 48, "prop": "psi", "value": 0.006432055030018091}, {"variable": "x2", "n_iter": 48, "prop": "psi", "value": 0.006475032307207584}, {"variable": "x0", "n_iter": 49, "prop": "psi", "value": 0.005972986109554768}, {"variable": "x1", "n_iter": 49, "prop": "psi", "value": 0.005787198897451162}, {"variable": "x2", "n_iter": 49, "prop": "psi", "value": 0.0058293710462749004}, {"variable": "x0", "n_iter": 50, "prop": "psi", "value": 0.005386007484048605}, {"variable": "x1", "n_iter": 50, "prop": "psi", "value": 0.0052076405845582485}, {"variable": "x2", "n_iter": 50, "prop": "psi", "value": 0.005249585956335068}, {"variable": "x0", "n_iter": 51, "prop": "psi", "value": 0.004858790431171656}, {"variable": "x1", "n_iter": 51, "prop": "psi", "value": 0.004686785861849785}, {"variable": "x2", "n_iter": 51, "prop": "psi", "value": 0.004728921689093113}, {"variable": "x0", "n_iter": 52, "prop": "psi", "value": 0.0043847281485795975}, {"variable": "x1", "n_iter": 52, "prop": "psi", "value": 0.004218703135848045}, {"variable": "x2", "n_iter": 52, "prop": "psi", "value": 0.004261177033185959}, {"variable": "x0", "n_iter": 53, "prop": "psi", "value": 0.003958430606871843}, {"variable": "x1", "n_iter": 53, "prop": "psi", "value": 0.0037979818880558014}, {"variable": "x2", "n_iter": 53, "prop": "psi", "value": 0.0038410727865993977}, {"variable": "x0", "n_iter": 54, "prop": "psi", "value": 0.0035753955598920584}, {"variable": "x1", "n_iter": 54, "prop": "psi", "value": 0.0034198316279798746}, {"variable": "x2", "n_iter": 54, "prop": "psi", "value": 0.0034637057688087225}, {"variable": "x0", "n_iter": 55, "prop": "psi", "value": 0.0032309284433722496}, {"variable": "x1", "n_iter": 55, "prop": "psi", "value": 0.003079979447647929}, {"variable": "x2", "n_iter": 55, "prop": "psi", "value": 0.003124638693407178}, {"variable": "x0", "n_iter": 56, "prop": "psi", "value": 0.0029210534412413836}, {"variable": "x1", "n_iter": 56, "prop": "psi", "value": 0.00277447747066617}, {"variable": "x2", "n_iter": 56, "prop": "psi", "value": 0.002820050111040473}, {"variable": "x0", "n_iter": 57, "prop": "psi", "value": 0.0026424224488437176}, {"variable": "x1", "n_iter": 57, "prop": "psi", "value": 0.0024998164735734463}, {"variable": "x2", "n_iter": 57, "prop": "psi", "value": 0.002546450821682811}, {"variable": "x0", "n_iter": 58, "prop": "psi", "value": 0.002391827292740345}, {"variable": "x1", "n_iter": 58, "prop": "psi", "value": 0.0022528429981321096}, {"variable": "x2", "n_iter": 58, "prop": "psi", "value": 0.002300690859556198}, {"variable": "x0", "n_iter": 59, "prop": "psi", "value": 0.0021664341911673546}, {"variable": "x1", "n_iter": 59, "prop": "psi", "value": 0.0020307565573602915}, {"variable": "x2", "n_iter": 59, "prop": "psi", "value": 0.002079776721075177}, {"variable": "x0", "n_iter": 60, "prop": "psi", "value": 0.0019636431243270636}, {"variable": "x1", "n_iter": 60, "prop": "psi", "value": 0.0018311119638383389}, {"variable": "x2", "n_iter": 60, "prop": "psi", "value": 0.0018812267808243632}, {"variable": "x0", "n_iter": 61, "prop": "psi", "value": 0.0017811742145568132}, {"variable": "x1", "n_iter": 61, "prop": "psi", "value": 0.001651750528253615}, {"variable": "x2", "n_iter": 61, "prop": "psi", "value": 0.001703013083897531}, {"variable": "x0", "n_iter": 62, "prop": "psi", "value": 0.0016170409508049488}, {"variable": "x1", "n_iter": 62, "prop": "psi", "value": 0.001490892143920064}, {"variable": "x2", "n_iter": 62, "prop": "psi", "value": 0.0015430506318807602}, {"variable": "x0", "n_iter": 63, "prop": "psi", "value": 0.0014694631099700928}, {"variable": "x1", "n_iter": 63, "prop": "psi", "value": 0.001346177188679576}, {"variable": "x2", "n_iter": 63, "prop": "psi", "value": 0.0013991872547194362}, {"variable": "x0", "n_iter": 64, "prop": "psi", "value": 0.0013367843348532915}, {"variable": "x1", "n_iter": 64, "prop": "psi", "value": 0.0012158291647210717}, {"variable": "x2", "n_iter": 64, "prop": "psi", "value": 0.0012700019869953394}, {"variable": "x0", "n_iter": 65, "prop": "psi", "value": 0.001217671437188983}, {"variable": "x1", "n_iter": 65, "prop": "psi", "value": 0.0010985081316903234}, {"variable": "x2", "n_iter": 65, "prop": "psi", "value": 0.001154240220785141}, {"variable": "x0", "n_iter": 66, "prop": "psi", "value": 0.001110569923184812}, {"variable": "x1", "n_iter": 66, "prop": "psi", "value": 0.0009928216459229589}, {"variable": "x2", "n_iter": 66, "prop": "psi", "value": 0.0010502092773094773}, {"variable": "x0", "n_iter": 67, "prop": "psi", "value": 0.0010141885140910745}, {"variable": "x1", "n_iter": 67, "prop": "psi", "value": 0.000897695601452142}, {"variable": "x2", "n_iter": 67, "prop": "psi", "value": 0.0009565704385749996}, {"variable": "x0", "n_iter": 68, "prop": "psi", "value": 0.000927492044866085}, {"variable": "x1", "n_iter": 68, "prop": "psi", "value": 0.0008122181752696633}, {"variable": "x2", "n_iter": 68, "prop": "psi", "value": 0.0008725440129637718}, {"variable": "x0", "n_iter": 69, "prop": "psi", "value": 0.0008495068177580833}, {"variable": "x1", "n_iter": 69, "prop": "psi", "value": 0.0007351987878791988}, {"variable": "x2", "n_iter": 69, "prop": "psi", "value": 0.0007969771977514029}, {"variable": "x0", "n_iter": 70, "prop": "psi", "value": 0.0007793983677402139}, {"variable": "x1", "n_iter": 70, "prop": "psi", "value": 0.0006658249767497182}, {"variable": "x2", "n_iter": 70, "prop": "psi", "value": 0.0007289132918231189}, {"variable": "x0", "n_iter": 71, "prop": "psi", "value": 0.0007164240814745426}, {"variable": "x1", "n_iter": 71, "prop": "psi", "value": 0.0006035961559973657}, {"variable": "x2", "n_iter": 71, "prop": "psi", "value": 0.0006677613127976656}, {"variable": "x0", "n_iter": 72, "prop": "psi", "value": 0.0006600276101380587}, {"variable": "x1", "n_iter": 72, "prop": "psi", "value": 0.0005476341466419399}, {"variable": "x2", "n_iter": 72, "prop": "psi", "value": 0.0006126818479970098}, {"variable": "x0", "n_iter": 73, "prop": "psi", "value": 0.0006096992874518037}, {"variable": "x1", "n_iter": 73, "prop": "psi", "value": 0.0004971235757693648}, {"variable": "x2", "n_iter": 73, "prop": "psi", "value": 0.0005632523680105805}, {"variable": "x0", "n_iter": 74, "prop": "psi", "value": 0.0005649006925523281}, {"variable": "x1", "n_iter": 74, "prop": "psi", "value": 0.0004515222681220621}, {"variable": "x2", "n_iter": 74, "prop": "psi", "value": 0.0005191246164031327}, {"variable": "x0", "n_iter": 75, "prop": "psi", "value": 0.0005246169166639447}, {"variable": "x1", "n_iter": 75, "prop": "psi", "value": 0.00041038007475435734}, {"variable": "x2", "n_iter": 75, "prop": "psi", "value": 0.00047944526886567473}, {"variable": "x0", "n_iter": 76, "prop": "psi", "value": 0.0004886512761004269}, {"variable": "x1", "n_iter": 76, "prop": "psi", "value": 0.0003732510667759925}, {"variable": "x2", "n_iter": 76, "prop": "psi", "value": 0.00044377322774380445}, {"variable": "x0", "n_iter": 77, "prop": "psi", "value": 0.00045683846110478044}, {"variable": "x1", "n_iter": 77, "prop": "psi", "value": 0.0003397318650968373}, {"variable": "x2", "n_iter": 77, "prop": "psi", "value": 0.0004118439683225006}, {"variable": "x0", "n_iter": 78, "prop": "psi", "value": 0.0004282919690012932}, {"variable": "x1", "n_iter": 78, "prop": "psi", "value": 0.00030947435880079865}, {"variable": "x2", "n_iter": 78, "prop": "psi", "value": 0.0003830762580037117}, {"variable": "x0", "n_iter": 79, "prop": "psi", "value": 0.0004029447154607624}, {"variable": "x1", "n_iter": 79, "prop": "psi", "value": 0.0002821701637003571}, {"variable": "x2", "n_iter": 79, "prop": "psi", "value": 0.00035727309295907617}, {"variable": "x0", "n_iter": 80, "prop": "psi", "value": 0.00038069940637797117}, {"variable": "x1", "n_iter": 80, "prop": "psi", "value": 0.0002575382241047919}, {"variable": "x2", "n_iter": 80, "prop": "psi", "value": 0.00033411680487915874}, {"variable": "x0", "n_iter": 81, "prop": "psi", "value": 0.00036086590262129903}, {"variable": "x1", "n_iter": 81, "prop": "psi", "value": 0.000235326326219365}, {"variable": "x2", "n_iter": 81, "prop": "psi", "value": 0.0003132699057459831}, {"variable": "x0", "n_iter": 82, "prop": "psi", "value": 0.0003432962403167039}, {"variable": "x1", "n_iter": 82, "prop": "psi", "value": 0.00021530814410652965}, {"variable": "x2", "n_iter": 82, "prop": "psi", "value": 0.0002948372275568545}, {"variable": "x0", "n_iter": 83, "prop": "psi", "value": 0.00032780953915789723}, {"variable": "x1", "n_iter": 83, "prop": "psi", "value": 0.00019730604253709316}, {"variable": "x2", "n_iter": 83, "prop": "psi", "value": 0.00027853509527631104}, {"variable": "x0", "n_iter": 84, "prop": "psi", "value": 0.00031435699202120304}, {"variable": "x1", "n_iter": 84, "prop": "psi", "value": 0.00018112598627340049}, {"variable": "x2", "n_iter": 84, "prop": "psi", "value": 0.00026388323749415576}, {"variable": "x0", "n_iter": 85, "prop": "psi", "value": 0.0003030967782251537}, {"variable": "x1", "n_iter": 85, "prop": "psi", "value": 0.0001665449672145769}, {"variable": "x2", "n_iter": 85, "prop": "psi", "value": 0.0002507401804905385}, {"variable": "x0", "n_iter": 86, "prop": "psi", "value": 0.00029353846912272274}, {"variable": "x1", "n_iter": 86, "prop": "psi", "value": 0.00015333127521444112}, {"variable": "x2", "n_iter": 86, "prop": "psi", "value": 0.00023894650803413242}, {"variable": "x0", "n_iter": 87, "prop": "psi", "value": 0.00028553366428241134}, {"variable": "x1", "n_iter": 87, "prop": "psi", "value": 0.00014136283425614238}, {"variable": "x2", "n_iter": 87, "prop": "psi", "value": 0.0002283683279529214}, {"variable": "x0", "n_iter": 88, "prop": "psi", "value": 0.0002792704326566309}, {"variable": "x1", "n_iter": 88, "prop": "psi", "value": 0.00013056027819402516}, {"variable": "x2", "n_iter": 88, "prop": "psi", "value": 0.0002189293591072783}, {"variable": "x0", "n_iter": 89, "prop": "psi", "value": 0.00027433325885795057}, {"variable": "x1", "n_iter": 89, "prop": "psi", "value": 0.00012078320287400857}, {"variable": "x2", "n_iter": 89, "prop": "psi", "value": 0.00021051849762443453}, {"variable": "x0", "n_iter": 90, "prop": "psi", "value": 0.00027070051874034107}, {"variable": "x1", "n_iter": 90, "prop": "psi", "value": 0.0001118990549002774}, {"variable": "x2", "n_iter": 90, "prop": "psi", "value": 0.00020315145957283676}, {"variable": "x0", "n_iter": 91, "prop": "psi", "value": 0.00026837989571504295}, {"variable": "x1", "n_iter": 91, "prop": "psi", "value": 0.0001038204864016734}, {"variable": "x2", "n_iter": 91, "prop": "psi", "value": 0.00019671164045576006}, {"variable": "x0", "n_iter": 92, "prop": "psi", "value": 0.0002671494730748236}, {"variable": "x1", "n_iter": 92, "prop": "psi", "value": 9.64723076322116e-05}, {"variable": "x2", "n_iter": 92, "prop": "psi", "value": 0.00019101909128949046}, {"variable": "x0", "n_iter": 93, "prop": "psi", "value": 0.00026716222055256367}, {"variable": "x1", "n_iter": 93, "prop": "psi", "value": 8.978613186627626e-05}, {"variable": "x2", "n_iter": 93, "prop": "psi", "value": 0.000186135497642681}, {"variable": "x0", "n_iter": 94, "prop": "psi", "value": 0.0002682535268831998}, {"variable": "x1", "n_iter": 94, "prop": "psi", "value": 8.37052139104344e-05}, {"variable": "x2", "n_iter": 94, "prop": "psi", "value": 0.00018200483464170247}, {"variable": "x0", "n_iter": 95, "prop": "psi", "value": 0.00027047807816416025}, {"variable": "x1", "n_iter": 95, "prop": "psi", "value": 7.818204903742298e-05}, {"variable": "x2", "n_iter": 95, "prop": "psi", "value": 0.00017841492081061006}, {"variable": "x0", "n_iter": 96, "prop": "psi", "value": 0.00027411855990067124}, {"variable": "x1", "n_iter": 96, "prop": "psi", "value": 7.315873517654836e-05}, {"variable": "x2", "n_iter": 96, "prop": "psi", "value": 0.00017529635806567967}, {"variable": "x0", "n_iter": 97, "prop": "psi", "value": 0.00027881062123924494}, {"variable": "x1", "n_iter": 97, "prop": "psi", "value": 6.85727791278623e-05}, {"variable": "x2", "n_iter": 97, "prop": "psi", "value": 0.00017261739412788302}, {"variable": "x0", "n_iter": 98, "prop": "psi", "value": 0.00028462926275096834}, {"variable": "x1", "n_iter": 98, "prop": "psi", "value": 6.437695992644876e-05}, {"variable": "x2", "n_iter": 98, "prop": "psi", "value": 0.00017038994701579213}, {"variable": "x0", "n_iter": 99, "prop": "psi", "value": 0.00029165411251597106}, {"variable": "x1", "n_iter": 99, "prop": "psi", "value": 6.053657125448808e-05}, {"variable": "x2", "n_iter": 99, "prop": "psi", "value": 0.0001685211609583348}], "data-ee29adc4f1a6e39dd6c70115c86b4ea2": [{"info": "likelihood", "n_iter": 0, "prop": "noise", "value": 0.6932471990585327}, {"info": "likelihood", "n_iter": 1, "prop": "noise", "value": 0.6444966793060303}, {"info": "likelihood", "n_iter": 2, "prop": "noise", "value": 0.5981821417808533}, {"info": "likelihood", "n_iter": 3, "prop": "noise", "value": 0.5542723536491394}, {"info": "likelihood", "n_iter": 4, "prop": "noise", "value": 0.5127414464950562}, {"info": "likelihood", "n_iter": 5, "prop": "noise", "value": 0.4735575020313263}, {"info": "likelihood", "n_iter": 6, "prop": "noise", "value": 0.4366779625415802}, {"info": "likelihood", "n_iter": 7, "prop": "noise", "value": 0.4020439088344574}, {"info": "likelihood", "n_iter": 8, "prop": "noise", "value": 0.3695835471153259}, {"info": "likelihood", "n_iter": 9, "prop": "noise", "value": 0.3392212390899658}, {"info": "likelihood", "n_iter": 10, "prop": "noise", "value": 0.31088319420814514}, {"info": "likelihood", "n_iter": 11, "prop": "noise", "value": 0.28449761867523193}, {"info": "likelihood", "n_iter": 12, "prop": "noise", "value": 0.25999099016189575}, {"info": "likelihood", "n_iter": 13, "prop": "noise", "value": 0.2372841089963913}, {"info": "likelihood", "n_iter": 14, "prop": "noise", "value": 0.21629096567630768}, {"info": "likelihood", "n_iter": 15, "prop": "noise", "value": 0.19692076742649078}, {"info": "likelihood", "n_iter": 16, "prop": "noise", "value": 0.17908136546611786}, {"info": "likelihood", "n_iter": 17, "prop": "noise", "value": 0.16268238425254822}, {"info": "likelihood", "n_iter": 18, "prop": "noise", "value": 0.1476365029811859}, {"info": "likelihood", "n_iter": 19, "prop": "noise", "value": 0.13385836780071259}, {"info": "likelihood", "n_iter": 20, "prop": "noise", "value": 0.12126267701387405}, {"info": "likelihood", "n_iter": 21, "prop": "noise", "value": 0.10976434499025345}, {"info": "likelihood", "n_iter": 22, "prop": "noise", "value": 0.09928147494792938}, {"info": "likelihood", "n_iter": 23, "prop": "noise", "value": 0.08973793685436249}, {"info": "likelihood", "n_iter": 24, "prop": "noise", "value": 0.08106207102537155}, {"info": "likelihood", "n_iter": 25, "prop": "noise", "value": 0.07318434119224548}, {"info": "likelihood", "n_iter": 26, "prop": "noise", "value": 0.06603816896677017}, {"info": "likelihood", "n_iter": 27, "prop": "noise", "value": 0.05956195667386055}, {"info": "likelihood", "n_iter": 28, "prop": "noise", "value": 0.053699005395174026}, {"info": "likelihood", "n_iter": 29, "prop": "noise", "value": 0.04839615151286125}, {"info": "likelihood", "n_iter": 30, "prop": "noise", "value": 0.04360312223434448}, {"info": "likelihood", "n_iter": 31, "prop": "noise", "value": 0.039273928850889206}, {"info": "likelihood", "n_iter": 32, "prop": "noise", "value": 0.035366788506507874}, {"info": "likelihood", "n_iter": 33, "prop": "noise", "value": 0.031842585653066635}, {"info": "likelihood", "n_iter": 34, "prop": "noise", "value": 0.02866520546376705}, {"info": "likelihood", "n_iter": 35, "prop": "noise", "value": 0.025802113115787506}, {"info": "likelihood", "n_iter": 36, "prop": "noise", "value": 0.02322348579764366}, {"info": "likelihood", "n_iter": 37, "prop": "noise", "value": 0.020901726558804512}, {"info": "likelihood", "n_iter": 38, "prop": "noise", "value": 0.018812105059623718}, {"info": "likelihood", "n_iter": 39, "prop": "noise", "value": 0.016932018101215363}, {"info": "likelihood", "n_iter": 40, "prop": "noise", "value": 0.015240779146552086}, {"info": "likelihood", "n_iter": 41, "prop": "noise", "value": 0.013719878159463406}, {"info": "likelihood", "n_iter": 42, "prop": "noise", "value": 0.012352345511317253}, {"info": "likelihood", "n_iter": 43, "prop": "noise", "value": 0.011122934520244598}, {"info": "likelihood", "n_iter": 44, "prop": "noise", "value": 0.0100178774446249}, {"info": "likelihood", "n_iter": 45, "prop": "noise", "value": 0.009024630300700665}, {"info": "likelihood", "n_iter": 46, "prop": "noise", "value": 0.00813200045377016}, {"info": "likelihood", "n_iter": 47, "prop": "noise", "value": 0.007329787127673626}, {"info": "likelihood", "n_iter": 48, "prop": "noise", "value": 0.0066089085303246975}, {"info": "likelihood", "n_iter": 49, "prop": "noise", "value": 0.005961124785244465}, {"info": "likelihood", "n_iter": 50, "prop": "noise", "value": 0.005379083100706339}, {"info": "likelihood", "n_iter": 51, "prop": "noise", "value": 0.004856215789914131}, {"info": "likelihood", "n_iter": 52, "prop": "noise", "value": 0.0043862867169082165}, {"info": "likelihood", "n_iter": 53, "prop": "noise", "value": 0.003963936120271683}, {"info": "likelihood", "n_iter": 54, "prop": "noise", "value": 0.003584424965083599}, {"info": "likelihood", "n_iter": 55, "prop": "noise", "value": 0.0032432940788567066}, {"info": "likelihood", "n_iter": 56, "prop": "noise", "value": 0.002936628647148609}, {"info": "likelihood", "n_iter": 57, "prop": "noise", "value": 0.002660976490005851}, {"info": "likelihood", "n_iter": 58, "prop": "noise", "value": 0.002413166454061866}, {"info": "likelihood", "n_iter": 59, "prop": "noise", "value": 0.002190322382375598}, {"info": "likelihood", "n_iter": 60, "prop": "noise", "value": 0.0019899390172213316}, {"info": "likelihood", "n_iter": 61, "prop": "noise", "value": 0.001809865003451705}, {"info": "likelihood", "n_iter": 62, "prop": "noise", "value": 0.001648157020099461}, {"info": "likelihood", "n_iter": 63, "prop": "noise", "value": 0.0015026970067992806}, {"info": "likelihood", "n_iter": 64, "prop": "noise", "value": 0.0013718593399971724}, {"info": "likelihood", "n_iter": 65, "prop": "noise", "value": 0.001254330389201641}, {"info": "likelihood", "n_iter": 66, "prop": "noise", "value": 0.0011485668364912271}, {"info": "likelihood", "n_iter": 67, "prop": "noise", "value": 0.0010533424792811275}, {"info": "likelihood", "n_iter": 68, "prop": "noise", "value": 0.0009677534108050168}, {"info": "likelihood", "n_iter": 69, "prop": "noise", "value": 0.0008906787843443453}, {"info": "likelihood", "n_iter": 70, "prop": "noise", "value": 0.0008212508982978761}, {"info": "likelihood", "n_iter": 71, "prop": "noise", "value": 0.0007588745793327689}, {"info": "likelihood", "n_iter": 72, "prop": "noise", "value": 0.0007027682731859386}, {"info": "likelihood", "n_iter": 73, "prop": "noise", "value": 0.000652315269690007}, {"info": "likelihood", "n_iter": 74, "prop": "noise", "value": 0.0006070255185477436}, {"info": "likelihood", "n_iter": 75, "prop": "noise", "value": 0.0005661706090904772}, {"info": "likelihood", "n_iter": 76, "prop": "noise", "value": 0.0005293632275424898}, {"info": "likelihood", "n_iter": 77, "prop": "noise", "value": 0.0004962913226336241}, {"info": "likelihood", "n_iter": 78, "prop": "noise", "value": 0.0004664005828090012}, {"info": "likelihood", "n_iter": 79, "prop": "noise", "value": 0.000439467461546883}, {"info": "likelihood", "n_iter": 80, "prop": "noise", "value": 0.00041523290565237403}, {"info": "likelihood", "n_iter": 81, "prop": "noise", "value": 0.00039331993320956826}, {"info": "likelihood", "n_iter": 82, "prop": "noise", "value": 0.00037361119757406414}, {"info": "likelihood", "n_iter": 83, "prop": "noise", "value": 0.0003558966564014554}, {"info": "likelihood", "n_iter": 84, "prop": "noise", "value": 0.0003399294218979776}, {"info": "likelihood", "n_iter": 85, "prop": "noise", "value": 0.00032557034865021706}, {"info": "likelihood", "n_iter": 86, "prop": "noise", "value": 0.00031254507484845817}, {"info": "likelihood", "n_iter": 87, "prop": "noise", "value": 0.00030071905348449945}, {"info": "likelihood", "n_iter": 88, "prop": "noise", "value": 0.00029005538090132177}, {"info": "likelihood", "n_iter": 89, "prop": "noise", "value": 0.00028036898584105074}, {"info": "likelihood", "n_iter": 90, "prop": "noise", "value": 0.0002715661539696157}, {"info": "likelihood", "n_iter": 91, "prop": "noise", "value": 0.00026355634327046573}, {"info": "likelihood", "n_iter": 92, "prop": "noise", "value": 0.0002562166191637516}, {"info": "likelihood", "n_iter": 93, "prop": "noise", "value": 0.0002495264634490013}, {"info": "likelihood", "n_iter": 94, "prop": "noise", "value": 0.00024341323296539485}, {"info": "likelihood", "n_iter": 95, "prop": "noise", "value": 0.00023780515766702592}, {"info": "likelihood", "n_iter": 96, "prop": "noise", "value": 0.00023266513017006218}, {"info": "likelihood", "n_iter": 97, "prop": "noise", "value": 0.00022790106595493853}, {"info": "likelihood", "n_iter": 98, "prop": "noise", "value": 0.00022347940830513835}, {"info": "likelihood", "n_iter": 99, "prop": "noise", "value": 0.00021936041594017297}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="va">self</span> <span class="op">=</span> l</span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span>[]</span>
+<span id="cb103-4"><a href="#cb103-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> info_name <span class="kw">in</span> <span class="va">self</span>.model_infos[<span class="dv">0</span>].keys(): </span>
+<span id="cb103-5"><a href="#cb103-5" aria-hidden="true" tabindex="-1"></a>    values <span class="op">=</span> pd.concat([info[info_name].assign(n_iter<span class="op">=</span>i) <span class="cf">for</span> i, info <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.model_infos)])</span>
+<span id="cb103-6"><a href="#cb103-6" aria-hidden="true" tabindex="-1"></a>    v.append(values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>v</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>[   variable        z0  n_iter
+ 0        x0  0.538574       0
+ 1        x1  0.298168       0
+ 2        x2  0.833378       0
+ 0        x0  0.638574       1
+ 1        x1  0.398168       1
+ ..      ...       ...     ...
+ 1        x1  2.144966      98
+ 2        x2  2.145648      98
+ 0        x0  2.142248      99
+ 1        x1  2.142784      99
+ 2        x2  2.149678      99
+ 
+ [300 rows x 3 columns],
+    latent  lengthscale  n_iter
+ 0      z0     0.693147       0
+ 0      z0     0.744397       1
+ 0      z0     0.798212       2
+ 0      z0     0.854631       3
+ 0      z0     0.913641       4
+ ..    ...          ...     ...
+ 0      z0     5.219249      95
+ 0      z0     5.233388      96
+ 0      z0     5.247562      97
+ 0      z0     5.261695      98
+ 0      z0     5.275766      99
+ 
+ [100 rows x 3 columns],
+    variable       psi  n_iter
+ 0        x0  0.693147       0
+ 1        x1  0.693147       0
+ 2        x2  0.693147       0
+ 0        x0  0.644397       1
+ 1        x1  0.644397       1
+ ..      ...       ...     ...
+ 1        x1  0.000064      98
+ 2        x2  0.000170      98
+ 0        x0  0.000292      99
+ 1        x1  0.000061      99
+ 2        x2  0.000169      99
+ 
+ [300 rows x 3 columns],
+        noise  n_iter
+ 0   0.693247       0
+ 0   0.644497       1
+ 0   0.598182       2
+ 0   0.554272       3
+ 0   0.512741       4
+ ..       ...     ...
+ 0   0.000238      95
+ 0   0.000233      96
+ 0   0.000228      97
+ 0   0.000223      98
+ 0   0.000219      99
+ 
+ [100 rows x 2 columns]]</code></pre>
+</div>
+</div>
+</section>
 </section>
 <section id="export" class="level2">
 <h2 class="anchored" data-anchor-id="export">Export</h2>
@@ -857,69 +1127,69 @@ tensor([[0.9218, 1.7595],
 <section id="other" class="level3">
 <h3 class="anchored" data-anchor-id="other">Other</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># #| exporti</span></span>
-<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="co"># def get_parameter_value(name, param, constraint):</span></span>
-<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     if constraint is not None:</span></span>
-<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a><span class="co">#         value = constraint.transform(param.data.detach())</span></span>
-<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a><span class="co">#         name = name.replace("raw_", "") # parameter is not raw anymore</span></span>
-<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     else:</span></span>
-<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a><span class="co">#         value = param.data.detach()</span></span>
-<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     return (name, value)</span></span>
-<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a><span class="co"># name = "covar_module.psi"</span></span>
-<span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a><span class="co"># test_eq(l.model.covar_module.psi.detach(), get_parameter_value(name, l.model.covar_module.raw_psi_diag, l.model.covar_module.raw_psi_diag_constraint)[1])</span></span>
-<span id="cb90-12"><a href="#cb90-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-13"><a href="#cb90-13" aria-hidden="true" tabindex="-1"></a><span class="co"># #| exporti</span></span>
-<span id="cb90-14"><a href="#cb90-14" aria-hidden="true" tabindex="-1"></a><span class="co"># def tensor_to_first_item(tensor):</span></span>
-<span id="cb90-15"><a href="#cb90-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     if tensor.dim() &gt; 0:</span></span>
-<span id="cb90-16"><a href="#cb90-16" aria-hidden="true" tabindex="-1"></a><span class="co">#         return tensor_to_first_item(tensor[0])</span></span>
-<span id="cb90-17"><a href="#cb90-17" aria-hidden="true" tabindex="-1"></a><span class="co">#     return tensor.item()</span></span>
-<span id="cb90-18"><a href="#cb90-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-19"><a href="#cb90-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-20"><a href="#cb90-20" aria-hidden="true" tabindex="-1"></a><span class="co"># def format_parameter(name, value):</span></span>
-<span id="cb90-21"><a href="#cb90-21" aria-hidden="true" tabindex="-1"></a><span class="co">#     value = tensor_to_first_item(value)</span></span>
-<span id="cb90-22"><a href="#cb90-22" aria-hidden="true" tabindex="-1"></a><span class="co">#     name = name.split(".")[-1] # get only last part of name</span></span>
-<span id="cb90-23"><a href="#cb90-23" aria-hidden="true" tabindex="-1"></a><span class="co">#     return f"{name}: {value:.3f}"</span></span>
-<span id="cb90-24"><a href="#cb90-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-25"><a href="#cb90-25" aria-hidden="true" tabindex="-1"></a><span class="co"># #| export</span></span>
-<span id="cb90-26"><a href="#cb90-26" aria-hidden="true" tabindex="-1"></a><span class="co"># @patch</span></span>
-<span id="cb90-27"><a href="#cb90-27" aria-hidden="true" tabindex="-1"></a><span class="co"># def get_formatted_params(self: GPFALearner):</span></span>
-<span id="cb90-28"><a href="#cb90-28" aria-hidden="true" tabindex="-1"></a><span class="co">#     return ", ".join([</span></span>
-<span id="cb90-29"><a href="#cb90-29" aria-hidden="true" tabindex="-1"></a><span class="co">#         format_parameter(*get_parameter_value(name, value, constraint))</span></span>
-<span id="cb90-30"><a href="#cb90-30" aria-hidden="true" tabindex="-1"></a><span class="co">#         for name, value, constraint in</span></span>
-<span id="cb90-31"><a href="#cb90-31" aria-hidden="true" tabindex="-1"></a><span class="co">#         self.model.named_parameters_and_constraints()</span></span>
-<span id="cb90-32"><a href="#cb90-32" aria-hidden="true" tabindex="-1"></a><span class="co">#     ])</span></span>
-<span id="cb90-33"><a href="#cb90-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-34"><a href="#cb90-34" aria-hidden="true" tabindex="-1"></a><span class="co"># l.get_formatted_params()</span></span>
-<span id="cb90-35"><a href="#cb90-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-36"><a href="#cb90-36" aria-hidden="true" tabindex="-1"></a><span class="co"># # this is not really working at the moment, but it's not important</span></span>
-<span id="cb90-37"><a href="#cb90-37" aria-hidden="true" tabindex="-1"></a><span class="co"># @patch</span></span>
-<span id="cb90-38"><a href="#cb90-38" aria-hidden="true" tabindex="-1"></a><span class="co"># def plot_loss_printer(self: GPFALearner, i_iter):</span></span>
-<span id="cb90-39"><a href="#cb90-39" aria-hidden="true" tabindex="-1"></a><span class="co">#     if i_iter ==0: return</span></span>
-<span id="cb90-40"><a href="#cb90-40" aria-hidden="true" tabindex="-1"></a><span class="co">#     x = torch.arange(0, i_iter)</span></span>
-<span id="cb90-41"><a href="#cb90-41" aria-hidden="true" tabindex="-1"></a><span class="co">#     y = self.losses[:i_iter]</span></span>
-<span id="cb90-42"><a href="#cb90-42" aria-hidden="true" tabindex="-1"></a><span class="co">#     plot_data = [[x, y]]</span></span>
-<span id="cb90-43"><a href="#cb90-43" aria-hidden="true" tabindex="-1"></a><span class="co">#     self.pb.update_graph(plot_data)</span></span>
-<span id="cb90-44"><a href="#cb90-44" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb90-45"><a href="#cb90-45" aria-hidden="true" tabindex="-1"></a><span class="co">#     x_bounds = [x.min(), x.max()+1]</span></span>
-<span id="cb90-46"><a href="#cb90-46" aria-hidden="true" tabindex="-1"></a><span class="co">#     y_bounds = [y.min(), y.max()]</span></span>
-<span id="cb90-47"><a href="#cb90-47" aria-hidden="true" tabindex="-1"></a><span class="co">#     self.pb.names = ["Training loss"]</span></span>
-<span id="cb90-48"><a href="#cb90-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-49"><a href="#cb90-49" aria-hidden="true" tabindex="-1"></a><span class="co"># #|export</span></span>
-<span id="cb90-50"><a href="#cb90-50" aria-hidden="true" tabindex="-1"></a><span class="co"># @patch</span></span>
-<span id="cb90-51"><a href="#cb90-51" aria-hidden="true" tabindex="-1"></a><span class="co"># def printer(self: GPFALearner, i_iter):</span></span>
-<span id="cb90-52"><a href="#cb90-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-53"><a href="#cb90-53" aria-hidden="true" tabindex="-1"></a><span class="co">#     if i_iter%10 == 0:</span></span>
-<span id="cb90-54"><a href="#cb90-54" aria-hidden="true" tabindex="-1"></a><span class="co">#         update_str = f"loss: {self.losses[i_iter].item():.3f}, " + self.get_formatted_params()</span></span>
-<span id="cb90-55"><a href="#cb90-55" aria-hidden="true" tabindex="-1"></a><span class="co">#         #self.plot_loss(i_iter)</span></span>
-<span id="cb90-56"><a href="#cb90-56" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb90-57"><a href="#cb90-57" aria-hidden="true" tabindex="-1"></a><span class="co">#     #self.pb.write(update_str)</span></span>
-<span id="cb90-58"><a href="#cb90-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-59"><a href="#cb90-59" aria-hidden="true" tabindex="-1"></a><span class="co"># l.train(lr = 0.01)</span></span>
-<span id="cb90-60"><a href="#cb90-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-61"><a href="#cb90-61" aria-hidden="true" tabindex="-1"></a><span class="co"># import matplotlib.pyplot as plt</span></span>
-<span id="cb90-62"><a href="#cb90-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-63"><a href="#cb90-63" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.plot(l.losses)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co"># #| exporti</span></span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="co"># def get_parameter_value(name, param, constraint):</span></span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     if constraint is not None:</span></span>
+<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a><span class="co">#         value = constraint.transform(param.data.detach())</span></span>
+<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a><span class="co">#         name = name.replace("raw_", "") # parameter is not raw anymore</span></span>
+<span id="cb106-6"><a href="#cb106-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     else:</span></span>
+<span id="cb106-7"><a href="#cb106-7" aria-hidden="true" tabindex="-1"></a><span class="co">#         value = param.data.detach()</span></span>
+<span id="cb106-8"><a href="#cb106-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     return (name, value)</span></span>
+<span id="cb106-9"><a href="#cb106-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-10"><a href="#cb106-10" aria-hidden="true" tabindex="-1"></a><span class="co"># name = "covar_module.psi"</span></span>
+<span id="cb106-11"><a href="#cb106-11" aria-hidden="true" tabindex="-1"></a><span class="co"># test_eq(l.model.covar_module.psi.detach(), get_parameter_value(name, l.model.covar_module.raw_psi_diag, l.model.covar_module.raw_psi_diag_constraint)[1])</span></span>
+<span id="cb106-12"><a href="#cb106-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-13"><a href="#cb106-13" aria-hidden="true" tabindex="-1"></a><span class="co"># #| exporti</span></span>
+<span id="cb106-14"><a href="#cb106-14" aria-hidden="true" tabindex="-1"></a><span class="co"># def tensor_to_first_item(tensor):</span></span>
+<span id="cb106-15"><a href="#cb106-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     if tensor.dim() &gt; 0:</span></span>
+<span id="cb106-16"><a href="#cb106-16" aria-hidden="true" tabindex="-1"></a><span class="co">#         return tensor_to_first_item(tensor[0])</span></span>
+<span id="cb106-17"><a href="#cb106-17" aria-hidden="true" tabindex="-1"></a><span class="co">#     return tensor.item()</span></span>
+<span id="cb106-18"><a href="#cb106-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-19"><a href="#cb106-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-20"><a href="#cb106-20" aria-hidden="true" tabindex="-1"></a><span class="co"># def format_parameter(name, value):</span></span>
+<span id="cb106-21"><a href="#cb106-21" aria-hidden="true" tabindex="-1"></a><span class="co">#     value = tensor_to_first_item(value)</span></span>
+<span id="cb106-22"><a href="#cb106-22" aria-hidden="true" tabindex="-1"></a><span class="co">#     name = name.split(".")[-1] # get only last part of name</span></span>
+<span id="cb106-23"><a href="#cb106-23" aria-hidden="true" tabindex="-1"></a><span class="co">#     return f"{name}: {value:.3f}"</span></span>
+<span id="cb106-24"><a href="#cb106-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-25"><a href="#cb106-25" aria-hidden="true" tabindex="-1"></a><span class="co"># #| export</span></span>
+<span id="cb106-26"><a href="#cb106-26" aria-hidden="true" tabindex="-1"></a><span class="co"># @patch</span></span>
+<span id="cb106-27"><a href="#cb106-27" aria-hidden="true" tabindex="-1"></a><span class="co"># def get_formatted_params(self: GPFALearner):</span></span>
+<span id="cb106-28"><a href="#cb106-28" aria-hidden="true" tabindex="-1"></a><span class="co">#     return ", ".join([</span></span>
+<span id="cb106-29"><a href="#cb106-29" aria-hidden="true" tabindex="-1"></a><span class="co">#         format_parameter(*get_parameter_value(name, value, constraint))</span></span>
+<span id="cb106-30"><a href="#cb106-30" aria-hidden="true" tabindex="-1"></a><span class="co">#         for name, value, constraint in</span></span>
+<span id="cb106-31"><a href="#cb106-31" aria-hidden="true" tabindex="-1"></a><span class="co">#         self.model.named_parameters_and_constraints()</span></span>
+<span id="cb106-32"><a href="#cb106-32" aria-hidden="true" tabindex="-1"></a><span class="co">#     ])</span></span>
+<span id="cb106-33"><a href="#cb106-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-34"><a href="#cb106-34" aria-hidden="true" tabindex="-1"></a><span class="co"># l.get_formatted_params()</span></span>
+<span id="cb106-35"><a href="#cb106-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-36"><a href="#cb106-36" aria-hidden="true" tabindex="-1"></a><span class="co"># # this is not really working at the moment, but it's not important</span></span>
+<span id="cb106-37"><a href="#cb106-37" aria-hidden="true" tabindex="-1"></a><span class="co"># @patch</span></span>
+<span id="cb106-38"><a href="#cb106-38" aria-hidden="true" tabindex="-1"></a><span class="co"># def plot_loss_printer(self: GPFALearner, i_iter):</span></span>
+<span id="cb106-39"><a href="#cb106-39" aria-hidden="true" tabindex="-1"></a><span class="co">#     if i_iter ==0: return</span></span>
+<span id="cb106-40"><a href="#cb106-40" aria-hidden="true" tabindex="-1"></a><span class="co">#     x = torch.arange(0, i_iter)</span></span>
+<span id="cb106-41"><a href="#cb106-41" aria-hidden="true" tabindex="-1"></a><span class="co">#     y = self.losses[:i_iter]</span></span>
+<span id="cb106-42"><a href="#cb106-42" aria-hidden="true" tabindex="-1"></a><span class="co">#     plot_data = [[x, y]]</span></span>
+<span id="cb106-43"><a href="#cb106-43" aria-hidden="true" tabindex="-1"></a><span class="co">#     self.pb.update_graph(plot_data)</span></span>
+<span id="cb106-44"><a href="#cb106-44" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb106-45"><a href="#cb106-45" aria-hidden="true" tabindex="-1"></a><span class="co">#     x_bounds = [x.min(), x.max()+1]</span></span>
+<span id="cb106-46"><a href="#cb106-46" aria-hidden="true" tabindex="-1"></a><span class="co">#     y_bounds = [y.min(), y.max()]</span></span>
+<span id="cb106-47"><a href="#cb106-47" aria-hidden="true" tabindex="-1"></a><span class="co">#     self.pb.names = ["Training loss"]</span></span>
+<span id="cb106-48"><a href="#cb106-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-49"><a href="#cb106-49" aria-hidden="true" tabindex="-1"></a><span class="co"># #|export</span></span>
+<span id="cb106-50"><a href="#cb106-50" aria-hidden="true" tabindex="-1"></a><span class="co"># @patch</span></span>
+<span id="cb106-51"><a href="#cb106-51" aria-hidden="true" tabindex="-1"></a><span class="co"># def printer(self: GPFALearner, i_iter):</span></span>
+<span id="cb106-52"><a href="#cb106-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-53"><a href="#cb106-53" aria-hidden="true" tabindex="-1"></a><span class="co">#     if i_iter%10 == 0:</span></span>
+<span id="cb106-54"><a href="#cb106-54" aria-hidden="true" tabindex="-1"></a><span class="co">#         update_str = f"loss: {self.losses[i_iter].item():.3f}, " + self.get_formatted_params()</span></span>
+<span id="cb106-55"><a href="#cb106-55" aria-hidden="true" tabindex="-1"></a><span class="co">#         #self.plot_loss(i_iter)</span></span>
+<span id="cb106-56"><a href="#cb106-56" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb106-57"><a href="#cb106-57" aria-hidden="true" tabindex="-1"></a><span class="co">#     #self.pb.write(update_str)</span></span>
+<span id="cb106-58"><a href="#cb106-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-59"><a href="#cb106-59" aria-hidden="true" tabindex="-1"></a><span class="co"># l.train(lr = 0.01)</span></span>
+<span id="cb106-60"><a href="#cb106-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-61"><a href="#cb106-61" aria-hidden="true" tabindex="-1"></a><span class="co"># import matplotlib.pyplot as plt</span></span>
+<span id="cb106-62"><a href="#cb106-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-63"><a href="#cb106-63" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.plot(l.losses)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -934,7 +1204,7 @@ tensor([[0.9218, 1.7595],
 </ol>
 </section></div></main> <!-- /main -->
 <script type="application/vnd.jupyter.widget-state+json">
-{"state":{"0603163c5132420282b55b5d929d5e2c":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_b61534343b1544e38261d707c7350070","style":"IPY_MODEL_73857f8bd7da4fc89c162ec50bd9ca32","value":"100%"}},"09ebfc7614894fa48b9280da4a182272":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"0d45a2b7b8ad48c18af947221b57013e":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"11a9a3d834a04b2095d65c6e1ae563ea":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"13671ae64f134d789121c119929ff4a1":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"13c9dc9acf354175a0562ec6b7a72357":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"14518a91de3c431bbb3072a76556f0d2":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"1bdd54105a04450c94eb34c95b44b2ac":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_5aa6a03c2d8e4ccc918cb3bacb227a52","style":"IPY_MODEL_13c9dc9acf354175a0562ec6b7a72357","value":"100%"}},"1d2a8087ccf64168af98062ea2bd1c96":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_3a6b0ac7ef6a455598a63a39919e9c81","IPY_MODEL_51ab0c34f3794ebdbbfaaad1ba1892d6","IPY_MODEL_285aa03df5954b54a36838f4f5514389"],"layout":"IPY_MODEL_14518a91de3c431bbb3072a76556f0d2"}},"254ccd06df134c2f99114692e39cd073":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_986f684665784f72b38751c0becb3560","style":"IPY_MODEL_cf5bf364625d4b7d83b432a854b8f307","value":"  0%"}},"285aa03df5954b54a36838f4f5514389":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_ac72fde7e67a4f0ab0b01785722f19b1","style":"IPY_MODEL_8e133b280dc24c73b5b6b6671b59e389","value":" 100/100 [00:00&lt;00:00, 135.22it/s]"}},"2903be34da18439298258da14595298b":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_993fc09055744450bf6ef09648274bb6","style":"IPY_MODEL_6fa368081c3e40d488dab9ca36f82be7","value":" 100/100 [00:00&lt;00:00, 123.09it/s]"}},"2aaa9132286a4a649e1c346f3b94d113":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"2eb41ce1c11a46c2a4295909e41f92cf":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_3da115a2483e4bd396bc73f3b035e4d5","style":"IPY_MODEL_e9a00aa7210c4590b5588047cdc2e8a7","value":"  1%"}},"305e6e21d54240d0adc43bf5ca44d449":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"danger","layout":"IPY_MODEL_858beba731fe4fe2a2c47bb180cc4b76","style":"IPY_MODEL_30859b7501834c618d596c734746f794","value":1}},"30859b7501834c618d596c734746f794":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"30d7d49aa8c243adbe03ddf88f325fbe":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_2eb41ce1c11a46c2a4295909e41f92cf","IPY_MODEL_ce735cd56bd94fd38a2311c5dfbc6b50","IPY_MODEL_b0ff5f7e4a2c432b9a2266e95105faa8"],"layout":"IPY_MODEL_7a1c89c4bc8449179e685fd8751f7a89"}},"32182d22f29c44e590bb7830261895e1":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"success","layout":"IPY_MODEL_aeee3c434b3445a3b48598c1e1e2dc6d","style":"IPY_MODEL_d22c9636c4ff428cb746f1f776ccaa9e","value":100}},"3a6b0ac7ef6a455598a63a39919e9c81":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_0d45a2b7b8ad48c18af947221b57013e","style":"IPY_MODEL_43373bab61d04ca2998bcef241188b51","value":"100%"}},"3da115a2483e4bd396bc73f3b035e4d5":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"42be81ff60c74784886d533d99a33bd5":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"43373bab61d04ca2998bcef241188b51":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"46c7c9a12e0942b7b78b50b850c64f7d":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_0603163c5132420282b55b5d929d5e2c","IPY_MODEL_cd48263245dd41f2ac9fa3fcd3699e96","IPY_MODEL_2903be34da18439298258da14595298b"],"layout":"IPY_MODEL_80c8131f8c464523a9adc972b6ff22e5"}},"4c8e21b344ca4c7883d79dbdeb74011e":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"51ab0c34f3794ebdbbfaaad1ba1892d6":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"success","layout":"IPY_MODEL_7dba653d20e54e3180d6d02a5cc391a3","style":"IPY_MODEL_42be81ff60c74784886d533d99a33bd5","value":100}},"5204c74add96466fb73670c77c998cbe":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"5aa6a03c2d8e4ccc918cb3bacb227a52":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"5f7aaf7810f04e80aed614a79bd77fbf":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_254ccd06df134c2f99114692e39cd073","IPY_MODEL_77a1f5d2cce94c21b112d6fc422d8100","IPY_MODEL_b917caacaf7749d98aa051fd81040b96"],"layout":"IPY_MODEL_950e5fa72fb74dfd9426bf0b6f76f2b1"}},"69dc35a5ec224786901ccee1bae65447":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"6a973d72b21f4743bffe7a3d2a19df57":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_5204c74add96466fb73670c77c998cbe","style":"IPY_MODEL_7759358071774afeb11216a80fe2489a","value":"  1%"}},"6ca14cba575f4bd6a15ff4a099cb4f95":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"6f5ac8070a484aad9ee7afa3e62a35f8":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"success","layout":"IPY_MODEL_13671ae64f134d789121c119929ff4a1","style":"IPY_MODEL_db636c969da845b09ce09a0454f013c5","value":100}},"6fa368081c3e40d488dab9ca36f82be7":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"70aaf0c0e3e34afb99552e16a6f0231c":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"73857f8bd7da4fc89c162ec50bd9ca32":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"7759358071774afeb11216a80fe2489a":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"77a1f5d2cce94c21b112d6fc422d8100":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"danger","layout":"IPY_MODEL_dff21f6d738d46b880ba5f72605a2e97","style":"IPY_MODEL_09ebfc7614894fa48b9280da4a182272"}},"7a06830d2a864f35972a972989b44059":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"7a1c89c4bc8449179e685fd8751f7a89":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"7dba653d20e54e3180d6d02a5cc391a3":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"7f4544c8a54c45a5a8afe6c75370122a":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"80c8131f8c464523a9adc972b6ff22e5":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"858beba731fe4fe2a2c47bb180cc4b76":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"8e133b280dc24c73b5b6b6671b59e389":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"8f9160babfef48d788b291e5923b803b":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"94188595f0874dddbdf590af7a06c039":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_c0db762d4d224420b518fcce4585fc39","IPY_MODEL_6f5ac8070a484aad9ee7afa3e62a35f8","IPY_MODEL_f3cf6878008448349e6ecdb3509690f9"],"layout":"IPY_MODEL_70aaf0c0e3e34afb99552e16a6f0231c"}},"946cf8b0d5e04e6f8dc709cb0e6d9c2e":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"950e5fa72fb74dfd9426bf0b6f76f2b1":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"986f684665784f72b38751c0becb3560":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"993fc09055744450bf6ef09648274bb6":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"9b8752d9210c465991f8a5cfc9d771a8":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_d744ee0fe27e4f209d741c5dc002ec10","style":"IPY_MODEL_c3fe63d254c34b538469e104799de696","value":" 100/100 [00:00&lt;00:00, 134.70it/s]"}},"a716dd09a9014f44bb4782d1efbe5bef":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_6a973d72b21f4743bffe7a3d2a19df57","IPY_MODEL_305e6e21d54240d0adc43bf5ca44d449","IPY_MODEL_f81b20d2c4c64d6db9f71199fb6ff645"],"layout":"IPY_MODEL_eabf69a46a9040dd9a7108c76a2d4bae"}},"a86da4f537c343e79dfd74b69fabb148":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"ac5773f2b9ba4cfebfd652d47086b2b1":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"ac72fde7e67a4f0ab0b01785722f19b1":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"ae4ea664de3047abadc6fba6881173a4":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"aeee3c434b3445a3b48598c1e1e2dc6d":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"b0ff5f7e4a2c432b9a2266e95105faa8":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_ac5773f2b9ba4cfebfd652d47086b2b1","style":"IPY_MODEL_2aaa9132286a4a649e1c346f3b94d113","value":" 1/100 [00:00&lt;00:02, 34.76it/s]"}},"b61534343b1544e38261d707c7350070":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"b917caacaf7749d98aa051fd81040b96":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_11a9a3d834a04b2095d65c6e1ae563ea","style":"IPY_MODEL_69dc35a5ec224786901ccee1bae65447","value":" 0/100 [00:00&lt;?, ?it/s]"}},"c0db762d4d224420b518fcce4585fc39":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_a86da4f537c343e79dfd74b69fabb148","style":"IPY_MODEL_4c8e21b344ca4c7883d79dbdeb74011e","value":"100%"}},"c3fe63d254c34b538469e104799de696":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"cd48263245dd41f2ac9fa3fcd3699e96":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"success","layout":"IPY_MODEL_7f4544c8a54c45a5a8afe6c75370122a","style":"IPY_MODEL_ae4ea664de3047abadc6fba6881173a4","value":100}},"ce735cd56bd94fd38a2311c5dfbc6b50":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"danger","layout":"IPY_MODEL_d99f8cb80f4c4c46807cd43cc43eba0a","style":"IPY_MODEL_6ca14cba575f4bd6a15ff4a099cb4f95","value":1}},"cf5bf364625d4b7d83b432a854b8f307":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"d22c9636c4ff428cb746f1f776ccaa9e":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"d514d72757464dd1ab6e88e3f5373af5":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_1bdd54105a04450c94eb34c95b44b2ac","IPY_MODEL_32182d22f29c44e590bb7830261895e1","IPY_MODEL_9b8752d9210c465991f8a5cfc9d771a8"],"layout":"IPY_MODEL_7a06830d2a864f35972a972989b44059"}},"d744ee0fe27e4f209d741c5dc002ec10":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"d99f8cb80f4c4c46807cd43cc43eba0a":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"db636c969da845b09ce09a0454f013c5":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"dff21f6d738d46b880ba5f72605a2e97":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"e4ef26ae13d24cbdad49520e6b4cbc3b":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"e9a00aa7210c4590b5588047cdc2e8a7":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"eabf69a46a9040dd9a7108c76a2d4bae":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"f3cf6878008448349e6ecdb3509690f9":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_946cf8b0d5e04e6f8dc709cb0e6d9c2e","style":"IPY_MODEL_8f9160babfef48d788b291e5923b803b","value":" 100/100 [00:01&lt;00:00, 120.44it/s]"}},"f7a9c84810d54aa59f15e48c075b9950":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"f81b20d2c4c64d6db9f71199fb6ff645":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_e4ef26ae13d24cbdad49520e6b4cbc3b","style":"IPY_MODEL_f7a9c84810d54aa59f15e48c075b9950","value":" 1/100 [00:00&lt;00:02, 33.87it/s]"}}},"version_major":2,"version_minor":0}
+{"state":{},"version_major":2,"version_minor":0}
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
