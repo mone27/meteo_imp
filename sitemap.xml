@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://mone27.github.io/gpfa_imputation/index.html</loc>
-    <lastmod>2022-11-08T13:42:01.994Z</lastmod>
+    <loc>https://mone27.github.io/meteo_imp/index.html</loc>
+    <lastmod>2022-11-12T11:34:36.660Z</lastmod>
   </url>
   <url>
-    <loc>https://mone27.github.io/gpfa_imputation/extract_gap_all_fluxnet.html</loc>
-    <lastmod>2022-11-08T13:42:02.922Z</lastmod>
+    <loc>https://mone27.github.io/meteo_imp/extract_gap_all_fluxnet.html</loc>
+    <lastmod>2022-11-12T11:34:37.892Z</lastmod>
   </url>
   <url>
-    <loc>https://mone27.github.io/gpfa_imputation/Log transform - Multi latent - Imputation GPFA - Hainich.html</loc>
-    <lastmod>2022-11-08T13:42:03.518Z</lastmod>
+    <loc>https://mone27.github.io/meteo_imp/Log transform - Multi latent - Imputation GPFA - Hainich.html</loc>
+    <lastmod>2022-11-12T11:34:38.640Z</lastmod>
   </url>
   <url>
-    <loc>https://mone27.github.io/gpfa_imputation/Multi latent - GPFA Hainich.html</loc>
-    <lastmod>2022-11-08T13:42:03.918Z</lastmod>
+    <loc>https://mone27.github.io/meteo_imp/Multi latent - GPFA Hainich.html</loc>
+    <lastmod>2022-11-12T11:34:39.156Z</lastmod>
   </url>
   <url>
-    <loc>https://mone27.github.io/gpfa_imputation/GPFA Hainich.html</loc>
-    <lastmod>2022-11-08T13:42:04.382Z</lastmod>
+    <loc>https://mone27.github.io/meteo_imp/GPFA Hainich.html</loc>
+    <lastmod>2022-11-12T11:34:39.764Z</lastmod>
   </url>
   <url>
-    <loc>https://mone27.github.io/gpfa_imputation/var_distribution.html</loc>
-    <lastmod>2022-11-08T13:42:04.862Z</lastmod>
+    <loc>https://mone27.github.io/meteo_imp/var_distribution.html</loc>
+    <lastmod>2022-11-12T11:34:40.376Z</lastmod>
   </url>
   <url>
-    <loc>https://mone27.github.io/gpfa_imputation/Train multiple latent.html</loc>
-    <lastmod>2022-11-08T13:42:05.294Z</lastmod>
+    <loc>https://mone27.github.io/meteo_imp/Train multiple latent.html</loc>
+    <lastmod>2022-11-12T11:34:40.932Z</lastmod>
   </url>
   <url>
-    <loc>https://mone27.github.io/gpfa_imputation/analyze_gaps_fluxnet.html</loc>
-    <lastmod>2022-11-08T13:42:05.814Z</lastmod>
+    <loc>https://mone27.github.io/meteo_imp/analyze_gaps_fluxnet.html</loc>
+    <lastmod>2022-11-12T11:34:41.552Z</lastmod>
   </url>
   <url>
-    <loc>https://mone27.github.io/gpfa_imputation/Simple GP Hainich.html</loc>
-    <lastmod>2022-11-08T13:42:06.302Z</lastmod>
+    <loc>https://mone27.github.io/meteo_imp/Simple GP Hainich.html</loc>
+    <lastmod>2022-11-12T11:34:42.264Z</lastmod>
   </url>
   <url>
-    <loc>https://mone27.github.io/gpfa_imputation/Additional latent kernel.html</loc>
-    <lastmod>2022-11-08T13:42:06.722Z</lastmod>
+    <loc>https://mone27.github.io/meteo_imp/Additional latent kernel.html</loc>
+    <lastmod>2022-11-12T11:34:42.780Z</lastmod>
   </url>
   <url>
-    <loc>https://mone27.github.io/gpfa_imputation/gap length variation.html</loc>
-    <lastmod>2022-11-08T13:42:07.258Z</lastmod>
+    <loc>https://mone27.github.io/meteo_imp/gap length variation.html</loc>
+    <lastmod>2022-11-12T11:34:43.364Z</lastmod>
   </url>
   <url>
-    <loc>https://mone27.github.io/gpfa_imputation/Kernel exploration.html</loc>
-    <lastmod>2022-11-08T13:42:07.566Z</lastmod>
+    <loc>https://mone27.github.io/meteo_imp/Kernel exploration.html</loc>
+    <lastmod>2022-11-12T11:34:43.736Z</lastmod>
   </url>
   <url>
-    <loc>https://mone27.github.io/gpfa_imputation/notes.html</loc>
-    <lastmod>2022-11-08T13:42:07.858Z</lastmod>
+    <loc>https://mone27.github.io/meteo_imp/notes.html</loc>
+    <lastmod>2022-11-12T11:34:44.080Z</lastmod>
   </url>
   <url>
-    <loc>https://mone27.github.io/gpfa_imputation/Init_parameters_effect.html</loc>
-    <lastmod>2022-11-08T13:42:08.610Z</lastmod>
+    <loc>https://mone27.github.io/meteo_imp/Init_parameters_effect.html</loc>
+    <lastmod>2022-11-12T11:34:45.008Z</lastmod>
   </url>
   <url>
-    <loc>https://mone27.github.io/gpfa_imputation/GPFA Hainich - multi latent var.html</loc>
-    <lastmod>2022-11-08T13:42:09.178Z</lastmod>
+    <loc>https://mone27.github.io/meteo_imp/GPFA Hainich - multi latent var.html</loc>
+    <lastmod>2022-11-12T11:34:45.672Z</lastmod>
   </url>
 </urlset>

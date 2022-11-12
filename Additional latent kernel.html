@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.267">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>GPFA Imputation Analysis – additional-latent-kernel</title>
+<title>Meteo Imputation – additional-latent-kernel</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -137,7 +137,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">GPFA Imputation Analysis</span>
+    <span class="navbar-title">Meteo Imputation</span>
     </a>
   </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -189,11 +189,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>autoreload <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gpfa_imputation.imputation <span class="im">import</span> <span class="op">*</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gpfa_imputation.data_preparation <span class="im">import</span> <span class="op">*</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gpfa_imputation.results <span class="im">import</span> <span class="op">*</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gpfa_imputation.gpfa <span class="im">import</span> <span class="op">*</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gpfa_imputation.results <span class="im">import</span> _display_as_row</span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.gpfa.imputation <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.gpfa.data_preparation <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.gpfa.results <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.gpfa.gpfa <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.gpfa.results <span class="im">import</span> _display_as_row</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -202,7 +202,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyprojroot <span class="im">import</span> here</span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gpfa_imputation.utils <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.utils <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gpytorch.kernels <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gpytorch</span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
@@ -877,7 +877,7 @@ X = torch.linalg.solve_triangular(A, B). (Triggered internally at  ../aten/src/A
 
 </main> <!-- /main -->
 <script type="application/vnd.jupyter.widget-state+json">
-{"state":{"1f1f3080857d47288b86eb64e9a9785b":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_4d99070b1b12438cb844b16d2020572a","style":"IPY_MODEL_e84720930e0c487aab47f8866677cdb0","value":"100%"}},"2536995387664429acbd24a209e776ca":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"33db30e4991240d3830dd8658039d1a4":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"success","layout":"IPY_MODEL_efde383899e744e0ac60666a13e72d90","style":"IPY_MODEL_2536995387664429acbd24a209e776ca","value":100}},"359cbd05b6b547e2a52ff141da7af84e":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"4d99070b1b12438cb844b16d2020572a":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"5a32a7a4cd254bdb81228e8617203bdb":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"5e254067be25441c8ce923ac5da59d29":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"6d66daa656564009b48bdc7cb3229586":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_5e254067be25441c8ce923ac5da59d29","style":"IPY_MODEL_359cbd05b6b547e2a52ff141da7af84e","value":" 100/100 [02:22&lt;00:00,  1.36s/it]"}},"d91accc36a174f6cb65fee43741affd3":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_1f1f3080857d47288b86eb64e9a9785b","IPY_MODEL_33db30e4991240d3830dd8658039d1a4","IPY_MODEL_6d66daa656564009b48bdc7cb3229586"],"layout":"IPY_MODEL_5a32a7a4cd254bdb81228e8617203bdb"}},"e84720930e0c487aab47f8866677cdb0":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"efde383899e744e0ac60666a13e72d90":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}}},"version_major":2,"version_minor":0}
+{"state":{},"version_major":2,"version_minor":0}
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
