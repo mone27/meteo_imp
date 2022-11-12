@@ -1,0 +1,8 @@
+website:
+  repo-actions: [source]
+    navbar:
+    background: primary
+    search: true
+    left:
+      - text: "Analysis"
+        file: "https://mone27.github.io/gpfa_imputation"
