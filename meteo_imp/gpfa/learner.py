@@ -218,7 +218,7 @@ def load(self: GPFALearner, path: Path|str):
     self.model.load_state_dict(model_state)
     self.likelihood.load_state_dict(ll_state)
 
-# %% ../../lib_nbs/GPFA/1_Learner.ipynb 100
+# %% ../../lib_nbs/GPFA/1_Learner.ipynb 101
 @patch
 def plot_progress(self: GPFALearner, size={'width': 250, 'height': 120}):
     

@@ -4,9 +4,9 @@
 __all__ = ['SimpleGP', 'SimpleGPLearner', 'SimpleGPImputationExplorer']
 
 # %% ../lib_nbs/10_SimpleGP_Imputation.ipynb 2
-from gpfa_imputation.data_preparation import *
-from gpfa_imputation.learner import NormParam
-from gpfa_imputation.results import GPFAResult
+from .data_preparation import *
+from .gpfa.learner import NormParam
+from .results import ImputationResult
 
 from fastcore.foundation import patch 
 import gpytorch
@@ -211,4 +211,4 @@ def model_info(self: SimpleGPImputationExplorer):
 # %% ../lib_nbs/10_SimpleGP_Imputation.ipynb 34
 @patch
 def to_result(self: SimpleGPImputationExplorer, data_complete, units=None):
-    return GPFAResult(self.predict(), data_complete, self.model_info(), units=units)
+    return ImputationResult(self.predict(), data_complete, self.model_info(), units=units)
