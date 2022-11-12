@@ -2,8 +2,8 @@ project:
   output-dir: _docs
 
 website:
-  title: "gpfa_imputation"
-  site-url: "https://mone27.github.io//gpfa_imputation/lib"
-  description: "Time series imputation using Gaussian Processes Factor Analsysis (GPFA)"
+  title: "meteo_imp"
+  site-url: "https://mone27.github.io//meteo_imp/lib"
+  description: "Imputation of Meteo time series using different algorithms"
   repo-branch: master
-  repo-url: "https://github.com/mone27/gpfa_imputation"
+  repo-url: "https://github.com/mone27/meteo_imp"

@@ -2,11 +2,15 @@ website:
   sidebar:
     contents:
       - index.ipynb
-      - 00_GPFA.ipynb
-      - 01_Learner.ipynb
-      - 02_data_preparation.ipynb
-      - 03_Imputation.ipynb
-      - 04_Results.ipynb
-      - 20_gap_finder.ipynb
-      - 30_SimpleGP_Imputation.ipynb
+      - 00_data_preparation.ipynb
+      - 01_Results.ipynb
+      - 10_SimpleGP_Imputation.ipynb
       - 99_utils.ipynb
+      - section: Fluxnet
+        contents:
+          - Fluxnet/00_gap_finder.ipynb
+      - section: GPFA
+        contents:
+          - GPFA/0_GPFA.ipynb
+          - GPFA/1_Learner.ipynb
+          - GPFA/2_Imputation.ipynb

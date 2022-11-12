@@ -40,11 +40,12 @@ def cache_disk(base_file, rm_cache=False):
 
     return decorator
 
-# %% ../lib_nbs/99_utils.ipynb 17
-import torch
-import numpy as np
-
 # %% ../lib_nbs/99_utils.ipynb 18
+def reset_seed(seed=27):
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+
+# %% ../lib_nbs/99_utils.ipynb 19
 def reset_seed(seed=27):
     torch.manual_seed(seed)
     np.random.seed(seed)
