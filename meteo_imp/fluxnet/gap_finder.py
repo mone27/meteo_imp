@@ -11,6 +11,7 @@ from pathlib import Path
 import requests
 import re
 from tqdm.auto import tqdm
+from pyprojroot import here
 
 # %% ../../lib_nbs/Fluxnet/00_gap_finder.ipynb 24
 def find_gap(df, col_name):

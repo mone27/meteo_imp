@@ -62,7 +62,7 @@ class SimpleGPLearner():
         self.model = SimpleGP(self.T, self.X, self.likelihood)
                 
     def prepare_X(self, X):
-        self.norm = Normalizer(X)
+        self.norm = Standardizer(X)
         self.X = self.norm.normalize(X)
         
     def default_time(self, X):
