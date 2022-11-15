@@ -21,7 +21,7 @@ _def_meteo_vars = {
 units = {
     'TA': '°C',
     'SW_IN': 'W m-2',
-    'LW_IN': 'W m-2',
+    # 'LW_IN': 'W m-2',
     'VPD': 'hPa'
 }
 

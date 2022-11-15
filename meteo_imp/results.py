@@ -41,19 +41,26 @@ class ImputationResult:
                 ):
         store_attr()
 
-# %% ../lib_nbs/01_Results.ipynb 6
+    def __repr__(self: GPFAImputation):
+        return f"""Imputation Result:
+        N obs: {self.data_imputed.time.unique().shape[0]}"""
+
+    def __str__(self: GPFAImputation):
+        return self.__repr__()
+
+# %% ../lib_nbs/01_Results.ipynb 7
 @patch
 def to_result(self: GPFAImputation, data_complete, units=None):
     var_names = self.data.columns
     return ImputationResult(self.impute(add_time=True), data_complete, self.learner.model.get_info(var_names), units, metrics_all_data=False)
 
-# %% ../lib_nbs/01_Results.ipynb 7
+# %% ../lib_nbs/01_Results.ipynb 8
 @patch
 def to_result(self: GPFAImputationExplorer, data_complete, units=None):
     var_names = self.data.columns
     return ImputationResult(self.predict(), data_complete, self.learner.model.get_info(var_names), units)
 
-# %% ../lib_nbs/01_Results.ipynb 12
+# %% ../lib_nbs/01_Results.ipynb 13
 @patch
 def compute_metric(self: ImputationResult,
                    metric,  # function that takes as argument true and pred and returns the metric
@@ -72,19 +79,19 @@ def compute_metric(self: ImputationResult,
     
     return pd.DataFrame(vars)
 
-# %% ../lib_nbs/01_Results.ipynb 13
+# %% ../lib_nbs/01_Results.ipynb 14
 @patch
 def rmse(self: ImputationResult):
     rmse = self.compute_metric(lambda x, y: np.sqrt(mean_squared_error(x,y)), "rmse")
     if self.units: rmse = rmse.assign(units= self.units.values())
     return rmse
 
-# %% ../lib_nbs/01_Results.ipynb 16
+# %% ../lib_nbs/01_Results.ipynb 17
 @patch
 def r2(self: ImputationResult):
     return self.compute_metric(r2_score, "r2")
 
-# %% ../lib_nbs/01_Results.ipynb 18
+# %% ../lib_nbs/01_Results.ipynb 19
 @patch
 def print_metrics(self: ImputationResult):
     
@@ -105,7 +112,7 @@ def print_metrics(self: ImputationResult):
     self.metrics_all_data = old
     return met
 
-# %% ../lib_nbs/01_Results.ipynb 21
+# %% ../lib_nbs/01_Results.ipynb 22
 def _plot_variable(imp, complete, variable, y_label="", sel=None, properties = {}):
     
     imp = imp[imp.variable == variable]
@@ -164,7 +171,7 @@ def _plot_variable(imp, complete, variable, y_label="", sel=None, properties = {
     return base_plot
     
 
-# %% ../lib_nbs/01_Results.ipynb 23
+# %% ../lib_nbs/01_Results.ipynb 24
 @patch()
 def plot_pred(
     self: ImputationResult,
@@ -187,13 +194,13 @@ def plot_pred(
     
     return plot
 
-# %% ../lib_nbs/01_Results.ipynb 28
+# %% ../lib_nbs/01_Results.ipynb 29
 from IPython.display import HTML
 
 from ipywidgets import HBox, VBox, interact, widgets
 from ipywidgets.widgets import Output
 
-# %% ../lib_nbs/01_Results.ipynb 29
+# %% ../lib_nbs/01_Results.ipynb 30
 def _style_df(df):
     """style dataframe for better printing """
     return df.style.hide(axis="index").format(precision = 4)
@@ -207,7 +214,7 @@ def _display_as_row(dfs: dict[str, pd.DataFrame], title="", styler=_style_df):
     out = f"<div style=\"display: flex; column-gap: 20px; flex-wrap: wrap;\" class='table table-striped table-sm'> {''.join(out)}</div>"
     display(HTML(f"<p style='font-size: 1.5rem; font-decoration: bold'>{title}<p>" + "".join(out)))
 
-# %% ../lib_nbs/01_Results.ipynb 33
+# %% ../lib_nbs/01_Results.ipynb 34
 @patch 
 def display_results(self: ImputationResult, plot_args={}):
     
