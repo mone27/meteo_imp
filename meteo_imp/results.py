@@ -113,12 +113,9 @@ def print_metrics(self: ImputationResult):
     return met
 
 # %% ../lib_nbs/01_Results.ipynb 22
-def _plot_variable(imp, complete, variable, y_label="", sel=None, properties = {}):
+def _plot_error_bar(data, variable, y_label, properties, sel):
     
-    imp = imp[imp.variable == variable]
-    sel = sel if sel is not None else alt.selection_interval(bind="scales")
-    
-    error = alt.Chart(imp).mark_errorband().encode(
+    error = alt.Chart(data).mark_errorband().encode(
         x = "time",    
         y = alt.Y("err_low:Q", title = y_label, scale=alt.Scale(zero=False)),
         y2 = "err_high:Q",
@@ -131,7 +128,7 @@ def _plot_variable(imp, complete, variable, y_label="", sel=None, properties = {
         err_high = "datum.mean + 2 * datum.std"
     ).properties( **properties)
 
-    pred = alt.Chart(imp).mark_line().encode(
+    mean = alt.Chart(data).mark_line().encode(
         x = "time",    
         y = alt.Y("mean:Q", title = y_label, scale=alt.Scale(zero=False)),
         color="variable",
@@ -139,8 +136,17 @@ def _plot_variable(imp, complete, variable, y_label="", sel=None, properties = {
         sel
     ).properties(title = variable)
 
-    base_plot = error + pred
+    return error + mean
+
+
+# %% ../lib_nbs/01_Results.ipynb 23
+def _plot_variable(imp, complete, variable, y_label="", sel=None, properties = {}):
     
+    imp = imp[imp.variable == variable]
+    sel = sel if sel is not None else alt.selection_interval(bind="scales")
+    
+    base_plot = _plot_error_bar(imp, variable, y_label, properties, sel)
+        
     if complete is not None:
 
         complete = complete[complete.variable == variable]
@@ -171,7 +177,7 @@ def _plot_variable(imp, complete, variable, y_label="", sel=None, properties = {
     return base_plot
     
 
-# %% ../lib_nbs/01_Results.ipynb 24
+# %% ../lib_nbs/01_Results.ipynb 25
 @patch()
 def plot_pred(
     self: ImputationResult,
@@ -194,13 +200,13 @@ def plot_pred(
     
     return plot
 
-# %% ../lib_nbs/01_Results.ipynb 29
+# %% ../lib_nbs/01_Results.ipynb 30
 from IPython.display import HTML
 
 from ipywidgets import HBox, VBox, interact, widgets
 from ipywidgets.widgets import Output
 
-# %% ../lib_nbs/01_Results.ipynb 30
+# %% ../lib_nbs/01_Results.ipynb 31
 def _style_df(df):
     """style dataframe for better printing """
     return df.style.hide(axis="index").format(precision = 4)
@@ -214,7 +220,7 @@ def _display_as_row(dfs: dict[str, pd.DataFrame], title="", styler=_style_df):
     out = f"<div style=\"display: flex; column-gap: 20px; flex-wrap: wrap;\" class='table table-striped table-sm'> {''.join(out)}</div>"
     display(HTML(f"<p style='font-size: 1.5rem; font-decoration: bold'>{title}<p>" + "".join(out)))
 
-# %% ../lib_nbs/01_Results.ipynb 34
+# %% ../lib_nbs/01_Results.ipynb 35
 @patch 
 def display_results(self: ImputationResult, plot_args={}):
     
