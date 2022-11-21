@@ -47,7 +47,6 @@ class KalmanImputation:
     def impute(self,
                pred_all = False, # If the dataset should be replaced by the model predictions
                                 # or only the gaps imputed using the model
-               smooth=True
               ):
         """Impute data in tidy format using model"""
         # predict either no all dataset or only on part
@@ -58,7 +57,7 @@ class KalmanImputation:
             time_mask = self.T[~self.train_idx]
             data_mask = ~self.train_idx.to_numpy()
 
-        pred = self.model.predict(time_mask, smooth)
+        pred = self.model.predict(time_mask)
         
         imp_mean = self.data.copy()
         mean = self.scaler.inverse_transform(pred.mean)

@@ -25,6 +25,7 @@ ListNormal = namedtuple('ListNormal', ['mean', 'cov'])
 # %% ../../lib_nbs/kalman/00_Kalman_Models.ipynb 14
 class KalmanModel():
     "Base Model for Kalman filter that wraps `pykalman.KalmanFilter`. Doesn't support parameters that change over time"
+    _var_names = None
     @delegates(pykalman.KalmanFilter)
     def __init__(self,
                  data: MaskedArray, # numpy array of observations
@@ -66,7 +67,11 @@ class KalmanModel():
     
     @property
     def var_names(self):
-        return [f"x_{i}" for i in range(self.n_features)]
+        return self._var_names if self._var_names is not None else [f"x_{i}" for i in range(self.n_features)]
+    
+    @var_names.setter
+    def var_names(self, var_names):
+        self._var_names = var_names
     
 
 # %% ../../lib_nbs/kalman/00_Kalman_Models.ipynb 24
@@ -130,28 +135,37 @@ class LocalSlopeModel(KalmanModel):
     
     @property
     def latent_names(self):
-        
         return [f"level_{var}" for var in self.var_names] + [f"slope_{var}" for var in self.var_names] 
+
+# %% ../../lib_nbs/kalman/00_Kalman_Models.ipynb 64
+def _cov2std(x):
+    "convert cov of array of covariances to array of stddev"
+    return np.diagonal(np.sqrt(x), axis1=1, axis2=2)
 
 # %% ../../lib_nbs/kalman/00_Kalman_Models.ipynb 65
 @patch
-def plot_state(self: LocalSlopeModel, bind_interactions = True, properties={}):
+def plot_state(self: KalmanModel, n_cols = 2, bind_interaction = True, properties={}):
 
     s_mean, s_cov = self.state
     s_std = _cov2std(s_cov)
     
-    mean = _array2df(s_mean, self.T, self.latent_names, 'time').melt('time', value_name='mean')
-    std = _array2df(s_std, self.T, self.latent_names, 'time').melt('time', value_name='std' )
+    time = np.arange(self.n_obs)
+    
+    mean = _array2df(s_mean, time, self.latent_names, 'time').melt('time', value_name='mean')
+    std = _array2df(s_std, time, self.latent_names, 'time').melt('time', value_name='std' )
     
     state = pd.merge(mean, std, on=['time', 'variable'])
     
-    plot_list = [alt.hconcat() for _ in range(0, self.data_imputed.shape[0], n_cols)]
+    plot_list = [alt.hconcat() for _ in range(0, len(self.latent_names), n_cols)]
     selection_scale = alt.selection_interval(bind="scales", encodings=['x']) if bind_interaction else None
     for idx, variable in enumerate(self.latent_names):
         data = state[state.variable == variable]
-        plot_list[idx // n_cols] |= _plot_error_bar(self.data,
+        plot_list[idx // n_cols] |= _plot_error_bar(data,
                                                    variable,
+                                                   y_label = variable,
                                                    sel = selection_scale, properties=properties)
     
     plot = alt.vconcat(*plot_list)
+    
+    return plot
 
