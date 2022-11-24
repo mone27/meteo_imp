@@ -260,4 +260,6 @@ d = { 'settings': { 'branch': 'master',
                                                 'meteo_imp.simple_gp_imputation.SimpleGPLearner.train': ( 'simplegp_imputation.html#simplegplearner.train',
                                                                                                           'meteo_imp/simple_gp_imputation.py')},
             'meteo_imp.utils': { 'meteo_imp.utils.cache_disk': ('utils.html#cache_disk', 'meteo_imp/utils.py'),
-                                 'meteo_imp.utils.reset_seed': ('utils.html#reset_seed', 'meteo_imp/utils.py')}}}
+                                 'meteo_imp.utils.is_close': ('utils.html#is_close', 'meteo_imp/utils.py'),
+                                 'meteo_imp.utils.reset_seed': ('utils.html#reset_seed', 'meteo_imp/utils.py'),
+                                 'meteo_imp.utils.test_close': ('utils.html#test_close', 'meteo_imp/utils.py')}}}
