@@ -6,6 +6,8 @@ data
 .html
 *_files/
 *website/
+trained_models/
+.Rhistory
 
 *.bak
 .gitattributes
