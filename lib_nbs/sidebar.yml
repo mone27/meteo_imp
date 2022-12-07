@@ -9,8 +9,17 @@ website:
       - section: Fluxnet
         contents:
           - Fluxnet/00_gap_finder.ipynb
+          - Fluxnet/Hainich.ipynb
       - section: GPFA
         contents:
           - GPFA/0_GPFA.ipynb
           - GPFA/1_Learner.ipynb
           - GPFA/2_Imputation.ipynb
+      - section: kalman
+        contents:
+          - kalman/00_Kalman_Filter.ipynb
+          - kalman/01_Kalman_Learner.ipynb
+          - kalman/02_Kalman_Imputation.ipynb
+          - kalman/OLD StatsModels - StateSpace.ipynb
+          - kalman/OLD_01_PyKalman_Models.ipynb
+          - kalman/OLD_02_PyKalman_Imputation.ipynb

@@ -201,26 +201,6 @@ def plot_pred(
     return plot
 
 # %% ../lib_nbs/01_Results.ipynb 30
-from IPython.display import HTML
-
-from ipywidgets import HBox, VBox, interact, widgets
-from ipywidgets.widgets import Output
-
-# %% ../lib_nbs/01_Results.ipynb 31
-def _style_df(df):
-    """style dataframe for better printing """
-    return df.style.hide(axis="index").format(precision = 4)
-
-def _display_as_row(dfs: dict[str, pd.DataFrame], title="", styler=_style_df):
-    """display multiple dataframes in the same row"""
-    out = []
-    for df_title, df in dfs.items():
-        df_html = _style_df(df).to_html()
-        out.append(f"<div> <p style='font-size: 1.3rem;'>{df_title}</p> {df_html} </div>")
-    out = f"<div style=\"display: flex; column-gap: 20px; flex-wrap: wrap;\" class='table table-striped table-sm'> {''.join(out)}</div>"
-    display(HTML(f"<p style='font-size: 1.5rem; font-decoration: bold'>{title}<p>" + "".join(out)))
-
-# %% ../lib_nbs/01_Results.ipynb 35
 @patch 
 def display_results(self: ImputationResult, plot_args={}):
     
@@ -228,5 +208,5 @@ def display_results(self: ImputationResult, plot_args={}):
     plot = self.plot_pred(**plot_args)
     
     display(plot)    
-    _display_as_row(self.print_metrics(), "Metrics")
-    _display_as_row(self.model_info, "Model Info")   
+    display_as_row(self.print_metrics(), "Metrics")
+    display_as_row(self.model_info, "Model Info")   
