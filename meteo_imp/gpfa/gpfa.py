@@ -186,7 +186,7 @@ def get_info(self: GPFA,
     
     return out
 
-# %% ../../lib_nbs/GPFA/0_GPFA.ipynb 72
+# %% ../../lib_nbs/GPFA/0_GPFA.ipynb 70
 @patch
 def get_info(self: GPFA,
              var_names = None # Optional variable names for better printing

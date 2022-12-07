@@ -10,7 +10,7 @@ from torch.distributions import MultivariateNormal
 
 import gpytorch
 from .gpfa import *
-from ..data_preparation import Standardizer
+from ..data_preparation import StandardScaler
 
 from collections import namedtuple
 import math
@@ -47,8 +47,8 @@ class GPFALearner():
         
     @torch.no_grad()
     def prepare_X(self, X):
-        self.norm = Standardizer(X)
-        X = self.norm.normalize(X)
+        self.norm = StandardScaler(X)
+        X = self.norm.transform(X)
         # flatten Matrix to vector
         self.X = X.reshape(-1) 
         self.n_features = X.shape[1]
@@ -110,8 +110,8 @@ def prediction_from_raw(self: GPFALearner, raw_mean, raw_std):
     raw_std = raw_std.reshape(-1, self.n_features)
     raw_mean = raw_mean.reshape(-1, self.n_features)
     
-    pred_mean = self.norm.reverse_normalize(raw_mean)
-    pred_std = self.norm.reverse_normalize_std(raw_std)
+    pred_mean = self.norm.inverse_transform(raw_mean)
+    pred_std = self.norm.inverse_transform_std(raw_std)
     
     #remove pytorch gradients
     return NormParam(pred_mean.detach(), pred_std.detach())
@@ -160,15 +160,15 @@ def _merge_raw_cond_pred(pred_raw,
 
 # %% ../../lib_nbs/GPFA/1_Learner.ipynb 62
 @patch
-def _normalize_obs(self: GPFALearner,
+def _standard_obs(self: GPFALearner,
                    obs, # (n_obs)
                    idx
                   ) -> Tensor: # (n_obs)
-    """ reshape the observations so they can normalized"""
+    """ reshape the observations so they can scaled to standard mean/std"""
     obs_compl = torch.zeros_like(idx, dtype=obs.dtype)
     obs_compl[idx] = obs
     obs_compl = obs_compl.reshape(-1, self.n_features)
-    obs_norm = self.norm.normalize(obs_compl)
+    obs_norm = self.norm.transform(obs_compl)
     return obs_norm.reshape(-1)[idx]
 
 # %% ../../lib_nbs/GPFA/1_Learner.ipynb 67
@@ -187,8 +187,8 @@ def predict(self: GPFALearner,
     
     # Conditional observations
     if obs is not None and idx is not None:
-        # observations needs to be normalized before can be used with the raw prediction!
-        obs_norm = self._normalize_obs(obs, idx)
+        # observations needs to be standardized before can be used with the raw prediction!
+        obs_norm = self._standard_obs(obs, idx)
         pred_cond = conditional_guassian(pred_raw, obs_norm, idx)
 
         pred_merge = _merge_raw_cond_pred(pred_raw, pred_cond, obs_norm, idx)

@@ -7,6 +7,7 @@ __all__ = ['units', 'hai_path', 'hai', 'read_fluxnet_csv']
 from pathlib import Path
 from pyprojroot import here
 import pandas as pd
+import numpy as np
 
 # %% ../lib_nbs/Fluxnet/Hainich.ipynb 4
 _def_meteo_vars = {
@@ -32,7 +33,7 @@ def read_fluxnet_csv(path,
                      nrows:int =200,
                      meteo_vars: dict[str, str] = _def_meteo_vars,):
     "Read fluxnet csv in Pandas with correct parsing of csv"
-    return (pd.read_csv(path, na_values=["-9999", "-9999.99"], parse_dates=[0, 1], nrows=nrows)
+    return (pd.read_csv(path, na_values=["-9999", "-9999.99"], parse_dates=[0, 1], nrows=nrows, dtype=np.float32)
            .rename(columns=meteo_vars)
            .set_index("TIMESTAMP_END")
            .loc[:, meteo_vars.values()])

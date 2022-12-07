@@ -5,43 +5,37 @@ __all__ = ['KalmanImputation']
 
 # %% ../../lib_nbs/kalman/02_Kalman_Imputation.ipynb 3
 import pandas as pd
-from .model import KalmanModel, LocalLevelModel
+import numpy as np
+from .model import KalmanModel
 from ..results import ImputationResult
 from ..utils import *
 from fastcore.basics import store_attr, patch
-from numpy.ma import masked_array
-import numpy as np
-from sklearn.preprocessing import StandardScaler
-import sklearn
+from ..data_preparation import StandardScaler
 
-# %% ../../lib_nbs/kalman/02_Kalman_Imputation.ipynb 11
-@patch
-def inverse_transform_std(self: sklearn.preprocessing.StandardScaler, 
-                         x_std # standard deviations
-                        ):
-    return x_std * self.scale_
+import torch
+from torch import Tensor
 
-# %% ../../lib_nbs/kalman/02_Kalman_Imputation.ipynb 16
+# %% ../../lib_nbs/kalman/02_Kalman_Imputation.ipynb 5
 class KalmanImputation:
     """Imputation using a kalman model"""
     def __init__(self, data: pd.DataFrame,
-                 model: KalmanModel, # a subclass of MLEModel tto be used as model
-                 # model_args: dict = {}, # Optional args for model
-                 pred_all: bool = False, # If the dataset should be replaced by the model predictions
+                 model: KalmanModel = KalmanModel, # a subclass of KalmanModel to be used as model
                 ):
         self.data = data
-        self.train_idx = ~self.data.isna().any(axis=1)
-        # uses numpy maskes for pykalman
-        train_data = data.to_numpy()
-        self.scaler = StandardScaler().fit(train_data)
-        train_data = self.scaler.transform(train_data)
-        self.train_data = masked_array(train_data, mask=data.isna())
+        self.train_idx = ~torch.tensor(self.data.isna().any(axis=1))
         
-        self.T = np.arange(self.data.shape[0])
+        train_data = torch.tensor(data.to_numpy())
+        self.scaler = StandardScaler(train_data)
+        train_data = self.scaler.transform(train_data)
+        self.train_data = train_data
+        
+        self.T = torch.arange(self.data.shape[0])
         self.model = model(self.train_data)
-    def fit(self, **kwargs) -> 'KalmanImputation':
+    def fit(self, n_iter=10, lr=.1) -> 'KalmanImputation':
         """Fit model parameters"""
-        self.model.fit(**kwargs)
+        times = self.T[self.train_idx]
+        obs_test = self.train_data[self.train_idx]
+        self.model.train(times, obs_test, n_iter, lr)
         return self
 
     def impute(self,
@@ -52,29 +46,29 @@ class KalmanImputation:
         # predict either no all dataset or only on part
         if pred_all:
             time_mask = self.T
-            data_mask = np.ones_like(self.train_idx, dtype=bool)
+            data_mask = torch.ones_like(self.train_idx, dtype=bool)
         else:
             time_mask = self.T[~self.train_idx]
-            data_mask = ~self.train_idx.to_numpy()
+            data_mask = ~self.train_idx
 
         pred = self.model.predict(time_mask)
         
         imp_mean = self.data.copy()
         mean = self.scaler.inverse_transform(pred.mean)
-        imp_mean.iloc[data_mask, :] = mean
+        imp_mean.iloc[data_mask, :] = mean.cpu().numpy()
         imp_mean = imp_mean.assign(time=self.T).melt('time', value_name = 'mean')
         
         # for observations std is 0
         imp_std = pd.DataFrame(np.zeros_like(self.data), columns=self.data.columns)
         # get the diagonal of the covariance matrices (the variance) and transform to std
-        std = np.diagonal(np.sqrt(pred.cov), axis1=1, axis2=2)
+        std = cov2std(pred.cov)
         std = self.scaler.inverse_transform_std(std)
-        imp_std.iloc[data_mask, :] = std
+        imp_std.iloc[data_mask, :] = std.cpu().numpy()
         imp_std = imp_std.assign(time=self.T).melt('time',value_name = 'std')
         
         return pd.merge(imp_mean, imp_std, on=['time', 'variable'])       
 
-# %% ../../lib_nbs/kalman/02_Kalman_Imputation.ipynb 25
+# %% ../../lib_nbs/kalman/02_Kalman_Imputation.ipynb 17
 @patch
 def to_result(self: KalmanImputation, data_compl, var_names=None, units=None, pred_all=False):
-    return ImputationResult(self.impute(pred_all), data_compl, self.model.get_info(var_names), units)
+    return ImputationResult(self.impute(pred_all), data_compl, self.model.filter.get_info(var_names), units)
