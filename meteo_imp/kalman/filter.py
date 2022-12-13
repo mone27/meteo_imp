@@ -223,12 +223,13 @@ class KalmanFilter(torch.nn.Module):
     
     ### -----
     
-    def _parse_obs(self, obs):
+    def _parse_obs(self, obs, mask=None):
         """Safely convert observations to their expected format"""
         obs = torch.atleast_2d(obs)
         if obs.shape[0] == 1 and obs.shape[1] > 1:
             obs = obs.T
-        return obs, ~torch.isnan(obs).any(axis=1)
+        if mask is None: mask = ~torch.isnan(obs).any(axis=1)
+        return obs, mask
     
     def __repr__(self):
         return f"""Kalman Filter
@@ -438,15 +439,16 @@ def _filter(transition_matrices, obs_matrices, transition_cov,
 @torch.no_grad()
 @patch
 def filter(self: KalmanFilter,
-          obs: Tensor # [n_timesteps, n_dim_obs] obs for times [0...n_timesteps-1]
+          obs: Tensor, # [n_timesteps, n_dim_obs] obs for times [0...n_timesteps-1]
+          mask = None
           ) -> ListNormal: # Filtered state
     """Filter observation"""
     _, _, filt_state_means, filt_state_covs = self._filter_all(obs)
     return ListNormal(_stack_detach(filt_state_means), _stack_detach(filt_state_covs))
 
 @patch
-def _filter_all(self: KalmanFilter, obs) -> Tuple:
-    obs, obs_mask = self._parse_obs(obs)
+def _filter_all(self: KalmanFilter, obs, mask=None) -> Tuple:
+    obs, obs_mask = self._parse_obs(obs, mask)
 
     return _filter(
             self.transition_matrices,
@@ -512,7 +514,8 @@ def _smooth(transition_matrices, # `[n_timesteps-1, n_dim_state, n_dim_state]` o
 # %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 73
 @patch
 def smooth(self: KalmanFilter,
-           X: Tensor # dataset
+           X: Tensor, # dataset
+           mask = None
           ) -> Tuple[Tensor, Tensor]:
                 # `smoothed_state_means` : `[n_timesteps, n_dim_state]`
                     # mean of hidden state distributions for times `[0...n_timesteps-1]`
@@ -521,7 +524,7 @@ def smooth(self: KalmanFilter,
         
     """Smoothing for prediction (no gradients)"""
 
-    (pred_state_means, pred_state_covs, filt_state_means, filt_state_covs) = (self._filter_all(X))
+    (pred_state_means, pred_state_covs, filt_state_means, filt_state_covs) = (self._filter_all(X, mask))
 
     return _smooth(
             self.transition_matrices,
@@ -542,8 +545,8 @@ def _obs_from_state(self: KalmanFilter, state_mean, state_cov, t):
     return ListNormal(mean, cov)
 
 @patch
-def predict(self: KalmanFilter, X, times, smooth=True):
-    state = self.smooth(X) if smooth else self.filter(X)
+def predict(self: KalmanFilter, X, times, mask=None, smooth=True):
+    state = self.smooth(X, mask) if smooth else self.filter(X, mask)
     times = array1d(times)
     
     n_timesteps = X.shape[0]
