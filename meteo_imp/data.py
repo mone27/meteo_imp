@@ -29,16 +29,38 @@ units = {
 hai_path = here("data") / "FLX_DE-Hai_FLUXNET2015_FULLSET_HH_2000-2012_1-4.csv"
 
 # %% ../lib_nbs/Fluxnet/Hainich.ipynb 5
+def get_dtype(col_name: str):
+    "Get correct dtype based on column name"
+    if col_name in ["TIMESTAMP_END", "TIMESTAMP_START"]:
+        return 'str'
+    elif col_name.endswith("QC"):
+        return None # pd.CategoricalDtype
+    else:
+        return np.float32
+
+def col_types(cols):
+    return {col: get_dtype(col) for col in cols}
+
+def read_col_names(path):
+    "read only column names from csv"
+    return pd.read_csv(path, nrows=0).columns
+
+# %% ../lib_nbs/Fluxnet/Hainich.ipynb 7
 def read_fluxnet_csv(path,
                      nrows:int,
                      meteo_vars: dict[str, str] = _def_meteo_vars,):
     "Read fluxnet csv in Pandas with correct parsing of csv"
-    return (pd.read_csv(path, na_values=["-9999", "-9999.99"], parse_dates=[0, 1], nrows=nrows, dtype=np.float32)
+    return (pd.read_csv(path, na_values=["-9999", "-9999.99"],
+                        parse_dates=[0, 1],
+                        nrows=nrows,
+                        dtype=col_types(read_col_names(hai_path))
+                       )
            .rename(columns=meteo_vars)
-           .set_index("TIMESTAMP_END")
+           .rename(columns={'TIMESTAMP_END': "time"})
+           .set_index("time")
            .loc[:, meteo_vars.values()])
 
-# %% ../lib_nbs/Fluxnet/Hainich.ipynb 7
+# %% ../lib_nbs/Fluxnet/Hainich.ipynb 9
 try:
     hai = read_fluxnet_csv(hai_path, 200)
 except FileNotFoundError: # for CI
