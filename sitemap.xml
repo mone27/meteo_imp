@@ -1,79 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://mone27.github.io/meteo_imp/analyze_gaps_fluxnet.html</loc>
-    <lastmod>2022-12-14T09:19:37.917Z</lastmod>
-  </url>
-  <url>
     <loc>https://mone27.github.io/meteo_imp/Multi latent - GPFA Hainich.html</loc>
-    <lastmod>2022-12-14T09:19:38.661Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mone27.github.io/meteo_imp/index.html</loc>
-    <lastmod>2022-12-14T09:19:39.541Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mone27.github.io/meteo_imp/Train multiple latent.html</loc>
-    <lastmod>2022-12-14T09:19:40.373Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mone27.github.io/meteo_imp/kalman/KalmanFilter_simple.html</loc>
-    <lastmod>2022-12-14T09:19:40.741Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mone27.github.io/meteo_imp/kalman/Process_noise.html</loc>
-    <lastmod>2022-12-14T09:19:41.041Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mone27.github.io/meteo_imp/Init_parameters_effect.html</loc>
-    <lastmod>2022-12-14T09:19:41.809Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mone27.github.io/meteo_imp/Kernel exploration.html</loc>
-    <lastmod>2022-12-14T09:19:42.129Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mone27.github.io/meteo_imp/GPFA Hainich - multi latent var.html</loc>
-    <lastmod>2022-12-14T09:19:42.681Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mone27.github.io/meteo_imp/Log transform - Multi latent - Imputation GPFA - Hainich.html</loc>
-    <lastmod>2022-12-14T09:19:43.277Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mone27.github.io/meteo_imp/Simple GP Hainich.html</loc>
-    <lastmod>2022-12-14T09:19:43.853Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mone27.github.io/meteo_imp/var_distribution.html</loc>
-    <lastmod>2022-12-14T09:19:44.333Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mone27.github.io/meteo_imp/gap length variation.html</loc>
-    <lastmod>2022-12-14T09:19:44.785Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mone27.github.io/meteo_imp/extract_gap_all_fluxnet.html</loc>
-    <lastmod>2022-12-14T09:19:45.365Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mone27.github.io/meteo_imp/GPFA Hainich.html</loc>
-    <lastmod>2022-12-14T09:19:45.813Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mone27.github.io/meteo_imp/notes.html</loc>
-    <lastmod>2022-12-14T09:19:46.093Z</lastmod>
+    <lastmod>2022-12-16T15:45:45.102Z</lastmod>
   </url>
   <url>
     <loc>https://mone27.github.io/meteo_imp/Additional latent kernel.html</loc>
-    <lastmod>2022-12-14T09:19:46.485Z</lastmod>
+    <lastmod>2022-12-16T15:45:45.922Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io/meteo_imp/Log transform - Multi latent - Imputation GPFA - Hainich.html</loc>
+    <lastmod>2022-12-16T15:45:46.610Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io/meteo_imp/notes.html</loc>
+    <lastmod>2022-12-16T15:45:46.930Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io/meteo_imp/Init_parameters_effect.html</loc>
+    <lastmod>2022-12-16T15:45:47.782Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io/meteo_imp/var_distribution.html</loc>
+    <lastmod>2022-12-16T15:45:48.354Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io/meteo_imp/gap length variation.html</loc>
+    <lastmod>2022-12-16T15:45:48.882Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io/meteo_imp/GPFA Hainich.html</loc>
+    <lastmod>2022-12-16T15:45:49.375Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io/meteo_imp/kalman/kalman_fastai.html</loc>
+    <lastmod>2022-12-16T15:45:49.787Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io/meteo_imp/kalman/KalmanFilter_PyTorch.html</loc>
+    <lastmod>2022-12-16T15:45:50.135Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io/meteo_imp/kalman/KalmanFilter_simple.html</loc>
+    <lastmod>2022-12-16T15:45:50.499Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io/meteo_imp/kalman/kalman_obs_cov.html</loc>
+    <lastmod>2022-12-16T15:45:50.871Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io/meteo_imp/kalman/Process_noise.html</loc>
+    <lastmod>2022-12-16T15:45:51.187Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io/meteo_imp/analyze_gaps_fluxnet.html</loc>
+    <lastmod>2022-12-16T15:45:51.691Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io/meteo_imp/Train multiple latent.html</loc>
+    <lastmod>2022-12-16T15:45:52.143Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io/meteo_imp/GPFA Hainich - multi latent var.html</loc>
+    <lastmod>2022-12-16T15:45:52.759Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io/meteo_imp/Simple GP Hainich.html</loc>
+    <lastmod>2022-12-16T15:45:53.383Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io/meteo_imp/index.html</loc>
+    <lastmod>2022-12-16T15:45:54.291Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io/meteo_imp/extract_gap_all_fluxnet.html</loc>
+    <lastmod>2022-12-16T15:45:55.275Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io/meteo_imp/Kernel exploration.html</loc>
+    <lastmod>2022-12-16T15:45:55.599Z</lastmod>
   </url>
   <url>
     <loc>https://mone27.github.io/meteo_imp/exploration/log_likelihood.html</loc>
-    <lastmod>2022-12-14T09:19:46.861Z</lastmod>
+    <lastmod>2022-12-16T15:45:56.011Z</lastmod>
   </url>
   <url>
     <loc>https://mone27.github.io/meteo_imp/exploration/pytorch_constraints.html</loc>
-    <lastmod>2022-12-14T09:19:47.177Z</lastmod>
+    <lastmod>2022-12-16T15:45:56.351Z</lastmod>
   </url>
 </urlset>
