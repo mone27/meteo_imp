@@ -165,7 +165,7 @@ import pandas as pd
 posdef_log = pd.DataFrame()
 
 # %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 47
-def check_posdef(value, name = '', error=False):
+def check_posdef(value, name = '', error=True):
     value = value.clone()
     is_pd_eigv, eigv = is_posdef2(value)
     is_pd_chol = torch.linalg.cholesky_ex(value).info.eq(0).item()
@@ -213,7 +213,7 @@ def check_posdef4(value, error=True):
         msg += str(value)
         warn(msg)
 
-# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 57
+# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 58
 class KalmanFilter(torch.nn.Module):
     """Kalman Filter and Kalman Smoother using PyTorch"""
     def __init__(self,
@@ -305,7 +305,7 @@ class KalmanFilter(torch.nn.Module):
     def _set_constraint(self, param_name, value, train=True):
         constraint = getattr(self, param_name + "_constraint")
         raw_value = constraint.inverse_transform(value)
-        self._init_param(param_name + "_raw", raw_value, train=True)
+        self._init_param(param_name + "_raw", raw_value, train)
         
 
     
@@ -350,7 +350,7 @@ class KalmanFilter(torch.nn.Module):
         return f"""Kalman Filter
         N dim obs: {self.n_dim_obs}, N dim state: {self.n_dim_state}"""
 
-# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 83
+# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 84
 from datetime import datetime
 def _filter_predict(transition_matrix, transition_cov,
                     transition_offset, current_state_mean,
@@ -390,7 +390,7 @@ def _filter_predict(transition_matrix, transition_cov,
     
     return (pred_state_mean, pred_state_cov)
 
-# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 133
+# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 134
 def _filter_correct(obs_matrix, obs_cov,
                     obs_offset, pred_state_mean,
                     pred_state_cov, obs, mask):
@@ -444,11 +444,11 @@ def _filter_correct(obs_matrix, obs_cov,
         corrected_state_mean = pred_state_mean
         corrected_state_cov = pred_state_cov
         
-    # check_posdef(corrected_state_cov, 'filter_correct')
+    check_posdef(corrected_state_cov, 'filter_correct')
     return (kalman_gain, corrected_state_mean,
             corrected_state_cov)
 
-# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 149
+# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 150
 def _filter(transition_matrices, obs_matrices, transition_cov,
             obs_cov, transition_offsets, obs_offsets,
             initial_state_mean, initial_state_cov, obs, obs_mask):
@@ -553,7 +553,7 @@ def _filter(transition_matrices, obs_matrices, transition_cov,
     return (pred_state_means, pred_state_covs, filt_state_means,
             filt_state_covs)
 
-# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 161
+# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 162
 @patch
 def _filter_all(self: KalmanFilter, obs, mask=None) -> Tuple:
     obs, obs_mask = self._parse_obs(obs, mask)
@@ -581,28 +581,7 @@ def filter(self: KalmanFilter,
     return ListNormal(_stack_detach(filt_state_means), _stack_detach(filt_state_covs))
 
 
-# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 162
-@patch
-def _filter_debug(self: KalmanFilter, obs, mask=None) -> Tuple:
-    obs, obs_mask = self._parse_obs(obs, mask)
-
-    _, _, filt_state, filt_state_cov = _filter(
-            self.transition_matrices,
-            self.obs_matrices,
-            self.transition_cov,
-            self.obs_cov,
-            self.transition_offsets,
-            self.obs_offsets,
-            self.initial_state_mean,
-            self.initial_state_cov,
-            obs,
-            obs_mask
-        )
-    
-    return filt_state, filt_state_cov
-
-
-# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 198
+# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 180
 def _smooth_update(transition_matrix,      # [n_dim_state, n_dim_state]
                    filt_state: Normal, # [n_dim_state] filtered state at time `t`
                    pred_state: Normal,        # [n_dim_state] state before filtering at time `t + 1` (= using the observation until time t)
@@ -622,7 +601,7 @@ def _smooth_update(transition_matrix,      # [n_dim_state, n_dim_state]
     
     return ListNormal(smoothed_state_mean, smoothed_state_cov,)
 
-# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 203
+# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 185
 def _smooth(transition_matrices, # `[n_timesteps-1, n_dim_state, n_dim_state]` or `[n_dim_state, n_dim_state]`
             filt_state: ListNormal, # `[n_timesteps, n_dim_state]`
                 # `filt_state_means[t]` = mean state estimate for time t given obs from times `[0...t]`
@@ -651,7 +630,7 @@ def _smooth(transition_matrices, # `[n_timesteps-1, n_dim_state, n_dim_state]` o
         )
     return smoothed_state
 
-# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 210
+# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 192
 @patch
 def smooth(self: KalmanFilter,
            obs: Tensor, # dataset
@@ -674,7 +653,7 @@ def smooth(self: KalmanFilter,
 
   
 
-# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 218
+# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 200
 @patch
 def _obs_from_state(self: KalmanFilter, state_mean, state_cov, t):
     obs_matrix = _last_dims(self.obs_matrices, t)
@@ -709,7 +688,7 @@ def predict(self: KalmanFilter, X, times, mask=None, smooth=True):
     
     return ListNormal(means, covs)  
 
-# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 222
+# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 204
 @patch
 def filter_loglikelihood(self: KalmanFilter, obs, mask=None):
     "Compute log likelihood using only filter step"
@@ -728,7 +707,7 @@ def filter_loglikelihood(self: KalmanFilter, obs, mask=None):
 
     return lls.sum()
 
-# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 229
+# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 211
 @patch
 def loglikelihood(self: KalmanFilter,
                   obs_train: Tensor, # [n_timesteps, n_dim_obs] Observations use for the filter (can containt missing data)
@@ -743,7 +722,7 @@ def loglikelihood(self: KalmanFilter,
     return lls.sum() 
         
 
-# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 234
+# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 216
 @patch
 def get_info(self: KalmanFilter, var_names=None):
     out = {}
