@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.280">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Meteo Imputation – kalman_float64</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Meteo Imputation</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../lib">
+ <span class="menu-text">Library Docs</span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#results" id="toc-results" class="nav-link active" data-scroll-target="#results">Results</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext autoreload</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>autoreload <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.kalman.fastai <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.kalman.<span class="bu">filter</span> <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.utils <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.data <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.tabular.learner <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.learner <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.callback.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">@cache_disk</span>(<span class="st">"full_hai"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_data():</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> read_fluxnet_csv(hai_path, <span class="va">None</span>, num_dtype<span class="op">=</span>np.float64)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>hai <span class="op">=</span> load_data()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> KalmanFilter(<span class="op">**</span>KalmanFilterTester(dtype<span class="op">=</span>torch.float64).params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> make_dataloader(hai, <span class="dv">200</span>, <span class="dv">10</span>, bs<span class="op">=</span><span class="dv">10</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(hai) <span class="op">/</span> <span class="dv">200</span> <span class="op">/</span> <span class="dv">10</span> <span class="op">*</span> <span class="fl">.8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>91.1808</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(dls.train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>91</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(dls, model, loss_func<span class="op">=</span>imp_ll_loss, cbs<span class="op">=</span>[ShowGraphCallback, Float64Callback])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>posdef_log <span class="op">=</span> pd.DataFrame()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(dls.train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>91</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>learn.fit(<span class="dv">5</span>, <span class="fl">1e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+
+    <div>
+      <progress value="1" class="" max="5" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      20.00% [1/5 03:15&lt;13:03]
+    </div>
+    
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>271.520430</td>
+      <td>224.521947</td>
+      <td>03:15</td>
+    </tr>
+  </tbody>
+</table><p>
+
+    </p><div>
+      <progress value="19" class="" max="91" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      20.88% [19/91 00:38&lt;02:24 254.0046]
+    </div>
+    
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="kalman_float64_files/figure-html/cell-12-output-3.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>learn.recorder.plot_loss()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="kalman_float64_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># learn.fit(10, 1e-2)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># learn.recorder.plot_loss()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># torch.save(learn.model, "trained_model_20_dec_f64.pickle")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>trained_state <span class="op">=</span> learn.model.state_dict()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>display_as_row(learn.model.get_info())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<p style="font-size: 1.5rem; font-decoration: bold"></p><p></p><div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div> <p style="font-size: 1.3rem;">A</p> <style type="text/css">
+</style>
+<table id="T_06f62">
+  <thead>
+    <tr>
+      <th id="T_06f62_level0_col0" class="col_heading level0 col0">latent</th>
+      <th id="T_06f62_level0_col1" class="col_heading level0 col1">z_0</th>
+      <th id="T_06f62_level0_col2" class="col_heading level0 col2">z_1</th>
+      <th id="T_06f62_level0_col3" class="col_heading level0 col3">z_2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_06f62_row0_col0" class="data row0 col0">z_0</td>
+      <td id="T_06f62_row0_col1" class="data row0 col1">0.8506</td>
+      <td id="T_06f62_row0_col2" class="data row0 col2">-0.2218</td>
+      <td id="T_06f62_row0_col3" class="data row0 col3">0.2386</td>
+    </tr>
+    <tr>
+      <td id="T_06f62_row1_col0" class="data row1 col0">z_1</td>
+      <td id="T_06f62_row1_col1" class="data row1 col1">-0.2831</td>
+      <td id="T_06f62_row1_col2" class="data row1 col2">0.6903</td>
+      <td id="T_06f62_row1_col3" class="data row1 col3">0.3596</td>
+    </tr>
+    <tr>
+      <td id="T_06f62_row2_col0" class="data row2 col0">z_2</td>
+      <td id="T_06f62_row2_col1" class="data row2 col1">0.5140</td>
+      <td id="T_06f62_row2_col2" class="data row2 col2">0.5848</td>
+      <td id="T_06f62_row2_col3" class="data row2 col3">0.1917</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">H</p> <style type="text/css">
+</style>
+<table id="T_f1282">
+  <thead>
+    <tr>
+      <th id="T_f1282_level0_col0" class="col_heading level0 col0">z_0</th>
+      <th id="T_f1282_level0_col1" class="col_heading level0 col1">z_1</th>
+      <th id="T_f1282_level0_col2" class="col_heading level0 col2">z_2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_f1282_row0_col0" class="data row0 col0">0.3026</td>
+      <td id="T_f1282_row0_col1" class="data row0 col1">0.2306</td>
+      <td id="T_f1282_row0_col2" class="data row0 col2">0.1578</td>
+    </tr>
+    <tr>
+      <td id="T_f1282_row1_col0" class="data row1 col0">-0.2170</td>
+      <td id="T_f1282_row1_col1" class="data row1 col1">0.4882</td>
+      <td id="T_f1282_row1_col2" class="data row1 col2">0.6614</td>
+    </tr>
+    <tr>
+      <td id="T_f1282_row2_col0" class="data row2 col0">-0.0105</td>
+      <td id="T_f1282_row2_col1" class="data row2 col1">0.2026</td>
+      <td id="T_f1282_row2_col2" class="data row2 col2">0.2257</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">R</p> <style type="text/css">
+</style>
+<table id="T_ce5ab">
+  <thead>
+    <tr>
+      <th id="T_ce5ab_level0_col0" class="col_heading level0 col0">0</th>
+      <th id="T_ce5ab_level0_col1" class="col_heading level0 col1">1</th>
+      <th id="T_ce5ab_level0_col2" class="col_heading level0 col2">2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_ce5ab_row0_col0" class="data row0 col0">0.4186</td>
+      <td id="T_ce5ab_row0_col1" class="data row0 col1">0.1847</td>
+      <td id="T_ce5ab_row0_col2" class="data row0 col2">0.6362</td>
+    </tr>
+    <tr>
+      <td id="T_ce5ab_row1_col0" class="data row1 col0">0.1847</td>
+      <td id="T_ce5ab_row1_col1" class="data row1 col1">0.1272</td>
+      <td id="T_ce5ab_row1_col2" class="data row1 col2">0.2375</td>
+    </tr>
+    <tr>
+      <td id="T_ce5ab_row2_col0" class="data row2 col0">0.6362</td>
+      <td id="T_ce5ab_row2_col1" class="data row2 col1">0.2375</td>
+      <td id="T_ce5ab_row2_col2" class="data row2 col2">1.0077</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">Q</p> <style type="text/css">
+</style>
+<table id="T_67c05">
+  <thead>
+    <tr>
+      <th id="T_67c05_level0_col0" class="col_heading level0 col0">latent</th>
+      <th id="T_67c05_level0_col1" class="col_heading level0 col1">z_0</th>
+      <th id="T_67c05_level0_col2" class="col_heading level0 col2">z_1</th>
+      <th id="T_67c05_level0_col3" class="col_heading level0 col3">z_2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_67c05_row0_col0" class="data row0 col0">z_0</td>
+      <td id="T_67c05_row0_col1" class="data row0 col1">0.0460</td>
+      <td id="T_67c05_row0_col2" class="data row0 col2">-0.0622</td>
+      <td id="T_67c05_row0_col3" class="data row0 col3">0.0066</td>
+    </tr>
+    <tr>
+      <td id="T_67c05_row1_col0" class="data row1 col0">z_1</td>
+      <td id="T_67c05_row1_col1" class="data row1 col1">-0.0622</td>
+      <td id="T_67c05_row1_col2" class="data row1 col2">0.1427</td>
+      <td id="T_67c05_row1_col3" class="data row1 col3">0.0370</td>
+    </tr>
+    <tr>
+      <td id="T_67c05_row2_col0" class="data row2 col0">z_2</td>
+      <td id="T_67c05_row2_col1" class="data row2 col1">0.0066</td>
+      <td id="T_67c05_row2_col2" class="data row2 col2">0.0370</td>
+      <td id="T_67c05_row2_col3" class="data row2 col3">0.0396</td>
+    </tr>
+  </tbody>
+</table>
+ </div></div>
+</div>
+</div>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.data_preparation <span class="im">import</span> MeteoDataTest</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.kalman.imputation <span class="im">import</span> KalmanImputation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gap2res(var_sel, gap_len, gap_start, block_start<span class="op">=</span><span class="dv">1000</span>, block_end<span class="op">=</span><span class="dv">1200</span>):</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> MeteoDataTest(hai.iloc[block_start:block_end, :]).add_gap(gap_len, var_sel, gap_start)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    imp <span class="op">=</span> KalmanImputation(data.data)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    imp.model.<span class="bu">filter</span>.load_state_dict(trained_state)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> imp.to_result(data.data_compl_tidy, var_names<span class="op">=</span> data.data.columns, units<span class="op">=</span>units, pred_all<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> MeteoDataTest(hai)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>var_sel <span class="op">=</span> data.data.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>time gap2res(var_sel, <span class="dv">10</span>, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>ValueError: Not positive semi definite tensor([[0.4186, 0.1847, 0.6362],
+        [0.1847, 0.1272, 0.2375],
+        [0.6362, 0.2375, 1.0077]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>gaps <span class="op">=</span> [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">50</span>, <span class="dv">100</span>]</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>gap_starts <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">90</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipywidgets <span class="im">import</span> interact_manual, IntSlider</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script type="application/vnd.jupyter.widget-state+json">
+{"state":{"049ed6ff419d418ebd4ffebad26298e5":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"SliderStyleModel","state":{"description_width":""}},"0ae0cff6ff4a4df5bb4ac84da8eba166":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"SliderStyleModel","state":{"description_width":""}},"134853c0856849bfb2c371709840ce23":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"24893627b47442b48f6afe39df38b94c":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ButtonStyleModel","state":{"font_family":null,"font_size":null,"font_style":null,"font_variant":null,"font_weight":null,"text_color":null,"text_decoration":null}},"262438a29a4841ab80f0a66782eb1aa1":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"IntSliderModel","state":{"behavior":"drag-tap","description":"block_start","layout":"IPY_MODEL_dc76b915adfc442185cb028eb7fe3d5e","max":20000,"step":1000,"style":"IPY_MODEL_ac46385b422245ddbbc2d1fcb724bd2b","value":1000}},"26505bfb620a4d128d1e770ef9ffb457":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"CheckboxStyleModel","state":{"description_width":""}},"3e2a4ea63bf14d609fe89a4a7e4f28f0":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"461752c64ec548a7b00fc8c9afa62a64":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"548244f03eb74b9ea1bbf7d014ace07b":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"IntSliderModel","state":{"behavior":"drag-tap","description":"block_len","layout":"IPY_MODEL_60c17955956040d0a322fc3bb2fb8b47","max":1000,"min":10,"step":10,"style":"IPY_MODEL_6eb2489468c54100953aa4c399644774","value":200}},"5541852ce6f3420e82878f15fecb5fe7":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"CheckboxModel","state":{"description":"VPD","disabled":false,"layout":"IPY_MODEL_134853c0856849bfb2c371709840ce23","style":"IPY_MODEL_8b1072494aed45e88a8bb202c1678d0e","value":true}},"5d9667579cfe46a7975b24c57a343523":{"model_module":"@jupyter-widgets/output","model_module_version":"1.0.0","model_name":"OutputModel","state":{"layout":"IPY_MODEL_3e2a4ea63bf14d609fe89a4a7e4f28f0","outputs":[{"ename":"ValueError","evalue":"Not positive semi definite tensor([[0.4186, 0.1847, 0.6362],\n        [0.1847, 0.1272, 0.2375],\n        [0.6362, 0.2375, 1.0077]])","output_type":"error","traceback":["\u001b[0;31m---------------------------------------------------------------------------\u001b[0m","\u001b[0;31mValueError\u001b[0m                                Traceback (most recent call last)","File \u001b[0;32m~/.local/lib/python3.10/site-packages/ipywidgets/widgets/interaction.py:239\u001b[0m, in \u001b[0;36minteractive.update\u001b[0;34m(self, *args)\u001b[0m\n\u001b[1;32m    237\u001b[0m     value \u001b[38;5;241m=\u001b[39m widget\u001b[38;5;241m.\u001b[39mget_interact_value()\n\u001b[1;32m    238\u001b[0m     \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mkwargs[widget\u001b[38;5;241m.\u001b[39m_kwarg] \u001b[38;5;241m=\u001b[39m value\n\u001b[0;32m--> 239\u001b[0m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mresult \u001b[38;5;241m=\u001b[39m \u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mf\u001b[49m\u001b[43m(\u001b[49m\u001b[38;5;241;43m*\u001b[39;49m\u001b[38;5;241;43m*\u001b[39;49m\u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mkwargs\u001b[49m\u001b[43m)\u001b[49m\n\u001b[1;32m    240\u001b[0m show_inline_matplotlib_plots()\n\u001b[1;32m    241\u001b[0m \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mauto_display \u001b[38;5;129;01mand\u001b[39;00m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mresult \u001b[38;5;129;01mis\u001b[39;00m \u001b[38;5;129;01mnot\u001b[39;00m \u001b[38;5;28;01mNone\u001b[39;00m:\n","Input \u001b[0;32mIn [33]\u001b[0m, in \u001b[0;36mshow_diff_gaps_res\u001b[0;34m(TA, SW_IN, VPD, gap_len, gap_start, block_start, block_len)\u001b[0m\n\u001b[1;32m     14\u001b[0m \u001b[38;5;28;01mif\u001b[39;00m VPD: var_sel\u001b[38;5;241m.\u001b[39mappend(\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mVPD\u001b[39m\u001b[38;5;124m'\u001b[39m)\n\u001b[1;32m     15\u001b[0m var_sel \u001b[38;5;241m=\u001b[39m (\u001b[38;5;241m*\u001b[39mvar_sel,)\n\u001b[0;32m---> 16\u001b[0m \u001b[43mgap2res\u001b[49m\u001b[43m(\u001b[49m\u001b[43mvar_sel\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mgap_len\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mgap_start\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mblock_start\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mblock_start\u001b[49m\u001b[43m \u001b[49m\u001b[38;5;241;43m+\u001b[39;49m\u001b[43m \u001b[49m\u001b[43mblock_len\u001b[49m\u001b[43m)\u001b[49m\u001b[38;5;241m.\u001b[39mdisplay_results()\n","Input \u001b[0;32mIn [27]\u001b[0m, in \u001b[0;36mgap2res\u001b[0;34m(var_sel, gap_len, gap_start, block_start, block_end)\u001b[0m\n\u001b[1;32m      3\u001b[0m imp \u001b[38;5;241m=\u001b[39m KalmanImputation(data\u001b[38;5;241m.\u001b[39mdata)\n\u001b[1;32m      4\u001b[0m imp\u001b[38;5;241m.\u001b[39mmodel\u001b[38;5;241m.\u001b[39mfilter\u001b[38;5;241m.\u001b[39mload_state_dict(trained_state)\n\u001b[0;32m----> 5\u001b[0m \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[43mimp\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mto_result\u001b[49m\u001b[43m(\u001b[49m\u001b[43mdata\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mdata_compl_tidy\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mvar_names\u001b[49m\u001b[38;5;241;43m=\u001b[39;49m\u001b[43m \u001b[49m\u001b[43mdata\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mdata\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mcolumns\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43munits\u001b[49m\u001b[38;5;241;43m=\u001b[39;49m\u001b[43munits\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mpred_all\u001b[49m\u001b[38;5;241;43m=\u001b[39;49m\u001b[38;5;28;43;01mTrue\u001b[39;49;00m\u001b[43m)\u001b[49m\n","File \u001b[0;32m~/Documents/uni/Thesis/GPFA_imputation/meteo_imp/kalman/imputation.py:74\u001b[0m, in \u001b[0;36mto_result\u001b[0;34m(self, data_compl, var_names, units, pred_all)\u001b[0m\n\u001b[1;32m     72\u001b[0m \u001b[38;5;129m@patch\u001b[39m\n\u001b[1;32m     73\u001b[0m \u001b[38;5;28;01mdef\u001b[39;00m \u001b[38;5;21mto_result\u001b[39m(\u001b[38;5;28mself\u001b[39m: KalmanImputation, data_compl, var_names\u001b[38;5;241m=\u001b[39m\u001b[38;5;28;01mNone\u001b[39;00m, units\u001b[38;5;241m=\u001b[39m\u001b[38;5;28;01mNone\u001b[39;00m, pred_all\u001b[38;5;241m=\u001b[39m\u001b[38;5;28;01mFalse\u001b[39;00m):\n\u001b[0;32m---> 74\u001b[0m     \u001b[38;5;28;01mreturn\u001b[39;00m ImputationResult(\u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mimpute\u001b[49m\u001b[43m(\u001b[49m\u001b[43mpred_all\u001b[49m\u001b[43m)\u001b[49m, data_compl, \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mmodel\u001b[38;5;241m.\u001b[39mfilter\u001b[38;5;241m.\u001b[39mget_info(var_names), units)\n","File \u001b[0;32m~/Documents/uni/Thesis/GPFA_imputation/meteo_imp/kalman/imputation.py:54\u001b[0m, in \u001b[0;36mKalmanImputation.impute\u001b[0;34m(self, pred_all)\u001b[0m\n\u001b[1;32m     51\u001b[0m     time_mask \u001b[38;5;241m=\u001b[39m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mT[\u001b[38;5;241m~\u001b[39m\u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mtrain_idx]\n\u001b[1;32m     52\u001b[0m     data_mask \u001b[38;5;241m=\u001b[39m \u001b[38;5;241m~\u001b[39m\u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mtrain_idx\n\u001b[0;32m---> 54\u001b[0m pred \u001b[38;5;241m=\u001b[39m \u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mmodel\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mpredict\u001b[49m\u001b[43m(\u001b[49m\u001b[43mtime_mask\u001b[49m\u001b[43m)\u001b[49m\n\u001b[1;32m     56\u001b[0m imp_mean \u001b[38;5;241m=\u001b[39m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mdata\u001b[38;5;241m.\u001b[39mcopy()\n\u001b[1;32m     57\u001b[0m mean \u001b[38;5;241m=\u001b[39m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mscaler\u001b[38;5;241m.\u001b[39minverse_transform(pred\u001b[38;5;241m.\u001b[39mmean)\n","File \u001b[0;32m~/anaconda3/envs/data-science/lib/python3.10/site-packages/torch/autograd/grad_mode.py:27\u001b[0m, in \u001b[0;36m_DecoratorContextManager.__call__.<locals>.decorate_context\u001b[0;34m(*args, **kwargs)\u001b[0m\n\u001b[1;32m     24\u001b[0m \u001b[38;5;129m@functools\u001b[39m\u001b[38;5;241m.\u001b[39mwraps(func)\n\u001b[1;32m     25\u001b[0m \u001b[38;5;28;01mdef\u001b[39;00m \u001b[38;5;21mdecorate_context\u001b[39m(\u001b[38;5;241m*\u001b[39margs, \u001b[38;5;241m*\u001b[39m\u001b[38;5;241m*\u001b[39mkwargs):\n\u001b[1;32m     26\u001b[0m     \u001b[38;5;28;01mwith\u001b[39;00m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mclone():\n\u001b[0;32m---> 27\u001b[0m         \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[43mfunc\u001b[49m\u001b[43m(\u001b[49m\u001b[38;5;241;43m*\u001b[39;49m\u001b[43margs\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[38;5;241;43m*\u001b[39;49m\u001b[38;5;241;43m*\u001b[39;49m\u001b[43mkwargs\u001b[49m\u001b[43m)\u001b[49m\n","File \u001b[0;32m~/Documents/uni/Thesis/GPFA_imputation/meteo_imp/kalman/model.py:85\u001b[0m, in \u001b[0;36mKalmanModel.predict\u001b[0;34m(self, t)\u001b[0m\n\u001b[1;32m     83\u001b[0m \u001b[38;5;129m@torch\u001b[39m\u001b[38;5;241m.\u001b[39mno_grad()\n\u001b[1;32m     84\u001b[0m \u001b[38;5;28;01mdef\u001b[39;00m \u001b[38;5;21mpredict\u001b[39m(\u001b[38;5;28mself\u001b[39m, t):\n\u001b[0;32m---> 85\u001b[0m     \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mfilter\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mpredict\u001b[49m\u001b[43m(\u001b[49m\u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mdata\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mt\u001b[49m\u001b[43m)\u001b[49m\u001b[38;5;241m.\u001b[39mdetach()\n","File \u001b[0;32m~/Documents/uni/Thesis/GPFA_imputation/meteo_imp/kalman/filter.py:749\u001b[0m, in \u001b[0;36mpredict\u001b[0;34m(self, obs, times, mask, smooth, check_args)\u001b[0m\n\u001b[1;32m    747\u001b[0m \u001b[38;5;129m@patch\u001b[39m\n\u001b[1;32m    748\u001b[0m \u001b[38;5;28;01mdef\u001b[39;00m \u001b[38;5;21mpredict\u001b[39m(\u001b[38;5;28mself\u001b[39m: KalmanFilter, obs, times, mask\u001b[38;5;241m=\u001b[39m\u001b[38;5;28;01mNone\u001b[39;00m, smooth\u001b[38;5;241m=\u001b[39m\u001b[38;5;28;01mTrue\u001b[39;00m, check_args\u001b[38;5;241m=\u001b[39m\u001b[38;5;28;01mNone\u001b[39;00m):\n\u001b[0;32m--> 749\u001b[0m     state \u001b[38;5;241m=\u001b[39m \u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43msmooth\u001b[49m\u001b[43m(\u001b[49m\u001b[43mobs\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mmask\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mcheck_args\u001b[49m\u001b[43m)\u001b[49m \u001b[38;5;28;01mif\u001b[39;00m smooth \u001b[38;5;28;01melse\u001b[39;00m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mfilter(obs, mask, check_args)\n\u001b[1;32m    750\u001b[0m     times \u001b[38;5;241m=\u001b[39m array1d(times)\n\u001b[1;32m    752\u001b[0m     n_timesteps \u001b[38;5;241m=\u001b[39m obs\u001b[38;5;241m.\u001b[39mshape[\u001b[38;5;241m0\u001b[39m]\n","File \u001b[0;32m~/Documents/uni/Thesis/GPFA_imputation/meteo_imp/kalman/filter.py:723\u001b[0m, in \u001b[0;36msmooth\u001b[0;34m(self, obs, mask, check_args)\u001b[0m\n\u001b[1;32m    710\u001b[0m \u001b[38;5;129m@patch\u001b[39m\n\u001b[1;32m    711\u001b[0m \u001b[38;5;28;01mdef\u001b[39;00m \u001b[38;5;21msmooth\u001b[39m(\u001b[38;5;28mself\u001b[39m: KalmanFilter,\n\u001b[1;32m    712\u001b[0m            obs: Tensor, \u001b[38;5;66;03m# dataset\u001b[39;00m\n\u001b[0;32m   (...)\u001b[0m\n\u001b[1;32m    718\u001b[0m                 \u001b[38;5;66;03m# `smoothed_state_covs` : `[n_timesteps, n_dim_state]`\u001b[39;00m\n\u001b[1;32m    719\u001b[0m                     \u001b[38;5;66;03m# covs of hidden state distributions for times `[0...n_timesteps-1]`\u001b[39;00m\n\u001b[1;32m    721\u001b[0m     \u001b[38;5;124;03m\"\"\"Smoothing for prediction (no gradients)\"\"\"\u001b[39;00m\n\u001b[0;32m--> 723\u001b[0m     (pred_state_means, pred_state_covs, filt_state_means, filt_state_covs) \u001b[38;5;241m=\u001b[39m \u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43m_filter_all\u001b[49m\u001b[43m(\u001b[49m\u001b[43mobs\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mmask\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mcheck_args\u001b[49m\u001b[43m)\u001b[49m\n\u001b[1;32m    725\u001b[0m     \u001b[38;5;28;01mreturn\u001b[39;00m _smooth(\n\u001b[1;32m    726\u001b[0m             \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mtransition_matrices,\n\u001b[1;32m    727\u001b[0m             ListNormal(filt_state_means, filt_state_covs),\n\u001b[1;32m    728\u001b[0m             ListNormal(pred_state_means, pred_state_covs),\n\u001b[1;32m    729\u001b[0m             check_args\n\u001b[1;32m    730\u001b[0m         )\n","File \u001b[0;32m~/Documents/uni/Thesis/GPFA_imputation/meteo_imp/kalman/filter.py:635\u001b[0m, in \u001b[0;36m_filter_all\u001b[0;34m(self, obs, mask, check_args)\u001b[0m\n\u001b[1;32m    627\u001b[0m \u001b[38;5;129m@patch\u001b[39m\n\u001b[1;32m    628\u001b[0m \u001b[38;5;28;01mdef\u001b[39;00m \u001b[38;5;21m_filter_all\u001b[39m(\u001b[38;5;28mself\u001b[39m: KalmanFilter, obs, mask\u001b[38;5;241m=\u001b[39m\u001b[38;5;28;01mNone\u001b[39;00m, check_args\u001b[38;5;241m=\u001b[39m\u001b[38;5;28;01mNone\u001b[39;00m) \u001b[38;5;241m-\u001b[39m\u001b[38;5;241m>\u001b[39m Tuple:\n\u001b[1;32m    629\u001b[0m     obs, obs_mask \u001b[38;5;241m=\u001b[39m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39m_parse_obs(obs, mask)\n\u001b[1;32m    631\u001b[0m     \u001b[38;5;28;01mreturn\u001b[39;00m _filter(\n\u001b[1;32m    632\u001b[0m             \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mtransition_matrices,\n\u001b[1;32m    633\u001b[0m             \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mobs_matrices,\n\u001b[1;32m    634\u001b[0m             \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mtransition_cov,\n\u001b[0;32m--> 635\u001b[0m             \u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mobs_cov\u001b[49m,\n\u001b[1;32m    636\u001b[0m             \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mtransition_offsets,\n\u001b[1;32m    637\u001b[0m             \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mobs_offsets,\n\u001b[1;32m    638\u001b[0m             \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39minitial_state_mean,\n\u001b[1;32m    639\u001b[0m             \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39minitial_state_cov,\n\u001b[1;32m    640\u001b[0m             obs,\n\u001b[1;32m    641\u001b[0m             obs_mask,\n\u001b[1;32m    642\u001b[0m             check_args\n\u001b[1;32m    643\u001b[0m         )\n","File \u001b[0;32m~/Documents/uni/Thesis/GPFA_imputation/meteo_imp/kalman/filter.py:334\u001b[0m, in \u001b[0;36mKalmanFilter.obs_cov\u001b[0;34m(self)\u001b[0m\n\u001b[1;32m    332\u001b[0m \u001b[38;5;129m@property\u001b[39m\n\u001b[1;32m    333\u001b[0m \u001b[38;5;28;01mdef\u001b[39;00m \u001b[38;5;21mobs_cov\u001b[39m(\u001b[38;5;28mself\u001b[39m):\n\u001b[0;32m--> 334\u001b[0m     \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43m_get_constraint\u001b[49m\u001b[43m(\u001b[49m\u001b[38;5;124;43m'\u001b[39;49m\u001b[38;5;124;43mobs_cov\u001b[39;49m\u001b[38;5;124;43m'\u001b[39;49m\u001b[43m)\u001b[49m\n","File \u001b[0;32m~/Documents/uni/Thesis/GPFA_imputation/meteo_imp/kalman/filter.py:313\u001b[0m, in \u001b[0;36mKalmanFilter._get_constraint\u001b[0;34m(self, param_name)\u001b[0m\n\u001b[1;32m    311\u001b[0m constraint \u001b[38;5;241m=\u001b[39m \u001b[38;5;28mgetattr\u001b[39m(\u001b[38;5;28mself\u001b[39m, param_name \u001b[38;5;241m+\u001b[39m \u001b[38;5;124m\"\u001b[39m\u001b[38;5;124m_constraint\u001b[39m\u001b[38;5;124m\"\u001b[39m)\n\u001b[1;32m    312\u001b[0m raw_value \u001b[38;5;241m=\u001b[39m \u001b[38;5;28mgetattr\u001b[39m(\u001b[38;5;28mself\u001b[39m, param_name \u001b[38;5;241m+\u001b[39m \u001b[38;5;124m\"\u001b[39m\u001b[38;5;124m_raw\u001b[39m\u001b[38;5;124m\"\u001b[39m)\n\u001b[0;32m--> 313\u001b[0m \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[43mconstraint\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mtransform\u001b[49m\u001b[43m(\u001b[49m\u001b[43mraw_value\u001b[49m\u001b[43m)\u001b[49m\n","File \u001b[0;32m~/Documents/uni/Thesis/GPFA_imputation/meteo_imp/kalman/filter.py:121\u001b[0m, in \u001b[0;36mPosDef.transform\u001b[0;34m(self, raw)\u001b[0m\n\u001b[1;32m    119\u001b[0m \u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mtransform any square matrix into a positive definite one\u001b[39m\u001b[38;5;124m\"\u001b[39m\n\u001b[1;32m    120\u001b[0m semi_pos \u001b[38;5;241m=\u001b[39m raw \u001b[38;5;241m@\u001b[39m raw\u001b[38;5;241m.\u001b[39mT\n\u001b[0;32m--> 121\u001b[0m \u001b[43mcheck_is_pos_semidef\u001b[49m\u001b[43m(\u001b[49m\u001b[43msemi_pos\u001b[49m\u001b[43m)\u001b[49m\n\u001b[1;32m    122\u001b[0m \u001b[38;5;28;01mreturn\u001b[39;00m semi_pos \u001b[38;5;241m+\u001b[39m (\u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39ma \u001b[38;5;241m*\u001b[39m torch\u001b[38;5;241m.\u001b[39meye(raw\u001b[38;5;241m.\u001b[39mshape[\u001b[38;5;241m0\u001b[39m]))\n","File \u001b[0;32m~/Documents/uni/Thesis/GPFA_imputation/meteo_imp/kalman/filter.py:109\u001b[0m, in \u001b[0;36mcheck_is_pos_semidef\u001b[0;34m(cov)\u001b[0m\n\u001b[1;32m    107\u001b[0m \u001b[38;5;28;01mdef\u001b[39;00m \u001b[38;5;21mcheck_is_pos_semidef\u001b[39m(cov):\n\u001b[1;32m    108\u001b[0m     \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;129;01mnot\u001b[39;00m is_pos_semidef(cov):\n\u001b[0;32m--> 109\u001b[0m         \u001b[38;5;28;01mraise\u001b[39;00m \u001b[38;5;167;01mValueError\u001b[39;00m(\u001b[38;5;124mf\u001b[39m\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mNot positive semi definite \u001b[39m\u001b[38;5;132;01m{\u001b[39;00mcov\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m\"\u001b[39m)\n","\u001b[0;31mValueError\u001b[0m: Not positive semi definite tensor([[0.4186, 0.1847, 0.6362],\n        [0.1847, 0.1272, 0.2375],\n        [0.6362, 0.2375, 1.0077]])"]}]}},"60c17955956040d0a322fc3bb2fb8b47":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"673c32339e25478aab15dab6c583e237":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"IntSliderModel","state":{"behavior":"drag-tap","description":"gap_start","layout":"IPY_MODEL_461752c64ec548a7b00fc8c9afa62a64","min":1,"style":"IPY_MODEL_0ae0cff6ff4a4df5bb4ac84da8eba166","value":30}},"69475fad477647feb56ab7a93c420fda":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"CheckboxModel","state":{"description":"SW_IN","disabled":false,"layout":"IPY_MODEL_f09473fce3af4e89a586c51e61139e90","style":"IPY_MODEL_26505bfb620a4d128d1e770ef9ffb457","value":true}},"6eb2489468c54100953aa4c399644774":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"SliderStyleModel","state":{"description_width":""}},"7ded237f9ce942698e9dca05d16f321b":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"87e428212f1f49cb85486d325442681f":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"8b1072494aed45e88a8bb202c1678d0e":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"CheckboxStyleModel","state":{"description_width":""}},"8d4148d5c6be4e5e92956b9122c3285d":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"ac46385b422245ddbbc2d1fcb724bd2b":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"SliderStyleModel","state":{"description_width":""}},"ae625801f19547bba5f62237af4a945a":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"CheckboxModel","state":{"description":"TA","disabled":false,"layout":"IPY_MODEL_87e428212f1f49cb85486d325442681f","style":"IPY_MODEL_dcbdc91e4c8c49f09eb1a6a530dda6b1","value":true}},"ba4a9395b1bb4c15b0bd36427b4d3455":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"VBoxModel","state":{"_dom_classes":["widget-interact"],"children":["IPY_MODEL_ae625801f19547bba5f62237af4a945a","IPY_MODEL_69475fad477647feb56ab7a93c420fda","IPY_MODEL_5541852ce6f3420e82878f15fecb5fe7","IPY_MODEL_ec28973227bf422eb41687bdc0121b0b","IPY_MODEL_673c32339e25478aab15dab6c583e237","IPY_MODEL_262438a29a4841ab80f0a66782eb1aa1","IPY_MODEL_548244f03eb74b9ea1bbf7d014ace07b","IPY_MODEL_bda19c8cce6640b083091e87c1f1833e","IPY_MODEL_5d9667579cfe46a7975b24c57a343523"],"layout":"IPY_MODEL_7ded237f9ce942698e9dca05d16f321b"}},"bda19c8cce6640b083091e87c1f1833e":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ButtonModel","state":{"description":"Run Interact","layout":"IPY_MODEL_8d4148d5c6be4e5e92956b9122c3285d","style":"IPY_MODEL_24893627b47442b48f6afe39df38b94c","tooltip":null}},"cdac049b08824577a3e7de8327010396":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"dc76b915adfc442185cb028eb7fe3d5e":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"dcbdc91e4c8c49f09eb1a6a530dda6b1":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"CheckboxStyleModel","state":{"description_width":""}},"ec28973227bf422eb41687bdc0121b0b":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"IntSliderModel","state":{"behavior":"drag-tap","description":"gap_len","layout":"IPY_MODEL_cdac049b08824577a3e7de8327010396","min":1,"style":"IPY_MODEL_049ed6ff419d418ebd4ffebad26298e5","value":10}},"f09473fce3af4e89a586c51e61139e90":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}}},"version_major":2,"version_minor":0}
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
