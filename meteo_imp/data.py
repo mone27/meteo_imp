@@ -29,17 +29,17 @@ units = {
 hai_path = here("data") / "FLX_DE-Hai_FLUXNET2015_FULLSET_HH_2000-2012_1-4.csv"
 
 # %% ../lib_nbs/Fluxnet/Hainich.ipynb 5
-def get_dtype(col_name: str):
+def get_dtype(col_name: str, num_dtype=np.float32):
     "Get correct dtype based on column name"
     if col_name in ["TIMESTAMP_END", "TIMESTAMP_START"]:
         return 'str'
     elif col_name.endswith("QC"):
         return None # pd.CategoricalDtype
     else:
-        return np.float32
+        return num_dtype
 
-def col_types(cols):
-    return {col: get_dtype(col) for col in cols}
+def col_types(cols, num_dtype=np.float32):
+    return {col: get_dtype(col, num_dtype) for col in cols}
 
 def read_col_names(path):
     "read only column names from csv"
@@ -48,12 +48,14 @@ def read_col_names(path):
 # %% ../lib_nbs/Fluxnet/Hainich.ipynb 7
 def read_fluxnet_csv(path,
                      nrows:int,
-                     meteo_vars: dict[str, str] = _def_meteo_vars,):
+                     meteo_vars: dict[str, str] = _def_meteo_vars,
+                     num_dtype = np.float32 # type for numerical columns
+                    ):
     "Read fluxnet csv in Pandas with correct parsing of csv"
     return (pd.read_csv(path, na_values=["-9999", "-9999.99"],
                         parse_dates=[0, 1],
                         nrows=nrows,
-                        dtype=col_types(read_col_names(hai_path))
+                        dtype=col_types(read_col_names(hai_path), num_dtype)
                        )
            .rename(columns=meteo_vars)
            .rename(columns={'TIMESTAMP_END': "time"})
