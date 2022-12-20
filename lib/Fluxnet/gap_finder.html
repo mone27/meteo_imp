@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.267">
+<meta name="generator" content="quarto-1.2.280">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>gpfa_imputation - Find Gaps in Fluxnet data</title>
+<title>meteo_imp - Find Gaps in Fluxnet data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -86,22 +86,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -127,11 +127,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
 
 
-<link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="gpfa_imputation - Find Gaps in Fluxnet data">
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="meteo_imp - Find Gaps in Fluxnet data">
 <meta property="og:description" content="unzip the file and load it lazily with polars">
-<meta property="og:site-name" content="gpfa_imputation">
-<meta name="twitter:title" content="gpfa_imputation - Find Gaps in Fluxnet data">
+<meta property="og:site-name" content="meteo_imp">
+<meta name="twitter:title" content="meteo_imp - Find Gaps in Fluxnet data">
 <meta name="twitter:description" content="unzip the file and load it lazily with polars">
 <meta name="twitter:card" content="summary">
 </head>
@@ -143,8 +143,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">gpfa_imputation</span>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">meteo_imp</span>
     </a>
   </div>
           <div id="quarto-search" class="" title="Search"></div>
@@ -167,49 +167,119 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">GPFA Imputation</a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link">GPFA Imputation</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
+  <a href="../data_preparation.html" class="sidebar-item-text sidebar-link">Data Preparation</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./learner.html" class="sidebar-item-text sidebar-link">GPFA Learner</a>
+  <a href="../results.html" class="sidebar-item-text sidebar-link">Results</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_preparation.html" class="sidebar-item-text sidebar-link">Data Preparation</a>
+  <a href="../simplegp_imputation.html" class="sidebar-item-text sidebar-link">Simple GP Imputation</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./imputation.html" class="sidebar-item-text sidebar-link">Imputation time series</a>
+  <a href="../utils.html" class="sidebar-item-text sidebar-link">Utils</a>
   </div>
 </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Fluxnet</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./results.html" class="sidebar-item-text sidebar-link">Results</a>
+  <a href="../Fluxnet/gap_finder.html" class="sidebar-item-text sidebar-link active">Find Gaps in Fluxnet data</a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./gap_finder.html" class="sidebar-item-text sidebar-link active">Find Gaps in Fluxnet data</a>
+  <a href="../Fluxnet/hainich.html" class="sidebar-item-text sidebar-link">Fluxnet Hainich</a>
   </div>
 </li>
-        <li class="sidebar-item">
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">GPFA</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./simplegp_imputation.html" class="sidebar-item-text sidebar-link">Simple GP Imputation</a>
+  <a href="../GPFA/gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./utils.html" class="sidebar-item-text sidebar-link">Utils</a>
+  <a href="../GPFA/learner.html" class="sidebar-item-text sidebar-link">GPFA Learner</a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../GPFA/imputation.html" class="sidebar-item-text sidebar-link">Imputation time series</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">kalman</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/kalman_filter.html" class="sidebar-item-text sidebar-link">Kalman Filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/kalman_learner.html" class="sidebar-item-text sidebar-link">Kalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/kalman_imputation.html" class="sidebar-item-text sidebar-link">Imputation Kalman Model</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/kalman_fastai.html" class="sidebar-item-text sidebar-link">Implement Kalman model using FastAI</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/old statsmodels - statespace.html" class="sidebar-item-text sidebar-link">[Not Working] StatsModels Kalman filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/old_01_pykalman_models.html" class="sidebar-item-text sidebar-link">[OLD] PyKalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/old_02_pykalman_imputation.html" class="sidebar-item-text sidebar-link">[OLD] Imputation PyKalman Model</a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -230,7 +300,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#download_and_find_gaps" id="toc-download_and_find_gaps" class="nav-link" data-scroll-target="#download_and_find_gaps">download_and_find_gaps</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/gpfa_imputation/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/meteo_imp/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -254,10 +324,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>test_file_zip <span class="op">=</span> Path(<span class="st">"../../fluxnet/FLX_DE-Hai_FLUXNET2015_FULLSET_2000-2012_1-4.zip"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>test_file <span class="op">=</span> Path(<span class="st">"../../fluxnet/FLX_DE-Hai_FLUXNET2015_FULLSET_2000-2012_1-4/FLX_DE-Hai_FLUXNET2015_FULLSET_HH_2000-2012_1-4.csv"</span>)</span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>test_file_zip <span class="op">=</span> here() <span class="op">/</span> Path(<span class="st">"../fluxnet/FLX_DE-Hai_FLUXNET2015_FULLSET_2000-2012_1-4.zip"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>test_file <span class="op">=</span> here() <span class="op">/</span> Path(<span class="st">"../fluxnet/FLX_DE-Hai_FLUXNET2015_FULLSET_2000-2012_1-4/FLX_DE-Hai_FLUXNET2015_FULLSET_HH_2000-2012_1-4.csv"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>tmp_dir <span class="op">=</span> Path(<span class="st">"/tmp"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>out_dir <span class="op">=</span> Path(<span class="st">"../../fluxnet/gap_stat"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>out_dir <span class="op">=</span> here() <span class="op">/</span> Path(<span class="st">"../fluxnet/gap_stat"</span>)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>download_dir <span class="op">=</span> Path(<span class="st">"/run/media/simone/Simone DATI/fluxnet_all"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
@@ -3129,7 +3199,7 @@ u32
 <span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/gap_finder.py#L16" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/fluxnet/gap_finder.py#L17" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="find_gap" class="level3">
 <h3 class="anchored" data-anchor-id="find_gap">find_gap</h3>
 <blockquote class="blockquote">
@@ -3166,7 +3236,7 @@ u32
 <span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/gap_finder.py#L40" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/fluxnet/gap_finder.py#L41" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="scan_fluxnet_csv" class="level3">
 <h3 class="anchored" data-anchor-id="scan_fluxnet_csv">scan_fluxnet_csv</h3>
@@ -4814,7 +4884,7 @@ null
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    ]).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/gap_finder.py#L70" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/fluxnet/gap_finder.py#L71" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="get_site_info" class="level3">
 <h3 class="anchored" data-anchor-id="get_site_info">get_site_info</h3>
@@ -4867,7 +4937,7 @@ null
 <span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fname, site_info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/gap_finder.py#L79" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/fluxnet/gap_finder.py#L80" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="find_gaps_fluxnet_archive" class="level3">
 <h3 class="anchored" data-anchor-id="find_gaps_fluxnet_archive">find_gaps_fluxnet_archive</h3>
@@ -5315,7 +5385,7 @@ str
 <span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> file_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/gap_finder.py#L122" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/fluxnet/gap_finder.py#L123" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="download_fluxnet" class="level3">
 <h3 class="anchored" data-anchor-id="download_fluxnet">download_fluxnet</h3>
@@ -5401,7 +5471,7 @@ str
 <span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/gap_finder.py#L143" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/fluxnet/gap_finder.py#L144" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="find_all_gaps" class="level3">
 <h3 class="anchored" data-anchor-id="find_all_gaps">find_all_gaps</h3>
 <blockquote class="blockquote">
@@ -5682,7 +5752,7 @@ f64
 <span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pl.concat(site_infos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/gap_finder.py#L149" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/fluxnet/gap_finder.py#L150" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="download_and_find_gaps" class="level3">
 <h3 class="anchored" data-anchor-id="download_and_find_gaps">download_and_find_gaps</h3>

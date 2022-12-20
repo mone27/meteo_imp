@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.267">
+<meta name="generator" content="quarto-1.2.280">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Library to use Gaussian Processes Factor Analysis (GPFA) to impute time series">
+<meta name="description" content="Library to impute meteo time series series">
 
-<title>gpfa_imputation - GPFA Imputation</title>
+<title>meteo_imp - GPFA Imputation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -62,11 +62,11 @@ ul.task-list li input[type="checkbox"] {
 
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="gpfa_imputation - GPFA Imputation">
-<meta property="og:description" content="Library to use Gaussian Processes Factor Analysis (GPFA) to impute time series">
-<meta property="og:site-name" content="gpfa_imputation">
-<meta name="twitter:title" content="gpfa_imputation - GPFA Imputation">
-<meta name="twitter:description" content="Library to use Gaussian Processes Factor Analysis (GPFA) to impute time series">
+<meta property="og:title" content="meteo_imp - GPFA Imputation">
+<meta property="og:description" content="Library to impute meteo time series series">
+<meta property="og:site-name" content="meteo_imp">
+<meta name="twitter:title" content="meteo_imp - GPFA Imputation">
+<meta name="twitter:description" content="Library to impute meteo time series series">
 <meta name="twitter:card" content="summary">
 </head>
 
@@ -78,7 +78,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">gpfa_imputation</span>
+    <span class="navbar-title">meteo_imp</span>
     </a>
   </div>
           <div id="quarto-search" class="" title="Search"></div>
@@ -106,32 +106,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./learner.html" class="sidebar-item-text sidebar-link">GPFA Learner</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./data_preparation.html" class="sidebar-item-text sidebar-link">Data Preparation</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./imputation.html" class="sidebar-item-text sidebar-link">Imputation time series</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./results.html" class="sidebar-item-text sidebar-link">Results</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./gap_finder.html" class="sidebar-item-text sidebar-link">Find Gaps in Fluxnet data</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -144,12 +124,108 @@ ul.task-list li input[type="checkbox"] {
   <a href="./utils.html" class="sidebar-item-text sidebar-link">Utils</a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Fluxnet</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Fluxnet/gap_finder.html" class="sidebar-item-text sidebar-link">Find Gaps in Fluxnet data</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Fluxnet/hainich.html" class="sidebar-item-text sidebar-link">Fluxnet Hainich</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">GPFA</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/learner.html" class="sidebar-item-text sidebar-link">GPFA Learner</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/imputation.html" class="sidebar-item-text sidebar-link">Imputation time series</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">kalman</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_filter.html" class="sidebar-item-text sidebar-link">Kalman Filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_learner.html" class="sidebar-item-text sidebar-link">Kalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_imputation.html" class="sidebar-item-text sidebar-link">Imputation Kalman Model</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_fastai.html" class="sidebar-item-text sidebar-link">Implement Kalman model using FastAI</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old statsmodels - statespace.html" class="sidebar-item-text sidebar-link">[Not Working] StatsModels Kalman filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old_01_pykalman_models.html" class="sidebar-item-text sidebar-link">[OLD] PyKalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old_02_pykalman_imputation.html" class="sidebar-item-text sidebar-link">[OLD] Imputation PyKalman Model</a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#license" id="toc-license" class="nav-link active" data-scroll-target="#license">License</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/meteo_imp/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -161,7 +237,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Library to use Gaussian Processes Factor Analysis (GPFA) to impute time series
+    Library to impute meteo time series series
   </div>
 </div>
 
@@ -177,9 +253,25 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
-<p>This is developed by me, Simone Massaro, as part of my master thesis</p>
+<p>This is developed by Simone Massaro as a master thesis in Ecosystem Analysis and Modelling at the University of Göttingen, Germany</p>
+<p>The aim is to impute gaps into the meteorological time series for Eddy-Covariance applications.</p>
+<p>Models developed: - Gaussian Processes Factor Analysis (GPFA) - space state models (Kalman Filter)</p>
+<section id="license" class="level2">
+<h2 class="anchored" data-anchor-id="license">License</h2>
+<p>The code under <code>model_imp.kalman.filter</code> has the following license</p>
+<p>```All code contained except that in pykalman/utils.py is released under the license below. All code in pykalman/utils.py is released under the license contained therein.</p>
+<p>New BSD License</p>
+<p>Copyright (c) 2012 Daniel Duckworth. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+<ol type="a">
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of Daniel Duckworth nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
+</ol>
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. ```</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

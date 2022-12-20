@@ -1,0 +1,2568 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.280">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="need to implement custom data preparation pipeline and loss function">
+
+<title>meteo_imp - Implement Kalman model using FastAI</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="meteo_imp - Implement Kalman model using FastAI">
+<meta property="og:description" content="need to implement custom data preparation pipeline and loss function">
+<meta property="og:site-name" content="meteo_imp">
+<meta name="twitter:title" content="meteo_imp - Implement Kalman model using FastAI">
+<meta name="twitter:description" content="need to implement custom data preparation pipeline and loss function">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">meteo_imp</span>
+    </a>
+  </div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Implement Kalman model using FastAI</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">GPFA Imputation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data_preparation.html" class="sidebar-item-text sidebar-link">Data Preparation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../results.html" class="sidebar-item-text sidebar-link">Results</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../simplegp_imputation.html" class="sidebar-item-text sidebar-link">Simple GP Imputation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../utils.html" class="sidebar-item-text sidebar-link">Utils</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Fluxnet</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Fluxnet/gap_finder.html" class="sidebar-item-text sidebar-link">Find Gaps in Fluxnet data</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Fluxnet/hainich.html" class="sidebar-item-text sidebar-link">Fluxnet Hainich</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">GPFA</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../GPFA/gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../GPFA/learner.html" class="sidebar-item-text sidebar-link">GPFA Learner</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../GPFA/imputation.html" class="sidebar-item-text sidebar-link">Imputation time series</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">kalman</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/kalman_filter.html" class="sidebar-item-text sidebar-link">Kalman Filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/kalman_learner.html" class="sidebar-item-text sidebar-link">Kalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/kalman_imputation.html" class="sidebar-item-text sidebar-link">Imputation Kalman Model</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/kalman_fastai.html" class="sidebar-item-text sidebar-link active">Implement Kalman model using FastAI</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/old statsmodels - statespace.html" class="sidebar-item-text sidebar-link">[Not Working] StatsModels Kalman filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/old_01_pykalman_models.html" class="sidebar-item-text sidebar-link">[OLD] PyKalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/old_02_pykalman_imputation.html" class="sidebar-item-text sidebar-link">[OLD] Imputation PyKalman Model</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link active" data-scroll-target="#data-preparation">Data Preparation</a>
+  <ul class="collapse">
+  <li><a href="#blocks" id="toc-blocks" class="nav-link" data-scroll-target="#blocks">Blocks</a></li>
+  <li><a href="#blockdftransform" id="toc-blockdftransform" class="nav-link" data-scroll-target="#blockdftransform">BlockDfTransform</a></li>
+  <li><a href="#gaps" id="toc-gaps" class="nav-link" data-scroll-target="#gaps">Gaps</a></li>
+  <li><a href="#addgaptransform" id="toc-addgaptransform" class="nav-link" data-scroll-target="#addgaptransform">AddGapTransform</a></li>
+  <li><a href="#maskeddf.tidy" id="toc-maskeddf.tidy" class="nav-link" data-scroll-target="#maskeddf.tidy">MaskedDf.tidy</a></li>
+  <li><a href="#maskeddf.show" id="toc-maskeddf.show" class="nav-link" data-scroll-target="#maskeddf.show">MaskedDf.show</a></li>
+  <li><a href="#to-tensor" id="toc-to-tensor" class="nav-link" data-scroll-target="#to-tensor">To Tensor</a></li>
+  <li><a href="#maskedtensor" id="toc-maskedtensor" class="nav-link" data-scroll-target="#maskedtensor">MaskedTensor</a></li>
+  <li><a href="#maskeddf2tensor" id="toc-maskeddf2tensor" class="nav-link" data-scroll-target="#maskeddf2tensor">MaskedDf2Tensor</a></li>
+  <li><a href="#normalize" id="toc-normalize" class="nav-link" data-scroll-target="#normalize">Normalize</a></li>
+  <li><a href="#get_stats" id="toc-get_stats" class="nav-link" data-scroll-target="#get_stats">get_stats</a></li>
+  <li><a href="#normalizemasked" id="toc-normalizemasked" class="nav-link" data-scroll-target="#normalizemasked">NormalizeMasked</a></li>
+  <li><a href="#pipeline" id="toc-pipeline" class="nav-link" data-scroll-target="#pipeline">Pipeline</a></li>
+  <li><a href="#imp_pipeline" id="toc-imp_pipeline" class="nav-link" data-scroll-target="#imp_pipeline">imp_pipeline</a></li>
+  <li><a href="#dataloader" id="toc-dataloader" class="nav-link" data-scroll-target="#dataloader">Dataloader</a></li>
+  <li><a href="#make_dataloader" id="toc-make_dataloader" class="nav-link" data-scroll-target="#make_dataloader">make_dataloader</a></li>
+  </ul></li>
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model">Model</a>
+  <ul class="collapse">
+  <li><a href="#forward-function" id="toc-forward-function" class="nav-link" data-scroll-target="#forward-function">Forward Function</a></li>
+  <li><a href="#listnormal" id="toc-listnormal" class="nav-link" data-scroll-target="#listnormal">ListNormal</a></li>
+  <li><a href="#kalmanfilter.forward" id="toc-kalmanfilter.forward" class="nav-link" data-scroll-target="#kalmanfilter.forward">KalmanFilter.forward</a></li>
+  <li><a href="#loss-function" id="toc-loss-function" class="nav-link" data-scroll-target="#loss-function">Loss Function</a></li>
+  <li><a href="#imp_ll_loss_single" id="toc-imp_ll_loss_single" class="nav-link" data-scroll-target="#imp_ll_loss_single">imp_ll_loss_single</a></li>
+  <li><a href="#imp_ll_loss" id="toc-imp_ll_loss" class="nav-link" data-scroll-target="#imp_ll_loss">imp_ll_loss</a></li>
+  <li><a href="#metrics" id="toc-metrics" class="nav-link" data-scroll-target="#metrics">Metrics</a></li>
+  <li><a href="#to_meteo_imp_metric" id="toc-to_meteo_imp_metric" class="nav-link" data-scroll-target="#to_meteo_imp_metric">to_meteo_imp_metric</a></li>
+  <li><a href="#callback" id="toc-callback" class="nav-link" data-scroll-target="#callback">Callback</a></li>
+  <li><a href="#saveparams" id="toc-saveparams" class="nav-link" data-scroll-target="#saveparams">SaveParams</a></li>
+  <li><a href="#learner" id="toc-learner" class="nav-link" data-scroll-target="#learner">Learner</a></li>
+  </ul></li>
+  <li><a href="#double-precisions" id="toc-double-precisions" class="nav-link" data-scroll-target="#double-precisions">Double Precisions</a>
+  <ul class="collapse">
+  <li><a href="#float64callback" id="toc-float64callback" class="nav-link" data-scroll-target="#float64callback">Float64Callback</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/meteo_imp/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Implement Kalman model using FastAI</h1>
+</div>
+
+<div>
+  <div class="description">
+    need to implement custom data preparation pipeline and loss function
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<section id="data-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="data-preparation">Data Preparation</h2>
+<p>The aim of the data preparation pipeline is to: - take the original time series and split it into time blocks - for each block generate a random gap (need to figure out the properties of the gap) - split some time blocks for testing</p>
+<p>the input of the pipeline is: - a dataframe containing all observations</p>
+<p>the input of the model is: - observed data (potentially containing NaN where data is missing) - missing data mask (which is telling where the data is missing) - the data needs to be standardized</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.utils <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>reset_seed()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.tabular.core <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.data.core <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="at">@cache_disk</span>(<span class="st">"full_hai"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_data():</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> read_fluxnet_csv(hai_path, <span class="va">None</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>hai <span class="op">=</span> load_data()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="blocks" class="level3">
+<h3 class="anchored" data-anchor-id="blocks">Blocks</h3>
+<p>the first step is to transfrom the original dataframe into blocks of a specified <code>block_len</code></p>
+<p>two different strategies are possible:</p>
+<ul>
+<li>contigous blocks</li>
+<li>random block in the dataframe</li>
+</ul>
+<hr>
+</section>
+<section id="blockdftransform" class="level3">
+<h3 class="anchored" data-anchor-id="blockdftransform">BlockDfTransform</h3>
+<blockquote class="blockquote">
+<pre><code> BlockDfTransform (df, block_len=200)</code></pre>
+</blockquote>
+<p>divide timeseries DataFrame into blocks</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> BlockDfTransform(hai[:<span class="dv">100</span>], <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>BlockDfTransform:
+encodes: (int,object) -&gt; encodes
+decodes: </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>m(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>TA</th>
+      <th>SW_IN</th>
+      <th>VPD</th>
+    </tr>
+    <tr>
+      <th>time</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2000-01-01 05:30:00</th>
+      <td>-0.23</td>
+      <td>0.00</td>
+      <td>0.138</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 06:00:00</th>
+      <td>-0.23</td>
+      <td>0.00</td>
+      <td>0.122</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 06:30:00</th>
+      <td>-0.22</td>
+      <td>0.00</td>
+      <td>0.098</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 07:00:00</th>
+      <td>-0.24</td>
+      <td>0.00</td>
+      <td>0.066</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 07:30:00</th>
+      <td>-0.23</td>
+      <td>0.00</td>
+      <td>0.044</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 08:00:00</th>
+      <td>-0.22</td>
+      <td>0.00</td>
+      <td>0.026</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 08:30:00</th>
+      <td>-0.19</td>
+      <td>0.45</td>
+      <td>0.016</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 09:00:00</th>
+      <td>-0.14</td>
+      <td>3.70</td>
+      <td>0.010</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 09:30:00</th>
+      <td>-0.03</td>
+      <td>7.26</td>
+      <td>0.006</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 10:00:00</th>
+      <td>0.04</td>
+      <td>12.24</td>
+      <td>0.006</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>m(<span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>TA</th>
+      <th>SW_IN</th>
+      <th>VPD</th>
+    </tr>
+    <tr>
+      <th>time</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2000-01-02 21:30:00</th>
+      <td>0.97</td>
+      <td>0.0</td>
+      <td>0.192</td>
+    </tr>
+    <tr>
+      <th>2000-01-02 22:00:00</th>
+      <td>0.85</td>
+      <td>0.0</td>
+      <td>0.149</td>
+    </tr>
+    <tr>
+      <th>2000-01-02 22:30:00</th>
+      <td>0.77</td>
+      <td>0.0</td>
+      <td>0.112</td>
+    </tr>
+    <tr>
+      <th>2000-01-02 23:00:00</th>
+      <td>0.63</td>
+      <td>0.0</td>
+      <td>0.075</td>
+    </tr>
+    <tr>
+      <th>2000-01-02 23:30:00</th>
+      <td>0.52</td>
+      <td>0.0</td>
+      <td>0.038</td>
+    </tr>
+    <tr>
+      <th>2000-01-03 00:00:00</th>
+      <td>0.48</td>
+      <td>0.0</td>
+      <td>0.021</td>
+    </tr>
+    <tr>
+      <th>2000-01-03 00:30:00</th>
+      <td>0.41</td>
+      <td>0.0</td>
+      <td>0.013</td>
+    </tr>
+    <tr>
+      <th>2000-01-03 01:00:00</th>
+      <td>0.29</td>
+      <td>0.0</td>
+      <td>0.004</td>
+    </tr>
+    <tr>
+      <th>2000-01-03 01:30:00</th>
+      <td>0.31</td>
+      <td>0.0</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>2000-01-03 02:00:00</th>
+      <td>0.42</td>
+      <td>0.0</td>
+      <td>0.000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="gaps" class="level3">
+<h3 class="anchored" data-anchor-id="gaps">Gaps</h3>
+<p>adds a mask which includes a random gap</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _make_random_gap(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    gap_length: <span class="bu">int</span>, <span class="co"># The length of the gap</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    total_length: <span class="bu">int</span>, <span class="co"># The total number of observations</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    gap_start: <span class="bu">int</span> <span class="op">=</span> <span class="va">None</span> <span class="co"># Optional start of gap</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>): <span class="co"># (total_length) array of bools to indicicate if the data is missing or not</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Add a continous gap of ginve length at random position"</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(gap_length <span class="op">&gt;=</span> total_length):</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.repeat(<span class="va">True</span>, total_length)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    gap_start <span class="op">=</span> np.random.randint(total_length <span class="op">-</span> gap_length) <span class="cf">if</span> gap_start <span class="kw">is</span> <span class="va">None</span> <span class="cf">else</span> gap_start</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.hstack([</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        np.repeat(<span class="va">False</span>, gap_start),</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        np.repeat(<span class="va">True</span>, gap_length),</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        np.repeat(<span class="va">False</span>, total_length <span class="op">-</span> (gap_length <span class="op">+</span> gap_start))</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+<section id="addgaptransform" class="level3">
+<h3 class="anchored" data-anchor-id="addgaptransform">AddGapTransform</h3>
+<blockquote class="blockquote">
+<pre><code> AddGapTransform (variables, gap_length)</code></pre>
+</blockquote>
+<p>Adds a random gap to a <code>TimeSTensor</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>a_gap <span class="op">=</span> AddGapTransform([<span class="st">'TA'</span>, <span class="st">'VPD'</span>], <span class="dv">5</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>a_gap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>AddGapTransform:
+encodes: (DataFrame,object) -&gt; encodes
+decodes: </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>a_gap(m(<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>MaskedDf(data=                       TA  SW_IN    VPD
+time                                   
+2000-01-01 05:30:00 -0.23   0.00  0.138
+2000-01-01 06:00:00 -0.23   0.00  0.122
+2000-01-01 06:30:00 -0.22   0.00  0.098
+2000-01-01 07:00:00 -0.24   0.00  0.066
+2000-01-01 07:30:00 -0.23   0.00  0.044
+2000-01-01 08:00:00 -0.22   0.00  0.026
+2000-01-01 08:30:00 -0.19   0.45  0.016
+2000-01-01 09:00:00 -0.14   3.70  0.010
+2000-01-01 09:30:00 -0.03   7.26  0.006
+2000-01-01 10:00:00  0.04  12.24  0.006, mask=                        TA  SW_IN    VPD
+time                                    
+2000-01-01 05:30:00   True   True   True
+2000-01-01 06:00:00   True   True   True
+2000-01-01 06:30:00   True   True   True
+2000-01-01 07:00:00  False   True  False
+2000-01-01 07:30:00  False   True  False
+2000-01-01 08:00:00  False   True  False
+2000-01-01 08:30:00  False   True  False
+2000-01-01 09:00:00  False   True  False
+2000-01-01 09:30:00   True   True   True
+2000-01-01 10:00:00   True   True   True)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>m_df <span class="op">=</span> a_gap(m(<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>m_df.data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>TA</th>
+      <th>SW_IN</th>
+      <th>VPD</th>
+    </tr>
+    <tr>
+      <th>time</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2000-01-01 15:30:00</th>
+      <td>0.52</td>
+      <td>8.09</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 16:00:00</th>
+      <td>0.57</td>
+      <td>6.37</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 16:30:00</th>
+      <td>0.73</td>
+      <td>1.72</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 17:00:00</th>
+      <td>0.77</td>
+      <td>0.06</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 17:30:00</th>
+      <td>0.84</td>
+      <td>0.00</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 18:00:00</th>
+      <td>0.99</td>
+      <td>0.00</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 18:30:00</th>
+      <td>1.35</td>
+      <td>0.00</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 19:00:00</th>
+      <td>1.86</td>
+      <td>0.00</td>
+      <td>0.002</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 19:30:00</th>
+      <td>2.01</td>
+      <td>0.00</td>
+      <td>0.009</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 20:00:00</th>
+      <td>2.07</td>
+      <td>0.00</td>
+      <td>0.014</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>m_df.mask</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>TA</th>
+      <th>SW_IN</th>
+      <th>VPD</th>
+    </tr>
+    <tr>
+      <th>time</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2000-01-01 15:30:00</th>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 16:00:00</th>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 16:30:00</th>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 17:00:00</th>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 17:30:00</th>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 18:00:00</th>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 18:30:00</th>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 19:00:00</th>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 19:30:00</th>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 20:00:00</th>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="maskeddf.tidy" class="level3">
+<h3 class="anchored" data-anchor-id="maskeddf.tidy">MaskedDf.tidy</h3>
+<blockquote class="blockquote">
+<pre><code> MaskedDf.tidy ()</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>m_df.tidy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>time</th>
+      <th>variable</th>
+      <th>value</th>
+      <th>is_present</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2000-01-01 15:30:00</td>
+      <td>TA</td>
+      <td>0.520</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2000-01-01 16:00:00</td>
+      <td>TA</td>
+      <td>0.570</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2000-01-01 16:30:00</td>
+      <td>TA</td>
+      <td>0.730</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2000-01-01 17:00:00</td>
+      <td>TA</td>
+      <td>0.770</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2000-01-01 17:30:00</td>
+      <td>TA</td>
+      <td>0.840</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2000-01-01 18:00:00</td>
+      <td>TA</td>
+      <td>0.990</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2000-01-01 18:30:00</td>
+      <td>TA</td>
+      <td>1.350</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2000-01-01 19:00:00</td>
+      <td>TA</td>
+      <td>1.860</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2000-01-01 19:30:00</td>
+      <td>TA</td>
+      <td>2.010</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2000-01-01 20:00:00</td>
+      <td>TA</td>
+      <td>2.070</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2000-01-01 15:30:00</td>
+      <td>SW_IN</td>
+      <td>8.090</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2000-01-01 16:00:00</td>
+      <td>SW_IN</td>
+      <td>6.370</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2000-01-01 16:30:00</td>
+      <td>SW_IN</td>
+      <td>1.720</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2000-01-01 17:00:00</td>
+      <td>SW_IN</td>
+      <td>0.060</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>2000-01-01 17:30:00</td>
+      <td>SW_IN</td>
+      <td>0.000</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2000-01-01 18:00:00</td>
+      <td>SW_IN</td>
+      <td>0.000</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2000-01-01 18:30:00</td>
+      <td>SW_IN</td>
+      <td>0.000</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2000-01-01 19:00:00</td>
+      <td>SW_IN</td>
+      <td>0.000</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>2000-01-01 19:30:00</td>
+      <td>SW_IN</td>
+      <td>0.000</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>2000-01-01 20:00:00</td>
+      <td>SW_IN</td>
+      <td>0.000</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>2000-01-01 15:30:00</td>
+      <td>VPD</td>
+      <td>0.000</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>2000-01-01 16:00:00</td>
+      <td>VPD</td>
+      <td>0.000</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>2000-01-01 16:30:00</td>
+      <td>VPD</td>
+      <td>0.000</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>2000-01-01 17:00:00</td>
+      <td>VPD</td>
+      <td>0.000</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>2000-01-01 17:30:00</td>
+      <td>VPD</td>
+      <td>0.000</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>2000-01-01 18:00:00</td>
+      <td>VPD</td>
+      <td>0.000</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>2000-01-01 18:30:00</td>
+      <td>VPD</td>
+      <td>0.000</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>2000-01-01 19:00:00</td>
+      <td>VPD</td>
+      <td>0.002</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>2000-01-01 19:30:00</td>
+      <td>VPD</td>
+      <td>0.009</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>2000-01-01 20:00:00</td>
+      <td>VPD</td>
+      <td>0.014</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>plot_rug(m_df.tidy())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/simone/.local/lib/python3.10/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
+  for col_name, dtype in df.dtypes.iteritems():</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<div id="altair-viz-d26cb09caa0d4946b078a731c40f1802"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-d26cb09caa0d4946b078a731c40f1802") {
+      outputDiv = document.getElementById("altair-viz-d26cb09caa0d4946b078a731c40f1802");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "4.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-8dbc285ff9e9a0880661cf5960fe4e06"}, "mark": {"type": "tick", "color": "black"}, "encoding": {"color": {"condition": {"value": "white", "test": "datum.is_present"}, "value": "black"}, "x": {"field": "time", "type": "temporal"}}, "selection": {"selector001": {"type": "interval", "bind": "scales"}}, "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-8dbc285ff9e9a0880661cf5960fe4e06": [{"time": "2000-01-01T15:30:00", "variable": "TA", "value": 0.5199999809265137, "is_present": false}, {"time": "2000-01-01T16:00:00", "variable": "TA", "value": 0.5699999928474426, "is_present": false}, {"time": "2000-01-01T16:30:00", "variable": "TA", "value": 0.7300000190734863, "is_present": false}, {"time": "2000-01-01T17:00:00", "variable": "TA", "value": 0.7699999809265137, "is_present": false}, {"time": "2000-01-01T17:30:00", "variable": "TA", "value": 0.8399999737739563, "is_present": false}, {"time": "2000-01-01T18:00:00", "variable": "TA", "value": 0.9900000095367432, "is_present": true}, {"time": "2000-01-01T18:30:00", "variable": "TA", "value": 1.350000023841858, "is_present": true}, {"time": "2000-01-01T19:00:00", "variable": "TA", "value": 1.8600000143051147, "is_present": true}, {"time": "2000-01-01T19:30:00", "variable": "TA", "value": 2.009999990463257, "is_present": true}, {"time": "2000-01-01T20:00:00", "variable": "TA", "value": 2.069999933242798, "is_present": true}, {"time": "2000-01-01T15:30:00", "variable": "SW_IN", "value": 8.09000015258789, "is_present": true}, {"time": "2000-01-01T16:00:00", "variable": "SW_IN", "value": 6.369999885559082, "is_present": true}, {"time": "2000-01-01T16:30:00", "variable": "SW_IN", "value": 1.7200000286102295, "is_present": true}, {"time": "2000-01-01T17:00:00", "variable": "SW_IN", "value": 0.05999999865889549, "is_present": true}, {"time": "2000-01-01T17:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T18:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T18:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T19:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T19:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T20:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T15:30:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T16:00:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T16:30:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T17:00:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T17:30:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T18:00:00", "variable": "VPD", "value": 0.0, "is_present": true}, {"time": "2000-01-01T18:30:00", "variable": "VPD", "value": 0.0, "is_present": true}, {"time": "2000-01-01T19:00:00", "variable": "VPD", "value": 0.0020000000949949026, "is_present": true}, {"time": "2000-01-01T19:30:00", "variable": "VPD", "value": 0.008999999612569809, "is_present": true}, {"time": "2000-01-01T20:00:00", "variable": "VPD", "value": 0.014000000432133675, "is_present": true}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_points(df, y_label <span class="op">=</span> <span class="st">""</span>, sel <span class="op">=</span> def_selection(), props <span class="op">=</span> {}):</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> alt.Chart(df).mark_point(</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>            strokeWidth <span class="op">=</span> <span class="dv">1</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>            fillOpacity <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>        ).encode(</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> alt.X(<span class="st">"time"</span>, axis<span class="op">=</span>alt.Axis(domain<span class="op">=</span><span class="va">False</span>, labels <span class="op">=</span> <span class="va">False</span>, ticks<span class="op">=</span><span class="va">False</span>, title<span class="op">=</span><span class="va">None</span>)),</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>            y <span class="op">=</span> alt.Y(<span class="st">"value"</span>, title <span class="op">=</span> y_label, scale<span class="op">=</span>alt.Scale(zero<span class="op">=</span><span class="va">False</span>)),</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>            fill<span class="op">=</span> alt.Fill(<span class="st">"is_present"</span>, scale <span class="op">=</span> alt.Scale(<span class="bu">range</span><span class="op">=</span>[<span class="st">"black"</span>, <span class="st">"#ffffff00"</span>]),</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>                           legend <span class="op">=</span> alt.Legend(title <span class="op">=</span>[<span class="st">"Observed data"</span>])),</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>            shape <span class="op">=</span> <span class="st">"is_present"</span>,</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>plot_points(m_df.tidy())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/simone/.local/lib/python3.10/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
+  for col_name, dtype in df.dtypes.iteritems():</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<div id="altair-viz-44148fe9a05f4a46a89c3cdfc03e7817"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-44148fe9a05f4a46a89c3cdfc03e7817") {
+      outputDiv = document.getElementById("altair-viz-44148fe9a05f4a46a89c3cdfc03e7817");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "4.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-8dbc285ff9e9a0880661cf5960fe4e06"}, "mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_present", "legend": {"title": ["Observed data"]}, "scale": {"range": ["black", "#ffffff00"]}, "type": "nominal"}, "shape": {"field": "is_present", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "", "type": "quantitative"}}, "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-8dbc285ff9e9a0880661cf5960fe4e06": [{"time": "2000-01-01T15:30:00", "variable": "TA", "value": 0.5199999809265137, "is_present": false}, {"time": "2000-01-01T16:00:00", "variable": "TA", "value": 0.5699999928474426, "is_present": false}, {"time": "2000-01-01T16:30:00", "variable": "TA", "value": 0.7300000190734863, "is_present": false}, {"time": "2000-01-01T17:00:00", "variable": "TA", "value": 0.7699999809265137, "is_present": false}, {"time": "2000-01-01T17:30:00", "variable": "TA", "value": 0.8399999737739563, "is_present": false}, {"time": "2000-01-01T18:00:00", "variable": "TA", "value": 0.9900000095367432, "is_present": true}, {"time": "2000-01-01T18:30:00", "variable": "TA", "value": 1.350000023841858, "is_present": true}, {"time": "2000-01-01T19:00:00", "variable": "TA", "value": 1.8600000143051147, "is_present": true}, {"time": "2000-01-01T19:30:00", "variable": "TA", "value": 2.009999990463257, "is_present": true}, {"time": "2000-01-01T20:00:00", "variable": "TA", "value": 2.069999933242798, "is_present": true}, {"time": "2000-01-01T15:30:00", "variable": "SW_IN", "value": 8.09000015258789, "is_present": true}, {"time": "2000-01-01T16:00:00", "variable": "SW_IN", "value": 6.369999885559082, "is_present": true}, {"time": "2000-01-01T16:30:00", "variable": "SW_IN", "value": 1.7200000286102295, "is_present": true}, {"time": "2000-01-01T17:00:00", "variable": "SW_IN", "value": 0.05999999865889549, "is_present": true}, {"time": "2000-01-01T17:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T18:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T18:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T19:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T19:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T20:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T15:30:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T16:00:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T16:30:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T17:00:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T17:30:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T18:00:00", "variable": "VPD", "value": 0.0, "is_present": true}, {"time": "2000-01-01T18:30:00", "variable": "VPD", "value": 0.0, "is_present": true}, {"time": "2000-01-01T19:00:00", "variable": "VPD", "value": 0.0020000000949949026, "is_present": true}, {"time": "2000-01-01T19:30:00", "variable": "VPD", "value": 0.008999999612569809, "is_present": true}, {"time": "2000-01-01T20:00:00", "variable": "VPD", "value": 0.014000000432133675, "is_present": true}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>plot_line(m_df.tidy())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/simone/.local/lib/python3.10/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
+  for col_name, dtype in df.dtypes.iteritems():</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<div id="altair-viz-2ae7bc51185740beb58693a963874f23"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-2ae7bc51185740beb58693a963874f23") {
+      outputDiv = document.getElementById("altair-viz-2ae7bc51185740beb58693a963874f23");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "4.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-8dbc285ff9e9a0880661cf5960fe4e06"}, "mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "", "type": "quantitative"}}, "selection": {"selector003": {"type": "interval", "bind": "scales"}}, "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-8dbc285ff9e9a0880661cf5960fe4e06": [{"time": "2000-01-01T15:30:00", "variable": "TA", "value": 0.5199999809265137, "is_present": false}, {"time": "2000-01-01T16:00:00", "variable": "TA", "value": 0.5699999928474426, "is_present": false}, {"time": "2000-01-01T16:30:00", "variable": "TA", "value": 0.7300000190734863, "is_present": false}, {"time": "2000-01-01T17:00:00", "variable": "TA", "value": 0.7699999809265137, "is_present": false}, {"time": "2000-01-01T17:30:00", "variable": "TA", "value": 0.8399999737739563, "is_present": false}, {"time": "2000-01-01T18:00:00", "variable": "TA", "value": 0.9900000095367432, "is_present": true}, {"time": "2000-01-01T18:30:00", "variable": "TA", "value": 1.350000023841858, "is_present": true}, {"time": "2000-01-01T19:00:00", "variable": "TA", "value": 1.8600000143051147, "is_present": true}, {"time": "2000-01-01T19:30:00", "variable": "TA", "value": 2.009999990463257, "is_present": true}, {"time": "2000-01-01T20:00:00", "variable": "TA", "value": 2.069999933242798, "is_present": true}, {"time": "2000-01-01T15:30:00", "variable": "SW_IN", "value": 8.09000015258789, "is_present": true}, {"time": "2000-01-01T16:00:00", "variable": "SW_IN", "value": 6.369999885559082, "is_present": true}, {"time": "2000-01-01T16:30:00", "variable": "SW_IN", "value": 1.7200000286102295, "is_present": true}, {"time": "2000-01-01T17:00:00", "variable": "SW_IN", "value": 0.05999999865889549, "is_present": true}, {"time": "2000-01-01T17:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T18:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T18:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T19:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T19:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T20:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T15:30:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T16:00:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T16:30:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T17:00:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T17:30:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T18:00:00", "variable": "VPD", "value": 0.0, "is_present": true}, {"time": "2000-01-01T18:30:00", "variable": "VPD", "value": 0.0, "is_present": true}, {"time": "2000-01-01T19:00:00", "variable": "VPD", "value": 0.0020000000949949026, "is_present": true}, {"time": "2000-01-01T19:30:00", "variable": "VPD", "value": 0.008999999612569809, "is_present": true}, {"time": "2000-01-01T20:00:00", "variable": "VPD", "value": 0.014000000432133675, "is_present": true}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>plot_variable(m_df.tidy(), <span class="st">"TA"</span>, title<span class="op">=</span><span class="st">"title TA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/simone/.local/lib/python3.10/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
+  for col_name, dtype in df.dtypes.iteritems():</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<div id="altair-viz-53231442bf7f4ba4968d24ee352306e8"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-53231442bf7f4ba4968d24ee352306e8") {
+      outputDiv = document.getElementById("altair-viz-53231442bf7f4ba4968d24ee352306e8");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "4.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "layer": [{"mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_present", "legend": {"title": ["Observed data"]}, "scale": {"range": ["black", "#ffffff00"]}, "type": "nominal"}, "shape": {"field": "is_present", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "", "type": "quantitative"}}}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "", "type": "quantitative"}}, "selection": {"selector004": {"type": "interval", "bind": "scales"}}}], "data": {"name": "data-c216e5a4167f549263b7fefd6be27b9a"}, "title": "title TA", "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-c216e5a4167f549263b7fefd6be27b9a": [{"time": "2000-01-01T15:30:00", "variable": "TA", "value": 0.5199999809265137, "is_present": false}, {"time": "2000-01-01T16:00:00", "variable": "TA", "value": 0.5699999928474426, "is_present": false}, {"time": "2000-01-01T16:30:00", "variable": "TA", "value": 0.7300000190734863, "is_present": false}, {"time": "2000-01-01T17:00:00", "variable": "TA", "value": 0.7699999809265137, "is_present": false}, {"time": "2000-01-01T17:30:00", "variable": "TA", "value": 0.8399999737739563, "is_present": false}, {"time": "2000-01-01T18:00:00", "variable": "TA", "value": 0.9900000095367432, "is_present": true}, {"time": "2000-01-01T18:30:00", "variable": "TA", "value": 1.350000023841858, "is_present": true}, {"time": "2000-01-01T19:00:00", "variable": "TA", "value": 1.8600000143051147, "is_present": true}, {"time": "2000-01-01T19:30:00", "variable": "TA", "value": 2.009999990463257, "is_present": true}, {"time": "2000-01-01T20:00:00", "variable": "TA", "value": 2.069999933242798, "is_present": true}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<hr>
+</section>
+<section id="maskeddf.show" class="level3">
+<h3 class="anchored" data-anchor-id="maskeddf.show">MaskedDf.show</h3>
+<blockquote class="blockquote">
+<pre><code> MaskedDf.show (ax=None, ctx=None, n_cols:int=3,
+                bind_interaction:bool=True, props:dict=None)</code></pre>
+</blockquote>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ax</td>
+<td>NoneType</td>
+<td>None</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>ctx</td>
+<td>NoneType</td>
+<td>None</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>n_cols</td>
+<td>int</td>
+<td>3</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>bind_interaction</td>
+<td>bool</td>
+<td>True</td>
+<td>Whether the sub-plots for each variable should be connected for zooming/panning</td>
+</tr>
+<tr class="odd">
+<td>props</td>
+<td>dict</td>
+<td>None</td>
+<td>additional properties (eg. size) for altair plot</td>
+</tr>
+<tr class="even">
+<td><strong>Returns</strong></td>
+<td><strong>Chart</strong></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>m_df.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/simone/.local/lib/python3.10/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
+  for col_name, dtype in df.dtypes.iteritems():</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<div id="altair-viz-906f60d0dbbe48ecb9b793fc62b10b18"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-906f60d0dbbe48ecb9b793fc62b10b18") {
+      outputDiv = document.getElementById("altair-viz-906f60d0dbbe48ecb9b793fc62b10b18");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "4.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"hconcat": [{"layer": [{"mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_present", "legend": {"title": ["Observed data"]}, "scale": {"range": ["black", "#ffffff00"]}, "type": "nominal"}, "shape": {"field": "is_present", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "TA", "type": "quantitative"}}}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "TA", "type": "quantitative"}}, "height": 100, "selection": {"selector005": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "width": 180}], "title": "TA"}, {"layer": [{"mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_present", "legend": {"title": ["Observed data"]}, "scale": {"range": ["black", "#ffffff00"]}, "type": "nominal"}, "shape": {"field": "is_present", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "SW_IN", "type": "quantitative"}}}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "SW_IN", "type": "quantitative"}}, "height": 100, "selection": {"selector005": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "width": 180}], "data": {"name": "data-c3a60f1c986b6caa7e65dff6e5822e40"}, "title": "SW_IN"}, {"layer": [{"mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_present", "legend": {"title": ["Observed data"]}, "scale": {"range": ["black", "#ffffff00"]}, "type": "nominal"}, "shape": {"field": "is_present", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "VPD", "type": "quantitative"}}}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "VPD", "type": "quantitative"}}, "height": 100, "selection": {"selector005": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "width": 180}], "data": {"name": "data-b515775ddfb81c914376c617816a3fce"}, "title": "VPD"}], "data": {"name": "data-c216e5a4167f549263b7fefd6be27b9a"}}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}], "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-c216e5a4167f549263b7fefd6be27b9a": [{"time": "2000-01-01T15:30:00", "variable": "TA", "value": 0.5199999809265137, "is_present": false}, {"time": "2000-01-01T16:00:00", "variable": "TA", "value": 0.5699999928474426, "is_present": false}, {"time": "2000-01-01T16:30:00", "variable": "TA", "value": 0.7300000190734863, "is_present": false}, {"time": "2000-01-01T17:00:00", "variable": "TA", "value": 0.7699999809265137, "is_present": false}, {"time": "2000-01-01T17:30:00", "variable": "TA", "value": 0.8399999737739563, "is_present": false}, {"time": "2000-01-01T18:00:00", "variable": "TA", "value": 0.9900000095367432, "is_present": true}, {"time": "2000-01-01T18:30:00", "variable": "TA", "value": 1.350000023841858, "is_present": true}, {"time": "2000-01-01T19:00:00", "variable": "TA", "value": 1.8600000143051147, "is_present": true}, {"time": "2000-01-01T19:30:00", "variable": "TA", "value": 2.009999990463257, "is_present": true}, {"time": "2000-01-01T20:00:00", "variable": "TA", "value": 2.069999933242798, "is_present": true}], "data-c3a60f1c986b6caa7e65dff6e5822e40": [{"time": "2000-01-01T15:30:00", "variable": "SW_IN", "value": 8.09000015258789, "is_present": true}, {"time": "2000-01-01T16:00:00", "variable": "SW_IN", "value": 6.369999885559082, "is_present": true}, {"time": "2000-01-01T16:30:00", "variable": "SW_IN", "value": 1.7200000286102295, "is_present": true}, {"time": "2000-01-01T17:00:00", "variable": "SW_IN", "value": 0.05999999865889549, "is_present": true}, {"time": "2000-01-01T17:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T18:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T18:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T19:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T19:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T20:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}], "data-b515775ddfb81c914376c617816a3fce": [{"time": "2000-01-01T15:30:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T16:00:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T16:30:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T17:00:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T17:30:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T18:00:00", "variable": "VPD", "value": 0.0, "is_present": true}, {"time": "2000-01-01T18:30:00", "variable": "VPD", "value": 0.0, "is_present": true}, {"time": "2000-01-01T19:00:00", "variable": "VPD", "value": 0.0020000000949949026, "is_present": true}, {"time": "2000-01-01T19:30:00", "variable": "VPD", "value": 0.008999999612569809, "is_present": true}, {"time": "2000-01-01T20:00:00", "variable": "VPD", "value": 0.014000000432133675, "is_present": true}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>a_gap(m(<span class="dv">3</span>)).show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/simone/.local/lib/python3.10/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
+  for col_name, dtype in df.dtypes.iteritems():</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<div id="altair-viz-f67669af37bf49df825f7a661a3c2def"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-f67669af37bf49df825f7a661a3c2def") {
+      outputDiv = document.getElementById("altair-viz-f67669af37bf49df825f7a661a3c2def");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "4.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"hconcat": [{"layer": [{"mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_present", "legend": {"title": ["Observed data"]}, "scale": {"range": ["black", "#ffffff00"]}, "type": "nominal"}, "shape": {"field": "is_present", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "TA", "type": "quantitative"}}}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "TA", "type": "quantitative"}}, "height": 100, "selection": {"selector009": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "width": 180}], "title": "TA"}, {"layer": [{"mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_present", "legend": {"title": ["Observed data"]}, "scale": {"range": ["black", "#ffffff00"]}, "type": "nominal"}, "shape": {"field": "is_present", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "SW_IN", "type": "quantitative"}}}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "SW_IN", "type": "quantitative"}}, "height": 100, "selection": {"selector009": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "width": 180}], "data": {"name": "data-c3a60f1c986b6caa7e65dff6e5822e40"}, "title": "SW_IN"}, {"layer": [{"mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_present", "legend": {"title": ["Observed data"]}, "scale": {"range": ["black", "#ffffff00"]}, "type": "nominal"}, "shape": {"field": "is_present", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "VPD", "type": "quantitative"}}}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "VPD", "type": "quantitative"}}, "height": 100, "selection": {"selector009": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "width": 180}], "data": {"name": "data-b515775ddfb81c914376c617816a3fce"}, "title": "VPD"}], "data": {"name": "data-c216e5a4167f549263b7fefd6be27b9a"}}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}], "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-c216e5a4167f549263b7fefd6be27b9a": [{"time": "2000-01-01T15:30:00", "variable": "TA", "value": 0.5199999809265137, "is_present": false}, {"time": "2000-01-01T16:00:00", "variable": "TA", "value": 0.5699999928474426, "is_present": false}, {"time": "2000-01-01T16:30:00", "variable": "TA", "value": 0.7300000190734863, "is_present": false}, {"time": "2000-01-01T17:00:00", "variable": "TA", "value": 0.7699999809265137, "is_present": false}, {"time": "2000-01-01T17:30:00", "variable": "TA", "value": 0.8399999737739563, "is_present": false}, {"time": "2000-01-01T18:00:00", "variable": "TA", "value": 0.9900000095367432, "is_present": true}, {"time": "2000-01-01T18:30:00", "variable": "TA", "value": 1.350000023841858, "is_present": true}, {"time": "2000-01-01T19:00:00", "variable": "TA", "value": 1.8600000143051147, "is_present": true}, {"time": "2000-01-01T19:30:00", "variable": "TA", "value": 2.009999990463257, "is_present": true}, {"time": "2000-01-01T20:00:00", "variable": "TA", "value": 2.069999933242798, "is_present": true}], "data-c3a60f1c986b6caa7e65dff6e5822e40": [{"time": "2000-01-01T15:30:00", "variable": "SW_IN", "value": 8.09000015258789, "is_present": true}, {"time": "2000-01-01T16:00:00", "variable": "SW_IN", "value": 6.369999885559082, "is_present": true}, {"time": "2000-01-01T16:30:00", "variable": "SW_IN", "value": 1.7200000286102295, "is_present": true}, {"time": "2000-01-01T17:00:00", "variable": "SW_IN", "value": 0.05999999865889549, "is_present": true}, {"time": "2000-01-01T17:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T18:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T18:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T19:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T19:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T20:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}], "data-b515775ddfb81c914376c617816a3fce": [{"time": "2000-01-01T15:30:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T16:00:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T16:30:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T17:00:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T17:30:00", "variable": "VPD", "value": 0.0, "is_present": false}, {"time": "2000-01-01T18:00:00", "variable": "VPD", "value": 0.0, "is_present": true}, {"time": "2000-01-01T18:30:00", "variable": "VPD", "value": 0.0, "is_present": true}, {"time": "2000-01-01T19:00:00", "variable": "VPD", "value": 0.0020000000949949026, "is_present": true}, {"time": "2000-01-01T19:30:00", "variable": "VPD", "value": 0.008999999612569809, "is_present": true}, {"time": "2000-01-01T20:00:00", "variable": "VPD", "value": 0.014000000432133675, "is_present": true}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>a_gap(m(<span class="dv">4</span>)).show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/simone/.local/lib/python3.10/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
+  for col_name, dtype in df.dtypes.iteritems():</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<div id="altair-viz-22931a31bb894b6895373bd3284c5e86"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-22931a31bb894b6895373bd3284c5e86") {
+      outputDiv = document.getElementById("altair-viz-22931a31bb894b6895373bd3284c5e86");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "4.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"hconcat": [{"layer": [{"mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_present", "legend": {"title": ["Observed data"]}, "scale": {"range": ["black", "#ffffff00"]}, "type": "nominal"}, "shape": {"field": "is_present", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "TA", "type": "quantitative"}}}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "TA", "type": "quantitative"}}, "height": 100, "selection": {"selector013": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "width": 180}], "title": "TA"}, {"layer": [{"mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_present", "legend": {"title": ["Observed data"]}, "scale": {"range": ["black", "#ffffff00"]}, "type": "nominal"}, "shape": {"field": "is_present", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "SW_IN", "type": "quantitative"}}}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "SW_IN", "type": "quantitative"}}, "height": 100, "selection": {"selector013": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "width": 180}], "data": {"name": "data-7d75205178a55067427e2ccf76a0ab5a"}, "title": "SW_IN"}, {"layer": [{"mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_present", "legend": {"title": ["Observed data"]}, "scale": {"range": ["black", "#ffffff00"]}, "type": "nominal"}, "shape": {"field": "is_present", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "VPD", "type": "quantitative"}}}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "temporal"}, "y": {"field": "value", "scale": {"zero": false}, "title": "VPD", "type": "quantitative"}}, "height": 100, "selection": {"selector013": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "width": 180}], "data": {"name": "data-c244b9024159e7863ea3c635f61b339c"}, "title": "VPD"}], "data": {"name": "data-72246db1d6a0fccd7bbc5eb0b4231bbf"}}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}], "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-72246db1d6a0fccd7bbc5eb0b4231bbf": [{"time": "2000-01-01T20:30:00", "variable": "TA", "value": 2.0, "is_present": false}, {"time": "2000-01-01T21:00:00", "variable": "TA", "value": 2.190000057220459, "is_present": false}, {"time": "2000-01-01T21:30:00", "variable": "TA", "value": 2.259999990463257, "is_present": false}, {"time": "2000-01-01T22:00:00", "variable": "TA", "value": 2.5299999713897705, "is_present": false}, {"time": "2000-01-01T22:30:00", "variable": "TA", "value": 2.5899999141693115, "is_present": false}, {"time": "2000-01-01T23:00:00", "variable": "TA", "value": 2.5999999046325684, "is_present": true}, {"time": "2000-01-01T23:30:00", "variable": "TA", "value": 2.5299999713897705, "is_present": true}, {"time": "2000-01-02T00:00:00", "variable": "TA", "value": 2.299999952316284, "is_present": true}, {"time": "2000-01-02T00:30:00", "variable": "TA", "value": 2.0799999237060547, "is_present": true}, {"time": "2000-01-02T01:00:00", "variable": "TA", "value": 1.9299999475479126, "is_present": true}], "data-7d75205178a55067427e2ccf76a0ab5a": [{"time": "2000-01-01T20:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T21:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T21:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T22:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T22:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T23:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-01T23:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-02T00:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-02T00:30:00", "variable": "SW_IN", "value": 0.0, "is_present": true}, {"time": "2000-01-02T01:00:00", "variable": "SW_IN", "value": 0.0, "is_present": true}], "data-c244b9024159e7863ea3c635f61b339c": [{"time": "2000-01-01T20:30:00", "variable": "VPD", "value": 0.014000000432133675, "is_present": false}, {"time": "2000-01-01T21:00:00", "variable": "VPD", "value": 0.03799999877810478, "is_present": false}, {"time": "2000-01-01T21:30:00", "variable": "VPD", "value": 0.07900000363588333, "is_present": false}, {"time": "2000-01-01T22:00:00", "variable": "VPD", "value": 0.25699999928474426, "is_present": false}, {"time": "2000-01-01T22:30:00", "variable": "VPD", "value": 0.3880000114440918, "is_present": false}, {"time": "2000-01-01T23:00:00", "variable": "VPD", "value": 0.5550000071525574, "is_present": true}, {"time": "2000-01-01T23:30:00", "variable": "VPD", "value": 0.4519999921321869, "is_present": true}, {"time": "2000-01-02T00:00:00", "variable": "VPD", "value": 0.4350000023841858, "is_present": true}, {"time": "2000-01-02T00:30:00", "variable": "VPD", "value": 0.24799999594688416, "is_present": true}, {"time": "2000-01-02T01:00:00", "variable": "VPD", "value": 0.23399999737739563, "is_present": true}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> L(<span class="op">*</span>m(<span class="dv">1</span>).columns).argwhere(<span class="kw">lambda</span> x: x <span class="kw">in</span> [<span class="st">'TA'</span>,<span class="st">'SW_IN'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> np.ones_like(m(<span class="dv">1</span>), dtype<span class="op">=</span><span class="bu">bool</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>mask</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>array([[ True,  True,  True],
+       [ True,  True,  True],
+       [ True,  True,  True],
+       [ True,  True,  True],
+       [ True,  True,  True],
+       [ True,  True,  True],
+       [ True,  True,  True],
+       [ True,  True,  True],
+       [ True,  True,  True],
+       [ True,  True,  True]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>gap <span class="op">=</span> _make_random_gap(<span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>gap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>array([False, False,  True,  True, False, False, False, False, False,
+       False])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>np.argwhere(gap)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>array([[2],
+       [3]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>mask[np.argwhere(gap), idx] <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>mask</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>array([[ True,  True,  True],
+       [ True,  True,  True],
+       [False, False,  True],
+       [False, False,  True],
+       [ True,  True,  True],
+       [ True,  True,  True],
+       [ True,  True,  True],
+       [ True,  True,  True],
+       [ True,  True,  True],
+       [ True,  True,  True]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>mask[gap]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>array([[False, False,  True],
+       [False, False,  True]])</code></pre>
+</div>
+</div>
+</section>
+<section id="to-tensor" class="level3">
+<h3 class="anchored" data-anchor-id="to-tensor">To Tensor</h3>
+<hr>
+</section>
+<section id="maskedtensor" class="level3">
+<h3 class="anchored" data-anchor-id="maskedtensor">MaskedTensor</h3>
+<blockquote class="blockquote">
+<pre><code> MaskedTensor (x=None, *rest)</code></pre>
+</blockquote>
+<p>A <code>tuple</code> with elementwise ops and more friendly <strong>init</strong> behavior</p>
+<hr>
+</section>
+<section id="maskeddf2tensor" class="level3">
+<h3 class="anchored" data-anchor-id="maskeddf2tensor">MaskedDf2Tensor</h3>
+<blockquote class="blockquote">
+<pre><code> MaskedDf2Tensor (enc=None, dec=None, split_idx=None, order=None)</code></pre>
+</blockquote>
+<p>A transform that always take tuples as items</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>tfms <span class="op">=</span> TfmdLists([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>], [BlockDfTransform(hai, <span class="dv">10</span>), AddGapTransform([<span class="st">'TA'</span>,<span class="st">'SW_IN'</span>], <span class="dv">2</span>), MaskedDf2Tensor ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>tfms[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(tensor([[1.0000e-01, 1.6510e+01, 6.0000e-03],
+         [1.8000e-01, 2.4730e+01, 1.1000e-02],
+         [2.1000e-01, 4.7420e+01, 1.9000e-02],
+         [2.3000e-01, 2.2050e+01, 1.4000e-02],
+         [3.3000e-01, 1.8860e+01, 8.0000e-03],
+         [4.1000e-01, 2.1100e+01, 6.0000e-03],
+         [4.4000e-01, 2.8870e+01, 0.0000e+00],
+         [4.8000e-01, 2.4220e+01, 0.0000e+00],
+         [4.9000e-01, 2.4350e+01, 0.0000e+00],
+         [5.1000e-01, 1.5680e+01, 0.0000e+00]]),
+ tensor([[False, False,  True],
+         [False, False,  True],
+         [ True,  True,  True],
+         [ True,  True,  True],
+         [ True,  True,  True],
+         [ True,  True,  True],
+         [ True,  True,  True],
+         [ True,  True,  True],
+         [ True,  True,  True],
+         [ True,  True,  True]]))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(tfms[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>__main__.MaskedTensor</code></pre>
+</div>
+</div>
+</section>
+<section id="normalize" class="level3">
+<h3 class="anchored" data-anchor-id="normalize">Normalize</h3>
+<hr>
+</section>
+<section id="get_stats" class="level3">
+<h3 class="anchored" data-anchor-id="get_stats">get_stats</h3>
+<blockquote class="blockquote">
+<pre><code> get_stats (df)</code></pre>
+</blockquote>
+<hr>
+</section>
+<section id="normalizemasked" class="level3">
+<h3 class="anchored" data-anchor-id="normalizemasked">NormalizeMasked</h3>
+<blockquote class="blockquote">
+<pre><code> NormalizeMasked (mean=None, std=None, axes=(0,))</code></pre>
+</blockquote>
+<p>Normalize/denorm MaskedTensor column-wise</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> TfmdLists([<span class="dv">0</span>,<span class="dv">1</span>], [BlockDfTransform(hai, <span class="dv">10</span>), AddGapTransform([<span class="st">'TA'</span>,<span class="st">'SW_IN'</span>], <span class="dv">2</span>), MaskedDf2Tensor, NormalizeMasked(<span class="op">*</span>get_stats(hai))]).dataloaders(bs<span class="op">=</span><span class="dv">2</span>).one_batch()[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>b[<span class="dv">0</span>].mean(<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([-1.0730, -0.5813, -0.7617])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>b[<span class="dv">1</span>].mean(<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([-1.1083, -0.5929, -0.7457])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>b.std(axis<span class="op">=</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([0.0232, 0.0154, 0.0128])</code></pre>
+</div>
+</div>
+</section>
+<section id="pipeline" class="level3">
+<h3 class="anchored" data-anchor-id="pipeline">Pipeline</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>block_len <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>block_ids <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">0</span>, (<span class="bu">len</span>(hai) <span class="op">//</span> block_len) <span class="op">-</span> <span class="dv">1</span>))[:<span class="dv">10</span>]</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>gap_len <span class="op">=</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+<section id="imp_pipeline" class="level3">
+<h3 class="anchored" data-anchor-id="imp_pipeline">imp_pipeline</h3>
+<blockquote class="blockquote">
+<pre><code> imp_pipeline (df, block_len, gap_len)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>pipeline, block_ids <span class="op">=</span> imp_pipeline(hai, block_len, gap_len)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>pipeline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>[BlockDfTransform:
+ encodes: (int,object) -&gt; encodes
+ decodes: ,
+ AddGapTransform:
+ encodes: (DataFrame,object) -&gt; encodes
+ decodes: ,
+ __main__.MaskedDf2Tensor,
+ NormalizeMasked:
+ encodes: (MaskedTensor,object) -&gt; encodes
+ (object,object) -&gt; encodes
+ decodes: (ListNormal,object) -&gt; decodes]</code></pre>
+</div>
+</div>
+</section>
+<section id="dataloader" class="level3">
+<h3 class="anchored" data-anchor-id="dataloader">Dataloader</h3>
+<p>random splitter for validation/training set</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>reset_seed()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>splits <span class="op">=</span> RandomSplitter()(block_ids)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Repeat twice the pipeline since is the same pipeline both for training data and for labels</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> Datasets(block_ids, [pipeline, pipeline], splits<span class="op">=</span>splits)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> ds.dataloaders(bs<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>dls.one_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>((tensor([[[-0.0522, -0.5929, -0.6688],
+           [-0.0346, -0.5929, -0.6679],
+           [-0.0156, -0.5929, -0.6668],
+           [ 0.0071, -0.5929, -0.6679],
+           [ 0.0311, -0.5929, -0.6665],
+           [ 0.0500, -0.5929, -0.6654],
+           [ 0.0664, -0.5929, -0.6638],
+           [ 0.0777, -0.5929, -0.6594],
+           [ 0.0929, -0.5929, -0.6480],
+           [ 0.1080, -0.5929, -0.6256]]]),
+  tensor([[[ True,  True,  True],
+           [ True,  True,  True],
+           [ True,  True,  True],
+           [ True,  True,  True],
+           [ True,  True,  True],
+           [False, False,  True],
+           [False, False,  True],
+           [ True,  True,  True],
+           [ True,  True,  True],
+           [ True,  True,  True]]])),
+ (tensor([[[-0.0522, -0.5929, -0.6688],
+           [-0.0346, -0.5929, -0.6679],
+           [-0.0156, -0.5929, -0.6668],
+           [ 0.0071, -0.5929, -0.6679],
+           [ 0.0311, -0.5929, -0.6665],
+           [ 0.0500, -0.5929, -0.6654],
+           [ 0.0664, -0.5929, -0.6638],
+           [ 0.0777, -0.5929, -0.6594],
+           [ 0.0929, -0.5929, -0.6480],
+           [ 0.1080, -0.5929, -0.6256]]]),
+  tensor([[[False, False,  True],
+           [False, False,  True],
+           [ True,  True,  True],
+           [ True,  True,  True],
+           [ True,  True,  True],
+           [ True,  True,  True],
+           [ True,  True,  True],
+           [ True,  True,  True],
+           [ True,  True,  True],
+           [ True,  True,  True]]])))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="at">@typedispatch</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> show_batch(x: MaskedTensor, y, samples, ctxs<span class="op">=</span><span class="va">None</span>, max_n<span class="op">=</span><span class="dv">6</span>):</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>dls.show_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(tensor([[[ 0.5762,  1.7522,  0.9833],
+         [ 0.6292,  1.3637,  1.0350],
+         [ 0.6582,  0.9688,  1.0384],
+         [ 0.6317,  0.5496,  0.9391],
+         [ 0.6393,  0.1189,  0.9368],
+         [ 0.6040, -0.2446,  0.7917],
+         [ 0.5320, -0.4971,  0.6552],
+         [ 0.4689, -0.5929,  0.5518],
+         [ 0.4185, -0.5929,  0.4540],
+         [ 0.3819, -0.5929,  0.4034]]]), tensor([[[ True,  True,  True],
+         [False, False,  True],
+         [False, False,  True],
+         [ True,  True,  True],
+         [ True,  True,  True],
+         [ True,  True,  True],
+         [ True,  True,  True],
+         [ True,  True,  True],
+         [ True,  True,  True],
+         [ True,  True,  True]]]))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>dls._types</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>{tuple: [{__main__.MaskedTensor: [torch.Tensor, torch.Tensor]},
+  {__main__.MaskedTensor: [torch.Tensor, torch.Tensor]}]}</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>dls.show_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(tensor([[[ 0.1232, -0.5342,  0.8132],
+         [ 0.0765, -0.5736,  0.6635],
+         [-0.1330, -0.5929,  0.0905],
+         [-0.5217, -0.5929, -0.5887],
+         [-0.5482, -0.5929, -0.5953],
+         [-0.5431, -0.5929, -0.5631],
+         [-0.4497, -0.5929, -0.4516],
+         [-0.4005, -0.5929, -0.3962],
+         [-0.3904, -0.5929, -0.3692],
+         [-0.3715, -0.5929, -0.3490]]]), tensor([[[ True,  True,  True],
+         [False, False,  True],
+         [False, False,  True],
+         [ True,  True,  True],
+         [ True,  True,  True],
+         [ True,  True,  True],
+         [ True,  True,  True],
+         [ True,  True,  True],
+         [ True,  True,  True],
+         [ True,  True,  True]]]))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>Datasets</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>fastai.data.core.Datasets</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="make_dataloader" class="level3">
+<h3 class="anchored" data-anchor-id="make_dataloader">make_dataloader</h3>
+<blockquote class="blockquote">
+<pre><code> make_dataloader (df, block_len, gap_len, bs=10)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> make_dataloader(hai, <span class="dv">200</span>, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>dls.one_batch()[<span class="dv">0</span>][<span class="dv">0</span>].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([10, 200, 3])</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="model" class="level2">
+<h2 class="anchored" data-anchor-id="model">Model</h2>
+<section id="forward-function" class="level3">
+<h3 class="anchored" data-anchor-id="forward-function">Forward Function</h3>
+<p>in order to the a pytorch module we need a forward method to the kalman filter</p>
+<hr>
+</section>
+<section id="listnormal" class="level3">
+<h3 class="anchored" data-anchor-id="listnormal">ListNormal</h3>
+<blockquote class="blockquote">
+<pre><code> ListNormal (x=None, *rest)</code></pre>
+</blockquote>
+<p>A <code>tuple</code> with elementwise ops and more friendly <strong>init</strong> behavior</p>
+<hr>
+</section>
+<section id="kalmanfilter.forward" class="level3">
+<h3 class="anchored" data-anchor-id="kalmanfilter.forward">KalmanFilter.forward</h3>
+<blockquote class="blockquote">
+<pre><code> KalmanFilter.forward (masked_data:__main__.MaskedTensor)</code></pre>
+</blockquote>
+<p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<p>.. note:: Although the recipe for forward pass needs to be defined within this function, one should call the :class:<code>Module</code> instance afterwards instead of this since the former takes care of running the registered hooks while the latter silently ignores them.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="bu">input</span> <span class="op">=</span> dls.one_batch()[<span class="dv">0</span>]</span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>target <span class="op">=</span> dls.one_batch()[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> KalmanFilter(n_dim_state <span class="op">=</span> hai.shape[<span class="dv">1</span>], n_dim_obs<span class="op">=</span>hai.shape[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>model.state_dict()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>OrderedDict([('transition_matrices',
+              tensor([[1., 0., 0.],
+                      [0., 1., 0.],
+                      [0., 0., 1.]])),
+             ('transition_offsets', tensor([0., 0., 0.])),
+             ('transition_cov_raw',
+              tensor([[1., 0., 0.],
+                      [0., 1., 0.],
+                      [0., 0., 1.]])),
+             ('obs_matrices',
+              tensor([[1., 0., 0.],
+                      [0., 1., 0.],
+                      [0., 0., 1.]])),
+             ('obs_offsets', tensor([0., 0., 0.])),
+             ('obs_cov_raw',
+              tensor([[1., 0., 0.],
+                      [0., 1., 0.],
+                      [0., 0., 1.]])),
+             ('initial_state_mean', tensor([0., 0., 0.])),
+             ('initial_state_cov_raw',
+              tensor([[1., 0., 0.],
+                      [0., 1., 0.],
+                      [0., 0., 1.]]))])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> <span class="bu">input</span>[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>data.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([200, 3])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> <span class="bu">input</span>[<span class="dv">1</span>][<span class="dv">0</span>].<span class="bu">all</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>mask.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([200])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>model.predict(data, torch.arange(<span class="dv">100</span>), mask)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> model(<span class="bu">input</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="dv">0</span>].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([10, 200, 3])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="dv">1</span>].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([10, 200, 3, 3])</code></pre>
+</div>
+</div>
+</section>
+<section id="loss-function" class="level3">
+<h3 class="anchored" data-anchor-id="loss-function">Loss Function</h3>
+<p>log the limit at which the covatiances matrices are not symmetric anymore</p>
+<hr>
+</section>
+<section id="imp_ll_loss_single" class="level3">
+<h3 class="anchored" data-anchor-id="imp_ll_loss_single">imp_ll_loss_single</h3>
+<blockquote class="blockquote">
+<pre><code> imp_ll_loss_single (means, covs, data, mask)</code></pre>
+</blockquote>
+<p>Log Likelihood loss for imputation (with MaskedTensor)</p>
+<hr>
+</section>
+<section id="imp_ll_loss" class="level3">
+<h3 class="anchored" data-anchor-id="imp_ll_loss">imp_ll_loss</h3>
+<blockquote class="blockquote">
+<pre><code> imp_ll_loss (pred:__main__.ListNormal, target:__main__.MaskedTensor)</code></pre>
+</blockquote>
+<p>Log Likelihood loss for imputation (with MaskedTensor)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>MultivariateNormal(pred[<span class="dv">0</span>][<span class="dv">0</span>], pred[<span class="dv">1</span>][<span class="dv">0</span>]).log_prob(target[<span class="dv">0</span>][<span class="dv">0</span>:<span class="dv">1</span>]).<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(-1654.1079, grad_fn=&lt;SumBackward0&gt;)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>imp_ll_loss(pred, target)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(553.7639, grad_fn=&lt;SumBackward0&gt;)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>imp_ll_loss(pred, target).backward()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="metrics" class="level3">
+<h3 class="anchored" data-anchor-id="metrics">Metrics</h3>
+<p>Wrapper around fastai metrics to support masked tensors and normal distributions</p>
+<hr>
+</section>
+<section id="to_meteo_imp_metric" class="level3">
+<h3 class="anchored" data-anchor-id="to_meteo_imp_metric">to_meteo_imp_metric</h3>
+<blockquote class="blockquote">
+<pre><code> to_meteo_imp_metric (metric)</code></pre>
+</blockquote>
+</section>
+<section id="callback" class="level3">
+<h3 class="anchored" data-anchor-id="callback">Callback</h3>
+<p>save the model state</p>
+<hr>
+</section>
+<section id="saveparams" class="level3">
+<h3 class="anchored" data-anchor-id="saveparams">SaveParams</h3>
+<blockquote class="blockquote">
+<pre><code> SaveParams (param_name)</code></pre>
+</blockquote>
+<p>Basic class handling tweaks of the training loop by changing a <code>Learner</code> in various events</p>
+</section>
+<section id="learner" class="level3">
+<h3 class="anchored" data-anchor-id="learner">Learner</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>obs_cov_history <span class="op">=</span> SaveParams(<span class="st">'obs_cov'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>all_data <span class="op">=</span> CollectDataCallback()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> KalmanFilter(n_dim_state <span class="op">=</span> hai.shape[<span class="dv">1</span>], n_dim_obs<span class="op">=</span>hai.shape[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model._set_constraint('obs_cov', model.obs_cov, train=False)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> make_dataloader(hai[:<span class="dv">2000</span>], <span class="dv">200</span>, <span class="dv">10</span>, bs<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(dls, model, loss_func<span class="op">=</span>imp_ll_loss, cbs <span class="op">=</span> [ShowGraphCallback, obs_cov_history, all_data] )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>learn.fit(<span class="dv">10</span>, <span class="fl">1e-2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+
+    <div>
+      <progress value="8" class="" max="10" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      80.00% [8/10 00:20&lt;00:05]
+    </div>
+    
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>32.280315</td>
+      <td>30.042763</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>30.187698</td>
+      <td>26.151237</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>27.941441</td>
+      <td>20.929716</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>24.961601</td>
+      <td>13.550607</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>20.293797</td>
+      <td>-3.449109</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>8.067514</td>
+      <td>-47.573402</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>-1.527376</td>
+      <td>-43.523064</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>-9.845589</td>
+      <td>-63.737656</td>
+      <td>00:02</td>
+    </tr>
+  </tbody>
+</table><p>
+
+    </p><div>
+      <progress value="5" class="" max="8" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      62.50% [5/8 00:01&lt;00:00 -14.4220]
+    </div>
+    
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="03_Kalman_fastai_files/figure-html/cell-93-output-3.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-error">
+<pre><code>ValueError: Exception occured in `SaveParams` when calling event `after_batch`:
+    Not positive semi definite tensor([[ 0.7029, -0.7274,  0.7118],
+        [-0.7274,  0.7640, -0.7368],
+        [ 0.7118, -0.7368,  0.7208]], grad_fn=&lt;MmBackward0&gt;)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="03_Kalman_fastai_files/figure-html/cell-93-output-5.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>learn.fit(<span class="dv">10</span>, <span class="fl">1e-2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>learn.model.state_dict()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyprojroot <span class="im">import</span> here</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="co"># torch.save(learn.model, here('trained_models'))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a>learn.model.obs_cov</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb132"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a>learn.model.transition_cov_raw</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> meteo_imp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>meteo_imp.kalman.<span class="bu">filter</span>.posdef_log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(obs_cov_history.params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb136"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>obs_cov_history.params[<span class="op">-</span><span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a>torch.tensor(<span class="bu">list</span>(<span class="bu">map</span>(symmetric_upto, obs_cov_history.params)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb138"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a>torch.linalg.eigvalsh(obs_cov_history.params[<span class="op">-</span><span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a>torch.linalg.cholesky_ex(obs_cov_history.params[<span class="op">-</span><span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb140"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a>tt <span class="op">=</span> torch.tensor([[ <span class="fl">1.0696</span>,  <span class="fl">0.5199</span>, <span class="op">-</span><span class="fl">0.5249</span>],</span>
+<span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a>        [ <span class="fl">0.5484</span>,  <span class="fl">1.1091</span>,  <span class="fl">0.5322</span>],</span>
+<span id="cb140-3"><a href="#cb140-3" aria-hidden="true" tabindex="-1"></a>        [<span class="op">-</span><span class="fl">0.5279</span>,  <span class="fl">0.5506</span>,  <span class="fl">1.0742</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>torch.linalg.eigvalsh(tt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb142"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a>symmetric_upto(tt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="co"># torch.save(learn.model.state_dict(), "partial_traning_15_dec_not_pos_def_error")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb144"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a>learn.recorder.plot_loss()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="co"># learn.lr_find()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb146"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a>display_as_row(learn.model.get_info())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a>learn.show_results()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="double-precisions" class="level2">
+<h2 class="anchored" data-anchor-id="double-precisions">Double Precisions</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb148"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a>hai <span class="op">=</span> read_fluxnet_csv(hai_path, <span class="dv">2000</span>, num_dtype<span class="op">=</span>np.float64)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> KalmanFilter(<span class="op">**</span>KalmanFilterTester(dtype<span class="op">=</span>torch.float64).params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb150"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> make_dataloader(hai[:<span class="dv">2000</span>], <span class="dv">200</span>, <span class="dv">10</span>, bs<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb151"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="bu">input</span> <span class="op">=</span> dls.one_batch()[<span class="dv">0</span>]</span>
+<span id="cb151-2"><a href="#cb151-2" aria-hidden="true" tabindex="-1"></a>target <span class="op">=</span> dls.one_batch()[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb152"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb152-1"><a href="#cb152-1" aria-hidden="true" tabindex="-1"></a>data, mask <span class="op">=</span> <span class="bu">input</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb153"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a>data.dtype</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.float64</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb155"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a>model.predict(data.squeeze(), torch.tensor([<span class="dv">0</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb156"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> model(<span class="bu">input</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb157"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a>imp_ll_loss(pred, target)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(26.6643, dtype=torch.float64, grad_fn=&lt;SumBackward0&gt;)</code></pre>
+</div>
+</div>
+<hr>
+<section id="float64callback" class="level3">
+<h3 class="anchored" data-anchor-id="float64callback">Float64Callback</h3>
+<blockquote class="blockquote">
+<pre><code> Float64Callback (after_create=None, before_fit=None, before_epoch=None,
+                  before_train=None, before_batch=None, after_pred=None,
+                  after_loss=None, before_backward=None,
+                  after_cancel_backward=None, after_backward=None,
+                  before_step=None, after_cancel_step=None,
+                  after_step=None, after_cancel_batch=None,
+                  after_batch=None, after_cancel_train=None,
+                  after_train=None, before_validate=None,
+                  after_cancel_validate=None, after_validate=None,
+                  after_cancel_epoch=None, after_epoch=None,
+                  after_cancel_fit=None, after_fit=None)</code></pre>
+</blockquote>
+<p>Basic class handling tweaks of the training loop by changing a <code>Learner</code> in various events</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb160"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(dls, model, loss_func<span class="op">=</span>imp_ll_loss, cbs <span class="op">=</span> [ShowGraphCallback, Float64Callback] )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a>learn.fit(<span class="dv">10</span>, <span class="fl">1e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>41.511904</td>
+      <td>36.923060</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>40.616132</td>
+      <td>28.808598</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>43.703703</td>
+      <td>35.694299</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>40.879842</td>
+      <td>27.930953</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>41.384444</td>
+      <td>29.460962</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>40.626041</td>
+      <td>30.379200</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>39.092160</td>
+      <td>37.027633</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>38.336466</td>
+      <td>28.252467</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>36.087105</td>
+      <td>26.555375</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>36.046148</td>
+      <td>31.628873</td>
+      <td>00:02</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="03_Kalman_fastai_files/figure-html/cell-127-output-3.png" class="img-fluid"></p>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.267">
+<meta name="generator" content="quarto-1.2.280">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="description" content="Imputation using a different Gaussian Processes for each variable">
 
-<title>gpfa_imputation - Simple GP Imputation</title>
+<title>meteo_imp - Simple GP Imputation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -129,10 +129,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="gpfa_imputation - Simple GP Imputation">
+<meta property="og:title" content="meteo_imp - Simple GP Imputation">
 <meta property="og:description" content="Imputation using a different Gaussian Processes for each variable">
-<meta property="og:site-name" content="gpfa_imputation">
-<meta name="twitter:title" content="gpfa_imputation - Simple GP Imputation">
+<meta property="og:site-name" content="meteo_imp">
+<meta name="twitter:title" content="meteo_imp - Simple GP Imputation">
 <meta name="twitter:description" content="Imputation using a different Gaussian Processes for each variable">
 <meta name="twitter:card" content="summary">
 </head>
@@ -145,7 +145,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">gpfa_imputation</span>
+    <span class="navbar-title">meteo_imp</span>
     </a>
   </div>
           <div id="quarto-search" class="" title="Search"></div>
@@ -173,32 +173,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./learner.html" class="sidebar-item-text sidebar-link">GPFA Learner</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./data_preparation.html" class="sidebar-item-text sidebar-link">Data Preparation</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./imputation.html" class="sidebar-item-text sidebar-link">Imputation time series</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./results.html" class="sidebar-item-text sidebar-link">Results</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./gap_finder.html" class="sidebar-item-text sidebar-link">Find Gaps in Fluxnet data</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -211,6 +191,96 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <a href="./utils.html" class="sidebar-item-text sidebar-link">Utils</a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Fluxnet</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Fluxnet/gap_finder.html" class="sidebar-item-text sidebar-link">Find Gaps in Fluxnet data</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Fluxnet/hainich.html" class="sidebar-item-text sidebar-link">Fluxnet Hainich</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">GPFA</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/learner.html" class="sidebar-item-text sidebar-link">GPFA Learner</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/imputation.html" class="sidebar-item-text sidebar-link">Imputation time series</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">kalman</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_filter.html" class="sidebar-item-text sidebar-link">Kalman Filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_learner.html" class="sidebar-item-text sidebar-link">Kalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_imputation.html" class="sidebar-item-text sidebar-link">Imputation Kalman Model</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_fastai.html" class="sidebar-item-text sidebar-link">Implement Kalman model using FastAI</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old statsmodels - statespace.html" class="sidebar-item-text sidebar-link">[Not Working] StatsModels Kalman filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old_01_pykalman_models.html" class="sidebar-item-text sidebar-link">[OLD] PyKalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old_02_pykalman_imputation.html" class="sidebar-item-text sidebar-link">[OLD] Imputation PyKalman Model</a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -236,7 +306,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#simplegpimputationexplorer.to_result" id="toc-simplegpimputationexplorer.to_result" class="nav-link" data-scroll-target="#simplegpimputationexplorer.to_result">SimpleGPImputationExplorer.to_result</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/gpfa_imputation/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/meteo_imp/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -267,7 +337,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="gp" class="level2">
 <h2 class="anchored" data-anchor-id="gp">GP</h2>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/simple_gp_imputation.py#L22" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/simple_gp_imputation.py#L22" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="simplegp" class="level3">
 <h3 class="anchored" data-anchor-id="simplegp">SimpleGP</h3>
 <blockquote class="blockquote">
@@ -309,7 +379,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/simple_gp_imputation.py#L36" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/simple_gp_imputation.py#L36" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="simplegp.get_info" class="level3">
 <h3 class="anchored" data-anchor-id="simplegp.get_info">SimpleGP.get_info</h3>
@@ -363,7 +433,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="learner" class="level2">
 <h2 class="anchored" data-anchor-id="learner">Learner</h2>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/simple_gp_imputation.py#L49" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/simple_gp_imputation.py#L49" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="simplegplearner" class="level3">
 <h3 class="anchored" data-anchor-id="simplegplearner">SimpleGPLearner</h3>
 <blockquote class="blockquote">
@@ -425,7 +495,7 @@ X = torch.linalg.solve_triangular(A, B). (Triggered internally at  ../aten/src/A
 <p>Imputation</p>
 <p>The imputation using simple GPs make a separate GP process for each variable, which are completely independent</p>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/simple_gp_imputation.py#L128" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/simple_gp_imputation.py#L128" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="simplegpimputationexplorer" class="level3">
 <h3 class="anchored" data-anchor-id="simplegpimputationexplorer">SimpleGPImputationExplorer</h3>
@@ -707,7 +777,7 @@ X = torch.linalg.solve_triangular(A, B). (Triggered internally at  ../aten/src/A
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/simple_gp_imputation.py#L201" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/simple_gp_imputation.py#L201" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="simplegpimputationexplorer.model_info" class="level3">
 <h3 class="anchored" data-anchor-id="simplegpimputationexplorer.model_info">SimpleGPImputationExplorer.model_info</h3>
 <blockquote class="blockquote">
@@ -729,7 +799,7 @@ X = torch.linalg.solve_triangular(A, B). (Triggered internally at  ../aten/src/A
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/simple_gp_imputation.py#L213" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/simple_gp_imputation.py#L213" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="simplegpimputationexplorer.to_result" class="level3">
 <h3 class="anchored" data-anchor-id="simplegpimputationexplorer.to_result">SimpleGPImputationExplorer.to_result</h3>
@@ -737,11 +807,11 @@ X = torch.linalg.solve_triangular(A, B). (Triggered internally at  ../aten/src/A
 <pre><code> SimpleGPImputationExplorer.to_result (data_complete, units=None)</code></pre>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>GPFAResult??</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>ImputationResult??</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">Init signature:</span>
-GPFAResult<span class="ansi-blue-fg">(</span>
+ImputationResult<span class="ansi-blue-fg">(</span>
     data_imputed<span class="ansi-blue-fg">,</span>
     data_complete<span class="ansi-blue-fg">,</span>
     model_info<span class="ansi-blue-fg">,</span>
@@ -750,7 +820,7 @@ GPFAResult<span class="ansi-blue-fg">(</span>
 <span class="ansi-blue-fg">)</span>
 <span class="ansi-red-fg">Docstring:</span>      &lt;no docstring&gt;
 <span class="ansi-red-fg">Source:</span>        
-<span class="ansi-green-fg">class</span> GPFAResult<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">class</span> ImputationResult<span class="ansi-blue-fg">:</span>
     <span class="ansi-green-fg">def</span> __init__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span>
                  data_imputed<span class="ansi-blue-fg">,</span> <span class="ansi-red-fg">#imputed data in tidy format</span>
                  data_complete<span class="ansi-blue-fg">,</span> <span class="ansi-red-fg"># complete data in tidy format</span>
@@ -945,7 +1015,7 @@ GPFAResult<span class="ansi-blue-fg">(</span>
 
 </main> <!-- /main -->
 <script type="application/vnd.jupyter.widget-state+json">
-{"state":{"0aa8ad2c029e4e649fdc222ef9594081":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"1e1b60e90e6e4a1dad3b12ac564146eb":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"1e9eb53ec5ef40659e9d990a948df591":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"success","layout":"IPY_MODEL_c7249f9b21864a3aba06d2c2781e7a5d","style":"IPY_MODEL_550d3953f80c4ce9b8d981ffafcfcb58","value":100}},"283505dca88b457993c88e77dc461716":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"313ab1ce875d4cd28ae9c4031df8eb76":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_4ed359632a574ef3843b9ea50c37681f","style":"IPY_MODEL_283505dca88b457993c88e77dc461716","value":" 100/100 [00:00&lt;00:00, 487.86it/s]"}},"360e8cedd5c5460c9b5b517bce1cc07e":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"success","layout":"IPY_MODEL_61db5b9b28ae43429dd2048e7debf153","style":"IPY_MODEL_1e1b60e90e6e4a1dad3b12ac564146eb","value":100}},"446c3f538b494fc38e328be073dda720":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"4ad54038376148f7b2dee2ca25820a11":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"4b0f506d175c4102909da13ee0d7090c":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"4ed359632a574ef3843b9ea50c37681f":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"53e801ca14f64d7280d7f85395beb69f":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"550d3953f80c4ce9b8d981ffafcfcb58":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"57d83598f4314da1991d9fc045a01714":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"5990ed4e6da3418ab1d9f704d9b8845c":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"5e3358b8c904412ea32290dffd94dcf2":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"success","layout":"IPY_MODEL_83da3c2f95544ec888ab6d911915ccbc","style":"IPY_MODEL_be58370209624f8fb9159b7d4ec3da97","value":100}},"61db5b9b28ae43429dd2048e7debf153":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"78770765e86140eea425037d897f9f7b":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_918691fd99d3420d8b1ebf85f73ed4d0","IPY_MODEL_1e9eb53ec5ef40659e9d990a948df591","IPY_MODEL_cab38893483b44d98e697c3a1712e718"],"layout":"IPY_MODEL_4b0f506d175c4102909da13ee0d7090c"}},"83da3c2f95544ec888ab6d911915ccbc":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"8bfb21297f834ad0bb0e5206600ddf2b":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_4ad54038376148f7b2dee2ca25820a11","style":"IPY_MODEL_e7a1fe581ee44c07ad5255459db3d530","value":"100%"}},"918691fd99d3420d8b1ebf85f73ed4d0":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_0aa8ad2c029e4e649fdc222ef9594081","style":"IPY_MODEL_b9afa2df0c44468f93c1a4e5aeff166c","value":"100%"}},"93241baafff04aa8ae1dda38df2457c6":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_facd691d07e343f39833901c65105528","style":"IPY_MODEL_446c3f538b494fc38e328be073dda720","value":" 100/100 [00:00&lt;00:00, 485.80it/s]"}},"9870a82f2fb846dca0fc600d488ae995":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_8bfb21297f834ad0bb0e5206600ddf2b","IPY_MODEL_5e3358b8c904412ea32290dffd94dcf2","IPY_MODEL_93241baafff04aa8ae1dda38df2457c6"],"layout":"IPY_MODEL_9b4747bec51c4678a3f4d619846be50e"}},"9b4747bec51c4678a3f4d619846be50e":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"a684e1f361b947d68b40b12f117e24b6":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_5990ed4e6da3418ab1d9f704d9b8845c","style":"IPY_MODEL_c7b4ec718637482fb1b7571a6dc38f6f","value":"100%"}},"b9afa2df0c44468f93c1a4e5aeff166c":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"be58370209624f8fb9159b7d4ec3da97":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"be639a4ee26b41069fc1e9a413479060":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_a684e1f361b947d68b40b12f117e24b6","IPY_MODEL_360e8cedd5c5460c9b5b517bce1cc07e","IPY_MODEL_313ab1ce875d4cd28ae9c4031df8eb76"],"layout":"IPY_MODEL_57d83598f4314da1991d9fc045a01714"}},"c7249f9b21864a3aba06d2c2781e7a5d":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"c7b4ec718637482fb1b7571a6dc38f6f":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"cab38893483b44d98e697c3a1712e718":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_53e801ca14f64d7280d7f85395beb69f","style":"IPY_MODEL_ff3779e095e0433ca0d2726c9d0af62b","value":" 100/100 [00:00&lt;00:00, 473.06it/s]"}},"e7a1fe581ee44c07ad5255459db3d530":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"facd691d07e343f39833901c65105528":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"ff3779e095e0433ca0d2726c9d0af62b":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}}},"version_major":2,"version_minor":0}
+{"state":{},"version_major":2,"version_minor":0}
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

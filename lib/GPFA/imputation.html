@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.267">
+<meta name="generator" content="quarto-1.2.280">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="description" content="Impute time series using GPFA Leaner">
 
-<title>gpfa_imputation - Imputation time series</title>
+<title>meteo_imp - Imputation time series</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -87,22 +87,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -128,11 +128,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
 
 
-<link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="gpfa_imputation - Imputation time series">
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="meteo_imp - Imputation time series">
 <meta property="og:description" content="Impute time series using GPFA Leaner">
-<meta property="og:site-name" content="gpfa_imputation">
-<meta name="twitter:title" content="gpfa_imputation - Imputation time series">
+<meta property="og:site-name" content="meteo_imp">
+<meta name="twitter:title" content="meteo_imp - Imputation time series">
 <meta name="twitter:description" content="Impute time series using GPFA Leaner">
 <meta name="twitter:card" content="summary">
 </head>
@@ -144,8 +144,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">gpfa_imputation</span>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">meteo_imp</span>
     </a>
   </div>
           <div id="quarto-search" class="" title="Search"></div>
@@ -168,49 +168,119 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">GPFA Imputation</a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link">GPFA Imputation</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
+  <a href="../data_preparation.html" class="sidebar-item-text sidebar-link">Data Preparation</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./learner.html" class="sidebar-item-text sidebar-link">GPFA Learner</a>
+  <a href="../results.html" class="sidebar-item-text sidebar-link">Results</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_preparation.html" class="sidebar-item-text sidebar-link">Data Preparation</a>
+  <a href="../simplegp_imputation.html" class="sidebar-item-text sidebar-link">Simple GP Imputation</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./imputation.html" class="sidebar-item-text sidebar-link active">Imputation time series</a>
+  <a href="../utils.html" class="sidebar-item-text sidebar-link">Utils</a>
   </div>
 </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Fluxnet</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./results.html" class="sidebar-item-text sidebar-link">Results</a>
+  <a href="../Fluxnet/gap_finder.html" class="sidebar-item-text sidebar-link">Find Gaps in Fluxnet data</a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./gap_finder.html" class="sidebar-item-text sidebar-link">Find Gaps in Fluxnet data</a>
+  <a href="../Fluxnet/hainich.html" class="sidebar-item-text sidebar-link">Fluxnet Hainich</a>
   </div>
 </li>
-        <li class="sidebar-item">
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">GPFA</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./simplegp_imputation.html" class="sidebar-item-text sidebar-link">Simple GP Imputation</a>
+  <a href="../GPFA/gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./utils.html" class="sidebar-item-text sidebar-link">Utils</a>
+  <a href="../GPFA/learner.html" class="sidebar-item-text sidebar-link">GPFA Learner</a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../GPFA/imputation.html" class="sidebar-item-text sidebar-link active">Imputation time series</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">kalman</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/kalman_filter.html" class="sidebar-item-text sidebar-link">Kalman Filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/kalman_learner.html" class="sidebar-item-text sidebar-link">Kalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/kalman_imputation.html" class="sidebar-item-text sidebar-link">Imputation Kalman Model</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/kalman_fastai.html" class="sidebar-item-text sidebar-link">Implement Kalman model using FastAI</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/old statsmodels - statespace.html" class="sidebar-item-text sidebar-link">[Not Working] StatsModels Kalman filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/old_01_pykalman_models.html" class="sidebar-item-text sidebar-link">[OLD] PyKalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/old_02_pykalman_imputation.html" class="sidebar-item-text sidebar-link">[OLD] Imputation PyKalman Model</a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -233,7 +303,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul></li>
   <li><a href="#export" id="toc-export" class="nav-link" data-scroll-target="#export">Export</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/gpfa_imputation/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/meteo_imp/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -283,7 +353,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>a complete dataframe with the prediction of the model</li>
 </ul>
-<p>The goal is that <a href="https://mone27.github.io/gpfa_imputation/lib/imputation.html#gpfaimputation"><code>GPFAImputation</code></a> takes as imput a dataframe containing missing values and then it imputes them using GPFALearner. Therefore it needs to divide the dataframe in 3 sections:</p>
+<p>The goal is that <a href="https://mone27.github.io/meteo_imp/lib/GPFA/imputation.html#gpfaimputation"><code>GPFAImputation</code></a> takes as imput a dataframe containing missing values and then it imputes them using GPFALearner. Therefore it needs to divide the dataframe in 3 sections:</p>
 <ul>
 <li>training data (rows with no NAs)</li>
 <li>times to be imputed (rows with some NAs)</li>
@@ -302,7 +372,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>train_idx <span class="op">=</span> <span class="op">~</span>t_df.isna().<span class="bu">any</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_151862/3664883938.py:1: FutureWarning: In a future version of pandas all arguments of DataFrame.any and Series.any will be keyword-only.
+<pre><code>/tmp/ipykernel_6506/3664883938.py:1: FutureWarning: In a future version of pandas all arguments of DataFrame.any and Series.any will be keyword-only.
   train_idx = ~t_df.isna().any(1)</code></pre>
 </div>
 </div>
@@ -487,12 +557,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> imp_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/imputation.py#L31" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/gpfa/imputation.py#L29" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="gpfaimputation" class="level3">
 <h3 class="anchored" data-anchor-id="gpfaimputation">GPFAImputation</h3>
 <blockquote class="blockquote">
 <pre><code> GPFAImputation (data:pandas.core.frame.DataFrame, latent_dims=1,
-                 cuda=False, model=&lt;class 'gpfa_imputation.gpfa.GPFA'&gt;)</code></pre>
+                 cuda=False, model=&lt;class 'meteo_imp.gpfa.gpfa.GPFA'&gt;)</code></pre>
 </blockquote>
 <p>Initialize self. See help(type(self)) for accurate signature.</p>
 <table class="table">
@@ -527,12 +597,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>model</td>
 <td>type</td>
 <td>GPFA</td>
-<td>sub-class of <a href="https://mone27.github.io/gpfa_imputation/lib/gpfa.html#gpfa"><code>GPFA</code></a></td>
+<td>sub-class of <a href="https://mone27.github.io/meteo_imp/lib/GPFA/gpfa.html#gpfa"><code>GPFA</code></a></td>
 </tr>
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fd <span class="op">=</span> GPFADataTest.generate(<span class="dv">2</span>, <span class="dv">10</span>, Lambda<span class="op">=</span>[<span class="dv">1</span>,<span class="fl">2.</span>]).add_random_missing()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fd <span class="op">=</span> MeteoDataTest.generate_gpfa(<span class="dv">2</span>, <span class="dv">10</span>, Lambda<span class="op">=</span>[<span class="dv">1</span>,<span class="fl">2.</span>]).add_random_missing()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>fd.data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1155,13 +1225,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/imputation.py#L125" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/gpfa/imputation.py#L123" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="gpfaimputationexplorer" class="level3">
 <h3 class="anchored" data-anchor-id="gpfaimputationexplorer">GPFAImputationExplorer</h3>
 <blockquote class="blockquote">
 <pre><code> GPFAImputationExplorer (data:pandas.core.frame.DataFrame, latent_dims=1,
                          cuda=False, model=&lt;class
-                         'gpfa_imputation.gpfa.GPFA'&gt;)</code></pre>
+                         'meteo_imp.gpfa.gpfa.GPFA'&gt;)</code></pre>
 </blockquote>
 <p>GPFAImputation where predictions are for all times not only missing data</p>
 <table class="table">
@@ -1196,7 +1266,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>model</td>
 <td>type</td>
 <td>GPFA</td>
-<td>sub-class of <a href="https://mone27.github.io/gpfa_imputation/lib/gpfa.html#gpfa"><code>GPFA</code></a></td>
+<td>sub-class of <a href="https://mone27.github.io/meteo_imp/lib/GPFA/gpfa.html#gpfa"><code>GPFA</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -1204,8 +1274,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>GPFAImputationExplorer(fd.data).fit().predict()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"754d12a643d34f6ab83968d847cd311d","version_major":2,"version_minor":0}
+{"model_id":"1299881b4582431f9c9de69260b50e51","version_major":2,"version_minor":0}
 </script>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/simone/anaconda3/envs/data-science/lib/python3.10/site-packages/gpytorch/lazy/triangular_lazy_tensor.py:136: UserWarning: torch.triangular_solve is deprecated in favor of torch.linalg.solve_triangularand will be removed in a future PyTorch release.
+torch.linalg.solve_triangular has its arguments reversed and does not return a copy of one of the inputs.
+X = torch.triangular_solve(B, A).solution
+should be replaced with
+X = torch.linalg.solve_triangular(A, B). (Triggered internally at  ../aten/src/ATen/native/BatchLinearAlgebra.cpp:2183.)
+  res = torch.triangular_solve(right_tensor, self.evaluate(), upper=self.upper).solution
+/home/simone/anaconda3/envs/data-science/lib/python3.10/site-packages/torch/autograd/__init__.py:173: UserWarning: operator() profile_node %840 : int[] = prim::profile_ivalue(%838)
+ does not have profile information (Triggered internally at  ../torch/csrc/jit/codegen/cuda/graph_fuser.cpp:104.)
+  Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 
@@ -1226,141 +1307,141 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <th>0</th>
       <td>0.0</td>
       <td>x0</td>
-      <td>-0.139681</td>
-      <td>0.123077</td>
+      <td>-0.138583</td>
+      <td>0.123488</td>
     </tr>
     <tr>
       <th>1</th>
       <td>1.0</td>
       <td>x0</td>
-      <td>-0.117523</td>
-      <td>0.122828</td>
+      <td>-0.115288</td>
+      <td>0.123250</td>
     </tr>
     <tr>
       <th>2</th>
       <td>2.0</td>
       <td>x0</td>
-      <td>-0.398910</td>
-      <td>0.123055</td>
+      <td>-0.398590</td>
+      <td>0.123467</td>
     </tr>
     <tr>
       <th>3</th>
       <td>3.0</td>
       <td>x0</td>
-      <td>-0.472752</td>
-      <td>0.149371</td>
+      <td>-0.472666</td>
+      <td>0.149725</td>
     </tr>
     <tr>
       <th>4</th>
       <td>4.0</td>
       <td>x0</td>
-      <td>-0.564477</td>
-      <td>0.123241</td>
+      <td>-0.566287</td>
+      <td>0.123645</td>
     </tr>
     <tr>
       <th>5</th>
       <td>5.0</td>
       <td>x0</td>
-      <td>-0.985978</td>
-      <td>0.149474</td>
+      <td>-0.994120</td>
+      <td>0.149824</td>
     </tr>
     <tr>
       <th>6</th>
       <td>6.0</td>
       <td>x0</td>
-      <td>-0.609512</td>
-      <td>0.123253</td>
+      <td>-0.611462</td>
+      <td>0.123656</td>
     </tr>
     <tr>
       <th>7</th>
       <td>7.0</td>
       <td>x0</td>
-      <td>0.120754</td>
-      <td>0.123318</td>
+      <td>0.127221</td>
+      <td>0.123713</td>
     </tr>
     <tr>
       <th>8</th>
       <td>8.0</td>
       <td>x0</td>
-      <td>-0.781911</td>
-      <td>0.123618</td>
+      <td>-0.786960</td>
+      <td>0.123999</td>
     </tr>
     <tr>
       <th>9</th>
       <td>9.0</td>
       <td>x0</td>
-      <td>-1.257758</td>
-      <td>0.183116</td>
+      <td>-1.270282</td>
+      <td>0.183502</td>
     </tr>
     <tr>
       <th>10</th>
       <td>0.0</td>
       <td>x1</td>
-      <td>0.132758</td>
-      <td>0.157152</td>
+      <td>0.130877</td>
+      <td>0.154138</td>
     </tr>
     <tr>
       <th>11</th>
       <td>1.0</td>
       <td>x1</td>
-      <td>0.198283</td>
-      <td>0.155439</td>
+      <td>0.199238</td>
+      <td>0.152487</td>
     </tr>
     <tr>
       <th>12</th>
       <td>2.0</td>
       <td>x1</td>
-      <td>-0.633801</td>
-      <td>0.157002</td>
+      <td>-0.632152</td>
+      <td>0.153993</td>
     </tr>
     <tr>
       <th>13</th>
       <td>3.0</td>
       <td>x1</td>
-      <td>-0.852159</td>
-      <td>0.295531</td>
+      <td>-0.849540</td>
+      <td>0.292393</td>
     </tr>
     <tr>
       <th>14</th>
       <td>4.0</td>
       <td>x1</td>
-      <td>-1.123397</td>
-      <td>0.158273</td>
+      <td>-1.124286</td>
+      <td>0.155218</td>
     </tr>
     <tr>
       <th>15</th>
       <td>5.0</td>
       <td>x1</td>
-      <td>-2.369811</td>
-      <td>0.295987</td>
+      <td>-2.379823</td>
+      <td>0.292828</td>
     </tr>
     <tr>
       <th>16</th>
       <td>6.0</td>
       <td>x1</td>
-      <td>-1.256571</td>
-      <td>0.158355</td>
+      <td>-1.256858</td>
+      <td>0.155297</td>
     </tr>
     <tr>
       <th>17</th>
       <td>7.0</td>
       <td>x1</td>
-      <td>-0.990232</td>
-      <td>0.472671</td>
+      <td>-0.990569</td>
+      <td>0.469497</td>
     </tr>
     <tr>
       <th>18</th>
       <td>8.0</td>
       <td>x1</td>
-      <td>-0.674940</td>
-      <td>0.615601</td>
+      <td>-0.675226</td>
+      <td>0.612087</td>
     </tr>
     <tr>
       <th>19</th>
       <td>9.0</td>
       <td>x1</td>
-      <td>-3.173487</td>
-      <td>0.430637</td>
+      <td>-3.190263</td>
+      <td>0.427115</td>
     </tr>
   </tbody>
 </table>
@@ -1372,29 +1453,198 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="repr-1">Repr</h3>
 <p>add <code>__repr__</code> and <code>__str__</code> to imputation objects</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__repr__</span>(<span class="va">self</span>: GPFAImputationExplorer):</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"""GPFA Imputation Explorer:</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="ss">    N obs: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>data<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="ss">    N features </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>data<span class="sc">.</span>shape[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="st">', '</span><span class="sc">.</span>join(<span class="va">self</span>.data.columns)<span class="sc">}</span><span class="ss">)</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="ss">    N missing observations </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>data<span class="sc">.</span>isna()<span class="sc">.</span>to_numpy()<span class="sc">.</span>flatten()<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="ss">    N latent: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>learner<span class="sc">.</span>latent_dims<span class="sc">}</span><span class="ss">"""</span></span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__str__</span>(<span class="va">self</span>: GPFAImputationExplorer):</span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.<span class="fu">__repr__</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__repr__</span>(<span class="va">self</span>: GPFAImputationExplorer):</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"""GPFA Imputation Explorer:</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="ss">    N obs: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>data<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="ss">    N features </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>data<span class="sc">.</span>shape[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="st">', '</span><span class="sc">.</span>join(<span class="va">self</span>.data.columns)<span class="sc">}</span><span class="ss">)</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="ss">    N missing observations </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>data<span class="sc">.</span>isna()<span class="sc">.</span>to_numpy()<span class="sc">.</span>flatten()<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="ss">    N latent: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>learner<span class="sc">.</span>latent_dims<span class="sc">}</span><span class="ss">"""</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__str__</span>(<span class="va">self</span>: GPFAImputationExplorer):</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.<span class="fu">__repr__</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>imp_exp <span class="op">=</span> GPFAImputationExplorer(fd.data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>imp_exp <span class="op">=</span> GPFAImputationExplorer(fd.data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>imp_exp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>imp_exp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>GPFA Imputation Explorer:
+    N obs: 10
+    N features 2 (x0, x1)
+    N missing observations 8
+    N latent: 1</code></pre>
+</div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="bu">str</span>(imp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="bu">str</span>(imp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>'GPFA Imputation:\n    N obs: 10\n    N features 2 (x0, x1)\n    N missing observations 8\n    N latent: 1'</code></pre>
+</div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>imp_exp.predict()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>imp_exp.predict()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>time</th>
+      <th>variable</th>
+      <th>mean</th>
+      <th>std</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.0</td>
+      <td>x0</td>
+      <td>-0.264771</td>
+      <td>0.343444</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.0</td>
+      <td>x0</td>
+      <td>-0.286058</td>
+      <td>0.342875</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.0</td>
+      <td>x0</td>
+      <td>-0.390137</td>
+      <td>0.343443</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3.0</td>
+      <td>x0</td>
+      <td>-0.399087</td>
+      <td>0.349827</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.0</td>
+      <td>x0</td>
+      <td>-0.413978</td>
+      <td>0.344008</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>5.0</td>
+      <td>x0</td>
+      <td>-0.409062</td>
+      <td>0.349828</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>6.0</td>
+      <td>x0</td>
+      <td>-0.437668</td>
+      <td>0.344009</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>7.0</td>
+      <td>x0</td>
+      <td>-0.324878</td>
+      <td>0.347765</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>8.0</td>
+      <td>x0</td>
+      <td>-0.412507</td>
+      <td>0.348563</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>9.0</td>
+      <td>x0</td>
+      <td>-0.393487</td>
+      <td>0.351376</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0.0</td>
+      <td>x1</td>
+      <td>-0.360775</td>
+      <td>0.857899</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>1.0</td>
+      <td>x1</td>
+      <td>-0.398049</td>
+      <td>0.857201</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2.0</td>
+      <td>x1</td>
+      <td>-0.580288</td>
+      <td>0.857897</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>3.0</td>
+      <td>x1</td>
+      <td>-0.595959</td>
+      <td>0.865770</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>4.0</td>
+      <td>x1</td>
+      <td>-0.622034</td>
+      <td>0.858591</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>5.0</td>
+      <td>x1</td>
+      <td>-0.613425</td>
+      <td>0.865772</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>6.0</td>
+      <td>x1</td>
+      <td>-0.663515</td>
+      <td>0.858592</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>7.0</td>
+      <td>x1</td>
+      <td>-0.583371</td>
+      <td>0.866950</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>8.0</td>
+      <td>x1</td>
+      <td>-0.542161</td>
+      <td>0.868132</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>9.0</td>
+      <td>x1</td>
+      <td>-0.586155</td>
+      <td>0.867691</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
 </div>
 </section>
 </section>
@@ -1406,7 +1656,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </main> <!-- /main -->
 <script type="application/vnd.jupyter.widget-state+json">
-{"state":{},"version_major":2,"version_minor":0}
+{"state":{"050f8419c4e24abba5c0ee98d365bcf1":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"0b4bec4d83b34f3fb65af44368049229":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"1299881b4582431f9c9de69260b50e51":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_cd933d0bce4c4acb8c3861cca4d53fd0","IPY_MODEL_cee6c28eebf44bf1a8489b60961360d3","IPY_MODEL_23e6dfd4430b45e8907cf0d77dee0c7b"],"layout":"IPY_MODEL_d29353905a53449c9cbf087c6b53bf6b"}},"15d83b6503184abb8f3c0534c946e54c":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"16234d8d261f42429db87676c5a78679":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"23e6dfd4430b45e8907cf0d77dee0c7b":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_0b4bec4d83b34f3fb65af44368049229","style":"IPY_MODEL_050f8419c4e24abba5c0ee98d365bcf1","value":" 100/100 [00:01&lt;00:00, 116.56it/s]"}},"6777027cd85640c48ef26d9be0518292":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"cd933d0bce4c4acb8c3861cca4d53fd0":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_16234d8d261f42429db87676c5a78679","style":"IPY_MODEL_15d83b6503184abb8f3c0534c946e54c","value":"100%"}},"cee6c28eebf44bf1a8489b60961360d3":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"success","layout":"IPY_MODEL_6777027cd85640c48ef26d9be0518292","style":"IPY_MODEL_f165fbf05f084312b7231064167ae6df","value":100}},"d29353905a53449c9cbf087c6b53bf6b":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"f165fbf05f084312b7231064167ae6df":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}}},"version_major":2,"version_minor":0}
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

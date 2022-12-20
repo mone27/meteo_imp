@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.267">
+<meta name="generator" content="quarto-1.2.280">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>gpfa_imputation - Utils</title>
+<title>meteo_imp - Utils</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -121,13 +121,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="gpfa_imputation - Utils">
+<meta property="og:title" content="meteo_imp - Utils">
 <meta property="og:description" content="source">
-<meta property="og:site-name" content="gpfa_imputation">
-<meta name="twitter:title" content="gpfa_imputation - Utils">
+<meta property="og:site-name" content="meteo_imp">
+<meta name="twitter:title" content="meteo_imp - Utils">
 <meta name="twitter:description" content="source">
 <meta name="twitter:card" content="summary">
 </head>
@@ -140,7 +143,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">gpfa_imputation</span>
+    <span class="navbar-title">meteo_imp</span>
     </a>
   </div>
           <div id="quarto-search" class="" title="Search"></div>
@@ -168,32 +171,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./learner.html" class="sidebar-item-text sidebar-link">GPFA Learner</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./data_preparation.html" class="sidebar-item-text sidebar-link">Data Preparation</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./imputation.html" class="sidebar-item-text sidebar-link">Imputation time series</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./results.html" class="sidebar-item-text sidebar-link">Results</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./gap_finder.html" class="sidebar-item-text sidebar-link">Find Gaps in Fluxnet data</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -206,6 +189,96 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <a href="./utils.html" class="sidebar-item-text sidebar-link active">Utils</a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Fluxnet</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Fluxnet/gap_finder.html" class="sidebar-item-text sidebar-link">Find Gaps in Fluxnet data</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Fluxnet/hainich.html" class="sidebar-item-text sidebar-link">Fluxnet Hainich</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">GPFA</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/learner.html" class="sidebar-item-text sidebar-link">GPFA Learner</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/imputation.html" class="sidebar-item-text sidebar-link">Imputation time series</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">kalman</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_filter.html" class="sidebar-item-text sidebar-link">Kalman Filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_learner.html" class="sidebar-item-text sidebar-link">Kalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_imputation.html" class="sidebar-item-text sidebar-link">Imputation Kalman Model</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_fastai.html" class="sidebar-item-text sidebar-link">Implement Kalman model using FastAI</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old statsmodels - statespace.html" class="sidebar-item-text sidebar-link">[Not Working] StatsModels Kalman filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old_01_pykalman_models.html" class="sidebar-item-text sidebar-link">[OLD] PyKalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old_02_pykalman_imputation.html" class="sidebar-item-text sidebar-link">[OLD] Imputation PyKalman Model</a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -218,13 +291,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#disk-cache" id="toc-disk-cache" class="nav-link active" data-scroll-target="#disk-cache">Disk Cache</a>
   <ul class="collapse">
   <li><a href="#cache_disk" id="toc-cache_disk" class="nav-link" data-scroll-target="#cache_disk">cache_disk</a></li>
-  </ul></li>
-  <li><a href="#random-seed" id="toc-random-seed" class="nav-link" data-scroll-target="#random-seed">Random Seed</a>
-  <ul class="collapse">
   <li><a href="#reset_seed" id="toc-reset_seed" class="nav-link" data-scroll-target="#reset_seed">reset_seed</a></li>
+  <li><a href="#reset_seed-1" id="toc-reset_seed-1" class="nav-link" data-scroll-target="#reset_seed-1">reset_seed</a></li>
   </ul></li>
+  <li><a href="#normal-parameters" id="toc-normal-parameters" class="nav-link" data-scroll-target="#normal-parameters">Normal Parameters</a>
+  <ul class="collapse">
+  <li><a href="#listnormal.get_nth" id="toc-listnormal.get_nth" class="nav-link" data-scroll-target="#listnormal.get_nth">ListNormal.get_nth</a></li>
+  <li><a href="#listnormal.detach" id="toc-listnormal.detach" class="nav-link" data-scroll-target="#listnormal.detach">ListNormal.detach</a></li>
+  </ul></li>
+  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a>
+  <ul class="collapse">
+  <li><a href="#test_close" id="toc-test_close" class="nav-link" data-scroll-target="#test_close">test_close</a></li>
+  </ul></li>
+  <li><a href="#standard-scaler" id="toc-standard-scaler" class="nav-link" data-scroll-target="#standard-scaler">Standard Scaler</a>
+  <ul class="collapse">
+  <li><a href="#standardscaler.inverse_transform_std" id="toc-standardscaler.inverse_transform_std" class="nav-link" data-scroll-target="#standardscaler.inverse_transform_std">StandardScaler.inverse_transform_std</a></li>
+  </ul></li>
+  <li><a href="#info-visualization" id="toc-info-visualization" class="nav-link" data-scroll-target="#info-visualization">Info visualization</a>
+  <ul class="collapse">
+  <li><a href="#array2df" id="toc-array2df" class="nav-link" data-scroll-target="#array2df">array2df</a></li>
+  <li><a href="#display_as_row" id="toc-display_as_row" class="nav-link" data-scroll-target="#display_as_row">display_as_row</a></li>
+  </ul></li>
+  <li><a href="#distributions" id="toc-distributions" class="nav-link" data-scroll-target="#distributions">Distributions</a>
+  <ul class="collapse">
+  <li><a href="#cov2std" id="toc-cov2std" class="nav-link" data-scroll-target="#cov2std">cov2std</a></li>
+  </ul></li>
+  <li><a href="#export" id="toc-export" class="nav-link" data-scroll-target="#export">Export</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/gpfa_imputation/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/meteo_imp/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -250,7 +344,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="disk-cache" class="level2">
 <h2 class="anchored" data-anchor-id="disk-cache">Disk Cache</h2>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/utils.py#L15" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L15" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="cache_disk" class="level3">
 <h3 class="anchored" data-anchor-id="cache_disk">cache_disk</h3>
 <blockquote class="blockquote">
@@ -259,22 +353,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Decorator to cache function output to disk</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tempfile <span class="im">import</span> tempdir</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>cp <span class="op">=</span> Path(tempdir) <span class="op">/</span> <span class="st">"test_cache"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tempfile <span class="im">import</span> tempdir</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">@cache_disk</span>(cp)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> slow_add(a,b):</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">1</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cp <span class="op">=</span> Path(tempdir) <span class="op">/</span> <span class="st">"test_cache"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">@cache_disk</span>(cp)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> slow_add(a,b):</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">1</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>this time is the first time so not from the cache</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>CPU times: user 3.58 ms, sys: 88 µs, total: 3.67 ms
-Wall time: 1 s</code></pre>
+<pre><code>CPU times: user 4 µs, sys: 1 µs, total: 5 µs
+Wall time: 13.8 µs</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <pre><code>3</code></pre>
@@ -282,10 +377,10 @@ Wall time: 1 s</code></pre>
 </div>
 <p>now is much faster beacuse of the cache</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>CPU times: user 2 µs, sys: 1 µs, total: 3 µs
-Wall time: 4.05 µs</code></pre>
+<pre><code>CPU times: user 3 µs, sys: 1 µs, total: 4 µs
+Wall time: 4.77 µs</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <pre><code>3</code></pre>
@@ -293,47 +388,463 @@ Wall time: 4.05 µs</code></pre>
 </div>
 <p>adding comments change the hash, so the function is still cached</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">@cache_disk</span>(cp)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> slow_add(a,b):</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">1</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this is a comment</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="at">@cache_disk</span>(cp)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> slow_add(a,b):</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">1</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this is a comment</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>CPU times: user 45 µs, sys: 976 µs, total: 1.02 ms
-Wall time: 1 s</code></pre>
+<pre><code>CPU times: user 3 µs, sys: 0 ns, total: 3 µs
+Wall time: 4.53 µs</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <pre><code>3</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>CPU times: user 2 µs, sys: 0 ns, total: 2 µs
-Wall time: 4.05 µs</code></pre>
+<pre><code>CPU times: user 3 µs, sys: 1 µs, total: 4 µs
+Wall time: 5.25 µs</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <pre><code>3</code></pre>
 </div>
 </div>
-</section>
-</section>
-<section id="random-seed" class="level2">
-<h2 class="anchored" data-anchor-id="random-seed">Random Seed</h2>
-<p>reset both pytorch and numpy random seeds</p>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/utils.py#L48" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L53" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
 <section id="reset_seed" class="level3">
 <h3 class="anchored" data-anchor-id="reset_seed">reset_seed</h3>
 <blockquote class="blockquote">
 <pre><code> reset_seed (seed=27)</code></pre>
 </blockquote>
-
-
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L53" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
+<section id="reset_seed-1" class="level3">
+<h3 class="anchored" data-anchor-id="reset_seed-1">reset_seed</h3>
+<blockquote class="blockquote">
+<pre><code> reset_seed (seed=27)</code></pre>
+</blockquote>
+</section>
+</section>
+<section id="normal-parameters" class="level2">
+<h2 class="anchored" data-anchor-id="normal-parameters">Normal Parameters</h2>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L69" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="listnormal.get_nth" class="level3">
+<h3 class="anchored" data-anchor-id="listnormal.get_nth">ListNormal.get_nth</h3>
+<blockquote class="blockquote">
+<pre><code> ListNormal.get_nth (n:int)</code></pre>
+</blockquote>
+<p>Get the mean and cov for the nth Normal distribution in the list</p>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L76" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="listnormal.detach" class="level3">
+<h3 class="anchored" data-anchor-id="listnormal.detach">ListNormal.detach</h3>
+<blockquote class="blockquote">
+<pre><code> ListNormal.detach ()</code></pre>
+</blockquote>
+<p>Detach both mean and cov at once</p>
+</section>
+</section>
+<section id="testing" class="level2">
+<h2 class="anchored" data-anchor-id="testing">Testing</h2>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L98" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="test_close" class="level3">
+<h3 class="anchored" data-anchor-id="test_close">test_close</h3>
+<blockquote class="blockquote">
+<pre><code> test_close (a, b, eps=1e-05)</code></pre>
+</blockquote>
+<p><code>test</code> that <code>a</code> is within <code>eps</code> of <code>b</code></p>
+</section>
+</section>
+<section id="standard-scaler" class="level2">
+<h2 class="anchored" data-anchor-id="standard-scaler">Standard Scaler</h2>
+<p>make a standard scaler that can also inverse transfor standard deviations. see <code>Standardizer</code> for details of implementation</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>reset_seed()</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>xx <span class="op">=</span> np.random.random((<span class="dv">4</span>, <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> StandardScaler().fit(xx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>s.transform(xx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>array([[ 0.07263978,  0.63279488, -0.9975139 ,  0.50899177,  0.15537652,
+         1.45555506,  1.56629646, -1.60237369,  1.51674974,  1.29584745],
+       [ 1.58579521,  0.83086419, -0.68281902,  0.51578245, -0.62395756,
+        -1.19720248, -0.43000476,  1.1539719 , -0.74724819, -0.85525414],
+       [-1.05809926, -1.69049694,  0.0895118 , -1.72684476, -1.08418417,
+         0.32617669, -1.16657374,  0.2345773 ,  0.26525847,  0.64349108],
+       [-0.60033573,  0.22683787,  1.59082112,  0.70207053,  1.55276521,
+        -0.58452927,  0.03028204,  0.21382449, -1.03476002, -1.08408439]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>s.mean_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>array([0.40358703, 0.6758362 , 0.77934606, 0.70748673, 0.34417949,
+       0.62067044, 0.48500116, 0.54921643, 0.34604713, 0.3660338 ])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>s.scale_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>array([0.30471427, 0.21926148, 0.04405831, 0.31536161, 0.25229864,
+       0.24649441, 0.26061043, 0.21187396, 0.26093989, 0.22927816])</code></pre>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L109" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="standardscaler.inverse_transform_std" class="level3">
+<h3 class="anchored" data-anchor-id="standardscaler.inverse_transform_std">StandardScaler.inverse_transform_std</h3>
+<blockquote class="blockquote">
+<pre><code> StandardScaler.inverse_transform_std (x_std)</code></pre>
+</blockquote>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>x_std</td>
+<td>standard deviations</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="info-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="info-visualization">Info visualization</h2>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L123" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="array2df" class="level3">
+<h3 class="anchored" data-anchor-id="array2df">array2df</h3>
+<blockquote class="blockquote">
+<pre><code> array2df (x:torch.Tensor, row_names:Optional[Collection[str]],
+           col_names:Optional[Collection[str]], row_var:str)</code></pre>
+</blockquote>
+<table class="table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 38%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>x</td>
+<td>Tensor</td>
+<td>2d tensor</td>
+</tr>
+<tr class="even">
+<td>row_names</td>
+<td>Optional</td>
+<td>names for the row</td>
+</tr>
+<tr class="odd">
+<td>col_names</td>
+<td>Optional</td>
+<td>names for the columns</td>
+</tr>
+<tr class="even">
+<td>row_var</td>
+<td>str</td>
+<td>name of the first column (the one with row names). This should describe the values of <code>row_name</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L137" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="display_as_row" class="level3">
+<h3 class="anchored" data-anchor-id="display_as_row">display_as_row</h3>
+<blockquote class="blockquote">
+<pre><code> display_as_row (dfs:dict[str,pandas.core.frame.DataFrame], title='',
+                 styler=&lt;function _style_df&gt;)</code></pre>
+</blockquote>
+<p>display multiple dataframes in the same row</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> HTML(pd.DataFrame([<span class="dv">1</span>,<span class="dv">2</span>]).to_html(notebook<span class="op">=</span><span class="va">True</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>display_as_row({<span class="st">"test"</span>: pd.DataFrame([<span class="dv">1</span>,<span class="dv">2</span>])}, <span class="st">"hello"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<p style="font-size: 1.5rem; font-decoration: bold">hello</p><p></p><div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div> <p style="font-size: 1.3rem;">test</p> <style type="text/css">
+</style>
+<table id="T_12227">
+  <thead>
+    <tr>
+      <th id="T_12227_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_12227_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_12227_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div></div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>display_as_row({<span class="ss">f"test</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>: pd.DataFrame([<span class="dv">1</span>,<span class="dv">2</span>]) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>)})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<p style="font-size: 1.5rem; font-decoration: bold"></p><p></p><div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div> <p style="font-size: 1.3rem;">test0</p> <style type="text/css">
+</style>
+<table id="T_d1773">
+  <thead>
+    <tr>
+      <th id="T_d1773_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_d1773_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_d1773_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">test1</p> <style type="text/css">
+</style>
+<table id="T_2224a">
+  <thead>
+    <tr>
+      <th id="T_2224a_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_2224a_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_2224a_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">test2</p> <style type="text/css">
+</style>
+<table id="T_64f10">
+  <thead>
+    <tr>
+      <th id="T_64f10_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_64f10_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_64f10_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">test3</p> <style type="text/css">
+</style>
+<table id="T_7f114">
+  <thead>
+    <tr>
+      <th id="T_7f114_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_7f114_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_7f114_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">test4</p> <style type="text/css">
+</style>
+<table id="T_72bbc">
+  <thead>
+    <tr>
+      <th id="T_72bbc_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_72bbc_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_72bbc_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">test5</p> <style type="text/css">
+</style>
+<table id="T_7e928">
+  <thead>
+    <tr>
+      <th id="T_7e928_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_7e928_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_7e928_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">test6</p> <style type="text/css">
+</style>
+<table id="T_f0408">
+  <thead>
+    <tr>
+      <th id="T_f0408_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_f0408_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_f0408_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">test7</p> <style type="text/css">
+</style>
+<table id="T_34a24">
+  <thead>
+    <tr>
+      <th id="T_34a24_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_34a24_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_34a24_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">test8</p> <style type="text/css">
+</style>
+<table id="T_f60bc">
+  <thead>
+    <tr>
+      <th id="T_f60bc_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_f60bc_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_f60bc_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">test9</p> <style type="text/css">
+</style>
+<table id="T_2da96">
+  <thead>
+    <tr>
+      <th id="T_2da96_level0_col0" class="col_heading level0 col0">0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_2da96_row0_col0" class="data row0 col0">1</td>
+    </tr>
+    <tr>
+      <td id="T_2da96_row1_col0" class="data row1 col0">2</td>
+    </tr>
+  </tbody>
+</table>
+ </div></div>
+</div>
+</div>
+</section>
+</section>
+<section id="distributions" class="level2">
+<h2 class="anchored" data-anchor-id="distributions">Distributions</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> torch.stack([torch.eye(<span class="dv">3</span>)<span class="op">*</span>i <span class="cf">for</span> i <span class="kw">in</span>  <span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">4</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[[1., 0., 0.],
+         [0., 1., 0.],
+         [0., 0., 1.]],
+
+        [[2., 0., 0.],
+         [0., 2., 0.],
+         [0., 0., 2.]],
+
+        [[3., 0., 0.],
+         [0., 3., 0.],
+         [0., 0., 3.]]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>torch.diagonal(x, dim1<span class="op">=</span><span class="dv">1</span>, dim2<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[1., 1., 1.],
+        [2., 2., 2.],
+        [3., 3., 3.]])</code></pre>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L147" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="cov2std" class="level3">
+<h3 class="anchored" data-anchor-id="cov2std">cov2std</h3>
+<blockquote class="blockquote">
+<pre><code> cov2std (x)</code></pre>
+</blockquote>
+<p>convert cov of array of covariances to array of stddev</p>
+<!-- ## Render Docstring -->
+<!-- renders a ReStructured text docstring in a notebook cell -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from IPython.display import HTML</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co"># import docutils.core</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># def rstdoc(obj):</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="co">#     "Render `__doc__` as ReStructuredText"</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     html = docutils.core.publish_parts(obj.__doc__, writer_name='html5')['fragment']</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     return HTML(html)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rstdoc(docutils.core.publish_parts)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="export" class="level2">
+<h2 class="anchored" data-anchor-id="export">Export</h2>
+
+
 </section>
 
 </main> <!-- /main -->

@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.267">
+<meta name="generator" content="quarto-1.2.280">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="description" content="This handles results of a GPFA/SimpleGP Imputation with plotting and metrics">
 
-<title>gpfa_imputation - Results</title>
+<title>meteo_imp - Results</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -128,10 +128,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="gpfa_imputation - Results">
+<meta property="og:title" content="meteo_imp - Results">
 <meta property="og:description" content="This handles results of a GPFA/SimpleGP Imputation with plotting and metrics">
-<meta property="og:site-name" content="gpfa_imputation">
-<meta name="twitter:title" content="gpfa_imputation - Results">
+<meta property="og:site-name" content="meteo_imp">
+<meta name="twitter:title" content="meteo_imp - Results">
 <meta name="twitter:description" content="This handles results of a GPFA/SimpleGP Imputation with plotting and metrics">
 <meta name="twitter:card" content="summary">
 </head>
@@ -144,7 +144,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">gpfa_imputation</span>
+    <span class="navbar-title">meteo_imp</span>
     </a>
   </div>
           <div id="quarto-search" class="" title="Search"></div>
@@ -172,32 +172,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./learner.html" class="sidebar-item-text sidebar-link">GPFA Learner</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./data_preparation.html" class="sidebar-item-text sidebar-link">Data Preparation</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./imputation.html" class="sidebar-item-text sidebar-link">Imputation time series</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./results.html" class="sidebar-item-text sidebar-link active">Results</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./gap_finder.html" class="sidebar-item-text sidebar-link">Find Gaps in Fluxnet data</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -210,6 +190,96 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <a href="./utils.html" class="sidebar-item-text sidebar-link">Utils</a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Fluxnet</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Fluxnet/gap_finder.html" class="sidebar-item-text sidebar-link">Find Gaps in Fluxnet data</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Fluxnet/hainich.html" class="sidebar-item-text sidebar-link">Fluxnet Hainich</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">GPFA</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/learner.html" class="sidebar-item-text sidebar-link">GPFA Learner</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/imputation.html" class="sidebar-item-text sidebar-link">Imputation time series</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">kalman</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_filter.html" class="sidebar-item-text sidebar-link">Kalman Filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_learner.html" class="sidebar-item-text sidebar-link">Kalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_imputation.html" class="sidebar-item-text sidebar-link">Imputation Kalman Model</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_fastai.html" class="sidebar-item-text sidebar-link">Implement Kalman model using FastAI</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old statsmodels - statespace.html" class="sidebar-item-text sidebar-link">[Not Working] StatsModels Kalman filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old_01_pykalman_models.html" class="sidebar-item-text sidebar-link">[OLD] PyKalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old_02_pykalman_imputation.html" class="sidebar-item-text sidebar-link">[OLD] Imputation PyKalman Model</a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -219,21 +289,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#gpfaresult" id="toc-gpfaresult" class="nav-link active" data-scroll-target="#gpfaresult">GPFAResult</a></li>
+  <li><a href="#imputationresult" id="toc-imputationresult" class="nav-link active" data-scroll-target="#imputationresult">ImputationResult</a></li>
   <li><a href="#gpfaimputation.to_result" id="toc-gpfaimputation.to_result" class="nav-link" data-scroll-target="#gpfaimputation.to_result">GPFAImputation.to_result</a></li>
   <li><a href="#gpfaimputationexplorer.to_result" id="toc-gpfaimputationexplorer.to_result" class="nav-link" data-scroll-target="#gpfaimputationexplorer.to_result">GPFAImputationExplorer.to_result</a></li>
   <li><a href="#metrics" id="toc-metrics" class="nav-link" data-scroll-target="#metrics">Metrics</a></li>
-  <li><a href="#gpfaresult.compute_metric" id="toc-gpfaresult.compute_metric" class="nav-link" data-scroll-target="#gpfaresult.compute_metric">GPFAResult.compute_metric</a></li>
-  <li><a href="#gpfaresult.rmse" id="toc-gpfaresult.rmse" class="nav-link" data-scroll-target="#gpfaresult.rmse">GPFAResult.rmse</a></li>
-  <li><a href="#gpfaresult.r2" id="toc-gpfaresult.r2" class="nav-link" data-scroll-target="#gpfaresult.r2">GPFAResult.r2</a></li>
-  <li><a href="#gpfaresult.print_metrics" id="toc-gpfaresult.print_metrics" class="nav-link" data-scroll-target="#gpfaresult.print_metrics">GPFAResult.print_metrics</a></li>
+  <li><a href="#imputationresult.compute_metric" id="toc-imputationresult.compute_metric" class="nav-link" data-scroll-target="#imputationresult.compute_metric">ImputationResult.compute_metric</a></li>
+  <li><a href="#imputationresult.rmse" id="toc-imputationresult.rmse" class="nav-link" data-scroll-target="#imputationresult.rmse">ImputationResult.rmse</a></li>
+  <li><a href="#imputationresult.r2" id="toc-imputationresult.r2" class="nav-link" data-scroll-target="#imputationresult.r2">ImputationResult.r2</a></li>
+  <li><a href="#imputationresult.print_metrics" id="toc-imputationresult.print_metrics" class="nav-link" data-scroll-target="#imputationresult.print_metrics">ImputationResult.print_metrics</a></li>
   <li><a href="#prediction-plot" id="toc-prediction-plot" class="nav-link" data-scroll-target="#prediction-plot">Prediction plot</a></li>
-  <li><a href="#gpfaresult.plot_pred" id="toc-gpfaresult.plot_pred" class="nav-link" data-scroll-target="#gpfaresult.plot_pred">GPFAResult.plot_pred</a></li>
+  <li><a href="#imputationresult.plot_pred" id="toc-imputationresult.plot_pred" class="nav-link" data-scroll-target="#imputationresult.plot_pred">ImputationResult.plot_pred</a></li>
   <li><a href="#display-results" id="toc-display-results" class="nav-link" data-scroll-target="#display-results">Display results</a></li>
-  <li><a href="#gpfaresult.display_results" id="toc-gpfaresult.display_results" class="nav-link" data-scroll-target="#gpfaresult.display_results">GPFAResult.display_results</a></li>
+  <li><a href="#imputationresult.display_results" id="toc-imputationresult.display_results" class="nav-link" data-scroll-target="#imputationresult.display_results">ImputationResult.display_results</a></li>
   <li><a href="#export" id="toc-export" class="nav-link" data-scroll-target="#export">Export</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/gpfa_imputation/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/meteo_imp/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -262,12 +332,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/results.py#L34" target="_blank" style="float:right; font-size:smaller">source</a></p>
-<section id="gpfaresult" class="level3">
-<h3 class="anchored" data-anchor-id="gpfaresult">GPFAResult</h3>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/results.py#L34" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="imputationresult" class="level3">
+<h3 class="anchored" data-anchor-id="imputationresult">ImputationResult</h3>
 <blockquote class="blockquote">
-<pre><code> GPFAResult (data_imputed, data_complete, model_info, units=None,
-             metrics_all_data=True)</code></pre>
+<pre><code> ImputationResult (data_imputed, data_complete, model_info, units=None,
+                   metrics_all_data=True)</code></pre>
 </blockquote>
 <p>Initialize self. See help(type(self)) for accurate signature.</p>
 <table class="table">
@@ -318,9 +388,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<p>constructor methods from <a href="https://mone27.github.io/gpfa_imputation/lib/imputation.html#gpfaimputation"><code>GPFAImputation</code></a> and <code>GPFAImputationResults</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>np.array([<span class="dv">5</span>, <span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>array([5, 3])</code></pre>
+</div>
+</div>
+<p>constructor methods from <a href="https://mone27.github.io/meteo_imp/lib/GPFA/imputation.html#gpfaimputation"><code>GPFAImputation</code></a> and <code>GPFAImputationResults</code></p>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/results.py#L46" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/results.py#L53" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="gpfaimputation.to_result" class="level3">
 <h3 class="anchored" data-anchor-id="gpfaimputation.to_result">GPFAImputation.to_result</h3>
@@ -328,7 +404,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code> GPFAImputation.to_result (data_complete, units=None)</code></pre>
 </blockquote>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/results.py#L52" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/results.py#L59" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="gpfaimputationexplorer.to_result" class="level3">
 <h3 class="anchored" data-anchor-id="gpfaimputationexplorer.to_result">GPFAImputationExplorer.to_result</h3>
@@ -336,14 +412,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code> GPFAImputationExplorer.to_result (data_complete, units=None)</code></pre>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>reset_seed()</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fd <span class="op">=</span> GPFADataTest.generate(<span class="dv">2</span>, <span class="dv">10</span>, Lambda<span class="op">=</span>[<span class="dv">1</span>,<span class="fl">2.</span>]).add_random_missing()</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>imp <span class="op">=</span> GPFAImputation(fd.data)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>imp_exp <span class="op">=</span> GPFAImputationExplorer(fd.data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>reset_seed()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fd <span class="op">=</span> MeteoDataTest.generate_gpfa(<span class="dv">2</span>, <span class="dv">10</span>, Lambda<span class="op">=</span>[<span class="dv">1</span>,<span class="fl">2.</span>]).add_random_missing()</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>imp <span class="op">=</span> GPFAImputation(fd.data)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>imp_exp <span class="op">=</span> GPFAImputationExplorer(fd.data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fd.data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fd.data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <div>
@@ -413,19 +489,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> imp.to_result(fd.data_compl_tidy, units <span class="op">=</span> {<span class="st">'x0'</span>: <span class="st">'x0 units'</span>, <span class="st">'x1'</span>: <span class="st">'x1 unitssss'</span>})</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>res_exp <span class="op">=</span> imp_exp.to_result(fd.data_compl_tidy, units <span class="op">=</span> {<span class="st">'x0'</span>: <span class="st">'x0 units'</span>, <span class="st">'x1'</span>: <span class="st">'x1 unitssss'</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> imp.to_result(fd.data_compl_tidy, units <span class="op">=</span> {<span class="st">'x0'</span>: <span class="st">'x0 units'</span>, <span class="st">'x1'</span>: <span class="st">'x1 unitssss'</span>})</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>res_exp <span class="op">=</span> imp_exp.to_result(fd.data_compl_tidy, units <span class="op">=</span> {<span class="st">'x0'</span>: <span class="st">'x0 units'</span>, <span class="st">'x1'</span>: <span class="st">'x1 unitssss'</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="metrics" class="level3">
 <h3 class="anchored" data-anchor-id="metrics">Metrics</h3>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/results.py#L58" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/results.py#L65" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
-<section id="gpfaresult.compute_metric" class="level3">
-<h3 class="anchored" data-anchor-id="gpfaresult.compute_metric">GPFAResult.compute_metric</h3>
+<section id="imputationresult.compute_metric" class="level3">
+<h3 class="anchored" data-anchor-id="imputationresult.compute_metric">ImputationResult.compute_metric</h3>
 <blockquote class="blockquote">
-<pre><code> GPFAResult.compute_metric (metric, metric_name='metric')</code></pre>
+<pre><code> ImputationResult.compute_metric (metric, metric_name='metric')</code></pre>
 </blockquote>
 <table class="table">
 <colgroup>
@@ -458,22 +534,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rmse(<span class="va">self</span>: GPFAResult):</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    rmse <span class="op">=</span> <span class="va">self</span>.compute_metric(<span class="kw">lambda</span> x, y: np.sqrt(mean_squared_error(x,y)), <span class="st">"rmse"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="va">self</span>.units: rmse <span class="op">=</span> rmse.assign(units<span class="op">=</span> <span class="va">self</span>.units.values())</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rmse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rmse(<span class="va">self</span>: ImputationResult):</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    rmse <span class="op">=</span> <span class="va">self</span>.compute_metric(<span class="kw">lambda</span> x, y: np.sqrt(mean_squared_error(x,y)), <span class="st">"rmse"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="va">self</span>.units: rmse <span class="op">=</span> rmse.assign(units<span class="op">=</span> <span class="va">self</span>.units.values())</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rmse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/results.py#L77" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/results.py#L84" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
-<section id="gpfaresult.rmse" class="level3">
-<h3 class="anchored" data-anchor-id="gpfaresult.rmse">GPFAResult.rmse</h3>
+<section id="imputationresult.rmse" class="level3">
+<h3 class="anchored" data-anchor-id="imputationresult.rmse">ImputationResult.rmse</h3>
 <blockquote class="blockquote">
-<pre><code> GPFAResult.rmse ()</code></pre>
+<pre><code> ImputationResult.rmse ()</code></pre>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>res_exp.rmse()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>res_exp.rmse()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <div>
@@ -491,13 +567,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <tr>
       <th>0</th>
       <td>x0</td>
-      <td>0.629212</td>
+      <td>0.738387</td>
       <td>x0 units</td>
     </tr>
     <tr>
       <th>1</th>
       <td>x1</td>
-      <td>1.336372</td>
+      <td>1.337692</td>
       <td>x1 unitssss</td>
     </tr>
   </tbody>
@@ -506,7 +582,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>res.rmse()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>res.rmse()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <div>
@@ -539,20 +615,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> r2(<span class="va">self</span>: GPFAResult):</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.compute_metric(r2_score, <span class="st">"r2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> r2(<span class="va">self</span>: ImputationResult):</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.compute_metric(r2_score, <span class="st">"r2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/results.py#L84" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/results.py#L91" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
-<section id="gpfaresult.r2" class="level3">
-<h3 class="anchored" data-anchor-id="gpfaresult.r2">GPFAResult.r2</h3>
+<section id="imputationresult.r2" class="level3">
+<h3 class="anchored" data-anchor-id="imputationresult.r2">ImputationResult.r2</h3>
 <blockquote class="blockquote">
-<pre><code> GPFAResult.r2 ()</code></pre>
+<pre><code> ImputationResult.r2 ()</code></pre>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>res.r2()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>res.r2()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <div>
@@ -582,31 +658,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/results.py#L89" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/results.py#L96" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
-<section id="gpfaresult.print_metrics" class="level3">
-<h3 class="anchored" data-anchor-id="gpfaresult.print_metrics">GPFAResult.print_metrics</h3>
+<section id="imputationresult.print_metrics" class="level3">
+<h3 class="anchored" data-anchor-id="imputationresult.print_metrics">ImputationResult.print_metrics</h3>
 <blockquote class="blockquote">
-<pre><code> GPFAResult.print_metrics ()</code></pre>
+<pre><code> ImputationResult.print_metrics ()</code></pre>
 </blockquote>
 </section>
 <section id="prediction-plot" class="level3">
 <h3 class="anchored" data-anchor-id="prediction-plot">Prediction plot</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(pd.DataFrame({<span class="st">'a'</span>: [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]})).mark_tick().encode(x <span class="op">=</span> <span class="st">'a'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(pd.DataFrame({<span class="st">'a'</span>: [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]})).mark_tick().encode(x <span class="op">=</span> <span class="st">'a'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/simone/.local/lib/python3.10/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
   for col_name, dtype in df.dtypes.iteritems():</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 
-<div id="altair-viz-2bc27be0ef1a4f6688c55ec945df781f"></div>
+<div id="altair-viz-674e468ba82a48adb799a69701497835"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-2bc27be0ef1a4f6688c55ec945df781f") {
-      outputDiv = document.getElementById("altair-viz-2bc27be0ef1a4f6688c55ec945df781f");
+    if (outputDiv.id !== "altair-viz-674e468ba82a48adb799a69701497835") {
+      outputDiv = document.getElementById("altair-viz-674e468ba82a48adb799a69701497835");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -657,80 +733,59 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _plot_variable(imp, complete, variable, y_label<span class="op">=</span><span class="st">""</span>, sel<span class="op">=</span><span class="va">None</span>, properties <span class="op">=</span> {}):</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    imp <span class="op">=</span> imp[imp.variable <span class="op">==</span> variable]</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    sel <span class="op">=</span> sel <span class="cf">if</span> sel <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="cf">else</span> alt.selection_interval(bind<span class="op">=</span><span class="st">"scales"</span>)</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    error <span class="op">=</span> alt.Chart(imp).mark_errorband().encode(</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="st">"time"</span>,    </span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> alt.Y(<span class="st">"err_low:Q"</span>, title <span class="op">=</span> y_label, scale<span class="op">=</span>alt.Scale(zero<span class="op">=</span><span class="va">False</span>)),</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        y2 <span class="op">=</span> <span class="st">"err_high:Q"</span>,</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>alt.Color(<span class="st">"variable"</span>,</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>                        legend <span class="op">=</span> alt.Legend(title<span class="op">=</span>[<span class="st">"Line: pred. mean"</span>, <span class="st">"area: +/- 2 std"</span>, <span class="st">"(variable)"</span>])</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>                       ),</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        tooltip <span class="op">=</span> alt.Tooltip([<span class="st">'std'</span>, <span class="st">'mean'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">".4"</span>)</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    ).transform_calculate(</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>        err_low <span class="op">=</span> <span class="st">"datum.mean - 2 * datum.std"</span>,</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>        err_high <span class="op">=</span> <span class="st">"datum.mean + 2 * datum.std"</span></span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    ).properties( <span class="op">**</span>properties)</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    pred <span class="op">=</span> alt.Chart(imp).mark_line().encode(</span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="st">"time"</span>,    </span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> alt.Y(<span class="st">"mean:Q"</span>, title <span class="op">=</span> y_label, scale<span class="op">=</span>alt.Scale(zero<span class="op">=</span><span class="va">False</span>)),</span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span><span class="st">"variable"</span>,</span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    ).add_selection(</span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>        sel</span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    ).properties(title <span class="op">=</span> variable)</span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    base_plot <span class="op">=</span> error <span class="op">+</span> pred</span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> complete <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>        complete <span class="op">=</span> complete[complete.variable <span class="op">==</span> variable]</span>
-<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>        truth_plt <span class="op">=</span> alt.Chart(complete).mark_point(</span>
-<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span><span class="st">'black'</span>,</span>
-<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>            strokeWidth <span class="op">=</span> <span class="dv">1</span>,</span>
-<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>            fillOpacity <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>        ).encode(</span>
-<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> alt.X(<span class="st">"time"</span>, axis<span class="op">=</span>alt.Axis(domain<span class="op">=</span><span class="va">False</span>, labels <span class="op">=</span> <span class="va">False</span>, ticks<span class="op">=</span><span class="va">False</span>, title<span class="op">=</span><span class="va">None</span>)),</span>
-<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>            y <span class="op">=</span> alt.Y(<span class="st">"value"</span>, title <span class="op">=</span> y_label, scale<span class="op">=</span>alt.Scale(zero<span class="op">=</span><span class="va">False</span>)),</span>
-<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>            fill<span class="op">=</span> alt.Fill(<span class="st">"is_missing"</span>, scale <span class="op">=</span> alt.Scale(<span class="bu">range</span><span class="op">=</span>[<span class="st">"#ffffff00"</span>, <span class="st">"black"</span>]),</span>
-<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>                           legend <span class="op">=</span> alt.Legend(title <span class="op">=</span>[<span class="st">"Observed data"</span>,<span class="st">"(is missing)"</span>])),</span>
-<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>            shape <span class="op">=</span> <span class="st">"is_missing"</span>,</span>
-<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>       </span>
-<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>        p <span class="op">=</span> {<span class="st">'width'</span>: properties[<span class="st">'width'</span>]} <span class="cf">if</span> properties <span class="cf">else</span> {}</span>
-<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>        missing <span class="op">=</span> alt.Chart(complete).mark_tick(</span>
-<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span><span class="st">'black'</span>,</span>
-<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>        ).encode(</span>
-<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> <span class="st">"time"</span>,</span>
-<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>            color <span class="op">=</span> alt.condition(datum.is_missing, alt.value(<span class="st">'black'</span>), alt.value(<span class="st">'white'</span>))</span>
-<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>        ).add_selection(</span>
-<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>            sel</span>
-<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>        ).properties(<span class="op">**</span>p)</span>
-<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>        base_plot <span class="op">=</span> alt.VConcatChart(vconcat<span class="op">=</span>[(truth_plt <span class="op">+</span> base_plot), missing], spacing<span class="op">=-</span><span class="dv">10</span>)</span>
-<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> base_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _plot_variable(imp, complete, variable, y_label<span class="op">=</span><span class="st">""</span>, sel<span class="op">=</span><span class="va">None</span>, properties <span class="op">=</span> {}):</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    imp <span class="op">=</span> imp[imp.variable <span class="op">==</span> variable]</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    sel <span class="op">=</span> sel <span class="cf">if</span> sel <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="cf">else</span> alt.selection_interval(bind<span class="op">=</span><span class="st">"scales"</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    base_plot <span class="op">=</span> _plot_error_bar(imp, variable, y_label, properties, sel)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> complete <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>        complete <span class="op">=</span> complete[complete.variable <span class="op">==</span> variable]</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>        truth_plt <span class="op">=</span> alt.Chart(complete).mark_point(</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>            strokeWidth <span class="op">=</span> <span class="dv">1</span>,</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>            fillOpacity <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>        ).encode(</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> alt.X(<span class="st">"time"</span>, axis<span class="op">=</span>alt.Axis(domain<span class="op">=</span><span class="va">False</span>, labels <span class="op">=</span> <span class="va">False</span>, ticks<span class="op">=</span><span class="va">False</span>, title<span class="op">=</span><span class="va">None</span>)),</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>            y <span class="op">=</span> alt.Y(<span class="st">"value"</span>, title <span class="op">=</span> y_label, scale<span class="op">=</span>alt.Scale(zero<span class="op">=</span><span class="va">False</span>)),</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>            fill<span class="op">=</span> alt.Fill(<span class="st">"is_missing"</span>, scale <span class="op">=</span> alt.Scale(<span class="bu">range</span><span class="op">=</span>[<span class="st">"#ffffff00"</span>, <span class="st">"black"</span>]),</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>                           legend <span class="op">=</span> alt.Legend(title <span class="op">=</span>[<span class="st">"Observed data"</span>,<span class="st">"(is missing)"</span>])),</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>            shape <span class="op">=</span> <span class="st">"is_missing"</span>,</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>       </span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>        p <span class="op">=</span> {<span class="st">'width'</span>: properties[<span class="st">'width'</span>]} <span class="cf">if</span> properties <span class="cf">else</span> {}</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>        missing <span class="op">=</span> alt.Chart(complete).mark_tick(</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>        ).encode(</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> <span class="st">"time"</span>,</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>            color <span class="op">=</span> alt.condition(datum.is_missing, alt.value(<span class="st">'black'</span>), alt.value(<span class="st">'white'</span>))</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>        ).add_selection(</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>            sel</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>        ).properties(<span class="op">**</span>p)</span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>        base_plot <span class="op">=</span> alt.VConcatChart(vconcat<span class="op">=</span>[(truth_plt <span class="op">+</span> base_plot), missing], spacing<span class="op">=-</span><span class="dv">10</span>)</span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> base_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>imp_d <span class="op">=</span> imp.impute(tidy<span class="op">=</span><span class="va">True</span>, add_time<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>_plot_variable(imp_d, <span class="va">None</span>, <span class="st">"x1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>imp_d <span class="op">=</span> imp.impute(tidy<span class="op">=</span><span class="va">True</span>, add_time<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>_plot_variable(imp_d, <span class="va">None</span>, <span class="st">"x1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/simone/.local/lib/python3.10/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
   for col_name, dtype in df.dtypes.iteritems():</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 
-<div id="altair-viz-7014f2d08e034651b16b486872da1fb8"></div>
+<div id="altair-viz-34cdc4f53424455c88020bead965b7e3"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-7014f2d08e034651b16b486872da1fb8") {
-      outputDiv = document.getElementById("altair-viz-7014f2d08e034651b16b486872da1fb8");
+    if (outputDiv.id !== "altair-viz-34cdc4f53424455c88020bead965b7e3") {
+      outputDiv = document.getElementById("altair-viz-34cdc4f53424455c88020bead965b7e3");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -776,41 +831,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         .catch(showError)
         .then(() => displayChart(vegaEmbed));
     }
-  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "", "type": "quantitative"}, "y2": {"field": "err_high"}}, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}]}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "", "type": "quantitative"}}, "selection": {"selector001": {"type": "interval", "bind": "scales"}}, "title": "x1"}], "data": {"name": "data-4d7c5c8c2841f6b399faa46258f0dcec"}, "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-4d7c5c8c2841f6b399faa46258f0dcec": [{"time": 0.0, "variable": "x1", "mean": 0.0132747832685709, "std": null}, {"time": 2.0, "variable": "x1", "mean": -0.657964825630188, "std": null}, {"time": 3.0, "variable": "x1", "mean": 0.8228557705879211, "std": null}, {"time": 8.0, "variable": "x1", "mean": -1.945134162902832, "std": null}, {"time": 9.0, "variable": "x1", "mean": 2.0742228031158447, "std": null}, {"time": 1.0, "variable": "x1", "mean": 0.24880185723304749, "std": null}, {"time": 4.0, "variable": "x1", "mean": -0.1992415487766266, "std": 1.8688976764678955}, {"time": 5.0, "variable": "x1", "mean": 0.17954692244529724, "std": 1.8718758821487427}, {"time": 6.0, "variable": "x1", "mean": 0.13846366107463837, "std": 1.9094343185424805}, {"time": 7.0, "variable": "x1", "mean": -0.13254201412200928, "std": 1.9083836078643799}]}}, {"mode": "vega-lite"});
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "", "type": "quantitative"}, "y2": {"field": "err_high"}}, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}]}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "", "type": "quantitative"}}, "selection": {"selector001": {"type": "interval", "bind": "scales"}}, "title": "x1"}], "data": {"name": "data-80e0cfc47cedca606daa420410abae1e"}, "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-80e0cfc47cedca606daa420410abae1e": [{"time": 0.0, "variable": "x1", "mean": 0.0132747832685709, "std": null}, {"time": 2.0, "variable": "x1", "mean": -0.657964825630188, "std": null}, {"time": 3.0, "variable": "x1", "mean": 0.8228557705879211, "std": null}, {"time": 8.0, "variable": "x1", "mean": -1.945134162902832, "std": null}, {"time": 9.0, "variable": "x1", "mean": 2.0742228031158447, "std": null}, {"time": 1.0, "variable": "x1", "mean": 0.24880185723304749, "std": 0.0}, {"time": 4.0, "variable": "x1", "mean": -0.1992415189743042, "std": 1.8688976764678955}, {"time": 5.0, "variable": "x1", "mean": 0.17954692244529724, "std": 1.8718758821487427}, {"time": 6.0, "variable": "x1", "mean": 0.13846364617347717, "std": 1.9094343185424805}, {"time": 7.0, "variable": "x1", "mean": -0.13254201412200928, "std": 1.9083836078643799}]}}, {"mode": "vega-lite"});
 </script>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span>()</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_pred(</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>: GPFAResult,</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    n_cols: <span class="bu">int</span> <span class="op">=</span> <span class="dv">2</span>,</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    bind_interaction: <span class="bu">bool</span> <span class="op">=</span><span class="va">True</span>, <span class="co"># Whether the sub-plots for each variable should be connected for zooming/panning</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    properties:<span class="bu">dict</span> <span class="op">=</span> {} <span class="co"># additional properties (eg. size) for altair plot</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>):</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Plot the prediction for each variable"</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    plot_list <span class="op">=</span> [alt.hconcat() <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="va">self</span>.data_imputed.shape[<span class="dv">0</span>], n_cols)]</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    selection_scale <span class="op">=</span> alt.selection_interval(bind<span class="op">=</span><span class="st">"scales"</span>, encodings<span class="op">=</span>[<span class="st">'x'</span>]) <span class="cf">if</span> bind_interaction <span class="cf">else</span> <span class="va">None</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx, variable <span class="kw">in</span> <span class="bu">enumerate</span>(pd.unique(<span class="va">self</span>.data_imputed.variable)):</span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        plot_list[idx <span class="op">//</span> n_cols] <span class="op">|=</span> _plot_variable(<span class="va">self</span>.data_imputed,</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>                                                   <span class="va">self</span>.data_complete,</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>                                                   variable,</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>                                                   y_label <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>variable<span class="sc">}</span><span class="ss"> [</span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>units[variable]<span class="sc">}</span><span class="ss">]"</span> <span class="cf">if</span> <span class="va">self</span>.units <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="cf">else</span> variable,</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>                                                   sel <span class="op">=</span> selection_scale, properties<span class="op">=</span>properties)</span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    plot <span class="op">=</span> alt.vconcat(<span class="op">*</span>plot_list)</span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span>()</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_pred(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>: ImputationResult,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    n_cols: <span class="bu">int</span> <span class="op">=</span> <span class="dv">2</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    bind_interaction: <span class="bu">bool</span> <span class="op">=</span><span class="va">True</span>, <span class="co"># Whether the sub-plots for each variable should be connected for zooming/panning</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    properties:<span class="bu">dict</span> <span class="op">=</span> {} <span class="co"># additional properties (eg. size) for altair plot</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Plot the prediction for each variable"</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    plot_list <span class="op">=</span> [alt.hconcat() <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="va">self</span>.data_imputed.shape[<span class="dv">0</span>], n_cols)]</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    selection_scale <span class="op">=</span> alt.selection_interval(bind<span class="op">=</span><span class="st">"scales"</span>, encodings<span class="op">=</span>[<span class="st">'x'</span>]) <span class="cf">if</span> bind_interaction <span class="cf">else</span> <span class="va">None</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx, variable <span class="kw">in</span> <span class="bu">enumerate</span>(pd.unique(<span class="va">self</span>.data_imputed.variable)):</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>        plot_list[idx <span class="op">//</span> n_cols] <span class="op">|=</span> _plot_variable(<span class="va">self</span>.data_imputed,</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>                                                   <span class="va">self</span>.data_complete,</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>                                                   variable,</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>                                                   y_label <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>variable<span class="sc">}</span><span class="ss"> [</span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>units[variable]<span class="sc">}</span><span class="ss">]"</span> <span class="cf">if</span> <span class="va">self</span>.units <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="cf">else</span> variable,</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>                                                   sel <span class="op">=</span> selection_scale, properties<span class="op">=</span>properties)</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>    plot <span class="op">=</span> alt.vconcat(<span class="op">*</span>plot_list)</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/results.py#L169" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/results.py#L182" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
-<section id="gpfaresult.plot_pred" class="level3">
-<h3 class="anchored" data-anchor-id="gpfaresult.plot_pred">GPFAResult.plot_pred</h3>
+<section id="imputationresult.plot_pred" class="level3">
+<h3 class="anchored" data-anchor-id="imputationresult.plot_pred">ImputationResult.plot_pred</h3>
 <blockquote class="blockquote">
-<pre><code> GPFAResult.plot_pred (n_cols:int=2, bind_interaction:bool=True,
-                       properties:dict={})</code></pre>
+<pre><code> ImputationResult.plot_pred (n_cols:int=2, bind_interaction:bool=True,
+                             properties:dict={})</code></pre>
 </blockquote>
 <p>Plot the prediction for each variable</p>
 <table class="table">
@@ -850,16 +905,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>res.plot_pred()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>res.plot_pred()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
-<div id="altair-viz-abee5426ed01463481def5bc72addde5"></div>
+<div id="altair-viz-240600f86c354297b6f01abff13d2a64"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-abee5426ed01463481def5bc72addde5") {
-      outputDiv = document.getElementById("altair-viz-abee5426ed01463481def5bc72addde5");
+    if (outputDiv.id !== "altair-viz-240600f86c354297b6f01abff13d2a64") {
+      outputDiv = document.getElementById("altair-viz-240600f86c354297b6f01abff13d2a64");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -905,21 +960,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         .catch(showError)
         .then(() => displayChart(vegaEmbed));
     }
-  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"hconcat": [{"vconcat": [{"layer": [{"data": {"name": "data-e81d2144f040e9eaee9917835d7e5b22"}, "mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_missing", "legend": {"title": ["Observed data", "(is missing)"]}, "scale": {"range": ["#ffffff00", "black"]}, "type": "nominal"}, "shape": {"field": "is_missing", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}}}, {"layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}, "y2": {"field": "err_high"}}, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}]}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}}, "selection": {"selector002": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "title": "x0"}], "data": {"name": "data-22bbb785b4a915c9ffa1250511b6b6f6"}}]}, {"data": {"name": "data-e81d2144f040e9eaee9917835d7e5b22"}, "mark": {"type": "tick", "color": "black"}, "encoding": {"color": {"condition": {"value": "black", "test": "datum.is_missing"}, "value": "white"}, "x": {"field": "time", "type": "quantitative"}}, "selection": {"selector002": {"type": "interval", "bind": "scales", "encodings": ["x"]}}}], "spacing": -10}, {"vconcat": [{"layer": [{"data": {"name": "data-8f2aafb359cb71b6d770947a717d8f17"}, "mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_missing", "legend": {"title": ["Observed data", "(is missing)"]}, "scale": {"range": ["#ffffff00", "black"]}, "type": "nominal"}, "shape": {"field": "is_missing", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}}}, {"layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}, "y2": {"field": "err_high"}}, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}]}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}}, "selection": {"selector002": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "title": "x1"}], "data": {"name": "data-4d7c5c8c2841f6b399faa46258f0dcec"}}]}, {"data": {"name": "data-8f2aafb359cb71b6d770947a717d8f17"}, "mark": {"type": "tick", "color": "black"}, "encoding": {"color": {"condition": {"value": "black", "test": "datum.is_missing"}, "value": "white"}, "x": {"field": "time", "type": "quantitative"}}, "selection": {"selector002": {"type": "interval", "bind": "scales", "encodings": ["x"]}}}], "spacing": -10}]}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}], "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-e81d2144f040e9eaee9917835d7e5b22": [{"time": 0.0, "variable": "x0", "value": 0.352995902299881, "is_missing": false}, {"time": 1.0, "variable": "x0", "value": 0.12700305879116058, "is_missing": true}, {"time": 2.0, "variable": "x0", "value": -0.2643048167228699, "is_missing": false}, {"time": 3.0, "variable": "x0", "value": 0.24882519245147705, "is_missing": false}, {"time": 4.0, "variable": "x0", "value": -0.896080732345581, "is_missing": false}, {"time": 5.0, "variable": "x0", "value": 0.773088812828064, "is_missing": false}, {"time": 6.0, "variable": "x0", "value": -0.7895084023475647, "is_missing": true}, {"time": 7.0, "variable": "x0", "value": 1.0766730308532715, "is_missing": true}, {"time": 8.0, "variable": "x0", "value": -0.8416340947151184, "is_missing": false}, {"time": 9.0, "variable": "x0", "value": 1.2696034908294678, "is_missing": false}], "data-22bbb785b4a915c9ffa1250511b6b6f6": [{"time": 0.0, "variable": "x0", "mean": 0.352995902299881, "std": null}, {"time": 2.0, "variable": "x0", "mean": -0.2643048167228699, "std": null}, {"time": 3.0, "variable": "x0", "mean": 0.24882519245147705, "std": null}, {"time": 8.0, "variable": "x0", "mean": -0.8416340947151184, "std": null}, {"time": 9.0, "variable": "x0", "mean": 1.2696034908294678, "std": null}, {"time": 1.0, "variable": "x0", "mean": 0.13031640648841858, "std": 1.0783995389938354}, {"time": 4.0, "variable": "x0", "mean": -0.896080732345581, "std": null}, {"time": 5.0, "variable": "x0", "mean": 0.773088812828064, "std": null}, {"time": 6.0, "variable": "x0", "mean": 0.22222448885440826, "std": 1.107781171798706}, {"time": 7.0, "variable": "x0", "mean": -0.02103264629840851, "std": 1.1063209772109985}], "data-8f2aafb359cb71b6d770947a717d8f17": [{"time": 0.0, "variable": "x1", "value": 0.0132747832685709, "is_missing": false}, {"time": 1.0, "variable": "x1", "value": 0.2488018423318863, "is_missing": false}, {"time": 2.0, "variable": "x1", "value": -0.657964825630188, "is_missing": false}, {"time": 3.0, "variable": "x1", "value": 0.8228557705879211, "is_missing": false}, {"time": 4.0, "variable": "x1", "value": -1.1485517024993896, "is_missing": true}, {"time": 5.0, "variable": "x1", "value": 1.419529676437378, "is_missing": true}, {"time": 6.0, "variable": "x1", "value": -1.4002081155776978, "is_missing": true}, {"time": 7.0, "variable": "x1", "value": 1.8739652633666992, "is_missing": true}, {"time": 8.0, "variable": "x1", "value": -1.945134162902832, "is_missing": false}, {"time": 9.0, "variable": "x1", "value": 2.0742228031158447, "is_missing": false}], "data-4d7c5c8c2841f6b399faa46258f0dcec": [{"time": 0.0, "variable": "x1", "mean": 0.0132747832685709, "std": null}, {"time": 2.0, "variable": "x1", "mean": -0.657964825630188, "std": null}, {"time": 3.0, "variable": "x1", "mean": 0.8228557705879211, "std": null}, {"time": 8.0, "variable": "x1", "mean": -1.945134162902832, "std": null}, {"time": 9.0, "variable": "x1", "mean": 2.0742228031158447, "std": null}, {"time": 1.0, "variable": "x1", "mean": 0.24880185723304749, "std": null}, {"time": 4.0, "variable": "x1", "mean": -0.1992415487766266, "std": 1.8688976764678955}, {"time": 5.0, "variable": "x1", "mean": 0.17954692244529724, "std": 1.8718758821487427}, {"time": 6.0, "variable": "x1", "mean": 0.13846366107463837, "std": 1.9094343185424805}, {"time": 7.0, "variable": "x1", "mean": -0.13254201412200928, "std": 1.9083836078643799}]}}, {"mode": "vega-lite"});
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"hconcat": [{"vconcat": [{"layer": [{"data": {"name": "data-e81d2144f040e9eaee9917835d7e5b22"}, "mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_missing", "legend": {"title": ["Observed data", "(is missing)"]}, "scale": {"range": ["#ffffff00", "black"]}, "type": "nominal"}, "shape": {"field": "is_missing", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}}}, {"layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}, "y2": {"field": "err_high"}}, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}]}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}}, "selection": {"selector002": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "title": "x0"}], "data": {"name": "data-e47889cb36a1ec6a8066b2249e8c02c0"}}]}, {"data": {"name": "data-e81d2144f040e9eaee9917835d7e5b22"}, "mark": {"type": "tick", "color": "black"}, "encoding": {"color": {"condition": {"value": "black", "test": "datum.is_missing"}, "value": "white"}, "x": {"field": "time", "type": "quantitative"}}, "selection": {"selector002": {"type": "interval", "bind": "scales", "encodings": ["x"]}}}], "spacing": -10}, {"vconcat": [{"layer": [{"data": {"name": "data-8f2aafb359cb71b6d770947a717d8f17"}, "mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_missing", "legend": {"title": ["Observed data", "(is missing)"]}, "scale": {"range": ["#ffffff00", "black"]}, "type": "nominal"}, "shape": {"field": "is_missing", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}}}, {"layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}, "y2": {"field": "err_high"}}, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}]}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}}, "selection": {"selector002": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "title": "x1"}], "data": {"name": "data-80e0cfc47cedca606daa420410abae1e"}}]}, {"data": {"name": "data-8f2aafb359cb71b6d770947a717d8f17"}, "mark": {"type": "tick", "color": "black"}, "encoding": {"color": {"condition": {"value": "black", "test": "datum.is_missing"}, "value": "white"}, "x": {"field": "time", "type": "quantitative"}}, "selection": {"selector002": {"type": "interval", "bind": "scales", "encodings": ["x"]}}}], "spacing": -10}]}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}], "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-e81d2144f040e9eaee9917835d7e5b22": [{"time": 0.0, "variable": "x0", "value": 0.352995902299881, "is_missing": false}, {"time": 1.0, "variable": "x0", "value": 0.12700305879116058, "is_missing": true}, {"time": 2.0, "variable": "x0", "value": -0.2643048167228699, "is_missing": false}, {"time": 3.0, "variable": "x0", "value": 0.24882519245147705, "is_missing": false}, {"time": 4.0, "variable": "x0", "value": -0.896080732345581, "is_missing": false}, {"time": 5.0, "variable": "x0", "value": 0.773088812828064, "is_missing": false}, {"time": 6.0, "variable": "x0", "value": -0.7895084023475647, "is_missing": true}, {"time": 7.0, "variable": "x0", "value": 1.0766730308532715, "is_missing": true}, {"time": 8.0, "variable": "x0", "value": -0.8416340947151184, "is_missing": false}, {"time": 9.0, "variable": "x0", "value": 1.2696034908294678, "is_missing": false}], "data-e47889cb36a1ec6a8066b2249e8c02c0": [{"time": 0.0, "variable": "x0", "mean": 0.352995902299881, "std": null}, {"time": 2.0, "variable": "x0", "mean": -0.2643048167228699, "std": null}, {"time": 3.0, "variable": "x0", "mean": 0.24882519245147705, "std": null}, {"time": 8.0, "variable": "x0", "mean": -0.8416340947151184, "std": null}, {"time": 9.0, "variable": "x0", "mean": 1.2696034908294678, "std": null}, {"time": 1.0, "variable": "x0", "mean": 0.13031640648841858, "std": 1.0783995389938354}, {"time": 4.0, "variable": "x0", "mean": -0.896080732345581, "std": 0.0}, {"time": 5.0, "variable": "x0", "mean": 0.773088812828064, "std": 0.0}, {"time": 6.0, "variable": "x0", "mean": 0.22222448885440826, "std": 1.107781171798706}, {"time": 7.0, "variable": "x0", "mean": -0.02103264629840851, "std": 1.1063209772109985}], "data-8f2aafb359cb71b6d770947a717d8f17": [{"time": 0.0, "variable": "x1", "value": 0.0132747832685709, "is_missing": false}, {"time": 1.0, "variable": "x1", "value": 0.2488018423318863, "is_missing": false}, {"time": 2.0, "variable": "x1", "value": -0.657964825630188, "is_missing": false}, {"time": 3.0, "variable": "x1", "value": 0.8228557705879211, "is_missing": false}, {"time": 4.0, "variable": "x1", "value": -1.1485517024993896, "is_missing": true}, {"time": 5.0, "variable": "x1", "value": 1.419529676437378, "is_missing": true}, {"time": 6.0, "variable": "x1", "value": -1.4002081155776978, "is_missing": true}, {"time": 7.0, "variable": "x1", "value": 1.8739652633666992, "is_missing": true}, {"time": 8.0, "variable": "x1", "value": -1.945134162902832, "is_missing": false}, {"time": 9.0, "variable": "x1", "value": 2.0742228031158447, "is_missing": false}], "data-80e0cfc47cedca606daa420410abae1e": [{"time": 0.0, "variable": "x1", "mean": 0.0132747832685709, "std": null}, {"time": 2.0, "variable": "x1", "mean": -0.657964825630188, "std": null}, {"time": 3.0, "variable": "x1", "mean": 0.8228557705879211, "std": null}, {"time": 8.0, "variable": "x1", "mean": -1.945134162902832, "std": null}, {"time": 9.0, "variable": "x1", "mean": 2.0742228031158447, "std": null}, {"time": 1.0, "variable": "x1", "mean": 0.24880185723304749, "std": 0.0}, {"time": 4.0, "variable": "x1", "mean": -0.1992415189743042, "std": 1.8688976764678955}, {"time": 5.0, "variable": "x1", "mean": 0.17954692244529724, "std": 1.8718758821487427}, {"time": 6.0, "variable": "x1", "mean": 0.13846364617347717, "std": 1.9094343185424805}, {"time": 7.0, "variable": "x1", "mean": -0.13254201412200928, "std": 1.9083836078643799}]}}, {"mode": "vega-lite"});
 </script>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>res.plot_pred(bind_interaction<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>res.plot_pred(bind_interaction<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
-<div id="altair-viz-7f63693537f7437b8cde7aece988e954"></div>
+<div id="altair-viz-aff37277cb55492f98d08c000dbf9755"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-7f63693537f7437b8cde7aece988e954") {
-      outputDiv = document.getElementById("altair-viz-7f63693537f7437b8cde7aece988e954");
+    if (outputDiv.id !== "altair-viz-aff37277cb55492f98d08c000dbf9755") {
+      outputDiv = document.getElementById("altair-viz-aff37277cb55492f98d08c000dbf9755");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -965,240 +1020,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         .catch(showError)
         .then(() => displayChart(vegaEmbed));
     }
-  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"hconcat": [{"vconcat": [{"layer": [{"data": {"name": "data-e81d2144f040e9eaee9917835d7e5b22"}, "mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_missing", "legend": {"title": ["Observed data", "(is missing)"]}, "scale": {"range": ["#ffffff00", "black"]}, "type": "nominal"}, "shape": {"field": "is_missing", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}}}, {"layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}, "y2": {"field": "err_high"}}, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}]}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}}, "selection": {"selector003": {"type": "interval", "bind": "scales"}}, "title": "x0"}], "data": {"name": "data-22bbb785b4a915c9ffa1250511b6b6f6"}}]}, {"data": {"name": "data-e81d2144f040e9eaee9917835d7e5b22"}, "mark": {"type": "tick", "color": "black"}, "encoding": {"color": {"condition": {"value": "black", "test": "datum.is_missing"}, "value": "white"}, "x": {"field": "time", "type": "quantitative"}}, "selection": {"selector003": {"type": "interval", "bind": "scales"}}}], "spacing": -10}, {"vconcat": [{"layer": [{"data": {"name": "data-8f2aafb359cb71b6d770947a717d8f17"}, "mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_missing", "legend": {"title": ["Observed data", "(is missing)"]}, "scale": {"range": ["#ffffff00", "black"]}, "type": "nominal"}, "shape": {"field": "is_missing", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}}}, {"layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}, "y2": {"field": "err_high"}}, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}]}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}}, "selection": {"selector004": {"type": "interval", "bind": "scales"}}, "title": "x1"}], "data": {"name": "data-4d7c5c8c2841f6b399faa46258f0dcec"}}]}, {"data": {"name": "data-8f2aafb359cb71b6d770947a717d8f17"}, "mark": {"type": "tick", "color": "black"}, "encoding": {"color": {"condition": {"value": "black", "test": "datum.is_missing"}, "value": "white"}, "x": {"field": "time", "type": "quantitative"}}, "selection": {"selector004": {"type": "interval", "bind": "scales"}}}], "spacing": -10}]}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}], "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-e81d2144f040e9eaee9917835d7e5b22": [{"time": 0.0, "variable": "x0", "value": 0.352995902299881, "is_missing": false}, {"time": 1.0, "variable": "x0", "value": 0.12700305879116058, "is_missing": true}, {"time": 2.0, "variable": "x0", "value": -0.2643048167228699, "is_missing": false}, {"time": 3.0, "variable": "x0", "value": 0.24882519245147705, "is_missing": false}, {"time": 4.0, "variable": "x0", "value": -0.896080732345581, "is_missing": false}, {"time": 5.0, "variable": "x0", "value": 0.773088812828064, "is_missing": false}, {"time": 6.0, "variable": "x0", "value": -0.7895084023475647, "is_missing": true}, {"time": 7.0, "variable": "x0", "value": 1.0766730308532715, "is_missing": true}, {"time": 8.0, "variable": "x0", "value": -0.8416340947151184, "is_missing": false}, {"time": 9.0, "variable": "x0", "value": 1.2696034908294678, "is_missing": false}], "data-22bbb785b4a915c9ffa1250511b6b6f6": [{"time": 0.0, "variable": "x0", "mean": 0.352995902299881, "std": null}, {"time": 2.0, "variable": "x0", "mean": -0.2643048167228699, "std": null}, {"time": 3.0, "variable": "x0", "mean": 0.24882519245147705, "std": null}, {"time": 8.0, "variable": "x0", "mean": -0.8416340947151184, "std": null}, {"time": 9.0, "variable": "x0", "mean": 1.2696034908294678, "std": null}, {"time": 1.0, "variable": "x0", "mean": 0.13031640648841858, "std": 1.0783995389938354}, {"time": 4.0, "variable": "x0", "mean": -0.896080732345581, "std": null}, {"time": 5.0, "variable": "x0", "mean": 0.773088812828064, "std": null}, {"time": 6.0, "variable": "x0", "mean": 0.22222448885440826, "std": 1.107781171798706}, {"time": 7.0, "variable": "x0", "mean": -0.02103264629840851, "std": 1.1063209772109985}], "data-8f2aafb359cb71b6d770947a717d8f17": [{"time": 0.0, "variable": "x1", "value": 0.0132747832685709, "is_missing": false}, {"time": 1.0, "variable": "x1", "value": 0.2488018423318863, "is_missing": false}, {"time": 2.0, "variable": "x1", "value": -0.657964825630188, "is_missing": false}, {"time": 3.0, "variable": "x1", "value": 0.8228557705879211, "is_missing": false}, {"time": 4.0, "variable": "x1", "value": -1.1485517024993896, "is_missing": true}, {"time": 5.0, "variable": "x1", "value": 1.419529676437378, "is_missing": true}, {"time": 6.0, "variable": "x1", "value": -1.4002081155776978, "is_missing": true}, {"time": 7.0, "variable": "x1", "value": 1.8739652633666992, "is_missing": true}, {"time": 8.0, "variable": "x1", "value": -1.945134162902832, "is_missing": false}, {"time": 9.0, "variable": "x1", "value": 2.0742228031158447, "is_missing": false}], "data-4d7c5c8c2841f6b399faa46258f0dcec": [{"time": 0.0, "variable": "x1", "mean": 0.0132747832685709, "std": null}, {"time": 2.0, "variable": "x1", "mean": -0.657964825630188, "std": null}, {"time": 3.0, "variable": "x1", "mean": 0.8228557705879211, "std": null}, {"time": 8.0, "variable": "x1", "mean": -1.945134162902832, "std": null}, {"time": 9.0, "variable": "x1", "mean": 2.0742228031158447, "std": null}, {"time": 1.0, "variable": "x1", "mean": 0.24880185723304749, "std": null}, {"time": 4.0, "variable": "x1", "mean": -0.1992415487766266, "std": 1.8688976764678955}, {"time": 5.0, "variable": "x1", "mean": 0.17954692244529724, "std": 1.8718758821487427}, {"time": 6.0, "variable": "x1", "mean": 0.13846366107463837, "std": 1.9094343185424805}, {"time": 7.0, "variable": "x1", "mean": -0.13254201412200928, "std": 1.9083836078643799}]}}, {"mode": "vega-lite"});
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"hconcat": [{"vconcat": [{"layer": [{"data": {"name": "data-e81d2144f040e9eaee9917835d7e5b22"}, "mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_missing", "legend": {"title": ["Observed data", "(is missing)"]}, "scale": {"range": ["#ffffff00", "black"]}, "type": "nominal"}, "shape": {"field": "is_missing", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}}}, {"layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}, "y2": {"field": "err_high"}}, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}]}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}}, "selection": {"selector003": {"type": "interval", "bind": "scales"}}, "title": "x0"}], "data": {"name": "data-e47889cb36a1ec6a8066b2249e8c02c0"}}]}, {"data": {"name": "data-e81d2144f040e9eaee9917835d7e5b22"}, "mark": {"type": "tick", "color": "black"}, "encoding": {"color": {"condition": {"value": "black", "test": "datum.is_missing"}, "value": "white"}, "x": {"field": "time", "type": "quantitative"}}, "selection": {"selector003": {"type": "interval", "bind": "scales"}}}], "spacing": -10}, {"vconcat": [{"layer": [{"data": {"name": "data-8f2aafb359cb71b6d770947a717d8f17"}, "mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_missing", "legend": {"title": ["Observed data", "(is missing)"]}, "scale": {"range": ["#ffffff00", "black"]}, "type": "nominal"}, "shape": {"field": "is_missing", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}}}, {"layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}, "y2": {"field": "err_high"}}, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}]}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}}, "selection": {"selector004": {"type": "interval", "bind": "scales"}}, "title": "x1"}], "data": {"name": "data-80e0cfc47cedca606daa420410abae1e"}}]}, {"data": {"name": "data-8f2aafb359cb71b6d770947a717d8f17"}, "mark": {"type": "tick", "color": "black"}, "encoding": {"color": {"condition": {"value": "black", "test": "datum.is_missing"}, "value": "white"}, "x": {"field": "time", "type": "quantitative"}}, "selection": {"selector004": {"type": "interval", "bind": "scales"}}}], "spacing": -10}]}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}], "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-e81d2144f040e9eaee9917835d7e5b22": [{"time": 0.0, "variable": "x0", "value": 0.352995902299881, "is_missing": false}, {"time": 1.0, "variable": "x0", "value": 0.12700305879116058, "is_missing": true}, {"time": 2.0, "variable": "x0", "value": -0.2643048167228699, "is_missing": false}, {"time": 3.0, "variable": "x0", "value": 0.24882519245147705, "is_missing": false}, {"time": 4.0, "variable": "x0", "value": -0.896080732345581, "is_missing": false}, {"time": 5.0, "variable": "x0", "value": 0.773088812828064, "is_missing": false}, {"time": 6.0, "variable": "x0", "value": -0.7895084023475647, "is_missing": true}, {"time": 7.0, "variable": "x0", "value": 1.0766730308532715, "is_missing": true}, {"time": 8.0, "variable": "x0", "value": -0.8416340947151184, "is_missing": false}, {"time": 9.0, "variable": "x0", "value": 1.2696034908294678, "is_missing": false}], "data-e47889cb36a1ec6a8066b2249e8c02c0": [{"time": 0.0, "variable": "x0", "mean": 0.352995902299881, "std": null}, {"time": 2.0, "variable": "x0", "mean": -0.2643048167228699, "std": null}, {"time": 3.0, "variable": "x0", "mean": 0.24882519245147705, "std": null}, {"time": 8.0, "variable": "x0", "mean": -0.8416340947151184, "std": null}, {"time": 9.0, "variable": "x0", "mean": 1.2696034908294678, "std": null}, {"time": 1.0, "variable": "x0", "mean": 0.13031640648841858, "std": 1.0783995389938354}, {"time": 4.0, "variable": "x0", "mean": -0.896080732345581, "std": 0.0}, {"time": 5.0, "variable": "x0", "mean": 0.773088812828064, "std": 0.0}, {"time": 6.0, "variable": "x0", "mean": 0.22222448885440826, "std": 1.107781171798706}, {"time": 7.0, "variable": "x0", "mean": -0.02103264629840851, "std": 1.1063209772109985}], "data-8f2aafb359cb71b6d770947a717d8f17": [{"time": 0.0, "variable": "x1", "value": 0.0132747832685709, "is_missing": false}, {"time": 1.0, "variable": "x1", "value": 0.2488018423318863, "is_missing": false}, {"time": 2.0, "variable": "x1", "value": -0.657964825630188, "is_missing": false}, {"time": 3.0, "variable": "x1", "value": 0.8228557705879211, "is_missing": false}, {"time": 4.0, "variable": "x1", "value": -1.1485517024993896, "is_missing": true}, {"time": 5.0, "variable": "x1", "value": 1.419529676437378, "is_missing": true}, {"time": 6.0, "variable": "x1", "value": -1.4002081155776978, "is_missing": true}, {"time": 7.0, "variable": "x1", "value": 1.8739652633666992, "is_missing": true}, {"time": 8.0, "variable": "x1", "value": -1.945134162902832, "is_missing": false}, {"time": 9.0, "variable": "x1", "value": 2.0742228031158447, "is_missing": false}], "data-80e0cfc47cedca606daa420410abae1e": [{"time": 0.0, "variable": "x1", "mean": 0.0132747832685709, "std": null}, {"time": 2.0, "variable": "x1", "mean": -0.657964825630188, "std": null}, {"time": 3.0, "variable": "x1", "mean": 0.8228557705879211, "std": null}, {"time": 8.0, "variable": "x1", "mean": -1.945134162902832, "std": null}, {"time": 9.0, "variable": "x1", "mean": 2.0742228031158447, "std": null}, {"time": 1.0, "variable": "x1", "mean": 0.24880185723304749, "std": 0.0}, {"time": 4.0, "variable": "x1", "mean": -0.1992415189743042, "std": 1.8688976764678955}, {"time": 5.0, "variable": "x1", "mean": 0.17954692244529724, "std": 1.8718758821487427}, {"time": 6.0, "variable": "x1", "mean": 0.13846364617347717, "std": 1.9094343185424805}, {"time": 7.0, "variable": "x1", "mean": -0.13254201412200928, "std": 1.9083836078643799}]}}, {"mode": "vega-lite"});
 </script>
 </div>
 </div>
-<pre><code>The code is running correctly and as expected around the missing data point the error is band is wider</code></pre>
+<p>The code is running correctly and as expected around the missing data point the error is band is wider</p>
 </section>
 <section id="display-results" class="level3">
 <h3 class="anchored" data-anchor-id="display-results">Display results</h3>
 <p>show the prediction plot, metrics and model parameters in one convinient view</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> HTML(pd.DataFrame([<span class="dv">1</span>,<span class="dv">2</span>]).to_html(notebook<span class="op">=</span><span class="va">True</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>_display_as_row({<span class="st">"test"</span>: pd.DataFrame([<span class="dv">1</span>,<span class="dv">2</span>])}, <span class="st">"hello"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-
-<p style="font-size: 1.5rem; font-decoration: bold">hello</p><p></p><div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div> <p style="font-size: 1.3rem;">test</p> <style type="text/css">
-</style>
-<table id="T_04d47">
-  <thead>
-    <tr>
-      <th id="T_04d47_level0_col0" class="col_heading level0 col0">0</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_04d47_row0_col0" class="data row0 col0">1</td>
-    </tr>
-    <tr>
-      <td id="T_04d47_row1_col0" class="data row1 col0">2</td>
-    </tr>
-  </tbody>
-</table>
- </div></div>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>_display_as_row({<span class="ss">f"test</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>: pd.DataFrame([<span class="dv">1</span>,<span class="dv">2</span>]) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>)})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-
-<p style="font-size: 1.5rem; font-decoration: bold"></p><p></p><div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div> <p style="font-size: 1.3rem;">test0</p> <style type="text/css">
-</style>
-<table id="T_938af">
-  <thead>
-    <tr>
-      <th id="T_938af_level0_col0" class="col_heading level0 col0">0</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_938af_row0_col0" class="data row0 col0">1</td>
-    </tr>
-    <tr>
-      <td id="T_938af_row1_col0" class="data row1 col0">2</td>
-    </tr>
-  </tbody>
-</table>
- </div><div> <p style="font-size: 1.3rem;">test1</p> <style type="text/css">
-</style>
-<table id="T_429a2">
-  <thead>
-    <tr>
-      <th id="T_429a2_level0_col0" class="col_heading level0 col0">0</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_429a2_row0_col0" class="data row0 col0">1</td>
-    </tr>
-    <tr>
-      <td id="T_429a2_row1_col0" class="data row1 col0">2</td>
-    </tr>
-  </tbody>
-</table>
- </div><div> <p style="font-size: 1.3rem;">test2</p> <style type="text/css">
-</style>
-<table id="T_208db">
-  <thead>
-    <tr>
-      <th id="T_208db_level0_col0" class="col_heading level0 col0">0</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_208db_row0_col0" class="data row0 col0">1</td>
-    </tr>
-    <tr>
-      <td id="T_208db_row1_col0" class="data row1 col0">2</td>
-    </tr>
-  </tbody>
-</table>
- </div><div> <p style="font-size: 1.3rem;">test3</p> <style type="text/css">
-</style>
-<table id="T_72ca5">
-  <thead>
-    <tr>
-      <th id="T_72ca5_level0_col0" class="col_heading level0 col0">0</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_72ca5_row0_col0" class="data row0 col0">1</td>
-    </tr>
-    <tr>
-      <td id="T_72ca5_row1_col0" class="data row1 col0">2</td>
-    </tr>
-  </tbody>
-</table>
- </div><div> <p style="font-size: 1.3rem;">test4</p> <style type="text/css">
-</style>
-<table id="T_a2699">
-  <thead>
-    <tr>
-      <th id="T_a2699_level0_col0" class="col_heading level0 col0">0</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_a2699_row0_col0" class="data row0 col0">1</td>
-    </tr>
-    <tr>
-      <td id="T_a2699_row1_col0" class="data row1 col0">2</td>
-    </tr>
-  </tbody>
-</table>
- </div><div> <p style="font-size: 1.3rem;">test5</p> <style type="text/css">
-</style>
-<table id="T_479c2">
-  <thead>
-    <tr>
-      <th id="T_479c2_level0_col0" class="col_heading level0 col0">0</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_479c2_row0_col0" class="data row0 col0">1</td>
-    </tr>
-    <tr>
-      <td id="T_479c2_row1_col0" class="data row1 col0">2</td>
-    </tr>
-  </tbody>
-</table>
- </div><div> <p style="font-size: 1.3rem;">test6</p> <style type="text/css">
-</style>
-<table id="T_81587">
-  <thead>
-    <tr>
-      <th id="T_81587_level0_col0" class="col_heading level0 col0">0</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_81587_row0_col0" class="data row0 col0">1</td>
-    </tr>
-    <tr>
-      <td id="T_81587_row1_col0" class="data row1 col0">2</td>
-    </tr>
-  </tbody>
-</table>
- </div><div> <p style="font-size: 1.3rem;">test7</p> <style type="text/css">
-</style>
-<table id="T_62e8d">
-  <thead>
-    <tr>
-      <th id="T_62e8d_level0_col0" class="col_heading level0 col0">0</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_62e8d_row0_col0" class="data row0 col0">1</td>
-    </tr>
-    <tr>
-      <td id="T_62e8d_row1_col0" class="data row1 col0">2</td>
-    </tr>
-  </tbody>
-</table>
- </div><div> <p style="font-size: 1.3rem;">test8</p> <style type="text/css">
-</style>
-<table id="T_bd1e3">
-  <thead>
-    <tr>
-      <th id="T_bd1e3_level0_col0" class="col_heading level0 col0">0</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_bd1e3_row0_col0" class="data row0 col0">1</td>
-    </tr>
-    <tr>
-      <td id="T_bd1e3_row1_col0" class="data row1 col0">2</td>
-    </tr>
-  </tbody>
-</table>
- </div><div> <p style="font-size: 1.3rem;">test9</p> <style type="text/css">
-</style>
-<table id="T_8bfd7">
-  <thead>
-    <tr>
-      <th id="T_8bfd7_level0_col0" class="col_heading level0 col0">0</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_8bfd7_row0_col0" class="data row0 col0">1</td>
-    </tr>
-    <tr>
-      <td id="T_8bfd7_row1_col0" class="data row1 col0">2</td>
-    </tr>
-  </tbody>
-</table>
- </div></div>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span> </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> display_results(<span class="va">self</span>: GPFAResult, plot_args<span class="op">=</span>{}):</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    plot_args <span class="op">=</span> {<span class="st">'properties'</span>: {<span class="st">'height'</span>: <span class="dv">200</span> , <span class="st">'width'</span>: <span class="dv">350</span>}, <span class="op">**</span>plot_args} <span class="co"># set default plot size</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    plot <span class="op">=</span> <span class="va">self</span>.plot_pred(<span class="op">**</span>plot_args)</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    display(plot)    </span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    _display_as_row(<span class="va">self</span>.print_metrics(), <span class="st">"Metrics"</span>)</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    _display_as_row(<span class="va">self</span>.model_info, <span class="st">"Model Info"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> display_results(<span class="va">self</span>: ImputationResult, plot_args<span class="op">=</span>{}):</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    plot_args <span class="op">=</span> {<span class="st">'properties'</span>: {<span class="st">'height'</span>: <span class="dv">200</span> , <span class="st">'width'</span>: <span class="dv">350</span>}, <span class="op">**</span>plot_args} <span class="co"># set default plot size</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    plot <span class="op">=</span> <span class="va">self</span>.plot_pred(<span class="op">**</span>plot_args)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    display(plot)    </span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    display_as_row(<span class="va">self</span>.print_metrics(), <span class="st">"Metrics"</span>)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    display_as_row(<span class="va">self</span>.model_info, <span class="st">"Model Info"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/results.py#L212" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/results.py#L205" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
-<section id="gpfaresult.display_results" class="level3">
-<h3 class="anchored" data-anchor-id="gpfaresult.display_results">GPFAResult.display_results</h3>
+<section id="imputationresult.display_results" class="level3">
+<h3 class="anchored" data-anchor-id="imputationresult.display_results">ImputationResult.display_results</h3>
 <blockquote class="blockquote">
-<pre><code> GPFAResult.display_results (plot_args={})</code></pre>
+<pre><code> ImputationResult.display_results (plot_args={})</code></pre>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>res.model_info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>res.model_info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>{'Lambda':   variable        z0
  0       x0  0.796563
@@ -1213,20 +1064,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>res.display_results()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>res.display_results()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/simone/.local/lib/python3.10/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
   for col_name, dtype in df.dtypes.iteritems():</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 
-<div id="altair-viz-6b93420643574e758e95c1e35fb3d233"></div>
+<div id="altair-viz-56f7467415864356b5a8c96b28d2b847"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-6b93420643574e758e95c1e35fb3d233") {
-      outputDiv = document.getElementById("altair-viz-6b93420643574e758e95c1e35fb3d233");
+    if (outputDiv.id !== "altair-viz-56f7467415864356b5a8c96b28d2b847") {
+      outputDiv = document.getElementById("altair-viz-56f7467415864356b5a8c96b28d2b847");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -1272,51 +1123,94 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         .catch(showError)
         .then(() => displayChart(vegaEmbed));
     }
-  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"hconcat": [{"vconcat": [{"layer": [{"data": {"name": "data-e81d2144f040e9eaee9917835d7e5b22"}, "mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_missing", "legend": {"title": ["Observed data", "(is missing)"]}, "scale": {"range": ["#ffffff00", "black"]}, "type": "nominal"}, "shape": {"field": "is_missing", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}}}, {"layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}, "y2": {"field": "err_high"}}, "height": 200, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}], "width": 350}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}}, "selection": {"selector005": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "title": "x0"}], "data": {"name": "data-22bbb785b4a915c9ffa1250511b6b6f6"}}]}, {"data": {"name": "data-e81d2144f040e9eaee9917835d7e5b22"}, "mark": {"type": "tick", "color": "black"}, "encoding": {"color": {"condition": {"value": "black", "test": "datum.is_missing"}, "value": "white"}, "x": {"field": "time", "type": "quantitative"}}, "selection": {"selector005": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "width": 350}], "spacing": -10}, {"vconcat": [{"layer": [{"data": {"name": "data-8f2aafb359cb71b6d770947a717d8f17"}, "mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_missing", "legend": {"title": ["Observed data", "(is missing)"]}, "scale": {"range": ["#ffffff00", "black"]}, "type": "nominal"}, "shape": {"field": "is_missing", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}}}, {"layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}, "y2": {"field": "err_high"}}, "height": 200, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}], "width": 350}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}}, "selection": {"selector005": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "title": "x1"}], "data": {"name": "data-4d7c5c8c2841f6b399faa46258f0dcec"}}]}, {"data": {"name": "data-8f2aafb359cb71b6d770947a717d8f17"}, "mark": {"type": "tick", "color": "black"}, "encoding": {"color": {"condition": {"value": "black", "test": "datum.is_missing"}, "value": "white"}, "x": {"field": "time", "type": "quantitative"}}, "selection": {"selector005": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "width": 350}], "spacing": -10}]}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}], "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-e81d2144f040e9eaee9917835d7e5b22": [{"time": 0.0, "variable": "x0", "value": 0.352995902299881, "is_missing": false}, {"time": 1.0, "variable": "x0", "value": 0.12700305879116058, "is_missing": true}, {"time": 2.0, "variable": "x0", "value": -0.2643048167228699, "is_missing": false}, {"time": 3.0, "variable": "x0", "value": 0.24882519245147705, "is_missing": false}, {"time": 4.0, "variable": "x0", "value": -0.896080732345581, "is_missing": false}, {"time": 5.0, "variable": "x0", "value": 0.773088812828064, "is_missing": false}, {"time": 6.0, "variable": "x0", "value": -0.7895084023475647, "is_missing": true}, {"time": 7.0, "variable": "x0", "value": 1.0766730308532715, "is_missing": true}, {"time": 8.0, "variable": "x0", "value": -0.8416340947151184, "is_missing": false}, {"time": 9.0, "variable": "x0", "value": 1.2696034908294678, "is_missing": false}], "data-22bbb785b4a915c9ffa1250511b6b6f6": [{"time": 0.0, "variable": "x0", "mean": 0.352995902299881, "std": null}, {"time": 2.0, "variable": "x0", "mean": -0.2643048167228699, "std": null}, {"time": 3.0, "variable": "x0", "mean": 0.24882519245147705, "std": null}, {"time": 8.0, "variable": "x0", "mean": -0.8416340947151184, "std": null}, {"time": 9.0, "variable": "x0", "mean": 1.2696034908294678, "std": null}, {"time": 1.0, "variable": "x0", "mean": 0.13031640648841858, "std": 1.0783995389938354}, {"time": 4.0, "variable": "x0", "mean": -0.896080732345581, "std": null}, {"time": 5.0, "variable": "x0", "mean": 0.773088812828064, "std": null}, {"time": 6.0, "variable": "x0", "mean": 0.22222448885440826, "std": 1.107781171798706}, {"time": 7.0, "variable": "x0", "mean": -0.02103264629840851, "std": 1.1063209772109985}], "data-8f2aafb359cb71b6d770947a717d8f17": [{"time": 0.0, "variable": "x1", "value": 0.0132747832685709, "is_missing": false}, {"time": 1.0, "variable": "x1", "value": 0.2488018423318863, "is_missing": false}, {"time": 2.0, "variable": "x1", "value": -0.657964825630188, "is_missing": false}, {"time": 3.0, "variable": "x1", "value": 0.8228557705879211, "is_missing": false}, {"time": 4.0, "variable": "x1", "value": -1.1485517024993896, "is_missing": true}, {"time": 5.0, "variable": "x1", "value": 1.419529676437378, "is_missing": true}, {"time": 6.0, "variable": "x1", "value": -1.4002081155776978, "is_missing": true}, {"time": 7.0, "variable": "x1", "value": 1.8739652633666992, "is_missing": true}, {"time": 8.0, "variable": "x1", "value": -1.945134162902832, "is_missing": false}, {"time": 9.0, "variable": "x1", "value": 2.0742228031158447, "is_missing": false}], "data-4d7c5c8c2841f6b399faa46258f0dcec": [{"time": 0.0, "variable": "x1", "mean": 0.0132747832685709, "std": null}, {"time": 2.0, "variable": "x1", "mean": -0.657964825630188, "std": null}, {"time": 3.0, "variable": "x1", "mean": 0.8228557705879211, "std": null}, {"time": 8.0, "variable": "x1", "mean": -1.945134162902832, "std": null}, {"time": 9.0, "variable": "x1", "mean": 2.0742228031158447, "std": null}, {"time": 1.0, "variable": "x1", "mean": 0.24880185723304749, "std": null}, {"time": 4.0, "variable": "x1", "mean": -0.1992415487766266, "std": 1.8688976764678955}, {"time": 5.0, "variable": "x1", "mean": 0.17954692244529724, "std": 1.8718758821487427}, {"time": 6.0, "variable": "x1", "mean": 0.13846366107463837, "std": 1.9094343185424805}, {"time": 7.0, "variable": "x1", "mean": -0.13254201412200928, "std": 1.9083836078643799}]}}, {"mode": "vega-lite"});
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"hconcat": [{"vconcat": [{"layer": [{"data": {"name": "data-e81d2144f040e9eaee9917835d7e5b22"}, "mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_missing", "legend": {"title": ["Observed data", "(is missing)"]}, "scale": {"range": ["#ffffff00", "black"]}, "type": "nominal"}, "shape": {"field": "is_missing", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}}}, {"layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}, "y2": {"field": "err_high"}}, "height": 200, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}], "width": 350}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "x0 [x0 units]", "type": "quantitative"}}, "selection": {"selector005": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "title": "x0"}], "data": {"name": "data-e47889cb36a1ec6a8066b2249e8c02c0"}}]}, {"data": {"name": "data-e81d2144f040e9eaee9917835d7e5b22"}, "mark": {"type": "tick", "color": "black"}, "encoding": {"color": {"condition": {"value": "black", "test": "datum.is_missing"}, "value": "white"}, "x": {"field": "time", "type": "quantitative"}}, "selection": {"selector005": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "width": 350}], "spacing": -10}, {"vconcat": [{"layer": [{"data": {"name": "data-8f2aafb359cb71b6d770947a717d8f17"}, "mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_missing", "legend": {"title": ["Observed data", "(is missing)"]}, "scale": {"range": ["#ffffff00", "black"]}, "type": "nominal"}, "shape": {"field": "is_missing", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false, "title": null}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}}}, {"layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std", "(variable)"]}, "type": "nominal"}, "tooltip": [{"field": "std", "format": ".4", "type": "quantitative"}, {"field": "mean", "format": ".4", "type": "quantitative"}], "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}, "y2": {"field": "err_high"}}, "height": 200, "transform": [{"calculate": "datum.mean - 2 * datum.std", "as": "err_low"}, {"calculate": "datum.mean + 2 * datum.std", "as": "err_high"}], "width": 350}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "x1 [x1 unitssss]", "type": "quantitative"}}, "selection": {"selector005": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "title": "x1"}], "data": {"name": "data-80e0cfc47cedca606daa420410abae1e"}}]}, {"data": {"name": "data-8f2aafb359cb71b6d770947a717d8f17"}, "mark": {"type": "tick", "color": "black"}, "encoding": {"color": {"condition": {"value": "black", "test": "datum.is_missing"}, "value": "white"}, "x": {"field": "time", "type": "quantitative"}}, "selection": {"selector005": {"type": "interval", "bind": "scales", "encodings": ["x"]}}, "width": 350}], "spacing": -10}]}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}, {"hconcat": []}], "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-e81d2144f040e9eaee9917835d7e5b22": [{"time": 0.0, "variable": "x0", "value": 0.352995902299881, "is_missing": false}, {"time": 1.0, "variable": "x0", "value": 0.12700305879116058, "is_missing": true}, {"time": 2.0, "variable": "x0", "value": -0.2643048167228699, "is_missing": false}, {"time": 3.0, "variable": "x0", "value": 0.24882519245147705, "is_missing": false}, {"time": 4.0, "variable": "x0", "value": -0.896080732345581, "is_missing": false}, {"time": 5.0, "variable": "x0", "value": 0.773088812828064, "is_missing": false}, {"time": 6.0, "variable": "x0", "value": -0.7895084023475647, "is_missing": true}, {"time": 7.0, "variable": "x0", "value": 1.0766730308532715, "is_missing": true}, {"time": 8.0, "variable": "x0", "value": -0.8416340947151184, "is_missing": false}, {"time": 9.0, "variable": "x0", "value": 1.2696034908294678, "is_missing": false}], "data-e47889cb36a1ec6a8066b2249e8c02c0": [{"time": 0.0, "variable": "x0", "mean": 0.352995902299881, "std": null}, {"time": 2.0, "variable": "x0", "mean": -0.2643048167228699, "std": null}, {"time": 3.0, "variable": "x0", "mean": 0.24882519245147705, "std": null}, {"time": 8.0, "variable": "x0", "mean": -0.8416340947151184, "std": null}, {"time": 9.0, "variable": "x0", "mean": 1.2696034908294678, "std": null}, {"time": 1.0, "variable": "x0", "mean": 0.13031640648841858, "std": 1.0783995389938354}, {"time": 4.0, "variable": "x0", "mean": -0.896080732345581, "std": 0.0}, {"time": 5.0, "variable": "x0", "mean": 0.773088812828064, "std": 0.0}, {"time": 6.0, "variable": "x0", "mean": 0.22222448885440826, "std": 1.107781171798706}, {"time": 7.0, "variable": "x0", "mean": -0.02103264629840851, "std": 1.1063209772109985}], "data-8f2aafb359cb71b6d770947a717d8f17": [{"time": 0.0, "variable": "x1", "value": 0.0132747832685709, "is_missing": false}, {"time": 1.0, "variable": "x1", "value": 0.2488018423318863, "is_missing": false}, {"time": 2.0, "variable": "x1", "value": -0.657964825630188, "is_missing": false}, {"time": 3.0, "variable": "x1", "value": 0.8228557705879211, "is_missing": false}, {"time": 4.0, "variable": "x1", "value": -1.1485517024993896, "is_missing": true}, {"time": 5.0, "variable": "x1", "value": 1.419529676437378, "is_missing": true}, {"time": 6.0, "variable": "x1", "value": -1.4002081155776978, "is_missing": true}, {"time": 7.0, "variable": "x1", "value": 1.8739652633666992, "is_missing": true}, {"time": 8.0, "variable": "x1", "value": -1.945134162902832, "is_missing": false}, {"time": 9.0, "variable": "x1", "value": 2.0742228031158447, "is_missing": false}], "data-80e0cfc47cedca606daa420410abae1e": [{"time": 0.0, "variable": "x1", "mean": 0.0132747832685709, "std": null}, {"time": 2.0, "variable": "x1", "mean": -0.657964825630188, "std": null}, {"time": 3.0, "variable": "x1", "mean": 0.8228557705879211, "std": null}, {"time": 8.0, "variable": "x1", "mean": -1.945134162902832, "std": null}, {"time": 9.0, "variable": "x1", "mean": 2.0742228031158447, "std": null}, {"time": 1.0, "variable": "x1", "mean": 0.24880185723304749, "std": 0.0}, {"time": 4.0, "variable": "x1", "mean": -0.1992415189743042, "std": 1.8688976764678955}, {"time": 5.0, "variable": "x1", "mean": 0.17954692244529724, "std": 1.8718758821487427}, {"time": 6.0, "variable": "x1", "mean": 0.13846364617347717, "std": 1.9094343185424805}, {"time": 7.0, "variable": "x1", "mean": -0.13254201412200928, "std": 1.9083836078643799}]}}, {"mode": "vega-lite"});
 </script>
 </div>
 <div class="cell-output cell-output-display">
 
 <p style="font-size: 1.5rem; font-decoration: bold">Metrics</p><p></p><div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div> <p style="font-size: 1.3rem;">r2</p> <style type="text/css">
 </style>
-<table id="T_db991">
+<table id="T_6416c">
   <thead>
     <tr>
-      <th id="T_db991_level0_col0" class="col_heading level0 col0">variable</th>
-      <th id="T_db991_level0_col1" class="col_heading level0 col1">r2</th>
+      <th id="T_6416c_level0_col0" class="col_heading level0 col0">variable</th>
+      <th id="T_6416c_level0_col1" class="col_heading level0 col1">r2</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td id="T_db991_row0_col0" class="data row0 col0">x0</td>
-      <td id="T_db991_row0_col1" class="data row0 col1">-0.2797</td>
+      <td id="T_6416c_row0_col0" class="data row0 col0">x0</td>
+      <td id="T_6416c_row0_col1" class="data row0 col1">0.6066</td>
     </tr>
     <tr>
-      <td id="T_db991_row1_col0" class="data row1 col0">x1</td>
-      <td id="T_db991_row1_col1" class="data row1 col1">-0.0190</td>
+      <td id="T_6416c_row1_col0" class="data row1 col0">x1</td>
+      <td id="T_6416c_row1_col1" class="data row1 col1">0.5064</td>
     </tr>
   </tbody>
 </table>
  </div><div> <p style="font-size: 1.3rem;">RMSE</p> <style type="text/css">
 </style>
-<table id="T_c2358">
+<table id="T_c4d3e">
   <thead>
     <tr>
-      <th id="T_c2358_level0_col0" class="col_heading level0 col0">variable</th>
-      <th id="T_c2358_level0_col1" class="col_heading level0 col1">rmse</th>
-      <th id="T_c2358_level0_col2" class="col_heading level0 col2">units</th>
+      <th id="T_c4d3e_level0_col0" class="col_heading level0 col0">variable</th>
+      <th id="T_c4d3e_level0_col1" class="col_heading level0 col1">rmse</th>
+      <th id="T_c4d3e_level0_col2" class="col_heading level0 col2">units</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td id="T_c2358_row0_col0" class="data row0 col0">x0</td>
-      <td id="T_c2358_row0_col1" class="data row0 col1">0.8619</td>
-      <td id="T_c2358_row0_col2" class="data row0 col2">x0 units</td>
+      <td id="T_c4d3e_row0_col0" class="data row0 col0">x0</td>
+      <td id="T_c4d3e_row0_col1" class="data row0 col1">0.4721</td>
+      <td id="T_c4d3e_row0_col2" class="data row0 col2">x0 units</td>
     </tr>
     <tr>
-      <td id="T_c2358_row1_col0" class="data row1 col0">x1</td>
-      <td id="T_c2358_row1_col1" class="data row1 col1">1.4860</td>
-      <td id="T_c2358_row1_col2" class="data row1 col2">x1 unitssss</td>
+      <td id="T_c4d3e_row1_col0" class="data row1 col0">x1</td>
+      <td id="T_c4d3e_row1_col1" class="data row1 col1">0.9398</td>
+      <td id="T_c4d3e_row1_col2" class="data row1 col2">x1 unitssss</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">r2 - Only GAP</p> <style type="text/css">
+</style>
+<table id="T_2c052">
+  <thead>
+    <tr>
+      <th id="T_2c052_level0_col0" class="col_heading level0 col0">variable</th>
+      <th id="T_2c052_level0_col1" class="col_heading level0 col1">r2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_2c052_row0_col0" class="data row0 col0">x0</td>
+      <td id="T_2c052_row0_col1" class="data row0 col1">-0.2797</td>
+    </tr>
+    <tr>
+      <td id="T_2c052_row1_col0" class="data row1 col0">x1</td>
+      <td id="T_2c052_row1_col1" class="data row1 col1">-0.0190</td>
+    </tr>
+  </tbody>
+</table>
+ </div><div> <p style="font-size: 1.3rem;">RMSE - Only GAP</p> <style type="text/css">
+</style>
+<table id="T_5f98d">
+  <thead>
+    <tr>
+      <th id="T_5f98d_level0_col0" class="col_heading level0 col0">variable</th>
+      <th id="T_5f98d_level0_col1" class="col_heading level0 col1">rmse</th>
+      <th id="T_5f98d_level0_col2" class="col_heading level0 col2">units</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_5f98d_row0_col0" class="data row0 col0">x0</td>
+      <td id="T_5f98d_row0_col1" class="data row0 col1">0.8619</td>
+      <td id="T_5f98d_row0_col2" class="data row0 col2">x0 units</td>
+    </tr>
+    <tr>
+      <td id="T_5f98d_row1_col0" class="data row1 col0">x1</td>
+      <td id="T_5f98d_row1_col1" class="data row1 col1">1.4860</td>
+      <td id="T_5f98d_row1_col2" class="data row1 col2">x1 unitssss</td>
     </tr>
   </tbody>
 </table>
@@ -1326,71 +1220,71 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <p style="font-size: 1.5rem; font-decoration: bold">Model Info</p><p></p><div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div> <p style="font-size: 1.3rem;">Lambda</p> <style type="text/css">
 </style>
-<table id="T_c7dd6">
+<table id="T_cdc50">
   <thead>
     <tr>
-      <th id="T_c7dd6_level0_col0" class="col_heading level0 col0">variable</th>
-      <th id="T_c7dd6_level0_col1" class="col_heading level0 col1">z0</th>
+      <th id="T_cdc50_level0_col0" class="col_heading level0 col0">variable</th>
+      <th id="T_cdc50_level0_col1" class="col_heading level0 col1">z0</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td id="T_c7dd6_row0_col0" class="data row0 col0">x0</td>
-      <td id="T_c7dd6_row0_col1" class="data row0 col1">0.7966</td>
+      <td id="T_cdc50_row0_col0" class="data row0 col0">x0</td>
+      <td id="T_cdc50_row0_col1" class="data row0 col1">0.7966</td>
     </tr>
     <tr>
-      <td id="T_c7dd6_row1_col0" class="data row1 col0">x1</td>
-      <td id="T_c7dd6_row1_col1" class="data row1 col1">0.4594</td>
+      <td id="T_cdc50_row1_col0" class="data row1 col0">x1</td>
+      <td id="T_cdc50_row1_col1" class="data row1 col1">0.4594</td>
     </tr>
   </tbody>
 </table>
  </div><div> <p style="font-size: 1.3rem;">lengthscale</p> <style type="text/css">
 </style>
-<table id="T_c5fa8">
+<table id="T_81be1">
   <thead>
     <tr>
-      <th id="T_c5fa8_level0_col0" class="col_heading level0 col0">latent</th>
-      <th id="T_c5fa8_level0_col1" class="col_heading level0 col1">lengthscale</th>
+      <th id="T_81be1_level0_col0" class="col_heading level0 col0">latent</th>
+      <th id="T_81be1_level0_col1" class="col_heading level0 col1">lengthscale</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td id="T_c5fa8_row0_col0" class="data row0 col0">z0</td>
-      <td id="T_c5fa8_row0_col1" class="data row0 col1">0.6931</td>
+      <td id="T_81be1_row0_col0" class="data row0 col0">z0</td>
+      <td id="T_81be1_row0_col1" class="data row0 col1">0.6931</td>
     </tr>
   </tbody>
 </table>
  </div><div> <p style="font-size: 1.3rem;">psi</p> <style type="text/css">
 </style>
-<table id="T_b9452">
+<table id="T_5f09e">
   <thead>
     <tr>
-      <th id="T_b9452_level0_col0" class="col_heading level0 col0">variable</th>
-      <th id="T_b9452_level0_col1" class="col_heading level0 col1">psi</th>
+      <th id="T_5f09e_level0_col0" class="col_heading level0 col0">variable</th>
+      <th id="T_5f09e_level0_col1" class="col_heading level0 col1">psi</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td id="T_b9452_row0_col0" class="data row0 col0">x0</td>
-      <td id="T_b9452_row0_col1" class="data row0 col1">0.6931</td>
+      <td id="T_5f09e_row0_col0" class="data row0 col0">x0</td>
+      <td id="T_5f09e_row0_col1" class="data row0 col1">0.6931</td>
     </tr>
     <tr>
-      <td id="T_b9452_row1_col0" class="data row1 col0">x1</td>
-      <td id="T_b9452_row1_col1" class="data row1 col1">0.6931</td>
+      <td id="T_5f09e_row1_col0" class="data row1 col0">x1</td>
+      <td id="T_5f09e_row1_col1" class="data row1 col1">0.6931</td>
     </tr>
   </tbody>
 </table>
  </div><div> <p style="font-size: 1.3rem;">likelihood</p> <style type="text/css">
 </style>
-<table id="T_0d862">
+<table id="T_c2d1c">
   <thead>
     <tr>
-      <th id="T_0d862_level0_col0" class="col_heading level0 col0">noise</th>
+      <th id="T_c2d1c_level0_col0" class="col_heading level0 col0">noise</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td id="T_0d862_row0_col0" class="data row0 col0">0.6932</td>
+      <td id="T_c2d1c_row0_col0" class="data row0 col0">0.6932</td>
     </tr>
   </tbody>
 </table>

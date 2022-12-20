@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.267">
+<meta name="generator" content="quarto-1.2.280">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="description" content="Fake data generation and artificial gaps for GPFA">
 
-<title>gpfa_imputation - Data Preparation</title>
+<title>meteo_imp - Data Preparation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -129,10 +129,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="gpfa_imputation - Data Preparation">
+<meta property="og:title" content="meteo_imp - Data Preparation">
 <meta property="og:description" content="Fake data generation and artificial gaps for GPFA">
-<meta property="og:site-name" content="gpfa_imputation">
-<meta name="twitter:title" content="gpfa_imputation - Data Preparation">
+<meta property="og:site-name" content="meteo_imp">
+<meta name="twitter:title" content="meteo_imp - Data Preparation">
 <meta name="twitter:description" content="Fake data generation and artificial gaps for GPFA">
 <meta name="twitter:card" content="summary">
 </head>
@@ -145,7 +145,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">gpfa_imputation</span>
+    <span class="navbar-title">meteo_imp</span>
     </a>
   </div>
           <div id="quarto-search" class="" title="Search"></div>
@@ -173,32 +173,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./learner.html" class="sidebar-item-text sidebar-link">GPFA Learner</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./data_preparation.html" class="sidebar-item-text sidebar-link active">Data Preparation</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./imputation.html" class="sidebar-item-text sidebar-link">Imputation time series</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./results.html" class="sidebar-item-text sidebar-link">Results</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./gap_finder.html" class="sidebar-item-text sidebar-link">Find Gaps in Fluxnet data</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -211,6 +191,96 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <a href="./utils.html" class="sidebar-item-text sidebar-link">Utils</a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Fluxnet</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Fluxnet/gap_finder.html" class="sidebar-item-text sidebar-link">Find Gaps in Fluxnet data</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Fluxnet/hainich.html" class="sidebar-item-text sidebar-link">Fluxnet Hainich</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">GPFA</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/learner.html" class="sidebar-item-text sidebar-link">GPFA Learner</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/imputation.html" class="sidebar-item-text sidebar-link">Imputation time series</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">kalman</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_filter.html" class="sidebar-item-text sidebar-link">Kalman Filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_learner.html" class="sidebar-item-text sidebar-link">Kalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_imputation.html" class="sidebar-item-text sidebar-link">Imputation Kalman Model</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/kalman_fastai.html" class="sidebar-item-text sidebar-link">Implement Kalman model using FastAI</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old statsmodels - statespace.html" class="sidebar-item-text sidebar-link">[Not Working] StatsModels Kalman filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old_01_pykalman_models.html" class="sidebar-item-text sidebar-link">[OLD] PyKalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old_02_pykalman_imputation.html" class="sidebar-item-text sidebar-link">[OLD] Imputation PyKalman Model</a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -226,23 +296,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul></li>
   <li><a href="#missing-data" id="toc-missing-data" class="nav-link" data-scroll-target="#missing-data">Missing Data</a>
   <ul class="collapse">
-  <li><a href="#gpfadatatest" id="toc-gpfadatatest" class="nav-link" data-scroll-target="#gpfadatatest">GPFADataTest</a></li>
+  <li><a href="#meteodatatest" id="toc-meteodatatest" class="nav-link" data-scroll-target="#meteodatatest">MeteoDataTest</a></li>
   <li><a href="#missing-data-1" id="toc-missing-data-1" class="nav-link" data-scroll-target="#missing-data-1">Missing Data</a></li>
-  <li><a href="#gpfadatatest.add_random_missing" id="toc-gpfadatatest.add_random_missing" class="nav-link" data-scroll-target="#gpfadatatest.add_random_missing">GPFADataTest.add_random_missing</a></li>
-  <li><a href="#gpfadatatest.add_gap" id="toc-gpfadatatest.add_gap" class="nav-link" data-scroll-target="#gpfadatatest.add_gap">GPFADataTest.add_gap</a></li>
+  <li><a href="#meteodatatest.add_random_missing" id="toc-meteodatatest.add_random_missing" class="nav-link" data-scroll-target="#meteodatatest.add_random_missing">MeteoDataTest.add_random_missing</a></li>
+  <li><a href="#meteodatatest.add_gap" id="toc-meteodatatest.add_gap" class="nav-link" data-scroll-target="#meteodatatest.add_gap">MeteoDataTest.add_gap</a></li>
   <li><a href="#save-as-dataframe" id="toc-save-as-dataframe" class="nav-link" data-scroll-target="#save-as-dataframe">Save as DataFrame</a></li>
-  <li><a href="#gpfadatatest.tidy_df" id="toc-gpfadatatest.tidy_df" class="nav-link" data-scroll-target="#gpfadatatest.tidy_df">GPFADataTest.tidy_df</a></li>
-  <li><a href="#gpfadatatest.data_compl_tidy" id="toc-gpfadatatest.data_compl_tidy" class="nav-link" data-scroll-target="#gpfadatatest.data_compl_tidy">GPFADataTest.data_compl_tidy</a></li>
-  <li><a href="#normalization" id="toc-normalization" class="nav-link" data-scroll-target="#normalization">Normalization</a></li>
-  <li><a href="#normalizer" id="toc-normalizer" class="nav-link" data-scroll-target="#normalizer">Normalizer</a></li>
+  <li><a href="#meteodatatest.tidy_df" id="toc-meteodatatest.tidy_df" class="nav-link" data-scroll-target="#meteodatatest.tidy_df">MeteoDataTest.tidy_df</a></li>
+  <li><a href="#meteodatatest.data_compl_tidy" id="toc-meteodatatest.data_compl_tidy" class="nav-link" data-scroll-target="#meteodatatest.data_compl_tidy">MeteoDataTest.data_compl_tidy</a></li>
+  </ul></li>
+  <li><a href="#standard-scaler" id="toc-standard-scaler" class="nav-link" data-scroll-target="#standard-scaler">Standard Scaler</a>
+  <ul class="collapse">
+  <li><a href="#standardscaler" id="toc-standardscaler" class="nav-link" data-scroll-target="#standardscaler">StandardScaler</a></li>
   </ul></li>
   <li><a href="#log-transform" id="toc-log-transform" class="nav-link" data-scroll-target="#log-transform">Log transform</a>
   <ul class="collapse">
-  <li><a href="#gpfadatatest.log_transform" id="toc-gpfadatatest.log_transform" class="nav-link" data-scroll-target="#gpfadatatest.log_transform">GPFADataTest.log_transform</a></li>
+  <li><a href="#meteodatatest.log_transform" id="toc-meteodatatest.log_transform" class="nav-link" data-scroll-target="#meteodatatest.log_transform">MeteoDataTest.log_transform</a></li>
   </ul></li>
   <li><a href="#export" id="toc-export" class="nav-link" data-scroll-target="#export">Export</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/gpfa_imputation/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/meteo_imp/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -303,7 +375,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.data <span class="op">=</span> pd.DataFrame(<span class="va">self</span>.X.numpy(), columns <span class="op">=</span> [<span class="ss">f"x</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="va">self</span>.n_features)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/data_preparation.py#L24" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/data_preparation.py#L24" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="gpfadatagenerator" class="level3">
 <h3 class="anchored" data-anchor-id="gpfadatagenerator">GPFADataGenerator</h3>
 <blockquote class="blockquote">
@@ -372,7 +444,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>&lt;AxesSubplot: &gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="02_data_preparation_files/figure-html/cell-8-output-2.png" class="img-fluid"></p>
+<p><img src="00_data_preparation_files/figure-html/cell-8-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -380,7 +452,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="missing-data" class="level2">
 <h2 class="anchored" data-anchor-id="missing-data">Missing Data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GPFADataTest:</span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MeteoDataTest:</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Utility class to keep track of dataset, missing data and export to right format"</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, data: pd.DataFrame):</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">" Init with provided dataset"</span></span>
@@ -389,18 +461,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.n_features, <span class="va">self</span>.n_obs <span class="op">=</span> data.shape[<span class="dv">1</span>], data.shape[<span class="dv">0</span>]</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.time <span class="op">=</span> torch.arange(<span class="dv">0</span>, <span class="va">self</span>.n_obs, dtype<span class="op">=</span>torch.<span class="bu">float</span>)</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> generate(cls, <span class="op">*</span>args, <span class="op">**</span>kwargs):</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> generate_gpfa(cls, <span class="op">*</span>args, <span class="op">**</span>kwargs):</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        generator <span class="op">=</span> GPFADataGenerator(<span class="op">*</span>args, <span class="op">**</span>kwargs)</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span> <span class="op">=</span> GPFADataTest(generator.data)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span> <span class="op">=</span> MeteoDataTest(generator.data)</span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.generator <span class="op">=</span> generator</span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/data_preparation.py#L48" target="_blank" style="float:right; font-size:smaller">source</a></p>
-<section id="gpfadatatest" class="level3">
-<h3 class="anchored" data-anchor-id="gpfadatatest">GPFADataTest</h3>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/data_preparation.py#L48" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="meteodatatest" class="level3">
+<h3 class="anchored" data-anchor-id="meteodatatest">MeteoDataTest</h3>
 <blockquote class="blockquote">
-<pre><code> GPFADataTest (data:pandas.core.frame.DataFrame)</code></pre>
+<pre><code> MeteoDataTest (data:pandas.core.frame.DataFrame)</code></pre>
 </blockquote>
 <p>Utility class to keep track of dataset, missing data and export to right format</p>
 </section>
@@ -411,10 +483,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4 class="anchored" data-anchor-id="missing-at-random">Missing at Random</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span>()</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_random_missing(<span class="va">self</span>: GPFADataTest,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                prob_miss_row: <span class="bu">float</span> <span class="op">=</span> <span class="fl">.2</span>,<span class="co">#  Probability an entire row is missing</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                prob_miss_value: <span class="bu">float</span> <span class="op">=</span> <span class="fl">.1</span> <span class="co"># Probability a single observation is missing       </span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>               ):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_random_missing(<span class="va">self</span>: MeteoDataTest,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                       prob_miss_row: <span class="bu">float</span> <span class="op">=</span> <span class="fl">.2</span>,  <span class="co">#  Probability an entire row is missing</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                       prob_miss_value: <span class="bu">float</span> <span class="op">=</span> <span class="fl">.1</span>  <span class="co"># Probability a single observation is missing</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                       ):</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Make some row and same values randomly missing """</span></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># keep the original data</span></span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        </span>
@@ -429,14 +501,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/data_preparation.py#L65" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/data_preparation.py#L65" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 </section>
-<section id="gpfadatatest.add_random_missing" class="level3">
-<h3 class="anchored" data-anchor-id="gpfadatatest.add_random_missing">GPFADataTest.add_random_missing</h3>
+<section id="meteodatatest.add_random_missing" class="level3">
+<h3 class="anchored" data-anchor-id="meteodatatest.add_random_missing">MeteoDataTest.add_random_missing</h3>
 <blockquote class="blockquote">
-<pre><code> GPFADataTest.add_random_missing (prob_miss_row:float=0.2,
-                                  prob_miss_value:float=0.1)</code></pre>
+<pre><code> MeteoDataTest.add_random_missing (prob_miss_row:float=0.2,
+                                   prob_miss_value:float=0.1)</code></pre>
 </blockquote>
 <p>Make some row and same values randomly missing</p>
 <table class="table">
@@ -470,7 +542,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fd <span class="op">=</span> GPFADataTest.generate(<span class="dv">3</span>, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fd <span class="op">=</span> MeteoDataTest.generate_gpfa(<span class="dv">3</span>, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fd.add_random_missing().data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -518,7 +590,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>GPFADataTest.generate(<span class="dv">2</span>, <span class="dv">10</span>).add_random_missing(prob_miss_value <span class="op">=</span> <span class="fl">.7</span>, prob_miss_row<span class="op">=</span><span class="fl">.0</span>).data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>MeteoDataTest.generate_gpfa(<span class="dv">2</span>, <span class="dv">10</span>).add_random_missing(prob_miss_value <span class="op">=</span> <span class="fl">.7</span>, prob_miss_row<span class="op">=</span><span class="fl">.0</span>).data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <div>
@@ -610,7 +682,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>_make_random_gap(<span class="dv">3</span>, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>array([False, False, False, False,  True,  True,  True, False, False,
+<pre><code>array([False, False, False, False, False,  True,  True,  True, False,
        False])</code></pre>
 </div>
 </div>
@@ -619,11 +691,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_gap(<span class="va">self</span>: GPFADataTest,</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>            gap_length:<span class="bu">int</span>, <span class="co"># length of gap</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>            variables: Collection[<span class="bu">str</span>], <span class="co"># variables that should be affected by the gap</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>            gap_start: <span class="bu">int</span> <span class="op">=</span> <span class="va">None</span> <span class="co"># Optional start of the gap</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>           ):    </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_gap(<span class="va">self</span>: MeteoDataTest,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>            gap_length:<span class="bu">int</span>,  <span class="co"># length of gap</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>            variables: Collection[<span class="bu">str</span>],  <span class="co"># variables that should be affected by the gap</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>            gap_start: <span class="bu">int</span> <span class="op">=</span> <span class="va">None</span>  <span class="co"># Optional start of the gap</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>            ):</span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.is_gap <span class="op">=</span> _make_random_gap(gap_length, <span class="va">self</span>.data.shape[<span class="dv">0</span>], gap_start)</span>
@@ -631,14 +703,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/data_preparation.py#L100" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/data_preparation.py#L100" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 </section>
-<section id="gpfadatatest.add_gap" class="level3">
-<h3 class="anchored" data-anchor-id="gpfadatatest.add_gap">GPFADataTest.add_gap</h3>
+<section id="meteodatatest.add_gap" class="level3">
+<h3 class="anchored" data-anchor-id="meteodatatest.add_gap">MeteoDataTest.add_gap</h3>
 <blockquote class="blockquote">
-<pre><code> GPFADataTest.add_gap (gap_length:int, variables:Collection[str],
-                       gap_start:int=None)</code></pre>
+<pre><code> MeteoDataTest.add_gap (gap_length:int, variables:Collection[str],
+                        gap_start:int=None)</code></pre>
 </blockquote>
 <table class="table">
 <colgroup>
@@ -677,7 +749,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>GPFADataTest.generate(<span class="dv">5</span>, <span class="dv">10</span>).add_gap(<span class="dv">4</span>, [<span class="st">"x1"</span>, <span class="st">"x2"</span>]).data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>MeteoDataTest.generate_gpfa(<span class="dv">5</span>, <span class="dv">10</span>).add_gap(<span class="dv">4</span>, [<span class="st">"x1"</span>, <span class="st">"x2"</span>]).data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <div>
@@ -705,8 +777,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <tr>
       <th>1</th>
       <td>0.227970</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>-0.250645</td>
+      <td>-0.280364</td>
       <td>0.298646</td>
       <td>0.023241</td>
     </tr>
@@ -737,8 +809,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <tr>
       <th>5</th>
       <td>0.850323</td>
-      <td>0.871718</td>
-      <td>0.314558</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>0.378259</td>
       <td>-0.198052</td>
     </tr>
@@ -784,10 +856,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="save-as-dataframe">Save as DataFrame</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tidy_df(<span class="va">self</span>: GPFADataTest,</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>          complete <span class="op">=</span> <span class="va">False</span>, <span class="co"># full dataset (False) or the one with missing data (True)</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>          is_missing <span class="op">=</span> <span class="va">False</span> <span class="co"># add flag whether value is missing</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>         ):</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tidy_df(<span class="va">self</span>: MeteoDataTest,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>            complete <span class="op">=</span> <span class="va">False</span>,  <span class="co"># full dataset (False) or the one with missing data (True)</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>            is_missing <span class="op">=</span> <span class="va">False</span>  <span class="co"># add flag whether value is missing</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>            ):</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> <span class="va">self</span>.data <span class="cf">if</span> <span class="kw">not</span> complete <span class="cf">else</span> <span class="va">self</span>.data_complete <span class="co"># no need to copy here because next lines does a copy anyway</span></span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.assign(time <span class="op">=</span> <span class="va">self</span>.time.numpy())</span>
@@ -799,12 +871,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/data_preparation.py#L113" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/data_preparation.py#L113" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
-<section id="gpfadatatest.tidy_df" class="level3">
-<h3 class="anchored" data-anchor-id="gpfadatatest.tidy_df">GPFADataTest.tidy_df</h3>
+<section id="meteodatatest.tidy_df" class="level3">
+<h3 class="anchored" data-anchor-id="meteodatatest.tidy_df">MeteoDataTest.tidy_df</h3>
 <blockquote class="blockquote">
-<pre><code> GPFADataTest.tidy_df (complete=False, is_missing=False)</code></pre>
+<pre><code> MeteoDataTest.tidy_df (complete=False, is_missing=False)</code></pre>
 </blockquote>
 <table class="table">
 <colgroup>
@@ -1144,13 +1216,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div class="cell-output cell-output-display">
 
-<div id="altair-viz-f80dd55d7cce480e8b8fe6b3e7442f87"></div>
+<div id="altair-viz-a8e9a0a5498944ae990dc7888806116c"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-f80dd55d7cce480e8b8fe6b3e7442f87") {
-      outputDiv = document.getElementById("altair-viz-f80dd55d7cce480e8b8fe6b3e7442f87");
+    if (outputDiv.id !== "altair-viz-a8e9a0a5498944ae990dc7888806116c") {
+      outputDiv = document.getElementById("altair-viz-a8e9a0a5498944ae990dc7888806116c");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -1246,12 +1318,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/data_preparation.py#L129" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/data_preparation.py#L129" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
-<section id="gpfadatatest.data_compl_tidy" class="level3">
-<h3 class="anchored" data-anchor-id="gpfadatatest.data_compl_tidy">GPFADataTest.data_compl_tidy</h3>
+<section id="meteodatatest.data_compl_tidy" class="level3">
+<h3 class="anchored" data-anchor-id="meteodatatest.data_compl_tidy">MeteoDataTest.data_compl_tidy</h3>
 <blockquote class="blockquote">
-<pre><code> GPFADataTest.data_compl_tidy ()</code></pre>
+<pre><code> MeteoDataTest.data_compl_tidy ()</code></pre>
 </blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>fd.data_compl_tidy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1360,9 +1432,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="normalization" class="level3">
-<h3 class="anchored" data-anchor-id="normalization">Normalization</h3>
-<p>The different variables in the can have pretty different values so we normalize so they are more comparable. Have numbers between 0 and 1 should also help with the computation accuracy.</p>
+</section>
+<section id="standard-scaler" class="level2">
+<h2 class="anchored" data-anchor-id="standard-scaler">Standard Scaler</h2>
+<p>The different variables in the can have pretty different values so we standardize so they are more comparable. Have numbers between 0 and 1 should also help with the computation accuracy.</p>
 <p>One additional complexity is the need to backtransform not only the mean but also the standard deviation.</p>
 <p>So we need a but of math</p>
 <p><span class="math display">\[x_{norm} = \frac{x - \mu_x}{\sigma_x}\]</span> then <span class="math display">\[x = x_{norm}\sigma_x + \mu_x \]</span></p>
@@ -1370,12 +1443,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><span class="math display">\[p(x_{norm}) = \mathcal{N}(\mu_{norm}, \sigma^2_{norm})\]</span></p>
 <p><span class="math display">\[p(x) = \mathcal{N}(\sigma_x\mu_{norm} + \mu_x, \sigma^2_x \sigma^2_{norm})\]</span></p>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/data_preparation.py#L133" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
-<section id="normalizer" class="level3">
-<h3 class="anchored" data-anchor-id="normalizer">Normalizer</h3>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/data_preparation.py#L142" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="standardscaler" class="level3">
+<h3 class="anchored" data-anchor-id="standardscaler">StandardScaler</h3>
 <blockquote class="blockquote">
-<pre><code> Normalizer (x:torch.Tensor)</code></pre>
+<pre><code> StandardScaler (x:torch.Tensor)</code></pre>
 </blockquote>
 <p>Init normalizer by storing mean and std dev</p>
 <table class="table">
@@ -1396,20 +1468,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> torch.randn(<span class="dv">20</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">2</span>)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>norm <span class="op">=</span> Normalizer(x)</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>test_close(x, norm.reverse_normalize(norm.normalize(x)))</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>test_close(x.std(axis<span class="op">=</span><span class="dv">0</span>), norm.reverse_normalize_std(norm.normalize(x).std(axis<span class="op">=</span><span class="dv">0</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>norm <span class="op">=</span> StandardScaler(x)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>test_close(x, norm.inverse_transform(norm.transform(x)))</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>test_close(x.std(axis<span class="op">=</span><span class="dv">0</span>), norm.inverse_transform_std(norm.transform(x).std(axis<span class="op">=</span><span class="dv">0</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>nx <span class="op">=</span> x.clone()</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>nx[<span class="dv">3</span>] <span class="op">=</span> torch.nan</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>StandardScaler(nx).transform(nx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[ 1.0434, -0.7018],
+        [-0.3413, -0.2264],
+        [ 0.7216, -0.9768],
+        [    nan,     nan],
+        [ 0.3866,  0.1091],
+        [-1.5779,  0.1705],
+        [ 0.1036, -1.2577],
+        [-1.6543,  1.3312],
+        [ 0.7548,  1.7514],
+        [ 0.5635, -0.1993]])</code></pre>
+</div>
 </div>
 </section>
 </section>
 <section id="log-transform" class="level2">
 <h2 class="anchored" data-anchor-id="log-transform">Log transform</h2>
 <hr>
-<p><a href="https://github.com/mone27/gpfa_imputation/blob/master/gpfa_imputation/data_preparation.py#L162" target="_blank" style="float:right; font-size:smaller">source</a></p>
-<section id="gpfadatatest.log_transform" class="level3">
-<h3 class="anchored" data-anchor-id="gpfadatatest.log_transform">GPFADataTest.log_transform</h3>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/data_preparation.py#L168" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="meteodatatest.log_transform" class="level3">
+<h3 class="anchored" data-anchor-id="meteodatatest.log_transform">MeteoDataTest.log_transform</h3>
 <blockquote class="blockquote">
-<pre><code> GPFADataTest.log_transform (vars:Union[str,Collection[str]])</code></pre>
+<pre><code> MeteoDataTest.log_transform (vars:Union[str,Collection[str]])</code></pre>
 </blockquote>
 <p>Tranform the given var with log(x+1)</p>
 <table class="table">
@@ -1428,13 +1517,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr class="even">
 <td><strong>Returns</strong></td>
-<td><strong>GPFADataTest</strong></td>
+<td><strong>MeteoDataTest</strong></td>
 <td></td>
 </tr>
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>GPFADataTest.generate(<span class="dv">3</span>, <span class="dv">4</span>).log_transform([<span class="st">'x1'</span>]).data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>MeteoDataTest.generate_gpfa(<span class="dv">3</span>, <span class="dv">4</span>).log_transform([<span class="st">'x1'</span>]).data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <div>
@@ -1451,27 +1540,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <tbody>
     <tr>
       <th>0</th>
-      <td>-0.037518</td>
-      <td>-0.187460</td>
-      <td>0.284498</td>
+      <td>-0.209523</td>
+      <td>0.137226</td>
+      <td>0.221309</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>0.103395</td>
-      <td>0.440612</td>
-      <td>0.223854</td>
+      <td>0.308402</td>
+      <td>0.304317</td>
+      <td>0.229732</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>-0.655654</td>
-      <td>-0.328445</td>
-      <td>-0.278969</td>
+      <td>-0.079178</td>
+      <td>-0.082795</td>
+      <td>-0.302681</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>0.422344</td>
-      <td>0.429424</td>
-      <td>0.268449</td>
+      <td>0.218236</td>
+      <td>0.400733</td>
+      <td>0.326986</td>
     </tr>
   </tbody>
 </table>
@@ -1479,28 +1568,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>orig_data <span class="op">=</span> GPFADataTest.generate(<span class="dv">1</span>, <span class="dv">200</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>orig_data.data <span class="op">=</span> np.<span class="bu">abs</span>(orig_data.data)</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> orig_data.log_transform([<span class="st">'x0'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>orig_data <span class="op">=</span> MeteoDataTest.generate_gpfa(<span class="dv">1</span>, <span class="dv">200</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>orig_data.data <span class="op">=</span> np.<span class="bu">abs</span>(orig_data.data)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> orig_data.log_transform([<span class="st">'x0'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>data.data.hist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>data.data.hist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>array([[&lt;AxesSubplot: title={'center': 'log_x0'}&gt;]], dtype=object)</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="02_data_preparation_files/figure-html/cell-37-output-2.png" class="img-fluid"></p>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>Normalizer(data.data).normalize(data.data).hist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<pre><code>array([[&lt;AxesSubplot: title={'center': 'log_x0'}&gt;]], dtype=object)</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<p><img src="02_data_preparation_files/figure-html/cell-38-output-2.png" class="img-fluid"></p>
+<p><img src="00_data_preparation_files/figure-html/cell-38-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
