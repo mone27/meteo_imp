@@ -374,7 +374,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>add also inverse transformation using cholesky decomposition</p>
 <p>API inspired by gpytorch constraints</p>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L103" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L104" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="is_pos_semidef" class="level3">
 <h3 class="anchored" data-anchor-id="is_pos_semidef">is_pos_semidef</h3>
@@ -382,7 +382,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code> is_pos_semidef (cov)</code></pre>
 </blockquote>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L107" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L108" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="check_is_pos_semidef" class="level3">
 <h3 class="anchored" data-anchor-id="check_is_pos_semidef">check_is_pos_semidef</h3>
@@ -390,7 +390,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code> check_is_pos_semidef (cov)</code></pre>
 </blockquote>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L112" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L113" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="posdef" class="level3">
 <h3 class="anchored" data-anchor-id="posdef">PosDef</h3>
@@ -407,17 +407,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([[0.7483, 0.9382, 0.1555],
-        [0.9651, 0.8235, 0.8243],
-        [0.9456, 0.2654, 0.9932]])</code></pre>
+<pre><code>tensor([[0.7535, 0.3581, 0.9031],
+        [0.4129, 0.1309, 0.9800],
+        [0.7497, 0.7843, 0.9702]])</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>posdef</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([[1.4644, 1.6230, 1.1111],
-        [1.6230, 2.2890, 1.9498],
-        [1.1111, 1.9498, 1.9511]])</code></pre>
+<pre><code>tensor([[1.5117, 1.2430, 1.7220],
+        [1.2430, 1.1480, 1.3629],
+        [1.7220, 1.3629, 2.1184]])</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -426,9 +426,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>constraint.inverse_transform(posdef)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([[1.2101, 0.0000, 0.0000],
-        [1.3412, 0.7001, 0.0000],
-        [0.9182, 1.0261, 0.2349]])</code></pre>
+<pre><code>tensor([[ 1.2295,  0.0000,  0.0000],
+        [ 1.0110,  0.3548,  0.0000],
+        [ 1.4005, -0.1494,  0.3668]])</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -440,9 +440,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>posdef</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([[1.4643729925, 1.6229895353, 1.1110808849],
-        [1.6229895353, 2.2889847755, 1.9498369694],
-        [1.1110808849, 1.9498369694, 1.9510511160]])</code></pre>
+<pre><code>tensor([[1.5117043257, 1.2430243492, 1.7219777107],
+        [1.2430243492, 1.1479614973, 1.3629069328],
+        [1.7219777107, 1.3629069328, 2.1183567047]])</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -452,7 +452,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L131" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L132" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="is_symmetric" class="level3">
 <h3 class="anchored" data-anchor-id="is_symmetric">is_symmetric</h3>
@@ -466,7 +466,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L135" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L136" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="symmetric_upto" class="level3">
 <h3 class="anchored" data-anchor-id="symmetric_upto">symmetric_upto</h3>
@@ -486,7 +486,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L142" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L143" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="is_posdef" class="level3">
 <h3 class="anchored" data-anchor-id="is_posdef">is_posdef</h3>
@@ -514,13 +514,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>torch.linalg.eigvalsh(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([-0.4108574390,  0.6451910734,  2.3305833340])</code></pre>
+<pre><code>tensor([-0.3403917551,  0.1764458716,  2.0185065269])</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>torch.linalg.eigvalsh(posdef)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([0.0135278013, 0.5718843341, 5.1189956665])</code></pre>
+<pre><code>tensor([0.0297478326, 0.1887052357, 4.5595688820])</code></pre>
 </div>
 </div>
 <p>check if it is pos definite using eigenvalues</p>
@@ -531,7 +531,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L146" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L147" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="is_posdef2" class="level3">
 <h3 class="anchored" data-anchor-id="is_posdef2">is_posdef2</h3>
@@ -541,13 +541,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>is_posdef2(posdef)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>(True, tensor([0.0135278013, 0.5718843341, 5.1189956665]))</code></pre>
+<pre><code>(True, tensor([0.0297478326, 0.1887052357, 4.5595688820]))</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>is_posdef2(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>(False, tensor([-0.4108574390,  0.6451910734,  2.3305833340]))</code></pre>
+<pre><code>(False, tensor([-0.3403917551,  0.1764458716,  2.0185065269]))</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -562,15 +562,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>A[mask]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([0.7482852936, 0.9382153153, 0.1555444002, 0.8234661222, 0.8242675662,
-        0.9931656122])</code></pre>
+<pre><code>tensor([0.7535383105, 0.3581296206, 0.9031209350, 0.1308661103, 0.9799895287,
+        0.9701561332])</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>A[mask] <span class="op">=</span> torch.tril(A)[mask]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L156" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L157" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="make_symmetric" class="level3">
 <h3 class="anchored" data-anchor-id="make_symmetric">make_symmetric</h3>
@@ -581,9 +581,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>make_symmetric(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([[0.7482852936, 0.9651275277, 0.8234661222],
-        [0.9651275277, 0.9456449747, 0.2653839588],
-        [0.9456449747, 0.2653839588, 0.9931656122]])</code></pre>
+<pre><code>tensor([[0.7535383105, 0.4128631949, 0.1308661103],
+        [0.4128631949, 0.7497143149, 0.7842717767],
+        [0.7497143149, 0.7842717767, 0.9701561332]])</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -598,7 +598,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="check-pos-def" class="level4">
 <h4 class="anchored" data-anchor-id="check-pos-def">Check pos def</h4>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L167" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L168" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 </section>
 <section id="check_posdef" class="level3">
@@ -609,7 +609,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>check_posdef(A, <span class="st">'A'</span>).dtypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_209421/527603031.py:33: UserWarning: Matrix is not positive definite
+<pre><code>/tmp/ipykernel_107869/527603031.py:33: UserWarning: Matrix is not positive definite
   warn("Matrix is not positive definite")</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -626,9 +626,9 @@ dtype: object</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([[0.7482852936, 0.0000000000, 0.0000000000],
-        [0.9651275277, 0.8234661222, 0.0000000000],
-        [0.9456449747, 0.2653839588, 0.9931656122]])</code></pre>
+<pre><code>tensor([[0.7535383105, 0.0000000000, 0.0000000000],
+        [0.4128631949, 0.1308661103, 0.0000000000],
+        [0.7497143149, 0.7842717767, 0.9701561332]])</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -653,7 +653,7 @@ dtype: object</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>check_posdef(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_209421/527603031.py:33: UserWarning: Matrix is not positive definite
+<pre><code>/tmp/ipykernel_107869/527603031.py:33: UserWarning: Matrix is not positive definite
   warn("Matrix is not positive definite")</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -680,8 +680,8 @@ dtype: object</code></pre>
       <td>False</td>
       <td>False</td>
       <td>0</td>
-      <td>[-0.41085744, 0.6451911, 2.3305833]</td>
-      <td>[[0.7482853, 0.0, 0.0], [0.9651275, 0.8234661,...</td>
+      <td>[-0.34039176, 0.17644587, 2.0185065]</td>
+      <td>[[0.7535383, 0.0, 0.0], [0.4128632, 0.13086611...</td>
       <td></td>
     </tr>
   </tbody>
@@ -715,8 +715,8 @@ dtype: object</code></pre>
       <td>True</td>
       <td>True</td>
       <td>-8</td>
-      <td>[0.013527801, 0.57188433, 5.1189957]</td>
-      <td>[[1.464373, 1.6229895, 1.1110809], [1.6229895,...</td>
+      <td>[0.029747833, 0.18870524, 4.559569]</td>
+      <td>[[1.5117043, 1.2430243, 1.7219777], [1.2430243...</td>
       <td></td>
     </tr>
   </tbody>
@@ -725,7 +725,7 @@ dtype: object</code></pre>
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L205" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L206" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="check_posdef4" class="level3">
 <h3 class="anchored" data-anchor-id="check_posdef4">check_posdef4</h3>
@@ -762,7 +762,7 @@ dtype: object</code></pre>
 <section id="main-class" class="level3">
 <h3 class="anchored" data-anchor-id="main-class">Main class</h3>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L225" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L226" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="kalmanfilter-1" class="level3">
 <h3 class="anchored" data-anchor-id="kalmanfilter-1">KalmanFilter</h3>
@@ -922,11 +922,11 @@ tensor([[1.7320507765]], requires_grad=True)</code></pre>
 <span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>pyk <span class="op">=</span> pykalman.KalmanFilter()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> torch.tensor([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>])</span>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> torch.tensor([<span class="fl">1.</span>,<span class="dv">2</span>,<span class="dv">3</span>])</span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>nX <span class="op">=</span> X.numpy()</span>
 <span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>X</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([1, 2, 3])</code></pre>
+<pre><code>tensor([1., 2., 3.])</code></pre>
 </div>
 </div>
 <p>2 dimensional dobs</p>
@@ -996,7 +996,7 @@ tensor([[1.7320507765]], requires_grad=True)</code></pre>
 <section id="tester" class="level3">
 <h3 class="anchored" data-anchor-id="tester">Tester</h3>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L369" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L370" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="kalmanfiltertester" class="level3">
 <h3 class="anchored" data-anchor-id="kalmanfiltertester">KalmanFilterTester</h3>
@@ -1431,9 +1431,9 @@ pykalman<span class="ansi-blue-fg">.</span>standard<span class="ansi-blue-fg">.<
 <div class="cell">
 <div class="sourceCode cell-code" id="cb145"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a>kalman_gain_torch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([[ 0.7220908999, -1.0673114061,  0.8582634926],
-        [ 0.2587437928, -1.5012981892,  2.0114912987],
-        [ 0.7195257545, -0.0971620083, -0.5134804249]])</code></pre>
+<pre><code>tensor([[ 0.7220908999, -1.0673115253,  0.8582634926],
+        [ 0.2587437928, -1.5012989044,  2.0114917755],
+        [ 0.7195257545, -0.0971621275, -0.5134809017]])</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1451,7 +1451,7 @@ pykalman<span class="ansi-blue-fg">.</span>standard<span class="ansi-blue-fg">.<
 <div class="cell">
 <div class="sourceCode cell-code" id="cb150"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a>corr_state_mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([-1.2007339001, -1.2798495293,  0.1240897775])</code></pre>
+<pre><code>tensor([-1.2007339001, -1.2798497677,  0.1240902543])</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1472,17 +1472,18 @@ pykalman<span class="ansi-blue-fg">.</span>standard<span class="ansi-blue-fg">.<
 <div class="cell">
 <div class="sourceCode cell-code" id="cb155"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a>corr_state_cov</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([[ 0.3472324014, -0.0682768822,  0.1338058710],
-        [-0.0682771206,  0.0863963962,  0.0947692692],
-        [ 0.1338058114,  0.0947694778,  0.2892869115]])</code></pre>
+<pre><code>tensor([[ 0.3472324014, -0.0682768524,  0.1338059306],
+        [-0.0682769120,  0.0863964558,  0.0947695374],
+        [ 0.1338060498,  0.0947697163,  0.2892870903]])</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb157"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a>test_close(corrected_state_covariance, corr_state_cov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb158"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> print_info(x, name):</span>
-<span id="cb158-2"><a href="#cb158-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss"> - shape: </span><span class="sc">{</span>x<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">, type </span><span class="sc">{</span>x<span class="sc">.</span>dtype<span class="sc">}</span><span class="ss">, mean </span><span class="sc">{</span>x<span class="sc">.</span>mean()<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb158"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> print_info(xs, name<span class="op">=</span><span class="st">''</span>):</span>
+<span id="cb158-2"><a href="#cb158-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> x <span class="kw">in</span> listify(xs):</span>
+<span id="cb158-3"><a href="#cb158-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss"> - shape: </span><span class="sc">{</span>x<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">, type </span><span class="sc">{</span>x<span class="sc">.</span>dtype<span class="sc">}</span><span class="ss">, mean </span><span class="sc">{</span>x<span class="sc">.</span>mean()<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb159"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a>np.<span class="bu">any</span>(np.ma.getmask(observation))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1550,16 +1551,16 @@ pykalman<span class="ansi-blue-fg">.</span>standard<span class="ansi-blue-fg">.<
 <span id="cb163-5"><a href="#cb163-5" aria-hidden="true" tabindex="-1"></a>   tst.params[<span class="st">'initial_state_mean'</span>],</span>
 <span id="cb163-6"><a href="#cb163-6" aria-hidden="true" tabindex="-1"></a>   tst.params[<span class="st">'initial_state_cov'</span>],</span>
 <span id="cb163-7"><a href="#cb163-7" aria-hidden="true" tabindex="-1"></a>   tst.data[<span class="dv">0</span>],</span>
-<span id="cb163-8"><a href="#cb163-8" aria-hidden="true" tabindex="-1"></a>   tst.mask_torch[<span class="dv">0</span>]</span>
+<span id="cb163-8"><a href="#cb163-8" aria-hidden="true" tabindex="-1"></a>   tst.mask[<span class="dv">0</span>]</span>
 <span id="cb163-9"><a href="#cb163-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>(tensor([[ 0.7220908999, -1.0673114061,  0.8582634926],
-         [ 0.2587437928, -1.5012981892,  2.0114912987],
-         [ 0.7195257545, -0.0971620083, -0.5134804249]]),
- tensor([-1.2007339001, -1.2798495293,  0.1240897775]),
- tensor([[ 0.3472324014, -0.0682768822,  0.1338058710],
-         [-0.0682771206,  0.0863963962,  0.0947692692],
-         [ 0.1338058114,  0.0947694778,  0.2892869115]]))</code></pre>
+<pre><code>(tensor([[ 0.7220906019, -1.0673114061,  0.8582637310],
+         [ 0.2587436438, -1.5012984276,  2.0114915371],
+         [ 0.7195256948, -0.0971617699, -0.5134806633]]),
+ tensor([-1.2007336617, -1.2798495293,  0.1240901351]),
+ tensor([[ 0.3472326398, -0.0682768524,  0.1338061094],
+         [-0.0682768226,  0.0863964558,  0.0947695524],
+         [ 0.1338058710,  0.0947695374,  0.2892869711]]))</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1593,9 +1594,18 @@ pykalman<span class="ansi-blue-fg">.</span>standard<span class="ansi-blue-fg">.<
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb169"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a>tst.mask_torch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb169"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a>tst.mask</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([ True, False,  True, False,  True, False, False, False, False, False])</code></pre>
+<pre><code>tensor([[ True,  True,  True],
+        [False, False,  True],
+        [ True,  True,  True],
+        [ True, False, False],
+        [ True,  True,  True],
+        [False, False,  True],
+        [ True, False,  True],
+        [False, False, False],
+        [False, False,  True],
+        [ True,  True, False]])</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1706,12 +1716,12 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 <span id="cb180-14"><a href="#cb180-14" aria-hidden="true" tabindex="-1"></a>       tst.params[<span class="st">'initial_state_mean'</span>],</span>
 <span id="cb180-15"><a href="#cb180-15" aria-hidden="true" tabindex="-1"></a>       tst.params[<span class="st">'initial_state_cov'</span>],</span>
 <span id="cb180-16"><a href="#cb180-16" aria-hidden="true" tabindex="-1"></a>       tst.data[<span class="dv">0</span>],</span>
-<span id="cb180-17"><a href="#cb180-17" aria-hidden="true" tabindex="-1"></a>       tst.mask_torch[<span class="dv">0</span>]</span>
+<span id="cb180-17"><a href="#cb180-17" aria-hidden="true" tabindex="-1"></a>       tst.mask[<span class="dv">0</span>]</span>
 <span id="cb180-18"><a href="#cb180-18" aria-hidden="true" tabindex="-1"></a>    )[<span class="dv">0</span>].numpy())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>array([[-4.1723251e-07,  1.5497208e-06, -2.3841858e-06],
-       [-5.6624413e-07,  8.3446503e-07, -7.1525574e-07],
-       [-5.9604645e-08,  8.1956387e-07, -1.9073486e-06]], dtype=float32)</code></pre>
+<pre><code>array([[-1.1920929e-07,  1.5497208e-06, -2.6226044e-06],
+       [-4.1723251e-07,  1.0728836e-06, -9.5367432e-07],
+       [ 0.0000000e+00,  5.8114529e-07, -1.6689301e-06]], dtype=float32)</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1727,7 +1737,7 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 <span id="cb182-10"><a href="#cb182-10" aria-hidden="true" tabindex="-1"></a>args_torch <span class="op">=</span> {k: torch.tensor(v) <span class="cf">for</span> k,v <span class="kw">in</span> args_np.items()}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb183"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a>_filter_correct(<span class="op">*</span>args_torch.values(), mask<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb183"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a>_filter_correct(<span class="op">*</span>args_torch.values(), mask<span class="op">=</span>torch.ones_like(args_torch[<span class="st">'obs'</span>], dtype<span class="op">=</span>torch.<span class="bu">bool</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>(tensor([[0.5000000000, 0.0000000000],
          [0.0000000000, 0.5000000000]], dtype=torch.float64),
@@ -1740,7 +1750,7 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 <div class="cell">
 <div class="sourceCode cell-code" id="cb185"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb185-1"><a href="#cb185-1" aria-hidden="true" tabindex="-1"></a>test_close(</span>
 <span id="cb185-2"><a href="#cb185-2" aria-hidden="true" tabindex="-1"></a>    pykalman.standard._filter_correct(<span class="op">*</span>args_np.values()),</span>
-<span id="cb185-3"><a href="#cb185-3" aria-hidden="true" tabindex="-1"></a>    _filter_correct(<span class="op">*</span>args_torch.values(), mask<span class="op">=</span><span class="va">True</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb185-3"><a href="#cb185-3" aria-hidden="true" tabindex="-1"></a>    _filter_correct(<span class="op">*</span>args_torch.values(), mask<span class="op">=</span>torch.ones_like(args_torch[<span class="st">'obs'</span>], dtype<span class="op">=</span>torch.<span class="bu">bool</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb186"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb186-1"><a href="#cb186-1" aria-hidden="true" tabindex="-1"></a>test_close(</span>
@@ -1760,7 +1770,7 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 <span id="cb186-15"><a href="#cb186-15" aria-hidden="true" tabindex="-1"></a>       tst.params[<span class="st">'initial_state_mean'</span>],</span>
 <span id="cb186-16"><a href="#cb186-16" aria-hidden="true" tabindex="-1"></a>       tst.params[<span class="st">'initial_state_cov'</span>],</span>
 <span id="cb186-17"><a href="#cb186-17" aria-hidden="true" tabindex="-1"></a>       tst.data[<span class="dv">0</span>],</span>
-<span id="cb186-18"><a href="#cb186-18" aria-hidden="true" tabindex="-1"></a>       tst.mask_torch[<span class="dv">0</span>]</span>
+<span id="cb186-18"><a href="#cb186-18" aria-hidden="true" tabindex="-1"></a>       tst.mask[<span class="dv">0</span>]</span>
 <span id="cb186-19"><a href="#cb186-19" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb186-20"><a href="#cb186-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1785,7 +1795,7 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 <span id="cb187-17"><a href="#cb187-17" aria-hidden="true" tabindex="-1"></a>           tst.params[<span class="st">'initial_state_mean'</span>],</span>
 <span id="cb187-18"><a href="#cb187-18" aria-hidden="true" tabindex="-1"></a>           tst.params[<span class="st">'initial_state_cov'</span>],</span>
 <span id="cb187-19"><a href="#cb187-19" aria-hidden="true" tabindex="-1"></a>           tst.data[<span class="dv">0</span>],</span>
-<span id="cb187-20"><a href="#cb187-20" aria-hidden="true" tabindex="-1"></a>           tst.mask_torch[<span class="dv">0</span>]</span>
+<span id="cb187-20"><a href="#cb187-20" aria-hidden="true" tabindex="-1"></a>           tst.mask[<span class="dv">0</span>]</span>
 <span id="cb187-21"><a href="#cb187-21" aria-hidden="true" tabindex="-1"></a>        )</span>
 <span id="cb187-22"><a href="#cb187-22" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1820,7 +1830,7 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 <span id="cb188-25"><a href="#cb188-25" aria-hidden="true" tabindex="-1"></a>           tst.params[<span class="st">'initial_state_mean'</span>],</span>
 <span id="cb188-26"><a href="#cb188-26" aria-hidden="true" tabindex="-1"></a>           tst.params[<span class="st">'initial_state_cov'</span>],</span>
 <span id="cb188-27"><a href="#cb188-27" aria-hidden="true" tabindex="-1"></a>           tst.data[<span class="dv">0</span>:<span class="dv">1</span>],</span>
-<span id="cb188-28"><a href="#cb188-28" aria-hidden="true" tabindex="-1"></a>           tst.mask_torch[<span class="dv">0</span>:<span class="dv">1</span>]</span>
+<span id="cb188-28"><a href="#cb188-28" aria-hidden="true" tabindex="-1"></a>           tst.mask[<span class="dv">0</span>:<span class="dv">1</span>]</span>
 <span id="cb188-29"><a href="#cb188-29" aria-hidden="true" tabindex="-1"></a>    )))</span>
 <span id="cb188-30"><a href="#cb188-30" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb188-31"><a href="#cb188-31" aria-hidden="true" tabindex="-1"></a>    test_close(pyk, filter_torch)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1862,8 +1872,8 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
           [0.0000000000, 0.5000000000]]),
   tensor([[0.5999999642, 0.0000000000],
           [0.0000000000, 0.5999999642]]),
-  tensor([[0.6153846383, 0.0000000000],
-          [0.0000000000, 0.6153846383]])])</code></pre>
+  tensor([[0.6153845191, 0.0000000000],
+          [0.0000000000, 0.6153845191]])])</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1905,7 +1915,7 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 <section id="kalmanfilter-method" class="level4">
 <h4 class="anchored" data-anchor-id="kalmanfilter-method">KalmanFilter method</h4>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L646" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L617" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 </section>
 <section id="kalmanfilter.filter" class="level3">
@@ -1960,10 +1970,10 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 <h4 class="anchored" data-anchor-id="final-testing">Final Testing</h4>
 <p>due to numerical issue the error is bigger thatn <code>1e-5</code> which is default</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb199"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a>((tst.<span class="bu">filter</span>.<span class="bu">filter</span>(tst.data, tst.mask_torch)[<span class="dv">1</span>] <span class="op">-</span></span>
+<div class="sourceCode cell-code" id="cb199"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a>((tst.<span class="bu">filter</span>.<span class="bu">filter</span>(tst.data, tst.mask)[<span class="dv">1</span>] <span class="op">-</span></span>
 <span id="cb199-2"><a href="#cb199-2" aria-hidden="true" tabindex="-1"></a>np.float32(tst.filter_pyk.<span class="bu">filter</span>(tst.data_pyk)[<span class="dv">1</span>]))).<span class="bu">max</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor(0.0164794922)</code></pre>
+<pre><code>tensor(0.0136718750)</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1971,20 +1981,20 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb202"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb202-1"><a href="#cb202-1" aria-hidden="true" tabindex="-1"></a>test_close(</span>
-<span id="cb202-2"><a href="#cb202-2" aria-hidden="true" tabindex="-1"></a>    tst.<span class="bu">filter</span>.<span class="bu">filter</span>(tst.data, tst.mask_torch),</span>
+<span id="cb202-2"><a href="#cb202-2" aria-hidden="true" tabindex="-1"></a>    tst.<span class="bu">filter</span>.<span class="bu">filter</span>(tst.data, tst.mask),</span>
 <span id="cb202-3"><a href="#cb202-3" aria-hidden="true" tabindex="-1"></a>    tst.filter_pyk.<span class="bu">filter</span>(tst.data_pyk), eps<span class="op">=</span><span class="fl">4e-2</span>) <span class="co"># need to increase the resolution</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>using <code>float64</code> the error is smaller, which confirms that it is only a numerical issue</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb203"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb203-1"><a href="#cb203-1" aria-hidden="true" tabindex="-1"></a>test_close(</span>
-<span id="cb203-2"><a href="#cb203-2" aria-hidden="true" tabindex="-1"></a>    tst64.<span class="bu">filter</span>.<span class="bu">filter</span>(tst.data, tst.mask_torch),</span>
+<span id="cb203-2"><a href="#cb203-2" aria-hidden="true" tabindex="-1"></a>    tst64.<span class="bu">filter</span>.<span class="bu">filter</span>(tst.data, tst.mask),</span>
 <span id="cb203-3"><a href="#cb203-3" aria-hidden="true" tabindex="-1"></a>    tst64.filter_pyk.<span class="bu">filter</span>(tst.data_pyk))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb204"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb204-1"><a href="#cb204-1" aria-hidden="true" tabindex="-1"></a>((tst64.<span class="bu">filter</span>.<span class="bu">filter</span>(tst64.data, tst64.mask_torch)[<span class="dv">1</span>] <span class="op">-</span></span>
+<div class="sourceCode cell-code" id="cb204"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb204-1"><a href="#cb204-1" aria-hidden="true" tabindex="-1"></a>((tst64.<span class="bu">filter</span>.<span class="bu">filter</span>(tst64.data, tst64.mask)[<span class="dv">1</span>] <span class="op">-</span></span>
 <span id="cb204-2"><a href="#cb204-2" aria-hidden="true" tabindex="-1"></a>tst64.filter_pyk.<span class="bu">filter</span>(tst64.data_pyk)[<span class="dv">1</span>])).<span class="bu">max</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor(4.6659886710e-07, dtype=torch.float64)</code></pre>
+<pre><code>tensor(4.6659887309e-07, dtype=torch.float64)</code></pre>
 </div>
 </div>
 <section id="old-testing-1" class="level5">
@@ -2005,16 +2015,16 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 <div class="sourceCode cell-code" id="cb208"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb208-1"><a href="#cb208-1" aria-hidden="true" tabindex="-1"></a>k2.<span class="bu">filter</span>(X2m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>ListNormal(mean=tensor([[ 0.0000000000,  0.0000000000],
-        [ 1.3333332539, 13.3333320618],
-        [ 1.3333332539, 13.3333320618],
+        [ 1.3333333731, 13.3333339691],
+        [ 1.3333333731, 13.3333339691],
         [ 3.2727272511, 32.7272720337]]), cov=tensor([[[1.0000001192, 0.0000000000],
          [0.0000000000, 1.0000001192]],
 
-        [[0.6666668653, 0.0000000000],
-         [0.0000000000, 0.6666668653]],
+        [[0.6666667461, 0.0000000000],
+         [0.0000000000, 0.6666667461]],
 
-        [[1.6666669846, 0.0000000000],
-         [0.0000000000, 1.6666669846]],
+        [[1.6666668653, 0.0000000000],
+         [0.0000000000, 1.6666668653]],
 
         [[0.7272727489, 0.0000000000],
          [0.0000000000, 0.7272727489]]]))</code></pre>
@@ -2084,7 +2094,7 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 <div class="sourceCode cell-code" id="cb217"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb217-1"><a href="#cb217-1" aria-hidden="true" tabindex="-1"></a>(pred_state_means, pred_state_covs, filt_state_means, filt_state_covs ) <span class="op">=</span> k2._filter_all(X2m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb218"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb218-1"><a href="#cb218-1" aria-hidden="true" tabindex="-1"></a>torch_smooth <span class="op">=</span> _smooth(k2.transition_matrices,  ListNormal(filt_state_means, filt_state_covs), ListNormal(pred_state_means, pred_state_covs))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb218"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb218-1"><a href="#cb218-1" aria-hidden="true" tabindex="-1"></a>torch_smooth <span class="op">=</span> _smooth(k2.transition_matrices,  ListMNormal(filt_state_means, filt_state_covs), ListMNormal(pred_state_means, pred_state_covs))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb219"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb219-1"><a href="#cb219-1" aria-hidden="true" tabindex="-1"></a>pyk_sm_mean, pyk_sm_cov, _ <span class="op">=</span> pykalman.standard._smooth(k2.transition_matrices.detach().numpy(),</span>
@@ -2097,14 +2107,14 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 <div class="cell">
 <div class="sourceCode cell-code" id="cb221"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb221-1"><a href="#cb221-1" aria-hidden="true" tabindex="-1"></a>torch_smooth</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>ListNormal(mean=tensor([[ 0.9090909362,  9.0909090042],
+<pre><code>ListNormal(mean=tensor([[ 0.9090908766,  9.0909080505],
         [ 1.8181818724, 18.1818180084],
-        [ 2.5454545021, 25.4545459747],
+        [ 2.5454545021, 25.4545440674],
         [ 3.2727272511, 32.7272720337]], grad_fn=&lt;CopySlices&gt;), cov=tensor([[[0.6363637447, 0.0000000000],
          [0.0000000000, 0.6363637447]],
 
-        [[0.5454546809, 0.0000000000],
-         [0.0000000000, 0.5454546809]],
+        [[0.5454545617, 0.0000000000],
+         [0.0000000000, 0.5454545617]],
 
         [[0.9090909958, 0.0000000000],
          [0.0000000000, 0.9090909958]],
@@ -2117,7 +2127,7 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 <section id="kalmanfilter-method-1" class="level4">
 <h4 class="anchored" data-anchor-id="kalmanfilter-method-1">KalmanFilter method</h4>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L711" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L682" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 </section>
 <section id="kalmanfilter.smooth" class="level3">
@@ -2125,8 +2135,14 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 <blockquote class="blockquote">
 <pre><code> KalmanFilter.smooth (obs:torch.Tensor, mask=None, check_args=None)</code></pre>
 </blockquote>
-<p>Smoothing for prediction (no gradients)</p>
+<p>Kalman Filter Smoothing</p>
 <table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
 <thead>
 <tr class="header">
 <th></th>
@@ -2156,16 +2172,16 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 </tr>
 <tr class="even">
 <td><strong>Returns</strong></td>
-<td><strong>Tuple</strong></td>
+<td><strong>ListNormal</strong></td>
 <td></td>
-<td></td>
+<td><strong><code>[n_timesteps, n_dim_state]</code> smoothed hidden state distributions for times <code>[0...n_timesteps-1]</code></strong></td>
 </tr>
 </tbody>
 </table>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb224"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb224-1"><a href="#cb224-1" aria-hidden="true" tabindex="-1"></a>k.smooth(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>ListNormal(mean=tensor([[0.9230769277],
+<pre><code>ListNormal(mean=tensor([[0.9230769873],
         [1.7692308426],
         [2.3846154213]], grad_fn=&lt;CopySlices&gt;), cov=tensor([[[0.3846154213]],
 
@@ -2178,12 +2194,12 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 <h4 class="anchored" data-anchor-id="final-testing-1">Final Testing</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb226"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb226-1"><a href="#cb226-1" aria-hidden="true" tabindex="-1"></a>test_close(</span>
-<span id="cb226-2"><a href="#cb226-2" aria-hidden="true" tabindex="-1"></a>    tst.<span class="bu">filter</span>.smooth(tst.data, tst.mask_torch),</span>
+<span id="cb226-2"><a href="#cb226-2" aria-hidden="true" tabindex="-1"></a>    tst.<span class="bu">filter</span>.smooth(tst.data, tst.mask),</span>
 <span id="cb226-3"><a href="#cb226-3" aria-hidden="true" tabindex="-1"></a>    tst.filter_pyk.smooth(tst.data_pyk), eps<span class="op">=</span><span class="fl">4e-2</span>) <span class="co"># need to increase the resolution</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb227"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb227-1"><a href="#cb227-1" aria-hidden="true" tabindex="-1"></a>test_close(</span>
-<span id="cb227-2"><a href="#cb227-2" aria-hidden="true" tabindex="-1"></a>    tst64.<span class="bu">filter</span>.smooth(tst64.data, tst64.mask_torch),</span>
+<span id="cb227-2"><a href="#cb227-2" aria-hidden="true" tabindex="-1"></a>    tst64.<span class="bu">filter</span>.smooth(tst64.data, tst64.mask),</span>
 <span id="cb227-3"><a href="#cb227-3" aria-hidden="true" tabindex="-1"></a>    tst64.filter_pyk.smooth(tst64.data_pyk))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
@@ -2208,43 +2224,141 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 </section>
 <section id="predict" class="level3">
 <h3 class="anchored" data-anchor-id="predict">Predict</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb231"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb231-1"><a href="#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.gaussian <span class="im">import</span> conditional_guassian</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In order to have conditional predictions that make sense it’s not possible to return the full covariance matrix for the predictions but only the standard deviations</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb232"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb232-1"><a href="#cb232-1" aria-hidden="true" tabindex="-1"></a>obs <span class="op">=</span> tst.data[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb233"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb233-1"><a href="#cb233-1" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> tst.mask[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb234"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb234-1"><a href="#cb234-1" aria-hidden="true" tabindex="-1"></a>obs, mask</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(tensor([         nan,          nan, 0.1447432041]),
+ tensor([False, False,  True]))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb236"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb236-1"><a href="#cb236-1" aria-hidden="true" tabindex="-1"></a>conditional_guassian</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>&lt;function meteo_imp.gaussian.conditional_guassian(μ: torch.Tensor, Σ: torch.Tensor, obs: torch.Tensor, idx: torch.Tensor) -&gt; meteo_imp.utils.ListNormal&gt;</code></pre>
+</div>
+</div>
+<p>The conditional gaussian returns a distributions of 2 variables, which are the un-observed ones (you can see the <code>nan</code> in the observation vector)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb238"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb238-1"><a href="#cb238-1" aria-hidden="true" tabindex="-1"></a>conditional_guassian(tst.params[<span class="st">'initial_state_mean'</span>], tst.params[<span class="st">'initial_state_cov'</span>], obs[mask], mask)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>ListNormal(mean=tensor([0.2185786664, 0.7684277892]), cov=tensor([[0.5029462576, 0.1716584265],
+        [0.1716584265, 0.5350958705]]))</code></pre>
+</div>
+</div>
+<p>which are correctly merged with the predictions</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb240"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb240-1"><a href="#cb240-1" aria-hidden="true" tabindex="-1"></a>_get_cond_pred(ListMNormal(tst.params[<span class="st">'initial_state_mean'</span>], tst.params[<span class="st">'initial_state_cov'</span>]), obs, mask)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>ListNormal(mean=tensor([0.2185786664, 0.7684277892, 0.7890297771]), cov=tensor([0.5029462576, 0.5350958705, 0.9363083839]))</code></pre>
+</div>
+</div>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L748" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L731" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="kalmanfilter.predict" class="level3">
 <h3 class="anchored" data-anchor-id="kalmanfilter.predict">KalmanFilter.predict</h3>
 <blockquote class="blockquote">
-<pre><code> KalmanFilter.predict (obs, times, mask=None, smooth=True,
-                       check_args=None)</code></pre>
+<pre><code> KalmanFilter.predict (obs, mask=None, smooth=True, check_args=None)</code></pre>
 </blockquote>
+<p>Predicted observations at all times</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb232"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb232-1"><a href="#cb232-1" aria-hidden="true" tabindex="-1"></a>k.predict(X, [<span class="dv">1</span>,<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb243"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb243-1"><a href="#cb243-1" aria-hidden="true" tabindex="-1"></a>k.predict(obs<span class="op">=</span>X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>ListNormal(mean=tensor([[1],
-        [2]]), cov=tensor([[[1]],
-
-        [[1]]]))</code></pre>
+<pre><code>ListNormal(mean=tensor([[0],
+        [1],
+        [2]]), cov=tensor([[1],
+        [1],
+        [1]]))</code></pre>
 </div>
 </div>
-<p>pykalman doesn’t support a predict method</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb234"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb234-1"><a href="#cb234-1" aria-hidden="true" tabindex="-1"></a>tst.<span class="bu">filter</span>.predict(tst.data, times <span class="op">=</span> torch.tensor([<span class="dv">0</span>,<span class="dv">1</span>]), mask <span class="op">=</span> tst.mask_torch)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb245"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb245-1"><a href="#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb245-2"><a href="#cb245-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_times(<span class="va">self</span>: KalmanFilter, times, obs, mask<span class="op">=</span><span class="va">None</span>, smooth<span class="op">=</span><span class="va">True</span>, check_args<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb245-3"><a href="#cb245-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Predicted observations at specific times """</span></span>
+<span id="cb245-4"><a href="#cb245-4" aria-hidden="true" tabindex="-1"></a>    state <span class="op">=</span> <span class="va">self</span>.smooth(obs, mask, check_args) <span class="cf">if</span> smooth <span class="cf">else</span> <span class="va">self</span>.<span class="bu">filter</span>(obs, mask, check_args)</span>
+<span id="cb245-5"><a href="#cb245-5" aria-hidden="true" tabindex="-1"></a>    obs, mask <span class="op">=</span> <span class="va">self</span>._parse_obs(obs, mask)</span>
+<span id="cb245-6"><a href="#cb245-6" aria-hidden="true" tabindex="-1"></a>    times <span class="op">=</span> array1d(times)</span>
+<span id="cb245-7"><a href="#cb245-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb245-8"><a href="#cb245-8" aria-hidden="true" tabindex="-1"></a>    n_timesteps <span class="op">=</span> obs.shape[<span class="dv">0</span>]</span>
+<span id="cb245-9"><a href="#cb245-9" aria-hidden="true" tabindex="-1"></a>    n_features <span class="op">=</span> obs.shape[<span class="dv">1</span>] <span class="cf">if</span> <span class="bu">len</span>(obs.shape) <span class="op">&gt;</span> <span class="dv">1</span> <span class="cf">else</span> <span class="dv">1</span></span>
+<span id="cb245-10"><a href="#cb245-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb245-11"><a href="#cb245-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> times.<span class="bu">max</span>() <span class="op">&gt;</span> n_timesteps <span class="kw">or</span> times.<span class="bu">min</span>() <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb245-12"><a href="#cb245-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"provided times range from </span><span class="sc">{</span>times<span class="sc">.</span><span class="bu">min</span>()<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>times<span class="sc">.</span><span class="bu">max</span>()<span class="sc">}</span><span class="ss">, which is outside allowed range : 0 to </span><span class="sc">{</span>n_timesteps<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb245-13"><a href="#cb245-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb245-14"><a href="#cb245-14" aria-hidden="true" tabindex="-1"></a>    means <span class="op">=</span> torch.empty((times.shape[<span class="dv">0</span>], n_features), dtype<span class="op">=</span>obs.dtype, device<span class="op">=</span>obs.device)</span>
+<span id="cb245-15"><a href="#cb245-15" aria-hidden="true" tabindex="-1"></a>    stds <span class="op">=</span> torch.empty((times.shape[<span class="dv">0</span>], n_features), dtype<span class="op">=</span>obs.dtype, device<span class="op">=</span>obs.device) </span>
+<span id="cb245-16"><a href="#cb245-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, t <span class="kw">in</span> <span class="bu">enumerate</span>(times):</span>
+<span id="cb245-17"><a href="#cb245-17" aria-hidden="true" tabindex="-1"></a>        mean, std <span class="op">=</span> <span class="va">self</span>._obs_from_state(</span>
+<span id="cb245-18"><a href="#cb245-18" aria-hidden="true" tabindex="-1"></a>            state.mean[t],</span>
+<span id="cb245-19"><a href="#cb245-19" aria-hidden="true" tabindex="-1"></a>            state.cov[t],</span>
+<span id="cb245-20"><a href="#cb245-20" aria-hidden="true" tabindex="-1"></a>            {<span class="st">'t'</span>: t, <span class="op">**</span>check_args} <span class="cf">if</span> check_args <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="cf">else</span> <span class="va">None</span></span>
+<span id="cb245-21"><a href="#cb245-21" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb245-22"><a href="#cb245-22" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb245-23"><a href="#cb245-23" aria-hidden="true" tabindex="-1"></a>        means[i], stds[i] <span class="op">=</span> _get_cond_pred(ListNormal(mean, std), obs[t], mask[t])</span>
+<span id="cb245-24"><a href="#cb245-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb245-25"><a href="#cb245-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ListNormal(means, stds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>pykalman doesn’t support a predict method so cannot test it</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb246"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb246-1"><a href="#cb246-1" aria-hidden="true" tabindex="-1"></a>tst.<span class="bu">filter</span>.predict(obs <span class="op">=</span> tst.data, mask <span class="op">=</span> tst.mask)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>ListNormal(mean=tensor([[-0.6047446132, -0.3410776258, -0.8897568583],
-        [-0.6956433058, -0.1774560809, -0.2678230107]], grad_fn=&lt;CopySlices&gt;), cov=tensor([[[1.3786063194, 1.2001909018, 0.7694454193],
-         [1.2001911402, 1.5085724592, 1.0023529530],
-         [0.7694455385, 1.0023529530, 0.6710571051]],
-
-        [[1.5426188707, 1.2861547470, 0.9304560423],
-         [1.2861535549, 1.5494836569, 1.0789959431],
-         [0.9304523468, 1.0789948702, 0.8079837561]]], grad_fn=&lt;CopySlices&gt;))</code></pre>
+<pre><code>ListNormal(mean=tensor([[ -0.6047455072,  -0.3410785496,  -0.8897573948],
+        [ -0.2205420136,   0.3734886348,  -0.2678204179],
+        [ -0.3052026033,  -0.0828769058,  -0.3607888818],
+        [ -0.1924917698,   0.4762574434,   0.0677606612],
+        [ -1.1070644855,  -0.4604101777,  -1.0243494511],
+        [  0.7939198017,   1.2671041489,  -1.2907928228],
+        [ -3.9161019325,   0.2353487015,  -2.1520776749],
+        [ -7.5471377373,  -3.3984923363,  -3.8493471146],
+        [  0.7200727463,   0.4723429680,  -7.3889012337],
+        [-29.8530921936, -13.6784477234,   0.2633743286]],
+       grad_fn=&lt;CopySlices&gt;), cov=tensor([[1.3786094189e+00, 1.5085731745e+00, 6.7105740309e-01],
+        [4.7113466263e-01, 1.0857510567e-01, 8.0798768997e-01],
+        [1.3586046696e+00, 1.5136264563e+00, 6.7360198498e-01],
+        [1.6171462536e+00, 4.8515403271e-01, 2.4831527472e-01],
+        [1.4550975561e+00, 1.5340417624e+00, 6.8079990149e-01],
+        [6.7466330528e-01, 2.0115792751e-01, 1.6073360443e+00],
+        [1.7565574646e+01, 2.0455598831e-01, 4.8304719925e+00],
+        [7.3705223083e+01, 1.6880187988e+01, 1.8299066544e+01],
+        [1.1854248047e+00, 2.4515533447e-01, 7.3891708374e+01],
+        [1.2984267578e+03, 2.7682913208e+02, 9.0087890625e-02]],
+       grad_fn=&lt;CopySlices&gt;))</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb236"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb236-1"><a href="#cb236-1" aria-hidden="true" tabindex="-1"></a>mean, cov <span class="op">=</span> tst64.<span class="bu">filter</span>.smooth(tst64.data, tst64.mask_torch)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb248"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb248-1"><a href="#cb248-1" aria-hidden="true" tabindex="-1"></a>mean, std <span class="op">=</span> tst.<span class="bu">filter</span>.predict_times(obs <span class="op">=</span> tst.data, times <span class="op">=</span> torch.tensor([<span class="dv">0</span>,<span class="dv">1</span>]), mask <span class="op">=</span> tst.mask)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb237"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb237-1"><a href="#cb237-1" aria-hidden="true" tabindex="-1"></a>tst64.<span class="bu">filter</span>._obs_from_state(mean[<span class="dv">0</span>], cov[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb249"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb249-1"><a href="#cb249-1" aria-hidden="true" tabindex="-1"></a>mean, std</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(tensor([[-0.6047455072, -0.3410785496, -0.8897573948],
+         [-0.2205420136,  0.3734886348, -0.2678204179]], grad_fn=&lt;CopySlices&gt;),
+ tensor([[1.3786094189, 1.5085731745, 0.6710574031],
+         [0.4711346626, 0.1085751057, 0.8079876900]], grad_fn=&lt;CopySlices&gt;))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb251"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb251-1"><a href="#cb251-1" aria-hidden="true" tabindex="-1"></a>print_info((mean, std))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> - shape: torch.Size([2, 3]), type torch.float32, mean -0.3250758647918701
+ - shape: torch.Size([2, 3]), type torch.float32, mean 0.8243228793144226</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb253"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb253-1"><a href="#cb253-1" aria-hidden="true" tabindex="-1"></a>mean, cov <span class="op">=</span> tst64.<span class="bu">filter</span>.smooth(tst64.data, tst64.mask)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb254"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb254-1"><a href="#cb254-1" aria-hidden="true" tabindex="-1"></a>tst64.<span class="bu">filter</span>._obs_from_state(mean[<span class="dv">0</span>], cov[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>ListNormal(mean=tensor([0.3861103695, 0.7449462019, 0.1333758789], dtype=torch.float64,
        grad_fn=&lt;MvBackward0&gt;), cov=tensor([[1.1592958931, 0.6811550132, 0.9250637696],
@@ -2256,8 +2370,10 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 </section>
 <section id="log-likelihood" class="level3">
 <h3 class="anchored" data-anchor-id="log-likelihood">Log Likelihood</h3>
+<p>This code is old now as the log likelihood is not computed here</p>
+<p>TODO: open issue in pykalman for error in ll missing data</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb239"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb239-1"><a href="#cb239-1" aria-hidden="true" tabindex="-1"></a>pykalman.standard.KalmanFilter.loglikelihood??</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb256"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb256-1"><a href="#cb256-1" aria-hidden="true" tabindex="-1"></a>pykalman.standard.KalmanFilter.loglikelihood??</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">Signature:</span> pykalman<span class="ansi-blue-fg">.</span>standard<span class="ansi-blue-fg">.</span>KalmanFilter<span class="ansi-blue-fg">.</span>loglikelihood<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> X<span class="ansi-blue-fg">)</span>
@@ -2306,7 +2422,7 @@ corr_state_cov - shape: (3, 3), type float32, mean 0.11594609171152115</code></p
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb240"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb240-1"><a href="#cb240-1" aria-hidden="true" tabindex="-1"></a>pykalman.standard._loglikelihoods??</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb257"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb257-1"><a href="#cb257-1" aria-hidden="true" tabindex="-1"></a>pykalman.standard._loglikelihoods??</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">Signature:</span>
@@ -2384,7 +2500,7 @@ pykalman<span class="ansi-blue-fg">.</span>standard<span class="ansi-blue-fg">.<
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L775" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L752" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="kalmanfilter.filter_loglikelihood" class="level3">
 <h3 class="anchored" data-anchor-id="kalmanfilter.filter_loglikelihood">KalmanFilter.filter_loglikelihood</h3>
@@ -2393,62 +2509,77 @@ pykalman<span class="ansi-blue-fg">.</span>standard<span class="ansi-blue-fg">.<
 </blockquote>
 <p>Compute log likelihood using only filter step</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb242"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb242-1"><a href="#cb242-1" aria-hidden="true" tabindex="-1"></a>k.filter_loglikelihood(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb259"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb259-1"><a href="#cb259-1" aria-hidden="true" tabindex="-1"></a>k.filter_loglikelihood(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>tensor(-5.2315979004, grad_fn=&lt;SumBackward0&gt;)</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb244"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb244-1"><a href="#cb244-1" aria-hidden="true" tabindex="-1"></a>test_close(k.filter_loglikelihood(X), pyk.loglikelihood(nX))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb261"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb261-1"><a href="#cb261-1" aria-hidden="true" tabindex="-1"></a>test_close(k.filter_loglikelihood(X), pyk.loglikelihood(nX))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb245"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb245-1"><a href="#cb245-1" aria-hidden="true" tabindex="-1"></a>pred_state, pred_state_cov, _, _ <span class="op">=</span> <span class="bu">tuple</span>(<span class="bu">map</span>(_stack_detach, tst.<span class="bu">filter</span>._filter_all(tst.data, tst.mask_torch)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb262"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb262-1"><a href="#cb262-1" aria-hidden="true" tabindex="-1"></a>pred_state, pred_state_cov, _, _ <span class="op">=</span> <span class="bu">tuple</span>(<span class="bu">map</span>(_stack_detach, tst.<span class="bu">filter</span>._filter_all(tst.data, tst.mask)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb246"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb246-1"><a href="#cb246-1" aria-hidden="true" tabindex="-1"></a>tst <span class="op">=</span> KalmanFilterTester(nan_mask <span class="op">=</span> <span class="va">False</span>, p_missing<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb263"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb263-1"><a href="#cb263-1" aria-hidden="true" tabindex="-1"></a>tst <span class="op">=</span> KalmanFilterTester(nan_mask <span class="op">=</span> <span class="va">False</span>, p_missing<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb247"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb247-1"><a href="#cb247-1" aria-hidden="true" tabindex="-1"></a>pykalman.standard._loglikelihoods(</span>
-<span id="cb247-2"><a href="#cb247-2" aria-hidden="true" tabindex="-1"></a>    tst.params_pyk[<span class="st">'observation_matrices'</span>],</span>
-<span id="cb247-3"><a href="#cb247-3" aria-hidden="true" tabindex="-1"></a>    tst.params_pyk[<span class="st">'observation_offsets'</span>],</span>
-<span id="cb247-4"><a href="#cb247-4" aria-hidden="true" tabindex="-1"></a>    tst.params_pyk[<span class="st">'observation_covariance'</span>],</span>
-<span id="cb247-5"><a href="#cb247-5" aria-hidden="true" tabindex="-1"></a>    pred_state.numpy(),</span>
-<span id="cb247-6"><a href="#cb247-6" aria-hidden="true" tabindex="-1"></a>    pred_state_cov.numpy(),</span>
-<span id="cb247-7"><a href="#cb247-7" aria-hidden="true" tabindex="-1"></a>    np.array(tst.data_pyk)</span>
-<span id="cb247-8"><a href="#cb247-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb264"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb264-1"><a href="#cb264-1" aria-hidden="true" tabindex="-1"></a>pykalman.standard._loglikelihoods(</span>
+<span id="cb264-2"><a href="#cb264-2" aria-hidden="true" tabindex="-1"></a>    tst.params_pyk[<span class="st">'observation_matrices'</span>],</span>
+<span id="cb264-3"><a href="#cb264-3" aria-hidden="true" tabindex="-1"></a>    tst.params_pyk[<span class="st">'observation_offsets'</span>],</span>
+<span id="cb264-4"><a href="#cb264-4" aria-hidden="true" tabindex="-1"></a>    tst.params_pyk[<span class="st">'observation_covariance'</span>],</span>
+<span id="cb264-5"><a href="#cb264-5" aria-hidden="true" tabindex="-1"></a>    pred_state.numpy(),</span>
+<span id="cb264-6"><a href="#cb264-6" aria-hidden="true" tabindex="-1"></a>    pred_state_cov.numpy(),</span>
+<span id="cb264-7"><a href="#cb264-7" aria-hidden="true" tabindex="-1"></a>    np.array(tst.data_pyk)</span>
+<span id="cb264-8"><a href="#cb264-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>array([-7.21565866, -8.82125473, -2.9186945 , -4.1535387 , -4.70461464,
+       -3.17974091, -5.66553164, -4.03850698, -9.17989349, -7.91263866])</code></pre>
+</div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb248"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb248-1"><a href="#cb248-1" aria-hidden="true" tabindex="-1"></a>test_close(</span>
-<span id="cb248-2"><a href="#cb248-2" aria-hidden="true" tabindex="-1"></a>    tst.<span class="bu">filter</span>.filter_loglikelihood(tst.data, tst.mask_torch),</span>
-<span id="cb248-3"><a href="#cb248-3" aria-hidden="true" tabindex="-1"></a>    tst.filter_pyk.loglikelihood(tst.data_pyk)) <span class="co"># need to increase the resolution</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb266"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb266-1"><a href="#cb266-1" aria-hidden="true" tabindex="-1"></a>test_close(</span>
+<span id="cb266-2"><a href="#cb266-2" aria-hidden="true" tabindex="-1"></a>    tst.<span class="bu">filter</span>.filter_loglikelihood(tst.data, tst.mask),</span>
+<span id="cb266-3"><a href="#cb266-3" aria-hidden="true" tabindex="-1"></a>    tst.filter_pyk.loglikelihood(tst.data_pyk)) <span class="co"># need to increase the resolution</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>AssertionError: close:
+-56.819942474365234
+-58.91577704502168</code></pre>
+</div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb249"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb249-1"><a href="#cb249-1" aria-hidden="true" tabindex="-1"></a>k2.filter_loglikelihood(X2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb268"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb268-1"><a href="#cb268-1" aria-hidden="true" tabindex="-1"></a>k2.filter_loglikelihood(X2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(-181.6866760254, grad_fn=&lt;SumBackward0&gt;)</code></pre>
+</div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb250"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb250-1"><a href="#cb250-1" aria-hidden="true" tabindex="-1"></a>test_close(k2.filter_loglikelihood(X2), pyk2.loglikelihood(nX2), eps<span class="op">=</span><span class="fl">1e-4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb270"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb270-1"><a href="#cb270-1" aria-hidden="true" tabindex="-1"></a>test_close(k2.filter_loglikelihood(X2), pyk2.loglikelihood(nX2), eps<span class="op">=</span><span class="fl">1e-4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>since the goal is to fill gaps we want the log likelihood for the whole gap and only for it</p>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L794" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L771" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="kalmanfilter.loglikelihood" class="level3">
 <h3 class="anchored" data-anchor-id="kalmanfilter.loglikelihood">KalmanFilter.loglikelihood</h3>
 <blockquote class="blockquote">
 <pre><code> KalmanFilter.loglikelihood (obs_train:torch.Tensor, times:torch.Tensor,
-                             obs_test:torch.Tensor)</code></pre>
+                             obs_test:torch.Tensor,
+                             mask:torch.Tensor=None)</code></pre>
 </blockquote>
 <p>Log likelihood only for the <code>obs_test</code> at giben times</p>
 <table class="table">
 <colgroup>
-<col style="width: 9%">
-<col style="width: 38%">
-<col style="width: 52%">
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
 </colgroup>
 <thead>
 <tr class="header">
 <th></th>
 <th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
 <th><strong>Details</strong></th>
 </tr>
 </thead>
@@ -2456,39 +2587,76 @@ pykalman<span class="ansi-blue-fg">.</span>standard<span class="ansi-blue-fg">.<
 <tr class="odd">
 <td>obs_train</td>
 <td>Tensor</td>
+<td></td>
 <td>[n_timesteps, n_dim_obs] Observations use for the filter (can containt missing data)</td>
 </tr>
 <tr class="even">
 <td>times</td>
 <td>Tensor</td>
+<td></td>
 <td>[n_pred_timesteps] time at which to calculate the log likelihood</td>
 </tr>
 <tr class="odd">
 <td>obs_test</td>
 <td>Tensor</td>
+<td></td>
 <td>[n_pred_timesteps, n_dim_obs] observed data to compute log likelihood</td>
 </tr>
 <tr class="even">
+<td>mask</td>
+<td>Tensor</td>
+<td>None</td>
+<td>[n_timesteps, n_dim_obs]</td>
+</tr>
+<tr class="odd">
 <td><strong>Returns</strong></td>
 <td><strong>Tensor</strong></td>
+<td></td>
 <td><strong>scalar that is sum of log likelihoods for all <code>times</code></strong></td>
 </tr>
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb252"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb252-1"><a href="#cb252-1" aria-hidden="true" tabindex="-1"></a>k.loglikelihood(X, [<span class="dv">1</span>,<span class="dv">2</span>], X[[<span class="dv">1</span>,<span class="dv">2</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb272"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb272-1"><a href="#cb272-1" aria-hidden="true" tabindex="-1"></a>torch.diag(std[<span class="dv">0</span>]).dtype</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.float32</code></pre>
+</div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb253"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb253-1"><a href="#cb253-1" aria-hidden="true" tabindex="-1"></a>k2.loglikelihood(X2, [<span class="dv">1</span>,<span class="dv">2</span>], X2[[<span class="dv">1</span>,<span class="dv">2</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb274"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb274-1"><a href="#cb274-1" aria-hidden="true" tabindex="-1"></a>tst.<span class="bu">filter</span>.loglikelihood(tst.data, tst.mask, tst.data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(-64.1473693848, grad_fn=&lt;SumBackward0&gt;)</code></pre>
+</div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb254"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb254-1"><a href="#cb254-1" aria-hidden="true" tabindex="-1"></a>k2.loglikelihood(X2m, [<span class="dv">1</span>,<span class="dv">2</span>], X2[[<span class="dv">1</span>,<span class="dv">2</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb276"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb276-1"><a href="#cb276-1" aria-hidden="true" tabindex="-1"></a>X2.dtype</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.float32</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb278"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb278-1"><a href="#cb278-1" aria-hidden="true" tabindex="-1"></a>k.loglikelihood(X, [<span class="dv">1</span>,<span class="dv">2</span>], X[[<span class="dv">1</span>,<span class="dv">2</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(-3.1273550987, grad_fn=&lt;SumBackward0&gt;)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb280"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb280-1"><a href="#cb280-1" aria-hidden="true" tabindex="-1"></a>k2.loglikelihood(X2, [<span class="dv">1</span>,<span class="dv">2</span>], X2[[<span class="dv">1</span>,<span class="dv">2</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(-84.5747451782, grad_fn=&lt;SumBackward0&gt;)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb282"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb282-1"><a href="#cb282-1" aria-hidden="true" tabindex="-1"></a>k2.loglikelihood(X2m, [<span class="dv">1</span>,<span class="dv">2</span>], X2[[<span class="dv">1</span>,<span class="dv">2</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(-86.9698638916, grad_fn=&lt;SumBackward0&gt;)</code></pre>
+</div>
 </div>
 </section>
 <section id="get-info" class="level3">
 <h3 class="anchored" data-anchor-id="get-info">Get Info</h3>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L809" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L787" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="kalmanfilter.get_info" class="level3">
 <h3 class="anchored" data-anchor-id="kalmanfilter.get_info">KalmanFilter.get_info</h3>
@@ -2496,10 +2664,10 @@ pykalman<span class="ansi-blue-fg">.</span>standard<span class="ansi-blue-fg">.<
 <pre><code> KalmanFilter.get_info (var_names=None)</code></pre>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb256"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb256-1"><a href="#cb256-1" aria-hidden="true" tabindex="-1"></a>display_as_row(k.get_info())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb285"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb285-1"><a href="#cb285-1" aria-hidden="true" tabindex="-1"></a>display_as_row(k.get_info())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb257"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb257-1"><a href="#cb257-1" aria-hidden="true" tabindex="-1"></a>display_as_row(k2.get_info())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb286"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb286-1"><a href="#cb286-1" aria-hidden="true" tabindex="-1"></a>display_as_row(k2.get_info())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -2507,31 +2675,31 @@ pykalman<span class="ansi-blue-fg">.</span>standard<span class="ansi-blue-fg">.<
 <h2 class="anchored" data-anchor-id="train-parameters">Train Parameters</h2>
 <p>This implementation of <a href="https://mone27.github.io/meteo_imp/lib/kalman/kalman_filter.html#kalmanfilter"><code>KalmanFilter</code></a> allows to find the optimal parameters by maximising the log-likelihood using gradient descend</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb258"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb258-1"><a href="#cb258-1" aria-hidden="true" tabindex="-1"></a>training_iter <span class="op">=</span> <span class="dv">200</span></span>
-<span id="cb258-2"><a href="#cb258-2" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> KalmanFilter()</span>
-<span id="cb258-3"><a href="#cb258-3" aria-hidden="true" tabindex="-1"></a>k.train()</span>
-<span id="cb258-4"><a href="#cb258-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb258-5"><a href="#cb258-5" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.Adam(k.parameters(), lr<span class="op">=</span><span class="fl">0.005</span>) </span>
-<span id="cb258-6"><a href="#cb258-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb258-7"><a href="#cb258-7" aria-hidden="true" tabindex="-1"></a>losses <span class="op">=</span> []</span>
-<span id="cb258-8"><a href="#cb258-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(training_iter):</span>
-<span id="cb258-9"><a href="#cb258-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Zero gradients from previous iteration</span></span>
-<span id="cb258-10"><a href="#cb258-10" aria-hidden="true" tabindex="-1"></a>    optimizer.zero_grad()</span>
-<span id="cb258-11"><a href="#cb258-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Output from model</span></span>
-<span id="cb258-12"><a href="#cb258-12" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> <span class="op">-</span> k.loglikelihood(X, <span class="bu">range</span>(<span class="bu">len</span>(X)), X)</span>
-<span id="cb258-13"><a href="#cb258-13" aria-hidden="true" tabindex="-1"></a>    losses.append(loss.item())</span>
-<span id="cb258-14"><a href="#cb258-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># backpropagate gradients</span></span>
-<span id="cb258-15"><a href="#cb258-15" aria-hidden="true" tabindex="-1"></a>    loss.backward()</span>
-<span id="cb258-16"><a href="#cb258-16" aria-hidden="true" tabindex="-1"></a>    optimizer.step()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb287"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb287-1"><a href="#cb287-1" aria-hidden="true" tabindex="-1"></a>training_iter <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb287-2"><a href="#cb287-2" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> KalmanFilter()</span>
+<span id="cb287-3"><a href="#cb287-3" aria-hidden="true" tabindex="-1"></a>k.train()</span>
+<span id="cb287-4"><a href="#cb287-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb287-5"><a href="#cb287-5" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.Adam(k.parameters(), lr<span class="op">=</span><span class="fl">0.005</span>) </span>
+<span id="cb287-6"><a href="#cb287-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb287-7"><a href="#cb287-7" aria-hidden="true" tabindex="-1"></a>losses <span class="op">=</span> []</span>
+<span id="cb287-8"><a href="#cb287-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(training_iter):</span>
+<span id="cb287-9"><a href="#cb287-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Zero gradients from previous iteration</span></span>
+<span id="cb287-10"><a href="#cb287-10" aria-hidden="true" tabindex="-1"></a>    optimizer.zero_grad()</span>
+<span id="cb287-11"><a href="#cb287-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Output from model</span></span>
+<span id="cb287-12"><a href="#cb287-12" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> <span class="op">-</span> k.loglikelihood(X, <span class="bu">range</span>(<span class="bu">len</span>(X)), X)</span>
+<span id="cb287-13"><a href="#cb287-13" aria-hidden="true" tabindex="-1"></a>    losses.append(loss.item())</span>
+<span id="cb287-14"><a href="#cb287-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># backpropagate gradients</span></span>
+<span id="cb287-15"><a href="#cb287-15" aria-hidden="true" tabindex="-1"></a>    loss.backward()</span>
+<span id="cb287-16"><a href="#cb287-16" aria-hidden="true" tabindex="-1"></a>    optimizer.step()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb259"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb259-1"><a href="#cb259-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb288"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb288-1"><a href="#cb288-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb260"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb260-1"><a href="#cb260-1" aria-hidden="true" tabindex="-1"></a>plt.plot(losses)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb289"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb289-1"><a href="#cb289-1" aria-hidden="true" tabindex="-1"></a>plt.plot(losses)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb261"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb261-1"><a href="#cb261-1" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(k.parameters())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb290"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb290-1"><a href="#cb290-1" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(k.parameters())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="other" class="level2">
@@ -2543,218 +2711,218 @@ pykalman<span class="ansi-blue-fg">.</span>standard<span class="ansi-blue-fg">.<
 <h3 class="anchored" data-anchor-id="fuzzing-smoother">Fuzzing smoother</h3>
 <p>trying to run the filter many times to see if some of the matrix are not symmetric</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb262"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb262-1"><a href="#cb262-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch._C <span class="im">import</span> _LinAlgError</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb291"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb291-1"><a href="#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch._C <span class="im">import</span> _LinAlgError</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb263"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb263-1"><a href="#cb263-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fuzz_symmetric(n_iter<span class="op">=</span><span class="dv">10</span>, n_obs<span class="op">=</span><span class="dv">100</span>, <span class="op">**</span>kwargs):</span>
-<span id="cb263-2"><a href="#cb263-2" aria-hidden="true" tabindex="-1"></a>    tst <span class="op">=</span> KalmanFilterTester(n_obs<span class="op">=</span>n_obs, <span class="op">**</span>kwargs)</span>
-<span id="cb263-3"><a href="#cb263-3" aria-hidden="true" tabindex="-1"></a>    _, sm_covs <span class="op">=</span> tst.<span class="bu">filter</span>.smooth(tst.data, tst.mask_torch)</span>
-<span id="cb263-4"><a href="#cb263-4" aria-hidden="true" tabindex="-1"></a>    i_posdef <span class="op">=</span> []</span>
-<span id="cb263-5"><a href="#cb263-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> t, cov <span class="kw">in</span> <span class="bu">enumerate</span>(sm_covs):</span>
-<span id="cb263-6"><a href="#cb263-6" aria-hidden="true" tabindex="-1"></a>        i_posdef.append(check_posdef(cov))</span>
-<span id="cb263-7"><a href="#cb263-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.concat(i_posdef)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb292"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb292-1"><a href="#cb292-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fuzz_symmetric(n_iter<span class="op">=</span><span class="dv">10</span>, n_obs<span class="op">=</span><span class="dv">100</span>, <span class="op">**</span>kwargs):</span>
+<span id="cb292-2"><a href="#cb292-2" aria-hidden="true" tabindex="-1"></a>    tst <span class="op">=</span> KalmanFilterTester(n_obs<span class="op">=</span>n_obs, <span class="op">**</span>kwargs)</span>
+<span id="cb292-3"><a href="#cb292-3" aria-hidden="true" tabindex="-1"></a>    _, sm_covs <span class="op">=</span> tst.<span class="bu">filter</span>.smooth(tst.data, tst.mask)</span>
+<span id="cb292-4"><a href="#cb292-4" aria-hidden="true" tabindex="-1"></a>    i_posdef <span class="op">=</span> []</span>
+<span id="cb292-5"><a href="#cb292-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> t, cov <span class="kw">in</span> <span class="bu">enumerate</span>(sm_covs):</span>
+<span id="cb292-6"><a href="#cb292-6" aria-hidden="true" tabindex="-1"></a>        i_posdef.append(check_posdef(cov))</span>
+<span id="cb292-7"><a href="#cb292-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.concat(i_posdef)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb264"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb264-1"><a href="#cb264-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fuzz_smooth(n_obs<span class="op">=</span><span class="dv">100</span>, <span class="op">**</span>kwargs):</span>
-<span id="cb264-2"><a href="#cb264-2" aria-hidden="true" tabindex="-1"></a>    tst <span class="op">=</span> KalmanFilterTester(n_obs<span class="op">=</span>n_obs, <span class="op">**</span>kwargs)</span>
-<span id="cb264-3"><a href="#cb264-3" aria-hidden="true" tabindex="-1"></a>    _, sm_covs <span class="op">=</span> tst.<span class="bu">filter</span>.smooth(tst.data, tst.mask_torch, check_args<span class="op">=</span> {})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb293"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb293-1"><a href="#cb293-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fuzz_smooth(n_obs<span class="op">=</span><span class="dv">100</span>, <span class="op">**</span>kwargs):</span>
+<span id="cb293-2"><a href="#cb293-2" aria-hidden="true" tabindex="-1"></a>    tst <span class="op">=</span> KalmanFilterTester(n_obs<span class="op">=</span>n_obs, <span class="op">**</span>kwargs)</span>
+<span id="cb293-3"><a href="#cb293-3" aria-hidden="true" tabindex="-1"></a>    _, sm_covs <span class="op">=</span> tst.<span class="bu">filter</span>.smooth(tst.data, tst.mask, check_args<span class="op">=</span> {})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb265"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb265-1"><a href="#cb265-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_max_obs(start<span class="op">=</span><span class="dv">100_000</span>, end<span class="op">=</span><span class="dv">100</span>, steps<span class="op">=</span><span class="dv">10</span>, <span class="op">**</span>kwargs):</span>
-<span id="cb265-2"><a href="#cb265-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> n <span class="kw">in</span> torch.logspace(torch.log10(start), torch.log10(end), <span class="dv">10</span>):</span>
-<span id="cb265-3"><a href="#cb265-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
-<span id="cb265-4"><a href="#cb265-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb265-5"><a href="#cb265-5" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(n, <span class="st">"working"</span>)</span>
-<span id="cb265-6"><a href="#cb265-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
-<span id="cb265-7"><a href="#cb265-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> _LinAlgError:</span>
-<span id="cb265-8"><a href="#cb265-8" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(n, <span class="st">"not working"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb294"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb294-1"><a href="#cb294-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_max_obs(start<span class="op">=</span><span class="dv">100_000</span>, end<span class="op">=</span><span class="dv">100</span>, steps<span class="op">=</span><span class="dv">10</span>, <span class="op">**</span>kwargs):</span>
+<span id="cb294-2"><a href="#cb294-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> n <span class="kw">in</span> torch.logspace(torch.log10(start), torch.log10(end), <span class="dv">10</span>):</span>
+<span id="cb294-3"><a href="#cb294-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb294-4"><a href="#cb294-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb294-5"><a href="#cb294-5" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(n, <span class="st">"working"</span>)</span>
+<span id="cb294-6"><a href="#cb294-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb294-7"><a href="#cb294-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> _LinAlgError:</span>
+<span id="cb294-8"><a href="#cb294-8" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(n, <span class="st">"not working"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb266"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb266-1"><a href="#cb266-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb295"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb295-1"><a href="#cb295-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb267"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb267-1"><a href="#cb267-1" aria-hidden="true" tabindex="-1"></a>posdef_log <span class="op">=</span> pd.DataFrame()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb296"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb296-1"><a href="#cb296-1" aria-hidden="true" tabindex="-1"></a>posdef_log <span class="op">=</span> pd.DataFrame()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb268"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb268-1"><a href="#cb268-1" aria-hidden="true" tabindex="-1"></a>total_warn <span class="op">=</span> []</span>
-<span id="cb268-2"><a href="#cb268-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, <span class="dv">200</span>):</span>
-<span id="cb268-3"><a href="#cb268-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> warnings.catch_warnings(record<span class="op">=</span><span class="va">True</span>) <span class="im">as</span> w:</span>
-<span id="cb268-4"><a href="#cb268-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
-<span id="cb268-5"><a href="#cb268-5" aria-hidden="true" tabindex="-1"></a>            fuzz_smooth(n_obs<span class="op">=</span>n)</span>
-<span id="cb268-6"><a href="#cb268-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> _LinAlgError:</span>
-<span id="cb268-7"><a href="#cb268-7" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(n)</span>
-<span id="cb268-8"><a href="#cb268-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
-<span id="cb268-9"><a href="#cb268-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">finally</span>:</span>
-<span id="cb268-10"><a href="#cb268-10" aria-hidden="true" tabindex="-1"></a>            total_warn.append((n, <span class="bu">len</span>(w)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb297"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb297-1"><a href="#cb297-1" aria-hidden="true" tabindex="-1"></a>total_warn <span class="op">=</span> []</span>
+<span id="cb297-2"><a href="#cb297-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, <span class="dv">200</span>):</span>
+<span id="cb297-3"><a href="#cb297-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> warnings.catch_warnings(record<span class="op">=</span><span class="va">True</span>) <span class="im">as</span> w:</span>
+<span id="cb297-4"><a href="#cb297-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb297-5"><a href="#cb297-5" aria-hidden="true" tabindex="-1"></a>            fuzz_smooth(n_obs<span class="op">=</span>n)</span>
+<span id="cb297-6"><a href="#cb297-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> _LinAlgError:</span>
+<span id="cb297-7"><a href="#cb297-7" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(n)</span>
+<span id="cb297-8"><a href="#cb297-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb297-9"><a href="#cb297-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">finally</span>:</span>
+<span id="cb297-10"><a href="#cb297-10" aria-hidden="true" tabindex="-1"></a>            total_warn.append((n, <span class="bu">len</span>(w)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb269"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb269-1"><a href="#cb269-1" aria-hidden="true" tabindex="-1"></a>posdef_log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb298"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb298-1"><a href="#cb298-1" aria-hidden="true" tabindex="-1"></a>posdef_log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb270"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb270-1"><a href="#cb270-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb299"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb299-1"><a href="#cb299-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb271"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb271-1"><a href="#cb271-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(pd.DataFrame(total_warn, columns<span class="op">=</span>[<span class="st">"n_obs"</span>, <span class="st">"n_not_posdef"</span>])).mark_line().encode(alt.X(<span class="st">"n_obs"</span>), alt.Y(<span class="st">"n_not_posdef"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb300"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb300-1"><a href="#cb300-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(pd.DataFrame(total_warn, columns<span class="op">=</span>[<span class="st">"n_obs"</span>, <span class="st">"n_not_posdef"</span>])).mark_line().encode(alt.X(<span class="st">"n_obs"</span>), alt.Y(<span class="st">"n_not_posdef"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb272"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb272-1"><a href="#cb272-1" aria-hidden="true" tabindex="-1"></a>alt.data_transformers.enable(<span class="st">'data_server'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb301"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb301-1"><a href="#cb301-1" aria-hidden="true" tabindex="-1"></a>alt.data_transformers.enable(<span class="st">'data_server'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb273"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb273-1"><a href="#cb273-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(posdef_log).mark_line().encode(alt.X(<span class="st">"t"</span>), alt.Y(<span class="st">"average(sym_upto)"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb302"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb302-1"><a href="#cb302-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(posdef_log).mark_line().encode(alt.X(<span class="st">"t"</span>), alt.Y(<span class="st">"average(sym_upto)"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb274"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb274-1"><a href="#cb274-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(posdef_log).mark_point().encode(alt.X(<span class="st">"t"</span>), alt.Y(<span class="st">"count(is_sym)"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb303"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb303-1"><a href="#cb303-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(posdef_log).mark_point().encode(alt.X(<span class="st">"t"</span>), alt.Y(<span class="st">"count(is_sym)"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb275"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb275-1"><a href="#cb275-1" aria-hidden="true" tabindex="-1"></a>posdef_log[[<span class="st">"t"</span>, <span class="st">"name"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb304"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb304-1"><a href="#cb304-1" aria-hidden="true" tabindex="-1"></a>posdef_log[[<span class="st">"t"</span>, <span class="st">"name"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb276"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb276-1"><a href="#cb276-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(posdef_log.reset_index().index, posdef_log.sym_upto)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb305"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb305-1"><a href="#cb305-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(posdef_log.reset_index().index, posdef_log.sym_upto)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb277"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb277-1"><a href="#cb277-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb306"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb306-1"><a href="#cb306-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb278"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb278-1"><a href="#cb278-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find_max_obs(dtype=torch.float64)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb307"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb307-1"><a href="#cb307-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find_max_obs(dtype=torch.float64)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The function takes 5 min to run so this is the output saved</p>
 <p>with <code>float64</code> there is no problem with positive definite matrices even with 100k observations <code>CPU times: user 30min 43s, sys: 28.6 s, total: 31min 11s Wall time: 5min 26s tensor(100000.) working</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb279"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb279-1"><a href="#cb279-1" aria-hidden="true" tabindex="-1"></a>tst <span class="op">=</span> KalmanFilterTester(n_obs<span class="op">=</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb308"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb308-1"><a href="#cb308-1" aria-hidden="true" tabindex="-1"></a>tst <span class="op">=</span> KalmanFilterTester(n_obs<span class="op">=</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb280"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb280-1"><a href="#cb280-1" aria-hidden="true" tabindex="-1"></a>is_posdef(tst.params[<span class="st">'obs_cov'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb309"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb309-1"><a href="#cb309-1" aria-hidden="true" tabindex="-1"></a>is_posdef(tst.params[<span class="st">'obs_cov'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb281"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb281-1"><a href="#cb281-1" aria-hidden="true" tabindex="-1"></a>is_posdef(tst.params[<span class="st">'transition_cov'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb310"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb310-1"><a href="#cb310-1" aria-hidden="true" tabindex="-1"></a>is_posdef(tst.params[<span class="st">'transition_cov'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb282"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb282-1"><a href="#cb282-1" aria-hidden="true" tabindex="-1"></a>is_posdef(tst.params[<span class="st">'initial_state_cov'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb311"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb311-1"><a href="#cb311-1" aria-hidden="true" tabindex="-1"></a>is_posdef(tst.params[<span class="st">'initial_state_cov'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb283"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb283-1"><a href="#cb283-1" aria-hidden="true" tabindex="-1"></a>tst.<span class="bu">filter</span>.smooth(tst.data, tst.mask_torch)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb312"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb312-1"><a href="#cb312-1" aria-hidden="true" tabindex="-1"></a>tst.<span class="bu">filter</span>.smooth(tst.data, tst.mask)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="random-testing" class="level4">
 <h4 class="anchored" data-anchor-id="random-testing">Random Testing</h4>
 <p>The goal is to generate random set of data and parameters and check that <code>meteo_imp</code> implementation is the same of <code>pykalman</code> implementation</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb284"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb284-1"><a href="#cb284-1" aria-hidden="true" tabindex="-1"></a>n_dim_state <span class="op">=</span> <span class="dv">3</span> </span>
-<span id="cb284-2"><a href="#cb284-2" aria-hidden="true" tabindex="-1"></a>n_dim_obs <span class="op">=</span> <span class="dv">3</span></span>
-<span id="cb284-3"><a href="#cb284-3" aria-hidden="true" tabindex="-1"></a>n_obs <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb284-4"><a href="#cb284-4" aria-hidden="true" tabindex="-1"></a>p_missing <span class="op">=</span> <span class="fl">.3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb313"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb313-1"><a href="#cb313-1" aria-hidden="true" tabindex="-1"></a>n_dim_state <span class="op">=</span> <span class="dv">3</span> </span>
+<span id="cb313-2"><a href="#cb313-2" aria-hidden="true" tabindex="-1"></a>n_dim_obs <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb313-3"><a href="#cb313-3" aria-hidden="true" tabindex="-1"></a>n_obs <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb313-4"><a href="#cb313-4" aria-hidden="true" tabindex="-1"></a>p_missing <span class="op">=</span> <span class="fl">.3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb285"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb285-1"><a href="#cb285-1" aria-hidden="true" tabindex="-1"></a>to_posdef <span class="op">=</span> PosDef().transform</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb314"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb314-1"><a href="#cb314-1" aria-hidden="true" tabindex="-1"></a>to_posdef <span class="op">=</span> PosDef().transform</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb286"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb286-1"><a href="#cb286-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> torch.rand(n_obs, n_dim_obs)</span>
-<span id="cb286-2"><a href="#cb286-2" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> torch.rand(n_obs, n_dim_obs) <span class="op">&gt;</span> p_missing</span>
-<span id="cb286-3"><a href="#cb286-3" aria-hidden="true" tabindex="-1"></a>mask_torch <span class="op">=</span> mask.<span class="bu">all</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb315"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb315-1"><a href="#cb315-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> torch.rand(n_obs, n_dim_obs)</span>
+<span id="cb315-2"><a href="#cb315-2" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> torch.rand(n_obs, n_dim_obs) <span class="op">&gt;</span> p_missing</span>
+<span id="cb315-3"><a href="#cb315-3" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> mask.<span class="bu">all</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb287"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb287-1"><a href="#cb287-1" aria-hidden="true" tabindex="-1"></a>mask[:<span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb316"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb316-1"><a href="#cb316-1" aria-hidden="true" tabindex="-1"></a>mask[:<span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb288"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb288-1"><a href="#cb288-1" aria-hidden="true" tabindex="-1"></a>mask_torch[:<span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb317"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb317-1"><a href="#cb317-1" aria-hidden="true" tabindex="-1"></a>mask[:<span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb289"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb289-1"><a href="#cb289-1" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> {</span>
-<span id="cb289-2"><a href="#cb289-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'transition_matrices'</span>: torch.rand(n_dim_state, n_dim_state),</span>
-<span id="cb289-3"><a href="#cb289-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'transition_offsets'</span>:  torch.rand(n_dim_state),        </span>
-<span id="cb289-4"><a href="#cb289-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'transition_cov'</span>:      to_posdef(torch.rand(n_dim_state, n_dim_state)),        </span>
-<span id="cb289-5"><a href="#cb289-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'obs_matrices'</span>:        torch.rand(n_dim_obs, n_dim_state),</span>
-<span id="cb289-6"><a href="#cb289-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'obs_offsets'</span>:         torch.rand(n_dim_obs),          </span>
-<span id="cb289-7"><a href="#cb289-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'obs_cov'</span>:             to_posdef(torch.rand(n_dim_obs, n_dim_obs)),            </span>
-<span id="cb289-8"><a href="#cb289-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'initial_state_mean'</span>:  torch.rand(n_dim_state),        </span>
-<span id="cb289-9"><a href="#cb289-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'initial_state_cov'</span>:   to_posdef(torch.rand(n_dim_state, n_dim_state)),</span>
-<span id="cb289-10"><a href="#cb289-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb318"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb318-1"><a href="#cb318-1" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> {</span>
+<span id="cb318-2"><a href="#cb318-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'transition_matrices'</span>: torch.rand(n_dim_state, n_dim_state),</span>
+<span id="cb318-3"><a href="#cb318-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'transition_offsets'</span>:  torch.rand(n_dim_state),        </span>
+<span id="cb318-4"><a href="#cb318-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'transition_cov'</span>:      to_posdef(torch.rand(n_dim_state, n_dim_state)),        </span>
+<span id="cb318-5"><a href="#cb318-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'obs_matrices'</span>:        torch.rand(n_dim_obs, n_dim_state),</span>
+<span id="cb318-6"><a href="#cb318-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'obs_offsets'</span>:         torch.rand(n_dim_obs),          </span>
+<span id="cb318-7"><a href="#cb318-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'obs_cov'</span>:             to_posdef(torch.rand(n_dim_obs, n_dim_obs)),            </span>
+<span id="cb318-8"><a href="#cb318-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'initial_state_mean'</span>:  torch.rand(n_dim_state),        </span>
+<span id="cb318-9"><a href="#cb318-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'initial_state_cov'</span>:   to_posdef(torch.rand(n_dim_state, n_dim_state)),</span>
+<span id="cb318-10"><a href="#cb318-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb290"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb290-1"><a href="#cb290-1" aria-hidden="true" tabindex="-1"></a>params2pyk <span class="op">=</span> {</span>
-<span id="cb290-2"><a href="#cb290-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'transition_matrices'</span>: <span class="st">'transition_matrices'</span>,</span>
-<span id="cb290-3"><a href="#cb290-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'transition_offsets'</span>:  <span class="st">'transition_offsets'</span>,        </span>
-<span id="cb290-4"><a href="#cb290-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'transition_cov'</span>:      <span class="st">'transition_covariance'</span>,        </span>
-<span id="cb290-5"><a href="#cb290-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'obs_matrices'</span>:        <span class="st">'observation_matrices'</span>,</span>
-<span id="cb290-6"><a href="#cb290-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'obs_offsets'</span>:         <span class="st">'observation_offsets'</span>,          </span>
-<span id="cb290-7"><a href="#cb290-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'obs_cov'</span>:             <span class="st">'observation_covariance'</span>,            </span>
-<span id="cb290-8"><a href="#cb290-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'initial_state_mean'</span>:  <span class="st">'initial_state_mean'</span>,        </span>
-<span id="cb290-9"><a href="#cb290-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'initial_state_cov'</span>:   <span class="st">'initial_state_covariance'</span>,</span>
-<span id="cb290-10"><a href="#cb290-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb319"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb319-1"><a href="#cb319-1" aria-hidden="true" tabindex="-1"></a>params2pyk <span class="op">=</span> {</span>
+<span id="cb319-2"><a href="#cb319-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'transition_matrices'</span>: <span class="st">'transition_matrices'</span>,</span>
+<span id="cb319-3"><a href="#cb319-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'transition_offsets'</span>:  <span class="st">'transition_offsets'</span>,        </span>
+<span id="cb319-4"><a href="#cb319-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'transition_cov'</span>:      <span class="st">'transition_covariance'</span>,        </span>
+<span id="cb319-5"><a href="#cb319-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'obs_matrices'</span>:        <span class="st">'observation_matrices'</span>,</span>
+<span id="cb319-6"><a href="#cb319-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'obs_offsets'</span>:         <span class="st">'observation_offsets'</span>,          </span>
+<span id="cb319-7"><a href="#cb319-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'obs_cov'</span>:             <span class="st">'observation_covariance'</span>,            </span>
+<span id="cb319-8"><a href="#cb319-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'initial_state_mean'</span>:  <span class="st">'initial_state_mean'</span>,        </span>
+<span id="cb319-9"><a href="#cb319-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'initial_state_cov'</span>:   <span class="st">'initial_state_covariance'</span>,</span>
+<span id="cb319-10"><a href="#cb319-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb291"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb291-1"><a href="#cb291-1" aria-hidden="true" tabindex="-1"></a>params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb320"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb320-1"><a href="#cb320-1" aria-hidden="true" tabindex="-1"></a>params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb292"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb292-1"><a href="#cb292-1" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> KalmanFilter(<span class="op">**</span>params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb321"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb321-1"><a href="#cb321-1" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> KalmanFilter(<span class="op">**</span>params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb293"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb293-1"><a href="#cb293-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> k.smooth(data, mask_torch)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb322"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb322-1"><a href="#cb322-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> k.smooth(data, mask)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>make a <code>pykalman</code> model using the same parameters</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb294"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb294-1"><a href="#cb294-1" aria-hidden="true" tabindex="-1"></a>data_pyk <span class="op">=</span> np.ma.masked_array(data.numpy(), mask <span class="op">=</span> mask.numpy())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb323"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb323-1"><a href="#cb323-1" aria-hidden="true" tabindex="-1"></a>data_pyk <span class="op">=</span> np.ma.masked_array(data.numpy(), mask <span class="op">=</span> mask.numpy())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb295"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb295-1"><a href="#cb295-1" aria-hidden="true" tabindex="-1"></a>pyk_k <span class="op">=</span> pykalman.standard.KalmanFilter(</span>
-<span id="cb295-2"><a href="#cb295-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb295-3"><a href="#cb295-3" aria-hidden="true" tabindex="-1"></a>    transition_matrices<span class="op">=</span>k.transition_matrices.detach().numpy(),</span>
-<span id="cb295-4"><a href="#cb295-4" aria-hidden="true" tabindex="-1"></a>    transition_offsets<span class="op">=</span>k.transition_offsets.detach().numpy(),</span>
-<span id="cb295-5"><a href="#cb295-5" aria-hidden="true" tabindex="-1"></a>    transition_covariance<span class="op">=</span>k.transition_cov.detach().numpy(),</span>
-<span id="cb295-6"><a href="#cb295-6" aria-hidden="true" tabindex="-1"></a>    observation_matrices<span class="op">=</span>k.obs_matrices.detach().numpy(),</span>
-<span id="cb295-7"><a href="#cb295-7" aria-hidden="true" tabindex="-1"></a>    observation_offsets<span class="op">=</span>k.obs_offsets.detach().numpy(),</span>
-<span id="cb295-8"><a href="#cb295-8" aria-hidden="true" tabindex="-1"></a>    observation_covariance<span class="op">=</span>k.obs_cov.detach().numpy(),</span>
-<span id="cb295-9"><a href="#cb295-9" aria-hidden="true" tabindex="-1"></a>    initial_state_mean<span class="op">=</span>k.initial_state_mean.detach().numpy(),</span>
-<span id="cb295-10"><a href="#cb295-10" aria-hidden="true" tabindex="-1"></a>    initial_state_covariance<span class="op">=</span>k.initial_state_cov.detach().numpy()</span>
-<span id="cb295-11"><a href="#cb295-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb324"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb324-1"><a href="#cb324-1" aria-hidden="true" tabindex="-1"></a>pyk_k <span class="op">=</span> pykalman.standard.KalmanFilter(</span>
+<span id="cb324-2"><a href="#cb324-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb324-3"><a href="#cb324-3" aria-hidden="true" tabindex="-1"></a>    transition_matrices<span class="op">=</span>k.transition_matrices.detach().numpy(),</span>
+<span id="cb324-4"><a href="#cb324-4" aria-hidden="true" tabindex="-1"></a>    transition_offsets<span class="op">=</span>k.transition_offsets.detach().numpy(),</span>
+<span id="cb324-5"><a href="#cb324-5" aria-hidden="true" tabindex="-1"></a>    transition_covariance<span class="op">=</span>k.transition_cov.detach().numpy(),</span>
+<span id="cb324-6"><a href="#cb324-6" aria-hidden="true" tabindex="-1"></a>    observation_matrices<span class="op">=</span>k.obs_matrices.detach().numpy(),</span>
+<span id="cb324-7"><a href="#cb324-7" aria-hidden="true" tabindex="-1"></a>    observation_offsets<span class="op">=</span>k.obs_offsets.detach().numpy(),</span>
+<span id="cb324-8"><a href="#cb324-8" aria-hidden="true" tabindex="-1"></a>    observation_covariance<span class="op">=</span>k.obs_cov.detach().numpy(),</span>
+<span id="cb324-9"><a href="#cb324-9" aria-hidden="true" tabindex="-1"></a>    initial_state_mean<span class="op">=</span>k.initial_state_mean.detach().numpy(),</span>
+<span id="cb324-10"><a href="#cb324-10" aria-hidden="true" tabindex="-1"></a>    initial_state_covariance<span class="op">=</span>k.initial_state_cov.detach().numpy()</span>
+<span id="cb324-11"><a href="#cb324-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb296"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb296-1"><a href="#cb296-1" aria-hidden="true" tabindex="-1"></a>pred_pyk <span class="op">=</span> pyk_k.smooth(data_pyk)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb325"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb325-1"><a href="#cb325-1" aria-hidden="true" tabindex="-1"></a>pred_pyk <span class="op">=</span> pyk_k.smooth(data_pyk)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb297"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb297-1"><a href="#cb297-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> params.keys():</span>
-<span id="cb297-2"><a href="#cb297-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(p, <span class="bu">getattr</span>(k, p))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb326"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb326-1"><a href="#cb326-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> params.keys():</span>
+<span id="cb326-2"><a href="#cb326-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(p, <span class="bu">getattr</span>(k, p))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb298"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb298-1"><a href="#cb298-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> params.keys():</span>
-<span id="cb298-2"><a href="#cb298-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(p, <span class="bu">getattr</span>(pyk_k, params2pyk[p]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb327"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb327-1"><a href="#cb327-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> params.keys():</span>
+<span id="cb327-2"><a href="#cb327-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(p, <span class="bu">getattr</span>(pyk_k, params2pyk[p]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
 <section id="compare-statsmodels" class="level3">
 <h3 class="anchored" data-anchor-id="compare-statsmodels">Compare Statsmodels</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb299"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb299-1"><a href="#cb299-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
-<span id="cb299-2"><a href="#cb299-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb328"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb328-1"><a href="#cb328-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb328-2"><a href="#cb328-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb300"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb300-1"><a href="#cb300-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sm_kf = statsmodels.tsa.statespace.kalman_filter.KalmanFilter(</span></span>
-<span id="cb300-2"><a href="#cb300-2" aria-hidden="true" tabindex="-1"></a><span class="co">#     k_endog = 3,</span></span>
-<span id="cb300-3"><a href="#cb300-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     k_states = 3,</span></span>
-<span id="cb300-4"><a href="#cb300-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     initialization = 'known',</span></span>
-<span id="cb300-5"><a href="#cb300-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     initial_state = pyk_ncov.initial_state_mean,</span></span>
-<span id="cb300-6"><a href="#cb300-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     initial_state_cov = pyk_ncov.initial_state_covariance,</span></span>
-<span id="cb300-7"><a href="#cb300-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     design = pyk_ncov.observation_matrices,</span></span>
-<span id="cb300-8"><a href="#cb300-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     obs_cov = pyk_ncov.observation_covariance,</span></span>
-<span id="cb300-9"><a href="#cb300-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     transition = pyk_ncov.transition_matrices,</span></span>
-<span id="cb300-10"><a href="#cb300-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     state_cov = pyk_ncov.transition_covariance)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb329"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb329-1"><a href="#cb329-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sm_kf = statsmodels.tsa.statespace.kalman_filter.KalmanFilter(</span></span>
+<span id="cb329-2"><a href="#cb329-2" aria-hidden="true" tabindex="-1"></a><span class="co">#     k_endog = 3,</span></span>
+<span id="cb329-3"><a href="#cb329-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     k_states = 3,</span></span>
+<span id="cb329-4"><a href="#cb329-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     initialization = 'known',</span></span>
+<span id="cb329-5"><a href="#cb329-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     initial_state = pyk_ncov.initial_state_mean,</span></span>
+<span id="cb329-6"><a href="#cb329-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     initial_state_cov = pyk_ncov.initial_state_covariance,</span></span>
+<span id="cb329-7"><a href="#cb329-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     design = pyk_ncov.observation_matrices,</span></span>
+<span id="cb329-8"><a href="#cb329-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     obs_cov = pyk_ncov.observation_covariance,</span></span>
+<span id="cb329-9"><a href="#cb329-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     transition = pyk_ncov.transition_matrices,</span></span>
+<span id="cb329-10"><a href="#cb329-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     state_cov = pyk_ncov.transition_covariance)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb301"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb301-1"><a href="#cb301-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sm_kf.bind(X_ncov.detach().numpy())</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb330"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb330-1"><a href="#cb330-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sm_kf.bind(X_ncov.detach().numpy())</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb302"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb302-1"><a href="#cb302-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sm_pred = sm_kf.filter()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb331"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb331-1"><a href="#cb331-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sm_pred = sm_kf.filter()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb303"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb303-1"><a href="#cb303-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sm_pred.predicted_state.shape</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb332"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb332-1"><a href="#cb332-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sm_pred.predicted_state.shape</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb304"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb304-1"><a href="#cb304-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sm_pred.predicted_state_cov.shape</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb333"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb333-1"><a href="#cb333-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sm_pred.predicted_state_cov.shape</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb305"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb305-1"><a href="#cb305-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mean = MultivariateNormal(torch.tensor(sm_pred.predicted_state[:, 0]), torch.tensor(sm_pred.predicted_state_cov[:, :, 0]))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb334"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb334-1"><a href="#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mean = MultivariateNormal(torch.tensor(sm_pred.predicted_state[:, 0]), torch.tensor(sm_pred.predicted_state_cov[:, :, 0]))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb306"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb306-1"><a href="#cb306-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sm_kf.loglikeobs()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb335"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb335-1"><a href="#cb335-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sm_kf.loglikeobs()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
