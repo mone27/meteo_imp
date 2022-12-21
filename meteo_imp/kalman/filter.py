@@ -9,6 +9,7 @@ __all__ = ['posdef_log', 'to_posdef', 'is_pos_semidef', 'check_is_pos_semidef', 
 from fastcore.test import *
 from fastcore.basics import patch
 from ..utils import *
+from ..gaussian import *
 from ..data_preparation import MeteoDataTest
 import pykalman
 from typing import *
@@ -353,8 +354,8 @@ class KalmanFilter(torch.nn.Module):
         obs = torch.atleast_2d(obs)
         if obs.shape[0] == 1 and obs.shape[1] > 1:
             obs = obs.T
-        if mask is None: mask = ~torch.isnan(obs).any(axis=1)
-        return obs, mask
+        if mask is None: mask = ~torch.isnan(obs)
+        return obs, torch.atleast_2d(mask)
     
     def __repr__(self):
         return f"""Kalman Filter
@@ -413,7 +414,6 @@ class KalmanFilterTester():
         self.data = torch.rand(self.n_obs, self.n_dim_obs, dtype=self.dtype)
         self.mask = torch.rand(self.n_obs, self.n_dim_obs) > self.p_missing
         if self.nan_mask: self.data[~self.mask] = torch.nan # ensure that the data cannot be used
-        self.mask_torch = self.mask.all(1)
         self.data_pyk = np.ma.masked_array(self.data.numpy(), mask = ~self.mask.numpy()) 
     
     
@@ -459,48 +459,19 @@ def _filter_predict(transition_matrix, transition_cov,
     return (pred_state_mean, pred_state_cov)
 
 # %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 141
-def _filter_correct(obs_matrix, obs_cov,
-                    obs_offset, pred_state_mean,
-                    pred_state_cov, obs, mask, check_args=None):
-    r"""Correct a pred state with a Kalman Filter update
-
-    Incorporate obs `obs` from time `t` to turn
-    :math:`P(x_t | z_{0:t-1})` into :math:`P(x_t | z_{0:t})`
-
-    Parameters
-    ----------
-    obs_matrix : [n_dim_obs, n_dim_state] array
-        obs matrix for time t
-    obs_cov : [n_dim_obs, n_dim_obs] array
-        cov matrix for obs at time t
-    obs_offset : [n_dim_obs] array
-        offset for obs at time t
-    pred_state_mean : [n_dim_state] array
-        mean of state at time t given obss from times
-        [0...t-1]
-    pred_state_cov : [n_dim_state, n_dim_state] array
-        cov of state at time t given obss from times
-        [0...t-1]
-    obs : [n_dim_obs] array
-        obs at time t.  If `obs` is a masked array and any of
-        its values are masked, the obs will be ignored.
-
-    Returns
-    -------
-    kalman_gain : [n_dim_state, n_dim_obs] array
-        Kalman gain matrix for time t
-    corrected_state_mean : [n_dim_state] array
-        mean of state at time t given obss from times
-        [0...t]
-    corrected_state_cov : [n_dim_state, n_dim_state] array
-        cov of state at time t given obss from times
-        [0...t]
-    """
-    if mask:
+def _filter_correct(obs_matrix,
+                    obs_cov,
+                    obs_offset,
+                    pred_state_mean,
+                    pred_state_cov,
+                    obs,
+                    mask,
+                    check_args=None):
+    if mask.all():
         pred_obs_mean = obs_matrix @ pred_state_mean + obs_offset
         pred_obs_cov = obs_matrix @ pred_state_cov @ obs_matrix.T + obs_cov
         
-        kalman_gain = pred_state_cov @ obs_matrix.T @ torch.inverse(pred_obs_cov)
+        kalman_gain = pred_state_cov @ obs_matrix.T @ torch.cholesky_inverse(torch.linalg.cholesky(pred_obs_cov))
 
         corrected_state_mean = pred_state_mean + kalman_gain @ (obs - pred_obs_mean)
         corrected_state_cov = pred_state_cov - kalman_gain @ obs_matrix @ pred_state_cov
@@ -647,11 +618,11 @@ def filter(self: KalmanFilter,
           obs: Tensor, # [n_timesteps, n_dim_obs] obs for times [0...n_timesteps-1]
           mask = None,
           check_args=None
-          ) -> ListNormal: # Filtered state
+          ) -> ListMNormal: # Filtered state
     """Filter observation"""
     _, _, filt_state_means, filt_state_covs = self._filter_all(obs, mask, check_args)
     # need to convert a list of tensors with gradients to a big tensors without gradients
-    return ListNormal(_stack_detach(filt_state_means), _stack_detach(filt_state_covs))
+    return ListMNormal(_stack_detach(filt_state_means), _stack_detach(filt_state_covs))
 
 
 # %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 191
@@ -665,7 +636,7 @@ def _smooth_update(transition_matrix,      # [n_dim_state, n_dim_state]
 
     Calculates posterior distribution of the hidden state at time `t` given the the observations via Kalman Smoothing.
     """
-    kalman_smoothing_gain = filt_state.cov @ transition_matrix.T @ torch.inverse(pred_state.cov)
+    kalman_smoothing_gain = filt_state.cov @ transition_matrix.T @ torch.cholesky_inverse(torch.linalg.cholesky(pred_state.cov))
 
     smoothed_state_mean = filt_state.mean + kalman_smoothing_gain @ (next_smoothed_state.mean - pred_state.mean)
     smoothed_state_cov = (filt_state.cov
@@ -673,20 +644,20 @@ def _smooth_update(transition_matrix,      # [n_dim_state, n_dim_state]
 
     if check_args is not None: check_posdef(pred_state_cov, 'filter_correct', **check_args)
     
-    return ListNormal(smoothed_state_mean, smoothed_state_cov,)
+    return ListMNormal(smoothed_state_mean, smoothed_state_cov,)
 
 # %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 196
 def _smooth(transition_matrices, # `[n_timesteps-1, n_dim_state, n_dim_state]` or `[n_dim_state, n_dim_state]`
-            filt_state: ListNormal, # `[n_timesteps, n_dim_state]`
+            filt_state: ListMNormal, # `[n_timesteps, n_dim_state]`
                 # `filt_state_means[t]` = mean state estimate for time t given obs from times `[0...t]`
-            pred_state: ListNormal, # `[n_timesteps, n_dim_state]`
+            pred_state: ListMNormal, # `[n_timesteps, n_dim_state]`
                 # `pred_state_means[t]` = mean state estimate for time t given obs from times `[0...t-1]`
            check_args: dict|None = None # if not None checks that the result is positive definite
-           ) -> ListNormal: # `[n_timesteps, n_dim_state]` Smoothed state 
+           ) -> ListMNormal: # `[n_timesteps, n_dim_state]` Smoothed state 
     """Apply the Kalman Smoother """
     n_timesteps, n_dim_state = len(pred_state.mean), pred_state.mean[0].shape[0]
 
-    smoothed_state = ListNormal(torch.zeros((n_timesteps,n_dim_state), dtype=pred_state.mean[0].dtype, device=pred_state.mean[0].device), 
+    smoothed_state = ListMNormal(torch.zeros((n_timesteps,n_dim_state), dtype=pred_state.mean[0].dtype, device=pred_state.mean[0].device), 
                                 torch.zeros((n_timesteps, n_dim_state,
                                            n_dim_state), dtype=pred_state.mean[0].dtype, device=pred_state.mean[0].device))
 
@@ -712,65 +683,71 @@ def smooth(self: KalmanFilter,
            obs: Tensor, # dataset
            mask = None,
            check_args=None
-          ) -> Tuple[Tensor, Tensor]:
-                # `smoothed_state_means` : `[n_timesteps, n_dim_state]`
-                    # mean of hidden state distributions for times `[0...n_timesteps-1]`
-                # `smoothed_state_covs` : `[n_timesteps, n_dim_state]`
-                    # covs of hidden state distributions for times `[0...n_timesteps-1]`
+          ) -> ListMNormal: # `[n_timesteps, n_dim_state]` smoothed hidden state distributions for times `[0...n_timesteps-1]`
         
-    """Smoothing for prediction (no gradients)"""
+    """Kalman Filter Smoothing"""
 
     (pred_state_means, pred_state_covs, filt_state_means, filt_state_covs) = self._filter_all(obs, mask, check_args)
 
     return _smooth(
             self.transition_matrices,
-            ListNormal(filt_state_means, filt_state_covs),
-            ListNormal(pred_state_means, pred_state_covs),
+            ListMNormal(filt_state_means, filt_state_covs),
+            ListMNormal(pred_state_means, pred_state_covs),
             check_args
         )
 
   
 
-# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 212
+# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 214
+def _get_cond_pred(pred: ListMNormal,
+                  obs,
+                  mask
+                  ) -> ListNormal:
+    """Conditional prediction given observations and transforms covariances into std deviations"""
+    
+    obs = obs[mask] # select only actually observed values
+    pred_cond = conditional_guassian(pred.mean, pred.cov, obs, mask)
+    
+    mean = pred.mean.clone()
+    mean[~mask] = pred_cond.mean
+    
+    std = torch.diagonal(pred.cov.clone(), dim1=-2, dim2=-1)
+    std[~mask] = torch.diagonal(pred_cond.cov, dim1=-2, dim2=-1)
+    
+    return ListMNormal(mean, std)
+
+# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 223
 @patch
 def _obs_from_state(self: KalmanFilter, state_mean, state_cov, check_args=None):
 
     mean = self.obs_matrices @ state_mean
     cov = self.obs_matrices @ state_cov @ self.obs_matrices.mT + self.obs_cov
     
+    if check_args is not None: check_posdef(cov, 'predict',  **check_args)
     
-    if check_args is not None: check_posdef(pred_state_cov, 'predict',  **check_args)
-                
-    
-    return ListNormal(mean, cov)
+    return ListMNormal(mean, cov)
 
 @patch
-def predict(self: KalmanFilter, obs, times, mask=None, smooth=True, check_args=None):
+def predict(self: KalmanFilter, obs, mask=None, smooth=True, check_args=None):
+    """Predicted observations at all times """
     state = self.smooth(obs, mask, check_args) if smooth else self.filter(obs, mask, check_args)
-    times = array1d(times)
+    obs, mask = self._parse_obs(obs, mask)
     
-    n_timesteps = obs.shape[0]
-    n_features = obs.shape[1] if len(obs.shape) > 1 else 1
-    
-    if times.max() > n_timesteps or times.min() < 0:
-        raise ValueError(f"provided times range from {times.min()} to {times.max()}, which is outside allowed range : 0 to {n_timesteps}")
-
-    means = torch.empty((times.shape[0], n_features), dtype=obs.dtype, device=obs.device)
-    covs = torch.empty((times.shape[0], n_features, n_features), dtype=obs.dtype, device=obs.device) 
-    for i, t in enumerate(times):
-        mean, cov = self._obs_from_state(
+    means = torch.empty_like(obs)
+    stds = torch.empty_like(obs)
+                             
+    for t in range(obs.shape[0]):
+        mean, std = self._obs_from_state(
             state.mean[t],
             state.cov[t],
             {'t': t, **check_args} if check_args is not None else None
         )
         
-        means[i] = mean
-        covs[i] = cov
+        means[t], stds[t] = _get_cond_pred(ListNormal(mean, std), obs[t], mask[t])
     
-    
-    return ListNormal(means, covs)  
+    return ListNormal(means, stds)
 
-# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 222
+# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 237
 @patch
 def filter_loglikelihood(self: KalmanFilter, obs, mask=None):
     "Compute log likelihood using only filter step"
@@ -782,29 +759,30 @@ def filter_loglikelihood(self: KalmanFilter, obs, mask=None):
     max_t = obs.shape[0]
     lls = torch.zeros(max_t)
     for t in range(max_t):
-        if obs_mask[t]:
+        if obs_mask[t].all():
             pred_obs_mean, pred_obs_cov = self._obs_from_state(pred_state_mean[t], pred_state_cov[t])
             ll = MultivariateNormal(pred_obs_mean, pred_obs_cov, validate_args=False).log_prob(obs[t])
             lls[t] = ll
 
     return lls.sum()
 
-# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 232
+# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 247
 @patch
 def loglikelihood(self: KalmanFilter,
                   obs_train: Tensor, # [n_timesteps, n_dim_obs] Observations use for the filter (can containt missing data)
                   times: Tensor, # [n_pred_timesteps] time at which to calculate the log likelihood
-                  obs_test: Tensor # [n_pred_timesteps, n_dim_obs] observed data to compute log likelihood
+                  obs_test: Tensor, # [n_pred_timesteps, n_dim_obs] observed data to compute log likelihood
+                  mask: Tensor=None, # [n_timesteps, n_dim_obs]
                  ) -> Tensor: # scalar that is sum of log likelihoods for all `times`
     "Log likelihood only for the `obs_test` at giben times"
-    means, covs = self.predict(obs_train, times)
+    means, stds = self.predict(obs_train, mask=mask)
     lls = torch.zeros(len(times))
     for t in range(len(times)):
-        lls[t] = MultivariateNormal(means[t], covs[t], validate_args=False).log_prob(obs_test[t:t+1])
+        lls[t] = MultivariateNormal(means[t], torch.diag(stds[t]), validate_args=False).log_prob(obs_test[t:t+1])
     return lls.sum() 
         
 
-# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 237
+# %% ../../lib_nbs/kalman/00_Kalman_Filter.ipynb 255
 @patch
 def get_info(self: KalmanFilter, var_names=None):
     out = {}
