@@ -17,10 +17,10 @@
       "/exploration/pytorch_constraints.html",
       "/kalman/Process_noise.html",
       "/kalman/kalman_fastai.html",
-      "/kalman/kalman_float64.html",
       "/kalman/kalman_obs_cov.html",
       "/Simple GP Hainich.html",
       "/GPFA Hainich.html",
+      "/kalman/kalman_float64.html",
       "/Train multiple latent.html",
       "/var_distribution.html",
       "/extract_gap_all_fluxnet.html"
