@@ -189,6 +189,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../gaussian.html" class="sidebar-item-text sidebar-link">Gaussian Distributions Utilities</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../utils.html" class="sidebar-item-text sidebar-link">Utils</a>
   </div>
 </li>
@@ -247,22 +252,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../kalman/kalman_filter.html" class="sidebar-item-text sidebar-link">Kalman Filter</a>
+  <a href="../kalman/filter.html" class="sidebar-item-text sidebar-link">Kalman Filter</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../kalman/kalman_learner.html" class="sidebar-item-text sidebar-link active">Kalman Filter Models</a>
+  <a href="../kalman/test_filter_pykalman.html" class="sidebar-item-text sidebar-link">Testing Kalman Filter</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../kalman/kalman_imputation.html" class="sidebar-item-text sidebar-link">Imputation Kalman Model</a>
+  <a href="../kalman/fastai.html" class="sidebar-item-text sidebar-link">Implement Kalman model using FastAI</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../kalman/kalman_fastai.html" class="sidebar-item-text sidebar-link">Implement Kalman model using FastAI</a>
+  <a href="../kalman/learner.html" class="sidebar-item-text sidebar-link active">Kalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/imputation.html" class="sidebar-item-text sidebar-link">Imputation Kalman Model</a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -423,7 +433,7 @@ p(y_t | x_t) &amp; = \mathcal{N}(Hx_t, T) \end{align}\]</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>plt.plot(k.losses)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="01_Kalman_Learner_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
+<p><img src="20_learner_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell">

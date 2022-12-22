@@ -186,6 +186,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./gaussian.html" class="sidebar-item-text sidebar-link">Gaussian Distributions Utilities</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./utils.html" class="sidebar-item-text sidebar-link active">Utils</a>
   </div>
 </li>
@@ -244,22 +249,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./kalman/kalman_filter.html" class="sidebar-item-text sidebar-link">Kalman Filter</a>
+  <a href="./kalman/filter.html" class="sidebar-item-text sidebar-link">Kalman Filter</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./kalman/kalman_learner.html" class="sidebar-item-text sidebar-link">Kalman Filter Models</a>
+  <a href="./kalman/test_filter_pykalman.html" class="sidebar-item-text sidebar-link">Testing Kalman Filter</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./kalman/kalman_imputation.html" class="sidebar-item-text sidebar-link">Imputation Kalman Model</a>
+  <a href="./kalman/fastai.html" class="sidebar-item-text sidebar-link">Implement Kalman model using FastAI</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./kalman/kalman_fastai.html" class="sidebar-item-text sidebar-link">Implement Kalman model using FastAI</a>
+  <a href="./kalman/learner.html" class="sidebar-item-text sidebar-link">Kalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/imputation.html" class="sidebar-item-text sidebar-link">Imputation Kalman Model</a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -294,11 +304,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#reset_seed" id="toc-reset_seed" class="nav-link" data-scroll-target="#reset_seed">reset_seed</a></li>
   <li><a href="#reset_seed-1" id="toc-reset_seed-1" class="nav-link" data-scroll-target="#reset_seed-1">reset_seed</a></li>
   </ul></li>
-  <li><a href="#normal-parameters" id="toc-normal-parameters" class="nav-link" data-scroll-target="#normal-parameters">Normal Parameters</a>
-  <ul class="collapse">
-  <li><a href="#listnormal.get_nth" id="toc-listnormal.get_nth" class="nav-link" data-scroll-target="#listnormal.get_nth">ListNormal.get_nth</a></li>
-  <li><a href="#listnormal.detach" id="toc-listnormal.detach" class="nav-link" data-scroll-target="#listnormal.detach">ListNormal.detach</a></li>
-  </ul></li>
   <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a>
   <ul class="collapse">
   <li><a href="#test_close" id="toc-test_close" class="nav-link" data-scroll-target="#test_close">test_close</a></li>
@@ -310,11 +315,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#info-visualization" id="toc-info-visualization" class="nav-link" data-scroll-target="#info-visualization">Info visualization</a>
   <ul class="collapse">
   <li><a href="#array2df" id="toc-array2df" class="nav-link" data-scroll-target="#array2df">array2df</a></li>
+  <li><a href="#retrieve_names" id="toc-retrieve_names" class="nav-link" data-scroll-target="#retrieve_names">retrieve_names</a></li>
+  <li><a href="#maybe_retrieve_callers_name" id="toc-maybe_retrieve_callers_name" class="nav-link" data-scroll-target="#maybe_retrieve_callers_name">maybe_retrieve_callers_name</a></li>
+  <li><a href="#show_as_row" id="toc-show_as_row" class="nav-link" data-scroll-target="#show_as_row">show_as_row</a></li>
   <li><a href="#display_as_row" id="toc-display_as_row" class="nav-link" data-scroll-target="#display_as_row">display_as_row</a></li>
-  </ul></li>
-  <li><a href="#distributions" id="toc-distributions" class="nav-link" data-scroll-target="#distributions">Distributions</a>
-  <ul class="collapse">
-  <li><a href="#cov2std" id="toc-cov2std" class="nav-link" data-scroll-target="#cov2std">cov2std</a></li>
   </ul></li>
   <li><a href="#export" id="toc-export" class="nav-link" data-scroll-target="#export">Export</a></li>
   </ul>
@@ -344,7 +348,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="disk-cache" class="level2">
 <h2 class="anchored" data-anchor-id="disk-cache">Disk Cache</h2>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L15" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L16" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="cache_disk" class="level3">
 <h3 class="anchored" data-anchor-id="cache_disk">cache_disk</h3>
 <blockquote class="blockquote">
@@ -415,7 +419,7 @@ Wall time: 5.25 µs</code></pre>
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L53" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L54" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="reset_seed" class="level3">
 <h3 class="anchored" data-anchor-id="reset_seed">reset_seed</h3>
@@ -423,7 +427,7 @@ Wall time: 5.25 µs</code></pre>
 <pre><code> reset_seed (seed=27)</code></pre>
 </blockquote>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L53" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L54" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="reset_seed-1" class="level3">
 <h3 class="anchored" data-anchor-id="reset_seed-1">reset_seed</h3>
@@ -432,31 +436,10 @@ Wall time: 5.25 µs</code></pre>
 </blockquote>
 </section>
 </section>
-<section id="normal-parameters" class="level2">
-<h2 class="anchored" data-anchor-id="normal-parameters">Normal Parameters</h2>
-<hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L69" target="_blank" style="float:right; font-size:smaller">source</a></p>
-<section id="listnormal.get_nth" class="level3">
-<h3 class="anchored" data-anchor-id="listnormal.get_nth">ListNormal.get_nth</h3>
-<blockquote class="blockquote">
-<pre><code> ListNormal.get_nth (n:int)</code></pre>
-</blockquote>
-<p>Get the mean and cov for the nth Normal distribution in the list</p>
-<hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L76" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
-<section id="listnormal.detach" class="level3">
-<h3 class="anchored" data-anchor-id="listnormal.detach">ListNormal.detach</h3>
-<blockquote class="blockquote">
-<pre><code> ListNormal.detach ()</code></pre>
-</blockquote>
-<p>Detach both mean and cov at once</p>
-</section>
-</section>
 <section id="testing" class="level2">
 <h2 class="anchored" data-anchor-id="testing">Testing</h2>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L98" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L76" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="test_close" class="level3">
 <h3 class="anchored" data-anchor-id="test_close">test_close</h3>
 <blockquote class="blockquote">
@@ -469,14 +452,14 @@ Wall time: 5.25 µs</code></pre>
 <h2 class="anchored" data-anchor-id="standard-scaler">Standard Scaler</h2>
 <p>make a standard scaler that can also inverse transfor standard deviations. see <code>Standardizer</code> for details of implementation</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>reset_seed()</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>xx <span class="op">=</span> np.random.random((<span class="dv">4</span>, <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>reset_seed()</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>xx <span class="op">=</span> np.random.random((<span class="dv">4</span>, <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> StandardScaler().fit(xx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> StandardScaler().fit(xx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>s.transform(xx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>s.transform(xx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>array([[ 0.07263978,  0.63279488, -0.9975139 ,  0.50899177,  0.15537652,
          1.45555506,  1.56629646, -1.60237369,  1.51674974,  1.29584745],
@@ -489,21 +472,21 @@ Wall time: 5.25 µs</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>s.mean_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>s.mean_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>array([0.40358703, 0.6758362 , 0.77934606, 0.70748673, 0.34417949,
        0.62067044, 0.48500116, 0.54921643, 0.34604713, 0.3660338 ])</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>s.scale_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>s.scale_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>array([0.30471427, 0.21926148, 0.04405831, 0.31536161, 0.25229864,
        0.24649441, 0.26061043, 0.21187396, 0.26093989, 0.22927816])</code></pre>
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L109" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L87" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="standardscaler.inverse_transform_std" class="level3">
 <h3 class="anchored" data-anchor-id="standardscaler.inverse_transform_std">StandardScaler.inverse_transform_std</h3>
 <blockquote class="blockquote">
@@ -528,7 +511,7 @@ Wall time: 5.25 µs</code></pre>
 <section id="info-visualization" class="level2">
 <h2 class="anchored" data-anchor-id="info-visualization">Info visualization</h2>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L123" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L104" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="array2df" class="level3">
 <h3 class="anchored" data-anchor-id="array2df">array2df</h3>
 <blockquote class="blockquote">
@@ -571,8 +554,107 @@ Wall time: 5.25 µs</code></pre>
 </tr>
 </tbody>
 </table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.random.rand(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>display(HTML(<span class="ss">f"&lt;pre&gt; </span><span class="sc">{</span><span class="bu">repr</span>(a)<span class="sc">}</span><span class="ss"> &lt;/pre&gt;"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre> array([[[0.59072542, 0.41261003, 0.97955736],
+        [0.83100658, 0.59365395, 0.2511256 ],
+        [0.42594698, 0.09990687, 0.38906727]],
+
+       [[0.03756421, 0.24943734, 0.41093206],
+        [0.90507316, 0.25231724, 0.67041318],
+        [0.56216554, 0.49727325, 0.36709392]]]) </pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>array([[[0.59072542, 0.41261003, 0.97955736],
+        [0.83100658, 0.59365395, 0.2511256 ],
+        [0.42594698, 0.09990687, 0.38906727]],
+
+       [[0.03756421, 0.24943734, 0.41093206],
+        [0.90507316, 0.25231724, 0.67041318],
+        [0.56216554, 0.49727325, 0.36709392]]])</code></pre>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L127" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="retrieve_names" class="level3">
+<h3 class="anchored" data-anchor-id="retrieve_names">retrieve_names</h3>
+<blockquote class="blockquote">
+<pre><code> retrieve_names (*args)</code></pre>
+</blockquote>
+<p>Tries to retrieve the argument name in the call frame, if there are multiple matches name is ’’</p>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L118" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="maybe_retrieve_callers_name" class="level3">
+<h3 class="anchored" data-anchor-id="maybe_retrieve_callers_name">maybe_retrieve_callers_name</h3>
+<blockquote class="blockquote">
+<pre><code> maybe_retrieve_callers_name (args)</code></pre>
+</blockquote>
+<p>Tries to retrieve the argument name in the call frame, if there are multiple matches name is ’’</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>x, y, z <span class="op">=</span> <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> func(<span class="op">*</span>args):</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> maybe_retrieve_callers_name(args)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(func(x,y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['x', 'y']</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>retrieve_names(a,a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>[['__', 'a', '_43', '_71'], ['__', 'a', '_43', '_71']]</code></pre>
+</div>
+</div>
 <hr>
 <p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L137" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="show_as_row" class="level3">
+<h3 class="anchored" data-anchor-id="show_as_row">show_as_row</h3>
+<blockquote class="blockquote">
+<pre><code> show_as_row (*os:Iterable)</code></pre>
+</blockquote>
+<p>Shows a interable of tensors on a row</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>show_as_row(a,a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div><p style="font-size: 1.2rem;">a</p> <pre>array([[[0.59072542, 0.41261003, 0.97955736],
+        [0.83100658, 0.59365395, 0.2511256 ],
+        [0.42594698, 0.09990687, 0.38906727]],
+
+       [[0.03756421, 0.24943734, 0.41093206],
+        [0.90507316, 0.25231724, 0.67041318],
+        [0.56216554, 0.49727325, 0.36709392]]])</pre> </div><div><p style="font-size: 1.2rem;">a</p> <pre>array([[[0.59072542, 0.41261003, 0.97955736],
+        [0.83100658, 0.59365395, 0.2511256 ],
+        [0.42594698, 0.09990687, 0.38906727]],
+
+       [[0.03756421, 0.24943734, 0.41093206],
+        [0.90507316, 0.25231724, 0.67041318],
+        [0.56216554, 0.49727325, 0.36709392]]])</pre> </div></div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>func(a,a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>['', '']</code></pre>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L149" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="display_as_row" class="level3">
 <h3 class="anchored" data-anchor-id="display_as_row">display_as_row</h3>
@@ -582,10 +664,10 @@ Wall time: 5.25 µs</code></pre>
 </blockquote>
 <p>display multiple dataframes in the same row</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> HTML(pd.DataFrame([<span class="dv">1</span>,<span class="dv">2</span>]).to_html(notebook<span class="op">=</span><span class="va">True</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> HTML(pd.DataFrame([<span class="dv">1</span>,<span class="dv">2</span>]).to_html(notebook<span class="op">=</span><span class="va">True</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>display_as_row({<span class="st">"test"</span>: pd.DataFrame([<span class="dv">1</span>,<span class="dv">2</span>])}, <span class="st">"hello"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>display_as_row({<span class="st">"test"</span>: pd.DataFrame([<span class="dv">1</span>,<span class="dv">2</span>])}, <span class="st">"hello"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <p style="font-size: 1.5rem; font-decoration: bold">hello</p><p></p><div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div> <p style="font-size: 1.3rem;">test</p> <style type="text/css">
@@ -609,7 +691,7 @@ Wall time: 5.25 µs</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>display_as_row({<span class="ss">f"test</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>: pd.DataFrame([<span class="dv">1</span>,<span class="dv">2</span>]) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>)})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>display_as_row({<span class="ss">f"test</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>: pd.DataFrame([<span class="dv">1</span>,<span class="dv">2</span>]) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>)})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <p style="font-size: 1.5rem; font-decoration: bold"></p><p></p><div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div> <p style="font-size: 1.3rem;">test0</p> <style type="text/css">
@@ -784,60 +866,6 @@ Wall time: 5.25 µs</code></pre>
 </table>
  </div></div>
 </div>
-</div>
-</section>
-</section>
-<section id="distributions" class="level2">
-<h2 class="anchored" data-anchor-id="distributions">Distributions</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> torch.stack([torch.eye(<span class="dv">3</span>)<span class="op">*</span>i <span class="cf">for</span> i <span class="kw">in</span>  <span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">4</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<pre><code>tensor([[[1., 0., 0.],
-         [0., 1., 0.],
-         [0., 0., 1.]],
-
-        [[2., 0., 0.],
-         [0., 2., 0.],
-         [0., 0., 2.]],
-
-        [[3., 0., 0.],
-         [0., 3., 0.],
-         [0., 0., 3.]]])</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>torch.diagonal(x, dim1<span class="op">=</span><span class="dv">1</span>, dim2<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<pre><code>tensor([[1., 1., 1.],
-        [2., 2., 2.],
-        [3., 3., 3.]])</code></pre>
-</div>
-</div>
-<hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L147" target="_blank" style="float:right; font-size:smaller">source</a></p>
-<section id="cov2std" class="level3">
-<h3 class="anchored" data-anchor-id="cov2std">cov2std</h3>
-<blockquote class="blockquote">
-<pre><code> cov2std (x)</code></pre>
-</blockquote>
-<p>convert cov of array of covariances to array of stddev</p>
-<!-- ## Render Docstring -->
-<!-- renders a ReStructured text docstring in a notebook cell -->
-<div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from IPython.display import HTML</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co"># import docutils.core</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># def rstdoc(obj):</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="co">#     "Render `__doc__` as ReStructuredText"</span></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     html = docutils.core.publish_parts(obj.__doc__, writer_name='html5')['fragment']</span></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     return HTML(html)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rstdoc(docutils.core.publish_parts)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>

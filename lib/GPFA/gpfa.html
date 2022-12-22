@@ -184,6 +184,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../gaussian.html" class="sidebar-item-text sidebar-link">Gaussian Distributions Utilities</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../utils.html" class="sidebar-item-text sidebar-link">Utils</a>
   </div>
 </li>
@@ -242,22 +247,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../kalman/kalman_filter.html" class="sidebar-item-text sidebar-link">Kalman Filter</a>
+  <a href="../kalman/filter.html" class="sidebar-item-text sidebar-link">Kalman Filter</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../kalman/kalman_learner.html" class="sidebar-item-text sidebar-link">Kalman Filter Models</a>
+  <a href="../kalman/test_filter_pykalman.html" class="sidebar-item-text sidebar-link">Testing Kalman Filter</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../kalman/kalman_imputation.html" class="sidebar-item-text sidebar-link">Imputation Kalman Model</a>
+  <a href="../kalman/fastai.html" class="sidebar-item-text sidebar-link">Implement Kalman model using FastAI</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../kalman/kalman_fastai.html" class="sidebar-item-text sidebar-link">Implement Kalman model using FastAI</a>
+  <a href="../kalman/learner.html" class="sidebar-item-text sidebar-link">Kalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman/imputation.html" class="sidebar-item-text sidebar-link">Imputation Kalman Model</a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -300,7 +310,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul class="collapse">
   <li><a href="#kernel" id="toc-kernel" class="nav-link" data-scroll-target="#kernel">Kernel</a>
   <ul class="collapse">
-  <li><a href="#scriptfunction-object-at-0x7fb22faceca0" id="toc-scriptfunction-object-at-0x7fb22faceca0" class="nav-link" data-scroll-target="#scriptfunction-object-at-0x7fb22faceca0">ScriptFunction object at 0x7fb22faceca0&gt;</a></li>
+  <li><a href="#scriptfunction-object-at-0x7ff5a274b740" id="toc-scriptfunction-object-at-0x7ff5a274b740" class="nav-link" data-scroll-target="#scriptfunction-object-at-0x7ff5a274b740">ScriptFunction object at 0x7ff5a274b740&gt;</a></li>
   <li><a href="#gpfakernel" id="toc-gpfakernel" class="nav-link" data-scroll-target="#gpfakernel">GPFAKernel</a></li>
   </ul></li>
   <li><a href="#gpfa" id="toc-gpfa" class="nav-link" data-scroll-target="#gpfa">GPFA</a>
@@ -556,8 +566,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X_cov</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<section id="scriptfunction-object-at-0x7fb22faceca0" class="level3">
-<h3 class="anchored" data-anchor-id="scriptfunction-object-at-0x7fb22faceca0">ScriptFunction object at 0x7fb22faceca0&gt;</h3>
+<section id="scriptfunction-object-at-0x7ff5a274b740" class="level3">
+<h3 class="anchored" data-anchor-id="scriptfunction-object-at-0x7ff5a274b740">ScriptFunction object at 0x7ff5a274b740&gt;</h3>
 <hr>
 <p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/gpfa/gpfa.py#L14" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
@@ -566,8 +576,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <blockquote class="blockquote">
 <pre><code> GPFAKernel (n_features:int, latent_kernel:gpytorch.kernels.kernel.Kernel,
              latent_dims:int=1, Lambda:&lt;built-
-             inmethodtensoroftypeobjectat0x7fb2a04dd460&gt;=None, psi:&lt;built-
-             inmethodtensoroftypeobjectat0x7fb2a04dd460&gt;=None, **kwargs)</code></pre>
+             inmethodtensoroftypeobjectat0x7ff6106b3460&gt;=None, psi:&lt;built-
+             inmethodtensoroftypeobjectat0x7ff6106b3460&gt;=None, **kwargs)</code></pre>
 </blockquote>
 <p>Kernel to implement Gaussian Processes Factor Analysis</p>
 <table class="table">

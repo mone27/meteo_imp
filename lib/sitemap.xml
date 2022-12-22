@@ -2,70 +2,78 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://mone27.github.io//meteo_imp/lib/index.html</loc>
-    <lastmod>2022-12-22T09:32:43.298Z</lastmod>
+    <lastmod>2022-12-22T21:55:45.784Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io//meteo_imp/lib/gaussian.html</loc>
+    <lastmod>2022-12-22T21:55:46.364Z</lastmod>
   </url>
   <url>
     <loc>https://mone27.github.io//meteo_imp/lib/utils.html</loc>
-    <lastmod>2022-12-22T09:32:43.798Z</lastmod>
+    <lastmod>2022-12-22T21:55:47.024Z</lastmod>
   </url>
   <url>
     <loc>https://mone27.github.io//meteo_imp/lib/Fluxnet/gap_finder.html</loc>
-    <lastmod>2022-12-22T09:32:44.602Z</lastmod>
+    <lastmod>2022-12-22T21:55:47.948Z</lastmod>
   </url>
   <url>
     <loc>https://mone27.github.io//meteo_imp/lib/Fluxnet/hainich.html</loc>
-    <lastmod>2022-12-22T09:32:44.962Z</lastmod>
+    <lastmod>2022-12-22T21:55:48.424Z</lastmod>
   </url>
   <url>
     <loc>https://mone27.github.io//meteo_imp/lib/simplegp_imputation.html</loc>
-    <lastmod>2022-12-22T09:32:45.402Z</lastmod>
+    <lastmod>2022-12-22T21:55:49.028Z</lastmod>
   </url>
   <url>
-    <loc>https://mone27.github.io//meteo_imp/lib/kalman/kalman_imputation.html</loc>
-    <lastmod>2022-12-22T09:32:45.766Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mone27.github.io//meteo_imp/lib/kalman/kalman_filter.html</loc>
-    <lastmod>2022-12-22T09:32:47.130Z</lastmod>
+    <loc>https://mone27.github.io//meteo_imp/lib/kalman/imputation.html</loc>
+    <lastmod>2022-12-22T21:55:49.484Z</lastmod>
   </url>
   <url>
     <loc>https://mone27.github.io//meteo_imp/lib/kalman/old statsmodels - statespace.html</loc>
-    <lastmod>2022-12-22T09:32:47.610Z</lastmod>
+    <lastmod>2022-12-22T21:55:50.040Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io//meteo_imp/lib/kalman/test_filter_pykalman.html</loc>
+    <lastmod>2022-12-22T21:55:51.420Z</lastmod>
   </url>
   <url>
     <loc>https://mone27.github.io//meteo_imp/lib/kalman/old_02_pykalman_imputation.html</loc>
-    <lastmod>2022-12-22T09:32:47.986Z</lastmod>
+    <lastmod>2022-12-22T21:55:51.900Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mone27.github.io//meteo_imp/lib/kalman/learner.html</loc>
+    <lastmod>2022-12-22T21:55:52.368Z</lastmod>
   </url>
   <url>
     <loc>https://mone27.github.io//meteo_imp/lib/kalman/old_01_pykalman_models.html</loc>
-    <lastmod>2022-12-22T09:32:48.494Z</lastmod>
+    <lastmod>2022-12-22T21:55:53.020Z</lastmod>
   </url>
   <url>
-    <loc>https://mone27.github.io//meteo_imp/lib/kalman/kalman_learner.html</loc>
-    <lastmod>2022-12-22T09:32:48.854Z</lastmod>
+    <loc>https://mone27.github.io//meteo_imp/lib/kalman/filter.html</loc>
+    <lastmod>2022-12-22T21:55:54.296Z</lastmod>
   </url>
   <url>
-    <loc>https://mone27.github.io//meteo_imp/lib/kalman/kalman_fastai.html</loc>
-    <lastmod>2022-12-22T09:32:49.594Z</lastmod>
+    <loc>https://mone27.github.io//meteo_imp/lib/kalman/fastai.html</loc>
+    <lastmod>2022-12-22T21:55:55.252Z</lastmod>
   </url>
   <url>
     <loc>https://mone27.github.io//meteo_imp/lib/data_preparation.html</loc>
-    <lastmod>2022-12-22T09:32:50.154Z</lastmod>
+    <lastmod>2022-12-22T21:55:55.944Z</lastmod>
   </url>
   <url>
     <loc>https://mone27.github.io//meteo_imp/lib/GPFA/gpfa.html</loc>
-    <lastmod>2022-12-22T09:32:50.806Z</lastmod>
+    <lastmod>2022-12-22T21:55:56.788Z</lastmod>
   </url>
   <url>
     <loc>https://mone27.github.io//meteo_imp/lib/GPFA/learner.html</loc>
-    <lastmod>2022-12-22T09:32:51.494Z</lastmod>
+    <lastmod>2022-12-22T21:55:57.588Z</lastmod>
   </url>
   <url>
     <loc>https://mone27.github.io//meteo_imp/lib/GPFA/imputation.html</loc>
-    <lastmod>2022-12-22T09:32:52.022Z</lastmod>
+    <lastmod>2022-12-22T21:55:58.228Z</lastmod>
   </url>
   <url>
     <loc>https://mone27.github.io//meteo_imp/lib/results.html</loc>
-    <lastmod>2022-12-22T09:32:52.498Z</lastmod>
+    <lastmod>2022-12-22T21:55:58.828Z</lastmod>
   </url>
 </urlset>
