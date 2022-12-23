@@ -186,7 +186,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./gaussian.html" class="sidebar-item-text sidebar-link">Gaussian Distributions Utilities</a>
+  <a href="./gaussian.html" class="sidebar-item-text sidebar-link">Gaussian Distributions Utils</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -254,7 +254,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./kalman/test_filter_pykalman.html" class="sidebar-item-text sidebar-link">Testing Kalman Filter</a>
+  <a href="./kalman/test_filter_pykalman.html" class="sidebar-item-text sidebar-link">Tests for Kalman Filter</a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -319,6 +319,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#maybe_retrieve_callers_name" id="toc-maybe_retrieve_callers_name" class="nav-link" data-scroll-target="#maybe_retrieve_callers_name">maybe_retrieve_callers_name</a></li>
   <li><a href="#show_as_row" id="toc-show_as_row" class="nav-link" data-scroll-target="#show_as_row">show_as_row</a></li>
   <li><a href="#display_as_row" id="toc-display_as_row" class="nav-link" data-scroll-target="#display_as_row">display_as_row</a></li>
+  </ul></li>
+  <li><a href="#tensor-shapes" id="toc-tensor-shapes" class="nav-link" data-scroll-target="#tensor-shapes">Tensor shapes</a>
+  <ul class="collapse">
+  <li><a href="#array2d" id="toc-array2d" class="nav-link" data-scroll-target="#array2d">array2d</a></li>
+  <li><a href="#array1d" id="toc-array1d" class="nav-link" data-scroll-target="#array1d">array1d</a></li>
+  <li><a href="#last_dims" id="toc-last_dims" class="nav-link" data-scroll-target="#last_dims">last_dims</a></li>
+  <li><a href="#determine_dimensionality" id="toc-determine_dimensionality" class="nav-link" data-scroll-target="#determine_dimensionality">determine_dimensionality</a></li>
   </ul></li>
   <li><a href="#export" id="toc-export" class="nav-link" data-scroll-target="#export">Export</a></li>
   </ul>
@@ -867,6 +874,119 @@ Wall time: 5.25 µs</code></pre>
  </div></div>
 </div>
 </div>
+</section>
+</section>
+<section id="tensor-shapes" class="level2">
+<h2 class="anchored" data-anchor-id="tensor-shapes">Tensor shapes</h2>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L163" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="array2d" class="level3">
+<h3 class="anchored" data-anchor-id="array2d">array2d</h3>
+<blockquote class="blockquote">
+<pre><code> array2d (X)</code></pre>
+</blockquote>
+<p>Returns at least 2-d array with data from X</p>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L159" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="array1d" class="level3">
+<h3 class="anchored" data-anchor-id="array1d">array1d</h3>
+<blockquote class="blockquote">
+<pre><code> array1d (X)</code></pre>
+</blockquote>
+<p>Returns at least 1-d array with data from X</p>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L207" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="last_dims" class="level3">
+<h3 class="anchored" data-anchor-id="last_dims">last_dims</h3>
+<blockquote class="blockquote">
+<pre><code> last_dims (X:torch.Tensor, t:int, ndims:int=2)</code></pre>
+</blockquote>
+<p>Extract the final dimensions of <code>X</code></p>
+<p>Extract the final <code>ndim</code> dimensions at index <code>t</code> if <code>X</code> has &gt;= <code>ndim</code> + 1 dimensions, otherwise return <code>X</code>.</p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>X</td>
+<td>Tensor</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>t</td>
+<td>int</td>
+<td></td>
+<td>index to use for the <code>ndims</code> + 1th dimension</td>
+</tr>
+<tr class="odd">
+<td>ndims</td>
+<td>int</td>
+<td>2</td>
+<td>number of dimensions in the array desired</td>
+</tr>
+<tr class="even">
+<td><strong>Returns</strong></td>
+<td><strong>array with dimension <code>ndims</code></strong></td>
+<td></td>
+<td><strong>the final <code>ndims</code> dimensions indexed by <code>t</code></strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L169" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="determine_dimensionality" class="level3">
+<h3 class="anchored" data-anchor-id="determine_dimensionality">determine_dimensionality</h3>
+<blockquote class="blockquote">
+<pre><code> determine_dimensionality (variables, default)</code></pre>
+</blockquote>
+<p>Derive the dimensionality of the state space</p>
+<table class="table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 38%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>variables</td>
+<td>list of ({None, array}, conversion function, index)</td>
+<td>variables, functions to convert them to arrays, and indices in those<br>arrays to derive dimensionality from.</td>
+</tr>
+<tr class="even">
+<td>default</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><strong>Returns</strong></td>
+<td><strong>int</strong></td>
+<td><strong>dimensionality of state space as derived from variables or default.</strong></td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 <section id="export" class="level2">
