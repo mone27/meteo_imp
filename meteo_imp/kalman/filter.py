@@ -113,6 +113,7 @@ class KalmanFilter(torch.nn.Module):
     ### === Utility Func    
     def _parse_obs(self, obs, mask=None):
         """maybe get mask from `nan`"""
+        obs, mask = torch.atleast_3d(obs), torch.atleast_3d(mask)
         if mask is None: mask = ~torch.isnan(obs)
         return obs, mask
     
@@ -154,7 +155,7 @@ def _filter_predict(trans_matrix,
     cov_checker.check(pred_state_cov, caller='filter_predict')
     return (pred_state_mean, pred_state_cov)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 32
+# %% ../../lib_nbs/kalman/00_filter.ipynb 33
 def _filter_correct(obs_matrix,
                     obs_cov,
                     obs_off,
@@ -168,7 +169,7 @@ def _filter_correct(obs_matrix,
     pred_obs_mean = obs_matrix.unsqueeze(0) @ pred_state_mean + obs_off.unsqueeze(-1) # extra dim needed to hae batched matmul working
     pred_obs_cov = obs_matrix.unsqueeze(0) @ pred_state_cov @ obs_matrix.unsqueeze(0).mT + obs_cov
 
-    kalman_gain = pred_state_cov @ obs_matrix.T @ torch.cholesky_inverse(torch.linalg.cholesky(pred_obs_cov))
+    kalman_gain = pred_state_cov @ obs_matrix.T @ torch.inverse(pred_obs_cov) # torch.cholesky_inverse(torch.linalg.cholesky(pred_obs_cov))
 
     corr_state_mean = pred_state_mean + kalman_gain @ (obs.unsqueeze(-1) - pred_obs_mean)
     corr_state_cov = pred_state_cov - kalman_gain @ obs_matrix @ pred_state_cov
@@ -180,12 +181,12 @@ def _filter_correct(obs_matrix,
     cov_checker.check(pred_state_cov, caller='filter_correct')
     return (kalman_gain, corr_state_mean, corr_state_cov)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 41
+# %% ../../lib_nbs/kalman/00_filter.ipynb 42
 def _times2batch(x):
     """Permutes `x` so that the first dimension is the number of batches and not the times"""
     return x.permute(1,0,-2,-1)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 42
+# %% ../../lib_nbs/kalman/00_filter.ipynb 43
 def _filter(trans_matrix, obs_matrix,
             trans_cov, obs_cov,
             trans_off, obs_off,
@@ -215,7 +216,7 @@ def _filter(trans_matrix, obs_matrix,
     ret = maps(torch.stack, _times2batch, (pred_state_means, pred_state_covs, filt_state_means, filt_state_covs,))
     return ret
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 49
+# %% ../../lib_nbs/kalman/00_filter.ipynb 50
 @patch
 def _filter_all(self: KalmanFilter, obs, mask=None, cov_checker=CheckPosDef()
                ) ->Tuple[List, List, List, List]: # pred_state_means, pred_state_covs, filt_state_means, filt_state_covs
@@ -230,7 +231,7 @@ def _filter_all(self: KalmanFilter, obs, mask=None, cov_checker=CheckPosDef()
             cov_checker
         )
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 53
+# %% ../../lib_nbs/kalman/00_filter.ipynb 54
 @patch
 def filter(self: KalmanFilter,
           obs: Tensor, # [n_timesteps, n_dim_obs] obs for times [0...n_timesteps-1]
@@ -241,7 +242,7 @@ def filter(self: KalmanFilter,
     _, _, filt_state_means, filt_state_covs = self._filter_all(obs, mask, cov_checker)
     return ListMNormal(filt_state_means.squeeze(-1), filt_state_covs)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 58
+# %% ../../lib_nbs/kalman/00_filter.ipynb 59
 def _smooth_update(trans_matrix,                # [n_dim_state, n_dim_state]
                    filt_state: MNormal,         # [n_dim_state] filtered state at time `t`
                    pred_state: MNormal,         # [n_dim_state] state before filtering at time `t + 1` (= using the observation until time t)
@@ -249,7 +250,7 @@ def _smooth_update(trans_matrix,                # [n_dim_state, n_dim_state]
                    cov_checker = CheckPosDef()
                    ) -> MNormal:                # mean and cov of smoothed state at time `t`
     """Correct a pred state with a Kalman Smoother update"""
-    kalman_smoothing_gain = filt_state.cov @ trans_matrix.unsqueeze(0).mT @ torch.cholesky_inverse(torch.linalg.cholesky(pred_state.cov))
+    kalman_smoothing_gain = filt_state.cov @ trans_matrix.unsqueeze(0).mT @ torch.inverse(pred_state.cov) # torch.cholesky_inverse(torch.linalg.cholesky(pred_state.cov))
 
     smoothed_state_mean = filt_state.mean + kalman_smoothing_gain @ (next_smoothed_state.mean - pred_state.mean)
     smoothed_state_cov = filt_state.cov + kalman_smoothing_gain @ (next_smoothed_state.cov - pred_state.cov) @ kalman_smoothing_gain.mT
@@ -258,8 +259,8 @@ def _smooth_update(trans_matrix,                # [n_dim_state, n_dim_state]
     
     return MNormal(smoothed_state_mean, smoothed_state_cov)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 62
-def _smooth(trans_matrices, # `[n_dim_state, n_dim_state]`
+# %% ../../lib_nbs/kalman/00_filter.ipynb 64
+def _smooth(trans_matrix, # `[n_dim_state, n_dim_state]`
             filt_state: ListMNormal, # `[n_timesteps, n_dim_state]`
                 # `filt_state_means[t]` is the state estimate for time t given obs from times `[0...t]`
             pred_state: ListMNormal, # `[n_timesteps, n_dim_state]`
@@ -287,7 +288,7 @@ def _smooth(trans_matrices, # `[n_dim_state, n_dim_state]`
         )
     return smoothed_state
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 68
+# %% ../../lib_nbs/kalman/00_filter.ipynb 70
 @patch
 def smooth(self: KalmanFilter,
            obs: Tensor,
@@ -305,7 +306,7 @@ def smooth(self: KalmanFilter,
     smoothed_state.mean.squeeze_(-1)
     return smoothed_state
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 79
+# %% ../../lib_nbs/kalman/00_filter.ipynb 81
 @patch
 def _obs_from_state(self: KalmanFilter, state: ListMNormal, cov_checker=CheckPosDef()):
 
@@ -316,7 +317,7 @@ def _obs_from_state(self: KalmanFilter, state: ListMNormal, cov_checker=CheckPos
     
     return ListMNormal(mean.squeeze(-1), cov)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 81
+# %% ../../lib_nbs/kalman/00_filter.ipynb 83
 def _get_cond_pred(pred: ListMNormal,
                   obs,
                   mask
@@ -344,7 +345,7 @@ def _get_cond_pred(pred: ListMNormal,
     
     return ListMNormal(mean, std)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 118
+# %% ../../lib_nbs/kalman/00_filter.ipynb 98
 @patch(cls_method=True)
 def init_simple(cls: KalmanFilter,
                 n_dim, # n_dim_obs and n_dim_state
@@ -361,7 +362,7 @@ def init_simple(cls: KalmanFilter,
         init_state_cov =   torch.eye(n_dim, dtype=dtype),
     )
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 121
+# %% ../../lib_nbs/kalman/00_filter.ipynb 101
 @patch(cls_method=True)
 def init_local_slope(cls: KalmanFilter,
                 n_dim, # n_dim_obs and n_dim_state
