@@ -388,7 +388,7 @@ p(y_t | x_t) &amp; = \mathcal{N}(Hx_t, R) \end{align}\]</span></p>
                init_state_mean:torch.Tensor, init_state_cov:torch.Tensor,
                n_dim_state:int=None, n_dim_obs:int=None, cov_checker:meteo
                _imp.gaussian.CheckPosDef=&lt;meteo_imp.gaussian.CheckPosDef
-               object at 0x7fb4e4767f40&gt;)</code></pre>
+               object at 0x7fb874aaa4d0&gt;)</code></pre>
 </blockquote>
 <p>Base class for Kalman Filter and Smoother using PyTorch</p>
 <table class="table">
@@ -470,7 +470,7 @@ p(y_t | x_t) &amp; = \mathcal{N}(Hx_t, R) \end{align}\]</span></p>
 <tr class="odd">
 <td>cov_checker</td>
 <td>CheckPosDef</td>
-<td>&lt;meteo_imp.gaussian.CheckPosDef object at 0x7fb4e4767f40&gt;</td>
+<td>&lt;meteo_imp.gaussian.CheckPosDef object at 0x7fb874aaa4d0&gt;</td>
 <td></td>
 </tr>
 </tbody>
@@ -482,7 +482,7 @@ p(y_t | x_t) &amp; = \mathcal{N}(Hx_t, R) \end{align}\]</span></p>
 <section id="random-parameters" class="level4">
 <h4 class="anchored" data-anchor-id="random-parameters">Random parameters</h4>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L125" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L126" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 </section>
 <section id="kalmanfilter.init_random" class="level3">
@@ -502,10 +502,10 @@ p(y_t | x_t) &amp; = \mathcal{N}(Hx_t, R) \end{align}\]</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>k.init_state_cov</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>tensor([[0.5718, 0.0249, 0.7099, 0.3720],
-        [0.0249, 0.0029, 0.0730, 0.0473],
-        [0.7099, 0.0730, 1.9033, 1.3118],
-        [0.3720, 0.0473, 1.3118, 1.5998]], dtype=torch.float64,
+<pre><code>tensor([[0.2538, 0.1536, 0.1464, 0.2398],
+        [0.1536, 0.1100, 0.2001, 0.2121],
+        [0.1464, 0.2001, 1.6113, 1.2695],
+        [0.2398, 0.2121, 1.2695, 1.9031]], dtype=torch.float64,
        grad_fn=&lt;MmBackward0&gt;)</code></pre>
 </div>
 </div>
@@ -805,7 +805,7 @@ tensor([[0.1136, 0.0000, 0.0000, 0.0000],
 <li>detach tensors</li>
 </ul>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L235" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L236" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 </section>
 <section id="kalmanfilter.filter" class="level3">
@@ -813,7 +813,7 @@ tensor([[0.1136, 0.0000, 0.0000, 0.0000],
 <blockquote class="blockquote">
 <pre><code> KalmanFilter.filter (obs:torch.Tensor, mask=None,
                       cov_checker=&lt;meteo_imp.gaussian.CheckPosDef object
-                      at 0x7fb4e45a3e20&gt;)</code></pre>
+                      at 0x7fb874aa8280&gt;)</code></pre>
 </blockquote>
 <p>Filter observation</p>
 <table class="table">
@@ -847,7 +847,7 @@ tensor([[0.1136, 0.0000, 0.0000, 0.0000],
 <tr class="odd">
 <td>cov_checker</td>
 <td>CheckPosDef</td>
-<td>&lt;meteo_imp.gaussian.CheckPosDef object at 0x7fb4e45a3e20&gt;</td>
+<td>&lt;meteo_imp.gaussian.CheckPosDef object at 0x7fb874aa8280&gt;</td>
 <td></td>
 </tr>
 <tr class="even">
@@ -946,7 +946,7 @@ tensor([[0.1136, 0.0000, 0.0000, 0.0000],
 <section id="kalmanfilter-method-1" class="level4">
 <h4 class="anchored" data-anchor-id="kalmanfilter-method-1">KalmanFilter method</h4>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L292" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L293" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 </section>
 <section id="kalmanfilter.smooth" class="level3">
@@ -954,7 +954,7 @@ tensor([[0.1136, 0.0000, 0.0000, 0.0000],
 <blockquote class="blockquote">
 <pre><code> KalmanFilter.smooth (obs:torch.Tensor, mask:torch.Tensor=None,
                       cov_checker=&lt;meteo_imp.gaussian.CheckPosDef object
-                      at 0x7fb4e4590e20&gt;)</code></pre>
+                      at 0x7fb874a9e290&gt;)</code></pre>
 </blockquote>
 <p>Kalman Filter Smoothing</p>
 <table class="table">
@@ -988,7 +988,7 @@ tensor([[0.1136, 0.0000, 0.0000, 0.0000],
 <tr class="odd">
 <td>cov_checker</td>
 <td>CheckPosDef</td>
-<td>&lt;meteo_imp.gaussian.CheckPosDef object at 0x7fb4e4590e20&gt;</td>
+<td>&lt;meteo_imp.gaussian.CheckPosDef object at 0x7fb874a9e290&gt;</td>
 <td></td>
 </tr>
 <tr class="even">
@@ -1178,7 +1178,7 @@ tensor([[0.1136, 0.0000, 0.0000, 0.0000],
 <section id="simple-parameters" class="level4">
 <h4 class="anchored" data-anchor-id="simple-parameters">Simple parameters</h4>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L349" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L350" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="kalmanfilter.init_simple" class="level3">
 <h3 class="anchored" data-anchor-id="kalmanfilter.init_simple">KalmanFilter.init_simple</h3>
@@ -1236,7 +1236,7 @@ tensor([[0.1136, 0.0000, 0.0000, 0.0000],
 <section id="local-slope" class="level4">
 <h4 class="anchored" data-anchor-id="local-slope">Local slope</h4>
 <hr>
-<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L366" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/kalman/filter.py#L367" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 </section>
 <section id="kalmanfilter.init_local_slope" class="level3">
