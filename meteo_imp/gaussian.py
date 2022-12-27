@@ -51,15 +51,15 @@ def detach(self: ListMNormal)->ListMNormal:
     """Detach both mean and cov at once """
     return ListMNormal(self.mean.detach(), self.cov.detach())
 
-# %% ../lib_nbs/20_Gaussian.ipynb 21
+# %% ../lib_nbs/20_Gaussian.ipynb 23
 import pandas as pd
 from torch import Tensor
 
-# %% ../lib_nbs/20_Gaussian.ipynb 24
+# %% ../lib_nbs/20_Gaussian.ipynb 26
 def is_symmetric(value, atol=1e-5):
     return torch.isclose(value, value.mT, atol=atol).all(-1).all(-1)
 
-# %% ../lib_nbs/20_Gaussian.ipynb 26
+# %% ../lib_nbs/20_Gaussian.ipynb 28
 def symmetric_upto(value, start=-8):
     for exp in torch.arange(start, 3):
         if is_symmetric(value, atol=10**exp):
@@ -69,20 +69,20 @@ def symmetric_upto(value, start=-8):
 def symmetric_upto_batched(value, start=-8):
     return torch.tensor([symmetric_upto(v) for v in value])
 
-# %% ../lib_nbs/20_Gaussian.ipynb 30
+# %% ../lib_nbs/20_Gaussian.ipynb 32
 def is_posdef(cov):
     return torch.distributions.constraints.positive_definite.check(cov)
 
-# %% ../lib_nbs/20_Gaussian.ipynb 34
+# %% ../lib_nbs/20_Gaussian.ipynb 36
 def is_posdef_eigv(cov):
     eigv = torch.linalg.eigvalsh(cov)
     return eigv.ge(0).all(-1), eigv
 
-# %% ../lib_nbs/20_Gaussian.ipynb 39
+# %% ../lib_nbs/20_Gaussian.ipynb 41
 from fastcore.foundation import docs
 from fastcore.basics import store_attr
 
-# %% ../lib_nbs/20_Gaussian.ipynb 41
+# %% ../lib_nbs/20_Gaussian.ipynb 43
 @docs
 class PosDef(): 
     def __init__(self, noise=1e-5): store_attr()
@@ -95,11 +95,11 @@ class PosDef():
 
 to_posdef = PosDef().transform
 
-# %% ../lib_nbs/20_Gaussian.ipynb 86
+# %% ../lib_nbs/20_Gaussian.ipynb 109
 from warnings import warn
 from fastcore.basics import store_attr
 
-# %% ../lib_nbs/20_Gaussian.ipynb 87
+# %% ../lib_nbs/20_Gaussian.ipynb 110
 class CheckPosDef():
     def __init__(self,
                 do_check:bool = False, # set to True to actually check matrix
@@ -156,7 +156,7 @@ class CheckPosDef():
 
         return info
 
-# %% ../lib_nbs/20_Gaussian.ipynb 98
+# %% ../lib_nbs/20_Gaussian.ipynb 121
 import torch
 from torch.distributions import MultivariateNormal
 from torch.linalg import cholesky
@@ -167,7 +167,7 @@ from fastcore.test import *
 from .utils import *
 from typing import List
 
-# %% ../lib_nbs/20_Gaussian.ipynb 99
+# %% ../lib_nbs/20_Gaussian.ipynb 122
 def conditional_guassian(
                          μ: Tensor, # mean with shape `[n_vars]`
                          Σ: Tensor, # cov with shape `[n_vars, n_vars] `
@@ -185,7 +185,7 @@ def conditional_guassian(
     Σ_ox = Σ[ mask,:][:, ~mask]
     Σ_oo = Σ[ mask,:][:,  mask]
     
-    Σ_oo_inv = cholesky_inverse(cholesky(Σ_oo))
+    Σ_oo_inv = torch.inverse(Σ_oo) # cholesky_inverse(cholesky(Σ_oo))
     
     
     mean = μ_x + Σ_xo@Σ_oo_inv@(obs - μ_o)
@@ -194,7 +194,7 @@ def conditional_guassian(
     return ListMNormal(mean, cov)
     
 
-# %% ../lib_nbs/20_Gaussian.ipynb 103
+# %% ../lib_nbs/20_Gaussian.ipynb 126
 def cond_gaussian_batched(dist: ListMNormal,
                          obs, # this needs to have the same shape of the mask !!! 
                          mask
@@ -202,7 +202,7 @@ def cond_gaussian_batched(dist: ListMNormal,
     return [conditional_guassian(dist.mean[i], dist.cov[i], obs[i][mask[i]], mask[i]) for i in range(obs.shape[0])]
         
 
-# %% ../lib_nbs/20_Gaussian.ipynb 141
+# %% ../lib_nbs/20_Gaussian.ipynb 164
 def cov2std(x):
     "convert cov of array of covariances to array of stddev"
     return torch.sqrt(torch.diagonal(x, dim1=-2, dim2=-1))
