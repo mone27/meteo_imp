@@ -33,10 +33,10 @@ class KalmanModel():
         
         kwargs = {**kwargs,
                'n_dim_state': self.n_features,
-                'n_dim_obs': self.n_features
+               'n_dim_obs': self.n_features
                }
         
-        self.filter = KalmanFilter(**kwargs)
+        self.filter = KalmanFilter.init_random(**kwargs)
     
     def train(self,  
               times: Tensor|None, # for loss function times

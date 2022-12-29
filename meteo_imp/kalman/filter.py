@@ -347,6 +347,23 @@ def predict(self: KalmanFilter, obs, mask=None, smooth=True):
     return ListNormal(pred_mean, pred_std)
 
 # %% ../../lib_nbs/kalman/00_filter.ipynb 98
+@patch
+def get_info(self: KalmanFilter, var_names=None):
+    out = {}
+    var_names = ifnone(var_names, [f"x_{i}" for i in range(self.obs_matrix.shape[0])])
+    latent_names = [f"z_{i}" for i in range(self.trans_matrix.shape[0])]
+    out['trans_matrix (A)'] = array2df(self.trans_matrix,    latent_names, latent_names, 'latent')
+    out['trans_cov (Q)']     = array2df(self.trans_cov,       latent_names, latent_names, 'latent')
+    out['trans_off']        = array2df(self.trans_off,       latent_names, ['offset'],     'latent')
+    out['obs_matrix (H)']    = array2df(self.obs_matrix,      var_names,    latent_names, 'variable')
+    out['obs_cov (R)']       = array2df(self.obs_cov,         var_names,    var_names,    'variable')
+    out['obs_off']          = array2df(self.obs_off,         var_names,    ['offset'],     'variable')
+    out['init_state_mean']  = array2df(self.init_state_mean, latent_names, ['mean'],       'latent')
+    out['init_state_cov']   = array2df(self.init_state_cov,  latent_names, latent_names, 'latent')
+    
+    return out
+
+# %% ../../lib_nbs/kalman/00_filter.ipynb 102
 @patch(cls_method=True)
 def init_simple(cls: KalmanFilter,
                 n_dim, # n_dim_obs and n_dim_state
@@ -363,7 +380,7 @@ def init_simple(cls: KalmanFilter,
         init_state_cov =   torch.eye(n_dim, dtype=dtype),
     )
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 101
+# %% ../../lib_nbs/kalman/00_filter.ipynb 105
 @patch(cls_method=True)
 def init_local_slope(cls: KalmanFilter,
                 n_dim, # n_dim_obs and n_dim_state

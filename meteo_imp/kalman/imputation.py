@@ -20,9 +20,11 @@ class KalmanImputation:
     """Imputation using a kalman model"""
     def __init__(self, data: pd.DataFrame,
                  model: KalmanModel = KalmanModel, # a subclass of KalmanModel to be used as model
+                 **kwargs # for model
                 ):
         self.data = data
-        self.train_idx = ~torch.tensor(self.data.isna().any(axis=1))
+        self.mask = ~torch.tensor(self.data.isna())
+        self.train_idx = self.any(axis=1)
         
         train_data = torch.tensor(data.to_numpy())
         self.scaler = StandardScaler(train_data)
@@ -30,7 +32,7 @@ class KalmanImputation:
         self.train_data = train_data
         
         self.T = torch.arange(self.data.shape[0])
-        self.model = model(self.train_data)
+        self.model = model(self.train_data, **kwargs)
     def fit(self, n_iter=10, lr=.1) -> 'KalmanImputation':
         """Fit model parameters"""
         times = self.T[self.train_idx]
@@ -46,10 +48,10 @@ class KalmanImputation:
         # predict either no all dataset or only on part
         if pred_all:
             time_mask = self.T
-            data_mask = torch.ones_like(self.train_idx, dtype=bool)
+            data_mask = self.mask
         else:
             time_mask = self.T[~self.train_idx]
-            data_mask = ~self.train_idx
+            data_mask = self.mask[~self.train_idx]
 
         pred = self.model.predict(time_mask)
         
