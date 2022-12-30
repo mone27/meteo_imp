@@ -115,6 +115,7 @@ class KalmanFilter(torch.nn.Module):
         """maybe get mask from `nan`"""
         if mask is None: mask = ~torch.isnan(obs)
         # TODO incorrect support for 2d input!!!!!!
+        assert obs.dim() == 3
         obs, mask = torch.atleast_3d(obs), torch.atleast_3d(mask)
         return obs, mask
     
@@ -316,14 +317,14 @@ def smooth(self: KalmanFilter,
 @patch
 def _obs_from_state(self: KalmanFilter, state: ListMNormal):
 
-    mean = self.obs_matrix @ state.mean.unsqueeze(-1) + self.obs_off
+    mean = self.obs_matrix @ state.mean.unsqueeze(-1) + self.obs_off.unsqueeze(-1)
     cov = self.obs_matrix @ state.cov @ self.obs_matrix.mT + self.obs_cov
     
     self.cov_checker.check(cov, caller='predict')
     
     return ListMNormal(mean.squeeze(-1), cov)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 87
+# %% ../../lib_nbs/kalman/00_filter.ipynb 89
 @patch
 def predict(self: KalmanFilter, obs, mask=None, smooth=True):
     """Predicted observations at all times """
@@ -347,7 +348,7 @@ def predict(self: KalmanFilter, obs, mask=None, smooth=True):
     
     return ListNormal(pred_mean, pred_std)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 115
+# %% ../../lib_nbs/kalman/00_filter.ipynb 116
 @patch
 def get_info(self: KalmanFilter, var_names=None):
     out = {}
@@ -364,7 +365,7 @@ def get_info(self: KalmanFilter, var_names=None):
     
     return out
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 119
+# %% ../../lib_nbs/kalman/00_filter.ipynb 120
 @patch(cls_method=True)
 def init_simple(cls: KalmanFilter,
                 n_dim, # n_dim_obs and n_dim_state
@@ -381,7 +382,7 @@ def init_simple(cls: KalmanFilter,
         init_state_cov =   torch.eye(n_dim, dtype=dtype),
     )
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 122
+# %% ../../lib_nbs/kalman/00_filter.ipynb 123
 @patch(cls_method=True)
 def init_local_slope(cls: KalmanFilter,
                 n_dim, # n_dim_obs and n_dim_state
