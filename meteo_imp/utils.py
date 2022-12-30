@@ -138,14 +138,15 @@ def retrieve_names(*args):
     return names
 
 # %% ../lib_nbs/99_utils.ipynb 45
-def show_as_row(*os: Iterable):
+def show_as_row(*os: Iterable, names: Iterable[str]=None, **kwargs):
     """Shows a interable of tensors on a row"""
-    titles = maybe_retrieve_callers_name(os)
-    columns = [f"<div><p style='font-size: 1.2rem;'>{title}</p> <pre>{repr(o)}</pre> </div>" for o, title in zip(os, titles)]
+    if names is None: names = maybe_retrieve_callers_name(os)
+    kwargs.update(dict(zip(names, os)))
+    columns = [f"<div><p style='font-size: 1.2rem;'>{title}</p> <pre>{repr(o)}</pre> </div>" for title, o in kwargs.items()]
     out = f"<div style=\"display: flex; column-gap: 20px; flex-wrap: wrap;\" class='table table-striped table-sm'> {''.join(columns)}</div>"
     display(HTML(out))
 
-# %% ../lib_nbs/99_utils.ipynb 49
+# %% ../lib_nbs/99_utils.ipynb 50
 def _style_df(df):
     """style dataframe for better printing """
     return df.style.hide(axis="index").format(precision = 4)
@@ -161,7 +162,7 @@ def display_as_row(dfs: dict[str, pd.DataFrame], title="", styler=_style_df):
     """display multiple dataframes in the same row"""
     display(HTML(row_dfs(dfs, title, styler)))
 
-# %% ../lib_nbs/99_utils.ipynb 54
+# %% ../lib_nbs/99_utils.ipynb 55
 def array1d(X):
     """Returns at least 1-d array with data from X"""
     return torch.atleast_1d(torch.as_tensor(X))
@@ -171,7 +172,7 @@ def array2d(X):
     return torch.atleast_2d(torch.as_tensor(X))
 
 
-# %% ../lib_nbs/99_utils.ipynb 55
+# %% ../lib_nbs/99_utils.ipynb 56
 def determine_dimensionality(variables, default):
     """Derive the dimensionality of the state space
 
