@@ -2,7 +2,8 @@
 
 # %% auto 0
 __all__ = ['BlockDfTransform', 'AddGapTransform', 'MaskedDf2Tensor', 'get_stats', 'NormalizeMasked', 'imp_pipeline',
-           'make_dataloader', 'KalmanLoss', 'to_msk_metric', 'SaveParams', 'Float64Callback']
+           'make_dataloader', 'KalmanLoss', 'to_msk_metric', 'SaveParams', 'Float64Callback', 'NormalsDf', 'preds2df',
+           'predict_items', 'plot_result', 'plot_results', 'show_results']
 
 # %% ../../lib_nbs/kalman/10_fastai.ipynb 5
 from ..utils import *
@@ -14,7 +15,7 @@ from fastcore.basics import *
 from fastcore.foundation import *
 from fastcore.all import *
 from fastai.tabular import *
-from fastai.torch_core import default_device
+from fastai.torch_core import default_device, to_device
 
 from ..data import read_fluxnet_csv, hai_path
 
@@ -101,11 +102,11 @@ def plot_rug(df, sel = def_selection(), props = {}):
         ).encode(
             x = "time",
             color = alt.condition(datum.is_present, alt.value('white'), alt.value('black'))
-        ).add_selection(
+        ).add_params(
             sel
         ).properties(**props) 
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 43
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 50
 def plot_line(df, only_present=True, y_label = "", sel = def_selection(), props = {}):
     # df = df[df.is_present] if only_present else df
     # TODO remove onle_present
@@ -113,7 +114,7 @@ def plot_line(df, only_present=True, y_label = "", sel = def_selection(), props 
         x = "time",    
         y = alt.Y("value", title = y_label, scale=alt.Scale(zero=False)),
         color='variable'
-    ).add_selection(
+    ).add_params(
         sel
     ).properties(
         **props
@@ -123,19 +124,38 @@ def plot_line(df, only_present=True, y_label = "", sel = def_selection(), props 
 
     
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 45
-def plot_variable(df, variable, title="", y_label="", sel = None, props = {}):
-    df = df[df.variable == variable]
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 52
+def plot_error(df, y_label = "", sel = def_selection(), props = {}):
+    df.loc[:,'err_low'] = df.value - 2 * df['std']
+    df.loc[:,'err_high'] = df.value + 2 * df['std']
+    return alt.Chart(df).mark_errorband().encode(
+        x = "time",    
+        y = alt.Y("err_low:Q", title = y_label, scale=alt.Scale(zero=False)),
+        y2 = "err_high:Q",
+        color=alt.Color("variable",
+                        legend = alt.Legend(title=["Line: pred. mean", "area: +/- 2 std"])
+                       )
+    ).add_params(
+        sel
+    ).properties(
+        **props
+    )
+    
+
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 54
+def plot_variable(df, variable, title="", y_label="", sel = None, error=False, props = {}):
+    df = df[df.variable == variable].copy()
     sel = ifnone(sel, def_selection())
     # rug = plot_rug(df, sel, props)
     points = plot_points(df, y_label, sel, props)
     line = plot_line(df, True, y_label, sel, props)
+    if error: line = plot_error(df, y_label, sel, props) + line
     
     return (points + line).properties(title=title)
     
     # return alt.VConcatChart(vconcat=[(points + line), rug], spacing=-10).properties(title=title)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 47
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 58
 @patch
 def show(self: MaskedDf, ax=None, ctx=None, 
         n_cols: int = 3,
@@ -144,26 +164,9 @@ def show(self: MaskedDf, ax=None, ctx=None,
        ) -> alt.Chart:
     
     df = self.tidy()
-    
-    props = ifnone(props, {'width': 180, 'height': 100})
-   
-    plot_list = [alt.hconcat() for _ in range(0, self.data.shape[0], n_cols)]
-    selection_scale = alt.selection_interval(bind="scales", encodings=['x']) if bind_interaction else None
-    for idx, variable in enumerate(self.data.columns):
-        plot = plot_variable(df,
-                            variable,
-                            title = variable,
-                            y_label = variable,
-                            sel = selection_scale,
-                            props=props)
-        
-        plot_list[idx // n_cols] |= plot
-    
-    plot = alt.vconcat(*plot_list)
-    
-    return plot
+    return facet_variable(df, n_cols, bind_interaction, props)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 62
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 73
 class MaskedDf2Tensor(Transform):
     def setups(self, items):
         self.columns = list(items[0].data.columns)
@@ -177,17 +180,17 @@ class MaskedDf2Tensor(Transform):
         mask = pd.DataFrame(x.mask.cpu().numpy(), columns = self.columns)
         return MaskedDf(data, mask)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 74
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 85
 from ..utils import *
 from fastai.torch_core import to_cpu
 
 from torch import Tensor
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 80
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 91
 def get_stats(df, device='cpu'):
     return torch.tensor(df.mean(axis=0).to_numpy(), device=device), torch.tensor(df.std(axis=0).to_numpy(), device=device)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 81
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 92
 class NormalizeMasked(Transform):
     "Normalize/denorm MaskedTensor column-wise "
     @property
@@ -204,16 +207,16 @@ class NormalizeMasked(Transform):
     
     def decodes(self, x:NormalsParams):
         print("decoding")
-        f = to_cpu if x[0].device.type=='cpu' else noop
+        f = partial(to_device, device=(x[0].device))
         mean = x.mean * f(self.std) + f(self.mean)
-        std = x.std * (self.std)
+        std = x.std * f(self.std)
         
         return NormalsParams(mean, std)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 93
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 107
 from fastai.data.transforms import *
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 95
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 109
 def imp_pipeline(df,
                  block_len,
                  gap_len
@@ -222,9 +225,11 @@ def imp_pipeline(df,
     return [BlockDfTransform(df, block_len),
             AddGapTransform(['TA','SW_IN'], gap_len),
             MaskedDf2Tensor,
-            NormalizeMasked(*get_stats(df))], block_ids
+            NormalizeMasked(*get_stats(df)),
+            to_tuple
+           ], block_ids
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 116
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 130
 def make_dataloader(df, block_len, gap_len, bs=10):
     pipeline, block_ids = imp_pipeline(df, block_len, gap_len)
     
@@ -234,11 +239,11 @@ def make_dataloader(df, block_len, gap_len, bs=10):
     return ds.dataloaders(bs=bs)
     
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 123
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 137
 from .filter import *
 from torch.distributions import MultivariateNormal
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 124
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 138
 @patch
 def _predict_filter(self: KalmanFilter, data, mask):
     """Predict every obsevation using only the filter step"""
@@ -249,7 +254,7 @@ def _predict_filter(self: KalmanFilter, data, mask):
     
     return ListNormal(mean, cov2std(cov))
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 125
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 141
 @patch
 def forward(self: KalmanFilter, masked_data: MaskedTensor):
     data, mask = masked_data
@@ -260,7 +265,7 @@ def forward(self: KalmanFilter, masked_data: MaskedTensor):
                         else self._predict_filter(data, mask))
     return NormalsParams(mean, std) # to have fastai working this needs to be a tuple subclass
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 156
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 171
 class KalmanLoss():
     def __init__(self,
                  only_gap:bool=True, # loss for all predictions or only gap
@@ -289,17 +294,17 @@ class KalmanLoss():
         return MultivariateNormal(mean, torch.diag(std)).log_prob(obs)
         
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 170
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 185
 def to_msk_metric(metric, name):
     def msk_metric(imp, targ):
         return metric(imp[0], targ[0]) # first element are the means
     msk_metric.__name__ = name
     return msk_metric
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 179
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 194
 from fastai.callback.all import *
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 180
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 195
 class SaveParams(Callback):
     def __init__(self, param_name):
         super().__init__()
@@ -309,7 +314,7 @@ class SaveParams(Callback):
         param = getattr(self.model, self.param_name).detach()
         self.params.append(param)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 181
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 196
 class SaveParams(Callback):
     def __init__(self, param_name):
         super().__init__()
@@ -319,7 +324,7 @@ class SaveParams(Callback):
         param = getattr(self.model, self.param_name).detach()
         self.params.append(param)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 185
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 200
 from fastai.learner import * 
 
 from fastai.tabular.all import *
@@ -328,8 +333,65 @@ from fastai.tabular.learner import *
 
 from fastai.callback.progress import ShowGraphCallback
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 311
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 223
 class Float64Callback(Callback):
     order = Recorder.order + 10 # run after Recorder 
     def before_fit(self):
         self.recorder.smooth_loss.val = torch.tensor(0, dtype=torch.float64) # default is a float 32
+
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 229
+class NormalsDf:
+    """DataFrames of Normal parameters (mean and std)"""
+    def __init__(self, mean, std): store_attr()
+    def tidy(self, prefix=""):
+        """Tidy version"""
+        mean = self.mean.reset_index().melt("time", value_name=prefix + "mean")
+        std = self.std.reset_index().melt("time", value_name=prefix + "std")
+        return pd.merge(mean, std, on=["time", "variable"])
+    __repr__ = basic_repr("mean, std")
+
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 232
+def preds2df(preds, targs):
+    """Final step to decode preds by getting a dataframe"""
+    # preds this is a tuple (data, mask)
+    out = []
+    for pred, targ in zip(preds, targs):
+        # convert to dataframe using structure for
+        mean = pd.DataFrame(pred[0].squeeze(0).detach().cpu().numpy(), columns = targ.data.columns, index=targ.data.index)
+        std = pd.DataFrame(pred[1].squeeze(0).detach().cpu().numpy(), columns = targ.data.columns, index=targ.data.index)
+        out.append(NormalsDf(mean, std))
+    return out
+
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 233
+def predict_items(items, learn, pipe0, pipe1):
+    pipe0, pipe1 = Pipeline(pipe0), Pipeline(pipe1)
+    preds, targs, losses = [], [], []
+    for item in items:
+        targ = pipe0(item)
+        data, mask = pipe1(targ)
+        input = MaskedTensor(data.cuda().unsqueeze(0), mask.cuda().unsqueeze(0))
+        pred = model(input)
+        loss = learn.loss_func(pred, input)
+        # denormalize
+        pred = pipe1.decode(pred)
+        preds.append(pred), targs.append(targ), losses.append(loss)
+        
+    return preds2df(preds, targs), targs, losses
+        
+
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 238
+def plot_result(pred, targ, loss, **kwargs):
+    df = pd.merge(targ.tidy(), pred.tidy(), on=["time", "variable"])
+    return facet_variable(df, error=True, **kwargs).properties(title=f"loss: {loss.item():.6f}")
+
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 240
+def plot_results(preds, targs, losses):
+    plots = [plot_result(targ, pred, loss, n_cols=1) for targ, pred, loss in zip(preds, targs, losses)]
+    return alt.hconcat(*plots)
+
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 244
+def show_results(learn, n=3):
+    items = random.choices(learn.dls.items, k=3)
+    pipe0, pipe1 = learn.dls.fs[0][0,1], learn.dls.fs[0][2,3]
+    return plot_results(*predict_items(items, learn, pipe0, pipe1))
+    
