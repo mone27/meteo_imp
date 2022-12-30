@@ -4,7 +4,9 @@
     "items": [
       "/Additional latent kernel.html",
       "/analyze_gaps_fluxnet.html",
+      "/kalman/Loss_comparison.html",
       "/exploration/log_likelihood.html",
+      "/kalman/kalman_fastai.html",
       "/gap length variation.html",
       "/Init_parameters_effect.html",
       "/kalman/KalmanFilter_PyTorch.html",
@@ -16,7 +18,6 @@
       "/notes.html",
       "/exploration/pytorch_constraints.html",
       "/kalman/Process_noise.html",
-      "/kalman/kalman_fastai.html",
       "/kalman/kalman_obs_cov.html",
       "/Simple GP Hainich.html",
       "/GPFA Hainich.html",
