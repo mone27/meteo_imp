@@ -24,6 +24,7 @@ class KalmanFilter(torch.nn.Module):
     def __init__(self,
             trans_matrix: Tensor,    # [n_dim_state,n_dim_state] $A$, state transition matrix 
             obs_matrix: Tensor,      # [n_dim_obs, n_dim_state] $H$, observation matrix
+            contr_matrix: Tensor,      # [n_dim_state, n_dim_contr] $B$ control matrix
             trans_cov: Tensor,       # [n_dim_state, n_dim_state] $Q$, state trans covariance matrix
             obs_cov: Tensor,         # [n_dim_obs, n_dim_obs] $R$, observations covariance matrix
             trans_off: Tensor,       # [n_dim_state] $b$, state transition offset
@@ -53,11 +54,14 @@ class KalmanFilter(torch.nn.Module):
             n_dim_obs
         )
         
+        self.n_dim_contr = determine_dimensionality([(contr_matrix, array2d, -1)], None)
+        
         params = {
         #name               value             constraint
         'trans_matrix':     [trans_matrix,    None        ],
         'trans_off':        [trans_off,       None        ],
         'trans_cov':        [trans_cov,       PosDef()    ],
+        'contr_matrix':     [contr_matrix,    None        ],
         'obs_matrix':       [obs_matrix,      None        ],
         'obs_off':          [obs_off,         None        ],
         'obs_cov':          [obs_cov,         DiagPosDef()],
@@ -122,16 +126,17 @@ class KalmanFilter(torch.nn.Module):
     
     def __repr__(self):
         return f"""Kalman Filter
-        N dim obs: {self.n_dim_obs}, N dim state: {self.n_dim_state}"""
+        N dim obs: {self.n_dim_obs}, N dim state: {self.n_dim_state}, N dim contr: {self.n_dim_contr}"""
 
 # %% ../../lib_nbs/kalman/00_filter.ipynb 12
 @patch(cls_method=True)
-def init_random(cls: KalmanFilter, n_dim_obs, n_dim_state, dtype=torch.float32):
+def init_random(cls: KalmanFilter, n_dim_obs, n_dim_state, n_dim_contr, dtype=torch.float32):
     """kalman filter with random parameters"""
     params = {
         'trans_matrix':    torch.rand(n_dim_state, n_dim_state, dtype=dtype),
         'trans_off':       torch.rand(n_dim_state, dtype=dtype),        
         'trans_cov':       to_posdef(torch.rand(n_dim_state, n_dim_state, dtype=dtype)),        
+        'contr_matrix':    torch.rand(n_dim_state, n_dim_contr, dtype=dtype),
         'obs_matrix':      torch.rand(n_dim_obs, n_dim_state, dtype=dtype),
         'obs_off':         torch.rand(n_dim_obs, dtype=dtype),          
         'obs_cov':         to_posdef(torch.rand(n_dim_obs, n_dim_obs, dtype=dtype)),            
@@ -142,33 +147,35 @@ def init_random(cls: KalmanFilter, n_dim_obs, n_dim_state, dtype=torch.float32):
         
 
 # %% ../../lib_nbs/kalman/00_filter.ipynb 20
-def get_test_data(n_obs = 10, n_dim_obs=3, p_missing=.3, bs=2, dtype=torch.float32, device='cpu'):
+def get_test_data(n_obs = 10, n_dim_obs=3, n_dim_contr = 3, p_missing=.3, bs=2, dtype=torch.float32, device='cpu'):
     data = torch.rand(bs, n_obs, n_dim_obs, dtype=dtype, device=device)
     mask = torch.rand(bs, n_obs, n_dim_obs, device=device) > p_missing
-    # data[~mask] = torch.nan # ensure that the missing data cannot be used
-    return data, mask
+    control = torch.rand(bs, n_obs, n_dim_contr, dtype=dtype, device=device)
+    data[~mask] = torch.nan # ensure that the missing data cannot be used
+    return data, mask, control
 
 # %% ../../lib_nbs/kalman/00_filter.ipynb 25
+def unsqueeze_iter(*args, dim): return list(map(partial(torch.unsqueeze, dim=dim), args))
+unsqueeze_first = partial(unsqueeze_iter, dim=0)
+unsqueeze_last = partial(unsqueeze_iter, dim=-1)
+
+# %% ../../lib_nbs/kalman/00_filter.ipynb 26
 from datetime import datetime
 def _filter_predict(trans_matrix,
                     trans_cov,
                     trans_off,
+                    contr_matrix, #[n_dim_state, n_dim_contr]
                     curr_state_mean,
                     curr_state_cov,
-                    control_matrix=0,
-                    control=0,
+                    control, #[n_batches, n_dim_contr]
                     cov_checker=CheckPosDef()):
     r"""Calculate the state at time `t+1` given the state at time `t`"""
-    pred_state_mean = trans_matrix.unsqueeze(0) @ curr_state_mean + trans_off.unsqueeze(-1)
+    
+    pred_state_mean = trans_matrix.unsqueeze(0) @ curr_state_mean + contr_matrix.unsqueeze(0) @ control.unsqueeze(-1) + trans_off.unsqueeze(-1)
     pred_state_cov =  trans_matrix.unsqueeze(0) @ curr_state_cov @ trans_matrix.unsqueeze(0).mT + trans_cov.unsqueeze(0)
 
     cov_checker.check(pred_state_cov, caller='filter_predict')
     return (pred_state_mean, pred_state_cov)
-
-# %% ../../lib_nbs/kalman/00_filter.ipynb 43
-def unsqueeze_iter(*args, dim): return list(map(partial(torch.unsqueeze, dim=dim), args))
-unsqueeze_first = partial(unsqueeze_iter, dim=0)
-unsqueeze_last = partial(unsqueeze_iter, dim=-1)
 
 # %% ../../lib_nbs/kalman/00_filter.ipynb 44
 def _filter_correct_batch(
@@ -234,8 +241,9 @@ def _times2batch(x):
 def _filter(trans_matrix, obs_matrix,
             trans_cov, obs_cov,
             trans_off, obs_off,
+            control_matrix,
             init_state_mean, init_state_cov,
-            obs, mask,
+            obs, mask, control,
             cov_checker=CheckPosDef()
            ) ->Tuple[List, List, List, List]: # pred_state_means, pred_state_covs, filt_state_means, filt_state_covs
     """Filter observations using kalman filter """
@@ -248,8 +256,8 @@ def _filter(trans_matrix, obs_matrix,
         if t == 0:
             pred_state_means[t], pred_state_covs[t] = torch.stack([init_state_mean]*bs).unsqueeze(-1), torch.stack([init_state_cov]*bs)
         else:
-            pred_state_means[t], pred_state_covs[t] = _filter_predict(trans_matrix, trans_cov, trans_off,
-                                                                      filt_state_means[t - 1], filt_state_covs[t - 1],
+            pred_state_means[t], pred_state_covs[t] = _filter_predict(trans_matrix, trans_cov, trans_off, contr_matrix,
+                                                                      filt_state_means[t - 1], filt_state_covs[t - 1], control[:,t,:],
                                                                       cov_checker.add_args(t=t))
 
         filt_state_means[t], filt_state_covs[t] = _filter_correct(obs_matrix, obs_cov, obs_off,
@@ -262,7 +270,7 @@ def _filter(trans_matrix, obs_matrix,
 
 # %% ../../lib_nbs/kalman/00_filter.ipynb 64
 @patch
-def _filter_all(self: KalmanFilter, obs, mask=None
+def _filter_all(self: KalmanFilter, obs, mask, control
                ) ->Tuple[List, List, List, List]: # pred_state_means, pred_state_covs, filt_state_means, filt_state_covs
     """ wrapper around `_filter`"""
     obs, mask = self._parse_obs(obs, mask)
@@ -270,8 +278,9 @@ def _filter_all(self: KalmanFilter, obs, mask=None
             self.trans_matrix, self.obs_matrix,
             self.trans_cov, self.obs_cov,
             self.trans_off, self.obs_off,
+            self.contr_matrix,
             self.init_state_mean, self.init_state_cov,
-            obs, mask,
+            obs, mask, control,
             self.cov_checker
         )
 
@@ -279,10 +288,11 @@ def _filter_all(self: KalmanFilter, obs, mask=None
 @patch
 def filter(self: KalmanFilter,
           obs: Tensor, # [n_timesteps, n_dim_obs] obs for times [0...n_timesteps-1]
-          mask = None,
+          mask: Tensor,  # [n_timesteps, n_dim_obs] obs for times [0...n_timesteps-1]
+          control: Tensor, # [n_timesteps, n_dim_contr] control for times [1...n_timesteps-1]
           ) -> ListMNormal: # Filtered state
     """Filter observation"""
-    _, _, filt_state_means, filt_state_covs = self._filter_all(obs, mask)
+    _, _, filt_state_means, filt_state_covs = self._filter_all(obs, mask, control)
     return ListMNormal(filt_state_means.squeeze(-1), filt_state_covs)
 
 # %% ../../lib_nbs/kalman/00_filter.ipynb 74
@@ -335,12 +345,13 @@ def _smooth(trans_matrix, # `[n_dim_state, n_dim_state]`
 @patch
 def smooth(self: KalmanFilter,
            obs: Tensor,
-           mask: Tensor = None,
+           mask: Tensor,
+           control: Tensor
           ) -> ListMNormal: # `[n_timesteps, n_dim_state]` smoothed state
         
     """Kalman Filter Smoothing"""
 
-    (pred_state_means, pred_state_covs, filt_state_means, filt_state_covs) = self._filter_all(obs, mask)
+    (pred_state_means, pred_state_covs, filt_state_means, filt_state_covs) = self._filter_all(obs, mask, control)
 
     smoothed_state = _smooth(self.trans_matrix,
                    ListMNormal(filt_state_means, filt_state_covs), ListMNormal(pred_state_means, pred_state_covs),
