@@ -122,10 +122,10 @@ import inspect
 def maybe_retrieve_callers_name(args):
     """Tries to retrieve the argument name in the call frame, if there are multiple matches name is ''"""
     names = []
-    for arg in args:
+    for i, arg in enumerate(args):
         callers_local_vars = inspect.currentframe().f_back.f_back.f_locals.items()
         var_names = [var_name for var_name, var_val in callers_local_vars if var_val is arg and not var_name.startswith("_")]
-        names.append(var_names[0] if len(var_names)==1 else '')
+        names.append(var_names[0] if len(var_names)==1 else f'#{i}')
     return names
 
 def retrieve_names(*args):
@@ -138,7 +138,7 @@ def retrieve_names(*args):
     return names
 
 # %% ../lib_nbs/99_utils.ipynb 45
-def show_as_row(*os: Iterable, names: Iterable[str]=None, **kwargs):
+def show_as_row(*os, names: Iterable[str]=None, **kwargs):
     """Shows a interable of tensors on a row"""
     if names is None: names = maybe_retrieve_callers_name(os)
     kwargs.update(dict(zip(names, os)))
@@ -146,7 +146,7 @@ def show_as_row(*os: Iterable, names: Iterable[str]=None, **kwargs):
     out = f"<div style=\"display: flex; column-gap: 20px; flex-wrap: wrap;\" class='table table-striped table-sm'> {''.join(columns)}</div>"
     display(HTML(out))
 
-# %% ../lib_nbs/99_utils.ipynb 50
+# %% ../lib_nbs/99_utils.ipynb 55
 def _style_df(df):
     """style dataframe for better printing """
     return df.style.hide(axis="index").format(precision = 4)
@@ -162,7 +162,7 @@ def display_as_row(dfs: dict[str, pd.DataFrame], title="", styler=_style_df):
     """display multiple dataframes in the same row"""
     display(HTML(row_dfs(dfs, title, styler)))
 
-# %% ../lib_nbs/99_utils.ipynb 55
+# %% ../lib_nbs/99_utils.ipynb 60
 def array1d(X):
     """Returns at least 1-d array with data from X"""
     return torch.atleast_1d(torch.as_tensor(X))
@@ -172,7 +172,7 @@ def array2d(X):
     return torch.atleast_2d(torch.as_tensor(X))
 
 
-# %% ../lib_nbs/99_utils.ipynb 56
+# %% ../lib_nbs/99_utils.ipynb 61
 def determine_dimensionality(variables, default):
     """Derive the dimensionality of the state space
 
