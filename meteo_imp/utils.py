@@ -2,7 +2,8 @@
 
 # %% auto 0
 __all__ = ['cache_dir', 'cache_disk', 'reset_seed', 'test_close', 'array2df', 'maybe_retrieve_callers_name', 'retrieve_names',
-           'show_as_row', 'row_dfs', 'display_as_row', 'array1d', 'array2d', 'determine_dimensionality', 'last_dims']
+           'row_items', 'show_as_row', 'row_dfs', 'display_as_row', 'array1d', 'array2d', 'determine_dimensionality',
+           'last_dims']
 
 # %% ../lib_nbs/99_utils.ipynb 3
 # dill is an improved version of pickle, using it to support namedtuples
@@ -138,31 +139,35 @@ def retrieve_names(*args):
     return names
 
 # %% ../lib_nbs/99_utils.ipynb 45
+def row_items(**kwargs):
+    columns = [f"<div><p style='font-size: 1.2rem;'>{title}</p> <pre>{repr(o)}</pre> </div>" for title, o in kwargs.items()]
+    out = f"<div style=\"display: flex; column-gap: 20px; flex-wrap: wrap;\" class='table table-striped table-sm'> {''.join(columns)}</div>"
+    return out
 def show_as_row(*os, names: Iterable[str]=None, **kwargs):
     """Shows a interable of tensors on a row"""
     if names is None: names = maybe_retrieve_callers_name(os)
     kwargs.update(dict(zip(names, os)))
-    columns = [f"<div><p style='font-size: 1.2rem;'>{title}</p> <pre>{repr(o)}</pre> </div>" for title, o in kwargs.items()]
-    out = f"<div style=\"display: flex; column-gap: 20px; flex-wrap: wrap;\" class='table table-striped table-sm'> {''.join(columns)}</div>"
+    out = row_items(**kwargs)
     display(HTML(out))
 
-# %% ../lib_nbs/99_utils.ipynb 55
+# %% ../lib_nbs/99_utils.ipynb 56
 def _style_df(df):
     """style dataframe for better printing """
-    return df.style.hide(axis="index").format(precision = 4)
+    return df.style.format(precision = 4)
 
-def row_dfs(dfs: dict[str, pd.DataFrame], title="", styler=_style_df):
+def row_dfs(dfs: dict[str, pd.DataFrame], title="", hide_idx = True, styler=_style_df):
     out = []
     for df_title, df in dfs.items():
+        if hide_idx: df.style.hide(axis="index") 
         df_html = _style_df(df).to_html()
         out.append(f"<div> <p style='font-size: 1.3rem;'>{df_title}</p> {df_html} </div>")
     out = f"<div style=\"display: flex; column-gap: 20px; flex-wrap: wrap;\" class='table table-striped table-sm'> {''.join(out)}</div>"
     return f"<p style='font-size: 1.5rem; font-decoration: bold'>{title}<p>" + "".join(out)
-def display_as_row(dfs: dict[str, pd.DataFrame], title="", styler=_style_df):
+def display_as_row(dfs: dict[str, pd.DataFrame], title="", hide_idx=True, styler=_style_df):
     """display multiple dataframes in the same row"""
-    display(HTML(row_dfs(dfs, title, styler)))
+    display(HTML(row_dfs(dfs, title, hide_idx, styler)))
 
-# %% ../lib_nbs/99_utils.ipynb 60
+# %% ../lib_nbs/99_utils.ipynb 62
 def array1d(X):
     """Returns at least 1-d array with data from X"""
     return torch.atleast_1d(torch.as_tensor(X))
@@ -172,7 +177,7 @@ def array2d(X):
     return torch.atleast_2d(torch.as_tensor(X))
 
 
-# %% ../lib_nbs/99_utils.ipynb 61
+# %% ../lib_nbs/99_utils.ipynb 63
 def determine_dimensionality(variables, default):
     """Derive the dimensionality of the state space
 

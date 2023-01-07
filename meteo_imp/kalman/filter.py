@@ -372,9 +372,9 @@ def _obs_from_state(self: KalmanFilter, state: ListMNormal):
 
 # %% ../../lib_nbs/kalman/00_filter.ipynb 102
 @patch
-def predict(self: KalmanFilter, obs, mask=None, smooth=True):
+def predict(self: KalmanFilter, obs, mask, control, smooth=True):
     """Predicted observations at all times """
-    state = self.smooth(obs, mask) if smooth else self.filter(obs, mask)
+    state = self.smooth(obs, mask, control) if smooth else self.filter(obs, mask, control)
     obs, mask = self._parse_obs(obs, mask)
     
     pred_obs = self._obs_from_state(state)
@@ -424,6 +424,7 @@ def init_simple(cls: KalmanFilter,
         obs_matrix =       torch.eye(n_dim, dtype=dtype),
         obs_off =          torch.zeros(n_dim, dtype=dtype),          
         obs_cov =          torch.eye(n_dim, dtype=dtype),            
+        contr_matrix =     torch.eye(n_dim, dtype=dtype),
         init_state_mean =  torch.zeros(n_dim, dtype=dtype),        
         init_state_cov =   torch.eye(n_dim, dtype=dtype),
     )
@@ -442,6 +443,7 @@ def init_local_slope(cls: KalmanFilter,
         obs_matrix =       torch.eye(n_dim, dtype=dtype),
         obs_off =          torch.zeros(n_dim, dtype=dtype),          
         obs_cov =          torch.eye(n_dim, dtype=dtype),            
+        contr_matrix =     torch.zeros(n_dim, dtype=dtype),
         init_state_mean =  torch.zeros(n_dim, dtype=dtype),        
         init_state_cov =   torch.eye(n_dim, dtype=dtype),
     )
