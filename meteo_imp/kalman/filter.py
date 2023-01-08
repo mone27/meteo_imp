@@ -22,21 +22,24 @@ from torch.distributions import MultivariateNormal
 class KalmanFilter(torch.nn.Module):
     """Base class for Kalman Filter and Smoother using PyTorch"""
     def __init__(self,
-            trans_matrix: Tensor,    # [n_dim_state,n_dim_state] $A$, state transition matrix 
-            obs_matrix: Tensor,      # [n_dim_obs, n_dim_state] $H$, observation matrix
-            contr_matrix: Tensor,      # [n_dim_state, n_dim_contr] $B$ control matrix
-            trans_cov: Tensor,       # [n_dim_state, n_dim_state] $Q$, state trans covariance matrix
-            obs_cov: Tensor,         # [n_dim_obs, n_dim_obs] $R$, observations covariance matrix
-            trans_off: Tensor,       # [n_dim_state] $b$, state transition offset
-            obs_off: Tensor,         # [n_dim_obs] $d$, observations offset
-            init_state_mean: Tensor, # [n_dim_state] $\mu_0$
-            init_state_cov: Tensor,  # [n_dim_state, n_dim_state] $\Sigma_0$
-            n_dim_state: int = None, # Number of dimensions for state - defaults to 1 if cannot be infered from parameters
-            n_dim_obs: int = None,   # Number of dimensions for observations - defaults to 1 if cannot be infered from parameters
-            cov_checker: CheckPosDef = CheckPosDef()
+            trans_matrix: Tensor,                    # [n_dim_state,n_dim_state] $A$, state transition matrix 
+            obs_matrix: Tensor,                      # [n_dim_obs, n_dim_state] $H$, observation matrix
+            contr_matrix: Tensor,                    # [n_dim_state, n_dim_contr] $B$ control matrix
+            trans_cov: Tensor,                       # [n_dim_state, n_dim_state] $Q$, state trans covariance matrix
+            obs_cov: Tensor,                         # [n_dim_obs, n_dim_obs] $R$, observations covariance matrix
+            trans_off: Tensor,                       # [n_dim_state] $b$, state transition offset
+            obs_off: Tensor,                         # [n_dim_obs] $d$, observations offset
+            init_state_mean: Tensor,                 # [n_dim_state] $\mu_0$
+            init_state_cov: Tensor,                  # [n_dim_state, n_dim_state] $\Sigma_0$
+            n_dim_state: int = None,                 # Number of dimensions for state - defaults to 1 if cannot be infered from parameters
+            n_dim_obs: int = None,                   # Number of dimensions for observations - defaults to 1 if cannot be infered from parameters
+            var_names: Iterable[str]|None = None,    # Names of variables for printing 
+            contr_names: Iterable[str]|None = None,  # Names of control variables for printing
+            cov_checker: CheckPosDef = CheckPosDef() # Check covariance at every step
                 ):
         
         super().__init__()
+        store_attr("var_names, contr_names")
         # check parameters are consistent
         self.n_dim_state = determine_dimensionality(
             [(trans_matrix, array2d, -2),
@@ -130,7 +133,7 @@ class KalmanFilter(torch.nn.Module):
 
 # %% ../../lib_nbs/kalman/00_filter.ipynb 12
 @patch(cls_method=True)
-def init_random(cls: KalmanFilter, n_dim_obs, n_dim_state, n_dim_contr, dtype=torch.float32):
+def init_random(cls: KalmanFilter, n_dim_obs, n_dim_state, n_dim_contr, dtype=torch.float32, **kwargs):
     """kalman filter with random parameters"""
     params = {
         'trans_matrix':    torch.rand(n_dim_state, n_dim_state, dtype=dtype),
@@ -143,7 +146,7 @@ def init_random(cls: KalmanFilter, n_dim_obs, n_dim_state, n_dim_contr, dtype=to
         'init_state_mean': torch.rand(n_dim_state, dtype=dtype),        
         'init_state_cov':  to_posdef(torch.rand(n_dim_state, n_dim_state, dtype=dtype)),
     } 
-    return cls(**params) 
+    return cls(**params, **kwargs) 
         
 
 # %% ../../lib_nbs/kalman/00_filter.ipynb 20
@@ -238,10 +241,9 @@ def _times2batch(x):
     return x.permute(1,0,-2,-1)
 
 # %% ../../lib_nbs/kalman/00_filter.ipynb 57
-def _filter(trans_matrix, obs_matrix,
+def _filter(trans_matrix, obs_matrix, contr_matrix,
             trans_cov, obs_cov,
             trans_off, obs_off,
-            control_matrix,
             init_state_mean, init_state_cov,
             obs, mask, control,
             cov_checker=CheckPosDef()
@@ -275,10 +277,9 @@ def _filter_all(self: KalmanFilter, obs, mask, control
     """ wrapper around `_filter`"""
     obs, mask = self._parse_obs(obs, mask)
     return _filter(
-            self.trans_matrix, self.obs_matrix,
+            self.trans_matrix, self.obs_matrix, self.contr_matrix,
             self.trans_cov, self.obs_cov,
             self.trans_off, self.obs_off,
-            self.contr_matrix,
             self.init_state_mean, self.init_state_cov,
             obs, mask, control,
             self.cov_checker
@@ -396,22 +397,30 @@ def predict(self: KalmanFilter, obs, mask, control, smooth=True):
 
 # %% ../../lib_nbs/kalman/00_filter.ipynb 113
 @patch
-def get_info(self: KalmanFilter, var_names=None):
+def get_info(self: KalmanFilter):
     out = {}
-    var_names = ifnone(var_names, [f"x_{i}" for i in range(self.obs_matrix.shape[0])])
-    latent_names = [f"z_{i}" for i in range(self.trans_matrix.shape[0])]
-    out['trans_matrix (A)'] = array2df(self.trans_matrix,    latent_names, latent_names, 'latent')
-    out['trans_cov (Q)']     = array2df(self.trans_cov,       latent_names, latent_names, 'latent')
-    out['trans_off']        = array2df(self.trans_off,       latent_names, ['offset'],     'latent')
-    out['obs_matrix (H)']    = array2df(self.obs_matrix,      var_names,    latent_names, 'variable')
-    out['obs_cov (R)']       = array2df(self.obs_cov,         var_names,    var_names,    'variable')
-    out['obs_off']          = array2df(self.obs_off,         var_names,    ['offset'],     'variable')
-    out['init_state_mean']  = array2df(self.init_state_mean, latent_names, ['mean'],       'latent')
-    out['init_state_cov']   = array2df(self.init_state_cov,  latent_names, latent_names, 'latent')
-    
+    var_names = ifnone(self.var_names, [f"y_{i}" for i in range(self.obs_matrix.shape[0])])
+    latent_names = [f"x_{i}" for i in range(self.trans_matrix.shape[0])]
+    contr_names = ifnone(self.contr_names, [f"c_{i}" for i in range(self.contr_matrix.shape[1])])
+    out['trans_matrix (A)'] = array2df(self.trans_matrix,    latent_names, latent_names, 'state')
+    out['trans_cov (Q)']    = array2df(self.trans_cov,       latent_names, latent_names, 'state')
+    out['trans_off']        = array2df(self.trans_off,       latent_names, ['offset'],   'state')
+    out['obs_matrix (H)']   = array2df(self.obs_matrix,      var_names,    latent_names, 'variable')
+    out['obs_cov (R)']      = array2df(self.obs_cov,         var_names,    var_names,    'variable')
+    out['obs_off']          = array2df(self.obs_off,         var_names,    ['offset'],   'variable')
+    out['contr_matrix (B)'] = array2df(self.contr_matrix,    latent_names, contr_names,  'state')
+    out['init_state_mean']  = array2df(self.init_state_mean, latent_names, ['mean'],     'state')
+    out['init_state_cov']   = array2df(self.init_state_cov,  latent_names, latent_names, 'state')
+
     return out
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 117
+# %% ../../lib_nbs/kalman/00_filter.ipynb 116
+@patch
+def _repr_html_(self: KalmanFilter):
+    title = f"Kalman Filter ({self.n_dim_obs} obs, {self.n_dim_state} state, {self.n_dim_contr} contr)"
+    return row_dfs(self.get_info(), title , hide_idx=True)
+
+# %% ../../lib_nbs/kalman/00_filter.ipynb 120
 @patch(cls_method=True)
 def init_simple(cls: KalmanFilter,
                 n_dim, # n_dim_obs and n_dim_state
@@ -429,7 +438,7 @@ def init_simple(cls: KalmanFilter,
         init_state_cov =   torch.eye(n_dim, dtype=dtype),
     )
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 121
+# %% ../../lib_nbs/kalman/00_filter.ipynb 124
 @patch(cls_method=True)
 def init_local_slope(cls: KalmanFilter,
                 n_dim, # n_dim_obs and n_dim_state

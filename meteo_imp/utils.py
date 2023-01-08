@@ -46,19 +46,16 @@ def cache_disk(base_file, rm_cache=False):
 
     return decorator
 
-# %% ../lib_nbs/99_utils.ipynb 18
+# %% ../lib_nbs/99_utils.ipynb 19
 import torch
 import numpy as np
-
-# %% ../lib_nbs/99_utils.ipynb 19
-def reset_seed(seed=27):
-    torch.manual_seed(seed)
-    np.random.seed(seed)
+import random
 
 # %% ../lib_nbs/99_utils.ipynb 20
 def reset_seed(seed=27):
     torch.manual_seed(seed)
     np.random.seed(seed)
+    random.seed(seed)
 
 # %% ../lib_nbs/99_utils.ipynb 22
 from typing import Generator, Iterable
@@ -151,15 +148,15 @@ def show_as_row(*os, names: Iterable[str]=None, **kwargs):
     display(HTML(out))
 
 # %% ../lib_nbs/99_utils.ipynb 56
-def _style_df(df):
+def _style_df(df_style):
     """style dataframe for better printing """
-    return df.style.format(precision = 4)
+    return df_style.format(precision = 4)
 
 def row_dfs(dfs: dict[str, pd.DataFrame], title="", hide_idx = True, styler=_style_df):
     out = []
     for df_title, df in dfs.items():
-        if hide_idx: df.style.hide(axis="index") 
-        df_html = _style_df(df).to_html()
+        df_styled =  df.style.hide(axis="index") if hide_idx else df.style 
+        df_html = _style_df(df_styled).to_html()
         out.append(f"<div> <p style='font-size: 1.3rem;'>{df_title}</p> {df_html} </div>")
     out = f"<div style=\"display: flex; column-gap: 20px; flex-wrap: wrap;\" class='table table-striped table-sm'> {''.join(out)}</div>"
     return f"<p style='font-size: 1.5rem; font-decoration: bold'>{title}<p>" + "".join(out)
