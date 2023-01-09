@@ -402,15 +402,15 @@ def get_info(self: KalmanFilter):
     var_names = ifnone(self.var_names, [f"y_{i}" for i in range(self.obs_matrix.shape[0])])
     latent_names = [f"x_{i}" for i in range(self.trans_matrix.shape[0])]
     contr_names = ifnone(self.contr_names, [f"c_{i}" for i in range(self.contr_matrix.shape[1])])
-    out['trans_matrix (A)'] = array2df(self.trans_matrix,    latent_names, latent_names, 'state')
-    out['trans_cov (Q)']    = array2df(self.trans_cov,       latent_names, latent_names, 'state')
-    out['trans_off']        = array2df(self.trans_off,       latent_names, ['offset'],   'state')
-    out['obs_matrix (H)']   = array2df(self.obs_matrix,      var_names,    latent_names, 'variable')
-    out['obs_cov (R)']      = array2df(self.obs_cov,         var_names,    var_names,    'variable')
-    out['obs_off']          = array2df(self.obs_off,         var_names,    ['offset'],   'variable')
-    out['contr_matrix (B)'] = array2df(self.contr_matrix,    latent_names, contr_names,  'state')
-    out['init_state_mean']  = array2df(self.init_state_mean, latent_names, ['mean'],     'state')
-    out['init_state_cov']   = array2df(self.init_state_cov,  latent_names, latent_names, 'state')
+    out['trans matrix (A)'] = array2df(self.trans_matrix,    latent_names, latent_names, 'state')
+    out['trans cov (Q)']    = array2df(self.trans_cov,       latent_names, latent_names, 'state')
+    out['trans off']        = array2df(self.trans_off,       latent_names, ['offset'],   'state')
+    out['obs matrix (H)']   = array2df(self.obs_matrix,      var_names,    latent_names, 'variable')
+    out['obs cov (R)']      = array2df(self.obs_cov,         var_names,    var_names,    'variable')
+    out['obs off']          = array2df(self.obs_off,         var_names,    ['offset'],   'variable')
+    out['contr matrix (B)'] = array2df(self.contr_matrix,    latent_names, contr_names,  'state')
+    out['init state mean']  = array2df(self.init_state_mean, latent_names, ['mean'],     'state')
+    out['init state cov']   = array2df(self.init_state_cov,  latent_names, latent_names, 'state')
 
     return out
 
