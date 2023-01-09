@@ -156,7 +156,7 @@ class CheckPosDef():
 
         return info
 
-# %% ../lib_nbs/20_Gaussian.ipynb 121
+# %% ../lib_nbs/20_Gaussian.ipynb 122
 @docs
 class DiagPosDef(): 
     def transform(self,raw): return torch.diag(torch.exp(raw))
@@ -168,7 +168,7 @@ class DiagPosDef():
 
 to_diagposdef = DiagPosDef().transform
 
-# %% ../lib_nbs/20_Gaussian.ipynb 127
+# %% ../lib_nbs/20_Gaussian.ipynb 128
 import torch
 from torch.distributions import MultivariateNormal
 from torch.linalg import cholesky
@@ -179,7 +179,7 @@ from fastcore.test import *
 from .utils import *
 from typing import List
 
-# %% ../lib_nbs/20_Gaussian.ipynb 128
+# %% ../lib_nbs/20_Gaussian.ipynb 129
 def conditional_guassian(
                          μ: Tensor, # mean with shape `[n_vars]`
                          Σ: Tensor, # cov with shape `[n_vars, n_vars] `
@@ -206,7 +206,7 @@ def conditional_guassian(
     return ListMNormal(mean, cov)
     
 
-# %% ../lib_nbs/20_Gaussian.ipynb 132
+# %% ../lib_nbs/20_Gaussian.ipynb 133
 def cond_gaussian_batched(dist: ListMNormal,
                          obs, # this needs to have the same shape of the mask !!! 
                          mask
@@ -214,7 +214,7 @@ def cond_gaussian_batched(dist: ListMNormal,
     return [conditional_guassian(dist.mean[i], dist.cov[i], obs[i][mask[i]], mask[i]) for i in range(obs.shape[0])]
         
 
-# %% ../lib_nbs/20_Gaussian.ipynb 170
+# %% ../lib_nbs/20_Gaussian.ipynb 171
 def cov2std(x):
     "convert cov of array of covariances to array of stddev"
     return torch.sqrt(torch.diagonal(x, dim1=-2, dim2=-1))

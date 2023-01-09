@@ -367,7 +367,8 @@ def _obs_from_state(self: KalmanFilter, state: ListMNormal):
     mean = self.obs_matrix @ state.mean.unsqueeze(-1) + self.obs_off.unsqueeze(-1)
     cov = self.obs_matrix @ state.cov @ self.obs_matrix.mT + self.obs_cov
     
-    self.cov_checker.check(cov, caller='predict')
+    for c in cov: # this is batched and for all timestamps
+        self.cov_checker.check(c, caller='predict')
     
     return ListMNormal(mean.squeeze(-1), cov)
 
