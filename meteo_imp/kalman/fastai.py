@@ -618,7 +618,7 @@ class NormalsDf:
         return pd.merge(mean, std, on=["time", "variable"])
     __repr__ = basic_repr("mean, std")
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 333
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 332
 def preds2df(preds, targs):
     """Final step to decode preds by getting a dataframe"""
     # preds this is a tuple (data, mask)
@@ -630,57 +630,60 @@ def preds2df(preds, targs):
         out.append(NormalsDf(mean, std))
     return out
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 334
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 333
 def predict_items(items, learn, pipe0, pipe1):
     pipe0, pipe1 = Pipeline(pipe0), Pipeline(pipe1)
-    preds, targs, losses = [], [], []
+    preds, targs, losses, metrics = [], [], [], []
     for item in items:
         targ = pipe0(item)
         data, mask, control = pipe1(targ)
         input = MeteoImpTensor(data.cuda().unsqueeze(0), mask.cuda().unsqueeze(0), control.cuda().unsqueeze(0))
         pred = learn.model(input)
-        loss = learn.loss_func(pred, input)
+        loss = learn.loss_func(pred, input) # the `input` is the actually transformed data, while `targ` isn't
+        metrics.append({metric.name: metric.func(pred, input) for metric in learn.metrics})
         # denormalize
         pred = pipe1.decode(pred)
         preds.append(pred), targs.append(targ), losses.append(loss)
         
-    return preds2df(preds, targs), targs, losses
+    return preds2df(preds, targs), targs, losses, metrics
         
 
 # %% ../../lib_nbs/kalman/10_fastai.ipynb 338
-def plot_result(pred, targ, loss, **kwargs):
+@delegates(facet_variable)
+def plot_result(pred, targ, loss, metrics, **kwargs):
     df = pd.merge(targ.tidy(), pred.tidy(), on=["time", "variable"])
-    # return df
-    return facet_variable(df, ys=["value", "mean"], error=True, **kwargs).properties(title=f"loss: {loss.item():.6f}")
+    title = [f"loss: {loss.item():.6f}"] + [f"{name}: {val:.6f}" for name, val in metrics.items()]
+    return facet_variable(df, ys=["value", "mean"], error=True, **kwargs).properties(title=title)
 
 # %% ../../lib_nbs/kalman/10_fastai.ipynb 341
-def plot_results(preds, targs, losses, **kwargs):
-    plots = [plot_result(targ, pred, loss, n_cols=1, **kwargs) for targ, pred, loss in zip(preds, targs, losses)]
+def plot_results(preds, targs, losses, metrics, **kwargs):
+    plots = [plot_result(targ, pred, loss, metric, n_cols=1, **kwargs) for targ, pred, loss, metric in zip(preds, targs, losses, metrics)]
     return alt.hconcat(*plots)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 345
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 346
 def get_results(learn, n=3, items=None, dls=None):
     dls = ifnone(dls, learn.dls)
+    dls = dls.valid if len(dls.valid.items) > 0 else dls
     items = ifnone(items, random.choices(dls.items, k=3))
     pipe0, pipe1 = dls.fs[0,1,2], dls.fs[3,4]
     return predict_items(items, learn, pipe0, pipe1)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 346
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 347
 def show_results(learn, n=3, items=None, **kwargs):
     return plot_results(*get_results(learn,n,items), **kwargs)
     
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 352
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 353
 from ipywidgets import IntSlider, interact_manual, Text
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 353
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 354
 def results_custom_gap(learn, df, control, items_idx, var_sel, gap_len, block_len, control_lags):
     pipeline,_ = imp_pipeline(df, control, var_sel, gap_len, block_len, control_lags)
     
     dls = TfmdLists(items_idx, pipeline).dataloaders(bs=len(items_idx))
     return get_results(learn, items=items_idx, dls=dls)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 355
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 356
 def interact_results(learn, df, control):
     interact_args = {
         'gap_len': IntSlider(10, 1, 100),
