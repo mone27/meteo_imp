@@ -1,0 +1,366 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\renewcommand{\labelitemii}{$\circ$}
+\newcommand{\E}[1]{\langle #1 \rangle} % shortcut for expectation
+\newcommand{\norm}[3]{\mathcal{N}\left(#1; #2, #3\right)}
+% hyperlinks into document https://www.overleaf.com/learn/latex/Hyperlinks
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Master Thesis},
+    pdfpagemode=FullScreen,
+    }
+\usepackage{amsmath}
+\parindent=0pt
+
+\title{Master Thesis. Meteorological time series imputation using Kalman filters}
+\author{Simone Massaro}
+\date{January 2023}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+\section{Methods}
+
+\subsection{Introduction Kalman Filter}
+
+\subsubsection{Notation}
+
+\begin{itemize}
+\item $t$  Number of time steps
+\item observations
+\begin{itemize}
+    \item $n$  Number of variables observed
+    \item $y_{:,t}$ or $y_t$ vector of all the $n$ variables at time $t$, $\in \mathbb{R}^n $
+    \item $y_{n,:}$ vector of the $n$th variable at for time steps in $t$, $\in \mathbb{R}^T$
+    \item $y_{n,t}$ $n$th variable at time $t$, $\in \mathbb{R}$ 
+    \item $Y_M = [x_{:,1}, ... x_{:, t}]$ Matrix with all the $n$ variables at all time steps, $\in \mathbb{R}^{n \times t}$ 
+    \item $Y$ is a vector obtained by "flattening" $X_M$, by putting next to each other all variable at time $t$, $\in \mathbb{R}^{(n \cdot t)}$
+    \item $y^{ng}_t$ vector of variable that are not missing (ng = not gap)) at time $t$, $\in \mathbb{R}^{n_{ng}}$. Note at different times the shape of this vector can change
+    \item $Y^{ng}$ all observations
+\end{itemize}
+
+\item latent state
+\begin{itemize}
+    \item $k$  Number of variables in latent state
+    \item $x_{:,t}$ or $x_t$ vector of all the $k$ state variables at time $t$, $\in \mathbb{R}^k $
+    \item $x_{k,:}$ vector of the $k$th variable at for time steps in $t$, $\in \mathbb{R}^t$
+    \item $x_{k,t}$ $k$th variable at time $t$, $\in \mathbb{R}$ 
+    \item $X_M = [x_{:,1}, ... x_{:, t}]$ Matrix with all the $k$ variables at all time steps, $\in \mathbb{R}^{k \times t}$ 
+    \item $X$ is a vector obtained by "flattening" $X_M$, by putting next to each other all variable at time $t$, $\in \mathbb{R}^{(k \cdot t)}$
+\end{itemize}
+
+\end{itemize}
+
+
+\subsubsection{Core equations}
+
+The latent state ($x$) is modelled using a Markov chain. Which means that the state at time $t$ depends only on the state at time $t-1$ and not the states at previous times
+
+\begin{equation}\label{state_eq}
+p(x_t | x_{t-1}) = \mathcal{N}(Ax_{t-1} + b, Q)
+\end{equation}
+
+The observation are derived from the state using a linear map plus random noise
+
+\begin{equation}\label{obs_from_state}
+    p(y_t | x_t) = \mathcal{N}(Hx_t + d, R)
+\end{equation}
+
+\subsection{Kalman Filter}
+
+\subsubsection{Filter predict}
+
+The probability distribution of state at time $t$ is computed using the state a time $t-1$
+
+The state at time $t-1$ has a distribution $$ p(x_{t-1}) = \mathcal{N}(m_{t-1}, P_{t-1}) $$ 
+
+Combining this equation with equation \ref{state_eq} and using the properties of a linear map of a Gaussian distribution we obtain:
+
+\begin{equation}
+    \label{filter_predict}p(x_t) = \mathcal{N}(x_t; m_t^-, P_t^-)
+\end{equation} 
+
+where:
+\begin{itemize}
+    \item predicted state mean: $m_t^- = Am_{t-1} + B c_t + d$   
+    \item predicted state covariance: $P_t^- = AP_{t-1}A^T + Q$
+\end{itemize}
+
+The mean and the covariance of the state at time $0$ are parameters of the models that are learned
+
+\subsubsection{Filter correct}
+
+Probability of state at time `$t$ is corrected using the observations at time $t$
+
+This uses equation \ref{obs_from_state} and the formula for posterior distributions for Gaussian distributions.
+
+\begin{equation}\label{filter_correct}
+ p(x_t|y_t) = \mathcal{N}(x_t; m_t, P_t)   
+\end{equation}
+    
+where:
+
+\begin{itemize}
+    \item predicted obs mean: $z_t = Hm_t^- + d$   
+    \item predicted obs covariance: $S_t = HP_t^-H^T + R$
+    \item Kalman gain $K_t = P_t^-H^TS_t^{-1}$ 
+    \item corrected state mean: $m_t = m_t^- + K_t(y_t - z_t)$ 
+    \item corrected state covariance: $P_t = (I-K_tH)P_t^-$ 
+\end{itemize}
+
+\paragraph{Missing observations}
+
+\subparagraph{}
+If all the observations at time $t$ are missing the correct step is skipped and the filtered state at time $t$ (equation \ref{filter_correct}) is the same of the filtered state.
+
+\subparagraph{}
+If only some observations are missing a variation of equation \ref{filter_correct} can be used.
+
+$y^{ng}_t$ is a vector containing the observations that are not missing at time $t$. 
+
+It can be expressed as a linear transformation of $y_t$
+
+$$ y^{ng}_t = My_t$$
+
+where $M$ is a mask matrix that is used to select the subset of $y_t$ that is observed. $M \in \mathbb{R}^{n_{ng} \times n}$ and is made of rows which are made of all zeros but for an entry 1 at column corresponding to the of the index non-missing observation.
+
+For example if $y_t = [y_{0,t}, y_{1,t}, y_{2,t}]^T$ and $y_{0,t}$ is the missing observation then
+
+$$ M = \left[\begin{array}{ccc}
+    0 & 1 & 0 \\
+    0 & 0 & 1
+\end{array}\right]$$
+hence:
+
+$$ p(y^{ng}_t) = \mathcal{N}(M\mu_{y_t},  M\Sigma_{y_t}M^T)$$
+
+from which you can derive
+
+\begin{equation}\label{filter_correct_obs_missing}
+    p(y^{ng}_t|x_t) = p(MHx_t + Mb, MRM^T) 
+\end{equation}
+
+Then the posterior $p(x_t|y_t^{ng})$ can be computed similarly of equation \ref{filter_correct} as:
+
+\begin{equation}\label{filter_correct_missing}
+ p(x_t|y^{ng}_t) = \mathcal{N}(x_t; m_t, P_t)   
+\end{equation}
+    
+where:
+
+\begin{itemize}
+    \item predicted obs mean: $z_t = MHm_t^- + Md$   
+    \item predicted obs covariance: $S_t = MHP_t^-(MH)^T + MRM^T$
+    \item Kalman gain $K_t = P_t^-(MH)^TS_t^{-1}$ 
+    \item corrected state mean: $m_t = m_t^- + K_t(My_t - z_t)$ 
+    \item corrected state covariance: $P_t = (I-K_tMH)P_t^-$ 
+\end{itemize}
+
+\subsection{Kalman Smoother}
+
+\begin{itemize}
+    \item Kalman smoothing gain: $G_t = P_tA^T(P_{t+1}^-)^{-1}$
+    \item smoothed mean: $m_t^s = m_t + G_t(m_{t+1}^s - m_{t+1}^-)$
+    \item smoothed covariance: $P_t^s = P_t + G_t(P_{t+1}^s - P_{t+1}^-)G_t^T$
+\end{itemize}
+
+
+\subsection{Loss Function}
+
+\subsubsection{Joint distribution of the gap}
+
+The goal is to obtain the joint distribution of the variables in the gap $Y^g$, which is $[y^g_t, y^g_{t+1} ... y^g(t+t_g)]$
+for a gap that goes from $t$ to $t+t_g$. $Y^g \in \mathbb{R}^{t_g \times n_g}$, where $n_g$ is the number of variables missing in the gap.
+
+For simplicity we are assuming for now that during the gap the variables missing don't change.
+
+The goal is to obtain $p(Y^g|Y^ng)$
+
+From the Kalman smoother it's easy to obtain $p(y^g_t|Y^{ng}) = \mathcal{N}(\mu_{t}, \Sigma_{t})$
+
+However, the problem is that $y^g_t$ and $y^g_{t+1}$ are not independent so it gets more complex.
+Assuming that $p(y^g_t|y^g_{t+1}) = \mathcal{N}(\mu_{t,t+1}, \Sigma_{t,t+1})$ the joint distribution has the form:
+
+$$ p(Y^g|Y^{ng}) = \mathcal{N}\left(\begin{array}{c}
+     \mu_{t}   \\
+     \mu_{t+1} \\
+     \cdots    \\
+     \mu_{t+t_g}
+\end{array},
+\begin{array}{cccc}
+    \Sigma_{t}       & \Sigma_{t,t+1}     & \cdots & \Sigma_{t,t+t_g}   \\
+    \Sigma_{t+1,t}   & \Sigma_{t+1}       & \cdots & \Sigma_{t+1,t+t_g} \\
+    \vdots           & \vdots             & \ddots & \cdots             \\ 
+    \Sigma_{t+t_g,t} & \Sigma_{t+t_g,t+1} & \cdots & \Sigma_{t+t_g}     \\
+\end{array}\right)$$
+
+
+$p(Y_g|Y_{ng}) = \int p(Y_g|X_g)p(X_g|Y)dX_g$
+
+
+\subsubsection{Joint distribution state for gaps}
+
+\paragraph{Two states}
+
+For simplicity, I am starting with the joint distribution of the filter on a gap where there are no observations and are interested only on the joint distribution of two consecutive states.
+The aim is to find $p(x_t, x_{t+1}\mid x_t, Y_{1:t})$
+
+The starting point is:
+\begin{itemize}
+    \item $x_{t+1} = Ax_{t} + \varepsilon_{t+1}$
+    \item $p(x_t \mid Y_{1:t}) = \norm{x_t}{m_t}{P_t}$
+    \item $p(\varepsilon_t) = \norm{\varepsilon_t}{0}{Q}$
+\end{itemize}
+
+Since all distributions are Gaussian, the joint distribution is also Gaussian
+
+\begin{equation}\label{p_X_start}
+p(x_t, x_{t+1}|x_t) = \norm{\begin{bmatrix}x_t\\x_{t+1}\end{bmatrix}}{\begin{bmatrix}m_t\\Am_t\end{bmatrix}}{\begin{bmatrix}\E{x_tx_t^T}&\E{x_tx_{t+1}^T}\\\E{x_{t+1}x_t^T}&\E{x_{t+1}x_{t+1}^T}\end{bmatrix}}
+\end{equation}
+
+we can compute the covariance using the expectation operator and its properties
+
+second element on the diagonal
+
+\begin{equation}\label{eq:cov_x_t1_x_t1}
+\begin{split}
+    &\E{x_{t+1} x_{t+1}^T} = \E{(Ax_t + \varepsilon_{t+1})(Ax_t + \varepsilon_{t+1})^T} =\\ &=\E{Ax_tx_t^TA^T + \varepsilon_{t+1}x_t^TA^T + Ax_t\varepsilon_{t+1}^T + \varepsilon_{t+1}\varepsilon_{t+1}^T} =\\&=\E{Ax_tx_t^TA^T} + \E{\varepsilon_{t+1}x_t^TA^T} + \E{Ax_t\varepsilon_{t+1}^T} + \E{\varepsilon_{t+1}\varepsilon_{t+1}^T} =\\
+    &=A\E{x_tx_t^T}A^T + 0 + 0 + \E{\varepsilon_{t+1}\varepsilon_{t+1}^T} = \\
+    &=AP_tA^T + Q
+\end{split}
+\end{equation}
+
+off-diagonal element
+
+\begin{equation}\label{eq:cov_x_t1_x_t}
+\begin{split}
+    &\E{x_{t+1} x_{t}^T} = \E{(Ax_t + \varepsilon_{t+1})x_t^T} =\\ &=\E{Ax_tx_t^T + \varepsilon_{t+1}x_t^T} =\\&=\E{Ax_tx_t^T} + \E{\varepsilon_{t+1}x_t^TA^T} =\\
+    &=A\E{x_tx_t^T} + 0 = \\
+    &=AP_t
+\end{split}
+\end{equation}
+
+substituting in equation \ref{p_X_start}:
+
+\begin{equation}\label{p_X_final}
+p(x_t, x_{t+1}\mid x_t, Y_{1:t}) = \norm{\begin{bmatrix}x_t\\x_{t+1}\end{bmatrix}}{\begin{bmatrix}m_t\\Am_t\end{bmatrix}}
+{\begin{bmatrix}P_t & AP_t\\AP_t & AP_tA^T + Q\end{bmatrix}}
+\end{equation}
+
+\paragraph{Multiple States} A similar reasoning can be applied to more than two states, but the equations become more complex
+
+To obtain $p(x_t, x_{t+1}, x_{t+2} \mid x_t, Y_{1:t})$ in addition to the previous paragraph we need to compute $\E{x_tx_{t+2}^T}$ and $\E{x_{t+2}x_{t+2}^T}$
+
+second element on the diagonal
+
+\begin{equation}\label{eq:cov_x_t_x_t2}
+\begin{split}
+    &\E{x_{t+2}x_{t+2}^T} = \E{(A(Ax_t + \varepsilon_{t+1}) + \varepsilon_{t+2})(A(Ax_t + \varepsilon_{t+1}) + \varepsilon_{t+2})^T} =\\
+    &=\E{(AAx_t + A\varepsilon_{t+1} + \varepsilon_{t+2})(AAx_t + A\varepsilon_{t+1} + \varepsilon_{t+2})^T}=\\
+    &=\E{AAx_tx_t^TA^TA^T} + \E{A\varepsilon_{t+1}\varepsilon{t+1}^TA^T} + \E{\varepsilon_{t+2}\varepsilon_{t+2}^T}=\\
+    &=AAP_t(AA)^T + AQA^T + Q
+\end{split}
+\end{equation}
+
+which (probably) can be generalized as: [TODO actually need to prove this and check that notation is correct]
+
+\begin{equation}
+    \E{x_tx_{t+k}^T} = A^kP_t(A^k)^T + \sum_{i=0}^{k-1} A^iQ(A^i)^T
+\end{equation}
+
+and 
+
+\begin{equation}
+    \E{x_{t+k}} = A^km_t
+\end{equation}
+
+In this way it is possible to obtain $P(X)$ for any number of states.
+
+\subsection{Joint distribution state - partial observations}
+
+In the case the there are partial observations to the reasoning of the previous paragraph cannot be applied as by combining equations \ref{filter_predict} and \ref{filter_correct_missing}
+
+\begin{equation}\label{filter_combined}
+\begin{split}
+    m_t^- &= Am_{t-1} + B c_t + d\\
+    P_t^- &= AP_{t-1}A^T + Q\\
+    z_t &= MHm_t^- + Md\\
+    S_t &= MHP_t^-(MH)^T + MRM^T\\
+    K_t &= P_t^-(MH)^TS_t^{-1}\\
+    m_t &= m_t^- + K_t(My_t - z_t)\\
+    P_t &= (I-K_tMH)P_t^-\\
+    p(x_t|x_{t-1}, y^{ng}_t) &= \mathcal{N}(x_t; m_t, P_t)
+\end{split}
+\end{equation}
+
+From this equation is not possible to write $x_t$ and linear map of $x_{t-1}$ plus another random variable, since the mean of $x_t$ depends on the covariance of $x_{t-1}$ 
+    
+For the same reason this approach cannot be applied for the smoother
+
+
+
+
+\begin{multline}
+p(x_t | x_{t-1}, Y_{1:t}) = \mathcal{N}(x_t;\\Am_{t-1} + B c_t + d + (AP_{t-1}A^T + Q)(MH)^T(MH(AP_{t-1}A^T + Q)^-(MH)^T)^{-1}(y_t - MHm_t^- + d),\\ (I-AP_{t-1}A^T + Q)H^T(H(AP_{t-1}A^T + Q)^-H^T)^{-1}H)(AP_{t-1}A^T + Q))
+\end{multline}
+
+s 
+In goal is obtain $ p(X_{gap} \mid Y_{ng}) $ as then it can be computed  $p(Y_{gap} \mid Y_{ng}) $
+
+For simplicity I am going to use the filter and not the smoother
+
+
+starting point:
+
+\begin{itemize}
+    \item $p(x_t \mid Y) = \mathcal{N}(x_t; m_t, P_t)$
+    \item $x_t = Ax_{t-1} + \varepsilon_t$
+    \item $p(x_{t-1}\mid  Y_{1:t-1}) = \norm{x_{t-1}}{m_{t-1}}{P_{t-1}}$
+    \item $p(\varepsilon) = \norm{\varepsilon}{0}{Q}$
+    
+    
+    \item $p(x_t | x_{t-1}, Y_{1:t-1}) = \mathcal{N}(x_t;Am_{t-1} + B c_t + d, AP_{t-1}A^T + Q)$ 
+    \item predicted obs mean: $z_t = Hm_t^- + d$   
+    \item predicted obs covariance: $S_t = HP_t^-H^T + R$
+    \item Kalman gain $K_t = P_t^-H^TS_t^{-1}$ 
+    \item corrected state mean: $m_t = m_t^- + K_t(y_t - z_t)$ 
+    \item corrected state covariance: $P_t = (I-K_tH)P_t^-$ 
+\end{itemize}
+
+
+
+\begin{multline}
+p(x_t | x_{t-1}, Y_{1:t}) = \mathcal{N}(x_t;\\Am_{t-1} + B c_t + d + (AP_{t-1}A^T + Q)H^T(H(AP_{t-1}A^T + Q)^-H^T)^{-1}(y_t - Hm_t^- + d),\\ (I-AP_{t-1}A^T + Q)H^T(H(AP_{t-1}A^T + Q)^-H^T)^{-1}H)(AP_{t-1}A^T + Q))
+\end{multline}
+
+\begin{itemize}
+    \item predicted obs mean: $z_t = Hm_t^- + d$   
+    \item predicted obs covariance: $S_t = H(AP_{t-1}A^T + Q)^-H^T + R$
+    \item Kalman gain $K_t = (AP_{t-1}A^T + Q)H^TS_t^{-1}$ 
+    \item corrected state mean: $m_t = m_t^- + K_t(y_t - z_t)$ 
+    \item corrected state covariance: $P_t = (I-K_tH)P_t^-$ 
+\end{itemize}
+
+
+
+$$ \mu_X = [\mu_{x_t}, \mu_{x_{t+1}}, ... \mu_{x_{t+t_g}}]$$
+
+for the covariance, we are going to construct it one block at the time using
+
+
+
+for the element on the diagonal
+
+$$\E{x_t x_{t}^T} = $$
+
+\end{document}
