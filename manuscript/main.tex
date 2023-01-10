@@ -11,8 +11,7 @@
     linkcolor=blue,
     filecolor=magenta,      
     urlcolor=cyan,
-    pdftitle={Master Thesis},
-    pdfpagemode=FullScreen,
+    pdftitle={Master Thesis}
     }
 \usepackage{amsmath}
 \parindent=0pt
@@ -224,13 +223,13 @@ The starting point is:
 
 Since all distributions are Gaussian, the joint distribution is also Gaussian
 
-\begin{equation}\label{p_X_start}
+\begin{equation}\label{p_X2_start}
 p(x_t, x_{t+1}|x_t) = \norm{\begin{bmatrix}x_t\\x_{t+1}\end{bmatrix}}{\begin{bmatrix}m_t\\Am_t\end{bmatrix}}{\begin{bmatrix}\E{x_tx_t^T}&\E{x_tx_{t+1}^T}\\\E{x_{t+1}x_t^T}&\E{x_{t+1}x_{t+1}^T}\end{bmatrix}}
 \end{equation}
 
-we can compute the covariance using the expectation operator and its properties
+we can compute the covariance using the expectation operator and its properties.
 
-second element on the diagonal
+\subparagraph{Second element on the diagonal}
 
 \begin{equation}\label{eq:cov_x_t1_x_t1}
 \begin{split}
@@ -240,7 +239,7 @@ second element on the diagonal
 \end{split}
 \end{equation}
 
-off-diagonal element
+\subparagraph{off-diagonal element}
 
 \begin{equation}\label{eq:cov_x_t1_x_t}
 \begin{split}
@@ -250,18 +249,20 @@ off-diagonal element
 \end{split}
 \end{equation}
 
-substituting in equation \ref{p_X_start}:
+\subparagraph{Joint distribution state}
 
-\begin{equation}\label{p_X_final}
+substituting in equation \ref{p_X2_start}:
+
+\begin{equation}\label{p_X2_final}
 p(x_t, x_{t+1}\mid x_t, Y_{1:t}) = \norm{\begin{bmatrix}x_t\\x_{t+1}\end{bmatrix}}{\begin{bmatrix}m_t\\Am_t\end{bmatrix}}
 {\begin{bmatrix}P_t & AP_t\\AP_t & AP_tA^T + Q\end{bmatrix}}
 \end{equation}
 
 \paragraph{Multiple States} A similar reasoning can be applied to more than two states, but the equations become more complex
 
-To obtain $p(x_t, x_{t+1}, x_{t+2} \mid x_t, Y_{1:t})$ in addition to the previous paragraph we need to compute $\E{x_tx_{t+2}^T}$ and $\E{x_{t+2}x_{t+2}^T}$
+To obtain $p(x_t, x_{t+1}, x_{t+2} \mid x_t, Y_{1:t})$ we also need to compute $\E{x_tx_{t+2}^T}$ and $\E{x_{t+2}x_{t+2}^T}$
 
-second element on the diagonal
+\subparagraph{Covariance diagonal}
 
 \begin{equation}\label{eq:cov_x_t_x_t2}
 \begin{split}
@@ -278,13 +279,26 @@ which (probably) can be generalized as: [TODO actually need to prove this and ch
     \E{x_tx_{t+k}^T} = A^kP_t(A^k)^T + \sum_{i=0}^{k-1} A^iQ(A^i)^T
 \end{equation}
 
-and 
+\subparagraph{Covariance off-diagonal}
+
+\begin{equation}
+    \E{x_tx_{t+k}^T} = A^kP_t(A^k)^T
+\end{equation}
+
+\subparagraph{Mean}
 
 \begin{equation}
     \E{x_{t+k}} = A^km_t
 \end{equation}
 
+\subparagraph{Joint distribution state}
 In this way it is possible to obtain $P(X)$ for any number of states.
+
+\begin{equation}\label{p_X_final}
+p(X_{t:t+k}\mid x_t, Y_{1:t}) = \norm{\begin{bmatrix}x_t\\\vdots\\x_{t+k}\end{bmatrix}}
+    {\begin{bmatrix}m_t\\\vdots\\A^km_t\end{bmatrix}}
+    {\begin{bmatrix}P_t & \cdots & A^kP_t(A^k)^T\\ \vdots & \ddots & \vdots \\A^kP_t(A^k)^T & \cdots & AP_t(A^k)^T + \sum_{i=0}^{k-1} A^iQ(A^i)^T\end{bmatrix}}
+\end{equation}
 
 \subsection{Joint distribution state - partial observations}
 
@@ -305,62 +319,8 @@ In the case the there are partial observations to the reasoning of the previous 
 
 From this equation is not possible to write $x_t$ and linear map of $x_{t-1}$ plus another random variable, since the mean of $x_t$ depends on the covariance of $x_{t-1}$ 
     
-For the same reason this approach cannot be applied for the smoother
+For the same reason this approach cannot be applied for the smoother.
 
 
-
-
-\begin{multline}
-p(x_t | x_{t-1}, Y_{1:t}) = \mathcal{N}(x_t;\\Am_{t-1} + B c_t + d + (AP_{t-1}A^T + Q)(MH)^T(MH(AP_{t-1}A^T + Q)^-(MH)^T)^{-1}(y_t - MHm_t^- + d),\\ (I-AP_{t-1}A^T + Q)H^T(H(AP_{t-1}A^T + Q)^-H^T)^{-1}H)(AP_{t-1}A^T + Q))
-\end{multline}
-
-s 
-In goal is obtain $ p(X_{gap} \mid Y_{ng}) $ as then it can be computed  $p(Y_{gap} \mid Y_{ng}) $
-
-For simplicity I am going to use the filter and not the smoother
-
-
-starting point:
-
-\begin{itemize}
-    \item $p(x_t \mid Y) = \mathcal{N}(x_t; m_t, P_t)$
-    \item $x_t = Ax_{t-1} + \varepsilon_t$
-    \item $p(x_{t-1}\mid  Y_{1:t-1}) = \norm{x_{t-1}}{m_{t-1}}{P_{t-1}}$
-    \item $p(\varepsilon) = \norm{\varepsilon}{0}{Q}$
-    
-    
-    \item $p(x_t | x_{t-1}, Y_{1:t-1}) = \mathcal{N}(x_t;Am_{t-1} + B c_t + d, AP_{t-1}A^T + Q)$ 
-    \item predicted obs mean: $z_t = Hm_t^- + d$   
-    \item predicted obs covariance: $S_t = HP_t^-H^T + R$
-    \item Kalman gain $K_t = P_t^-H^TS_t^{-1}$ 
-    \item corrected state mean: $m_t = m_t^- + K_t(y_t - z_t)$ 
-    \item corrected state covariance: $P_t = (I-K_tH)P_t^-$ 
-\end{itemize}
-
-
-
-\begin{multline}
-p(x_t | x_{t-1}, Y_{1:t}) = \mathcal{N}(x_t;\\Am_{t-1} + B c_t + d + (AP_{t-1}A^T + Q)H^T(H(AP_{t-1}A^T + Q)^-H^T)^{-1}(y_t - Hm_t^- + d),\\ (I-AP_{t-1}A^T + Q)H^T(H(AP_{t-1}A^T + Q)^-H^T)^{-1}H)(AP_{t-1}A^T + Q))
-\end{multline}
-
-\begin{itemize}
-    \item predicted obs mean: $z_t = Hm_t^- + d$   
-    \item predicted obs covariance: $S_t = H(AP_{t-1}A^T + Q)^-H^T + R$
-    \item Kalman gain $K_t = (AP_{t-1}A^T + Q)H^TS_t^{-1}$ 
-    \item corrected state mean: $m_t = m_t^- + K_t(y_t - z_t)$ 
-    \item corrected state covariance: $P_t = (I-K_tH)P_t^-$ 
-\end{itemize}
-
-
-
-$$ \mu_X = [\mu_{x_t}, \mu_{x_{t+1}}, ... \mu_{x_{t+t_g}}]$$
-
-for the covariance, we are going to construct it one block at the time using
-
-
-
-for the element on the diagonal
-
-$$\E{x_t x_{t}^T} = $$
 
 \end{document}
