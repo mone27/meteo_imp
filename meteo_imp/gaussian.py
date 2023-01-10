@@ -75,8 +75,11 @@ def is_posdef(cov):
 
 # %% ../lib_nbs/20_Gaussian.ipynb 36
 def is_posdef_eigv(cov):
-    eigv = torch.linalg.eigvalsh(cov)
-    return eigv.ge(0).all(-1), eigv
+    try:
+        eigv = torch.linalg.eigvalsh(cov)
+        return eigv.ge(0).all(-1), eigv
+    except torch._C._LinAlgError:
+        return torch.tensor(False), torch.tensor(torch.nan)
 
 # %% ../lib_nbs/20_Gaussian.ipynb 41
 from fastcore.foundation import docs
@@ -124,7 +127,7 @@ class CheckPosDef():
         self.add_args(**extra_args)
         
         x = x if x.dim() > 2 else [x]
-        infos = pd.concat([*map(self._check_matrix, x)])
+        infos = pd.concat([*map(self._check_matrix, x, range(len(x)))])
         
         if self.use_log: self.log = pd.concat([self.log, infos])
         if self.warning and (~infos['is_pd_eigv'].all() or ~infos['is_pd_chol'].all()):
@@ -134,10 +137,11 @@ class CheckPosDef():
         return infos
     
     def _check_matrix(self,
-                     x: Tensor # square matrix
+                     x: Tensor, # square matrix
+                     batch_n = 0,
                     ) -> pd.DataFrame:
         
-        x = x.detach().cpu().clone() # free GPU memory and ensure that there is a copy
+        x = x.detach().clone() # ensure that there is a copy
         sym_upto = symmetric_upto(x)
 
         is_pd_eigv, eigv = is_posdef_eigv(x)
@@ -149,8 +153,9 @@ class CheckPosDef():
             'is_pd_chol': is_pd_chol,
             'is_sym': is_sym,
             'sym_upto': sym_upto,
-            'eigv': [eigv.detach().numpy()],
-            'matrix': [x.detach().numpy()],
+            'eigv': [eigv.cpu().numpy()],
+            'matrix': [x.cpu().numpy()],
+            'batch_n': batch_n,
             **self.extra_args
         })
 
