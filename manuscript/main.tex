@@ -4,17 +4,36 @@
 \renewcommand{\labelitemii}{$\circ$}
 \newcommand{\E}[1]{\langle #1 \rangle} % shortcut for expectation
 \newcommand{\norm}[3]{\mathcal{N}\left(#1; #2, #3\right)}
-% hyperlinks into document https://www.overleaf.com/learn/latex/Hyperlinks
+%%% hyperlinks into document
+% see https://www.overleaf.com/learn/latex/Hyperlinks
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
-    linkcolor=blue,
+    linkcolor=black,
     filecolor=magenta,      
     urlcolor=cyan,
     pdftitle={Master Thesis}
     }
+    
+%%% removeparagraph indent
 \usepackage{amsmath}
 \parindent=0pt
+
+%%% === add support subsubparagraph
+% see https://tex.stackexchange.com/questions/94402/creating-a-subsubparagraph
+\usepackage{titlesec}
+\titleclass{\subsubparagraph}{straight}[\subparagraph]
+\newcounter{subsubparagraph}
+\renewcommand{\thesubsubparagraph}{\Alph{subsubparagraph}}
+\titleformat{\subsubparagraph}[runin]{\normalfont\normalsize\bfseries}{\thesubsubparagraph}{1em}{}
+\titlespacing*{\subsubparagraph} {\parindent}{3.25ex plus 1ex minus .2ex}{1em}
+\makeatletter
+\def\toclevel@subsubparagraph{6}
+\makeatother
+%%% ===
+
+\usepackage{biblatex}
+\addbibresource{references.bib}
 
 \title{Master Thesis. Meteorological time series imputation using Kalman filters}
 \author{Simone Massaro}
@@ -24,15 +43,38 @@
 
 \maketitle
 \tableofcontents
-\newpage
+\clearpage
 
 \section{Introduction}
 
+\begin{itemize}
+    \item problem
+    \item state of the art
+    \item our approach
+    \begin{itemize}
+        \item uncertainties
+        \item combination of multiple sources of information [picture?]
+        \item custom implementation of Kalman filter imputation library
+    \end{itemize}
+    \item why is relevant
+\end{itemize}
+
 \section{Methods}
 
-\subsection{Introduction Kalman Filter}
+\subsection{Math}
+
+\subsubsection{Probabilistic Machine Learning}
+
+\begin{itemize}
+\item probability
+\item Conditional probability
+\item Bayes theorem
+\item Gaussian Inference
+\end{itemize}
 
 \subsubsection{Notation}
+
+[TODO data format maybe a picture]
 
 \begin{itemize}
 \item $t$  Number of time steps
@@ -61,9 +103,18 @@
 \end{itemize}
 
 
-\subsubsection{Core equations}
+\subsubsection{Kalman Filter Introduction}
+
+\begin{itemize}
+    \item why Kalman filter
+    \item picture of Kalman filter state
+\end{itemize}
+
+\paragraph{Description}
 
 The latent state ($x$) is modelled using a Markov chain. Which means that the state at time $t$ depends only on the state at time $t-1$ and not the states at previous times
+
+\paragraph{Basic equations}
 
 \begin{equation}\label{state_eq}
 p(x_t | x_{t-1}) = \mathcal{N}(Ax_{t-1} + b, Q)
@@ -75,9 +126,9 @@ The observation are derived from the state using a linear map plus random noise
     p(y_t | x_t) = \mathcal{N}(Hx_t + d, R)
 \end{equation}
 
-\subsection{Kalman Filter}
+\subsubsection{Filter}
 
-\subsubsection{Filter predict}
+\paragraph{Filter prediction}
 
 The probability distribution of state at time $t$ is computed using the state a time $t-1$
 
@@ -97,7 +148,7 @@ where:
 
 The mean and the covariance of the state at time $0$ are parameters of the models that are learned
 
-\subsubsection{Filter correct}
+\paragraph{Filter correct}
 
 Probability of state at time `$t$ is corrected using the observations at time $t$
 
@@ -117,12 +168,9 @@ where:
     \item corrected state covariance: $P_t = (I-K_tH)P_t^-$ 
 \end{itemize}
 
-\paragraph{Missing observations}
-
-\subparagraph{}
+\subparagraph{Missing observations}
 If all the observations at time $t$ are missing the correct step is skipped and the filtered state at time $t$ (equation \ref{filter_correct}) is the same of the filtered state.
 
-\subparagraph{}
 If only some observations are missing a variation of equation \ref{filter_correct} can be used.
 
 $y^{ng}_t$ is a vector containing the observations that are not missing at time $t$. 
@@ -165,7 +213,7 @@ where:
     \item corrected state covariance: $P_t = (I-K_tMH)P_t^-$ 
 \end{itemize}
 
-\subsection{Kalman Smoother}
+\subsubsection{Kalman Smoother}
 
 \begin{itemize}
     \item Kalman smoothing gain: $G_t = P_tA^T(P_{t+1}^-)^{-1}$
@@ -173,6 +221,167 @@ where:
     \item smoothed covariance: $P_t^s = P_t + G_t(P_{t+1}^s - P_{t+1}^-)G_t^T$
 \end{itemize}
 
+\subsubsection{Predictions}
+
+The prediction at time t ($y_t$) are computed from the state ($x_t$) using:
+$$p(y_t|x_t) = \mathcal{N}(Hx_t + d, R + HP^s_tH^T)$$
+
+\subsection{Filter Implementation}
+
+\subsubsection{Numerical stability}
+
+\paragraph{background}
+The direct implementation of Kalman filters is numerically unstable (\cite{mohinder_s_grewal_kalman_2001} \cite{dan_simon_optimal_2006}) therefore the implementation needs to adapt strategies to improve the numerical stability of the filter
+
+Computers store numbers with a limited number of decimal digits, hence operations that are mathematically possible cannot be actually implemented on a computer.
+
+In particular he numerical stability of the inversion of matrix on a digital computer depends on the condition number for inversion, which describes if the matrix is going to be singular on the numerical representation in the computer and thus cannot be inverted. The condition number is the ratio between the biggest singular value (square root of eigenvalues)
+\begin{equation}\label{condition_number}
+    k(A) = \frac{\sigma_{max}(A)}{\sigma_{min}(A)}
+\end{equation}
+
+It is one for well-conditioned matrices [todo define] and tends to infinite for ill-conditioned matrices.
+The matrix cannot be inverted when the reciprocal of the condition number for inversion is close to the machine precision $ 1/k(A) < \varepsilon$.
+
+\paragraph{Mitigation strategies}
+
+\subparagraph{Machine precision} The simplest to improve the numerical stability of the Kalman filter is to use higher accuracy representation of numbers, which in practise means to use 64bit floats instead of 32bit floats, which is default in PyTorch.
+
+\subparagraph{Matrix decomposition} Another way to improve the numerical stability is to reduce the condition number of the matrices, in particular for the Kalman filter the key matrix is the state covariance ($P$). If the matrix $P$ is stored as its Cholesky factors $C$, such as that $P = CC^T$ the effective numerical resolution of the filter can be doubled. This can be proved as $\lambda(P) = \lambda^2(C)$. Therefore, if in the filter implementation $P$ is never explicitly computed the numerical stability is significantly improved.
+There are several approached of filter implementations that follow this approach (\cite{potter_statistical_1963}, [todo cite other examples]) and are generally called ``square-root filter'', which have different tradeoff and often are computationally more expensive that the conventional implementation. The U-D Filter (\cite{bierman_numerical_1977}) has the same numerical stability of the other square root filters and a computation cost comparable with the conventional filter implementation.
+
+\paragraph{UD Filter}
+
+The UD filter (\cite{bierman_numerical_1977}) is named after the $UDU^T$ decomposition, which is also known as the $LDL^T$ decomposition (\cite{golub_matrix_2013}) and it always exists for a positive definite matrix. Where $U$ is a lower unit triangular matrix and $D$ is a diagonal matrix.
+
+The UD Filter never computes the state covariance matrix P, but propagates the $U$ and $D$ components of the matrix to improve the numerical stability. Hence the filter equations needs to be rewritten by using only the $U$ and $D$ components and never the $P$ matrix
+
+\subparagraph{Measurement update}
+
+After each observation at time $t$ the state covariance is updated according to equation \ref{filter_correct}, which is here repeated (for notation simplicity the time subscripts are removed):
+
+$$ P = P^- - P^-H^T(HP^-H^T + R)^{-1}HP^-$$
+
+The goal is to obtain the $U$ and $D$ factors of $P$ given the $U^-$ and $D^-$ factors of $P^-$
+
+Letting
+\begin{itemize}
+    \item $P = UDU^T$
+    \item $P^- = U^-D^-U^-T$, with $U^-T$ being the transpose of $U^-T$ not the transpose of the inverse of $U$
+    \item $v = U_{-T}H^T$
+\end{itemize}
+
+\begin{align}
+    &UDU^T = \\
+    &= U^-D^-U^{-T} - U^-D^-U^{-T}H^T\left(HU^-D^-U^{-T}H^T + R\right)^{-1}HU^-D^-U^{-T} \\
+    &= U^-\left[D^- - D^-v(v^TD^-v+R)^{-1}v^TD^- \right]
+\end{align}
+
+If you do a UD decomposition of $\left[D^- - D^-v(v^TD^-v+R)^{-1}v^TD^- \right] = BDB^T$, where $B$ is a lower unit triangular matrix, then 
+
+\[ UDU^T = U^-(BDB^T)U^{-T} = (U^-B)D(U^-B)^{T}) \]
+
+Therefore, $D$ is the diagonal factor of $P$ as and $U$ is equal to $U^-B$, since $U^-B$ is a lower unit triangular matrix as is the products of two lower unit triangular matrices.
+
+\subparagraph{Time update}
+
+The state covariance at time $t$ is obtained from the state at time $t-1$ according to the equation \ref{filter_predict}, which is here repeated:
+
+$$ P_t = AP_{t-1}A^T + Q$$
+
+The goal is to obtain the $U_t$ and $D_t$ factors of $P_t$ given the $U_{t-1}$ and $D_{t-1}$ factors of $P_{t-1}$
+
+Letting
+
+\begin{align}
+    Q &= GD_QG^T\\
+    W &= \begin{bmatrix}AU_{t-1}&G\end{bmatrix}\\
+    D_w &= \begin{bmatrix}D_{t-1} & 0 \\ 0& D_Q \end{bmatrix}
+\end{align}
+
+where $D_Q$ is diagonal and $G$ is lower unit triangular (the UD decomposition of Q) then
+
+\begin{equation}
+\begin{split}
+   P &= WD_wW^T = \\
+&=\begin{bmatrix}AU_{t-1}&G\end{bmatrix}\begin{bmatrix}D_{t-1} & 0 \\ 0& D_Q \end{bmatrix}\begin{bmatrix}U^T_{t-1}A^T\\G^T\end{bmatrix} \\
+&= AU_{t-1}D_{t-1}U^T_{t-1}A^T + GD_QG^T  
+\end{split}
+\end{equation}
+
+
+Then if we can find decompose $W$ as matrices $U_tV$ where $U_t$ is a lower unit triangular matrix such as that $VD_wV^T$ is a diagonal matrix then
+
+\begin{equation}
+    P_t = (U_tV)D_w(U_tV)^T = U_tD_tU_t
+\end{equation}
+
+so we have the $U_t$ and $D_t$ factors of $P_t$
+
+The remaining issue is the efficient implementation of this decomposition in PyTorch. There are two possible options:
+
+\subsubparagraph{1) Modified Weighted Gram-Schmidt Orthogonalization}
+
+This is a numerically stable algorithm that can decompose $W$ is the desired way. However, it is not implemented in PyTorch and to implement it in python involves operations with scalars, which are probably going super slow (especially on a GPU). The algorithm is described in \cite{mohinder_s_grewal_kalman_2001} Table 6.16
+
+\subsubparagraph{2) PyTorch QR decomposition + additional operations}
+
+The QR decomposition in PyTorch \footnote{\url{https://pytorch.org/docs/stable/generated/torch.linalg.qr.html}} decompose a matrix $A = QR$, where $Q$ is an orthogonal matrix and $R$ is an upper triangular matrix (not unit triangular matrix).
+
+The QR factorization can be used to have a weighed factorization \footnote{\url{https://scicomp.stackexchange.com/a/33436}}, where $QDQ^T = I$ instead of the $QQ^T = I$, if $D$ is positive definite.
+
+By computing the Cholesky factor of $D = CC^T$ then you can compute the QR factorization of $CA=UR$ where $U$ is an orthogonal matrix and $R$ is an upper triangular matrix and define $Q=C^{-1}U$
+Since $D$ is a diagonal matrix computing the Cholesky decomposition can be done by taking the square root of every element
+This can be proved as 
+$$Q D Q^T = C^{-1}U CC^TU^TC^{-1}= I$$
+
+Using the above algorithm results into the factorization of $p = U\prime_tIU\prime^T_t$ where $U\prime_t$ is a triangular matrix, but it can be converted to a unit triangular matrix by putting $D$ equal to the diagonal elements of $U\prime$ and obtaining $U$ dividing each column of $U\prime$ by the diagonal elements of $U\prime$
+
+The only \textbf{unresolved issue} is that PyTorch QR decomposition returns an upper triangular matrix and not a lower triangular matrix.
+
+\subparagraph{OLD}
+
+After each observation at time $t$ the state covariance is updated according to equation \ref{filter_correct}, which is here repeated (for notation simplicity the time subscripts are removed):
+
+$$ P = P^- - P^-H^T(HP^-H^T + R)^{-1}HP^-$$
+
+If the observation covariance matrix ($R$) is diagonal, which can be always true with an appropriate change of $H$, the measurements are not correlated between each other and the measurement update step can be performed sequentially. This means that the posterior distribution of the state is computed for each scalar variable of the observation. Letting $H_n$ be equal to the $n$th row of $H$, $R_n$ be equal to $n$th diagonal entry of $R$ and $P_n$ be being the covariance posterior distribution of the state after processing all first $n$ observation variables.
+
+
+\begin{equation}\label{filter_correct_seq}
+P_n = P_{n-1} - P_{n-1}H_n^T(H_nP_{n-1}H_n^T + R_n)^{-1}HP_{n-1}
+\end{equation}
+
+Letting $P_n = U_nD_nU_n^T$ and $P_{n-1} = U_{n-1}D_{n-1}U_{n-1}^T$ and the scalar $ \alpha_n = H_nP_{n-1}H_{n}^T + R_n$ then equation \ref{filter_correct_seq} can be rewritten as:
+
+\begin{multline}
+U_nD_nU_n^T = U_{n-1}D_{n-1}U_{n-1}^T - \frac{1}{\alpha_n}U_{n-1}D_{n-1}U_{n-1}^TH_n^TH_nU_{n-1}D_{n-1}U_{n-1}^T \\
+= U_{n-1} \left[ D_{n-1} - \frac{1}{\alpha_n}(D_{n-1}U_{n-1}^TH_n^T)(H_nU_{n-1}D_{n-1}\right]U_{n-1}^T
+\end{multline}
+
+
+
+
+
+The filter has been implemented as a PyTorch module
+
+\begin{itemize}
+    \item gradients
+    \item batch support
+\end{itemize}
+
+
+\subsubsection{Parameter constraints}
+
+\begin{itemize}
+    \item posdef
+    \item diag posdef 
+\end{itemize}
+
+\begin{itemize}
+    \item min value of R?
+    \item average 
+\end{itemize}
 
 \subsection{Loss Function}
 
@@ -223,9 +432,11 @@ The starting point is:
 
 Since all distributions are Gaussian, the joint distribution is also Gaussian
 
-\begin{equation}\label{p_X2_start}
-p(x_t, x_{t+1}|x_t) = \norm{\begin{bmatrix}x_t\\x_{t+1}\end{bmatrix}}{\begin{bmatrix}m_t\\Am_t\end{bmatrix}}{\begin{bmatrix}\E{x_tx_t^T}&\E{x_tx_{t+1}^T}\\\E{x_{t+1}x_t^T}&\E{x_{t+1}x_{t+1}^T}\end{bmatrix}}
-\end{equation}
+
+\begin{multline}\label{p_X2_start}
+p(x_t, x_{t+1}|x_t) = \norm{\begin{bmatrix}x_t\\x_{t+1}\end{bmatrix}}{\begin{bmatrix}m_t\\Am_t\end{bmatrix}}{\Sigma_{x_t, x_{t+1}}} \\
+\Sigma_{x_t, x_{t+1}} = \begin{bmatrix}\E{(x_t-\mu_{x_t})(x_t-\mu_{x_t})^T)}&\E{(x_t-\mu_{x_t})(x_{t+1}-\mu_{x_{t+1}})^T}\\\E{(x_{t+1}-\mu_{x_{t+1}})(x_{t}-\mu_{x_{t}})^T}&\E{(x_{t+1}-\mu_{x_{t+1}})(x_{t+1}-\mu_{x_{t+1}})^T}\end{bmatrix}
+\end{multline}
 
 we can compute the covariance using the expectation operator and its properties.
 
@@ -233,8 +444,11 @@ we can compute the covariance using the expectation operator and its properties.
 
 \begin{equation}\label{eq:cov_x_t1_x_t1}
 \begin{split}
-    &\E{x_{t+1} x_{t+1}^T} = \E{(Ax_t + \varepsilon_{t+1})(Ax_t + \varepsilon_{t+1})^T} =\\ &=\E{Ax_tx_t^TA^T + \varepsilon_{t+1}x_t^TA^T + Ax_t\varepsilon_{t+1}^T + \varepsilon_{t+1}\varepsilon_{t+1}^T} =\\&=\E{Ax_tx_t^TA^T} + \E{\varepsilon_{t+1}x_t^TA^T} + \E{Ax_t\varepsilon_{t+1}^T} + \E{\varepsilon_{t+1}\varepsilon_{t+1}^T} =\\
-    &=A\E{x_tx_t^T}A^T + 0 + 0 + \E{\varepsilon_{t+1}\varepsilon_{t+1}^T} = \\
+    &\E{(x_{t+1}-\mu_{x_{t+1}})(x_{t+1}-\mu_{x_{t+1}})^T} =\\
+    &=\E{(Ax_t + \varepsilon_{t+1} - Am_t)(Ax_t + \varepsilon_{t+1}- Am_t)^T} =\\
+    &= \E{(A(x_t - m_t) + \varepsilon_{t+1})(A(x_t - m_t) + \varepsilon_{t+1})^T} =\\
+    &=\E{A(x_t-m_t)(x_t-m_t)^TA^T + \varepsilon_{t+1}(x_t-m_t)^TA^T + A(x_t-m_t)\varepsilon_{t+1}^T + \varepsilon_{t+1}\varepsilon_{t+1}^T} =\\&=\E{A(x_t-m_t)(x_t-m_t)^TA^T} + \E{\varepsilon_{t+1}(x_t-m_t)^TA^T} + \E{A(x_t-m_t)\varepsilon_{t+1}^T} + \E{\varepsilon_{t+1}\varepsilon_{t+1}^T} =\\
+    &=A\E{(x_t-m_t)(x_t-m_t)^T}A^T + 0 + 0 + \E{\varepsilon_{t+1}\varepsilon_{t+1}^T} = \\
     &=AP_tA^T + Q
 \end{split}
 \end{equation}
@@ -243,8 +457,9 @@ we can compute the covariance using the expectation operator and its properties.
 
 \begin{equation}\label{eq:cov_x_t1_x_t}
 \begin{split}
-    &\E{x_{t+1} x_{t}^T} = \E{(Ax_t + \varepsilon_{t+1})x_t^T} =\\ &=\E{Ax_tx_t^T + \varepsilon_{t+1}x_t^T} =\\&=\E{Ax_tx_t^T} + \E{\varepsilon_{t+1}x_t^TA^T} =\\
-    &=A\E{x_tx_t^T} + 0 = \\
+    &\E{(x_{t+1}-\mu_{x_{t+1}}) (x_{t}-\mu_{x_{t}}^T} = \E{(Ax_t + \varepsilon_{t+1} -Am_t)(x_t - Am_t)^T} =\\
+    &=\E{A(x_t - m_t)(x_t - m_t)^T + \varepsilon_{t+1}(x_t - m_t)^T} =\\&=\E{A(x_t - m_t)(x_t - m_t)^T} + \E{\varepsilon_{t+1}(x_t - m_t)^TA^T} =\\
+    &=A\E{(x_t - m_t)^T} + 0 = \\
     &=AP_t
 \end{split}
 \end{equation}
@@ -266,9 +481,10 @@ To obtain $p(x_t, x_{t+1}, x_{t+2} \mid x_t, Y_{1:t})$ we also need to compute $
 
 \begin{equation}\label{eq:cov_x_t_x_t2}
 \begin{split}
-    &\E{x_{t+2}x_{t+2}^T} = \E{(A(Ax_t + \varepsilon_{t+1}) + \varepsilon_{t+2})(A(Ax_t + \varepsilon_{t+1}) + \varepsilon_{t+2})^T} =\\
-    &=\E{(AAx_t + A\varepsilon_{t+1} + \varepsilon_{t+2})(AAx_t + A\varepsilon_{t+1} + \varepsilon_{t+2})^T}=\\
-    &=\E{AAx_tx_t^TA^TA^T} + \E{A\varepsilon_{t+1}\varepsilon{t+1}^TA^T} + \E{\varepsilon_{t+2}\varepsilon_{t+2}^T}=\\
+    &\E{(x_{t+2}-\mu_{x_{t+2}})(x_{t+2}-\mu_{x_{t+2}})^T}=\\
+    &= \E{(A(Ax_t + \varepsilon_{t+1}) + \varepsilon_{t+2} - AAm_t)(A(Ax_t + \varepsilon_{t+1}) + \varepsilon_{t+2} - AAm_t)^T} =\\
+    &=\E{(AAx_t + A\varepsilon_{t+1} + \varepsilon_{t+2} - AAm_t)(AAx_t + A\varepsilon_{t+1} + \varepsilon_{t+2} - AAm_t)^T}=\\
+    &=\E{AA(x_t - m_t)(x_t - m_t)^TA^TA^T} + \E{A\varepsilon_{t+1}\varepsilon{t+1}^TA^T} + \E{\varepsilon_{t+2}\varepsilon_{t+2}^T}=\\
     &=AAP_t(AA)^T + AQA^T + Q
 \end{split}
 \end{equation}
@@ -276,13 +492,13 @@ To obtain $p(x_t, x_{t+1}, x_{t+2} \mid x_t, Y_{1:t})$ we also need to compute $
 which (probably) can be generalized as: [TODO actually need to prove this and check that notation is correct]
 
 \begin{equation}
-    \E{x_tx_{t+k}^T} = A^kP_t(A^k)^T + \sum_{i=0}^{k-1} A^iQ(A^i)^T
+    \E{(x_t -\mu_{x_t})(x_{t+k} - \mu_{x_{t+k}})^T} = A^kP_t(A^k)^T + \sum_{i=0}^{k-1} A^iQ(A^i)^T
 \end{equation}
 
 \subparagraph{Covariance off-diagonal}
 
 \begin{equation}
-    \E{x_tx_{t+k}^T} = A^kP_t(A^k)^T
+    \E{(x_{t+k} - \mu_{x_{t+k}})(x_{t+k} - \mu_{x_{t+k}})^T} = A^kP_t(A^k)^T
 \end{equation}
 
 \subparagraph{Mean}
@@ -294,13 +510,14 @@ which (probably) can be generalized as: [TODO actually need to prove this and ch
 \subparagraph{Joint distribution state}
 In this way it is possible to obtain $P(X)$ for any number of states.
 
-\begin{equation}\label{p_X_final}
-p(X_{t:t+k}\mid x_t, Y_{1:t}) = \norm{\begin{bmatrix}x_t\\\vdots\\x_{t+k}\end{bmatrix}}
-    {\begin{bmatrix}m_t\\\vdots\\A^km_t\end{bmatrix}}
-    {\begin{bmatrix}P_t & \cdots & A^kP_t(A^k)^T\\ \vdots & \ddots & \vdots \\A^kP_t(A^k)^T & \cdots & AP_t(A^k)^T + \sum_{i=0}^{k-1} A^iQ(A^i)^T\end{bmatrix}}
-\end{equation}
+\begin{multline}\label{p_X_final}
+p(X_{t:t+k}\mid x_t, Y_{1:t}) =\norm{\begin{bmatrix}x_t\\\vdots\\x_{t+k}\end{bmatrix}}{\begin{bmatrix}m_t\\\vdots\\A^km_t\end{bmatrix}}{\Sigma_{x_t, x_{t+k}}}\\
+\shoveleft\Sigma_{x_t, x_{t+k}} = {\begin{bmatrix}P_t & \cdots & A^kP_t(A^k)^T\\ \vdots & \ddots & \vdots \\A^kP_t(A^k)^T & \cdots & AP_t(A^k)^T + \sum_{i=0}^{k-1} A^iQ(A^i)^T\end{bmatrix}}
+\end{multline}
 
-\subsection{Joint distribution state - partial observations}
+
+
+\subsubsection{Joint distribution state - partial observations}
 
 In the case the there are partial observations to the reasoning of the previous paragraph cannot be applied as by combining equations \ref{filter_predict} and \ref{filter_correct_missing}
 
@@ -321,6 +538,28 @@ From this equation is not possible to write $x_t$ and linear map of $x_{t-1}$ pl
     
 For the same reason this approach cannot be applied for the smoother.
 
+\section{Results}
 
+\section{Discussion}
+
+\begin{itemize}
+    \item comparison other approaches: MDS, GPFA
+    \item performance
+\end{itemize}
+
+\section*{References}
+
+\printbibliography
+
+\section*{Appendix}
+
+\subsection{Proof for eigenvalues of $CC^T$}
+
+The eigenvalues of the transpose of a matrix are the same of the eigenvalues of a matrix
+
+The properties of the eigenvalues is that $Ax=\lambda x$ for any vector $x$
+
+Then $CC^Tx=C(\lambda x) = \lambda Cx = \lambda^2 x$
 
 \end{document}
+
