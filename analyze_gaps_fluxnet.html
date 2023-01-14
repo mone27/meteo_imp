@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.97">
+<meta name="generator" content="quarto-1.3.107">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -206,122 +206,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>site_info.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
-</style>
-<small>shape: (5, 3)</small><table class="dataframe table table-sm table-striped">
-
-<thead>
-<tr>
-<th>
+<span class="small">shape: (5, 3)</span>
 start
-</th>
-<th>
 end
-</th>
-<th>
 site
-</th>
-</tr>
-<tr>
-<td>
 datetime[μs]
-</td>
-<td>
 datetime[μs]
-</td>
-<td>
 cat
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
 2009-01-01 00:30:00
-</td>
-<td>
 2012-01-01 00:00:00
-</td>
-<td>
 "AR-SLu"
-</td>
-</tr>
-<tr>
-<td>
 2009-01-01 00:30:00
-</td>
-<td>
 2013-01-01 00:00:00
-</td>
-<td>
 "AR-Vir"
-</td>
-</tr>
-<tr>
-<td>
 2002-01-01 00:30:00
-</td>
-<td>
 2013-01-01 00:00:00
-</td>
-<td>
 "AT-Neu"
-</td>
-</tr>
-<tr>
-<td>
 2007-01-01 00:30:00
-</td>
-<td>
 2010-01-01 00:00:00
-</td>
-<td>
 "AU-Ade"
-</td>
-</tr>
-<tr>
-<td>
 2010-01-01 00:30:00
-</td>
-<td>
 2015-01-01 00:00:00
-</td>
-<td>
 "AU-ASM"
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 </div>
 <div class="cell" data-execution_count="6">
@@ -353,164 +259,42 @@ cat
 <div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>gap_stat.head().fetch(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
-
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
-</style>
-<small>shape: (5, 5)</small><table class="dataframe table table-sm table-striped">
-
-<thead>
-<tr>
-<th>
+<span class="small">shape: (5, 5)</span>
 gap_len
-</th>
-<th>
 variable
-</th>
-<th>
 site
-</th>
-<th>
 total_obs
-</th>
-<th>
 end
-</th>
-</tr>
-<tr>
-<td>
 u32
-</td>
-<td>
 str
-</td>
-<td>
 str
-</td>
-<td>
 i32
-</td>
-<td>
 datetime[μs]
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
 16992
-</td>
-<td>
 "TA_F_MDS_QC"
-</td>
-<td>
 "AR-SLu"
-</td>
-<td>
 52559
-</td>
-<td>
 2009-01-01 00:30:00
-</td>
-</tr>
-<tr>
-<td>
 5
-</td>
-<td>
 "TA_F_MDS_QC"
-</td>
-<td>
 "AR-SLu"
-</td>
-<td>
 52559
-</td>
-<td>
 2009-12-21 11:00:00
-</td>
-</tr>
-<tr>
-<td>
 1
-</td>
-<td>
 "TA_F_MDS_QC"
-</td>
-<td>
 "AR-SLu"
-</td>
-<td>
 52559
-</td>
-<td>
 2009-12-21 17:00:00
-</td>
-</tr>
-<tr>
-<td>
 1
-</td>
-<td>
 "TA_F_MDS_QC"
-</td>
-<td>
 "AR-SLu"
-</td>
-<td>
 52559
-</td>
-<td>
 2010-01-06 13:00:00
-</td>
-</tr>
-<tr>
-<td>
 3
-</td>
-<td>
 "TA_F_MDS_QC"
-</td>
-<td>
 "AR-SLu"
-</td>
-<td>
 52559
-</td>
-<td>
 2010-01-07 13:00:00
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 </div>
 <div class="cell" data-execution_count="11">
@@ -537,342 +321,88 @@ datetime[μs]
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    (pl.col(<span class="st">"gap_len"</span>).<span class="bu">sum</span>() <span class="op">/</span> pl.col(<span class="st">"total_obs"</span>).first()).alias(<span class="st">"frac_gap"</span>)</span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>]).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
-
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
-</style>
-<small>shape: (205, 3)</small><table class="dataframe table table-sm table-striped">
-
-<thead>
-<tr>
-<th>
+<span class="small">shape: (205, 3)</span>
 site
-</th>
-<th>
 mean
-</th>
-<th>
 frac_gap
-</th>
-</tr>
-<tr>
-<td>
 str
-</td>
-<td>
 f64
-</td>
-<td>
 f64
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
 "SJ-Blv"
-</td>
-<td>
 293.0
-</td>
-<td>
 0.242176
-</td>
-</tr>
-<tr>
-<td>
 "AU-Rob"
-</td>
-<td>
 3.727273
-</td>
-<td>
 0.011702
-</td>
-</tr>
-<tr>
-<td>
 "CA-NS7"
-</td>
-<td>
 1015.733333
-</td>
-<td>
 0.217263
-</td>
-</tr>
-<tr>
-<td>
 "US-GLE"
-</td>
-<td>
 1955.285714
-</td>
-<td>
 0.070967
-</td>
-</tr>
-<tr>
-<td>
 "RU-Ha1"
-</td>
-<td>
 3396.571429
-</td>
-<td>
 0.451955
-</td>
-</tr>
-<tr>
-<td>
 "US-SRM"
-</td>
-<td>
 45.59322
-</td>
-<td>
 0.013948
-</td>
-</tr>
-<tr>
-<td>
 "US-MMS"
-</td>
-<td>
 236.205128
-</td>
-<td>
 0.03284
-</td>
-</tr>
-<tr>
-<td>
 "DE-Seh"
-</td>
-<td>
 104.758065
-</td>
-<td>
 0.185235
-</td>
-</tr>
-<tr>
-<td>
 "SN-Dhr"
-</td>
-<td>
 1113.466667
-</td>
-<td>
 0.238168
-</td>
-</tr>
-<tr>
-<td>
 "GL-NuF"
-</td>
-<td>
 2274.5
-</td>
-<td>
 0.074127
-</td>
-</tr>
-<tr>
-<td>
 "CN-Sw2"
-</td>
-<td>
 8356.5
-</td>
-<td>
 0.635391
-</td>
-</tr>
-<tr>
-<td>
 "US-AR1"
-</td>
-<td>
 236.962963
-</td>
-<td>
 0.091234
-</td>
-</tr>
-<tr>
-<td>
 ...
-</td>
-<td>
 ...
-</td>
-<td>
 ...
-</td>
-</tr>
-<tr>
-<td>
 "AU-Whr"
-</td>
-<td>
 632.384615
-</td>
-<td>
 0.23446
-</td>
-</tr>
-<tr>
-<td>
 "US-WPT"
-</td>
-<td>
 152.0
-</td>
-<td>
 0.135799
-</td>
-</tr>
-<tr>
-<td>
 "GF-Guy"
-</td>
-<td>
 53.333333
-</td>
-<td>
 0.00083
-</td>
-</tr>
-<tr>
-<td>
 "US-KS1"
-</td>
-<td>
 2043.5
-</td>
-<td>
 0.23329
-</td>
-</tr>
-<tr>
-<td>
 "DE-Gri"
-</td>
-<td>
 155.428571
-</td>
-<td>
 0.022565
-</td>
-</tr>
-<tr>
-<td>
 "IT-Ren"
-</td>
-<td>
 214.107143
-</td>
-<td>
 0.021372
-</td>
-</tr>
-<tr>
-<td>
 "BE-Vie"
-</td>
-<td>
 114.333333
-</td>
-<td>
 0.094729
-</td>
-</tr>
-<tr>
-<td>
 "US-ARb"
-</td>
-<td>
 131.582524
-</td>
-<td>
 0.386798
-</td>
-</tr>
-<tr>
-<td>
 "CH-Lae"
-</td>
-<td>
 101.416667
-</td>
-<td>
 0.075722
-</td>
-</tr>
-<tr>
-<td>
 "CA-NS6"
-</td>
-<td>
 898.65
-</td>
-<td>
 0.205061
-</td>
-</tr>
-<tr>
-<td>
 "FI-Lom"
-</td>
-<td>
 1.0
-</td>
-<td>
 0.000038
-</td>
-</tr>
-<tr>
-<td>
 "AU-Fog"
-</td>
-<td>
 214.365854
-</td>
-<td>
 0.167069
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 </div>
 <section id="mean-gap-len" class="level3">
@@ -883,85 +413,17 @@ f64
 <div class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>short_gaps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="24">
-
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
-</style>
-<small>shape: (3, 2)</small><table class="dataframe table table-sm table-striped">
-
-<thead>
-<tr>
-<th>
+<span class="small">shape: (3, 2)</span>
 variable
-</th>
-<th>
 gap_len
-</th>
-</tr>
-<tr>
-<td>
 str
-</td>
-<td>
 f64
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
 "TA_F_QC"
-</td>
-<td>
 11.33915
-</td>
-</tr>
-<tr>
-<td>
 "VPD_F_QC"
-</td>
-<td>
 9.642444
-</td>
-</tr>
-<tr>
-<td>
 "SW_IN_F_QC"
-</td>
-<td>
 5.726891
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 </div>
 <div class="cell" data-execution_count="25">
@@ -987,480 +449,126 @@ f64
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>gaps_year_site_ta.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
-
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
-</style>
-<small>shape: (7, 5)</small><table class="dataframe table table-sm table-striped">
-
-<thead>
-<tr>
-<th>
+<span class="small">shape: (7, 5)</span>
 describe
-</th>
-<th>
 site
-</th>
-<th>
 year
-</th>
-<th>
 mean
-</th>
-<th>
 frac_gap
-</th>
-</tr>
-<tr>
-<td>
 str
-</td>
-<td>
 str
-</td>
-<td>
 f64
-</td>
-<td>
 f64
-</td>
-<td>
 f64
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
 "count"
-</td>
-<td>
 "1232"
-</td>
-<td>
 1232.0
-</td>
-<td>
 1232.0
-</td>
-<td>
 1232.0
-</td>
-</tr>
-<tr>
-<td>
 "null_count"
-</td>
-<td>
 "0"
-</td>
-<td>
 0.0
-</td>
-<td>
 0.0
-</td>
-<td>
 0.0
-</td>
-</tr>
-<tr>
-<td>
 "mean"
-</td>
-<td>
 null
-</td>
-<td>
 2007.18263
-</td>
-<td>
 826.696712
-</td>
-<td>
 0.156607
-</td>
-</tr>
-<tr>
-<td>
 "std"
-</td>
-<td>
 null
-</td>
-<td>
 4.633427
-</td>
-<td>
 3339.649175
-</td>
-<td>
 0.350794
-</td>
-</tr>
-<tr>
-<td>
 "min"
-</td>
-<td>
 "AR-SLu"
-</td>
-<td>
 1991.0
-</td>
-<td>
 1.0
-</td>
-<td>
 0.000057
-</td>
-</tr>
-<tr>
-<td>
 "max"
-</td>
-<td>
 "ZM-Mon"
-</td>
-<td>
 2015.0
-</td>
-<td>
 52608.0
-</td>
-<td>
 7.686073
-</td>
-</tr>
-<tr>
-<td>
 "median"
-</td>
-<td>
 null
-</td>
-<td>
 2008.0
-</td>
-<td>
 42.166667
-</td>
-<td>
 0.030822
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 </div>
 <div class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>gaps_year_site_ta.<span class="bu">filter</span>(pl.col(<span class="st">"frac_gap"</span>) <span class="op">&gt;=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
-
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
-</style>
-<small>shape: (15, 4)</small><table class="dataframe table table-sm table-striped">
-
-<thead>
-<tr>
-<th>
+<span class="small">shape: (15, 4)</span>
 site
-</th>
-<th>
 year
-</th>
-<th>
 mean
-</th>
-<th>
 frac_gap
-</th>
-</tr>
-<tr>
-<td>
 str
-</td>
-<td>
 i32
-</td>
-<td>
 f64
-</td>
-<td>
 f64
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
 "BE-Bra"
-</td>
-<td>
 2003
-</td>
-<td>
 17738.0
-</td>
-<td>
 1.012443
-</td>
-</tr>
-<tr>
-<td>
 "BR-Sa1"
-</td>
-<td>
 2006
-</td>
-<td>
 4167.4
-</td>
-<td>
 1.189326
-</td>
-</tr>
-<tr>
-<td>
 "CA-NS1"
-</td>
-<td>
 2001
-</td>
-<td>
 1219.941176
-</td>
-<td>
 1.183733
-</td>
-</tr>
-<tr>
-<td>
 "CA-NS3"
-</td>
-<td>
 2002
-</td>
-<td>
 4580.8
-</td>
-<td>
 1.307306
-</td>
-</tr>
-<tr>
-<td>
 "DE-Lnf"
-</td>
-<td>
 2007
-</td>
-<td>
 52608.0
-</td>
-<td>
 3.00274
-</td>
-</tr>
-<tr>
-<td>
 "IT-Cpz"
-</td>
-<td>
 1998
-</td>
-<td>
 228.990566
-</td>
-<td>
 1.385445
-</td>
-</tr>
-<tr>
-<td>
 "IT-Ro2"
-</td>
-<td>
 2008
-</td>
-<td>
 1464.5
-</td>
-<td>
 1.504623
-</td>
-</tr>
-<tr>
-<td>
 "RU-Cok"
-</td>
-<td>
 2003
-</td>
-<td>
 411.729167
-</td>
-<td>
 1.128025
-</td>
-</tr>
-<tr>
-<td>
 "SJ-Adv"
-</td>
-<td>
 2011
-</td>
-<td>
 7235.0
-</td>
-<td>
 1.23887
-</td>
-</tr>
-<tr>
-<td>
 "US-Blo"
-</td>
-<td>
 1997
-</td>
-<td>
 292.784615
-</td>
-<td>
 1.086244
-</td>
-</tr>
-<tr>
-<td>
 "US-CRT"
-</td>
-<td>
 2004
-</td>
-<td>
 17545.0
-</td>
-<td>
 1.001427
-</td>
-</tr>
-<tr>
-<td>
 "US-LWW"
-</td>
-<td>
 2011
-</td>
-<td>
 52608.0
-</td>
-<td>
 3.00274
-</td>
-</tr>
-<tr>
-<td>
 "US-Syv"
-</td>
-<td>
 2009
-</td>
-<td>
 52560.0
-</td>
-<td>
 3.0
-</td>
-</tr>
-<tr>
-<td>
 "US-WCr"
-</td>
-<td>
 2007
-</td>
-<td>
 17520.0
-</td>
-<td>
 1.0
-</td>
-</tr>
-<tr>
-<td>
 "ZM-Mon"
-</td>
-<td>
 2000
-</td>
-<td>
 22443.333333
-</td>
-<td>
 7.686073
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 </div>
 <div class="cell" data-execution_count="17">
@@ -1468,215 +576,57 @@ f64
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"variable"</span>) <span class="op">==</span> <span class="st">"TA_F_QC"</span> </span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>).<span class="bu">filter</span>(pl_in(<span class="st">"site"</span>, [<span class="st">"ZM-Mon"</span>])).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
-
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
-</style>
-<small>shape: (8, 5)</small><table class="dataframe table table-sm table-striped">
-
-<thead>
-<tr>
-<th>
+<span class="small">shape: (8, 5)</span>
 gap_len
-</th>
-<th>
 variable
-</th>
-<th>
 site
-</th>
-<th>
 total_obs
-</th>
-<th>
 end
-</th>
-</tr>
-<tr>
-<td>
 u32
-</td>
-<td>
 str
-</td>
-<td>
 str
-</td>
-<td>
 i32
-</td>
-<td>
 datetime[μs]
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
 2913
-</td>
-<td>
 "TA_F_QC"
-</td>
-<td>
 "ZM-Mon"
-</td>
-<td>
 175343
-</td>
-<td>
 2000-01-01 00:30:00
-</td>
-</tr>
-<tr>
-<td>
 1
-</td>
-<td>
 "TA_F_QC"
-</td>
-<td>
 "ZM-Mon"
-</td>
-<td>
 175343
-</td>
-<td>
 2000-03-02 17:30:00
-</td>
-</tr>
-<tr>
-<td>
 1
-</td>
-<td>
 "TA_F_QC"
-</td>
-<td>
 "ZM-Mon"
-</td>
-<td>
 175343
-</td>
-<td>
 2000-03-04 04:30:00
-</td>
-</tr>
-<tr>
-<td>
 1
-</td>
-<td>
 "TA_F_QC"
-</td>
-<td>
 "ZM-Mon"
-</td>
-<td>
 175343
-</td>
-<td>
 2000-03-04 09:00:00
-</td>
-</tr>
-<tr>
-<td>
 1
-</td>
-<td>
 "TA_F_QC"
-</td>
-<td>
 "ZM-Mon"
-</td>
-<td>
 175343
-</td>
-<td>
 2000-03-10 11:30:00
-</td>
-</tr>
-<tr>
-<td>
 131743
-</td>
-<td>
 "TA_F_QC"
-</td>
-<td>
 "ZM-Mon"
-</td>
-<td>
 175343
-</td>
-<td>
 2000-03-11 02:00:00
-</td>
-</tr>
-<tr>
-<td>
 1
-</td>
-<td>
 "TA_F_QC"
-</td>
-<td>
 "ZM-Mon"
-</td>
-<td>
 175343
-</td>
-<td>
 2008-01-30 12:00:00
-</td>
-</tr>
-<tr>
-<td>
 7753
-</td>
-<td>
 "TA_F_QC"
-</td>
-<td>
 "ZM-Mon"
-</td>
-<td>
 175343
-</td>
-<td>
 2009-07-23 12:00:00
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 </div>
 <div class="cell" data-execution_count="18">
@@ -1684,181 +634,47 @@ datetime[μs]
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"variable"</span>) <span class="op">==</span> <span class="st">"TA_F_QC"</span> </span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>).<span class="bu">filter</span>(pl_in(<span class="st">"site"</span>, [<span class="st">"DE-Lnf"</span>])).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
-
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
-</style>
-<small>shape: (6, 5)</small><table class="dataframe table table-sm table-striped">
-
-<thead>
-<tr>
-<th>
+<span class="small">shape: (6, 5)</span>
 gap_len
-</th>
-<th>
 variable
-</th>
-<th>
 site
-</th>
-<th>
 total_obs
-</th>
-<th>
 end
-</th>
-</tr>
-<tr>
-<td>
 u32
-</td>
-<td>
 str
-</td>
-<td>
 str
-</td>
-<td>
 i32
-</td>
-<td>
 datetime[μs]
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
 5116
-</td>
-<td>
 "TA_F_QC"
-</td>
-<td>
 "DE-Lnf"
-</td>
-<td>
 192863
-</td>
-<td>
 2002-01-01 00:30:00
-</td>
-</tr>
-<tr>
-<td>
 52608
-</td>
-<td>
 "TA_F_QC"
-</td>
-<td>
 "DE-Lnf"
-</td>
-<td>
 192863
-</td>
-<td>
 2007-01-01 00:30:00
-</td>
-</tr>
-<tr>
-<td>
 1
-</td>
-<td>
 "TA_F_QC"
-</td>
-<td>
 "DE-Lnf"
-</td>
-<td>
 192863
-</td>
-<td>
 2010-04-15 10:00:00
-</td>
-</tr>
-<tr>
-<td>
 20
-</td>
-<td>
 "TA_F_QC"
-</td>
-<td>
 "DE-Lnf"
-</td>
-<td>
 192863
-</td>
-<td>
 2012-08-14 13:00:00
-</td>
-</tr>
-<tr>
-<td>
 45
-</td>
-<td>
 "TA_F_QC"
-</td>
-<td>
 "DE-Lnf"
-</td>
-<td>
 192863
-</td>
-<td>
 2012-10-09 14:00:00
-</td>
-</tr>
-<tr>
-<td>
 2
-</td>
-<td>
 "TA_F_QC"
-</td>
-<td>
 "DE-Lnf"
-</td>
-<td>
 192863
-</td>
-<td>
 2012-10-16 13:30:00
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 </div>
 <div class="cell" data-execution_count="19">

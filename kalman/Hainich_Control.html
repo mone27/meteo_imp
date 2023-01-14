@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.97">
+<meta name="generator" content="quarto-1.3.107">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -223,284 +223,288 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-
-<p style="font-size: 1.5rem; font-decoration: bold">Kalman Filter (3 obs, 3 state, 6 contr)</p><p></p><div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div> <p style="font-size: 1.3rem;">trans matrix (A)</p> <style type="text/css">
-</style>
-<table id="T_456be">
-  <thead>
-    <tr>
-      <th id="T_456be_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_456be_level0_col1" class="col_heading level0 col1">x_0</th>
-      <th id="T_456be_level0_col2" class="col_heading level0 col2">x_1</th>
-      <th id="T_456be_level0_col3" class="col_heading level0 col3">x_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_456be_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_456be_row0_col1" class="data row0 col1">0.2665</td>
-      <td id="T_456be_row0_col2" class="data row0 col2">0.3439</td>
-      <td id="T_456be_row0_col3" class="data row0 col3">0.2551</td>
-    </tr>
-    <tr>
-      <td id="T_456be_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_456be_row1_col1" class="data row1 col1">0.4590</td>
-      <td id="T_456be_row1_col2" class="data row1 col2">0.7692</td>
-      <td id="T_456be_row1_col3" class="data row1 col3">0.3849</td>
-    </tr>
-    <tr>
-      <td id="T_456be_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_456be_row2_col1" class="data row2 col1">0.0712</td>
-      <td id="T_456be_row2_col2" class="data row2 col2">0.1367</td>
-      <td id="T_456be_row2_col3" class="data row2 col3">0.7893</td>
-    </tr>
-  </tbody>
+<table id="T_456be" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_456be_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_456be_level0_col1" class="col_heading level0 col1">x_0</th>
+<th id="T_456be_level0_col2" class="col_heading level0 col2">x_1</th>
+<th id="T_456be_level0_col3" class="col_heading level0 col3">x_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_456be_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_456be_row0_col1" class="data row0 col1">0.2665</td>
+<td id="T_456be_row0_col2" class="data row0 col2">0.3439</td>
+<td id="T_456be_row0_col3" class="data row0 col3">0.2551</td>
+</tr>
+<tr class="even">
+<td id="T_456be_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_456be_row1_col1" class="data row1 col1">0.4590</td>
+<td id="T_456be_row1_col2" class="data row1 col2">0.7692</td>
+<td id="T_456be_row1_col3" class="data row1 col3">0.3849</td>
+</tr>
+<tr class="odd">
+<td id="T_456be_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_456be_row2_col1" class="data row2 col1">0.0712</td>
+<td id="T_456be_row2_col2" class="data row2 col2">0.1367</td>
+<td id="T_456be_row2_col3" class="data row2 col3">0.7893</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">trans cov (Q)</p> <style type="text/css">
-</style>
-<table id="T_fa991">
-  <thead>
-    <tr>
-      <th id="T_fa991_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_fa991_level0_col1" class="col_heading level0 col1">x_0</th>
-      <th id="T_fa991_level0_col2" class="col_heading level0 col2">x_1</th>
-      <th id="T_fa991_level0_col3" class="col_heading level0 col3">x_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_fa991_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_fa991_row0_col1" class="data row0 col1">1.2353</td>
-      <td id="T_fa991_row0_col2" class="data row0 col2">1.4324</td>
-      <td id="T_fa991_row0_col3" class="data row0 col3">0.9783</td>
-    </tr>
-    <tr>
-      <td id="T_fa991_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_fa991_row1_col1" class="data row1 col1">1.4324</td>
-      <td id="T_fa991_row1_col2" class="data row1 col2">2.0504</td>
-      <td id="T_fa991_row1_col3" class="data row1 col3">1.4465</td>
-    </tr>
-    <tr>
-      <td id="T_fa991_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_fa991_row2_col1" class="data row2 col1">0.9783</td>
-      <td id="T_fa991_row2_col2" class="data row2 col2">1.4465</td>
-      <td id="T_fa991_row2_col3" class="data row2 col3">1.0693</td>
-    </tr>
-  </tbody>
+<div>
+<p>trans cov (Q)</p>
+<table id="T_fa991" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_fa991_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_fa991_level0_col1" class="col_heading level0 col1">x_0</th>
+<th id="T_fa991_level0_col2" class="col_heading level0 col2">x_1</th>
+<th id="T_fa991_level0_col3" class="col_heading level0 col3">x_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_fa991_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_fa991_row0_col1" class="data row0 col1">1.2353</td>
+<td id="T_fa991_row0_col2" class="data row0 col2">1.4324</td>
+<td id="T_fa991_row0_col3" class="data row0 col3">0.9783</td>
+</tr>
+<tr class="even">
+<td id="T_fa991_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_fa991_row1_col1" class="data row1 col1">1.4324</td>
+<td id="T_fa991_row1_col2" class="data row1 col2">2.0504</td>
+<td id="T_fa991_row1_col3" class="data row1 col3">1.4465</td>
+</tr>
+<tr class="odd">
+<td id="T_fa991_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_fa991_row2_col1" class="data row2 col1">0.9783</td>
+<td id="T_fa991_row2_col2" class="data row2 col2">1.4465</td>
+<td id="T_fa991_row2_col3" class="data row2 col3">1.0693</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">trans off</p> <style type="text/css">
-</style>
-<table id="T_d45a3">
-  <thead>
-    <tr>
-      <th id="T_d45a3_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_d45a3_level0_col1" class="col_heading level0 col1">offset</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_d45a3_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_d45a3_row0_col1" class="data row0 col1">0.3420</td>
-    </tr>
-    <tr>
-      <td id="T_d45a3_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_d45a3_row1_col1" class="data row1 col1">0.4286</td>
-    </tr>
-    <tr>
-      <td id="T_d45a3_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_d45a3_row2_col1" class="data row2 col1">0.8860</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>trans off</p>
+<table id="T_d45a3" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_d45a3_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_d45a3_level0_col1" class="col_heading level0 col1">offset</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_d45a3_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_d45a3_row0_col1" class="data row0 col1">0.3420</td>
+</tr>
+<tr class="even">
+<td id="T_d45a3_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_d45a3_row1_col1" class="data row1 col1">0.4286</td>
+</tr>
+<tr class="odd">
+<td id="T_d45a3_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_d45a3_row2_col1" class="data row2 col1">0.8860</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">obs matrix (H)</p> <style type="text/css">
-</style>
-<table id="T_d99d7">
-  <thead>
-    <tr>
-      <th id="T_d99d7_level0_col0" class="col_heading level0 col0">variable</th>
-      <th id="T_d99d7_level0_col1" class="col_heading level0 col1">x_0</th>
-      <th id="T_d99d7_level0_col2" class="col_heading level0 col2">x_1</th>
-      <th id="T_d99d7_level0_col3" class="col_heading level0 col3">x_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_d99d7_row0_col0" class="data row0 col0">y_0</td>
-      <td id="T_d99d7_row0_col1" class="data row0 col1">0.7490</td>
-      <td id="T_d99d7_row0_col2" class="data row0 col2">0.3985</td>
-      <td id="T_d99d7_row0_col3" class="data row0 col3">0.4413</td>
-    </tr>
-    <tr>
-      <td id="T_d99d7_row1_col0" class="data row1 col0">y_1</td>
-      <td id="T_d99d7_row1_col1" class="data row1 col1">0.8824</td>
-      <td id="T_d99d7_row1_col2" class="data row1 col2">0.7961</td>
-      <td id="T_d99d7_row1_col3" class="data row1 col3">0.3637</td>
-    </tr>
-    <tr>
-      <td id="T_d99d7_row2_col0" class="data row2 col0">y_2</td>
-      <td id="T_d99d7_row2_col1" class="data row2 col1">0.3141</td>
-      <td id="T_d99d7_row2_col2" class="data row2 col2">0.1217</td>
-      <td id="T_d99d7_row2_col3" class="data row2 col3">0.6834</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>obs matrix (H)</p>
+<table id="T_d99d7" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_d99d7_level0_col0" class="col_heading level0 col0">variable</th>
+<th id="T_d99d7_level0_col1" class="col_heading level0 col1">x_0</th>
+<th id="T_d99d7_level0_col2" class="col_heading level0 col2">x_1</th>
+<th id="T_d99d7_level0_col3" class="col_heading level0 col3">x_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_d99d7_row0_col0" class="data row0 col0">y_0</td>
+<td id="T_d99d7_row0_col1" class="data row0 col1">0.7490</td>
+<td id="T_d99d7_row0_col2" class="data row0 col2">0.3985</td>
+<td id="T_d99d7_row0_col3" class="data row0 col3">0.4413</td>
+</tr>
+<tr class="even">
+<td id="T_d99d7_row1_col0" class="data row1 col0">y_1</td>
+<td id="T_d99d7_row1_col1" class="data row1 col1">0.8824</td>
+<td id="T_d99d7_row1_col2" class="data row1 col2">0.7961</td>
+<td id="T_d99d7_row1_col3" class="data row1 col3">0.3637</td>
+</tr>
+<tr class="odd">
+<td id="T_d99d7_row2_col0" class="data row2 col0">y_2</td>
+<td id="T_d99d7_row2_col1" class="data row2 col1">0.3141</td>
+<td id="T_d99d7_row2_col2" class="data row2 col2">0.1217</td>
+<td id="T_d99d7_row2_col3" class="data row2 col3">0.6834</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">obs cov (R)</p> <style type="text/css">
-</style>
-<table id="T_8c116">
-  <thead>
-    <tr>
-      <th id="T_8c116_level0_col0" class="col_heading level0 col0">variable</th>
-      <th id="T_8c116_level0_col1" class="col_heading level0 col1">y_0</th>
-      <th id="T_8c116_level0_col2" class="col_heading level0 col2">y_1</th>
-      <th id="T_8c116_level0_col3" class="col_heading level0 col3">y_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_8c116_row0_col0" class="data row0 col0">y_0</td>
-      <td id="T_8c116_row0_col1" class="data row0 col1">0.4816</td>
-      <td id="T_8c116_row0_col2" class="data row0 col2">0.0000</td>
-      <td id="T_8c116_row0_col3" class="data row0 col3">0.0000</td>
-    </tr>
-    <tr>
-      <td id="T_8c116_row1_col0" class="data row1 col0">y_1</td>
-      <td id="T_8c116_row1_col1" class="data row1 col1">0.0000</td>
-      <td id="T_8c116_row1_col2" class="data row1 col2">0.1745</td>
-      <td id="T_8c116_row1_col3" class="data row1 col3">0.0000</td>
-    </tr>
-    <tr>
-      <td id="T_8c116_row2_col0" class="data row2 col0">y_2</td>
-      <td id="T_8c116_row2_col1" class="data row2 col1">0.0000</td>
-      <td id="T_8c116_row2_col2" class="data row2 col2">0.0000</td>
-      <td id="T_8c116_row2_col3" class="data row2 col3">0.4889</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>obs cov (R)</p>
+<table id="T_8c116" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_8c116_level0_col0" class="col_heading level0 col0">variable</th>
+<th id="T_8c116_level0_col1" class="col_heading level0 col1">y_0</th>
+<th id="T_8c116_level0_col2" class="col_heading level0 col2">y_1</th>
+<th id="T_8c116_level0_col3" class="col_heading level0 col3">y_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_8c116_row0_col0" class="data row0 col0">y_0</td>
+<td id="T_8c116_row0_col1" class="data row0 col1">0.4816</td>
+<td id="T_8c116_row0_col2" class="data row0 col2">0.0000</td>
+<td id="T_8c116_row0_col3" class="data row0 col3">0.0000</td>
+</tr>
+<tr class="even">
+<td id="T_8c116_row1_col0" class="data row1 col0">y_1</td>
+<td id="T_8c116_row1_col1" class="data row1 col1">0.0000</td>
+<td id="T_8c116_row1_col2" class="data row1 col2">0.1745</td>
+<td id="T_8c116_row1_col3" class="data row1 col3">0.0000</td>
+</tr>
+<tr class="odd">
+<td id="T_8c116_row2_col0" class="data row2 col0">y_2</td>
+<td id="T_8c116_row2_col1" class="data row2 col1">0.0000</td>
+<td id="T_8c116_row2_col2" class="data row2 col2">0.0000</td>
+<td id="T_8c116_row2_col3" class="data row2 col3">0.4889</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">obs off</p> <style type="text/css">
-</style>
-<table id="T_62a80">
-  <thead>
-    <tr>
-      <th id="T_62a80_level0_col0" class="col_heading level0 col0">variable</th>
-      <th id="T_62a80_level0_col1" class="col_heading level0 col1">offset</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_62a80_row0_col0" class="data row0 col0">y_0</td>
-      <td id="T_62a80_row0_col1" class="data row0 col1">0.7422</td>
-    </tr>
-    <tr>
-      <td id="T_62a80_row1_col0" class="data row1 col0">y_1</td>
-      <td id="T_62a80_row1_col1" class="data row1 col1">0.2648</td>
-    </tr>
-    <tr>
-      <td id="T_62a80_row2_col0" class="data row2 col0">y_2</td>
-      <td id="T_62a80_row2_col1" class="data row2 col1">0.5931</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>obs off</p>
+<table id="T_62a80" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_62a80_level0_col0" class="col_heading level0 col0">variable</th>
+<th id="T_62a80_level0_col1" class="col_heading level0 col1">offset</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_62a80_row0_col0" class="data row0 col0">y_0</td>
+<td id="T_62a80_row0_col1" class="data row0 col1">0.7422</td>
+</tr>
+<tr class="even">
+<td id="T_62a80_row1_col0" class="data row1 col0">y_1</td>
+<td id="T_62a80_row1_col1" class="data row1 col1">0.2648</td>
+</tr>
+<tr class="odd">
+<td id="T_62a80_row2_col0" class="data row2 col0">y_2</td>
+<td id="T_62a80_row2_col1" class="data row2 col1">0.5931</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">contr matrix (B)</p> <style type="text/css">
-</style>
-<table id="T_bebf1">
-  <thead>
-    <tr>
-      <th id="T_bebf1_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_bebf1_level0_col1" class="col_heading level0 col1">c_0</th>
-      <th id="T_bebf1_level0_col2" class="col_heading level0 col2">c_1</th>
-      <th id="T_bebf1_level0_col3" class="col_heading level0 col3">c_2</th>
-      <th id="T_bebf1_level0_col4" class="col_heading level0 col4">c_3</th>
-      <th id="T_bebf1_level0_col5" class="col_heading level0 col5">c_4</th>
-      <th id="T_bebf1_level0_col6" class="col_heading level0 col6">c_5</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_bebf1_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_bebf1_row0_col1" class="data row0 col1">0.5786</td>
-      <td id="T_bebf1_row0_col2" class="data row0 col2">0.3266</td>
-      <td id="T_bebf1_row0_col3" class="data row0 col3">0.4311</td>
-      <td id="T_bebf1_row0_col4" class="data row0 col4">0.2817</td>
-      <td id="T_bebf1_row0_col5" class="data row0 col5">0.1239</td>
-      <td id="T_bebf1_row0_col6" class="data row0 col6">0.6794</td>
-    </tr>
-    <tr>
-      <td id="T_bebf1_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_bebf1_row1_col1" class="data row1 col1">0.5328</td>
-      <td id="T_bebf1_row1_col2" class="data row1 col2">0.2694</td>
-      <td id="T_bebf1_row1_col3" class="data row1 col3">0.6463</td>
-      <td id="T_bebf1_row1_col4" class="data row1 col4">0.3800</td>
-      <td id="T_bebf1_row1_col5" class="data row1 col5">0.7069</td>
-      <td id="T_bebf1_row1_col6" class="data row1 col6">0.9469</td>
-    </tr>
-    <tr>
-      <td id="T_bebf1_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_bebf1_row2_col1" class="data row2 col1">0.1335</td>
-      <td id="T_bebf1_row2_col2" class="data row2 col2">0.8204</td>
-      <td id="T_bebf1_row2_col3" class="data row2 col3">0.4260</td>
-      <td id="T_bebf1_row2_col4" class="data row2 col4">0.1540</td>
-      <td id="T_bebf1_row2_col5" class="data row2 col5">0.5468</td>
-      <td id="T_bebf1_row2_col6" class="data row2 col6">0.8824</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>contr matrix (B)</p>
+<table id="T_bebf1" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_bebf1_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_bebf1_level0_col1" class="col_heading level0 col1">c_0</th>
+<th id="T_bebf1_level0_col2" class="col_heading level0 col2">c_1</th>
+<th id="T_bebf1_level0_col3" class="col_heading level0 col3">c_2</th>
+<th id="T_bebf1_level0_col4" class="col_heading level0 col4">c_3</th>
+<th id="T_bebf1_level0_col5" class="col_heading level0 col5">c_4</th>
+<th id="T_bebf1_level0_col6" class="col_heading level0 col6">c_5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_bebf1_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_bebf1_row0_col1" class="data row0 col1">0.5786</td>
+<td id="T_bebf1_row0_col2" class="data row0 col2">0.3266</td>
+<td id="T_bebf1_row0_col3" class="data row0 col3">0.4311</td>
+<td id="T_bebf1_row0_col4" class="data row0 col4">0.2817</td>
+<td id="T_bebf1_row0_col5" class="data row0 col5">0.1239</td>
+<td id="T_bebf1_row0_col6" class="data row0 col6">0.6794</td>
+</tr>
+<tr class="even">
+<td id="T_bebf1_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_bebf1_row1_col1" class="data row1 col1">0.5328</td>
+<td id="T_bebf1_row1_col2" class="data row1 col2">0.2694</td>
+<td id="T_bebf1_row1_col3" class="data row1 col3">0.6463</td>
+<td id="T_bebf1_row1_col4" class="data row1 col4">0.3800</td>
+<td id="T_bebf1_row1_col5" class="data row1 col5">0.7069</td>
+<td id="T_bebf1_row1_col6" class="data row1 col6">0.9469</td>
+</tr>
+<tr class="odd">
+<td id="T_bebf1_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_bebf1_row2_col1" class="data row2 col1">0.1335</td>
+<td id="T_bebf1_row2_col2" class="data row2 col2">0.8204</td>
+<td id="T_bebf1_row2_col3" class="data row2 col3">0.4260</td>
+<td id="T_bebf1_row2_col4" class="data row2 col4">0.1540</td>
+<td id="T_bebf1_row2_col5" class="data row2 col5">0.5468</td>
+<td id="T_bebf1_row2_col6" class="data row2 col6">0.8824</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">init state mean</p> <style type="text/css">
-</style>
-<table id="T_c0d2a">
-  <thead>
-    <tr>
-      <th id="T_c0d2a_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_c0d2a_level0_col1" class="col_heading level0 col1">mean</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_c0d2a_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_c0d2a_row0_col1" class="data row0 col1">0.1295</td>
-    </tr>
-    <tr>
-      <td id="T_c0d2a_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_c0d2a_row1_col1" class="data row1 col1">0.2393</td>
-    </tr>
-    <tr>
-      <td id="T_c0d2a_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_c0d2a_row2_col1" class="data row2 col1">0.3728</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>init state mean</p>
+<table id="T_c0d2a" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_c0d2a_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_c0d2a_level0_col1" class="col_heading level0 col1">mean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_c0d2a_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_c0d2a_row0_col1" class="data row0 col1">0.1295</td>
+</tr>
+<tr class="even">
+<td id="T_c0d2a_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_c0d2a_row1_col1" class="data row1 col1">0.2393</td>
+</tr>
+<tr class="odd">
+<td id="T_c0d2a_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_c0d2a_row2_col1" class="data row2 col1">0.3728</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">init state cov</p> <style type="text/css">
-</style>
-<table id="T_ada3f">
-  <thead>
-    <tr>
-      <th id="T_ada3f_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_ada3f_level0_col1" class="col_heading level0 col1">x_0</th>
-      <th id="T_ada3f_level0_col2" class="col_heading level0 col2">x_1</th>
-      <th id="T_ada3f_level0_col3" class="col_heading level0 col3">x_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_ada3f_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_ada3f_row0_col1" class="data row0 col1">0.8077</td>
-      <td id="T_ada3f_row0_col2" class="data row0 col2">0.1257</td>
-      <td id="T_ada3f_row0_col3" class="data row0 col3">0.4980</td>
-    </tr>
-    <tr>
-      <td id="T_ada3f_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_ada3f_row1_col1" class="data row1 col1">0.1257</td>
-      <td id="T_ada3f_row1_col2" class="data row1 col2">0.7239</td>
-      <td id="T_ada3f_row1_col3" class="data row1 col3">0.3575</td>
-    </tr>
-    <tr>
-      <td id="T_ada3f_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_ada3f_row2_col1" class="data row2 col1">0.4980</td>
-      <td id="T_ada3f_row2_col2" class="data row2 col2">0.3575</td>
-      <td id="T_ada3f_row2_col3" class="data row2 col3">0.4991</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>init state cov</p>
+<table id="T_ada3f" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_ada3f_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_ada3f_level0_col1" class="col_heading level0 col1">x_0</th>
+<th id="T_ada3f_level0_col2" class="col_heading level0 col2">x_1</th>
+<th id="T_ada3f_level0_col3" class="col_heading level0 col3">x_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_ada3f_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_ada3f_row0_col1" class="data row0 col1">0.8077</td>
+<td id="T_ada3f_row0_col2" class="data row0 col2">0.1257</td>
+<td id="T_ada3f_row0_col3" class="data row0 col3">0.4980</td>
+</tr>
+<tr class="even">
+<td id="T_ada3f_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_ada3f_row1_col1" class="data row1 col1">0.1257</td>
+<td id="T_ada3f_row1_col2" class="data row1 col2">0.7239</td>
+<td id="T_ada3f_row1_col3" class="data row1 col3">0.3575</td>
+</tr>
+<tr class="odd">
+<td id="T_ada3f_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_ada3f_row2_col1" class="data row2 col1">0.4980</td>
+<td id="T_ada3f_row2_col2" class="data row2 col2">0.3575</td>
+<td id="T_ada3f_row2_col3" class="data row2 col3">0.4991</td>
+</tr>
+</tbody>
 </table>
- </div></div>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -525,72 +529,71 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 </div>
 <div class="cell-output cell-output-display">
-
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th>epoch</th>
-      <th>train_loss</th>
-      <th>valid_loss</th>
-      <th>rmse</th>
-      <th>rmse_gap</th>
-      <th>r2</th>
-      <th>r2_gap</th>
-      <th>time</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>72.293998</td>
-      <td>31.719601</td>
-      <td>0.595213</td>
-      <td>1.017190</td>
-      <td>-35.914009</td>
-      <td>-1988103110039527821684074610688.000000</td>
-      <td>01:11</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>40.077467</td>
-      <td>25.714529</td>
-      <td>0.513537</td>
-      <td>0.701617</td>
-      <td>-5.535677</td>
-      <td>-455917282590841898849114521600.000000</td>
-      <td>01:13</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>29.577841</td>
-      <td>22.530322</td>
-      <td>0.451148</td>
-      <td>0.589785</td>
-      <td>-3.923891</td>
-      <td>-581511515194005733117286940672.000000</td>
-      <td>01:16</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>24.748931</td>
-      <td>17.952697</td>
-      <td>0.367271</td>
-      <td>0.432952</td>
-      <td>-1.067477</td>
-      <td>-212539834965043350894372978688.000000</td>
-      <td>01:14</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>20.000014</td>
-      <td>17.084673</td>
-      <td>0.223620</td>
-      <td>0.346822</td>
-      <td>0.297770</td>
-      <td>-63318963929580410808026791936.000000</td>
-      <td>01:17</td>
-    </tr>
-  </tbody>
+<table class="dataframe table table-sm table-striped" data-border="1">
+<thead>
+<tr class="header">
+<th>epoch</th>
+<th>train_loss</th>
+<th>valid_loss</th>
+<th>rmse</th>
+<th>rmse_gap</th>
+<th>r2</th>
+<th>r2_gap</th>
+<th>time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>72.293998</td>
+<td>31.719601</td>
+<td>0.595213</td>
+<td>1.017190</td>
+<td>-35.914009</td>
+<td>-1988103110039527821684074610688.000000</td>
+<td>01:11</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>40.077467</td>
+<td>25.714529</td>
+<td>0.513537</td>
+<td>0.701617</td>
+<td>-5.535677</td>
+<td>-455917282590841898849114521600.000000</td>
+<td>01:13</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>29.577841</td>
+<td>22.530322</td>
+<td>0.451148</td>
+<td>0.589785</td>
+<td>-3.923891</td>
+<td>-581511515194005733117286940672.000000</td>
+<td>01:16</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>24.748931</td>
+<td>17.952697</td>
+<td>0.367271</td>
+<td>0.432952</td>
+<td>-1.067477</td>
+<td>-212539834965043350894372978688.000000</td>
+<td>01:14</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>20.000014</td>
+<td>17.084673</td>
+<td>0.223620</td>
+<td>0.346822</td>
+<td>0.297770</td>
+<td>-63318963929580410808026791936.000000</td>
+<td>01:17</td>
+</tr>
+</tbody>
 </table>
 </div>
 <div class="cell-output cell-output-display">
@@ -676,72 +679,71 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 </div>
 <div class="cell-output cell-output-display">
-
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th>epoch</th>
-      <th>train_loss</th>
-      <th>valid_loss</th>
-      <th>rmse</th>
-      <th>rmse_gap</th>
-      <th>r2</th>
-      <th>r2_gap</th>
-      <th>time</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>13.721919</td>
-      <td>13.174620</td>
-      <td>0.234537</td>
-      <td>0.323555</td>
-      <td>-2.062600</td>
-      <td>-5305563629850963862221750272.000000</td>
-      <td>01:16</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>11.759491</td>
-      <td>13.504236</td>
-      <td>0.203824</td>
-      <td>0.344850</td>
-      <td>-1.544317</td>
-      <td>-18525714783371284222987730944.000000</td>
-      <td>01:14</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>10.006743</td>
-      <td>7.795892</td>
-      <td>0.157194</td>
-      <td>0.233343</td>
-      <td>0.214478</td>
-      <td>-26766029272278520024709201920.000000</td>
-      <td>01:14</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>8.955606</td>
-      <td>6.206111</td>
-      <td>0.141684</td>
-      <td>0.237647</td>
-      <td>-0.274371</td>
-      <td>-67291879382457101575708999680.000000</td>
-      <td>01:16</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>8.247486</td>
-      <td>8.156478</td>
-      <td>0.222079</td>
-      <td>0.308084</td>
-      <td>-6.918422</td>
-      <td>-128276544582302533316432101376.000000</td>
-      <td>01:14</td>
-    </tr>
-  </tbody>
+<table class="dataframe table table-sm table-striped" data-border="1">
+<thead>
+<tr class="header">
+<th>epoch</th>
+<th>train_loss</th>
+<th>valid_loss</th>
+<th>rmse</th>
+<th>rmse_gap</th>
+<th>r2</th>
+<th>r2_gap</th>
+<th>time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>13.721919</td>
+<td>13.174620</td>
+<td>0.234537</td>
+<td>0.323555</td>
+<td>-2.062600</td>
+<td>-5305563629850963862221750272.000000</td>
+<td>01:16</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>11.759491</td>
+<td>13.504236</td>
+<td>0.203824</td>
+<td>0.344850</td>
+<td>-1.544317</td>
+<td>-18525714783371284222987730944.000000</td>
+<td>01:14</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>10.006743</td>
+<td>7.795892</td>
+<td>0.157194</td>
+<td>0.233343</td>
+<td>0.214478</td>
+<td>-26766029272278520024709201920.000000</td>
+<td>01:14</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>8.955606</td>
+<td>6.206111</td>
+<td>0.141684</td>
+<td>0.237647</td>
+<td>-0.274371</td>
+<td>-67291879382457101575708999680.000000</td>
+<td>01:16</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>8.247486</td>
+<td>8.156478</td>
+<td>0.222079</td>
+<td>0.308084</td>
+<td>-6.918422</td>
+<td>-128276544582302533316432101376.000000</td>
+<td>01:14</td>
+</tr>
+</tbody>
 </table>
 </div>
 <div class="cell-output cell-output-display">
@@ -827,72 +829,71 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 </div>
 <div class="cell-output cell-output-display">
-
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th>epoch</th>
-      <th>train_loss</th>
-      <th>valid_loss</th>
-      <th>rmse</th>
-      <th>rmse_gap</th>
-      <th>r2</th>
-      <th>r2_gap</th>
-      <th>time</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>7.784756</td>
-      <td>4.218710</td>
-      <td>0.123671</td>
-      <td>0.211978</td>
-      <td>0.310601</td>
-      <td>-116683893142132508236114296832.000000</td>
-      <td>01:15</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>6.640749</td>
-      <td>4.189888</td>
-      <td>0.169977</td>
-      <td>0.238434</td>
-      <td>-0.751781</td>
-      <td>-19857762251145019935950897152.000000</td>
-      <td>01:14</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>7.170833</td>
-      <td>6.016418</td>
-      <td>0.183049</td>
-      <td>0.234260</td>
-      <td>-0.462028</td>
-      <td>-26831717430361780553481453568.000000</td>
-      <td>01:14</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>5.390110</td>
-      <td>7.068553</td>
-      <td>0.181321</td>
-      <td>0.241580</td>
-      <td>0.649860</td>
-      <td>-76836431943121111214175813632.000000</td>
-      <td>01:14</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>7.164222</td>
-      <td>3.156210</td>
-      <td>0.182498</td>
-      <td>0.222797</td>
-      <td>0.331408</td>
-      <td>-30042830367187399437426098176.000000</td>
-      <td>01:12</td>
-    </tr>
-  </tbody>
+<table class="dataframe table table-sm table-striped" data-border="1">
+<thead>
+<tr class="header">
+<th>epoch</th>
+<th>train_loss</th>
+<th>valid_loss</th>
+<th>rmse</th>
+<th>rmse_gap</th>
+<th>r2</th>
+<th>r2_gap</th>
+<th>time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>7.784756</td>
+<td>4.218710</td>
+<td>0.123671</td>
+<td>0.211978</td>
+<td>0.310601</td>
+<td>-116683893142132508236114296832.000000</td>
+<td>01:15</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>6.640749</td>
+<td>4.189888</td>
+<td>0.169977</td>
+<td>0.238434</td>
+<td>-0.751781</td>
+<td>-19857762251145019935950897152.000000</td>
+<td>01:14</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>7.170833</td>
+<td>6.016418</td>
+<td>0.183049</td>
+<td>0.234260</td>
+<td>-0.462028</td>
+<td>-26831717430361780553481453568.000000</td>
+<td>01:14</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>5.390110</td>
+<td>7.068553</td>
+<td>0.181321</td>
+<td>0.241580</td>
+<td>0.649860</td>
+<td>-76836431943121111214175813632.000000</td>
+<td>01:14</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>7.164222</td>
+<td>3.156210</td>
+<td>0.182498</td>
+<td>0.222797</td>
+<td>0.331408</td>
+<td>-30042830367187399437426098176.000000</td>
+<td>01:12</td>
+</tr>
+</tbody>
 </table>
 </div>
 <div class="cell-output cell-output-display">
@@ -978,72 +979,71 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 </div>
 <div class="cell-output cell-output-display">
-
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th>epoch</th>
-      <th>train_loss</th>
-      <th>valid_loss</th>
-      <th>rmse</th>
-      <th>rmse_gap</th>
-      <th>r2</th>
-      <th>r2_gap</th>
-      <th>time</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>3.964126</td>
-      <td>6.146608</td>
-      <td>0.206928</td>
-      <td>0.234391</td>
-      <td>0.396003</td>
-      <td>-72256797525758999239107543040.000000</td>
-      <td>01:13</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>3.281520</td>
-      <td>3.828922</td>
-      <td>0.196921</td>
-      <td>0.196690</td>
-      <td>0.614626</td>
-      <td>-1910397254597076279487365120.000000</td>
-      <td>01:21</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>5.185062</td>
-      <td>4.491497</td>
-      <td>0.182338</td>
-      <td>0.227670</td>
-      <td>0.858049</td>
-      <td>-77565617505545061926256508928.000000</td>
-      <td>01:29</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>3.956668</td>
-      <td>2.874033</td>
-      <td>0.207283</td>
-      <td>0.225645</td>
-      <td>0.682655</td>
-      <td>-7205118772262491987170557952.000000</td>
-      <td>01:22</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>5.673961</td>
-      <td>10.914154</td>
-      <td>0.211853</td>
-      <td>0.262783</td>
-      <td>0.859957</td>
-      <td>-41470920959040655409398415360.000000</td>
-      <td>01:12</td>
-    </tr>
-  </tbody>
+<table class="dataframe table table-sm table-striped" data-border="1">
+<thead>
+<tr class="header">
+<th>epoch</th>
+<th>train_loss</th>
+<th>valid_loss</th>
+<th>rmse</th>
+<th>rmse_gap</th>
+<th>r2</th>
+<th>r2_gap</th>
+<th>time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>3.964126</td>
+<td>6.146608</td>
+<td>0.206928</td>
+<td>0.234391</td>
+<td>0.396003</td>
+<td>-72256797525758999239107543040.000000</td>
+<td>01:13</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>3.281520</td>
+<td>3.828922</td>
+<td>0.196921</td>
+<td>0.196690</td>
+<td>0.614626</td>
+<td>-1910397254597076279487365120.000000</td>
+<td>01:21</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>5.185062</td>
+<td>4.491497</td>
+<td>0.182338</td>
+<td>0.227670</td>
+<td>0.858049</td>
+<td>-77565617505545061926256508928.000000</td>
+<td>01:29</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>3.956668</td>
+<td>2.874033</td>
+<td>0.207283</td>
+<td>0.225645</td>
+<td>0.682655</td>
+<td>-7205118772262491987170557952.000000</td>
+<td>01:22</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>5.673961</td>
+<td>10.914154</td>
+<td>0.211853</td>
+<td>0.262783</td>
+<td>0.859957</td>
+<td>-41470920959040655409398415360.000000</td>
+<td>01:12</td>
+</tr>
+</tbody>
 </table>
 </div>
 <div class="cell-output cell-output-display">
@@ -1143,100 +1143,99 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 </div>
 <div class="cell-output cell-output-display">
-
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th>epoch</th>
-      <th>train_loss</th>
-      <th>valid_loss</th>
-      <th>rmse</th>
-      <th>r2</th>
-      <th>time</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>607.058369</td>
-      <td>515.446269</td>
-      <td>0.366365</td>
-      <td>-18.953901</td>
-      <td>01:39</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>475.921415</td>
-      <td>359.786886</td>
-      <td>0.180804</td>
-      <td>-1.877576</td>
-      <td>01:49</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>348.836041</td>
-      <td>215.060710</td>
-      <td>0.133364</td>
-      <td>-0.778128</td>
-      <td>01:59</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>213.805165</td>
-      <td>71.989816</td>
-      <td>0.132907</td>
-      <td>-1.213813</td>
-      <td>02:04</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>84.765372</td>
-      <td>-51.247118</td>
-      <td>0.119912</td>
-      <td>-0.064529</td>
-      <td>02:07</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>-41.113329</td>
-      <td>-182.953342</td>
-      <td>0.075950</td>
-      <td>0.661874</td>
-      <td>02:08</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>-169.925174</td>
-      <td>-311.168974</td>
-      <td>0.064809</td>
-      <td>-0.035979</td>
-      <td>02:04</td>
-    </tr>
-    <tr>
-      <td>7</td>
-      <td>-295.206480</td>
-      <td>-432.871735</td>
-      <td>0.063802</td>
-      <td>0.936280</td>
-      <td>02:04</td>
-    </tr>
-    <tr>
-      <td>8</td>
-      <td>-424.575996</td>
-      <td>-562.614567</td>
-      <td>0.048965</td>
-      <td>0.908722</td>
-      <td>01:59</td>
-    </tr>
-    <tr>
-      <td>9</td>
-      <td>-545.755660</td>
-      <td>-679.265734</td>
-      <td>0.045273</td>
-      <td>0.648892</td>
-      <td>02:00</td>
-    </tr>
-  </tbody>
+<table class="dataframe table table-sm table-striped" data-border="1">
+<thead>
+<tr class="header">
+<th>epoch</th>
+<th>train_loss</th>
+<th>valid_loss</th>
+<th>rmse</th>
+<th>r2</th>
+<th>time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>607.058369</td>
+<td>515.446269</td>
+<td>0.366365</td>
+<td>-18.953901</td>
+<td>01:39</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>475.921415</td>
+<td>359.786886</td>
+<td>0.180804</td>
+<td>-1.877576</td>
+<td>01:49</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>348.836041</td>
+<td>215.060710</td>
+<td>0.133364</td>
+<td>-0.778128</td>
+<td>01:59</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>213.805165</td>
+<td>71.989816</td>
+<td>0.132907</td>
+<td>-1.213813</td>
+<td>02:04</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>84.765372</td>
+<td>-51.247118</td>
+<td>0.119912</td>
+<td>-0.064529</td>
+<td>02:07</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>-41.113329</td>
+<td>-182.953342</td>
+<td>0.075950</td>
+<td>0.661874</td>
+<td>02:08</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>-169.925174</td>
+<td>-311.168974</td>
+<td>0.064809</td>
+<td>-0.035979</td>
+<td>02:04</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>-295.206480</td>
+<td>-432.871735</td>
+<td>0.063802</td>
+<td>0.936280</td>
+<td>02:04</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td>-424.575996</td>
+<td>-562.614567</td>
+<td>0.048965</td>
+<td>0.908722</td>
+<td>01:59</td>
+</tr>
+<tr class="even">
+<td>9</td>
+<td>-545.755660</td>
+<td>-679.265734</td>
+<td>0.045273</td>
+<td>0.648892</td>
+<td>02:00</td>
+</tr>
+</tbody>
 </table>
 </div>
 <div class="cell-output cell-output-display">
@@ -1330,100 +1329,99 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 </div>
 <div class="cell-output cell-output-display">
-
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th>epoch</th>
-      <th>train_loss</th>
-      <th>valid_loss</th>
-      <th>rmse</th>
-      <th>r2</th>
-      <th>time</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>-701.508009</td>
-      <td>-719.499257</td>
-      <td>0.042491</td>
-      <td>0.364471</td>
-      <td>01:46</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>-733.036040</td>
-      <td>-751.966214</td>
-      <td>0.039660</td>
-      <td>0.615754</td>
-      <td>01:51</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>-766.875790</td>
-      <td>-802.134089</td>
-      <td>0.037965</td>
-      <td>0.984316</td>
-      <td>01:46</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>-802.225402</td>
-      <td>-842.992511</td>
-      <td>0.034145</td>
-      <td>0.977250</td>
-      <td>01:44</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>-840.689974</td>
-      <td>-884.280286</td>
-      <td>0.040979</td>
-      <td>0.983124</td>
-      <td>01:53</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>-880.406406</td>
-      <td>-921.259744</td>
-      <td>0.036642</td>
-      <td>0.871848</td>
-      <td>01:45</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>-920.637857</td>
-      <td>-965.865153</td>
-      <td>0.034881</td>
-      <td>0.975765</td>
-      <td>01:47</td>
-    </tr>
-    <tr>
-      <td>7</td>
-      <td>-960.791818</td>
-      <td>-1002.702275</td>
-      <td>0.034850</td>
-      <td>0.629993</td>
-      <td>01:49</td>
-    </tr>
-    <tr>
-      <td>8</td>
-      <td>-1003.434672</td>
-      <td>-1048.419952</td>
-      <td>0.031607</td>
-      <td>0.975755</td>
-      <td>01:48</td>
-    </tr>
-    <tr>
-      <td>9</td>
-      <td>-1035.639274</td>
-      <td>-1066.565967</td>
-      <td>0.040136</td>
-      <td>0.435163</td>
-      <td>01:50</td>
-    </tr>
-  </tbody>
+<table class="dataframe table table-sm table-striped" data-border="1">
+<thead>
+<tr class="header">
+<th>epoch</th>
+<th>train_loss</th>
+<th>valid_loss</th>
+<th>rmse</th>
+<th>r2</th>
+<th>time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>-701.508009</td>
+<td>-719.499257</td>
+<td>0.042491</td>
+<td>0.364471</td>
+<td>01:46</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>-733.036040</td>
+<td>-751.966214</td>
+<td>0.039660</td>
+<td>0.615754</td>
+<td>01:51</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>-766.875790</td>
+<td>-802.134089</td>
+<td>0.037965</td>
+<td>0.984316</td>
+<td>01:46</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>-802.225402</td>
+<td>-842.992511</td>
+<td>0.034145</td>
+<td>0.977250</td>
+<td>01:44</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>-840.689974</td>
+<td>-884.280286</td>
+<td>0.040979</td>
+<td>0.983124</td>
+<td>01:53</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>-880.406406</td>
+<td>-921.259744</td>
+<td>0.036642</td>
+<td>0.871848</td>
+<td>01:45</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>-920.637857</td>
+<td>-965.865153</td>
+<td>0.034881</td>
+<td>0.975765</td>
+<td>01:47</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>-960.791818</td>
+<td>-1002.702275</td>
+<td>0.034850</td>
+<td>0.629993</td>
+<td>01:49</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td>-1003.434672</td>
+<td>-1048.419952</td>
+<td>0.031607</td>
+<td>0.975755</td>
+<td>01:48</td>
+</tr>
+<tr class="even">
+<td>9</td>
+<td>-1035.639274</td>
+<td>-1066.565967</td>
+<td>0.040136</td>
+<td>0.435163</td>
+<td>01:50</td>
+</tr>
+</tbody>
 </table>
 </div>
 <div class="cell-output cell-output-display">
@@ -1575,100 +1573,99 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 </div>
 <div class="cell-output cell-output-display">
-
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th>epoch</th>
-      <th>train_loss</th>
-      <th>valid_loss</th>
-      <th>rmse</th>
-      <th>r2</th>
-      <th>time</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>-0.005931</td>
-      <td>-2.003364</td>
-      <td>0.030327</td>
-      <td>0.985116</td>
-      <td>01:14</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>-1.177973</td>
-      <td>-3.447589</td>
-      <td>0.029919</td>
-      <td>0.704350</td>
-      <td>01:16</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>-1.061323</td>
-      <td>0.247962</td>
-      <td>0.034471</td>
-      <td>0.881624</td>
-      <td>01:22</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>-1.619825</td>
-      <td>-0.819893</td>
-      <td>0.031246</td>
-      <td>0.990277</td>
-      <td>01:17</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>-2.642889</td>
-      <td>-2.878098</td>
-      <td>0.031077</td>
-      <td>-0.946337</td>
-      <td>01:18</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>-3.325557</td>
-      <td>2.120081</td>
-      <td>0.038847</td>
-      <td>0.991815</td>
-      <td>01:20</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>-4.295325</td>
-      <td>-1.668097</td>
-      <td>0.035035</td>
-      <td>0.985702</td>
-      <td>01:18</td>
-    </tr>
-    <tr>
-      <td>7</td>
-      <td>-2.293203</td>
-      <td>-0.351283</td>
-      <td>0.033916</td>
-      <td>0.910861</td>
-      <td>01:19</td>
-    </tr>
-    <tr>
-      <td>8</td>
-      <td>-2.816982</td>
-      <td>-2.604867</td>
-      <td>0.031628</td>
-      <td>0.669590</td>
-      <td>01:19</td>
-    </tr>
-    <tr>
-      <td>9</td>
-      <td>-2.989582</td>
-      <td>-2.357790</td>
-      <td>0.032688</td>
-      <td>0.983338</td>
-      <td>01:17</td>
-    </tr>
-  </tbody>
+<table class="dataframe table table-sm table-striped" data-border="1">
+<thead>
+<tr class="header">
+<th>epoch</th>
+<th>train_loss</th>
+<th>valid_loss</th>
+<th>rmse</th>
+<th>r2</th>
+<th>time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>-0.005931</td>
+<td>-2.003364</td>
+<td>0.030327</td>
+<td>0.985116</td>
+<td>01:14</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>-1.177973</td>
+<td>-3.447589</td>
+<td>0.029919</td>
+<td>0.704350</td>
+<td>01:16</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>-1.061323</td>
+<td>0.247962</td>
+<td>0.034471</td>
+<td>0.881624</td>
+<td>01:22</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>-1.619825</td>
+<td>-0.819893</td>
+<td>0.031246</td>
+<td>0.990277</td>
+<td>01:17</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>-2.642889</td>
+<td>-2.878098</td>
+<td>0.031077</td>
+<td>-0.946337</td>
+<td>01:18</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>-3.325557</td>
+<td>2.120081</td>
+<td>0.038847</td>
+<td>0.991815</td>
+<td>01:20</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>-4.295325</td>
+<td>-1.668097</td>
+<td>0.035035</td>
+<td>0.985702</td>
+<td>01:18</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>-2.293203</td>
+<td>-0.351283</td>
+<td>0.033916</td>
+<td>0.910861</td>
+<td>01:19</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td>-2.816982</td>
+<td>-2.604867</td>
+<td>0.031628</td>
+<td>0.669590</td>
+<td>01:19</td>
+</tr>
+<tr class="even">
+<td>9</td>
+<td>-2.989582</td>
+<td>-2.357790</td>
+<td>0.032688</td>
+<td>0.983338</td>
+<td>01:17</td>
+</tr>
+</tbody>
 </table>
 </div>
 <div class="cell-output cell-output-display">
@@ -1747,284 +1744,288 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>learn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-
-<p style="font-size: 1.5rem; font-decoration: bold">Kalman Filter (3 obs, 3 state, 6 contr)</p><p></p><div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div> <p style="font-size: 1.3rem;">trans matrix (A)</p> <style type="text/css">
-</style>
-<table id="T_ff702">
-  <thead>
-    <tr>
-      <th id="T_ff702_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_ff702_level0_col1" class="col_heading level0 col1">x_0</th>
-      <th id="T_ff702_level0_col2" class="col_heading level0 col2">x_1</th>
-      <th id="T_ff702_level0_col3" class="col_heading level0 col3">x_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_ff702_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_ff702_row0_col1" class="data row0 col1">0.9932</td>
-      <td id="T_ff702_row0_col2" class="data row0 col2">0.2895</td>
-      <td id="T_ff702_row0_col3" class="data row0 col3">-0.2506</td>
-    </tr>
-    <tr>
-      <td id="T_ff702_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_ff702_row1_col1" class="data row1 col1">0.1582</td>
-      <td id="T_ff702_row1_col2" class="data row1 col2">0.5455</td>
-      <td id="T_ff702_row1_col3" class="data row1 col3">0.3679</td>
-    </tr>
-    <tr>
-      <td id="T_ff702_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_ff702_row2_col1" class="data row2 col1">-0.1023</td>
-      <td id="T_ff702_row2_col2" class="data row2 col2">0.6036</td>
-      <td id="T_ff702_row2_col3" class="data row2 col3">0.4589</td>
-    </tr>
-  </tbody>
+<table id="T_ff702" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_ff702_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_ff702_level0_col1" class="col_heading level0 col1">x_0</th>
+<th id="T_ff702_level0_col2" class="col_heading level0 col2">x_1</th>
+<th id="T_ff702_level0_col3" class="col_heading level0 col3">x_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_ff702_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_ff702_row0_col1" class="data row0 col1">0.9932</td>
+<td id="T_ff702_row0_col2" class="data row0 col2">0.2895</td>
+<td id="T_ff702_row0_col3" class="data row0 col3">-0.2506</td>
+</tr>
+<tr class="even">
+<td id="T_ff702_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_ff702_row1_col1" class="data row1 col1">0.1582</td>
+<td id="T_ff702_row1_col2" class="data row1 col2">0.5455</td>
+<td id="T_ff702_row1_col3" class="data row1 col3">0.3679</td>
+</tr>
+<tr class="odd">
+<td id="T_ff702_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_ff702_row2_col1" class="data row2 col1">-0.1023</td>
+<td id="T_ff702_row2_col2" class="data row2 col2">0.6036</td>
+<td id="T_ff702_row2_col3" class="data row2 col3">0.4589</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">trans cov (Q)</p> <style type="text/css">
-</style>
-<table id="T_40543">
-  <thead>
-    <tr>
-      <th id="T_40543_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_40543_level0_col1" class="col_heading level0 col1">x_0</th>
-      <th id="T_40543_level0_col2" class="col_heading level0 col2">x_1</th>
-      <th id="T_40543_level0_col3" class="col_heading level0 col3">x_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_40543_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_40543_row0_col1" class="data row0 col1">0.0317</td>
-      <td id="T_40543_row0_col2" class="data row0 col2">-0.0000</td>
-      <td id="T_40543_row0_col3" class="data row0 col3">0.0032</td>
-    </tr>
-    <tr>
-      <td id="T_40543_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_40543_row1_col1" class="data row1 col1">-0.0000</td>
-      <td id="T_40543_row1_col2" class="data row1 col2">0.0277</td>
-      <td id="T_40543_row1_col3" class="data row1 col3">0.0079</td>
-    </tr>
-    <tr>
-      <td id="T_40543_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_40543_row2_col1" class="data row2 col1">0.0032</td>
-      <td id="T_40543_row2_col2" class="data row2 col2">0.0079</td>
-      <td id="T_40543_row2_col3" class="data row2 col3">0.0268</td>
-    </tr>
-  </tbody>
+<div>
+<p>trans cov (Q)</p>
+<table id="T_40543" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_40543_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_40543_level0_col1" class="col_heading level0 col1">x_0</th>
+<th id="T_40543_level0_col2" class="col_heading level0 col2">x_1</th>
+<th id="T_40543_level0_col3" class="col_heading level0 col3">x_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_40543_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_40543_row0_col1" class="data row0 col1">0.0317</td>
+<td id="T_40543_row0_col2" class="data row0 col2">-0.0000</td>
+<td id="T_40543_row0_col3" class="data row0 col3">0.0032</td>
+</tr>
+<tr class="even">
+<td id="T_40543_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_40543_row1_col1" class="data row1 col1">-0.0000</td>
+<td id="T_40543_row1_col2" class="data row1 col2">0.0277</td>
+<td id="T_40543_row1_col3" class="data row1 col3">0.0079</td>
+</tr>
+<tr class="odd">
+<td id="T_40543_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_40543_row2_col1" class="data row2 col1">0.0032</td>
+<td id="T_40543_row2_col2" class="data row2 col2">0.0079</td>
+<td id="T_40543_row2_col3" class="data row2 col3">0.0268</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">trans off</p> <style type="text/css">
-</style>
-<table id="T_432c9">
-  <thead>
-    <tr>
-      <th id="T_432c9_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_432c9_level0_col1" class="col_heading level0 col1">offset</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_432c9_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_432c9_row0_col1" class="data row0 col1">-0.0705</td>
-    </tr>
-    <tr>
-      <td id="T_432c9_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_432c9_row1_col1" class="data row1 col1">0.0512</td>
-    </tr>
-    <tr>
-      <td id="T_432c9_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_432c9_row2_col1" class="data row2 col1">-0.1263</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>trans off</p>
+<table id="T_432c9" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_432c9_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_432c9_level0_col1" class="col_heading level0 col1">offset</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_432c9_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_432c9_row0_col1" class="data row0 col1">-0.0705</td>
+</tr>
+<tr class="even">
+<td id="T_432c9_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_432c9_row1_col1" class="data row1 col1">0.0512</td>
+</tr>
+<tr class="odd">
+<td id="T_432c9_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_432c9_row2_col1" class="data row2 col1">-0.1263</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">obs matrix (H)</p> <style type="text/css">
-</style>
-<table id="T_4375e">
-  <thead>
-    <tr>
-      <th id="T_4375e_level0_col0" class="col_heading level0 col0">variable</th>
-      <th id="T_4375e_level0_col1" class="col_heading level0 col1">x_0</th>
-      <th id="T_4375e_level0_col2" class="col_heading level0 col2">x_1</th>
-      <th id="T_4375e_level0_col3" class="col_heading level0 col3">x_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_4375e_row0_col0" class="data row0 col0">y_0</td>
-      <td id="T_4375e_row0_col1" class="data row0 col1">0.0415</td>
-      <td id="T_4375e_row0_col2" class="data row0 col2">0.0734</td>
-      <td id="T_4375e_row0_col3" class="data row0 col3">0.0369</td>
-    </tr>
-    <tr>
-      <td id="T_4375e_row1_col0" class="data row1 col0">y_1</td>
-      <td id="T_4375e_row1_col1" class="data row1 col1">0.1477</td>
-      <td id="T_4375e_row1_col2" class="data row1 col2">-0.5466</td>
-      <td id="T_4375e_row1_col3" class="data row1 col3">0.4599</td>
-    </tr>
-    <tr>
-      <td id="T_4375e_row2_col0" class="data row2 col0">y_2</td>
-      <td id="T_4375e_row2_col1" class="data row2 col1">0.1749</td>
-      <td id="T_4375e_row2_col2" class="data row2 col2">0.0563</td>
-      <td id="T_4375e_row2_col3" class="data row2 col3">-0.0193</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>obs matrix (H)</p>
+<table id="T_4375e" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_4375e_level0_col0" class="col_heading level0 col0">variable</th>
+<th id="T_4375e_level0_col1" class="col_heading level0 col1">x_0</th>
+<th id="T_4375e_level0_col2" class="col_heading level0 col2">x_1</th>
+<th id="T_4375e_level0_col3" class="col_heading level0 col3">x_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_4375e_row0_col0" class="data row0 col0">y_0</td>
+<td id="T_4375e_row0_col1" class="data row0 col1">0.0415</td>
+<td id="T_4375e_row0_col2" class="data row0 col2">0.0734</td>
+<td id="T_4375e_row0_col3" class="data row0 col3">0.0369</td>
+</tr>
+<tr class="even">
+<td id="T_4375e_row1_col0" class="data row1 col0">y_1</td>
+<td id="T_4375e_row1_col1" class="data row1 col1">0.1477</td>
+<td id="T_4375e_row1_col2" class="data row1 col2">-0.5466</td>
+<td id="T_4375e_row1_col3" class="data row1 col3">0.4599</td>
+</tr>
+<tr class="odd">
+<td id="T_4375e_row2_col0" class="data row2 col0">y_2</td>
+<td id="T_4375e_row2_col1" class="data row2 col1">0.1749</td>
+<td id="T_4375e_row2_col2" class="data row2 col2">0.0563</td>
+<td id="T_4375e_row2_col3" class="data row2 col3">-0.0193</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">obs cov (R)</p> <style type="text/css">
-</style>
-<table id="T_f6eb3">
-  <thead>
-    <tr>
-      <th id="T_f6eb3_level0_col0" class="col_heading level0 col0">variable</th>
-      <th id="T_f6eb3_level0_col1" class="col_heading level0 col1">y_0</th>
-      <th id="T_f6eb3_level0_col2" class="col_heading level0 col2">y_1</th>
-      <th id="T_f6eb3_level0_col3" class="col_heading level0 col3">y_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_f6eb3_row0_col0" class="data row0 col0">y_0</td>
-      <td id="T_f6eb3_row0_col1" class="data row0 col1">0.0000</td>
-      <td id="T_f6eb3_row0_col2" class="data row0 col2">0.0000</td>
-      <td id="T_f6eb3_row0_col3" class="data row0 col3">0.0000</td>
-    </tr>
-    <tr>
-      <td id="T_f6eb3_row1_col0" class="data row1 col0">y_1</td>
-      <td id="T_f6eb3_row1_col1" class="data row1 col1">0.0000</td>
-      <td id="T_f6eb3_row1_col2" class="data row1 col2">0.0000</td>
-      <td id="T_f6eb3_row1_col3" class="data row1 col3">0.0000</td>
-    </tr>
-    <tr>
-      <td id="T_f6eb3_row2_col0" class="data row2 col0">y_2</td>
-      <td id="T_f6eb3_row2_col1" class="data row2 col1">0.0000</td>
-      <td id="T_f6eb3_row2_col2" class="data row2 col2">0.0000</td>
-      <td id="T_f6eb3_row2_col3" class="data row2 col3">0.0000</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>obs cov (R)</p>
+<table id="T_f6eb3" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_f6eb3_level0_col0" class="col_heading level0 col0">variable</th>
+<th id="T_f6eb3_level0_col1" class="col_heading level0 col1">y_0</th>
+<th id="T_f6eb3_level0_col2" class="col_heading level0 col2">y_1</th>
+<th id="T_f6eb3_level0_col3" class="col_heading level0 col3">y_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_f6eb3_row0_col0" class="data row0 col0">y_0</td>
+<td id="T_f6eb3_row0_col1" class="data row0 col1">0.0000</td>
+<td id="T_f6eb3_row0_col2" class="data row0 col2">0.0000</td>
+<td id="T_f6eb3_row0_col3" class="data row0 col3">0.0000</td>
+</tr>
+<tr class="even">
+<td id="T_f6eb3_row1_col0" class="data row1 col0">y_1</td>
+<td id="T_f6eb3_row1_col1" class="data row1 col1">0.0000</td>
+<td id="T_f6eb3_row1_col2" class="data row1 col2">0.0000</td>
+<td id="T_f6eb3_row1_col3" class="data row1 col3">0.0000</td>
+</tr>
+<tr class="odd">
+<td id="T_f6eb3_row2_col0" class="data row2 col0">y_2</td>
+<td id="T_f6eb3_row2_col1" class="data row2 col1">0.0000</td>
+<td id="T_f6eb3_row2_col2" class="data row2 col2">0.0000</td>
+<td id="T_f6eb3_row2_col3" class="data row2 col3">0.0000</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">obs off</p> <style type="text/css">
-</style>
-<table id="T_49397">
-  <thead>
-    <tr>
-      <th id="T_49397_level0_col0" class="col_heading level0 col0">variable</th>
-      <th id="T_49397_level0_col1" class="col_heading level0 col1">offset</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_49397_row0_col0" class="data row0 col0">y_0</td>
-      <td id="T_49397_row0_col1" class="data row0 col1">0.0593</td>
-    </tr>
-    <tr>
-      <td id="T_49397_row1_col0" class="data row1 col0">y_1</td>
-      <td id="T_49397_row1_col1" class="data row1 col1">0.1921</td>
-    </tr>
-    <tr>
-      <td id="T_49397_row2_col0" class="data row2 col0">y_2</td>
-      <td id="T_49397_row2_col1" class="data row2 col1">0.4388</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>obs off</p>
+<table id="T_49397" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_49397_level0_col0" class="col_heading level0 col0">variable</th>
+<th id="T_49397_level0_col1" class="col_heading level0 col1">offset</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_49397_row0_col0" class="data row0 col0">y_0</td>
+<td id="T_49397_row0_col1" class="data row0 col1">0.0593</td>
+</tr>
+<tr class="even">
+<td id="T_49397_row1_col0" class="data row1 col0">y_1</td>
+<td id="T_49397_row1_col1" class="data row1 col1">0.1921</td>
+</tr>
+<tr class="odd">
+<td id="T_49397_row2_col0" class="data row2 col0">y_2</td>
+<td id="T_49397_row2_col1" class="data row2 col1">0.4388</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">contr matrix (B)</p> <style type="text/css">
-</style>
-<table id="T_73b7c">
-  <thead>
-    <tr>
-      <th id="T_73b7c_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_73b7c_level0_col1" class="col_heading level0 col1">c_0</th>
-      <th id="T_73b7c_level0_col2" class="col_heading level0 col2">c_1</th>
-      <th id="T_73b7c_level0_col3" class="col_heading level0 col3">c_2</th>
-      <th id="T_73b7c_level0_col4" class="col_heading level0 col4">c_3</th>
-      <th id="T_73b7c_level0_col5" class="col_heading level0 col5">c_4</th>
-      <th id="T_73b7c_level0_col6" class="col_heading level0 col6">c_5</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_73b7c_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_73b7c_row0_col1" class="data row0 col1">-0.4222</td>
-      <td id="T_73b7c_row0_col2" class="data row0 col2">0.6555</td>
-      <td id="T_73b7c_row0_col3" class="data row0 col3">-0.0202</td>
-      <td id="T_73b7c_row0_col4" class="data row0 col4">-0.9495</td>
-      <td id="T_73b7c_row0_col5" class="data row0 col5">0.4507</td>
-      <td id="T_73b7c_row0_col6" class="data row0 col6">0.1714</td>
-    </tr>
-    <tr>
-      <td id="T_73b7c_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_73b7c_row1_col1" class="data row1 col1">0.0009</td>
-      <td id="T_73b7c_row1_col2" class="data row1 col2">-0.0957</td>
-      <td id="T_73b7c_row1_col3" class="data row1 col3">0.1792</td>
-      <td id="T_73b7c_row1_col4" class="data row1 col4">0.3218</td>
-      <td id="T_73b7c_row1_col5" class="data row1 col5">-0.5409</td>
-      <td id="T_73b7c_row1_col6" class="data row1 col6">-0.2363</td>
-    </tr>
-    <tr>
-      <td id="T_73b7c_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_73b7c_row2_col1" class="data row2 col1">0.2752</td>
-      <td id="T_73b7c_row2_col2" class="data row2 col2">0.8957</td>
-      <td id="T_73b7c_row2_col3" class="data row2 col3">-0.1440</td>
-      <td id="T_73b7c_row2_col4" class="data row2 col4">0.1622</td>
-      <td id="T_73b7c_row2_col5" class="data row2 col5">0.1775</td>
-      <td id="T_73b7c_row2_col6" class="data row2 col6">-0.0837</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>contr matrix (B)</p>
+<table id="T_73b7c" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_73b7c_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_73b7c_level0_col1" class="col_heading level0 col1">c_0</th>
+<th id="T_73b7c_level0_col2" class="col_heading level0 col2">c_1</th>
+<th id="T_73b7c_level0_col3" class="col_heading level0 col3">c_2</th>
+<th id="T_73b7c_level0_col4" class="col_heading level0 col4">c_3</th>
+<th id="T_73b7c_level0_col5" class="col_heading level0 col5">c_4</th>
+<th id="T_73b7c_level0_col6" class="col_heading level0 col6">c_5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_73b7c_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_73b7c_row0_col1" class="data row0 col1">-0.4222</td>
+<td id="T_73b7c_row0_col2" class="data row0 col2">0.6555</td>
+<td id="T_73b7c_row0_col3" class="data row0 col3">-0.0202</td>
+<td id="T_73b7c_row0_col4" class="data row0 col4">-0.9495</td>
+<td id="T_73b7c_row0_col5" class="data row0 col5">0.4507</td>
+<td id="T_73b7c_row0_col6" class="data row0 col6">0.1714</td>
+</tr>
+<tr class="even">
+<td id="T_73b7c_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_73b7c_row1_col1" class="data row1 col1">0.0009</td>
+<td id="T_73b7c_row1_col2" class="data row1 col2">-0.0957</td>
+<td id="T_73b7c_row1_col3" class="data row1 col3">0.1792</td>
+<td id="T_73b7c_row1_col4" class="data row1 col4">0.3218</td>
+<td id="T_73b7c_row1_col5" class="data row1 col5">-0.5409</td>
+<td id="T_73b7c_row1_col6" class="data row1 col6">-0.2363</td>
+</tr>
+<tr class="odd">
+<td id="T_73b7c_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_73b7c_row2_col1" class="data row2 col1">0.2752</td>
+<td id="T_73b7c_row2_col2" class="data row2 col2">0.8957</td>
+<td id="T_73b7c_row2_col3" class="data row2 col3">-0.1440</td>
+<td id="T_73b7c_row2_col4" class="data row2 col4">0.1622</td>
+<td id="T_73b7c_row2_col5" class="data row2 col5">0.1775</td>
+<td id="T_73b7c_row2_col6" class="data row2 col6">-0.0837</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">init state mean</p> <style type="text/css">
-</style>
-<table id="T_1b605">
-  <thead>
-    <tr>
-      <th id="T_1b605_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_1b605_level0_col1" class="col_heading level0 col1">mean</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_1b605_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_1b605_row0_col1" class="data row0 col1">-0.3115</td>
-    </tr>
-    <tr>
-      <td id="T_1b605_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_1b605_row1_col1" class="data row1 col1">0.5003</td>
-    </tr>
-    <tr>
-      <td id="T_1b605_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_1b605_row2_col1" class="data row2 col1">0.5133</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>init state mean</p>
+<table id="T_1b605" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_1b605_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_1b605_level0_col1" class="col_heading level0 col1">mean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_1b605_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_1b605_row0_col1" class="data row0 col1">-0.3115</td>
+</tr>
+<tr class="even">
+<td id="T_1b605_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_1b605_row1_col1" class="data row1 col1">0.5003</td>
+</tr>
+<tr class="odd">
+<td id="T_1b605_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_1b605_row2_col1" class="data row2 col1">0.5133</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">init state cov</p> <style type="text/css">
-</style>
-<table id="T_81ab3">
-  <thead>
-    <tr>
-      <th id="T_81ab3_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_81ab3_level0_col1" class="col_heading level0 col1">x_0</th>
-      <th id="T_81ab3_level0_col2" class="col_heading level0 col2">x_1</th>
-      <th id="T_81ab3_level0_col3" class="col_heading level0 col3">x_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_81ab3_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_81ab3_row0_col1" class="data row0 col1">2.3021</td>
-      <td id="T_81ab3_row0_col2" class="data row0 col2">0.7211</td>
-      <td id="T_81ab3_row0_col3" class="data row0 col3">0.6520</td>
-    </tr>
-    <tr>
-      <td id="T_81ab3_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_81ab3_row1_col1" class="data row1 col1">0.7211</td>
-      <td id="T_81ab3_row1_col2" class="data row1 col2">3.7494</td>
-      <td id="T_81ab3_row1_col3" class="data row1 col3">3.8710</td>
-    </tr>
-    <tr>
-      <td id="T_81ab3_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_81ab3_row2_col1" class="data row2 col1">0.6520</td>
-      <td id="T_81ab3_row2_col2" class="data row2 col2">3.8710</td>
-      <td id="T_81ab3_row2_col3" class="data row2 col3">5.0761</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>init state cov</p>
+<table id="T_81ab3" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_81ab3_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_81ab3_level0_col1" class="col_heading level0 col1">x_0</th>
+<th id="T_81ab3_level0_col2" class="col_heading level0 col2">x_1</th>
+<th id="T_81ab3_level0_col3" class="col_heading level0 col3">x_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_81ab3_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_81ab3_row0_col1" class="data row0 col1">2.3021</td>
+<td id="T_81ab3_row0_col2" class="data row0 col2">0.7211</td>
+<td id="T_81ab3_row0_col3" class="data row0 col3">0.6520</td>
+</tr>
+<tr class="even">
+<td id="T_81ab3_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_81ab3_row1_col1" class="data row1 col1">0.7211</td>
+<td id="T_81ab3_row1_col2" class="data row1 col2">3.7494</td>
+<td id="T_81ab3_row1_col3" class="data row1 col3">3.8710</td>
+</tr>
+<tr class="odd">
+<td id="T_81ab3_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_81ab3_row2_col1" class="data row2 col1">0.6520</td>
+<td id="T_81ab3_row2_col2" class="data row2 col2">3.8710</td>
+<td id="T_81ab3_row2_col3" class="data row2 col3">5.0761</td>
+</tr>
+</tbody>
 </table>
- </div></div>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -2088,72 +2089,71 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 </div>
 <div class="cell-output cell-output-display">
-
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th>epoch</th>
-      <th>train_loss</th>
-      <th>valid_loss</th>
-      <th>rmse</th>
-      <th>rmse_gap</th>
-      <th>r2</th>
-      <th>r2_gap</th>
-      <th>time</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>35.681259</td>
-      <td>25.316821</td>
-      <td>0.569263</td>
-      <td>0.675936</td>
-      <td>-11.686040</td>
-      <td>-4623607617801388104142699888640.000000</td>
-      <td>01:11</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>28.467558</td>
-      <td>23.233029</td>
-      <td>0.524849</td>
-      <td>0.610395</td>
-      <td>-2.279983</td>
-      <td>-2785450798303600881197612269568.000000</td>
-      <td>01:12</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>24.512202</td>
-      <td>21.556061</td>
-      <td>0.508569</td>
-      <td>0.522891</td>
-      <td>-1.991859</td>
-      <td>-1787686587625842508214908747776.000000</td>
-      <td>01:17</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>22.205898</td>
-      <td>18.522426</td>
-      <td>0.504695</td>
-      <td>0.497300</td>
-      <td>-2.575984</td>
-      <td>-2311579056314112802293087731712.000000</td>
-      <td>01:14</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>19.906797</td>
-      <td>16.373493</td>
-      <td>0.532846</td>
-      <td>0.453842</td>
-      <td>-1.954186</td>
-      <td>-2977305927889536455278742994944.000000</td>
-      <td>01:13</td>
-    </tr>
-  </tbody>
+<table class="dataframe table table-sm table-striped" data-border="1">
+<thead>
+<tr class="header">
+<th>epoch</th>
+<th>train_loss</th>
+<th>valid_loss</th>
+<th>rmse</th>
+<th>rmse_gap</th>
+<th>r2</th>
+<th>r2_gap</th>
+<th>time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>35.681259</td>
+<td>25.316821</td>
+<td>0.569263</td>
+<td>0.675936</td>
+<td>-11.686040</td>
+<td>-4623607617801388104142699888640.000000</td>
+<td>01:11</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>28.467558</td>
+<td>23.233029</td>
+<td>0.524849</td>
+<td>0.610395</td>
+<td>-2.279983</td>
+<td>-2785450798303600881197612269568.000000</td>
+<td>01:12</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>24.512202</td>
+<td>21.556061</td>
+<td>0.508569</td>
+<td>0.522891</td>
+<td>-1.991859</td>
+<td>-1787686587625842508214908747776.000000</td>
+<td>01:17</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>22.205898</td>
+<td>18.522426</td>
+<td>0.504695</td>
+<td>0.497300</td>
+<td>-2.575984</td>
+<td>-2311579056314112802293087731712.000000</td>
+<td>01:14</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>19.906797</td>
+<td>16.373493</td>
+<td>0.532846</td>
+<td>0.453842</td>
+<td>-1.954186</td>
+<td>-2977305927889536455278742994944.000000</td>
+<td>01:13</td>
+</tr>
+</tbody>
 </table>
 </div>
 <div class="cell-output cell-output-display">
@@ -2163,284 +2163,288 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>learn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-
-<p style="font-size: 1.5rem; font-decoration: bold">Kalman Filter (3 obs, 3 state, 6 contr)</p><p></p><div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div> <p style="font-size: 1.3rem;">trans matrix (A)</p> <style type="text/css">
-</style>
-<table id="T_c8dbf">
-  <thead>
-    <tr>
-      <th id="T_c8dbf_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_c8dbf_level0_col1" class="col_heading level0 col1">x_0</th>
-      <th id="T_c8dbf_level0_col2" class="col_heading level0 col2">x_1</th>
-      <th id="T_c8dbf_level0_col3" class="col_heading level0 col3">x_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_c8dbf_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_c8dbf_row0_col1" class="data row0 col1">0.0550</td>
-      <td id="T_c8dbf_row0_col2" class="data row0 col2">0.8305</td>
-      <td id="T_c8dbf_row0_col3" class="data row0 col3">0.9071</td>
-    </tr>
-    <tr>
-      <td id="T_c8dbf_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_c8dbf_row1_col1" class="data row1 col1">0.8076</td>
-      <td id="T_c8dbf_row1_col2" class="data row1 col2">0.7187</td>
-      <td id="T_c8dbf_row1_col3" class="data row1 col3">0.3710</td>
-    </tr>
-    <tr>
-      <td id="T_c8dbf_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_c8dbf_row2_col1" class="data row2 col1">1.0252</td>
-      <td id="T_c8dbf_row2_col2" class="data row2 col2">0.9262</td>
-      <td id="T_c8dbf_row2_col3" class="data row2 col3">0.4660</td>
-    </tr>
-  </tbody>
+<table id="T_c8dbf" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_c8dbf_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_c8dbf_level0_col1" class="col_heading level0 col1">x_0</th>
+<th id="T_c8dbf_level0_col2" class="col_heading level0 col2">x_1</th>
+<th id="T_c8dbf_level0_col3" class="col_heading level0 col3">x_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_c8dbf_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_c8dbf_row0_col1" class="data row0 col1">0.0550</td>
+<td id="T_c8dbf_row0_col2" class="data row0 col2">0.8305</td>
+<td id="T_c8dbf_row0_col3" class="data row0 col3">0.9071</td>
+</tr>
+<tr class="even">
+<td id="T_c8dbf_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_c8dbf_row1_col1" class="data row1 col1">0.8076</td>
+<td id="T_c8dbf_row1_col2" class="data row1 col2">0.7187</td>
+<td id="T_c8dbf_row1_col3" class="data row1 col3">0.3710</td>
+</tr>
+<tr class="odd">
+<td id="T_c8dbf_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_c8dbf_row2_col1" class="data row2 col1">1.0252</td>
+<td id="T_c8dbf_row2_col2" class="data row2 col2">0.9262</td>
+<td id="T_c8dbf_row2_col3" class="data row2 col3">0.4660</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">trans cov (Q)</p> <style type="text/css">
-</style>
-<table id="T_10a38">
-  <thead>
-    <tr>
-      <th id="T_10a38_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_10a38_level0_col1" class="col_heading level0 col1">x_0</th>
-      <th id="T_10a38_level0_col2" class="col_heading level0 col2">x_1</th>
-      <th id="T_10a38_level0_col3" class="col_heading level0 col3">x_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_10a38_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_10a38_row0_col1" class="data row0 col1">0.1091</td>
-      <td id="T_10a38_row0_col2" class="data row0 col2">0.0170</td>
-      <td id="T_10a38_row0_col3" class="data row0 col3">0.0334</td>
-    </tr>
-    <tr>
-      <td id="T_10a38_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_10a38_row1_col1" class="data row1 col1">0.0170</td>
-      <td id="T_10a38_row1_col2" class="data row1 col2">0.0027</td>
-      <td id="T_10a38_row1_col3" class="data row1 col3">0.0052</td>
-    </tr>
-    <tr>
-      <td id="T_10a38_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_10a38_row2_col1" class="data row2 col1">0.0334</td>
-      <td id="T_10a38_row2_col2" class="data row2 col2">0.0052</td>
-      <td id="T_10a38_row2_col3" class="data row2 col3">0.0103</td>
-    </tr>
-  </tbody>
+<div>
+<p>trans cov (Q)</p>
+<table id="T_10a38" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_10a38_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_10a38_level0_col1" class="col_heading level0 col1">x_0</th>
+<th id="T_10a38_level0_col2" class="col_heading level0 col2">x_1</th>
+<th id="T_10a38_level0_col3" class="col_heading level0 col3">x_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_10a38_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_10a38_row0_col1" class="data row0 col1">0.1091</td>
+<td id="T_10a38_row0_col2" class="data row0 col2">0.0170</td>
+<td id="T_10a38_row0_col3" class="data row0 col3">0.0334</td>
+</tr>
+<tr class="even">
+<td id="T_10a38_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_10a38_row1_col1" class="data row1 col1">0.0170</td>
+<td id="T_10a38_row1_col2" class="data row1 col2">0.0027</td>
+<td id="T_10a38_row1_col3" class="data row1 col3">0.0052</td>
+</tr>
+<tr class="odd">
+<td id="T_10a38_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_10a38_row2_col1" class="data row2 col1">0.0334</td>
+<td id="T_10a38_row2_col2" class="data row2 col2">0.0052</td>
+<td id="T_10a38_row2_col3" class="data row2 col3">0.0103</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">trans off</p> <style type="text/css">
-</style>
-<table id="T_34c4e">
-  <thead>
-    <tr>
-      <th id="T_34c4e_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_34c4e_level0_col1" class="col_heading level0 col1">offset</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_34c4e_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_34c4e_row0_col1" class="data row0 col1">1.0085</td>
-    </tr>
-    <tr>
-      <td id="T_34c4e_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_34c4e_row1_col1" class="data row1 col1">0.2683</td>
-    </tr>
-    <tr>
-      <td id="T_34c4e_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_34c4e_row2_col1" class="data row2 col1">0.1844</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>trans off</p>
+<table id="T_34c4e" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_34c4e_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_34c4e_level0_col1" class="col_heading level0 col1">offset</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_34c4e_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_34c4e_row0_col1" class="data row0 col1">1.0085</td>
+</tr>
+<tr class="even">
+<td id="T_34c4e_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_34c4e_row1_col1" class="data row1 col1">0.2683</td>
+</tr>
+<tr class="odd">
+<td id="T_34c4e_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_34c4e_row2_col1" class="data row2 col1">0.1844</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">obs matrix (H)</p> <style type="text/css">
-</style>
-<table id="T_b4d90">
-  <thead>
-    <tr>
-      <th id="T_b4d90_level0_col0" class="col_heading level0 col0">variable</th>
-      <th id="T_b4d90_level0_col1" class="col_heading level0 col1">x_0</th>
-      <th id="T_b4d90_level0_col2" class="col_heading level0 col2">x_1</th>
-      <th id="T_b4d90_level0_col3" class="col_heading level0 col3">x_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_b4d90_row0_col0" class="data row0 col0">y_0</td>
-      <td id="T_b4d90_row0_col1" class="data row0 col1">0.0586</td>
-      <td id="T_b4d90_row0_col2" class="data row0 col2">-0.0735</td>
-      <td id="T_b4d90_row0_col3" class="data row0 col3">0.2603</td>
-    </tr>
-    <tr>
-      <td id="T_b4d90_row1_col0" class="data row1 col0">y_1</td>
-      <td id="T_b4d90_row1_col1" class="data row1 col1">0.3055</td>
-      <td id="T_b4d90_row1_col2" class="data row1 col2">0.4040</td>
-      <td id="T_b4d90_row1_col3" class="data row1 col3">0.4354</td>
-    </tr>
-    <tr>
-      <td id="T_b4d90_row2_col0" class="data row2 col0">y_2</td>
-      <td id="T_b4d90_row2_col1" class="data row2 col1">0.2157</td>
-      <td id="T_b4d90_row2_col2" class="data row2 col2">0.9007</td>
-      <td id="T_b4d90_row2_col3" class="data row2 col3">0.4757</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>obs matrix (H)</p>
+<table id="T_b4d90" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_b4d90_level0_col0" class="col_heading level0 col0">variable</th>
+<th id="T_b4d90_level0_col1" class="col_heading level0 col1">x_0</th>
+<th id="T_b4d90_level0_col2" class="col_heading level0 col2">x_1</th>
+<th id="T_b4d90_level0_col3" class="col_heading level0 col3">x_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_b4d90_row0_col0" class="data row0 col0">y_0</td>
+<td id="T_b4d90_row0_col1" class="data row0 col1">0.0586</td>
+<td id="T_b4d90_row0_col2" class="data row0 col2">-0.0735</td>
+<td id="T_b4d90_row0_col3" class="data row0 col3">0.2603</td>
+</tr>
+<tr class="even">
+<td id="T_b4d90_row1_col0" class="data row1 col0">y_1</td>
+<td id="T_b4d90_row1_col1" class="data row1 col1">0.3055</td>
+<td id="T_b4d90_row1_col2" class="data row1 col2">0.4040</td>
+<td id="T_b4d90_row1_col3" class="data row1 col3">0.4354</td>
+</tr>
+<tr class="odd">
+<td id="T_b4d90_row2_col0" class="data row2 col0">y_2</td>
+<td id="T_b4d90_row2_col1" class="data row2 col1">0.2157</td>
+<td id="T_b4d90_row2_col2" class="data row2 col2">0.9007</td>
+<td id="T_b4d90_row2_col3" class="data row2 col3">0.4757</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">obs cov (R)</p> <style type="text/css">
-</style>
-<table id="T_11692">
-  <thead>
-    <tr>
-      <th id="T_11692_level0_col0" class="col_heading level0 col0">variable</th>
-      <th id="T_11692_level0_col1" class="col_heading level0 col1">y_0</th>
-      <th id="T_11692_level0_col2" class="col_heading level0 col2">y_1</th>
-      <th id="T_11692_level0_col3" class="col_heading level0 col3">y_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_11692_row0_col0" class="data row0 col0">y_0</td>
-      <td id="T_11692_row0_col1" class="data row0 col1">0.0795</td>
-      <td id="T_11692_row0_col2" class="data row0 col2">0.0000</td>
-      <td id="T_11692_row0_col3" class="data row0 col3">0.0000</td>
-    </tr>
-    <tr>
-      <td id="T_11692_row1_col0" class="data row1 col0">y_1</td>
-      <td id="T_11692_row1_col1" class="data row1 col1">0.0000</td>
-      <td id="T_11692_row1_col2" class="data row1 col2">0.6049</td>
-      <td id="T_11692_row1_col3" class="data row1 col3">0.0000</td>
-    </tr>
-    <tr>
-      <td id="T_11692_row2_col0" class="data row2 col0">y_2</td>
-      <td id="T_11692_row2_col1" class="data row2 col1">0.0000</td>
-      <td id="T_11692_row2_col2" class="data row2 col2">0.0000</td>
-      <td id="T_11692_row2_col3" class="data row2 col3">0.1729</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>obs cov (R)</p>
+<table id="T_11692" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_11692_level0_col0" class="col_heading level0 col0">variable</th>
+<th id="T_11692_level0_col1" class="col_heading level0 col1">y_0</th>
+<th id="T_11692_level0_col2" class="col_heading level0 col2">y_1</th>
+<th id="T_11692_level0_col3" class="col_heading level0 col3">y_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_11692_row0_col0" class="data row0 col0">y_0</td>
+<td id="T_11692_row0_col1" class="data row0 col1">0.0795</td>
+<td id="T_11692_row0_col2" class="data row0 col2">0.0000</td>
+<td id="T_11692_row0_col3" class="data row0 col3">0.0000</td>
+</tr>
+<tr class="even">
+<td id="T_11692_row1_col0" class="data row1 col0">y_1</td>
+<td id="T_11692_row1_col1" class="data row1 col1">0.0000</td>
+<td id="T_11692_row1_col2" class="data row1 col2">0.6049</td>
+<td id="T_11692_row1_col3" class="data row1 col3">0.0000</td>
+</tr>
+<tr class="odd">
+<td id="T_11692_row2_col0" class="data row2 col0">y_2</td>
+<td id="T_11692_row2_col1" class="data row2 col1">0.0000</td>
+<td id="T_11692_row2_col2" class="data row2 col2">0.0000</td>
+<td id="T_11692_row2_col3" class="data row2 col3">0.1729</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">obs off</p> <style type="text/css">
-</style>
-<table id="T_2e842">
-  <thead>
-    <tr>
-      <th id="T_2e842_level0_col0" class="col_heading level0 col0">variable</th>
-      <th id="T_2e842_level0_col1" class="col_heading level0 col1">offset</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_2e842_row0_col0" class="data row0 col0">y_0</td>
-      <td id="T_2e842_row0_col1" class="data row0 col1">0.0631</td>
-    </tr>
-    <tr>
-      <td id="T_2e842_row1_col0" class="data row1 col0">y_1</td>
-      <td id="T_2e842_row1_col1" class="data row1 col1">0.6257</td>
-    </tr>
-    <tr>
-      <td id="T_2e842_row2_col0" class="data row2 col0">y_2</td>
-      <td id="T_2e842_row2_col1" class="data row2 col1">0.8232</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>obs off</p>
+<table id="T_2e842" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_2e842_level0_col0" class="col_heading level0 col0">variable</th>
+<th id="T_2e842_level0_col1" class="col_heading level0 col1">offset</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_2e842_row0_col0" class="data row0 col0">y_0</td>
+<td id="T_2e842_row0_col1" class="data row0 col1">0.0631</td>
+</tr>
+<tr class="even">
+<td id="T_2e842_row1_col0" class="data row1 col0">y_1</td>
+<td id="T_2e842_row1_col1" class="data row1 col1">0.6257</td>
+</tr>
+<tr class="odd">
+<td id="T_2e842_row2_col0" class="data row2 col0">y_2</td>
+<td id="T_2e842_row2_col1" class="data row2 col1">0.8232</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">contr matrix (B)</p> <style type="text/css">
-</style>
-<table id="T_a5c79">
-  <thead>
-    <tr>
-      <th id="T_a5c79_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_a5c79_level0_col1" class="col_heading level0 col1">c_0</th>
-      <th id="T_a5c79_level0_col2" class="col_heading level0 col2">c_1</th>
-      <th id="T_a5c79_level0_col3" class="col_heading level0 col3">c_2</th>
-      <th id="T_a5c79_level0_col4" class="col_heading level0 col4">c_3</th>
-      <th id="T_a5c79_level0_col5" class="col_heading level0 col5">c_4</th>
-      <th id="T_a5c79_level0_col6" class="col_heading level0 col6">c_5</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_a5c79_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_a5c79_row0_col1" class="data row0 col1">0.1065</td>
-      <td id="T_a5c79_row0_col2" class="data row0 col2">-0.1080</td>
-      <td id="T_a5c79_row0_col3" class="data row0 col3">-0.8654</td>
-      <td id="T_a5c79_row0_col4" class="data row0 col4">-0.3202</td>
-      <td id="T_a5c79_row0_col5" class="data row0 col5">-0.0629</td>
-      <td id="T_a5c79_row0_col6" class="data row0 col6">-0.2701</td>
-    </tr>
-    <tr>
-      <td id="T_a5c79_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_a5c79_row1_col1" class="data row1 col1">-1.0667</td>
-      <td id="T_a5c79_row1_col2" class="data row1 col2">-0.2948</td>
-      <td id="T_a5c79_row1_col3" class="data row1 col3">-0.0322</td>
-      <td id="T_a5c79_row1_col4" class="data row1 col4">-0.4331</td>
-      <td id="T_a5c79_row1_col5" class="data row1 col5">0.0113</td>
-      <td id="T_a5c79_row1_col6" class="data row1 col6">-0.1139</td>
-    </tr>
-    <tr>
-      <td id="T_a5c79_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_a5c79_row2_col1" class="data row2 col1">0.9766</td>
-      <td id="T_a5c79_row2_col2" class="data row2 col2">0.2488</td>
-      <td id="T_a5c79_row2_col3" class="data row2 col3">-0.2589</td>
-      <td id="T_a5c79_row2_col4" class="data row2 col4">0.5920</td>
-      <td id="T_a5c79_row2_col5" class="data row2 col5">0.3605</td>
-      <td id="T_a5c79_row2_col6" class="data row2 col6">-0.1070</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>contr matrix (B)</p>
+<table id="T_a5c79" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_a5c79_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_a5c79_level0_col1" class="col_heading level0 col1">c_0</th>
+<th id="T_a5c79_level0_col2" class="col_heading level0 col2">c_1</th>
+<th id="T_a5c79_level0_col3" class="col_heading level0 col3">c_2</th>
+<th id="T_a5c79_level0_col4" class="col_heading level0 col4">c_3</th>
+<th id="T_a5c79_level0_col5" class="col_heading level0 col5">c_4</th>
+<th id="T_a5c79_level0_col6" class="col_heading level0 col6">c_5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_a5c79_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_a5c79_row0_col1" class="data row0 col1">0.1065</td>
+<td id="T_a5c79_row0_col2" class="data row0 col2">-0.1080</td>
+<td id="T_a5c79_row0_col3" class="data row0 col3">-0.8654</td>
+<td id="T_a5c79_row0_col4" class="data row0 col4">-0.3202</td>
+<td id="T_a5c79_row0_col5" class="data row0 col5">-0.0629</td>
+<td id="T_a5c79_row0_col6" class="data row0 col6">-0.2701</td>
+</tr>
+<tr class="even">
+<td id="T_a5c79_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_a5c79_row1_col1" class="data row1 col1">-1.0667</td>
+<td id="T_a5c79_row1_col2" class="data row1 col2">-0.2948</td>
+<td id="T_a5c79_row1_col3" class="data row1 col3">-0.0322</td>
+<td id="T_a5c79_row1_col4" class="data row1 col4">-0.4331</td>
+<td id="T_a5c79_row1_col5" class="data row1 col5">0.0113</td>
+<td id="T_a5c79_row1_col6" class="data row1 col6">-0.1139</td>
+</tr>
+<tr class="odd">
+<td id="T_a5c79_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_a5c79_row2_col1" class="data row2 col1">0.9766</td>
+<td id="T_a5c79_row2_col2" class="data row2 col2">0.2488</td>
+<td id="T_a5c79_row2_col3" class="data row2 col3">-0.2589</td>
+<td id="T_a5c79_row2_col4" class="data row2 col4">0.5920</td>
+<td id="T_a5c79_row2_col5" class="data row2 col5">0.3605</td>
+<td id="T_a5c79_row2_col6" class="data row2 col6">-0.1070</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">init state mean</p> <style type="text/css">
-</style>
-<table id="T_49b4a">
-  <thead>
-    <tr>
-      <th id="T_49b4a_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_49b4a_level0_col1" class="col_heading level0 col1">mean</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_49b4a_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_49b4a_row0_col1" class="data row0 col1">-0.0949</td>
-    </tr>
-    <tr>
-      <td id="T_49b4a_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_49b4a_row1_col1" class="data row1 col1">0.0299</td>
-    </tr>
-    <tr>
-      <td id="T_49b4a_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_49b4a_row2_col1" class="data row2 col1">0.0380</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>init state mean</p>
+<table id="T_49b4a" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_49b4a_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_49b4a_level0_col1" class="col_heading level0 col1">mean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_49b4a_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_49b4a_row0_col1" class="data row0 col1">-0.0949</td>
+</tr>
+<tr class="even">
+<td id="T_49b4a_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_49b4a_row1_col1" class="data row1 col1">0.0299</td>
+</tr>
+<tr class="odd">
+<td id="T_49b4a_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_49b4a_row2_col1" class="data row2 col1">0.0380</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">init state cov</p> <style type="text/css">
-</style>
-<table id="T_86c83">
-  <thead>
-    <tr>
-      <th id="T_86c83_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_86c83_level0_col1" class="col_heading level0 col1">x_0</th>
-      <th id="T_86c83_level0_col2" class="col_heading level0 col2">x_1</th>
-      <th id="T_86c83_level0_col3" class="col_heading level0 col3">x_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_86c83_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_86c83_row0_col1" class="data row0 col1">0.1153</td>
-      <td id="T_86c83_row0_col2" class="data row0 col2">-0.1604</td>
-      <td id="T_86c83_row0_col3" class="data row0 col3">-0.1218</td>
-    </tr>
-    <tr>
-      <td id="T_86c83_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_86c83_row1_col1" class="data row1 col1">-0.1604</td>
-      <td id="T_86c83_row1_col2" class="data row1 col2">0.4181</td>
-      <td id="T_86c83_row1_col3" class="data row1 col3">0.8881</td>
-    </tr>
-    <tr>
-      <td id="T_86c83_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_86c83_row2_col1" class="data row2 col1">-0.1218</td>
-      <td id="T_86c83_row2_col2" class="data row2 col2">0.8881</td>
-      <td id="T_86c83_row2_col3" class="data row2 col3">3.4152</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>init state cov</p>
+<table id="T_86c83" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_86c83_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_86c83_level0_col1" class="col_heading level0 col1">x_0</th>
+<th id="T_86c83_level0_col2" class="col_heading level0 col2">x_1</th>
+<th id="T_86c83_level0_col3" class="col_heading level0 col3">x_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_86c83_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_86c83_row0_col1" class="data row0 col1">0.1153</td>
+<td id="T_86c83_row0_col2" class="data row0 col2">-0.1604</td>
+<td id="T_86c83_row0_col3" class="data row0 col3">-0.1218</td>
+</tr>
+<tr class="even">
+<td id="T_86c83_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_86c83_row1_col1" class="data row1 col1">-0.1604</td>
+<td id="T_86c83_row1_col2" class="data row1 col2">0.4181</td>
+<td id="T_86c83_row1_col3" class="data row1 col3">0.8881</td>
+</tr>
+<tr class="odd">
+<td id="T_86c83_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_86c83_row2_col1" class="data row2 col1">-0.1218</td>
+<td id="T_86c83_row2_col2" class="data row2 col2">0.8881</td>
+<td id="T_86c83_row2_col3" class="data row2 col3">3.4152</td>
+</tr>
+</tbody>
 </table>
- </div></div>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -2527,72 +2531,71 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 </div>
 <div class="cell-output cell-output-display">
-
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th>epoch</th>
-      <th>train_loss</th>
-      <th>valid_loss</th>
-      <th>rmse</th>
-      <th>rmse_gap</th>
-      <th>r2</th>
-      <th>r2_gap</th>
-      <th>time</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>98.515476</td>
-      <td>76.464946</td>
-      <td>3.587664</td>
-      <td>9.146169</td>
-      <td>-556.182098</td>
-      <td>-1785660235166445426744542481088512.000000</td>
-      <td>00:53</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>65.572638</td>
-      <td>42.698891</td>
-      <td>1.761536</td>
-      <td>4.240729</td>
-      <td>-961.723482</td>
-      <td>-978013546570620530329106643943424.000000</td>
-      <td>00:56</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>55.393772</td>
-      <td>45.721459</td>
-      <td>1.547412</td>
-      <td>3.812272</td>
-      <td>-358.409783</td>
-      <td>-482895226247397956117409612955648.000000</td>
-      <td>00:58</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>50.176197</td>
-      <td>45.659879</td>
-      <td>1.704954</td>
-      <td>4.215966</td>
-      <td>-1291.738173</td>
-      <td>-256935436439301020515829859483648.000000</td>
-      <td>01:01</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>48.109062</td>
-      <td>50.373996</td>
-      <td>1.703977</td>
-      <td>4.298851</td>
-      <td>-94.260413</td>
-      <td>-526513865521285616344450662924288.000000</td>
-      <td>00:56</td>
-    </tr>
-  </tbody>
+<table class="dataframe table table-sm table-striped" data-border="1">
+<thead>
+<tr class="header">
+<th>epoch</th>
+<th>train_loss</th>
+<th>valid_loss</th>
+<th>rmse</th>
+<th>rmse_gap</th>
+<th>r2</th>
+<th>r2_gap</th>
+<th>time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>98.515476</td>
+<td>76.464946</td>
+<td>3.587664</td>
+<td>9.146169</td>
+<td>-556.182098</td>
+<td>-1785660235166445426744542481088512.000000</td>
+<td>00:53</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>65.572638</td>
+<td>42.698891</td>
+<td>1.761536</td>
+<td>4.240729</td>
+<td>-961.723482</td>
+<td>-978013546570620530329106643943424.000000</td>
+<td>00:56</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>55.393772</td>
+<td>45.721459</td>
+<td>1.547412</td>
+<td>3.812272</td>
+<td>-358.409783</td>
+<td>-482895226247397956117409612955648.000000</td>
+<td>00:58</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>50.176197</td>
+<td>45.659879</td>
+<td>1.704954</td>
+<td>4.215966</td>
+<td>-1291.738173</td>
+<td>-256935436439301020515829859483648.000000</td>
+<td>01:01</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>48.109062</td>
+<td>50.373996</td>
+<td>1.703977</td>
+<td>4.298851</td>
+<td>-94.260413</td>
+<td>-526513865521285616344450662924288.000000</td>
+<td>00:56</td>
+</tr>
+</tbody>
 </table>
 </div>
 <div class="cell-output cell-output-display">
@@ -2602,284 +2605,288 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>learn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-
-<p style="font-size: 1.5rem; font-decoration: bold">Kalman Filter (3 obs, 3 state, 6 contr)</p><p></p><div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div> <p style="font-size: 1.3rem;">trans matrix (A)</p> <style type="text/css">
-</style>
-<table id="T_9561b">
-  <thead>
-    <tr>
-      <th id="T_9561b_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_9561b_level0_col1" class="col_heading level0 col1">x_0</th>
-      <th id="T_9561b_level0_col2" class="col_heading level0 col2">x_1</th>
-      <th id="T_9561b_level0_col3" class="col_heading level0 col3">x_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_9561b_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_9561b_row0_col1" class="data row0 col1">-0.1561</td>
-      <td id="T_9561b_row0_col2" class="data row0 col2">0.6142</td>
-      <td id="T_9561b_row0_col3" class="data row0 col3">0.6362</td>
-    </tr>
-    <tr>
-      <td id="T_9561b_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_9561b_row1_col1" class="data row1 col1">0.5261</td>
-      <td id="T_9561b_row1_col2" class="data row1 col2">0.4458</td>
-      <td id="T_9561b_row1_col3" class="data row1 col3">0.1055</td>
-    </tr>
-    <tr>
-      <td id="T_9561b_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_9561b_row2_col1" class="data row2 col1">1.2212</td>
-      <td id="T_9561b_row2_col2" class="data row2 col2">1.1215</td>
-      <td id="T_9561b_row2_col3" class="data row2 col3">0.6900</td>
-    </tr>
-  </tbody>
+<table id="T_9561b" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_9561b_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_9561b_level0_col1" class="col_heading level0 col1">x_0</th>
+<th id="T_9561b_level0_col2" class="col_heading level0 col2">x_1</th>
+<th id="T_9561b_level0_col3" class="col_heading level0 col3">x_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_9561b_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_9561b_row0_col1" class="data row0 col1">-0.1561</td>
+<td id="T_9561b_row0_col2" class="data row0 col2">0.6142</td>
+<td id="T_9561b_row0_col3" class="data row0 col3">0.6362</td>
+</tr>
+<tr class="even">
+<td id="T_9561b_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_9561b_row1_col1" class="data row1 col1">0.5261</td>
+<td id="T_9561b_row1_col2" class="data row1 col2">0.4458</td>
+<td id="T_9561b_row1_col3" class="data row1 col3">0.1055</td>
+</tr>
+<tr class="odd">
+<td id="T_9561b_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_9561b_row2_col1" class="data row2 col1">1.2212</td>
+<td id="T_9561b_row2_col2" class="data row2 col2">1.1215</td>
+<td id="T_9561b_row2_col3" class="data row2 col3">0.6900</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">trans cov (Q)</p> <style type="text/css">
-</style>
-<table id="T_a239c">
-  <thead>
-    <tr>
-      <th id="T_a239c_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_a239c_level0_col1" class="col_heading level0 col1">x_0</th>
-      <th id="T_a239c_level0_col2" class="col_heading level0 col2">x_1</th>
-      <th id="T_a239c_level0_col3" class="col_heading level0 col3">x_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_a239c_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_a239c_row0_col1" class="data row0 col1">3.4574</td>
-      <td id="T_a239c_row0_col2" class="data row0 col2">3.0900</td>
-      <td id="T_a239c_row0_col3" class="data row0 col3">2.8140</td>
-    </tr>
-    <tr>
-      <td id="T_a239c_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_a239c_row1_col1" class="data row1 col1">3.0900</td>
-      <td id="T_a239c_row1_col2" class="data row1 col2">2.8125</td>
-      <td id="T_a239c_row1_col3" class="data row1 col3">2.5484</td>
-    </tr>
-    <tr>
-      <td id="T_a239c_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_a239c_row2_col1" class="data row2 col1">2.8140</td>
-      <td id="T_a239c_row2_col2" class="data row2 col2">2.5484</td>
-      <td id="T_a239c_row2_col3" class="data row2 col3">2.3123</td>
-    </tr>
-  </tbody>
+<div>
+<p>trans cov (Q)</p>
+<table id="T_a239c" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_a239c_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_a239c_level0_col1" class="col_heading level0 col1">x_0</th>
+<th id="T_a239c_level0_col2" class="col_heading level0 col2">x_1</th>
+<th id="T_a239c_level0_col3" class="col_heading level0 col3">x_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_a239c_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_a239c_row0_col1" class="data row0 col1">3.4574</td>
+<td id="T_a239c_row0_col2" class="data row0 col2">3.0900</td>
+<td id="T_a239c_row0_col3" class="data row0 col3">2.8140</td>
+</tr>
+<tr class="even">
+<td id="T_a239c_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_a239c_row1_col1" class="data row1 col1">3.0900</td>
+<td id="T_a239c_row1_col2" class="data row1 col2">2.8125</td>
+<td id="T_a239c_row1_col3" class="data row1 col3">2.5484</td>
+</tr>
+<tr class="odd">
+<td id="T_a239c_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_a239c_row2_col1" class="data row2 col1">2.8140</td>
+<td id="T_a239c_row2_col2" class="data row2 col2">2.5484</td>
+<td id="T_a239c_row2_col3" class="data row2 col3">2.3123</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">trans off</p> <style type="text/css">
-</style>
-<table id="T_3a14a">
-  <thead>
-    <tr>
-      <th id="T_3a14a_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_3a14a_level0_col1" class="col_heading level0 col1">offset</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_3a14a_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_3a14a_row0_col1" class="data row0 col1">0.8462</td>
-    </tr>
-    <tr>
-      <td id="T_3a14a_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_3a14a_row1_col1" class="data row1 col1">0.1179</td>
-    </tr>
-    <tr>
-      <td id="T_3a14a_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_3a14a_row2_col1" class="data row2 col1">0.0779</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>trans off</p>
+<table id="T_3a14a" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_3a14a_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_3a14a_level0_col1" class="col_heading level0 col1">offset</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_3a14a_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_3a14a_row0_col1" class="data row0 col1">0.8462</td>
+</tr>
+<tr class="even">
+<td id="T_3a14a_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_3a14a_row1_col1" class="data row1 col1">0.1179</td>
+</tr>
+<tr class="odd">
+<td id="T_3a14a_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_3a14a_row2_col1" class="data row2 col1">0.0779</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">obs matrix (H)</p> <style type="text/css">
-</style>
-<table id="T_54e38">
-  <thead>
-    <tr>
-      <th id="T_54e38_level0_col0" class="col_heading level0 col0">variable</th>
-      <th id="T_54e38_level0_col1" class="col_heading level0 col1">x_0</th>
-      <th id="T_54e38_level0_col2" class="col_heading level0 col2">x_1</th>
-      <th id="T_54e38_level0_col3" class="col_heading level0 col3">x_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_54e38_row0_col0" class="data row0 col0">y_0</td>
-      <td id="T_54e38_row0_col1" class="data row0 col1">0.0486</td>
-      <td id="T_54e38_row0_col2" class="data row0 col2">-0.0819</td>
-      <td id="T_54e38_row0_col3" class="data row0 col3">0.2397</td>
-    </tr>
-    <tr>
-      <td id="T_54e38_row1_col0" class="data row1 col0">y_1</td>
-      <td id="T_54e38_row1_col1" class="data row1 col1">0.2923</td>
-      <td id="T_54e38_row1_col2" class="data row1 col2">0.3889</td>
-      <td id="T_54e38_row1_col3" class="data row1 col3">0.4084</td>
-    </tr>
-    <tr>
-      <td id="T_54e38_row2_col0" class="data row2 col0">y_2</td>
-      <td id="T_54e38_row2_col1" class="data row2 col1">0.2078</td>
-      <td id="T_54e38_row2_col2" class="data row2 col2">0.8587</td>
-      <td id="T_54e38_row2_col3" class="data row2 col3">0.4657</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>obs matrix (H)</p>
+<table id="T_54e38" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_54e38_level0_col0" class="col_heading level0 col0">variable</th>
+<th id="T_54e38_level0_col1" class="col_heading level0 col1">x_0</th>
+<th id="T_54e38_level0_col2" class="col_heading level0 col2">x_1</th>
+<th id="T_54e38_level0_col3" class="col_heading level0 col3">x_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_54e38_row0_col0" class="data row0 col0">y_0</td>
+<td id="T_54e38_row0_col1" class="data row0 col1">0.0486</td>
+<td id="T_54e38_row0_col2" class="data row0 col2">-0.0819</td>
+<td id="T_54e38_row0_col3" class="data row0 col3">0.2397</td>
+</tr>
+<tr class="even">
+<td id="T_54e38_row1_col0" class="data row1 col0">y_1</td>
+<td id="T_54e38_row1_col1" class="data row1 col1">0.2923</td>
+<td id="T_54e38_row1_col2" class="data row1 col2">0.3889</td>
+<td id="T_54e38_row1_col3" class="data row1 col3">0.4084</td>
+</tr>
+<tr class="odd">
+<td id="T_54e38_row2_col0" class="data row2 col0">y_2</td>
+<td id="T_54e38_row2_col1" class="data row2 col1">0.2078</td>
+<td id="T_54e38_row2_col2" class="data row2 col2">0.8587</td>
+<td id="T_54e38_row2_col3" class="data row2 col3">0.4657</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">obs cov (R)</p> <style type="text/css">
-</style>
-<table id="T_8bbf7">
-  <thead>
-    <tr>
-      <th id="T_8bbf7_level0_col0" class="col_heading level0 col0">variable</th>
-      <th id="T_8bbf7_level0_col1" class="col_heading level0 col1">y_0</th>
-      <th id="T_8bbf7_level0_col2" class="col_heading level0 col2">y_1</th>
-      <th id="T_8bbf7_level0_col3" class="col_heading level0 col3">y_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_8bbf7_row0_col0" class="data row0 col0">y_0</td>
-      <td id="T_8bbf7_row0_col1" class="data row0 col1">0.1062</td>
-      <td id="T_8bbf7_row0_col2" class="data row0 col2">0.0000</td>
-      <td id="T_8bbf7_row0_col3" class="data row0 col3">0.0000</td>
-    </tr>
-    <tr>
-      <td id="T_8bbf7_row1_col0" class="data row1 col0">y_1</td>
-      <td id="T_8bbf7_row1_col1" class="data row1 col1">0.0000</td>
-      <td id="T_8bbf7_row1_col2" class="data row1 col2">0.3648</td>
-      <td id="T_8bbf7_row1_col3" class="data row1 col3">0.0000</td>
-    </tr>
-    <tr>
-      <td id="T_8bbf7_row2_col0" class="data row2 col0">y_2</td>
-      <td id="T_8bbf7_row2_col1" class="data row2 col1">0.0000</td>
-      <td id="T_8bbf7_row2_col2" class="data row2 col2">0.0000</td>
-      <td id="T_8bbf7_row2_col3" class="data row2 col3">0.3026</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>obs cov (R)</p>
+<table id="T_8bbf7" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_8bbf7_level0_col0" class="col_heading level0 col0">variable</th>
+<th id="T_8bbf7_level0_col1" class="col_heading level0 col1">y_0</th>
+<th id="T_8bbf7_level0_col2" class="col_heading level0 col2">y_1</th>
+<th id="T_8bbf7_level0_col3" class="col_heading level0 col3">y_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_8bbf7_row0_col0" class="data row0 col0">y_0</td>
+<td id="T_8bbf7_row0_col1" class="data row0 col1">0.1062</td>
+<td id="T_8bbf7_row0_col2" class="data row0 col2">0.0000</td>
+<td id="T_8bbf7_row0_col3" class="data row0 col3">0.0000</td>
+</tr>
+<tr class="even">
+<td id="T_8bbf7_row1_col0" class="data row1 col0">y_1</td>
+<td id="T_8bbf7_row1_col1" class="data row1 col1">0.0000</td>
+<td id="T_8bbf7_row1_col2" class="data row1 col2">0.3648</td>
+<td id="T_8bbf7_row1_col3" class="data row1 col3">0.0000</td>
+</tr>
+<tr class="odd">
+<td id="T_8bbf7_row2_col0" class="data row2 col0">y_2</td>
+<td id="T_8bbf7_row2_col1" class="data row2 col1">0.0000</td>
+<td id="T_8bbf7_row2_col2" class="data row2 col2">0.0000</td>
+<td id="T_8bbf7_row2_col3" class="data row2 col3">0.3026</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">obs off</p> <style type="text/css">
-</style>
-<table id="T_c1ff3">
-  <thead>
-    <tr>
-      <th id="T_c1ff3_level0_col0" class="col_heading level0 col0">variable</th>
-      <th id="T_c1ff3_level0_col1" class="col_heading level0 col1">offset</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_c1ff3_row0_col0" class="data row0 col0">y_0</td>
-      <td id="T_c1ff3_row0_col1" class="data row0 col1">0.3044</td>
-    </tr>
-    <tr>
-      <td id="T_c1ff3_row1_col0" class="data row1 col0">y_1</td>
-      <td id="T_c1ff3_row1_col1" class="data row1 col1">0.6826</td>
-    </tr>
-    <tr>
-      <td id="T_c1ff3_row2_col0" class="data row2 col0">y_2</td>
-      <td id="T_c1ff3_row2_col1" class="data row2 col1">0.8804</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>obs off</p>
+<table id="T_c1ff3" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_c1ff3_level0_col0" class="col_heading level0 col0">variable</th>
+<th id="T_c1ff3_level0_col1" class="col_heading level0 col1">offset</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_c1ff3_row0_col0" class="data row0 col0">y_0</td>
+<td id="T_c1ff3_row0_col1" class="data row0 col1">0.3044</td>
+</tr>
+<tr class="even">
+<td id="T_c1ff3_row1_col0" class="data row1 col0">y_1</td>
+<td id="T_c1ff3_row1_col1" class="data row1 col1">0.6826</td>
+</tr>
+<tr class="odd">
+<td id="T_c1ff3_row2_col0" class="data row2 col0">y_2</td>
+<td id="T_c1ff3_row2_col1" class="data row2 col1">0.8804</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">contr matrix (B)</p> <style type="text/css">
-</style>
-<table id="T_9bf1a">
-  <thead>
-    <tr>
-      <th id="T_9bf1a_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_9bf1a_level0_col1" class="col_heading level0 col1">c_0</th>
-      <th id="T_9bf1a_level0_col2" class="col_heading level0 col2">c_1</th>
-      <th id="T_9bf1a_level0_col3" class="col_heading level0 col3">c_2</th>
-      <th id="T_9bf1a_level0_col4" class="col_heading level0 col4">c_3</th>
-      <th id="T_9bf1a_level0_col5" class="col_heading level0 col5">c_4</th>
-      <th id="T_9bf1a_level0_col6" class="col_heading level0 col6">c_5</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_9bf1a_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_9bf1a_row0_col1" class="data row0 col1">0.1861</td>
-      <td id="T_9bf1a_row0_col2" class="data row0 col2">-0.1349</td>
-      <td id="T_9bf1a_row0_col3" class="data row0 col3">-0.7508</td>
-      <td id="T_9bf1a_row0_col4" class="data row0 col4">-0.2323</td>
-      <td id="T_9bf1a_row0_col5" class="data row0 col5">-0.0994</td>
-      <td id="T_9bf1a_row0_col6" class="data row0 col6">-0.2119</td>
-    </tr>
-    <tr>
-      <td id="T_9bf1a_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_9bf1a_row1_col1" class="data row1 col1">-0.8815</td>
-      <td id="T_9bf1a_row1_col2" class="data row1 col2">-0.2600</td>
-      <td id="T_9bf1a_row1_col3" class="data row1 col3">0.1871</td>
-      <td id="T_9bf1a_row1_col4" class="data row1 col4">-0.2865</td>
-      <td id="T_9bf1a_row1_col5" class="data row1 col5">0.0373</td>
-      <td id="T_9bf1a_row1_col6" class="data row1 col6">0.0849</td>
-    </tr>
-    <tr>
-      <td id="T_9bf1a_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_9bf1a_row2_col1" class="data row2 col1">1.0668</td>
-      <td id="T_9bf1a_row2_col2" class="data row2 col2">0.1513</td>
-      <td id="T_9bf1a_row2_col3" class="data row2 col3">-0.1757</td>
-      <td id="T_9bf1a_row2_col4" class="data row2 col4">0.6918</td>
-      <td id="T_9bf1a_row2_col5" class="data row2 col5">0.2565</td>
-      <td id="T_9bf1a_row2_col6" class="data row2 col6">-0.0567</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>contr matrix (B)</p>
+<table id="T_9bf1a" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_9bf1a_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_9bf1a_level0_col1" class="col_heading level0 col1">c_0</th>
+<th id="T_9bf1a_level0_col2" class="col_heading level0 col2">c_1</th>
+<th id="T_9bf1a_level0_col3" class="col_heading level0 col3">c_2</th>
+<th id="T_9bf1a_level0_col4" class="col_heading level0 col4">c_3</th>
+<th id="T_9bf1a_level0_col5" class="col_heading level0 col5">c_4</th>
+<th id="T_9bf1a_level0_col6" class="col_heading level0 col6">c_5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_9bf1a_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_9bf1a_row0_col1" class="data row0 col1">0.1861</td>
+<td id="T_9bf1a_row0_col2" class="data row0 col2">-0.1349</td>
+<td id="T_9bf1a_row0_col3" class="data row0 col3">-0.7508</td>
+<td id="T_9bf1a_row0_col4" class="data row0 col4">-0.2323</td>
+<td id="T_9bf1a_row0_col5" class="data row0 col5">-0.0994</td>
+<td id="T_9bf1a_row0_col6" class="data row0 col6">-0.2119</td>
+</tr>
+<tr class="even">
+<td id="T_9bf1a_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_9bf1a_row1_col1" class="data row1 col1">-0.8815</td>
+<td id="T_9bf1a_row1_col2" class="data row1 col2">-0.2600</td>
+<td id="T_9bf1a_row1_col3" class="data row1 col3">0.1871</td>
+<td id="T_9bf1a_row1_col4" class="data row1 col4">-0.2865</td>
+<td id="T_9bf1a_row1_col5" class="data row1 col5">0.0373</td>
+<td id="T_9bf1a_row1_col6" class="data row1 col6">0.0849</td>
+</tr>
+<tr class="odd">
+<td id="T_9bf1a_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_9bf1a_row2_col1" class="data row2 col1">1.0668</td>
+<td id="T_9bf1a_row2_col2" class="data row2 col2">0.1513</td>
+<td id="T_9bf1a_row2_col3" class="data row2 col3">-0.1757</td>
+<td id="T_9bf1a_row2_col4" class="data row2 col4">0.6918</td>
+<td id="T_9bf1a_row2_col5" class="data row2 col5">0.2565</td>
+<td id="T_9bf1a_row2_col6" class="data row2 col6">-0.0567</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">init state mean</p> <style type="text/css">
-</style>
-<table id="T_81651">
-  <thead>
-    <tr>
-      <th id="T_81651_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_81651_level0_col1" class="col_heading level0 col1">mean</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_81651_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_81651_row0_col1" class="data row0 col1">-0.1463</td>
-    </tr>
-    <tr>
-      <td id="T_81651_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_81651_row1_col1" class="data row1 col1">-0.1932</td>
-    </tr>
-    <tr>
-      <td id="T_81651_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_81651_row2_col1" class="data row2 col1">-0.0464</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>init state mean</p>
+<table id="T_81651" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_81651_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_81651_level0_col1" class="col_heading level0 col1">mean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_81651_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_81651_row0_col1" class="data row0 col1">-0.1463</td>
+</tr>
+<tr class="even">
+<td id="T_81651_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_81651_row1_col1" class="data row1 col1">-0.1932</td>
+</tr>
+<tr class="odd">
+<td id="T_81651_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_81651_row2_col1" class="data row2 col1">-0.0464</td>
+</tr>
+</tbody>
 </table>
- </div><div> <p style="font-size: 1.3rem;">init state cov</p> <style type="text/css">
-</style>
-<table id="T_7bc3f">
-  <thead>
-    <tr>
-      <th id="T_7bc3f_level0_col0" class="col_heading level0 col0">state</th>
-      <th id="T_7bc3f_level0_col1" class="col_heading level0 col1">x_0</th>
-      <th id="T_7bc3f_level0_col2" class="col_heading level0 col2">x_1</th>
-      <th id="T_7bc3f_level0_col3" class="col_heading level0 col3">x_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="T_7bc3f_row0_col0" class="data row0 col0">x_0</td>
-      <td id="T_7bc3f_row0_col1" class="data row0 col1">0.4236</td>
-      <td id="T_7bc3f_row0_col2" class="data row0 col2">0.0944</td>
-      <td id="T_7bc3f_row0_col3" class="data row0 col3">0.3904</td>
-    </tr>
-    <tr>
-      <td id="T_7bc3f_row1_col0" class="data row1 col0">x_1</td>
-      <td id="T_7bc3f_row1_col1" class="data row1 col1">0.0944</td>
-      <td id="T_7bc3f_row1_col2" class="data row1 col2">0.2095</td>
-      <td id="T_7bc3f_row1_col3" class="data row1 col3">0.6389</td>
-    </tr>
-    <tr>
-      <td id="T_7bc3f_row2_col0" class="data row2 col0">x_2</td>
-      <td id="T_7bc3f_row2_col1" class="data row2 col1">0.3904</td>
-      <td id="T_7bc3f_row2_col2" class="data row2 col2">0.6389</td>
-      <td id="T_7bc3f_row2_col3" class="data row2 col3">6.4219</td>
-    </tr>
-  </tbody>
+</div>
+<div>
+<p>init state cov</p>
+<table id="T_7bc3f" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_7bc3f_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_7bc3f_level0_col1" class="col_heading level0 col1">x_0</th>
+<th id="T_7bc3f_level0_col2" class="col_heading level0 col2">x_1</th>
+<th id="T_7bc3f_level0_col3" class="col_heading level0 col3">x_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_7bc3f_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_7bc3f_row0_col1" class="data row0 col1">0.4236</td>
+<td id="T_7bc3f_row0_col2" class="data row0 col2">0.0944</td>
+<td id="T_7bc3f_row0_col3" class="data row0 col3">0.3904</td>
+</tr>
+<tr class="even">
+<td id="T_7bc3f_row1_col0" class="data row1 col0">x_1</td>
+<td id="T_7bc3f_row1_col1" class="data row1 col1">0.0944</td>
+<td id="T_7bc3f_row1_col2" class="data row1 col2">0.2095</td>
+<td id="T_7bc3f_row1_col3" class="data row1 col3">0.6389</td>
+</tr>
+<tr class="odd">
+<td id="T_7bc3f_row2_col0" class="data row2 col0">x_2</td>
+<td id="T_7bc3f_row2_col1" class="data row2 col1">0.3904</td>
+<td id="T_7bc3f_row2_col2" class="data row2 col2">0.6389</td>
+<td id="T_7bc3f_row2_col3" class="data row2 col3">6.4219</td>
+</tr>
+</tbody>
 </table>
- </div></div>
+</div>
 </div>
 </div>
 <div class="cell">

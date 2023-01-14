@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.97">
+<meta name="generator" content="quarto-1.3.107">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -427,342 +427,88 @@ FLX_ZM-Mon_FLUXNET2015_FULLSET_HH_2000-2009_2-4</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>site_info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
-</style>
-<small>shape: (206, 3)</small><table class="dataframe table table-sm table-striped">
-
-<thead>
-<tr>
-<th>
+<span class="small">shape: (206, 3)</span>
 start
-</th>
-<th>
 end
-</th>
-<th>
 site
-</th>
-</tr>
-<tr>
-<td>
 i64
-</td>
-<td>
 i64
-</td>
-<td>
 str
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
 200901010030
-</td>
-<td>
 201201010000
-</td>
-<td>
 "AR-SLu"
-</td>
-</tr>
-<tr>
-<td>
 200901010030
-</td>
-<td>
 201301010000
-</td>
-<td>
 "AR-Vir"
-</td>
-</tr>
-<tr>
-<td>
 200201010030
-</td>
-<td>
 201301010000
-</td>
-<td>
 "AT-Neu"
-</td>
-</tr>
-<tr>
-<td>
 200701010030
-</td>
-<td>
 201001010000
-</td>
-<td>
 "AU-Ade"
-</td>
-</tr>
-<tr>
-<td>
 201001010030
-</td>
-<td>
 201501010000
-</td>
-<td>
 "AU-ASM"
-</td>
-</tr>
-<tr>
-<td>
 201001010030
-</td>
-<td>
 201501010000
-</td>
-<td>
 "AU-Cpr"
-</td>
-</tr>
-<tr>
-<td>
 201201010030
-</td>
-<td>
 201501010000
-</td>
-<td>
 "AU-Cum"
-</td>
-</tr>
-<tr>
-<td>
 200701010030
-</td>
-<td>
 201401010000
-</td>
-<td>
 "AU-DaP"
-</td>
-</tr>
-<tr>
-<td>
 200801010030
-</td>
-<td>
 201501010000
-</td>
-<td>
 "AU-DaS"
-</td>
-</tr>
-<tr>
-<td>
 200801010030
-</td>
-<td>
 201501010000
-</td>
-<td>
 "AU-Dry"
-</td>
-</tr>
-<tr>
-<td>
 201101010030
-</td>
-<td>
 201401010000
-</td>
-<td>
 "AU-Emr"
-</td>
-</tr>
-<tr>
-<td>
 200601010030
-</td>
-<td>
 200901010000
-</td>
-<td>
 "AU-Fog"
-</td>
-</tr>
-<tr>
-<td>
 ...
-</td>
-<td>
 ...
-</td>
-<td>
 ...
-</td>
-</tr>
-<tr>
-<td>
 200301010030
-</td>
-<td>
 200401010000
-</td>
-<td>
 "US-Wi1"
-</td>
-</tr>
-<tr>
-<td>
 200301010030
-</td>
-<td>
 200401010000
-</td>
-<td>
 "US-Wi2"
-</td>
-</tr>
-<tr>
-<td>
 200201010030
-</td>
-<td>
 200501010000
-</td>
-<td>
 "US-Wi3"
-</td>
-</tr>
-<tr>
-<td>
 200201010030
-</td>
-<td>
 200601010000
-</td>
-<td>
 "US-Wi4"
-</td>
-</tr>
-<tr>
-<td>
 200401010030
-</td>
-<td>
 200501010000
-</td>
-<td>
 "US-Wi5"
-</td>
-</tr>
-<tr>
-<td>
 200201010030
-</td>
-<td>
 200401010000
-</td>
-<td>
 "US-Wi6"
-</td>
-</tr>
-<tr>
-<td>
 200501010030
-</td>
-<td>
 200601010000
-</td>
-<td>
 "US-Wi7"
-</td>
-</tr>
-<tr>
-<td>
 200201010030
-</td>
-<td>
 200301010000
-</td>
-<td>
 "US-Wi8"
-</td>
-</tr>
-<tr>
-<td>
 200401010030
-</td>
-<td>
 200601010000
-</td>
-<td>
 "US-Wi9"
-</td>
-</tr>
-<tr>
-<td>
 200401010030
-</td>
-<td>
 201501010000
-</td>
-<td>
 "US-Wkg"
-</td>
-</tr>
-<tr>
-<td>
 201101010030
-</td>
-<td>
 201401010000
-</td>
-<td>
 "US-WPT"
-</td>
-</tr>
-<tr>
-<td>
 200001010030
-</td>
-<td>
 201001010000
-</td>
-<td>
 "ZM-Mon"
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 </div>
 <div class="cell">
