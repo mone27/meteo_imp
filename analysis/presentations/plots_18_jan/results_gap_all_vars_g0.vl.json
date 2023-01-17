@@ -6770,7 +6770,7 @@
                     }
                   },
                   "mark": "errorband",
-                  "name": "view_19"
+                  "name": "view_10"
                 },
                 {
                   "data": {
@@ -6971,7 +6971,7 @@
                     }
                   },
                   "mark": "errorband",
-                  "name": "view_20"
+                  "name": "view_11"
                 },
                 {
                   "data": {
@@ -7176,7 +7176,7 @@
                     }
                   },
                   "mark": "errorband",
-                  "name": "view_21"
+                  "name": "view_12"
                 },
                 {
                   "data": {
@@ -7241,7 +7241,7 @@
   "params": [
     {
       "bind": "scales",
-      "name": "param_40",
+      "name": "param_19",
       "select": {
         "encodings": [
           "x"
@@ -7249,9 +7249,9 @@
         "type": "interval"
       },
       "views": [
-        "view_19",
-        "view_20",
-        "view_21"
+        "view_10",
+        "view_11",
+        "view_12"
       ]
     }
   ]
