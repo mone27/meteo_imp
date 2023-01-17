@@ -18,7 +18,7 @@ jobs:
           sudo dpkg -i quarto*.deb
       - name: R Dependencies
         run: |
-          Rscript setup.R
+          sudo Rscript setup.R
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
