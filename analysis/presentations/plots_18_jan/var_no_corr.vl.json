@@ -1,0 +1,659 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 400
+    }
+  },
+  "datasets": {
+    "data-ebc897f424512192eb4d8cce7ed1ca99": [
+      {
+        "err_high": 0.653130292892456,
+        "err_low": -0.6403472423553467,
+        "is_present": true,
+        "mean": 0.006391498260200024,
+        "std": 0.3233693838119507,
+        "time": 0,
+        "value": 0.0577642098069191,
+        "variable": "var1"
+      },
+      {
+        "err_high": 1.2009831666946411,
+        "err_low": -0.3609884977340698,
+        "is_present": true,
+        "mean": 0.41999733448028564,
+        "std": 0.39049291610717773,
+        "time": 1,
+        "value": 0.40951621532440186,
+        "variable": "var1"
+      },
+      {
+        "err_high": 1.6882140636444092,
+        "err_low": 0.1151089072227478,
+        "is_present": true,
+        "mean": 0.9016614556312561,
+        "std": 0.39327627420425415,
+        "time": 2,
+        "value": 0.9515239596366882,
+        "variable": "var1"
+      },
+      {
+        "err_high": 1.9287946224212646,
+        "err_low": 0.35518455505371094,
+        "is_present": true,
+        "mean": 1.1419895887374878,
+        "std": 0.3934025168418884,
+        "time": 3,
+        "value": 1.2702698707580566,
+        "variable": "var1"
+      },
+      {
+        "err_high": 2.0163092613220215,
+        "err_low": 0.4426761269569397,
+        "is_present": true,
+        "mean": 1.2294926643371582,
+        "std": 0.39340826869010925,
+        "time": 4,
+        "value": 1.268404245376587,
+        "variable": "var1"
+      },
+      {
+        "err_high": 2.09016489982605,
+        "err_low": 0.5165309309959412,
+        "is_present": true,
+        "mean": 1.3033479452133179,
+        "std": 0.39340850710868835,
+        "time": 5,
+        "value": 1.3472391366958618,
+        "variable": "var1"
+      },
+      {
+        "err_high": 1.9462890625,
+        "err_low": 0.37265467643737793,
+        "is_present": true,
+        "mean": 1.159471869468689,
+        "std": 0.3934085965156555,
+        "time": 6,
+        "value": 1.2073345184326172,
+        "variable": "var1"
+      },
+      {
+        "err_high": 1.6503725051879883,
+        "err_low": 0.07673406600952148,
+        "is_present": true,
+        "mean": 0.8635532855987549,
+        "std": 0.3934096097946167,
+        "time": 7,
+        "value": 0.8917664289474487,
+        "variable": "var1"
+      },
+      {
+        "err_high": 1.332903265953064,
+        "err_low": -0.24082493782043457,
+        "is_present": true,
+        "mean": 0.5460391640663147,
+        "std": 0.39343205094337463,
+        "time": 8,
+        "value": 0.6001285910606384,
+        "variable": "var1"
+      },
+      {
+        "err_high": 0.8728076815605164,
+        "err_low": -0.7028921246528625,
+        "is_present": true,
+        "mean": 0.0849578008055687,
+        "std": 0.3939249515533447,
+        "time": 9,
+        "value": 0.007623367477208376,
+        "variable": "var1"
+      },
+      {
+        "err_high": 0.5792823433876038,
+        "err_low": -1.039118766784668,
+        "is_present": true,
+        "mean": -0.2299182415008545,
+        "std": 0.4046002924442291,
+        "time": 10,
+        "value": -0.3037753403186798,
+        "variable": "var1"
+      },
+      {
+        "err_high": 0.8715188503265381,
+        "err_low": -1.4980976581573486,
+        "is_present": false,
+        "mean": -0.31328943371772766,
+        "std": 0.5924041271209717,
+        "time": 11,
+        "value": -0.7754929065704346,
+        "variable": "var1"
+      },
+      {
+        "err_high": 0.9646440744400024,
+        "err_low": -1.7579652070999146,
+        "is_present": false,
+        "mean": -0.39666059613227844,
+        "std": 0.6806523203849792,
+        "time": 12,
+        "value": -1.2382450103759766,
+        "variable": "var1"
+      },
+      {
+        "err_high": 0.9352222681045532,
+        "err_low": -1.895285725593567,
+        "is_present": false,
+        "mean": -0.4800317585468292,
+        "std": 0.70762699842453,
+        "time": 13,
+        "value": -1.4778615236282349,
+        "variable": "var1"
+      },
+      {
+        "err_high": 0.7979023456573486,
+        "err_low": -1.9247081279754639,
+        "is_present": false,
+        "mean": -0.5634028911590576,
+        "std": 0.6806526184082031,
+        "time": 14,
+        "value": -1.3436979055404663,
+        "variable": "var1"
+      },
+      {
+        "err_high": 0.5380357503890991,
+        "err_low": -1.831583857536316,
+        "is_present": false,
+        "mean": -0.6467740535736084,
+        "std": 0.5924049019813538,
+        "time": 15,
+        "value": -1.4217334985733032,
+        "variable": "var1"
+      },
+      {
+        "err_high": 0.07905888557434082,
+        "err_low": -1.5393493175506592,
+        "is_present": true,
+        "mean": -0.7301452159881592,
+        "std": 0.40460205078125,
+        "time": 16,
+        "value": -0.8821228742599487,
+        "variable": "var1"
+      },
+      {
+        "err_high": 0.43462517857551575,
+        "err_low": -1.1411993503570557,
+        "is_present": true,
+        "mean": -0.35328707098960876,
+        "std": 0.39395612478256226,
+        "time": 17,
+        "value": -0.3729180693626404,
+        "variable": "var1"
+      },
+      {
+        "err_high": 0.7635769248008728,
+        "err_low": -0.8128555417060852,
+        "is_present": true,
+        "mean": -0.024639301002025604,
+        "std": 0.3941081166267395,
+        "time": 18,
+        "value": -0.12094665318727493,
+        "variable": "var1"
+      },
+      {
+        "err_high": 1.1591517925262451,
+        "err_low": -0.4728180766105652,
+        "is_present": true,
+        "mean": 0.34316688776016235,
+        "std": 0.40799248218536377,
+        "time": 19,
+        "value": 0.42195945978164673,
+        "variable": "var1"
+      }
+    ],
+    "data-f958206918198e873406d418e78d31af": [
+      {
+        "err_high": 0.6378422379493713,
+        "err_low": -0.6323638558387756,
+        "is_present": true,
+        "mean": 0.002739213639870286,
+        "std": 0.31755152344703674,
+        "time": 0,
+        "value": -0.206979900598526,
+        "variable": "var2"
+      },
+      {
+        "err_high": 0.842237651348114,
+        "err_low": -0.48223990201950073,
+        "is_present": true,
+        "mean": 0.17999887466430664,
+        "std": 0.3311193883419037,
+        "time": 1,
+        "value": 0.13963855803012848,
+        "variable": "var2"
+      },
+      {
+        "err_high": 1.0498740673065186,
+        "err_low": -0.2770213782787323,
+        "is_present": true,
+        "mean": 0.3864263594150543,
+        "std": 0.3317238688468933,
+        "time": 2,
+        "value": 0.4999198019504547,
+        "variable": "var2"
+      },
+      {
+        "err_high": 1.1529269218444824,
+        "err_low": -0.17407861351966858,
+        "is_present": true,
+        "mean": 0.4894241392612457,
+        "std": 0.33175137639045715,
+        "time": 3,
+        "value": 0.3356480598449707,
+        "variable": "var2"
+      },
+      {
+        "err_high": 1.1904306411743164,
+        "err_low": -0.13657981157302856,
+        "is_present": true,
+        "mean": 0.5269254446029663,
+        "std": 0.33175262808799744,
+        "time": 4,
+        "value": 0.44912946224212646,
+        "variable": "var2"
+      },
+      {
+        "err_high": 1.2220830917358398,
+        "err_low": -0.104927659034729,
+        "is_present": true,
+        "mean": 0.5585777163505554,
+        "std": 0.3317526876926422,
+        "time": 5,
+        "value": 0.6635240912437439,
+        "variable": "var2"
+      },
+      {
+        "err_high": 1.1604218482971191,
+        "err_low": -0.16658884286880493,
+        "is_present": true,
+        "mean": 0.4969165325164795,
+        "std": 0.3317526876926422,
+        "time": 6,
+        "value": 0.5300363898277283,
+        "variable": "var2"
+      },
+      {
+        "err_high": 1.033600091934204,
+        "err_low": -0.2934115529060364,
+        "is_present": true,
+        "mean": 0.37009429931640625,
+        "std": 0.3317529261112213,
+        "time": 7,
+        "value": 0.3248302638530731,
+        "variable": "var2"
+      },
+      {
+        "err_high": 0.8975324630737305,
+        "err_low": -0.4294988214969635,
+        "is_present": true,
+        "mean": 0.2340168058872223,
+        "std": 0.3317578136920929,
+        "time": 8,
+        "value": 0.24453619122505188,
+        "variable": "var2"
+      },
+      {
+        "err_high": 0.7001409530639648,
+        "err_low": -0.6273199319839478,
+        "is_present": true,
+        "mean": 0.036410488188266754,
+        "std": 0.33186522126197815,
+        "time": 9,
+        "value": 0.07761684060096741,
+        "variable": "var2"
+      },
+      {
+        "err_high": 0.5698953866958618,
+        "err_low": -0.7669681310653687,
+        "is_present": true,
+        "mean": -0.09853639453649521,
+        "std": 0.3342158794403076,
+        "time": 10,
+        "value": -0.14667966961860657,
+        "variable": "var2"
+      },
+      {
+        "err_high": 0.6301714777946472,
+        "err_low": -0.8987053036689758,
+        "is_present": false,
+        "mean": -0.1342669129371643,
+        "std": 0.38221919536590576,
+        "time": 11,
+        "value": -0.349772185087204,
+        "variable": "var2"
+      },
+      {
+        "err_high": 0.6466452479362488,
+        "err_low": -0.9866400361061096,
+        "is_present": false,
+        "mean": -0.1699974089860916,
+        "std": 0.4083213210105896,
+        "time": 12,
+        "value": -0.521894633769989,
+        "variable": "var2"
+      },
+      {
+        "err_high": 0.6275897026062012,
+        "err_low": -1.0390455722808838,
+        "is_present": false,
+        "mean": -0.20572790503501892,
+        "std": 0.41665881872177124,
+        "time": 13,
+        "value": -0.544994592666626,
+        "variable": "var2"
+      },
+      {
+        "err_high": 0.5751844048500061,
+        "err_low": -1.0581011772155762,
+        "is_present": false,
+        "mean": -0.24145840108394623,
+        "std": 0.40832141041755676,
+        "time": 14,
+        "value": -0.6137409806251526,
+        "variable": "var2"
+      },
+      {
+        "err_high": 0.4872499108314514,
+        "err_low": -1.0416276454925537,
+        "is_present": false,
+        "mean": -0.27718889713287354,
+        "std": 0.3822194039821625,
+        "time": 15,
+        "value": -0.519931972026825,
+        "variable": "var2"
+      },
+      {
+        "err_high": 0.35551315546035767,
+        "err_low": -0.981351912021637,
+        "is_present": true,
+        "mean": -0.31291937828063965,
+        "std": 0.33421626687049866,
+        "time": 16,
+        "value": -0.3966090679168701,
+        "variable": "var2"
+      },
+      {
+        "err_high": 0.5123353004455566,
+        "err_low": -0.8151527643203735,
+        "is_present": true,
+        "mean": -0.15140876173973083,
+        "std": 0.33187201619148254,
+        "time": 17,
+        "value": -0.059689491987228394,
+        "variable": "var2"
+      },
+      {
+        "err_high": 0.6532506346702576,
+        "err_low": -0.6743699908256531,
+        "is_present": true,
+        "mean": -0.010559700429439545,
+        "std": 0.33190515637397766,
+        "time": 18,
+        "value": 0.17686443030834198,
+        "variable": "var2"
+      },
+      {
+        "err_high": 0.8170164823532104,
+        "err_low": -0.5228734016418457,
+        "is_present": true,
+        "mean": 0.14707154035568237,
+        "std": 0.33497247099876404,
+        "time": 19,
+        "value": 0.3135068416595459,
+        "variable": "var2"
+      }
+    ]
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_17",
+      "select": {
+        "encodings": [
+          "x"
+        ],
+        "type": "interval"
+      },
+      "views": [
+        "view_7",
+        "view_8"
+      ]
+    }
+  ],
+  "vconcat": [
+    {
+      "data": {
+        "name": "data-ebc897f424512192eb4d8cce7ed1ca99"
+      },
+      "hconcat": [
+        {
+          "height": 220,
+          "layer": [
+            {
+              "encoding": {
+                "fill": {
+                  "field": "is_present",
+                  "legend": {
+                    "title": [
+                      "Observed data"
+                    ]
+                  },
+                  "scale": {
+                    "range": [
+                      "black",
+                      "#ffffff00"
+                    ]
+                  },
+                  "type": "nominal"
+                },
+                "shape": {
+                  "field": "is_present",
+                  "type": "nominal"
+                },
+                "x": {
+                  "axis": {
+                    "domain": true,
+                    "labels": true,
+                    "ticks": true,
+                    "title": "time"
+                  },
+                  "field": "time",
+                  "type": "quantitative"
+                },
+                "y": {
+                  "field": "value",
+                  "scale": {
+                    "zero": false
+                  },
+                  "title": "",
+                  "type": "quantitative"
+                }
+              },
+              "mark": {
+                "color": "black",
+                "fillOpacity": 1,
+                "strokeWidth": 1,
+                "type": "point"
+              }
+            },
+            {
+              "encoding": {
+                "color": {
+                  "field": "variable",
+                  "legend": {
+                    "title": [
+                      "Line: pred. mean",
+                      "area: +/- 2 std"
+                    ]
+                  },
+                  "type": "nominal"
+                },
+                "x": {
+                  "field": "time",
+                  "type": "quantitative"
+                },
+                "y": {
+                  "field": "err_low",
+                  "scale": {
+                    "zero": false
+                  },
+                  "title": "",
+                  "type": "quantitative"
+                },
+                "y2": {
+                  "field": "err_high"
+                }
+              },
+              "mark": "errorband",
+              "name": "view_7"
+            },
+            {
+              "encoding": {
+                "color": {
+                  "field": "variable",
+                  "type": "nominal"
+                },
+                "x": {
+                  "field": "time",
+                  "type": "quantitative"
+                },
+                "y": {
+                  "field": "mean",
+                  "scale": {
+                    "zero": false
+                  },
+                  "title": "",
+                  "type": "quantitative"
+                }
+              },
+              "mark": "line"
+            }
+          ],
+          "title": "",
+          "width": 350
+        }
+      ]
+    },
+    {
+      "data": {
+        "name": "data-f958206918198e873406d418e78d31af"
+      },
+      "hconcat": [
+        {
+          "height": 220,
+          "layer": [
+            {
+              "encoding": {
+                "fill": {
+                  "field": "is_present",
+                  "legend": {
+                    "title": [
+                      "Observed data"
+                    ]
+                  },
+                  "scale": {
+                    "range": [
+                      "black",
+                      "#ffffff00"
+                    ]
+                  },
+                  "type": "nominal"
+                },
+                "shape": {
+                  "field": "is_present",
+                  "type": "nominal"
+                },
+                "x": {
+                  "axis": {
+                    "domain": true,
+                    "labels": true,
+                    "ticks": true,
+                    "title": "time"
+                  },
+                  "field": "time",
+                  "type": "quantitative"
+                },
+                "y": {
+                  "field": "value",
+                  "scale": {
+                    "zero": false
+                  },
+                  "title": "",
+                  "type": "quantitative"
+                }
+              },
+              "mark": {
+                "color": "black",
+                "fillOpacity": 1,
+                "strokeWidth": 1,
+                "type": "point"
+              }
+            },
+            {
+              "encoding": {
+                "color": {
+                  "field": "variable",
+                  "legend": {
+                    "title": [
+                      "Line: pred. mean",
+                      "area: +/- 2 std"
+                    ]
+                  },
+                  "type": "nominal"
+                },
+                "x": {
+                  "field": "time",
+                  "type": "quantitative"
+                },
+                "y": {
+                  "field": "err_low",
+                  "scale": {
+                    "zero": false
+                  },
+                  "title": "",
+                  "type": "quantitative"
+                },
+                "y2": {
+                  "field": "err_high"
+                }
+              },
+              "mark": "errorband",
+              "name": "view_8"
+            },
+            {
+              "encoding": {
+                "color": {
+                  "field": "variable",
+                  "type": "nominal"
+                },
+                "x": {
+                  "field": "time",
+                  "type": "quantitative"
+                },
+                "y": {
+                  "field": "mean",
+                  "scale": {
+                    "zero": false
+                  },
+                  "title": "",
+                  "type": "quantitative"
+                }
+              },
+              "mark": "line"
+            }
+          ],
+          "title": "",
+          "width": 350
+        }
+      ]
+    }
+  ]
+}

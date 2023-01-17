@@ -1,0 +1,256 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 400
+    }
+  },
+  "data": {
+    "name": "data-469d6e4b0867b438d05780d7644cf8b4"
+  },
+  "datasets": {
+    "data-469d6e4b0867b438d05780d7644cf8b4": [
+      {
+        "err_high": 0.020020000636577606,
+        "err_low": -0.020020000636577606,
+        "mean": 0.0,
+        "std": 0.010010000318288803,
+        "time": 0,
+        "variable": "state"
+      },
+      {
+        "err_high": 0.6200400590896606,
+        "err_low": -0.6200400590896606,
+        "mean": 0.0,
+        "std": 0.3100200295448303,
+        "time": 1,
+        "variable": "state"
+      },
+      {
+        "err_high": 1.220060110092163,
+        "err_low": -1.220060110092163,
+        "mean": 0.0,
+        "std": 0.6100300550460815,
+        "time": 2,
+        "variable": "state"
+      },
+      {
+        "err_high": 1.8200801610946655,
+        "err_low": -1.8200801610946655,
+        "mean": 0.0,
+        "std": 0.9100400805473328,
+        "time": 3,
+        "variable": "state"
+      },
+      {
+        "err_high": 2.420100212097168,
+        "err_low": -2.420100212097168,
+        "mean": 0.0,
+        "std": 1.210050106048584,
+        "time": 4,
+        "variable": "state"
+      },
+      {
+        "err_high": 3.020120143890381,
+        "err_low": -3.020120143890381,
+        "mean": 0.0,
+        "std": 1.5100600719451904,
+        "time": 5,
+        "variable": "state"
+      },
+      {
+        "err_high": 3.6201400756835938,
+        "err_low": -3.6201400756835938,
+        "mean": 0.0,
+        "std": 1.8100700378417969,
+        "time": 6,
+        "variable": "state"
+      },
+      {
+        "err_high": 4.220160007476807,
+        "err_low": -4.220160007476807,
+        "mean": 0.0,
+        "std": 2.1100800037384033,
+        "time": 7,
+        "variable": "state"
+      },
+      {
+        "err_high": 4.8201799392700195,
+        "err_low": -4.8201799392700195,
+        "mean": 0.0,
+        "std": 2.4100899696350098,
+        "time": 8,
+        "variable": "state"
+      },
+      {
+        "err_high": 5.420199871063232,
+        "err_low": -5.420199871063232,
+        "mean": 0.0,
+        "std": 2.710099935531616,
+        "time": 9,
+        "variable": "state"
+      },
+      {
+        "err_high": 6.020219802856445,
+        "err_low": -6.020219802856445,
+        "mean": 0.0,
+        "std": 3.0101099014282227,
+        "time": 10,
+        "variable": "state"
+      },
+      {
+        "err_high": 6.620239734649658,
+        "err_low": -6.620239734649658,
+        "mean": 0.0,
+        "std": 3.310119867324829,
+        "time": 11,
+        "variable": "state"
+      },
+      {
+        "err_high": 7.220259666442871,
+        "err_low": -7.220259666442871,
+        "mean": 0.0,
+        "std": 3.6101298332214355,
+        "time": 12,
+        "variable": "state"
+      },
+      {
+        "err_high": 7.820279598236084,
+        "err_low": -7.820279598236084,
+        "mean": 0.0,
+        "std": 3.910139799118042,
+        "time": 13,
+        "variable": "state"
+      },
+      {
+        "err_high": 8.420299530029297,
+        "err_low": -8.420299530029297,
+        "mean": 0.0,
+        "std": 4.210149765014648,
+        "time": 14,
+        "variable": "state"
+      },
+      {
+        "err_high": 9.020319938659668,
+        "err_low": -9.020319938659668,
+        "mean": 0.0,
+        "std": 4.510159969329834,
+        "time": 15,
+        "variable": "state"
+      },
+      {
+        "err_high": 9.620340347290039,
+        "err_low": -9.620340347290039,
+        "mean": 0.0,
+        "std": 4.8101701736450195,
+        "time": 16,
+        "variable": "state"
+      },
+      {
+        "err_high": 10.22036075592041,
+        "err_low": -10.22036075592041,
+        "mean": 0.0,
+        "std": 5.110180377960205,
+        "time": 17,
+        "variable": "state"
+      },
+      {
+        "err_high": 10.820381164550781,
+        "err_low": -10.820381164550781,
+        "mean": 0.0,
+        "std": 5.410190582275391,
+        "time": 18,
+        "variable": "state"
+      },
+      {
+        "err_high": 11.420401573181152,
+        "err_low": -11.420401573181152,
+        "mean": 0.0,
+        "std": 5.710200786590576,
+        "time": 19,
+        "variable": "state"
+      }
+    ]
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_7",
+      "select": {
+        "encodings": [
+          "x"
+        ],
+        "type": "interval"
+      },
+      "views": [
+        "view_1"
+      ]
+    }
+  ],
+  "vconcat": [
+    {
+      "hconcat": [
+        {
+          "height": 400,
+          "layer": [
+            {
+              "encoding": {
+                "color": {
+                  "field": "variable",
+                  "legend": {
+                    "title": [
+                      "Line: pred. mean",
+                      "area: +/- 2 std"
+                    ]
+                  },
+                  "type": "nominal"
+                },
+                "x": {
+                  "field": "time",
+                  "type": "quantitative"
+                },
+                "y": {
+                  "field": "err_low",
+                  "scale": {
+                    "zero": false
+                  },
+                  "title": "var",
+                  "type": "quantitative"
+                },
+                "y2": {
+                  "field": "err_high"
+                }
+              },
+              "mark": "errorband",
+              "name": "view_1"
+            },
+            {
+              "encoding": {
+                "color": {
+                  "field": "variable",
+                  "type": "nominal"
+                },
+                "x": {
+                  "field": "time",
+                  "type": "quantitative"
+                },
+                "y": {
+                  "field": "mean",
+                  "scale": {
+                    "zero": false
+                  },
+                  "title": "var",
+                  "type": "quantitative"
+                }
+              },
+              "mark": "line"
+            }
+          ],
+          "title": "",
+          "width": 460
+        }
+      ]
+    }
+  ]
+}
