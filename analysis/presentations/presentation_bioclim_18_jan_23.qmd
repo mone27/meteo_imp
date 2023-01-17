@@ -14,7 +14,7 @@ library(vegawidget)
 library(magrittr)
 library(here)
 
-base_path <- here::here("presentations/plots_18_jan/")
+base_path <- here::here("analysis/presentations/plots_18_jan/")
 show_plot <- function(path){
   f_name = paste0(base_path, path, ".vl.json")
   as_vegaspec(f_name)
