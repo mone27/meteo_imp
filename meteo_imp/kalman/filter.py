@@ -191,6 +191,8 @@ def _filter_correct_batch(
                     mask, # [n_obs_np, n_obs] mask to obtain non missing obs from obs
                     cov_checker=CheckPosDef()):
     """Update state at time `t` given observations at time `t` assuming that all observations have the same mask"""
+    
+    if (~mask).all(): return (pred_state_mean, pred_state_cov)
 
     m_obs_matrix, m_obs_off, m_obs, m_obs_cov = obs_matrix[mask], obs_off[mask], obs[:, mask], obs_cov[mask][:,mask]
     
