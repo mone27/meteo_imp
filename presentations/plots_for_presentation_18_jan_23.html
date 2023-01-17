@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.115">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Meteo Imputation – plots_for_presentation_18_jan_23</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Meteo Imputation</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../lib" rel="" target="">
+ <span class="menu-text">Library Docs</span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#code-for-presentation-of-18th-january" id="toc-code-for-presentation-of-18th-january" class="nav-link active" data-scroll-target="#code-for-presentation-of-18th-january">Code for presentation of 18th January</a>
+  <ul class="collapse">
+  <li><a href="#only-state" id="toc-only-state" class="nav-link" data-scroll-target="#only-state">Only state</a></li>
+  <li><a href="#observations" id="toc-observations" class="nav-link" data-scroll-target="#observations">Observations</a></li>
+  <li><a href="#gaps" id="toc-gaps" class="nav-link" data-scroll-target="#gaps">Gaps</a></li>
+  <li><a href="#control" id="toc-control" class="nav-link" data-scroll-target="#control">Control</a></li>
+  <li><a href="#variables-correlation" id="toc-variables-correlation" class="nav-link" data-scroll-target="#variables-correlation">Variables correlation</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+
+
+<section id="code-for-presentation-of-18th-january" class="level1">
+<h1>Code for presentation of 18th January</h1>
+<p>::: {.cell 0=‘h’ 1=‘i’ 2=‘d’ 3=‘e’}</p>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext autoreload</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>autoreload <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.kalman.<span class="bu">filter</span> <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.kalman.fastai <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.kalman.fastai <span class="im">import</span> plot_variable</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyprojroot <span class="im">import</span> here</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n_obs <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>base_dir <span class="op">=</span> here(<span class="st">"presentations/plots_18_jan"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>base_dir.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> save_plot(p, path):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    f_name <span class="op">=</span> base_dir <span class="op">/</span> (path <span class="op">+</span> <span class="st">".vl.json"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(f_name, <span class="st">'w'</span>) <span class="im">as</span> f:</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        f.write(p.to_json())</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> f_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>plt_props <span class="op">=</span> {<span class="st">'width'</span>: <span class="dv">460</span>, <span class="st">'height'</span>: <span class="dv">400</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="only-state" class="level2">
+<h2 class="anchored" data-anchor-id="only-state">Only state</h2>
+<p><span class="math display">\[ x_t = A\color{blue}{x_{-1}} + \varepsilon\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>torch.tensor([[<span class="fl">0.</span>]]).shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([1, 1])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>k0 <span class="op">=</span> KalmanFilter(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    trans_matrix <span class="op">=</span> torch.tensor([<span class="fl">1.</span>]),</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    obs_matrix <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),        </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    contr_matrix <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    trans_cov <span class="op">=</span> torch.tensor([[<span class="fl">.3</span>]]),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    obs_cov <span class="op">=</span> torch.tensor([[<span class="fl">0.1</span>]]),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    trans_off <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    obs_off <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    init_state_mean <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    init_state_cov <span class="op">=</span> torch.tensor([[<span class="fl">0.01</span>]]),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pred0 <span class="op">=</span> k0.smooth(torch.ones(<span class="dv">1</span>,n_obs,<span class="dv">1</span>), torch.zeros(<span class="dv">1</span>,n_obs,<span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">bool</span>), torch.zeros(<span class="dv">1</span>,n_obs,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> pd.Index(<span class="bu">range</span>(n_obs), name<span class="op">=</span><span class="st">"time"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pred0.cov.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([1, 20, 1, 1])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pred0_df <span class="op">=</span> NormalsDf(pd.DataFrame(pred0.mean.squeeze(<span class="dv">0</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"state"</span>]),</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                     pd.DataFrame(pred0.cov.squeeze(<span class="dv">0</span>).squeeze(<span class="op">-</span><span class="dv">1</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"state"</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p0 <span class="op">=</span> facet_variable(pred0_df.tidy(), ys<span class="op">=</span>[<span class="st">"mean"</span>, <span class="st">"mean"</span>], error<span class="op">=</span><span class="va">True</span>, point<span class="op">=</span><span class="va">False</span>, gap_area<span class="op">=</span><span class="va">False</span>, props<span class="op">=</span>plt_props)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>p0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div id="altair-viz-65c3b238b93d46fc979ff83721dbf5f4"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-65c3b238b93d46fc979ff83721dbf5f4") {
+      outputDiv = document.getElementById("altair-viz-65c3b238b93d46fc979ff83721dbf5f4");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@5.2.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.2.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"hconcat": [{"layer": [{"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std"]}, "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "", "type": "quantitative"}, "y2": {"field": "err_high"}}, "name": "view_1"}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "", "type": "quantitative"}}}], "height": 400, "title": "", "width": 460}]}], "data": {"name": "data-469d6e4b0867b438d05780d7644cf8b4"}, "params": [{"name": "param_6", "select": {"type": "interval", "encodings": ["x"]}, "bind": "scales", "views": ["view_1"]}], "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json", "datasets": {"data-469d6e4b0867b438d05780d7644cf8b4": [{"time": 0, "variable": "state", "mean": 0.0, "std": 0.010010000318288803, "err_low": -0.020020000636577606, "err_high": 0.020020000636577606}, {"time": 1, "variable": "state", "mean": 0.0, "std": 0.3100200295448303, "err_low": -0.6200400590896606, "err_high": 0.6200400590896606}, {"time": 2, "variable": "state", "mean": 0.0, "std": 0.6100300550460815, "err_low": -1.220060110092163, "err_high": 1.220060110092163}, {"time": 3, "variable": "state", "mean": 0.0, "std": 0.9100400805473328, "err_low": -1.8200801610946655, "err_high": 1.8200801610946655}, {"time": 4, "variable": "state", "mean": 0.0, "std": 1.210050106048584, "err_low": -2.420100212097168, "err_high": 2.420100212097168}, {"time": 5, "variable": "state", "mean": 0.0, "std": 1.5100600719451904, "err_low": -3.020120143890381, "err_high": 3.020120143890381}, {"time": 6, "variable": "state", "mean": 0.0, "std": 1.8100700378417969, "err_low": -3.6201400756835938, "err_high": 3.6201400756835938}, {"time": 7, "variable": "state", "mean": 0.0, "std": 2.1100800037384033, "err_low": -4.220160007476807, "err_high": 4.220160007476807}, {"time": 8, "variable": "state", "mean": 0.0, "std": 2.4100899696350098, "err_low": -4.8201799392700195, "err_high": 4.8201799392700195}, {"time": 9, "variable": "state", "mean": 0.0, "std": 2.710099935531616, "err_low": -5.420199871063232, "err_high": 5.420199871063232}, {"time": 10, "variable": "state", "mean": 0.0, "std": 3.0101099014282227, "err_low": -6.020219802856445, "err_high": 6.020219802856445}, {"time": 11, "variable": "state", "mean": 0.0, "std": 3.310119867324829, "err_low": -6.620239734649658, "err_high": 6.620239734649658}, {"time": 12, "variable": "state", "mean": 0.0, "std": 3.6101298332214355, "err_low": -7.220259666442871, "err_high": 7.220259666442871}, {"time": 13, "variable": "state", "mean": 0.0, "std": 3.910139799118042, "err_low": -7.820279598236084, "err_high": 7.820279598236084}, {"time": 14, "variable": "state", "mean": 0.0, "std": 4.210149765014648, "err_low": -8.420299530029297, "err_high": 8.420299530029297}, {"time": 15, "variable": "state", "mean": 0.0, "std": 4.510159969329834, "err_low": -9.020319938659668, "err_high": 9.020319938659668}, {"time": 16, "variable": "state", "mean": 0.0, "std": 4.8101701736450195, "err_low": -9.620340347290039, "err_high": 9.620340347290039}, {"time": 17, "variable": "state", "mean": 0.0, "std": 5.110180377960205, "err_low": -10.22036075592041, "err_high": 10.22036075592041}, {"time": 18, "variable": "state", "mean": 0.0, "std": 5.410190582275391, "err_low": -10.820381164550781, "err_high": 10.820381164550781}, {"time": 19, "variable": "state", "mean": 0.0, "std": 5.710200786590576, "err_low": -11.420401573181152, "err_high": 11.420401573181152}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>save_plot(p0, <span class="st">"only_state"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Path('/home/simone/Documents/uni/Thesis/GPFA_imputation/presentations/plots_18_jan/only_state.vl.json')</code></pre>
+</div>
+</div>
+</section>
+<section id="observations" class="level2">
+<h2 class="anchored" data-anchor-id="observations">Observations</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>torch.tensor([[<span class="fl">0.</span>]]).shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([1, 1])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>k1 <span class="op">=</span> KalmanFilter(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    trans_matrix <span class="op">=</span> torch.tensor([<span class="fl">1.</span>]),</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    obs_matrix <span class="op">=</span> torch.tensor([<span class="fl">1.</span>]),        </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    contr_matrix <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    trans_cov <span class="op">=</span> torch.tensor([[<span class="fl">.5</span>]]),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    obs_cov <span class="op">=</span> torch.tensor([[<span class="fl">0.3</span>]]),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    trans_off <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    obs_off <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    init_state_mean <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    init_state_cov <span class="op">=</span> torch.tensor([[<span class="fl">0.001</span>]]),</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>obs <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> torch.sin(torch.arange(n_obs) <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> torch.pi <span class="op">/</span> (n_obs<span class="op">-</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>plt.plot(obs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="plots_for_presentation_18_jan_23_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>mask1 <span class="op">=</span> torch.ones(<span class="dv">1</span>,n_obs,<span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">bool</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pred1 <span class="op">=</span> k1.smooth(obs.unsqueeze(<span class="dv">0</span>).unsqueeze(<span class="op">-</span><span class="dv">1</span>), mask1, torch.zeros(<span class="dv">1</span>,n_obs,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> pd.Index(<span class="bu">range</span>(n_obs), name<span class="op">=</span><span class="st">"time"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pred1.cov.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([1, 20, 1, 1])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pred_df1 <span class="op">=</span> NormalsDf(pd.DataFrame(pred1.mean.squeeze(<span class="dv">0</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var"</span>]),</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                     pd.DataFrame(pred1.cov.squeeze(<span class="dv">0</span>).squeeze(<span class="op">-</span><span class="dv">1</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var"</span>])).tidy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>obs_df1 <span class="op">=</span> pd.DataFrame({<span class="st">'time'</span>: time, <span class="st">'var'</span>: obs.numpy(),</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'is_present'</span>: mask1[<span class="dv">0</span>,:,<span class="dv">0</span>].numpy()}).melt([<span class="st">"time"</span>, <span class="st">"is_present"</span>]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>plot_df1 <span class="op">=</span> pd.merge(obs_df1, pred_df1, on<span class="op">=</span>[<span class="st">'time'</span>, <span class="st">'variable'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> facet_variable(plot_df1, ys<span class="op">=</span>[<span class="st">"value"</span>, <span class="st">"mean"</span>], error<span class="op">=</span><span class="va">True</span>, gap_area<span class="op">=</span><span class="va">False</span>, props<span class="op">=</span>plt_props)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>p1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div id="altair-viz-f7a6d7035d354c73be4a4dfc10c4dc67"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-f7a6d7035d354c73be4a4dfc10c4dc67") {
+      outputDiv = document.getElementById("altair-viz-f7a6d7035d354c73be4a4dfc10c4dc67");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@5.2.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.2.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"hconcat": [{"layer": [{"mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_present", "legend": {"title": ["Observed data"]}, "scale": {"range": ["black", "#ffffff00"]}, "type": "nominal"}, "shape": {"field": "is_present", "type": "nominal"}, "x": {"axis": {"domain": true, "labels": true, "ticks": true, "title": "time"}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "", "type": "quantitative"}}}, {"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std"]}, "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "", "type": "quantitative"}, "y2": {"field": "err_high"}}, "name": "view_2"}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "", "type": "quantitative"}}}], "height": 400, "title": "", "width": 460}]}], "data": {"name": "data-285426b18250d2bbeb1a83babad8f60b"}, "params": [{"name": "param_8", "select": {"type": "interval", "encodings": ["x"]}, "bind": "scales", "views": ["view_2"]}], "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json", "datasets": {"data-285426b18250d2bbeb1a83babad8f60b": [{"time": 0, "is_present": true, "variable": "var", "value": 0.0, "mean": 0.0012823505094274879, "std": 0.0010051879798993468, "err_low": -0.0007280254503712058, "err_high": 0.0032927263528108597}, {"time": 1, "is_present": true, "variable": "var", "value": 0.6840403079986572, "mean": 0.6382591724395752, "std": 0.14846114814281464, "err_low": 0.3413368761539459, "err_high": 0.9351814985275269}, {"time": 2, "is_present": true, "variable": "var", "value": 1.285575270652771, "mean": 1.1989326477050781, "std": 0.1614452749490738, "err_low": 0.8760421276092529, "err_high": 1.5218231678009033}, {"time": 3, "is_present": true, "variable": "var", "value": 1.7320507764816284, "mean": 1.6151989698410034, "std": 0.16258858144283295, "err_low": 1.2900217771530151, "err_high": 1.9403761625289917}, {"time": 4, "is_present": true, "variable": "var", "value": 1.9696155786514282, "mean": 1.836708426475525, "std": 0.16268925368785858, "err_low": 1.5113298892974854, "err_high": 2.1620869636535645}, {"time": 5, "is_present": true, "variable": "var", "value": 1.9696154594421387, "mean": 1.8367013931274414, "std": 0.16269811987876892, "err_low": 1.5113050937652588, "err_high": 2.162097692489624}, {"time": 6, "is_present": true, "variable": "var", "value": 1.7320507764816284, "mean": 1.6151663064956665, "std": 0.162698894739151, "err_low": 1.2897684574127197, "err_high": 1.9405641555786133}, {"time": 7, "is_present": true, "variable": "var", "value": 1.2855749130249023, "mean": 1.198819637298584, "std": 0.16269895434379578, "err_low": 0.8734217286109924, "err_high": 1.5242176055908203}, {"time": 8, "is_present": true, "variable": "var", "value": 0.6840400099754333, "mean": 0.6378780603408813, "std": 0.16269899904727936, "err_low": 0.31248006224632263, "err_high": 0.9632760286331177}, {"time": 9, "is_present": true, "variable": "var", "value": -1.7484555314695172e-07, "mean": -1.519918441772461e-06, "std": 0.16269895434379578, "err_low": -0.3253994286060333, "err_high": 0.3253963887691498}, {"time": 10, "is_present": true, "variable": "var", "value": -0.6840407848358154, "mean": -0.6378833055496216, "std": 0.16269899904727936, "err_low": -0.9632812738418579, "err_high": -0.31248530745506287}, {"time": 11, "is_present": true, "variable": "var", "value": -1.28557550907135, "mean": -1.1988343000411987, "std": 0.16269895434379578, "err_low": -1.5242321491241455, "err_high": -0.8734363913536072}, {"time": 12, "is_present": true, "variable": "var", "value": -1.732050895690918, "mean": -1.6152135133743286, "std": 0.16269899904727936, "err_low": -1.940611481666565, "err_high": -1.2898155450820923}, {"time": 13, "is_present": true, "variable": "var", "value": -1.9696155786514282, "mean": -1.8368600606918335, "std": 0.16269898414611816, "err_low": -2.1622581481933594, "err_high": -1.5114620923995972}, {"time": 14, "is_present": true, "variable": "var", "value": -1.9696153402328491, "mean": -1.837242841720581, "std": 0.16269925236701965, "err_low": -2.1626412868499756, "err_high": -1.5118443965911865}, {"time": 15, "is_present": true, "variable": "var", "value": -1.732050895690918, "mean": -1.6170005798339844, "std": 0.16270186007022858, "err_low": -1.9424042701721191, "err_high": -1.2915968894958496}, {"time": 16, "is_present": true, "variable": "var", "value": -1.2855747938156128, "mean": -1.2050038576126099, "std": 0.16273196041584015, "err_low": -1.5304677486419678, "err_high": -0.879539966583252}, {"time": 17, "is_present": true, "variable": "var", "value": -0.684039831161499, "mean": -0.6587195992469788, "std": 0.16307330131530762, "err_low": -0.984866201877594, "err_high": -0.3325729966163635}, {"time": 18, "is_present": true, "variable": "var", "value": 3.4969110629390343e-07, "mean": -0.0702342540025711, "std": 0.16695018112659454, "err_low": -0.4041346311569214, "err_high": 0.2636660933494568}, {"time": 19, "is_present": true, "variable": "var", "value": 0.6840404868125916, "mean": 0.40119099617004395, "std": 0.21097815036773682, "err_low": -0.020765304565429688, "err_high": 0.8231472969055176}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>save_plot(p1, <span class="st">"obs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Path('/home/simone/Documents/uni/Thesis/GPFA_imputation/presentations/plots_18_jan/obs.vl.json')</code></pre>
+</div>
+</div>
+</section>
+<section id="gaps" class="level2">
+<h2 class="anchored" data-anchor-id="gaps">Gaps</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>k2 <span class="op">=</span> KalmanFilter(</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    trans_matrix <span class="op">=</span> torch.tensor([<span class="fl">1.</span>]),</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    obs_matrix <span class="op">=</span> torch.tensor([<span class="fl">1.</span>]),        </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    contr_matrix <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    trans_cov <span class="op">=</span> torch.tensor([[<span class="fl">.5</span>]]),</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    obs_cov <span class="op">=</span> torch.tensor([[<span class="fl">0.3</span>]]),</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    trans_off <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    obs_off <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    init_state_mean <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    init_state_cov <span class="op">=</span> torch.tensor([[<span class="fl">0.001</span>]]),</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>mask2 <span class="op">=</span> torch.ones(<span class="dv">1</span>,n_obs,<span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">bool</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>mask2[<span class="dv">0</span>,<span class="dv">11</span>:<span class="dv">16</span>,<span class="dv">0</span>] <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>mask2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[[ True],
+         [ True],
+         [ True],
+         [ True],
+         [ True],
+         [ True],
+         [ True],
+         [ True],
+         [ True],
+         [ True],
+         [ True],
+         [False],
+         [False],
+         [False],
+         [False],
+         [False],
+         [ True],
+         [ True],
+         [ True],
+         [ True]]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>pred2 <span class="op">=</span> k2.smooth(obs.unsqueeze(<span class="dv">0</span>).unsqueeze(<span class="op">-</span><span class="dv">1</span>), mask2, torch.zeros(<span class="dv">1</span>,n_obs,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>pred_df2 <span class="op">=</span> NormalsDf(pd.DataFrame(pred2.mean.squeeze(<span class="dv">0</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var"</span>]),</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>                     pd.DataFrame(pred2.cov.squeeze(<span class="dv">0</span>).squeeze(<span class="op">-</span><span class="dv">1</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var"</span>])).tidy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>obs_df2 <span class="op">=</span> pd.DataFrame({<span class="st">'time'</span>: time, <span class="st">'var'</span>: obs.numpy(),</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'is_present'</span>: mask2[<span class="dv">0</span>,:,<span class="dv">0</span>].numpy()}).melt([<span class="st">"time"</span>, <span class="st">"is_present"</span>]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>plot_df2 <span class="op">=</span> pd.merge(obs_df2, pred_df2, on<span class="op">=</span>[<span class="st">'time'</span>, <span class="st">'variable'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> facet_variable(plot_df2, ys<span class="op">=</span>[<span class="st">"value"</span>, <span class="st">"mean"</span>], error<span class="op">=</span><span class="va">True</span>, gap_area<span class="op">=</span><span class="va">False</span>, props<span class="op">=</span>{<span class="st">'width'</span>: <span class="dv">750</span>, <span class="st">'height'</span>: <span class="dv">500</span>})</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div id="altair-viz-aaa36cca9845417992ef3293de6424a8"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-aaa36cca9845417992ef3293de6424a8") {
+      outputDiv = document.getElementById("altair-viz-aaa36cca9845417992ef3293de6424a8");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@5.2.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.2.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"hconcat": [{"layer": [{"mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_present", "legend": {"title": ["Observed data"]}, "scale": {"range": ["black", "#ffffff00"]}, "type": "nominal"}, "shape": {"field": "is_present", "type": "nominal"}, "x": {"axis": {"domain": true, "labels": true, "ticks": true, "title": "time"}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "", "type": "quantitative"}}}, {"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std"]}, "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "", "type": "quantitative"}, "y2": {"field": "err_high"}}, "name": "view_3"}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "", "type": "quantitative"}}}], "height": 500, "title": "", "width": 750}]}], "data": {"name": "data-1c2486242e265195fc2ef73359469fcb"}, "params": [{"name": "param_10", "select": {"type": "interval", "encodings": ["x"]}, "bind": "scales", "views": ["view_3"]}], "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json", "datasets": {"data-1c2486242e265195fc2ef73359469fcb": [{"time": 0, "is_present": true, "variable": "var", "value": 0.0, "mean": 0.0012823570286855102, "std": 0.0010051879798993468, "err_low": -0.0007280189311131835, "err_high": 0.003292732872068882}, {"time": 1, "is_present": true, "variable": "var", "value": 0.6840403079986572, "mean": 0.6382624506950378, "std": 0.14846114814281464, "err_low": 0.34134015440940857, "err_high": 0.9351847171783447}, {"time": 2, "is_present": true, "variable": "var", "value": 1.285575270652771, "mean": 1.1989445686340332, "std": 0.1614452749490738, "err_low": 0.876054048538208, "err_high": 1.5218350887298584}, {"time": 3, "is_present": true, "variable": "var", "value": 1.7320507764816284, "mean": 1.6152390241622925, "std": 0.16258858144283295, "err_low": 1.2900618314743042, "err_high": 1.9404162168502808}, {"time": 4, "is_present": true, "variable": "var", "value": 1.9696155786514282, "mean": 1.836843490600586, "std": 0.16268926858901978, "err_low": 1.5114649534225464, "err_high": 2.162221908569336}, {"time": 5, "is_present": true, "variable": "var", "value": 1.9696154594421387, "mean": 1.8371565341949463, "std": 0.16269829869270325, "err_low": 1.5117599964141846, "err_high": 2.162553071975708}, {"time": 6, "is_present": true, "variable": "var", "value": 1.7320507764816284, "mean": 1.6167004108428955, "std": 0.16270101070404053, "err_low": 1.2912983894348145, "err_high": 1.9421024322509766}, {"time": 7, "is_present": true, "variable": "var", "value": 1.2855749130249023, "mean": 1.2039895057678223, "std": 0.16272304952144623, "err_low": 0.8785433769226074, "err_high": 1.529435634613037}, {"time": 8, "is_present": true, "variable": "var", "value": 0.6840400099754333, "mean": 0.6553001403808594, "std": 0.16297248005867004, "err_low": 0.3293551802635193, "err_high": 0.9812451004981995}, {"time": 9, "is_present": true, "variable": "var", "value": -1.7484555314695172e-07, "mean": 0.058710113167762756, "std": 0.16580480337142944, "err_low": -0.2728995084762573, "err_high": 0.39031970500946045}, {"time": 10, "is_present": true, "variable": "var", "value": -0.6840407848358154, "mean": -0.4400274157524109, "std": 0.1979709416627884, "err_low": -0.8359693288803101, "err_high": -0.044085532426834106}, {"time": 11, "is_present": false, "variable": "var", "value": -1.28557550907135, "mean": -0.5320678949356079, "std": 0.5632694363594055, "err_low": -1.658606767654419, "err_high": 0.5944709777832031}, {"time": 12, "is_present": false, "variable": "var", "value": -1.732050895690918, "mean": -0.6241084337234497, "std": 0.7824516892433167, "err_low": -2.189011812210083, "err_high": 0.9407949447631836}, {"time": 13, "is_present": false, "variable": "var", "value": -1.9696155786514282, "mean": -0.7161489725112915, "std": 0.8555178642272949, "err_low": -2.427184581756592, "err_high": 0.9948867559432983}, {"time": 14, "is_present": false, "variable": "var", "value": -1.9696153402328491, "mean": -0.8081895112991333, "std": 0.7824678421020508, "err_low": -2.3731250762939453, "err_high": 0.7567461729049683}, {"time": 15, "is_present": false, "variable": "var", "value": -1.732050895690918, "mean": -0.9002300500869751, "std": 0.5633018016815186, "err_low": -2.0268335342407227, "err_high": 0.226373553276062}, {"time": 16, "is_present": true, "variable": "var", "value": -1.2855747938156128, "mean": -0.9922705888748169, "std": 0.19801956415176392, "err_low": -1.3883097171783447, "err_high": -0.5962314605712891}, {"time": 17, "is_present": true, "variable": "var", "value": -0.684039831161499, "mean": -0.5954608917236328, "std": 0.16619360446929932, "err_low": -0.9278481006622314, "err_high": -0.2630736827850342}, {"time": 18, "is_present": true, "variable": "var", "value": 3.4969110629390343e-07, "mean": -0.0510166734457016, "std": 0.16723814606666565, "err_low": -0.3854929804801941, "err_high": 0.2834596037864685}, {"time": 19, "is_present": true, "variable": "var", "value": 0.6840404868125916, "mean": 0.40839749574661255, "std": 0.21101868152618408, "err_low": -0.013639867305755615, "err_high": 0.8304348587989807}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>save_plot(p2, <span class="st">"gaps"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Path('/home/simone/Documents/uni/Thesis/GPFA_imputation/presentations/plots_18_jan/gaps.vl.json')</code></pre>
+</div>
+</div>
+</section>
+<section id="control" class="level2">
+<h2 class="anchored" data-anchor-id="control">Control</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>k3 <span class="op">=</span> KalmanFilter(</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    trans_matrix <span class="op">=</span> torch.tensor([<span class="fl">1.</span>]),</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    obs_matrix <span class="op">=</span> torch.tensor([<span class="fl">1.</span>]),        </span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    contr_matrix <span class="op">=</span> torch.tensor([<span class="op">-</span><span class="fl">1.</span>, <span class="dv">1</span>]),</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    trans_cov <span class="op">=</span> torch.tensor([[<span class="fl">.5</span>]]),</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    obs_cov <span class="op">=</span> torch.tensor([[<span class="fl">0.3</span>]]),</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    trans_off <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    obs_off <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    init_state_mean <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>    init_state_cov <span class="op">=</span> torch.tensor([[<span class="fl">0.001</span>]]),</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>mask3 <span class="op">=</span> torch.ones(<span class="dv">1</span>,n_obs,<span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">bool</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>mask3[<span class="dv">0</span>,<span class="dv">11</span>:<span class="dv">16</span>,<span class="dv">0</span>] <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>mask3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[[ True],
+         [ True],
+         [ True],
+         [ True],
+         [ True],
+         [ True],
+         [ True],
+         [ True],
+         [ True],
+         [ True],
+         [ True],
+         [False],
+         [False],
+         [False],
+         [False],
+         [False],
+         [ True],
+         [ True],
+         [ True],
+         [ True]]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>contr <span class="op">=</span> torch.stack([(obs <span class="op">+</span> <span class="fl">0.5</span>)<span class="op">*</span><span class="fl">1.2</span>, ((obs <span class="op">+</span> <span class="fl">0.5</span>)<span class="op">*</span><span class="fl">1.2</span>).roll(<span class="op">-</span><span class="dv">1</span>)], dim<span class="op">=-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>contr.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([20, 2])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>plt.plot(contr[:,<span class="dv">0</span>])</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>plt.plot(contr[:,<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="plots_for_presentation_18_jan_23_files/figure-html/cell-40-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>pred3 <span class="op">=</span> k3.smooth(obs.unsqueeze(<span class="dv">0</span>).unsqueeze(<span class="op">-</span><span class="dv">1</span>), mask3, contr.unsqueeze(<span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>pred_df3 <span class="op">=</span> NormalsDf(pd.DataFrame(pred3.mean.squeeze(<span class="dv">0</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var"</span>]),</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>                     pd.DataFrame(pred3.cov.squeeze(<span class="dv">0</span>).squeeze(<span class="op">-</span><span class="dv">1</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var"</span>])).tidy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>obs_df3 <span class="op">=</span> pd.DataFrame({<span class="st">'time'</span>: time, <span class="st">'var'</span>: obs.numpy(),</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'is_present'</span>: mask3[<span class="dv">0</span>,:,<span class="dv">0</span>].numpy()}).melt([<span class="st">"time"</span>, <span class="st">"is_present"</span>]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>plot_df3 <span class="op">=</span> pd.merge(obs_df3, pred_df3, on<span class="op">=</span>[<span class="st">'time'</span>, <span class="st">'variable'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>p3 <span class="op">=</span> (plot_variable(plot_df3, variable<span class="op">=</span><span class="st">"var"</span>, ys<span class="op">=</span>[<span class="st">"value"</span>, <span class="st">"mean"</span>], error<span class="op">=</span><span class="va">True</span>, gap_area<span class="op">=</span><span class="va">False</span>, props<span class="op">=</span>plt_props) <span class="op">+</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(pd.DataFrame({<span class="st">'contr'</span>:contr[:,<span class="dv">0</span>], <span class="st">'time'</span>: time, <span class="st">'col'</span>: <span class="st">'control'</span>})).mark_line(strokeDash<span class="op">=</span>[<span class="dv">6</span>,<span class="dv">3</span>], color<span class="op">=</span><span class="st">'orange'</span>).encode(x<span class="op">=</span><span class="st">'time'</span>, y<span class="op">=</span><span class="st">'contr'</span>))</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>p3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div id="altair-viz-6fc6e0e27dbc465e8ec2549bea3e477d"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-6fc6e0e27dbc465e8ec2549bea3e477d") {
+      outputDiv = document.getElementById("altair-viz-6fc6e0e27dbc465e8ec2549bea3e477d");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@5.2.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.2.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "layer": [{"mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_present", "legend": {"title": ["Observed data"]}, "scale": {"range": ["black", "#ffffff00"]}, "type": "nominal"}, "shape": {"field": "is_present", "type": "nominal"}, "x": {"axis": {"domain": true, "labels": true, "ticks": true, "title": "time"}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "", "type": "quantitative"}}}, {"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std"]}, "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "", "type": "quantitative"}, "y2": {"field": "err_high"}}, "name": "view_4"}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "", "type": "quantitative"}}}, {"data": {"name": "data-50d12b4b49a06754db1631f7cbc696ff"}, "mark": {"type": "line", "color": "orange", "strokeDash": [6, 3]}, "encoding": {"x": {"field": "time", "type": "quantitative"}, "y": {"field": "contr", "type": "quantitative"}}}], "data": {"name": "data-9891eb9e62cc056deca92f59f7154e45"}, "height": 400, "params": [{"name": "param_12", "select": {"type": "interval"}, "bind": "scales", "views": ["view_4"]}], "title": "", "width": 460, "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json", "datasets": {"data-9891eb9e62cc056deca92f59f7154e45": [{"time": 0, "is_present": true, "variable": "var", "value": 0.0, "mean": 7.447856205544667e-06, "std": 0.0010051879798993468, "err_low": -0.0020029281731694937, "err_high": 0.0020178237464278936}, {"time": 1, "is_present": true, "variable": "var", "value": 0.6840403079986572, "mean": 0.725549042224884, "std": 0.14846114814281464, "err_low": 0.42862674593925476, "err_high": 1.022471308708191}, {"time": 2, "is_present": true, "variable": "var", "value": 1.285575270652771, "mean": 1.3342018127441406, "std": 0.1614452749490738, "err_low": 1.0113112926483154, "err_high": 1.6570923328399658}, {"time": 3, "is_present": true, "variable": "var", "value": 1.7320507764816284, "mean": 1.7732073068618774, "std": 0.16258858144283295, "err_low": 1.4480301141738892, "err_high": 2.098384380340576}, {"time": 4, "is_present": true, "variable": "var", "value": 1.9696155786514282, "mean": 1.995730996131897, "std": 0.16268926858901978, "err_low": 1.6703524589538574, "err_high": 2.3211095333099365}, {"time": 5, "is_present": true, "variable": "var", "value": 1.9696154594421387, "mean": 1.9767038822174072, "std": 0.16269829869270325, "err_low": 1.6513073444366455, "err_high": 2.302100419998169}, {"time": 6, "is_present": true, "variable": "var", "value": 1.7320507764816284, "mean": 1.7187976837158203, "std": 0.16270101070404053, "err_low": 1.3933956623077393, "err_high": 2.0441997051239014}, {"time": 7, "is_present": true, "variable": "var", "value": 1.2855749130249023, "mean": 1.2527319192886353, "std": 0.16272304952144623, "err_low": 0.9272857904434204, "err_high": 1.57817804813385}, {"time": 8, "is_present": true, "variable": "var", "value": 0.6840400099754333, "mean": 0.6329202055931091, "std": 0.16297248005867004, "err_low": 0.30697524547576904, "err_high": 0.9588651657104492}, {"time": 9, "is_present": true, "variable": "var", "value": -1.7484555314695172e-07, "mean": -0.07209327816963196, "std": 0.16580480337142944, "err_low": -0.40370288491249084, "err_high": 0.25951632857322693}, {"time": 10, "is_present": true, "variable": "var", "value": -0.6840407848358154, "mean": -0.7982572913169861, "std": 0.1979709416627884, "err_low": -1.1941992044448853, "err_high": -0.4023154079914093}, {"time": 11, "is_present": false, "variable": "var", "value": -1.28557550907135, "mean": -1.528714656829834, "std": 0.5632694363594055, "err_low": -2.6552534103393555, "err_high": -0.40217578411102295}, {"time": 12, "is_present": false, "variable": "var", "value": -1.732050895690918, "mean": -2.008479118347168, "std": 0.7824516892433167, "err_low": -3.5733823776245117, "err_high": -0.44357573986053467}, {"time": 13, "is_present": false, "variable": "var", "value": -1.9696155786514282, "mean": -2.2031660079956055, "std": 0.8555178642272949, "err_low": -3.9142017364501953, "err_high": -0.4921302795410156}, {"time": 14, "is_present": false, "variable": "var", "value": -1.9696153402328491, "mean": -2.1127755641937256, "std": 0.7824678421020508, "err_low": -3.677711248397827, "err_high": -0.547839879989624}, {"time": 15, "is_present": false, "variable": "var", "value": -1.732050895690918, "mean": -1.7716912031173706, "std": 0.5633018016815186, "err_low": -2.8982949256896973, "err_high": -0.6450875997543335}, {"time": 16, "is_present": true, "variable": "var", "value": -1.2855747938156128, "mean": -1.244536280632019, "std": 0.19801956415176392, "err_low": -1.6405754089355469, "err_high": -0.8484971523284912}, {"time": 17, "is_present": true, "variable": "var", "value": -0.684039831161499, "mean": -0.5499764680862427, "std": 0.16619360446929932, "err_low": -0.8823636770248413, "err_high": -0.21758925914764404}, {"time": 18, "is_present": true, "variable": "var", "value": 3.4969110629390343e-07, "mean": 0.3680267333984375, "std": 0.16723814606666565, "err_low": 0.0335504412651062, "err_high": 0.7025030255317688}, {"time": 19, "is_present": true, "variable": "var", "value": 0.6840404868125916, "mean": 0.25772231817245483, "std": 0.21101868152618408, "err_low": -0.16431504487991333, "err_high": 0.679759681224823}], "data-50d12b4b49a06754db1631f7cbc696ff": [{"contr": 0.6000000238418579, "time": 0, "col": "control"}, {"contr": 1.4208483695983887, "time": 1, "col": "control"}, {"contr": 2.142690420150757, "time": 2, "col": "control"}, {"contr": 2.6784610748291016, "time": 3, "col": "control"}, {"contr": 2.963538646697998, "time": 4, "col": "control"}, {"contr": 2.963538646697998, "time": 5, "col": "control"}, {"contr": 2.6784610748291016, "time": 6, "col": "control"}, {"contr": 2.1426899433135986, "time": 7, "col": "control"}, {"contr": 1.4208481311798096, "time": 8, "col": "control"}, {"contr": 0.5999997854232788, "time": 9, "col": "control"}, {"contr": -0.220848947763443, "time": 10, "col": "control"}, {"contr": -0.9426906704902649, "time": 11, "col": "control"}, {"contr": -1.4784611463546753, "time": 12, "col": "control"}, {"contr": -1.7635387182235718, "time": 13, "col": "control"}, {"contr": -1.7635384798049927, "time": 14, "col": "control"}, {"contr": -1.4784611463546753, "time": 15, "col": "control"}, {"contr": -0.9426897764205933, "time": 16, "col": "control"}, {"contr": -0.22084780037403107, "time": 17, "col": "control"}, {"contr": 0.6000004410743713, "time": 18, "col": "control"}, {"contr": 1.4208487272262573, "time": 19, "col": "control"}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>save_plot(p3, <span class="st">"control"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Path('/home/simone/Documents/uni/Thesis/GPFA_imputation/presentations/plots_18_jan/control.vl.json')</code></pre>
+</div>
+</div>
+</section>
+<section id="variables-correlation" class="level2">
+<h2 class="anchored" data-anchor-id="variables-correlation">Variables correlation</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>k4 <span class="op">=</span> KalmanFilter(</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    trans_matrix <span class="op">=</span> torch.tensor([<span class="fl">1.</span>]),</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    obs_matrix <span class="op">=</span> torch.tensor([[<span class="fl">.7</span>], [<span class="fl">.3</span>]]),        </span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    contr_matrix <span class="op">=</span> torch.tensor([[<span class="fl">0.</span>]]),</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    trans_cov <span class="op">=</span> torch.tensor([[<span class="fl">.5</span>]]),</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    obs_cov <span class="op">=</span> torch.diag(torch.tensor([<span class="fl">0.1</span>, <span class="fl">0.1</span>])),</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>    trans_off <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>    obs_off <span class="op">=</span> torch.tensor([<span class="fl">0.</span>, <span class="fl">0.</span>]),</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>    init_state_mean <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>    init_state_cov <span class="op">=</span> torch.tensor([[<span class="fl">0.01</span>]]),</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>k4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table id="T_1de52" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_1de52_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_1de52_level0_col1" class="col_heading level0 col1">x_0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_1de52_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_1de52_row0_col1" class="data row0 col1">1.0000</td>
+</tr>
+</tbody>
+</table>
+<div>
+<p>trans cov (Q)</p>
+<table id="T_e49b6" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_e49b6_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_e49b6_level0_col1" class="col_heading level0 col1">x_0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_e49b6_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_e49b6_row0_col1" class="data row0 col1">0.5000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div>
+<p>trans off</p>
+<table id="T_7caf8" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_7caf8_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_7caf8_level0_col1" class="col_heading level0 col1">offset</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_7caf8_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_7caf8_row0_col1" class="data row0 col1">0.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div>
+<p>obs matrix (H)</p>
+<table id="T_cf2e4" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_cf2e4_level0_col0" class="col_heading level0 col0">variable</th>
+<th id="T_cf2e4_level0_col1" class="col_heading level0 col1">x_0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_cf2e4_row0_col0" class="data row0 col0">y_0</td>
+<td id="T_cf2e4_row0_col1" class="data row0 col1">0.7000</td>
+</tr>
+<tr class="even">
+<td id="T_cf2e4_row1_col0" class="data row1 col0">y_1</td>
+<td id="T_cf2e4_row1_col1" class="data row1 col1">0.3000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div>
+<p>obs cov (R)</p>
+<table id="T_4594c" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_4594c_level0_col0" class="col_heading level0 col0">variable</th>
+<th id="T_4594c_level0_col1" class="col_heading level0 col1">y_0</th>
+<th id="T_4594c_level0_col2" class="col_heading level0 col2">y_1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_4594c_row0_col0" class="data row0 col0">y_0</td>
+<td id="T_4594c_row0_col1" class="data row0 col1">0.1000</td>
+<td id="T_4594c_row0_col2" class="data row0 col2">0.0000</td>
+</tr>
+<tr class="even">
+<td id="T_4594c_row1_col0" class="data row1 col0">y_1</td>
+<td id="T_4594c_row1_col1" class="data row1 col1">0.0000</td>
+<td id="T_4594c_row1_col2" class="data row1 col2">0.1000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div>
+<p>obs off</p>
+<table id="T_58103" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_58103_level0_col0" class="col_heading level0 col0">variable</th>
+<th id="T_58103_level0_col1" class="col_heading level0 col1">offset</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_58103_row0_col0" class="data row0 col0">y_0</td>
+<td id="T_58103_row0_col1" class="data row0 col1">0.0000</td>
+</tr>
+<tr class="even">
+<td id="T_58103_row1_col0" class="data row1 col0">y_1</td>
+<td id="T_58103_row1_col1" class="data row1 col1">0.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div>
+<p>contr matrix (B)</p>
+<table id="T_5a5a4" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_5a5a4_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_5a5a4_level0_col1" class="col_heading level0 col1">c_0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_5a5a4_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_5a5a4_row0_col1" class="data row0 col1">0.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div>
+<p>init state mean</p>
+<table id="T_34356" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_34356_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_34356_level0_col1" class="col_heading level0 col1">mean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_34356_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_34356_row0_col1" class="data row0 col1">0.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div>
+<p>init state cov</p>
+<table id="T_12424" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_12424_level0_col0" class="col_heading level0 col0">state</th>
+<th id="T_12424_level0_col1" class="col_heading level0 col1">x_0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_12424_row0_col0" class="data row0 col0">x_0</td>
+<td id="T_12424_row0_col1" class="data row0 col1">0.0100</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>mask4 <span class="op">=</span> torch.ones(<span class="dv">1</span>,n_obs,<span class="dv">2</span>, dtype<span class="op">=</span><span class="bu">bool</span>)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>mask4[<span class="dv">0</span>,<span class="dv">11</span>:<span class="dv">16</span>,<span class="dv">0</span>] <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>mask4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[[ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [False,  True],
+         [False,  True],
+         [False,  True],
+         [False,  True],
+         [False,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True]]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>obs4 <span class="op">=</span> torch.stack([</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>    obs <span class="op">*</span><span class="fl">.7</span> <span class="op">+</span> torch.randn_like(obs) <span class="op">*</span> <span class="fl">.1</span>,</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>    obs <span class="op">*</span><span class="fl">.3</span> <span class="op">+</span> torch.randn_like(obs) <span class="op">*</span> <span class="fl">.1</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>], dim<span class="op">=-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>plt.plot(obs4)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>plt.plot(obs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="plots_for_presentation_18_jan_23_files/figure-html/cell-51-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>obs4.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([20, 2])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>pred4 <span class="op">=</span> k4.predict(obs4.unsqueeze(<span class="dv">0</span>), mask4, torch.zeros(<span class="dv">1</span>,n_obs,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>pred_df4 <span class="op">=</span> NormalsDf(pd.DataFrame(pred4.mean.squeeze(<span class="dv">0</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var1"</span>, <span class="st">"var2"</span>]),</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>                     pd.DataFrame(pred4.std.squeeze(<span class="dv">0</span>).squeeze(<span class="op">-</span><span class="dv">1</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var1"</span>, <span class="st">"var2"</span>])).tidy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>obs_df4_0 <span class="op">=</span> pd.DataFrame({<span class="st">'time'</span>: time, <span class="st">'var1'</span>: obs4[:,<span class="dv">0</span>].numpy(),</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'is_present'</span>: mask4[<span class="dv">0</span>,:,<span class="dv">0</span>].numpy()}).melt([<span class="st">"time"</span>, <span class="st">"is_present"</span>]) </span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>obs_df4_1 <span class="op">=</span> pd.DataFrame({<span class="st">'time'</span>: time, <span class="st">'var2'</span>: obs4[:,<span class="dv">1</span>].numpy(),</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'is_present'</span>: mask4[<span class="dv">0</span>,:,<span class="dv">1</span>].numpy()}).melt([<span class="st">"time"</span>, <span class="st">"is_present"</span>]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>obs_df4 <span class="op">=</span> pd.concat([obs_df4_0, obs_df4_1])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>plot_df4 <span class="op">=</span> pd.merge(obs_df4, pred_df4, on<span class="op">=</span>[<span class="st">'time'</span>, <span class="st">'variable'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>p4 <span class="op">=</span> facet_variable(plot_df4, ys<span class="op">=</span>[<span class="st">"value"</span>, <span class="st">"mean"</span>], error<span class="op">=</span><span class="va">True</span>, gap_area<span class="op">=</span><span class="va">False</span>, props<span class="op">=</span>{<span class="st">'width'</span>: <span class="dv">350</span>, <span class="st">'height'</span>: <span class="dv">220</span>}, n_cols<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>p4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div id="altair-viz-e958ec2d063e4a3ebdca7e1f12ad0bce"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-e958ec2d063e4a3ebdca7e1f12ad0bce") {
+      outputDiv = document.getElementById("altair-viz-e958ec2d063e4a3ebdca7e1f12ad0bce");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@5.2.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.2.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"hconcat": [{"layer": [{"mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_present", "legend": {"title": ["Observed data"]}, "scale": {"range": ["black", "#ffffff00"]}, "type": "nominal"}, "shape": {"field": "is_present", "type": "nominal"}, "x": {"axis": {"domain": true, "labels": true, "ticks": true, "title": "time"}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "", "type": "quantitative"}}}, {"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std"]}, "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "", "type": "quantitative"}, "y2": {"field": "err_high"}}, "name": "view_11"}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "", "type": "quantitative"}}}], "height": 220, "title": "", "width": 350}], "data": {"name": "data-96693a5ed033895179766c89b388d09e"}}, {"hconcat": [{"layer": [{"mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_present", "legend": {"title": ["Observed data"]}, "scale": {"range": ["black", "#ffffff00"]}, "type": "nominal"}, "shape": {"field": "is_present", "type": "nominal"}, "x": {"axis": {"domain": true, "labels": true, "ticks": true, "title": "time"}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "", "type": "quantitative"}}}, {"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std"]}, "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "", "type": "quantitative"}, "y2": {"field": "err_high"}}, "name": "view_12"}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "", "type": "quantitative"}}}], "height": 220, "title": "", "width": 350}], "data": {"name": "data-4260d9303125433a67a5ac2ca527a441"}}], "params": [{"name": "param_22", "select": {"type": "interval", "encodings": ["x"]}, "bind": "scales", "views": ["view_11", "view_12"]}], "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json", "datasets": {"data-96693a5ed033895179766c89b388d09e": [{"time": 0, "is_present": true, "variable": "var1", "value": -0.027705306187272072, "mean": 0.004226009361445904, "std": 0.3233693838119507, "err_low": -0.6425127387046814, "err_high": 0.6509647965431213}, {"time": 1, "is_present": true, "variable": "var1", "value": 0.41556239128112793, "mean": 0.40915054082870483, "std": 0.39049291610717773, "err_low": -0.37183529138565063, "err_high": 1.190136432647705}, {"time": 2, "is_present": true, "variable": "var1", "value": 0.8574529886245728, "mean": 0.8175967931747437, "std": 0.39327627420425415, "err_low": 0.03104424476623535, "err_high": 1.604149341583252}, {"time": 3, "is_present": true, "variable": "var1", "value": 1.3694863319396973, "mean": 1.2320034503936768, "std": 0.3934025168418884, "err_low": 0.4451984167098999, "err_high": 2.018808364868164}, {"time": 4, "is_present": true, "variable": "var1", "value": 1.41446053981781, "mean": 1.3258157968521118, "std": 0.39340826869010925, "err_low": 0.5389992594718933, "err_high": 2.1126322746276855}, {"time": 5, "is_present": true, "variable": "var1", "value": 1.3872345685958862, "mean": 1.2661877870559692, "std": 0.39340850710868835, "err_low": 0.47937077283859253, "err_high": 2.053004741668701}, {"time": 6, "is_present": true, "variable": "var1", "value": 1.1523652076721191, "mean": 1.0847059488296509, "std": 0.39340853691101074, "err_low": 0.2978888750076294, "err_high": 1.8715230226516724}, {"time": 7, "is_present": true, "variable": "var1", "value": 0.7205492854118347, "mean": 0.7407701015472412, "std": 0.39340901374816895, "err_low": -0.04604792594909668, "err_high": 1.527588129043579}, {"time": 8, "is_present": true, "variable": "var1", "value": 0.31297916173934937, "mean": 0.3478309214115143, "std": 0.3934190273284912, "err_low": -0.43900713324546814, "err_high": 1.1346689462661743}, {"time": 9, "is_present": true, "variable": "var1", "value": 0.09538229554891586, "mean": 0.011674655601382256, "std": 0.39363932609558105, "err_low": -0.7756040096282959, "err_high": 0.7989532947540283}, {"time": 10, "is_present": true, "variable": "var1", "value": -0.5881159901618958, "mean": -0.4928966760635376, "std": 0.3984470069408417, "err_low": -1.2897906303405762, "err_high": 0.30399733781814575}, {"time": 11, "is_present": false, "variable": "var1", "value": -0.9170175194740295, "mean": -0.7308588624000549, "std": 0.49234652519226074, "err_low": -1.7155518531799316, "err_high": 0.25383418798446655}, {"time": 12, "is_present": false, "variable": "var1", "value": -1.127160906791687, "mean": -0.9659720063209534, "std": 0.5142000317573547, "err_low": -1.9943721294403076, "err_high": 0.062428057193756104}, {"time": 13, "is_present": false, "variable": "var1", "value": -1.4307022094726562, "mean": -1.0667270421981812, "std": 0.5184580683708191, "err_low": -2.1036431789398193, "err_high": -0.02981090545654297}, {"time": 14, "is_present": false, "variable": "var1", "value": -1.2414228916168213, "mean": -1.0495829582214355, "std": 0.5142000913619995, "err_low": -2.0779831409454346, "err_high": -0.021182775497436523}, {"time": 15, "is_present": false, "variable": "var1", "value": -1.093171238899231, "mean": -0.9422032833099365, "std": 0.492346853017807, "err_low": -1.9268970489501953, "err_high": 0.04249042272567749}, {"time": 16, "is_present": true, "variable": "var1", "value": -0.7959848046302795, "mean": -0.7728819847106934, "std": 0.3984486162662506, "err_low": -1.5697791576385498, "err_high": 0.02401524782180786}, {"time": 17, "is_present": true, "variable": "var1", "value": -0.6233628392219543, "mean": -0.5213772654533386, "std": 0.39367029070854187, "err_low": -1.3087178468704224, "err_high": 0.2659633159637451}, {"time": 18, "is_present": true, "variable": "var1", "value": -0.0829683169722557, "mean": -0.036336757242679596, "std": 0.394094854593277, "err_low": -0.8245264887809753, "err_high": 0.7518529295921326}, {"time": 19, "is_present": true, "variable": "var1", "value": 0.4574930667877197, "mean": 0.3044125735759735, "std": 0.4079916477203369, "err_low": -0.5115706920623779, "err_high": 1.1203958988189697}], "data-4260d9303125433a67a5ac2ca527a441": [{"time": 0, "is_present": true, "variable": "var2", "value": -0.10827969759702682, "mean": 0.0018111468525603414, "std": 0.31755152344703674, "err_low": -0.6332919001579285, "err_high": 0.6369141936302185}, {"time": 1, "is_present": true, "variable": "var2", "value": 0.157035231590271, "mean": 0.17535024881362915, "std": 0.3311193883419037, "err_low": -0.4868885278701782, "err_high": 0.8375890254974365}, {"time": 2, "is_present": true, "variable": "var2", "value": 0.2517245411872864, "mean": 0.3503986597061157, "std": 0.3317238688468933, "err_low": -0.3130490779876709, "err_high": 1.0138463973999023}, {"time": 3, "is_present": true, "variable": "var2", "value": 0.5125300884246826, "mean": 0.5280015468597412, "std": 0.33175137639045715, "err_low": -0.1355012059211731, "err_high": 1.1915042400360107}, {"time": 4, "is_present": true, "variable": "var2", "value": 0.5074997544288635, "mean": 0.568206787109375, "std": 0.33175262808799744, "err_low": -0.09529846906661987, "err_high": 1.2317121028900146}, {"time": 5, "is_present": true, "variable": "var2", "value": 0.3762587308883667, "mean": 0.5426519513130188, "std": 0.3317526876926422, "err_low": -0.12085342407226562, "err_high": 1.2061573266983032}, {"time": 6, "is_present": true, "variable": "var2", "value": 0.46171730756759644, "mean": 0.4648739993572235, "std": 0.3317526876926422, "err_low": -0.1986313760280609, "err_high": 1.1283793449401855}, {"time": 7, "is_present": true, "variable": "var2", "value": 0.4113236367702484, "mean": 0.3174729347229004, "std": 0.3317527770996094, "err_low": -0.34603261947631836, "err_high": 0.9809784889221191}, {"time": 8, "is_present": true, "variable": "var2", "value": 0.17631326615810394, "mean": 0.1490703970193863, "std": 0.33175498247146606, "err_low": -0.514439582824707, "err_high": 0.8125803470611572}, {"time": 9, "is_present": true, "variable": "var2", "value": -0.02992239221930504, "mean": 0.005003424361348152, "std": 0.33180296421051025, "err_low": -0.6586024761199951, "err_high": 0.6686093807220459}, {"time": 10, "is_present": true, "variable": "var2", "value": -0.2429715394973755, "mean": -0.2112414389848709, "std": 0.33285531401634216, "err_low": -0.876952052116394, "err_high": 0.4544692039489746}, {"time": 11, "is_present": true, "variable": "var2", "value": -0.31593841314315796, "mean": -0.31322523951530457, "std": 0.35518449544906616, "err_low": -1.0235942602157593, "err_high": 0.39714375138282776}, {"time": 12, "is_present": true, "variable": "var2", "value": -0.5419456958770752, "mean": -0.41398802399635315, "std": 0.36082711815834045, "err_low": -1.1356422901153564, "err_high": 0.30766621232032776}, {"time": 13, "is_present": true, "variable": "var2", "value": -0.5694512128829956, "mean": -0.45716872811317444, "std": 0.3619445264339447, "err_low": -1.1810578107833862, "err_high": 0.26672032475471497}, {"time": 14, "is_present": true, "variable": "var2", "value": -0.5357581377029419, "mean": -0.44982126355171204, "std": 0.36082714796066284, "err_low": -1.1714755296707153, "err_high": 0.27183303236961365}, {"time": 15, "is_present": true, "variable": "var2", "value": -0.46279239654541016, "mean": -0.40380144119262695, "std": 0.3551845848560333, "err_low": -1.1141705513000488, "err_high": 0.3065677285194397}, {"time": 16, "is_present": true, "variable": "var2", "value": -0.355596661567688, "mean": -0.3312351703643799, "std": 0.3328556716442108, "err_low": -0.9969465136528015, "err_high": 0.33447617292404175}, {"time": 17, "is_present": true, "variable": "var2", "value": -0.207891583442688, "mean": -0.22344739735126495, "std": 0.3318096995353699, "err_low": -0.8870667815208435, "err_high": 0.440172016620636}, {"time": 18, "is_present": true, "variable": "var2", "value": 0.23065119981765747, "mean": -0.015572897158563137, "std": 0.33190226554870605, "err_low": -0.6793774366378784, "err_high": 0.6482316255569458}, {"time": 19, "is_present": true, "variable": "var2", "value": 0.09779148548841476, "mean": 0.13046254217624664, "std": 0.3349722623825073, "err_low": -0.5394819974899292, "err_high": 0.8004070520401001}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>save_plot(p4, <span class="st">"var_corr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Path('/home/simone/Documents/uni/Thesis/GPFA_imputation/presentations/plots_18_jan/var_corr.vl.json')</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>mask5 <span class="op">=</span> torch.ones(<span class="dv">1</span>,n_obs,<span class="dv">2</span>, dtype<span class="op">=</span><span class="bu">bool</span>)</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>mask5[<span class="dv">0</span>,<span class="dv">11</span>:<span class="dv">16</span>,:] <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>mask5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[[ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [False, False],
+         [False, False],
+         [False, False],
+         [False, False],
+         [False, False],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True],
+         [ True,  True]]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>pred5 <span class="op">=</span> k4.predict(obs4.unsqueeze(<span class="dv">0</span>), mask5, torch.zeros(<span class="dv">1</span>,n_obs,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>pred_df5 <span class="op">=</span> NormalsDf(pd.DataFrame(pred5.mean.squeeze(<span class="dv">0</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var1"</span>, <span class="st">"var2"</span>]),</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>                     pd.DataFrame(pred5.std.squeeze(<span class="dv">0</span>).squeeze(<span class="op">-</span><span class="dv">1</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var1"</span>, <span class="st">"var2"</span>])).tidy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>obs_df5_0 <span class="op">=</span> pd.DataFrame({<span class="st">'time'</span>: time, <span class="st">'var1'</span>: obs4[:,<span class="dv">0</span>].numpy(),</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'is_present'</span>: mask5[<span class="dv">0</span>,:,<span class="dv">0</span>].numpy()}).melt([<span class="st">"time"</span>, <span class="st">"is_present"</span>]) </span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>obs_df5_1 <span class="op">=</span> pd.DataFrame({<span class="st">'time'</span>: time, <span class="st">'var2'</span>: obs4[:,<span class="dv">1</span>].numpy(),</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'is_present'</span>: mask5[<span class="dv">0</span>,:,<span class="dv">1</span>].numpy()}).melt([<span class="st">"time"</span>, <span class="st">"is_present"</span>]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>obs_df5 <span class="op">=</span> pd.concat([obs_df5_0, obs_df5_1])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>plot_df5 <span class="op">=</span> pd.merge(obs_df4, pred_df5, on<span class="op">=</span>[<span class="st">'time'</span>, <span class="st">'variable'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>p5 <span class="op">=</span> facet_variable(plot_df5, ys<span class="op">=</span>[<span class="st">"value"</span>, <span class="st">"mean"</span>], error<span class="op">=</span><span class="va">True</span>, gap_area<span class="op">=</span><span class="va">False</span>, props<span class="op">=</span>{<span class="st">'width'</span>: <span class="dv">350</span>, <span class="st">'height'</span>: <span class="dv">220</span>}, n_cols<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>p5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div id="altair-viz-ea2cba2e431347d584755c4425b7603f"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-ea2cba2e431347d584755c4425b7603f") {
+      outputDiv = document.getElementById("altair-viz-ea2cba2e431347d584755c4425b7603f");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@5.2.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.2.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"hconcat": [{"layer": [{"mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_present", "legend": {"title": ["Observed data"]}, "scale": {"range": ["black", "#ffffff00"]}, "type": "nominal"}, "shape": {"field": "is_present", "type": "nominal"}, "x": {"axis": {"domain": true, "labels": true, "ticks": true, "title": "time"}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "", "type": "quantitative"}}}, {"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std"]}, "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "", "type": "quantitative"}, "y2": {"field": "err_high"}}, "name": "view_13"}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "", "type": "quantitative"}}}], "height": 220, "title": "", "width": 350}], "data": {"name": "data-82974c3d5c753f9cedd8d587e812f122"}}, {"hconcat": [{"layer": [{"mark": {"type": "point", "color": "black", "fillOpacity": 1, "strokeWidth": 1}, "encoding": {"fill": {"field": "is_present", "legend": {"title": ["Observed data"]}, "scale": {"range": ["black", "#ffffff00"]}, "type": "nominal"}, "shape": {"field": "is_present", "type": "nominal"}, "x": {"axis": {"domain": true, "labels": true, "ticks": true, "title": "time"}, "field": "time", "type": "quantitative"}, "y": {"field": "value", "scale": {"zero": false}, "title": "", "type": "quantitative"}}}, {"mark": "errorband", "encoding": {"color": {"field": "variable", "legend": {"title": ["Line: pred. mean", "area: +/- 2 std"]}, "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "err_low", "scale": {"zero": false}, "title": "", "type": "quantitative"}, "y2": {"field": "err_high"}}, "name": "view_14"}, {"mark": "line", "encoding": {"color": {"field": "variable", "type": "nominal"}, "x": {"field": "time", "type": "quantitative"}, "y": {"field": "mean", "scale": {"zero": false}, "title": "", "type": "quantitative"}}}], "height": 220, "title": "", "width": 350}], "data": {"name": "data-8da81a0df5bca7b93210fd844a165078"}}], "params": [{"name": "param_25", "select": {"type": "interval", "encodings": ["x"]}, "bind": "scales", "views": ["view_13", "view_14"]}], "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json", "datasets": {"data-82974c3d5c753f9cedd8d587e812f122": [{"time": 0, "is_present": true, "variable": "var1", "value": -0.027705306187272072, "mean": 0.004226009827107191, "std": 0.3233693838119507, "err_low": -0.6425127387046814, "err_high": 0.6509647965431213}, {"time": 1, "is_present": true, "variable": "var1", "value": 0.41556239128112793, "mean": 0.4091506004333496, "std": 0.39049291610717773, "err_low": -0.37183523178100586, "err_high": 1.190136432647705}, {"time": 2, "is_present": true, "variable": "var1", "value": 0.8574529886245728, "mean": 0.8175970315933228, "std": 0.39327627420425415, "err_low": 0.031044483184814453, "err_high": 1.604149580001831}, {"time": 3, "is_present": true, "variable": "var1", "value": 1.3694863319396973, "mean": 1.2320045232772827, "std": 0.3934025168418884, "err_low": 0.44519948959350586, "err_high": 2.0188095569610596}, {"time": 4, "is_present": true, "variable": "var1", "value": 1.41446053981781, "mean": 1.3258206844329834, "std": 0.39340826869010925, "err_low": 0.5390041470527649, "err_high": 2.1126372814178467}, {"time": 5, "is_present": true, "variable": "var1", "value": 1.3872345685958862, "mean": 1.266210913658142, "std": 0.39340850710868835, "err_low": 0.4793938994407654, "err_high": 2.053027868270874}, {"time": 6, "is_present": true, "variable": "var1", "value": 1.1523652076721191, "mean": 1.0848140716552734, "std": 0.3934085965156555, "err_low": 0.2979968786239624, "err_high": 1.8716312646865845}, {"time": 7, "is_present": true, "variable": "var1", "value": 0.7205492854118347, "mean": 0.7412768006324768, "std": 0.3934096097946167, "err_low": -0.04554241895675659, "err_high": 1.5280959606170654}, {"time": 8, "is_present": true, "variable": "var1", "value": 0.31297916173934937, "mean": 0.3502058982849121, "std": 0.39343205094337463, "err_low": -0.43665820360183716, "err_high": 1.1370699405670166}, {"time": 9, "is_present": true, "variable": "var1", "value": 0.09538229554891586, "mean": 0.02280544862151146, "std": 0.3939249515533447, "err_low": -0.7650444507598877, "err_high": 0.8106553554534912}, {"time": 10, "is_present": true, "variable": "var1", "value": -0.5881159901618958, "mean": -0.44073012471199036, "std": 0.4046002924442291, "err_low": -1.249930739402771, "err_high": 0.3684704601764679}, {"time": 11, "is_present": false, "variable": "var1", "value": -0.9170175194740295, "mean": -0.48637059330940247, "std": 0.5924041271209717, "err_low": -1.6711788177490234, "err_high": 0.6984376907348633}, {"time": 12, "is_present": false, "variable": "var1", "value": -1.127160906791687, "mean": -0.532011091709137, "std": 0.6806523203849792, "err_low": -1.8933157920837402, "err_high": 0.8292935490608215}, {"time": 13, "is_present": false, "variable": "var1", "value": -1.4307022094726562, "mean": -0.5776515603065491, "std": 0.70762699842453, "err_low": -1.992905616760254, "err_high": 0.837602436542511}, {"time": 14, "is_present": false, "variable": "var1", "value": -1.2414228916168213, "mean": -0.6232920289039612, "std": 0.6806526184082031, "err_low": -1.9845972061157227, "err_high": 0.7380132079124451}, {"time": 15, "is_present": false, "variable": "var1", "value": -1.093171238899231, "mean": -0.6689324975013733, "std": 0.5924049019813538, "err_low": -1.8537423610687256, "err_high": 0.5158773064613342}, {"time": 16, "is_present": true, "variable": "var1", "value": -0.7959848046302795, "mean": -0.7145730257034302, "std": 0.40460205078125, "err_low": -1.5237771272659302, "err_high": 0.09463107585906982}, {"time": 17, "is_present": true, "variable": "var1", "value": -0.6233628392219543, "mean": -0.5089306831359863, "std": 0.39395612478256226, "err_low": -1.2968429327011108, "err_high": 0.2789815664291382}, {"time": 18, "is_present": true, "variable": "var1", "value": -0.0829683169722557, "mean": -0.03365649655461311, "std": 0.3941081166267395, "err_low": -0.8218727111816406, "err_high": 0.7545597553253174}, {"time": 19, "is_present": true, "variable": "var1", "value": 0.4574930667877197, "mean": 0.30509981513023376, "std": 0.40799248218536377, "err_low": -0.5108851194381714, "err_high": 1.1210848093032837}], "data-8da81a0df5bca7b93210fd844a165078": [{"time": 0, "is_present": true, "variable": "var2", "value": -0.10827969759702682, "mean": 0.0018111472018063068, "std": 0.31755152344703674, "err_low": -0.6332919001579285, "err_high": 0.6369141936302185}, {"time": 1, "is_present": true, "variable": "var2", "value": 0.157035231590271, "mean": 0.17535026371479034, "std": 0.3311193883419037, "err_low": -0.4868885278701782, "err_high": 0.8375890254974365}, {"time": 2, "is_present": true, "variable": "var2", "value": 0.2517245411872864, "mean": 0.3503987491130829, "std": 0.3317238688468933, "err_low": -0.31304898858070374, "err_high": 1.013846516609192}, {"time": 3, "is_present": true, "variable": "var2", "value": 0.5125300884246826, "mean": 0.5280019640922546, "std": 0.33175137639045715, "err_low": -0.13550078868865967, "err_high": 1.191504716873169}, {"time": 4, "is_present": true, "variable": "var2", "value": 0.5074997544288635, "mean": 0.5682089328765869, "std": 0.33175262808799744, "err_low": -0.09529632329940796, "err_high": 1.2317142486572266}, {"time": 5, "is_present": true, "variable": "var2", "value": 0.3762587308883667, "mean": 0.5426618456840515, "std": 0.3317526876926422, "err_low": -0.12084352970123291, "err_high": 1.206167221069336}, {"time": 6, "is_present": true, "variable": "var2", "value": 0.46171730756759644, "mean": 0.464920312166214, "std": 0.3317526876926422, "err_low": -0.19858506321907043, "err_high": 1.1284257173538208}, {"time": 7, "is_present": true, "variable": "var2", "value": 0.4113236367702484, "mean": 0.31769007444381714, "std": 0.3317529261112213, "err_low": -0.3458157777786255, "err_high": 0.9811959266662598}, {"time": 8, "is_present": true, "variable": "var2", "value": 0.17631326615810394, "mean": 0.15008825063705444, "std": 0.3317578136920929, "err_low": -0.5134273767471313, "err_high": 0.8136038780212402}, {"time": 9, "is_present": true, "variable": "var2", "value": -0.02992239221930504, "mean": 0.00977376475930214, "std": 0.33186522126197815, "err_low": -0.6539566516876221, "err_high": 0.6735042333602905}, {"time": 10, "is_present": true, "variable": "var2", "value": -0.2429715394973755, "mean": -0.18888434767723083, "std": 0.3342158794403076, "err_low": -0.8573161363601685, "err_high": 0.4795474112033844}, {"time": 11, "is_present": true, "variable": "var2", "value": -0.31593841314315796, "mean": -0.20844455063343048, "std": 0.38221919536590576, "err_low": -0.9728829264640808, "err_high": 0.5559938549995422}, {"time": 12, "is_present": true, "variable": "var2", "value": -0.5419456958770752, "mean": -0.22800476849079132, "std": 0.4083213210105896, "err_low": -1.044647455215454, "err_high": 0.5886378884315491}, {"time": 13, "is_present": true, "variable": "var2", "value": -0.5694512128829956, "mean": -0.24756497144699097, "std": 0.41665881872177124, "err_low": -1.0808825492858887, "err_high": 0.5857526659965515}, {"time": 14, "is_present": true, "variable": "var2", "value": -0.5357581377029419, "mean": -0.2671251893043518, "std": 0.40832141041755676, "err_low": -1.0837680101394653, "err_high": 0.5495176315307617}, {"time": 15, "is_present": true, "variable": "var2", "value": -0.46279239654541016, "mean": -0.28668537735939026, "std": 0.3822194039821625, "err_low": -1.0511242151260376, "err_high": 0.4777534306049347}, {"time": 16, "is_present": true, "variable": "var2", "value": -0.355596661567688, "mean": -0.3062455952167511, "std": 0.33421626687049866, "err_low": -0.9746781587600708, "err_high": 0.3621869385242462}, {"time": 17, "is_present": true, "variable": "var2", "value": -0.207891583442688, "mean": -0.21811315417289734, "std": 0.33187201619148254, "err_low": -0.88185715675354, "err_high": 0.44563087821006775}, {"time": 18, "is_present": true, "variable": "var2", "value": 0.23065119981765747, "mean": -0.014424214139580727, "std": 0.33190515637397766, "err_low": -0.6782345175743103, "err_high": 0.6493861079216003}, {"time": 19, "is_present": true, "variable": "var2", "value": 0.09779148548841476, "mean": 0.13075706362724304, "std": 0.33497247099876404, "err_low": -0.5391879081726074, "err_high": 0.8007019758224487}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>save_plot(p5, <span class="st">"var_no_corr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Path('/home/simone/Documents/uni/Thesis/GPFA_imputation/presentations/plots_18_jan/var_no_corr.vl.json')</code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
