@@ -4,8 +4,9 @@ author: Simone Massaro - Bioclim seminar 18 Jan 2023
 Date: "18 Jan 2023"
 format:
   revealjs:
-    transition: slide
+    transition: fade
     slide-number: true
+    chalkboard: true
 ---
 
 ```{r}
@@ -54,7 +55,7 @@ show_plot <- function(path){
 
 ## Gap len distribution in Fluxnet
 
-![plot of distribution of small gaps (<200) for all `TA`, `SW_IN` and `VPD` for all sites](plots_18_jan/gap_len_dist_small.png)
+![plot of distribution of small gaps (<1 week) for all `TA`, `SW_IN` and `VPD` for all sites](plots_18_jan/gap_len_dist_small.png)
 
 ## How to fill gaps
 
@@ -64,11 +65,11 @@ show_plot <- function(path){
 
 ## State of the art
 
-- OneFlux pipeline (Fluxnet + ICOS + AmeriFlux)
+OneFlux pipeline (Fluxnet + ICOS + AmeriFlux)
 
 - Short and medium gaps using Marginal Distribution Sampling (MDS)
 
-- Long gaps filled with ERA data (global meteo dataset) using linear regression to reduce site bias
+- Long gaps filled with ERA data (global meteo dataset) using linear transformation to reduce site bias
     
 ## How MDS (Marginal Distribution Sampling) works {.smaller}
 
@@ -104,11 +105,11 @@ show_plot <- function(path){
 ![](plots_18_jan/VPD_plot_timeseries_gap_10-1.png)
 
 
-## MDS limitations
+## Current approaches limitations
 
 -   No uncertainty for the predictions (only a quality flag)
--   Don't combine the different imputation approaches
--   high error for medium/short gaps
+-   Either MDS (variable correlation) or ERA data, don't combine the information
+-   don't consider the observations before and after the gap
 
 ## Thesis goal
 
@@ -154,6 +155,7 @@ where:
 :::{.column .center}
 
 ```{r}
+#| fig.cap="Example of Kalman Filter $A=1$"
 show_plot("only_state")
 ```
 :::
@@ -179,6 +181,7 @@ using the rules of probabilistic inference if we observe $y_t$ you can update th
 :::{.column}
 
 ```{r}
+#| fig.cap="Example of Kalman Filter $H=1$ $A=1$"
 show_plot("obs")
 ```
 :::
@@ -189,6 +192,7 @@ show_plot("obs")
 
 
 ```{r}
+#| fig.cap="Example of Kalman Filter $H=1$ $A=1$"
 show_plot("gaps")
 ```
 
@@ -203,12 +207,13 @@ where:
 
 - $B$ is a linear transformation of $\color{purple}{c_t}$
 
-Use the difference between current and previous value of control variable
+Use the difference between current and previous value of control variable 
 :::
 
 :::{.column}
 
 ```{r}
+#| fig.cap="Example of Kalman Filter $H=1$ $A=1$ $B=[-1,1]$"
 show_plot("control")
 ```
 :::
