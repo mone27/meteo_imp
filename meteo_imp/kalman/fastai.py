@@ -350,10 +350,10 @@ def facet_variable(df, # tidy dataframe
     plot_list = [alt.hconcat() for _ in range(0, len(vars), n_cols)]
     selection_scale = alt.selection_interval(bind="scales", encodings=['x']) if bind_interaction else None
     for idx, variable in enumerate(vars):
+        kwargs['y_label'] =  kwargs.get("y_label", f"{variable} [{units[idx]}]" if units is not None else variable)
         plot = plot_variable(df,
                             variable,
                             sel = selection_scale,
-                            y_label = f"{variable} [{units[idx]}]" if units is not None else variable,
                             **kwargs)
         
         plot_list[idx // n_cols] |= plot
@@ -722,10 +722,10 @@ def show_results(learn, n=3, items=None, **kwargs):
 from ipywidgets import IntSlider, interact_manual, Text
 
 # %% ../../lib_nbs/kalman/10_fastai.ipynb 364
-def results_custom_gap(learn, df, control, items_idx, var_sel, gap_len, block_len, control_lags):
-    pipeline,_ = imp_pipeline(df, control, var_sel, gap_len, block_len, control_lags)
-    
-    dls = TfmdLists(items_idx, pipeline).dataloaders(bs=len(items_idx))
+def results_custom_gap(learn, df, control, items_idx, var_sel, gap_len, block_len, shift, control_lags):
+    pipeline,_ = imp_pipeline(df, control, var_sel, gap_len, block_len, control_lags, n_rep=1)
+    items_idx = [[i, shift] for i in items_idx]
+    dls = TfmdLists(items_idx,pipeline).dataloaders(bs=len(items_idx))
     return get_results(learn, items=items_idx, dls=dls)
 
 # %% ../../lib_nbs/kalman/10_fastai.ipynb 366
@@ -735,12 +735,15 @@ def interact_results(learn, df, control):
         'items_idx': Text(value='10, 100', placeholder="comma separated indices"),
         'control_lags': Text(value='1', label="comma lag control"),
         'block_len': IntSlider(200, 10, 1000, 10),
+        'shift': IntSlider(0, -100, 100, 1),
         **{var_name: True for var_name in df.columns}
     }
     
-    def _inner(gap_len, items_idx, control_lags, block_len, **var_names):
+    def _inner(gap_len, items_idx, control_lags, block_len, shift, **var_names):
         var_sel = [var_name for var_name, var_use in var_names.items() if var_use]
         items_idx = list(map(int, items_idx.split(",")))
         control_lags = list(map(int, control_lags.split(",")))
-        return plot_results(*results_custom_gap(learn=learn, df=df, control=control, var_sel=var_sel, gap_len=gap_len, items_idx=items_idx, block_len=block_len, control_lags=control_lags))
+        return plot_results(*results_custom_gap(learn=learn, df=df, control=control, var_sel=var_sel,
+                                                gap_len=gap_len, items_idx=items_idx, block_len=block_len,
+                                                control_lags=control_lags, shift=shift))
     return interact_manual(_inner, **interact_args)
