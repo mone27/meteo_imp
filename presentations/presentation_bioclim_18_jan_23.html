@@ -34,6 +34,8 @@
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
@@ -389,7 +391,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <section id="gap-len-distribution-in-fluxnet-1" class="slide level2">
 <h2>Gap len distribution in Fluxnet</h2>
 
-<img data-src="plots_18_jan/gap_len_dist_small.png" class="r-stretch quarto-figure-center"><p class="caption">plot of distribution of small gaps (&lt;200) for all <code>TA</code>, <code>SW_IN</code> and <code>VPD</code> for all sites</p></section>
+<img data-src="plots_18_jan/gap_len_dist_small.png" class="r-stretch quarto-figure-center"><p class="caption">plot of distribution of small gaps (&lt;1 week) for all <code>TA</code>, <code>SW_IN</code> and <code>VPD</code> for all sites</p></section>
 <section id="how-to-fill-gaps" class="slide level2">
 <h2>How to fill gaps</h2>
 <ol type="1">
@@ -400,10 +402,10 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 </section>
 <section id="state-of-the-art" class="slide level2">
 <h2>State of the art</h2>
+<p>OneFlux pipeline (Fluxnet + ICOS + AmeriFlux)</p>
 <ul>
-<li><p>OneFlux pipeline (Fluxnet + ICOS + AmeriFlux)</p></li>
 <li><p>Short and medium gaps using Marginal Distribution Sampling (MDS)</p></li>
-<li><p>Long gaps filled with ERA data (global meteo dataset) using linear regression to reduce site bias</p></li>
+<li><p>Long gaps filled with ERA data (global meteo dataset) using linear transformation to reduce site bias</p></li>
 </ul>
 </section>
 <section id="how-mds-marginal-distribution-sampling-works" class="slide level2 smaller">
@@ -435,12 +437,12 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <h2>MDS - gap filling <code>VPD</code></h2>
 
 <img data-src="plots_18_jan/VPD_plot_timeseries_gap_10-1.png" class="r-stretch"></section>
-<section id="mds-limitations" class="slide level2">
-<h2>MDS limitations</h2>
+<section id="current-approaches-limitations" class="slide level2">
+<h2>Current approaches limitations</h2>
 <ul>
 <li>No uncertainty for the predictions (only a quality flag)</li>
-<li>Don’t combine the different imputation approaches</li>
-<li>high error for medium/short gaps</li>
+<li>Either MDS (variable correlation) or ERA data, don’t combine the information</li>
+<li>don’t consider the observations before and after the gap</li>
 </ul>
 </section>
 <section id="thesis-goal" class="slide level2">
@@ -486,8 +488,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 </div><div class="column center">
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-282f18b2ca52d43f5733" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-282f18b2ca52d43f5733">{"x":{
+<div id="htmlwidget-c97c396feca09450ba8c" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c97c396feca09450ba8c">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -749,6 +751,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
     "defaultStyle": true
   }
 },"evals":[],"jsHooks":[]}</script>
+<p>Example of Kalman Filter <span class="math inline">\(A=1\)</span></p>
 </div>
 </div>
 </div>
@@ -769,8 +772,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 </div><div class="column">
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-9ad79f6a92597fccc48f" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9ad79f6a92597fccc48f">{"x":{
+<div id="htmlwidget-177d9fc6cb0748a3d211" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-177d9fc6cb0748a3d211">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -1119,6 +1122,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
     "defaultStyle": true
   }
 },"evals":[],"jsHooks":[]}</script>
+<p>Example of Kalman Filter <span class="math inline">\(H=1\)</span> <span class="math inline">\(A=1\)</span></p>
 </div>
 </div>
 </div>
@@ -1128,8 +1132,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <h2>Gaps</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-4653ef6aa11f4500ec01" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4653ef6aa11f4500ec01">{"x":{
+<div id="htmlwidget-1af96afe21c45a01854a" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1af96afe21c45a01854a">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -1364,7 +1368,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
       {
         "hconcat": [
           {
-            "height": 500,
+            "height": 450,
             "layer": [
               {
                 "encoding": {
@@ -1478,6 +1482,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
     "defaultStyle": true
   }
 },"evals":[],"jsHooks":[]}</script>
+<p>Example of Kalman Filter <span class="math inline">\(H=1\)</span> <span class="math inline">\(A=1\)</span></p>
 </div>
 </div>
 </section>
@@ -1494,8 +1499,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 </div><div class="column">
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-18e15d08d6e3d30a46f9" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-18e15d08d6e3d30a46f9">{"x":{
+<div id="htmlwidget-7a31635ff2b0970d51e2" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7a31635ff2b0970d51e2">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -1958,6 +1963,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
     "defaultStyle": true
   }
 },"evals":[],"jsHooks":[]}</script>
+<p>Example of Kalman Filter <span class="math inline">\(H=1\)</span> <span class="math inline">\(A=1\)</span> <span class="math inline">\(B=[-1,1]\)</span></p>
 </div>
 </div>
 </div>
@@ -1970,8 +1976,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <p>Gap in two variables</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-c394ace5050f5b6a1fd9" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c394ace5050f5b6a1fd9">{"x":{
+<div id="htmlwidget-8882afc3b88beba37f72" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8882afc3b88beba37f72">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -1981,408 +1987,408 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
       }
     },
     "datasets": {
-      "data-ebc897f424512192eb4d8cce7ed1ca99": [
+      "data-48b700245a045a6c362f2d606ef0e6f8": [
         {
-          "err_high": 0.653130292892456,
-          "err_low": -0.640347242355347,
+          "err_high": 0.640984416007996,
+          "err_low": -0.629221677780151,
           "is_present": true,
-          "mean": 0.00639149826020002,
-          "std": 0.323369383811951,
-          "time": 0,
-          "value": 0.0577642098069191,
-          "variable": "var1"
-        },
-        {
-          "err_high": 1.20098316669464,
-          "err_low": -0.36098849773407,
-          "is_present": true,
-          "mean": 0.419997334480286,
-          "std": 0.390492916107178,
-          "time": 1,
-          "value": 0.409516215324402,
-          "variable": "var1"
-        },
-        {
-          "err_high": 1.68821406364441,
-          "err_low": 0.115108907222748,
-          "is_present": true,
-          "mean": 0.901661455631256,
-          "std": 0.393276274204254,
-          "time": 2,
-          "value": 0.951523959636688,
-          "variable": "var1"
-        },
-        {
-          "err_high": 1.92879462242126,
-          "err_low": 0.355184555053711,
-          "is_present": true,
-          "mean": 1.14198958873749,
-          "std": 0.393402516841888,
-          "time": 3,
-          "value": 1.27026987075806,
-          "variable": "var1"
-        },
-        {
-          "err_high": 2.01630926132202,
-          "err_low": 0.44267612695694,
-          "is_present": true,
-          "mean": 1.22949266433716,
-          "std": 0.393408268690109,
-          "time": 4,
-          "value": 1.26840424537659,
-          "variable": "var1"
-        },
-        {
-          "err_high": 2.09016489982605,
-          "err_low": 0.516530930995941,
-          "is_present": true,
-          "mean": 1.30334794521332,
-          "std": 0.393408507108688,
-          "time": 5,
-          "value": 1.34723913669586,
-          "variable": "var1"
-        },
-        {
-          "err_high": 1.9462890625,
-          "err_low": 0.372654676437378,
-          "is_present": true,
-          "mean": 1.15947186946869,
-          "std": 0.393408596515656,
-          "time": 6,
-          "value": 1.20733451843262,
-          "variable": "var1"
-        },
-        {
-          "err_high": 1.65037250518799,
-          "err_low": 0.0767340660095215,
-          "is_present": true,
-          "mean": 0.863553285598755,
-          "std": 0.393409609794617,
-          "time": 7,
-          "value": 0.891766428947449,
-          "variable": "var1"
-        },
-        {
-          "err_high": 1.33290326595306,
-          "err_low": -0.240824937820435,
-          "is_present": true,
-          "mean": 0.546039164066315,
-          "std": 0.393432050943375,
-          "time": 8,
-          "value": 0.600128591060638,
-          "variable": "var1"
-        },
-        {
-          "err_high": 0.872807681560516,
-          "err_low": -0.702892124652863,
-          "is_present": true,
-          "mean": 0.0849578008055687,
-          "std": 0.393924951553345,
-          "time": 9,
-          "value": 0.00762336747720838,
-          "variable": "var1"
-        },
-        {
-          "err_high": 0.579282343387604,
-          "err_low": -1.03911876678467,
-          "is_present": true,
-          "mean": -0.229918241500854,
-          "std": 0.404600292444229,
-          "time": 10,
-          "value": -0.30377534031868,
-          "variable": "var1"
-        },
-        {
-          "err_high": 0.871518850326538,
-          "err_low": -1.49809765815735,
-          "is_present": false,
-          "mean": -0.313289433717728,
-          "std": 0.592404127120972,
-          "time": 11,
-          "value": -0.775492906570435,
-          "variable": "var1"
-        },
-        {
-          "err_high": 0.964644074440002,
-          "err_low": -1.75796520709991,
-          "is_present": false,
-          "mean": -0.396660596132278,
-          "std": 0.680652320384979,
-          "time": 12,
-          "value": -1.23824501037598,
-          "variable": "var1"
-        },
-        {
-          "err_high": 0.935222268104553,
-          "err_low": -1.89528572559357,
-          "is_present": false,
-          "mean": -0.480031758546829,
-          "std": 0.70762699842453,
-          "time": 13,
-          "value": -1.47786152362823,
-          "variable": "var1"
-        },
-        {
-          "err_high": 0.797902345657349,
-          "err_low": -1.92470812797546,
-          "is_present": false,
-          "mean": -0.563402891159058,
-          "std": 0.680652618408203,
-          "time": 14,
-          "value": -1.34369790554047,
-          "variable": "var1"
-        },
-        {
-          "err_high": 0.538035750389099,
-          "err_low": -1.83158385753632,
-          "is_present": false,
-          "mean": -0.646774053573608,
-          "std": 0.592404901981354,
-          "time": 15,
-          "value": -1.4217334985733,
-          "variable": "var1"
-        },
-        {
-          "err_high": 0.0790588855743408,
-          "err_low": -1.53934931755066,
-          "is_present": true,
-          "mean": -0.730145215988159,
-          "std": 0.40460205078125,
-          "time": 16,
-          "value": -0.882122874259949,
-          "variable": "var1"
-        },
-        {
-          "err_high": 0.434625178575516,
-          "err_low": -1.14119935035706,
-          "is_present": true,
-          "mean": -0.353287070989609,
-          "std": 0.393956124782562,
-          "time": 17,
-          "value": -0.37291806936264,
-          "variable": "var1"
-        },
-        {
-          "err_high": 0.763576924800873,
-          "err_low": -0.812855541706085,
-          "is_present": true,
-          "mean": -0.0246393010020256,
-          "std": 0.39410811662674,
-          "time": 18,
-          "value": -0.120946653187275,
-          "variable": "var1"
-        },
-        {
-          "err_high": 1.15915179252625,
-          "err_low": -0.472818076610565,
-          "is_present": true,
-          "mean": 0.343166887760162,
-          "std": 0.407992482185364,
-          "time": 19,
-          "value": 0.421959459781647,
-          "variable": "var1"
-        }
-      ],
-      "data-f958206918198e873406d418e78d31af": [
-        {
-          "err_high": 0.637842237949371,
-          "err_low": -0.632363855838776,
-          "is_present": true,
-          "mean": 0.00273921363987029,
+          "mean": 0.00588138354942203,
           "std": 0.317551523447037,
           "time": 0,
-          "value": -0.206979900598526,
+          "value": 0.127200245857239,
           "variable": "var2"
         },
         {
-          "err_high": 0.842237651348114,
-          "err_low": -0.482239902019501,
+          "err_high": 0.898784279823303,
+          "err_low": -0.425693273544312,
           "is_present": true,
-          "mean": 0.179998874664307,
+          "mean": 0.236545488238335,
           "std": 0.331119388341904,
           "time": 1,
-          "value": 0.139638558030128,
+          "value": 0.244305163621902,
           "variable": "var2"
         },
         {
-          "err_high": 1.04987406730652,
-          "err_low": -0.277021378278732,
+          "err_high": 1.03152847290039,
+          "err_low": -0.29536697268486,
           "is_present": true,
-          "mean": 0.386426359415054,
+          "mean": 0.368080765008926,
           "std": 0.331723868846893,
           "time": 2,
-          "value": 0.499919801950455,
+          "value": 0.407655715942383,
           "variable": "var2"
         },
         {
-          "err_high": 1.15292692184448,
-          "err_low": -0.174078613519669,
+          "err_high": 1.17977499961853,
+          "err_low": -0.147230505943298,
           "is_present": true,
-          "mean": 0.489424139261246,
+          "mean": 0.516272246837616,
           "std": 0.331751376390457,
           "time": 3,
-          "value": 0.335648059844971,
+          "value": 0.39302122592926,
           "variable": "var2"
         },
         {
-          "err_high": 1.19043064117432,
-          "err_low": -0.136579811573029,
+          "err_high": 1.23082327842712,
+          "err_low": -0.0961872935295105,
           "is_present": true,
-          "mean": 0.526925444602966,
+          "mean": 0.567317962646484,
           "std": 0.331752628087997,
           "time": 4,
-          "value": 0.449129462242126,
+          "value": 0.603522837162018,
           "variable": "var2"
         },
         {
-          "err_high": 1.22208309173584,
-          "err_low": -0.104927659034729,
+          "err_high": 1.25059592723846,
+          "err_low": -0.0764148235321045,
           "is_present": true,
-          "mean": 0.558577716350555,
+          "mean": 0.58709055185318,
           "std": 0.331752687692642,
           "time": 5,
-          "value": 0.663524091243744,
+          "value": 0.613245725631714,
           "variable": "var2"
         },
         {
-          "err_high": 1.16042184829712,
-          "err_low": -0.166588842868805,
+          "err_high": 1.18071150779724,
+          "err_low": -0.146299302577972,
           "is_present": true,
-          "mean": 0.496916532516479,
+          "mean": 0.517206072807312,
           "std": 0.331752687692642,
           "time": 6,
-          "value": 0.530036389827728,
+          "value": 0.609224677085876,
           "variable": "var2"
         },
         {
-          "err_high": 1.0336000919342,
-          "err_low": -0.293411552906036,
+          "err_high": 0.977389395236969,
+          "err_low": -0.349622309207916,
           "is_present": true,
-          "mean": 0.370094299316406,
+          "mean": 0.313883543014526,
           "std": 0.331752926111221,
           "time": 7,
-          "value": 0.324830263853073,
+          "value": 0.37274307012558,
           "variable": "var2"
         },
         {
-          "err_high": 0.89753246307373,
-          "err_low": -0.429498821496964,
+          "err_high": 0.898688733577728,
+          "err_low": -0.428342521190643,
           "is_present": true,
-          "mean": 0.234016805887222,
+          "mean": 0.235173091292381,
           "std": 0.331757813692093,
           "time": 8,
-          "value": 0.244536191225052,
+          "value": 0.221899598836899,
           "variable": "var2"
         },
         {
-          "err_high": 0.700140953063965,
-          "err_low": -0.627319931983948,
+          "err_high": 0.702439188957214,
+          "err_low": -0.625021696090698,
           "is_present": true,
-          "mean": 0.0364104881882668,
+          "mean": 0.038708757609129,
           "std": 0.331865221261978,
           "time": 9,
-          "value": 0.0776168406009674,
+          "value": 0.111895963549614,
           "variable": "var2"
         },
         {
-          "err_high": 0.569895386695862,
-          "err_low": -0.766968131065369,
+          "err_high": 0.553998470306396,
+          "err_low": -0.782865047454834,
           "is_present": true,
-          "mean": -0.0985363945364952,
+          "mean": -0.114433310925961,
           "std": 0.334215879440308,
           "time": 10,
-          "value": -0.146679669618607,
+          "value": -0.237238645553589,
           "variable": "var2"
         },
         {
-          "err_high": 0.630171477794647,
-          "err_low": -0.898705303668976,
+          "err_high": 0.617444038391113,
+          "err_low": -0.91143274307251,
           "is_present": false,
-          "mean": -0.134266912937164,
+          "mean": -0.146994367241859,
           "std": 0.382219195365906,
           "time": 11,
-          "value": -0.349772185087204,
+          "value": -0.138226479291916,
           "variable": "var2"
         },
         {
-          "err_high": 0.646645247936249,
-          "err_low": -0.98664003610611,
+          "err_high": 0.637087225914001,
+          "err_low": -0.996198058128357,
           "is_present": false,
-          "mean": -0.169997408986092,
+          "mean": -0.179555416107178,
           "std": 0.40832132101059,
           "time": 12,
-          "value": -0.521894633769989,
+          "value": -0.633808195590973,
           "variable": "var2"
         },
         {
-          "err_high": 0.627589702606201,
-          "err_low": -1.03904557228088,
+          "err_high": 0.621201157569885,
+          "err_low": -1.0454341173172,
           "is_present": false,
-          "mean": -0.205727905035019,
+          "mean": -0.212116464972496,
           "std": 0.416658818721771,
           "time": 13,
-          "value": -0.544994592666626,
+          "value": -0.572641849517822,
           "variable": "var2"
         },
         {
-          "err_high": 0.575184404850006,
-          "err_low": -1.05810117721558,
+          "err_high": 0.571965336799622,
+          "err_low": -1.06132030487061,
           "is_present": false,
-          "mean": -0.241458401083946,
+          "mean": -0.244677513837814,
           "std": 0.408321410417557,
           "time": 14,
-          "value": -0.613740980625153,
+          "value": -0.570696771144867,
           "variable": "var2"
         },
         {
-          "err_high": 0.487249910831451,
-          "err_low": -1.04162764549255,
+          "err_high": 0.487200230360031,
+          "err_low": -1.0416773557663,
           "is_present": false,
-          "mean": -0.277188897132874,
+          "mean": -0.277238577604294,
           "std": 0.382219403982162,
           "time": 15,
-          "value": -0.519931972026825,
+          "value": -0.381034910678864,
           "variable": "var2"
         },
         {
-          "err_high": 0.355513155460358,
-          "err_low": -0.981351912021637,
+          "err_high": 0.358632922172546,
+          "err_low": -0.978232145309448,
           "is_present": true,
-          "mean": -0.31291937828064,
+          "mean": -0.309799611568451,
           "std": 0.334216266870499,
           "time": 16,
-          "value": -0.39660906791687,
+          "value": -0.257635593414307,
           "variable": "var2"
         },
         {
-          "err_high": 0.512335300445557,
-          "err_low": -0.815152764320374,
+          "err_high": 0.459751516580582,
+          "err_low": -0.867736577987671,
           "is_present": true,
-          "mean": -0.151408761739731,
+          "mean": -0.203992515802383,
           "std": 0.331872016191483,
           "time": 17,
-          "value": -0.0596894919872284,
+          "value": -0.00190415978431702,
           "variable": "var2"
         },
         {
-          "err_high": 0.653250634670258,
-          "err_low": -0.674369990825653,
+          "err_high": 0.629506826400757,
+          "err_low": -0.698113799095154,
           "is_present": true,
-          "mean": -0.0105597004294395,
+          "mean": -0.0343035012483597,
           "std": 0.331905156373978,
           "time": 18,
-          "value": 0.176864430308342,
+          "value": 0.00259671127423644,
           "variable": "var2"
         },
         {
-          "err_high": 0.81701648235321,
-          "err_low": -0.522873401641846,
+          "err_high": 0.833190679550171,
+          "err_low": -0.506699204444885,
           "is_present": true,
-          "mean": 0.147071540355682,
+          "mean": 0.16324570775032,
           "std": 0.334972470998764,
           "time": 19,
-          "value": 0.313506841659546,
+          "value": 0.209990844130516,
           "variable": "var2"
+        }
+      ],
+      "data-98c0c474db0967964b1955b0404e15d5": [
+        {
+          "err_high": 0.660462021827698,
+          "err_low": -0.633015513420105,
+          "is_present": true,
+          "mean": 0.0137232271954417,
+          "std": 0.323369383811951,
+          "time": 0,
+          "value": 0.0218397658318281,
+          "variable": "var1"
+        },
+        {
+          "err_high": 1.33292531967163,
+          "err_low": -0.229046404361725,
+          "is_present": true,
+          "mean": 0.551939427852631,
+          "std": 0.390492916107178,
+          "time": 1,
+          "value": 0.643020391464233,
+          "variable": "var1"
+        },
+        {
+          "err_high": 1.64540767669678,
+          "err_low": 0.072302520275116,
+          "is_present": true,
+          "mean": 0.858855068683624,
+          "std": 0.393276274204254,
+          "time": 2,
+          "value": 0.826031684875488,
+          "variable": "var1"
+        },
+        {
+          "err_high": 1.99144017696381,
+          "err_low": 0.417830109596252,
+          "is_present": true,
+          "mean": 1.20463514328003,
+          "std": 0.393402516841888,
+          "time": 3,
+          "value": 1.34997498989105,
+          "variable": "var1"
+        },
+        {
+          "err_high": 2.11055827140808,
+          "err_low": 0.536925256252289,
+          "is_present": true,
+          "mean": 1.32374179363251,
+          "std": 0.393408268690109,
+          "time": 4,
+          "value": 1.33800876140594,
+          "variable": "var1"
+        },
+        {
+          "err_high": 2.1566948890686,
+          "err_low": 0.583060920238495,
+          "is_present": true,
+          "mean": 1.36987793445587,
+          "std": 0.393408507108688,
+          "time": 5,
+          "value": 1.44405448436737,
+          "variable": "var1"
+        },
+        {
+          "err_high": 1.99363136291504,
+          "err_low": 0.419996976852417,
+          "is_present": true,
+          "mean": 1.20681416988373,
+          "std": 0.393408596515656,
+          "time": 6,
+          "value": 1.29445886611938,
+          "variable": "var1"
+        },
+        {
+          "err_high": 1.51921415328979,
+          "err_low": -0.0544242858886719,
+          "is_present": true,
+          "mean": 0.732394933700562,
+          "std": 0.393409609794617,
+          "time": 7,
+          "value": 0.588493585586548,
+          "variable": "var1"
+        },
+        {
+          "err_high": 1.33560132980347,
+          "err_low": -0.238126933574677,
+          "is_present": true,
+          "mean": 0.548737168312073,
+          "std": 0.393432050943375,
+          "time": 8,
+          "value": 0.666570127010345,
+          "variable": "var1"
+        },
+        {
+          "err_high": 0.878170311450958,
+          "err_low": -0.697529494762421,
+          "is_present": true,
+          "mean": 0.0903204306960106,
+          "std": 0.393924951553345,
+          "time": 9,
+          "value": 0.0176959428936243,
+          "variable": "var1"
+        },
+        {
+          "err_high": 0.542189538478851,
+          "err_low": -1.07621169090271,
+          "is_present": true,
+          "mean": -0.267011046409607,
+          "std": 0.404600292444229,
+          "time": 10,
+          "value": -0.329216957092285,
+          "variable": "var1"
+        },
+        {
+          "err_high": 0.841821432113647,
+          "err_low": -1.52779507637024,
+          "is_present": false,
+          "mean": -0.342986851930618,
+          "std": 0.592404127120972,
+          "time": 11,
+          "value": -0.953696966171265,
+          "variable": "var1"
+        },
+        {
+          "err_high": 0.942342042922974,
+          "err_low": -1.78026723861694,
+          "is_present": false,
+          "mean": -0.418962597846985,
+          "std": 0.680652320384979,
+          "time": 12,
+          "value": -1.33444929122925,
+          "variable": "var1"
+        },
+        {
+          "err_high": 0.920315623283386,
+          "err_low": -1.91019237041473,
+          "is_present": false,
+          "mean": -0.494938403367996,
+          "std": 0.70762699842453,
+          "time": 13,
+          "value": -1.39037358760834,
+          "variable": "var1"
+        },
+        {
+          "err_high": 0.790391087532043,
+          "err_low": -1.93221938610077,
+          "is_present": false,
+          "mean": -0.570914149284363,
+          "std": 0.680652618408203,
+          "time": 14,
+          "value": -1.31818222999573,
+          "variable": "var1"
+        },
+        {
+          "err_high": 0.537919819355011,
+          "err_low": -1.83169984817505,
+          "is_present": false,
+          "mean": -0.646889984607697,
+          "std": 0.592404901981354,
+          "time": 15,
+          "value": -1.15501999855042,
+          "variable": "var1"
+        },
+        {
+          "err_high": 0.0863383412361145,
+          "err_low": -1.53206992149353,
+          "is_present": true,
+          "mean": -0.722865760326385,
+          "std": 0.40460205078125,
+          "time": 16,
+          "value": -0.876998126506805,
+          "variable": "var1"
+        },
+        {
+          "err_high": 0.311929732561111,
+          "err_low": -1.26389479637146,
+          "is_present": true,
+          "mean": -0.475982517004013,
+          "std": 0.393956124782562,
+          "time": 17,
+          "value": -0.623430371284485,
+          "variable": "var1"
+        },
+        {
+          "err_high": 0.708174705505371,
+          "err_low": -0.868257761001587,
+          "is_present": true,
+          "mean": -0.0800414979457855,
+          "std": 0.39410811662674,
+          "time": 18,
+          "value": -0.122388809919357,
+          "variable": "var1"
+        },
+        {
+          "err_high": 1.19689154624939,
+          "err_low": -0.435078352689743,
+          "is_present": true,
+          "mean": 0.380906611680984,
+          "std": 0.407992482185364,
+          "time": 19,
+          "value": 0.54901134967804,
+          "variable": "var1"
         }
       ]
     },
@@ -2405,11 +2411,11 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
     "vconcat": [
       {
         "data": {
-          "name": "data-ebc897f424512192eb4d8cce7ed1ca99"
+          "name": "data-98c0c474db0967964b1955b0404e15d5"
         },
         "hconcat": [
           {
-            "height": 220,
+            "height": 190,
             "layer": [
               {
                 "encoding": {
@@ -2447,7 +2453,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
                     "scale": {
                       "zero": false
                     },
-                    "title": "",
+                    "title": "var1",
                     "type": "quantitative"
                   }
                 },
@@ -2479,7 +2485,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
                     "scale": {
                       "zero": false
                     },
-                    "title": "",
+                    "title": "var1",
                     "type": "quantitative"
                   },
                   "y2": {
@@ -2504,7 +2510,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
                     "scale": {
                       "zero": false
                     },
-                    "title": "",
+                    "title": "var1",
                     "type": "quantitative"
                   }
                 },
@@ -2518,11 +2524,11 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
       },
       {
         "data": {
-          "name": "data-f958206918198e873406d418e78d31af"
+          "name": "data-48b700245a045a6c362f2d606ef0e6f8"
         },
         "hconcat": [
           {
-            "height": 220,
+            "height": 190,
             "layer": [
               {
                 "encoding": {
@@ -2560,7 +2566,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
                     "scale": {
                       "zero": false
                     },
-                    "title": "",
+                    "title": "var1",
                     "type": "quantitative"
                   }
                 },
@@ -2592,7 +2598,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
                     "scale": {
                       "zero": false
                     },
-                    "title": "",
+                    "title": "var1",
                     "type": "quantitative"
                   },
                   "y2": {
@@ -2617,7 +2623,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
                     "scale": {
                       "zero": false
                     },
-                    "title": "",
+                    "title": "var1",
                     "type": "quantitative"
                   }
                 },
@@ -2642,8 +2648,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <p>Gap in only one variable</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-312194698cdaced7cb93" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-312194698cdaced7cb93">{"x":{
+<div id="htmlwidget-d6ae8aed6f639e6a3981" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d6ae8aed6f639e6a3981">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -2653,408 +2659,408 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
       }
     },
     "datasets": {
-      "data-1021a3947ee8b44203039fb0dadefe1f": [
+      "data-07f46f866f61b494e39dcc6189202e85": [
         {
-          "err_high": 0.637842237949371,
-          "err_low": -0.632363855838776,
+          "err_high": 0.660462021827698,
+          "err_low": -0.633015513420105,
           "is_present": true,
-          "mean": 0.00273921294137836,
-          "std": 0.317551523447037,
-          "time": 0,
-          "value": -0.206979900598526,
-          "variable": "var2"
-        },
-        {
-          "err_high": 0.842237591743469,
-          "err_low": -0.482239961624146,
-          "is_present": true,
-          "mean": 0.179998829960823,
-          "std": 0.331119388341904,
-          "time": 1,
-          "value": 0.139638558030128,
-          "variable": "var2"
-        },
-        {
-          "err_high": 1.04987394809723,
-          "err_low": -0.277021497488022,
-          "is_present": true,
-          "mean": 0.386426240205765,
-          "std": 0.331723868846893,
-          "time": 2,
-          "value": 0.499919801950455,
-          "variable": "var2"
-        },
-        {
-          "err_high": 1.15292620658875,
-          "err_low": -0.174079269170761,
-          "is_present": true,
-          "mean": 0.489423483610153,
-          "std": 0.331751376390457,
-          "time": 3,
-          "value": 0.335648059844971,
-          "variable": "var2"
-        },
-        {
-          "err_high": 1.19042778015137,
-          "err_low": -0.136582672595978,
-          "is_present": true,
-          "mean": 0.526922583580017,
-          "std": 0.331752628087997,
-          "time": 4,
-          "value": 0.449129462242126,
-          "variable": "var2"
-        },
-        {
-          "err_high": 1.22206950187683,
-          "err_low": -0.104941248893738,
-          "is_present": true,
-          "mean": 0.558564126491547,
-          "std": 0.331752687692642,
-          "time": 5,
-          "value": 0.663524091243744,
-          "variable": "var2"
-        },
-        {
-          "err_high": 1.1603581905365,
-          "err_low": -0.166652500629425,
-          "is_present": true,
-          "mean": 0.496852874755859,
-          "std": 0.331752687692642,
-          "time": 6,
-          "value": 0.530036389827728,
-          "variable": "var2"
-        },
-        {
-          "err_high": 1.03330147266388,
-          "err_low": -0.29370966553688,
-          "is_present": true,
-          "mean": 0.369795888662338,
-          "std": 0.331752777099609,
-          "time": 7,
-          "value": 0.324830263853073,
-          "variable": "var2"
-        },
-        {
-          "err_high": 0.896128237247467,
-          "err_low": -0.430891692638397,
-          "is_present": true,
-          "mean": 0.232618272304535,
-          "std": 0.331754982471466,
-          "time": 8,
-          "value": 0.244536191225052,
-          "variable": "var2"
-        },
-        {
-          "err_high": 0.693461894989014,
-          "err_low": -0.633749961853027,
-          "is_present": true,
-          "mean": 0.029855964705348,
-          "std": 0.33180296421051,
-          "time": 9,
-          "value": 0.0776168406009674,
-          "variable": "var2"
-        },
-        {
-          "err_high": 0.536455273628235,
-          "err_low": -0.794965982437134,
-          "is_present": true,
-          "mean": -0.129255384206772,
-          "std": 0.332855314016342,
-          "time": 10,
-          "value": -0.146679669618607,
-          "variable": "var2"
-        },
-        {
-          "err_high": 0.432131737470627,
-          "err_low": -0.988606214523315,
-          "is_present": true,
-          "mean": -0.278237253427505,
-          "std": 0.355184495449066,
-          "time": 11,
-          "value": -0.349772185087204,
-          "variable": "var2"
-        },
-        {
-          "err_high": 0.326626479625702,
-          "err_low": -1.1166820526123,
-          "is_present": true,
-          "mean": -0.395027756690979,
-          "std": 0.36082711815834,
-          "time": 12,
-          "value": -0.521894633769989,
-          "variable": "var2"
-        },
-        {
-          "err_high": 0.269161969423294,
-          "err_low": -1.17861616611481,
-          "is_present": true,
-          "mean": -0.454727083444595,
-          "std": 0.361944526433945,
-          "time": 13,
-          "value": -0.544994592666626,
-          "variable": "var2"
-        },
-        {
-          "err_high": 0.247849136590958,
-          "err_low": -1.19545948505402,
-          "is_present": true,
-          "mean": -0.473805159330368,
-          "std": 0.360827147960663,
-          "time": 14,
-          "value": -0.613740980625153,
-          "variable": "var2"
-        },
-        {
-          "err_high": 0.280458301305771,
-          "err_low": -1.14028000831604,
-          "is_present": true,
-          "mean": -0.429910868406296,
-          "std": 0.355184584856033,
-          "time": 15,
-          "value": -0.519931972026825,
-          "variable": "var2"
-        },
-        {
-          "err_high": 0.32020503282547,
-          "err_low": -1.01121759414673,
-          "is_present": true,
-          "mean": -0.345506310462952,
-          "std": 0.332855671644211,
-          "time": 16,
-          "value": -0.39660906791687,
-          "variable": "var2"
-        },
-        {
-          "err_high": 0.505254626274109,
-          "err_low": -0.821984171867371,
-          "is_present": true,
-          "mean": -0.15836475789547,
-          "std": 0.33180969953537,
-          "time": 17,
-          "value": -0.0596894919872284,
-          "variable": "var2"
-        },
-        {
-          "err_high": 0.651746869087219,
-          "err_low": -0.675862193107605,
-          "is_present": true,
-          "mean": -0.0120576564222574,
-          "std": 0.331902265548706,
-          "time": 18,
-          "value": 0.176864430308342,
-          "variable": "var2"
-        },
-        {
-          "err_high": 0.816631972789764,
-          "err_low": -0.523257076740265,
-          "is_present": true,
-          "mean": 0.14668744802475,
-          "std": 0.334972262382507,
-          "time": 19,
-          "value": 0.313506841659546,
-          "variable": "var2"
-        }
-      ],
-      "data-45f16188ce1040b7260ab0bfd0f2c036": [
-        {
-          "err_high": 0.653130292892456,
-          "err_low": -0.640347242355347,
-          "is_present": true,
-          "mean": 0.00639149686321616,
+          "mean": 0.0137232271954417,
           "std": 0.323369383811951,
           "time": 0,
-          "value": 0.0577642098069191,
+          "value": 0.0218397658318281,
           "variable": "var1"
         },
         {
-          "err_high": 1.20098304748535,
-          "err_low": -0.360988587141037,
+          "err_high": 1.33292531967163,
+          "err_low": -0.229046404361725,
           "is_present": true,
-          "mean": 0.419997245073318,
+          "mean": 0.551939427852631,
           "std": 0.390492916107178,
           "time": 1,
-          "value": 0.409516215324402,
+          "value": 0.643020391464233,
           "variable": "var1"
         },
         {
-          "err_high": 1.68821370601654,
-          "err_low": 0.115108609199524,
+          "err_high": 1.6454074382782,
+          "err_low": 0.0723024010658264,
           "is_present": true,
-          "mean": 0.901661157608032,
+          "mean": 0.858854949474335,
           "std": 0.393276274204254,
           "time": 2,
-          "value": 0.951523959636688,
+          "value": 0.826031684875488,
           "variable": "var1"
         },
         {
-          "err_high": 1.9287930727005,
-          "err_low": 0.355183005332947,
+          "err_high": 1.99143934249878,
+          "err_low": 0.417829275131226,
           "is_present": true,
-          "mean": 1.14198803901672,
+          "mean": 1.204634308815,
           "std": 0.393402516841888,
           "time": 3,
-          "value": 1.27026987075806,
+          "value": 1.34997498989105,
           "variable": "var1"
         },
         {
-          "err_high": 2.01630234718323,
-          "err_low": 0.442669332027435,
+          "err_high": 2.11055374145508,
+          "err_low": 0.536920726299286,
           "is_present": true,
-          "mean": 1.22948586940765,
+          "mean": 1.3237372636795,
           "std": 0.393408268690109,
           "time": 4,
-          "value": 1.26840424537659,
+          "value": 1.33800876140594,
           "variable": "var1"
         },
         {
-          "err_high": 2.09013319015503,
-          "err_low": 0.516499221324921,
+          "err_high": 2.15667366981506,
+          "err_low": 0.583039581775665,
           "is_present": true,
-          "mean": 1.3033162355423,
+          "mean": 1.36985659599304,
           "std": 0.393408507108688,
           "time": 5,
-          "value": 1.34723913669586,
+          "value": 1.44405448436737,
           "variable": "var1"
         },
         {
-          "err_high": 1.94614040851593,
-          "err_low": 0.372506260871887,
+          "err_high": 1.99353122711182,
+          "err_low": 0.419897079467773,
           "is_present": true,
-          "mean": 1.15932333469391,
+          "mean": 1.20671415328979,
           "std": 0.393408536911011,
           "time": 6,
-          "value": 1.20733451843262,
+          "value": 1.29445886611938,
           "variable": "var1"
         },
         {
-          "err_high": 1.64967513084412,
-          "err_low": 0.0760390162467957,
+          "err_high": 1.51874458789825,
+          "err_low": -0.0548914670944214,
           "is_present": true,
-          "mean": 0.862857043743134,
+          "mean": 0.731926560401917,
           "std": 0.393409013748169,
           "time": 7,
-          "value": 0.891766428947449,
+          "value": 0.588493585586548,
           "variable": "var1"
         },
         {
-          "err_high": 1.32961392402649,
-          "err_low": -0.244062125682831,
+          "err_high": 1.33337998390198,
+          "err_low": -0.240296185016632,
           "is_present": true,
-          "mean": 0.542775928974152,
+          "mean": 0.54654186964035,
           "std": 0.393419027328491,
           "time": 8,
-          "value": 0.600128591060638,
+          "value": 0.666570127010345,
           "variable": "var1"
         },
         {
-          "err_high": 0.856942534446716,
-          "err_low": -0.717614769935608,
+          "err_high": 0.867310285568237,
+          "err_low": -0.707247018814087,
           "is_present": true,
-          "mean": 0.0696639120578766,
+          "mean": 0.0800316631793976,
           "std": 0.393639326095581,
           "time": 9,
-          "value": 0.00762336747720838,
+          "value": 0.0176959428936243,
           "variable": "var1"
         },
         {
-          "err_high": 0.495298117399216,
-          "err_low": -1.09848988056183,
+          "err_high": 0.481662720441818,
+          "err_low": -1.11212527751923,
           "is_present": true,
-          "mean": -0.301595896482468,
+          "mean": -0.315231293439865,
           "std": 0.398447006940842,
           "time": 10,
-          "value": -0.30377534031868,
+          "value": -0.329216957092285,
           "variable": "var1"
         },
         {
-          "err_high": 0.335472822189331,
-          "err_low": -1.63391327857971,
+          "err_high": 0.41571307182312,
+          "err_low": -1.55367302894592,
           "is_present": false,
-          "mean": -0.64922022819519,
+          "mean": -0.568979978561401,
           "std": 0.492346525192261,
           "time": 11,
-          "value": -0.775492906570435,
+          "value": -0.953696966171265,
           "variable": "var1"
         },
         {
-          "err_high": 0.106668710708618,
-          "err_low": -1.9501314163208,
+          "err_high": 0.0947659611701965,
+          "err_low": -1.96203422546387,
           "is_present": false,
-          "mean": -0.921731352806091,
+          "mean": -0.933634102344513,
           "std": 0.514200031757355,
           "time": 12,
-          "value": -1.23824501037598,
+          "value": -1.33444929122925,
           "variable": "var1"
         },
         {
-          "err_high": -0.024113655090332,
-          "err_low": -2.09794592857361,
+          "err_high": -0.0160039663314819,
+          "err_low": -2.08983612060547,
           "is_present": false,
-          "mean": -1.06102979183197,
+          "mean": -1.05292010307312,
           "std": 0.518458068370819,
           "time": 13,
-          "value": -1.47786152362823,
+          "value": -1.39037358760834,
           "variable": "var1"
         },
         {
-          "err_high": -0.0771450996398926,
-          "err_low": -2.13394546508789,
+          "err_high": -0.0163435935974121,
+          "err_low": -2.07314395904541,
           "is_present": false,
-          "mean": -1.10554528236389,
+          "mean": -1.04474377632141,
           "std": 0.514200091362,
           "time": 14,
-          "value": -1.34369790554047,
+          "value": -1.31818222999573,
           "variable": "var1"
         },
         {
-          "err_high": -0.0184316039085388,
-          "err_low": -1.98781895637512,
+          "err_high": 0.0772257447242737,
+          "err_low": -1.89216160774231,
           "is_present": false,
-          "mean": -1.00312530994415,
+          "mean": -0.90746796131134,
           "std": 0.492346853017807,
           "time": 15,
-          "value": -1.4217334985733,
+          "value": -1.15501999855042,
           "variable": "var1"
         },
         {
-          "err_high": -0.00928407907485962,
-          "err_low": -1.60307860374451,
+          "err_high": 0.0184308886528015,
+          "err_low": -1.57536363601685,
           "is_present": true,
-          "mean": -0.806181311607361,
+          "mean": -0.7784663438797,
           "std": 0.398448616266251,
           "time": 16,
-          "value": -0.882122874259949,
+          "value": -0.876998126506805,
           "variable": "var1"
         },
         {
-          "err_high": 0.41782283782959,
-          "err_low": -1.15685832500458,
+          "err_high": 0.29948964715004,
+          "err_low": -1.27519154548645,
           "is_present": true,
-          "mean": -0.369517743587494,
+          "mean": -0.487850934267044,
           "std": 0.393670290708542,
           "time": 17,
-          "value": -0.37291806936264,
+          "value": -0.623430371284485,
           "variable": "var1"
         },
         {
-          "err_high": 0.760055184364319,
-          "err_low": -0.816324234008789,
+          "err_high": 0.705592393875122,
+          "err_low": -0.870787024497986,
           "is_present": true,
-          "mean": -0.0281345304101706,
+          "mean": -0.0825973078608513,
           "std": 0.394094854593277,
           "time": 18,
-          "value": -0.120946653187275,
+          "value": -0.122388809919357,
           "variable": "var1"
         },
         {
-          "err_high": 1.15825390815735,
-          "err_low": -0.473712623119354,
+          "err_high": 1.19623458385468,
+          "err_low": -0.43573197722435,
           "is_present": true,
-          "mean": 0.34227067232132,
+          "mean": 0.380251318216324,
           "std": 0.407991647720337,
           "time": 19,
-          "value": 0.421959459781647,
+          "value": 0.54901134967804,
           "variable": "var1"
+        }
+      ],
+      "data-c326738d02de1746115df5541ec3551e": [
+        {
+          "err_high": 0.640984416007996,
+          "err_low": -0.629221677780151,
+          "is_present": true,
+          "mean": 0.00588138354942203,
+          "std": 0.317551523447037,
+          "time": 0,
+          "value": 0.127200245857239,
+          "variable": "var2"
+        },
+        {
+          "err_high": 0.898784279823303,
+          "err_low": -0.425693273544312,
+          "is_present": true,
+          "mean": 0.236545488238335,
+          "std": 0.331119388341904,
+          "time": 1,
+          "value": 0.244305163621902,
+          "variable": "var2"
+        },
+        {
+          "err_high": 1.03152847290039,
+          "err_low": -0.295367032289505,
+          "is_present": true,
+          "mean": 0.368080705404282,
+          "std": 0.331723868846893,
+          "time": 2,
+          "value": 0.407655715942383,
+          "variable": "var2"
+        },
+        {
+          "err_high": 1.17977464199066,
+          "err_low": -0.147230863571167,
+          "is_present": true,
+          "mean": 0.516271889209747,
+          "std": 0.331751376390457,
+          "time": 3,
+          "value": 0.39302122592926,
+          "variable": "var2"
+        },
+        {
+          "err_high": 1.2308212518692,
+          "err_low": -0.0961892604827881,
+          "is_present": true,
+          "mean": 0.567315995693207,
+          "std": 0.331752628087997,
+          "time": 4,
+          "value": 0.603522837162018,
+          "variable": "var2"
+        },
+        {
+          "err_high": 1.25058674812317,
+          "err_low": -0.0764239430427551,
+          "is_present": true,
+          "mean": 0.587081432342529,
+          "std": 0.331752687692642,
+          "time": 5,
+          "value": 0.613245725631714,
+          "variable": "var2"
+        },
+        {
+          "err_high": 1.180668592453,
+          "err_low": -0.146342098712921,
+          "is_present": true,
+          "mean": 0.517163276672363,
+          "std": 0.331752687692642,
+          "time": 6,
+          "value": 0.609224677085876,
+          "variable": "var2"
+        },
+        {
+          "err_high": 0.977188348770142,
+          "err_low": -0.349822729825974,
+          "is_present": true,
+          "mean": 0.313682824373245,
+          "std": 0.331752777099609,
+          "time": 7,
+          "value": 0.37274307012558,
+          "variable": "var2"
+        },
+        {
+          "err_high": 0.897742211818695,
+          "err_low": -0.429277718067169,
+          "is_present": true,
+          "mean": 0.234232246875763,
+          "std": 0.331754982471466,
+          "time": 8,
+          "value": 0.221899598836899,
+          "variable": "var2"
+        },
+        {
+          "err_high": 0.69790518283844,
+          "err_low": -0.629306674003601,
+          "is_present": true,
+          "mean": 0.0342992842197418,
+          "std": 0.33180296421051,
+          "time": 9,
+          "value": 0.111895963549614,
+          "variable": "var2"
+        },
+        {
+          "err_high": 0.530611515045166,
+          "err_low": -0.800809741020203,
+          "is_present": true,
+          "mean": -0.13509912788868,
+          "std": 0.332855314016342,
+          "time": 10,
+          "value": -0.237238645553589,
+          "variable": "var2"
+        },
+        {
+          "err_high": 0.466520428657532,
+          "err_low": -0.954217553138733,
+          "is_present": true,
+          "mean": -0.243848577141762,
+          "std": 0.355184495449066,
+          "time": 11,
+          "value": -0.138226479291916,
+          "variable": "var2"
+        },
+        {
+          "err_high": 0.321525305509567,
+          "err_low": -1.12178313732147,
+          "is_present": true,
+          "mean": -0.400128930807114,
+          "std": 0.36082711815834,
+          "time": 12,
+          "value": -0.633808195590973,
+          "variable": "var2"
+        },
+        {
+          "err_high": 0.272637546062469,
+          "err_low": -1.17514061927795,
+          "is_present": true,
+          "mean": -0.45125150680542,
+          "std": 0.361944526433945,
+          "time": 13,
+          "value": -0.572641849517822,
+          "variable": "var2"
+        },
+        {
+          "err_high": 0.273906946182251,
+          "err_low": -1.1694016456604,
+          "is_present": true,
+          "mean": -0.447747349739075,
+          "std": 0.360827147960663,
+          "time": 14,
+          "value": -0.570696771144867,
+          "variable": "var2"
+        },
+        {
+          "err_high": 0.32145431637764,
+          "err_low": -1.09928405284882,
+          "is_present": true,
+          "mean": -0.388914853334427,
+          "std": 0.355184584856033,
+          "time": 15,
+          "value": -0.381034910678864,
+          "variable": "var2"
+        },
+        {
+          "err_high": 0.332082897424698,
+          "err_low": -0.999339818954468,
+          "is_present": true,
+          "mean": -0.333628445863724,
+          "std": 0.332855671644211,
+          "time": 16,
+          "value": -0.257635593414307,
+          "variable": "var2"
+        },
+        {
+          "err_high": 0.454540431499481,
+          "err_low": -0.872698366641998,
+          "is_present": true,
+          "mean": -0.20907898247242,
+          "std": 0.33180969953537,
+          "time": 17,
+          "value": -0.00190415978431702,
+          "variable": "var2"
+        },
+        {
+          "err_high": 0.628405690193176,
+          "err_low": -0.699203372001648,
+          "is_present": true,
+          "mean": -0.0353988483548164,
+          "std": 0.331902265548706,
+          "time": 18,
+          "value": 0.00259671127423644,
+          "variable": "var2"
+        },
+        {
+          "err_high": 0.832909345626831,
+          "err_low": -0.506979703903198,
+          "is_present": true,
+          "mean": 0.162964850664139,
+          "std": 0.334972262382507,
+          "time": 19,
+          "value": 0.209990844130516,
+          "variable": "var2"
         }
       ]
     },
@@ -3077,11 +3083,11 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
     "vconcat": [
       {
         "data": {
-          "name": "data-45f16188ce1040b7260ab0bfd0f2c036"
+          "name": "data-07f46f866f61b494e39dcc6189202e85"
         },
         "hconcat": [
           {
-            "height": 220,
+            "height": 190,
             "layer": [
               {
                 "encoding": {
@@ -3119,7 +3125,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
                     "scale": {
                       "zero": false
                     },
-                    "title": "",
+                    "title": "var1",
                     "type": "quantitative"
                   }
                 },
@@ -3151,7 +3157,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
                     "scale": {
                       "zero": false
                     },
-                    "title": "",
+                    "title": "var1",
                     "type": "quantitative"
                   },
                   "y2": {
@@ -3176,7 +3182,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
                     "scale": {
                       "zero": false
                     },
-                    "title": "",
+                    "title": "var1",
                     "type": "quantitative"
                   }
                 },
@@ -3190,11 +3196,11 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
       },
       {
         "data": {
-          "name": "data-1021a3947ee8b44203039fb0dadefe1f"
+          "name": "data-c326738d02de1746115df5541ec3551e"
         },
         "hconcat": [
           {
-            "height": 220,
+            "height": 190,
             "layer": [
               {
                 "encoding": {
@@ -3232,7 +3238,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
                     "scale": {
                       "zero": false
                     },
-                    "title": "",
+                    "title": "var1",
                     "type": "quantitative"
                   }
                 },
@@ -3264,7 +3270,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
                     "scale": {
                       "zero": false
                     },
-                    "title": "",
+                    "title": "var1",
                     "type": "quantitative"
                   },
                   "y2": {
@@ -3289,7 +3295,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
                     "scale": {
                       "zero": false
                     },
-                    "title": "",
+                    "title": "var1",
                     "type": "quantitative"
                   }
                 },
@@ -3345,8 +3351,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <h2>Kalman Filters gap #1</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-e8fbb8a4405861774e51" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e8fbb8a4405861774e51">{"x":{
+<div id="htmlwidget-3fa5f8d8ae82cd117d05" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3fa5f8d8ae82cd117d05">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -10617,8 +10623,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <h2>Kalman Filters gap #2</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-1f369d42099e28e1fcbc" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1f369d42099e28e1fcbc">{"x":{
+<div id="htmlwidget-c6b029fa3268c893c1e5" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c6b029fa3268c893c1e5">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -17889,8 +17895,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <h2>Kalman Filters gap #3</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-42fae2fa2c54ce9bfe5a" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-42fae2fa2c54ce9bfe5a">{"x":{
+<div id="htmlwidget-a95c7bfa1491e60444c1" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a95c7bfa1491e60444c1">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -25273,6 +25279,7 @@ Website: <a href="https://mone27.github.io/meteo_imp" class="uri">https://mone27
   <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
   <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
   <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
@@ -25294,7 +25301,8 @@ Website: <a href="https://mone27.github.io/meteo_imp" class="uri">https://mone27
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -25420,7 +25428,7 @@ Website: <a href="https://mone27.github.io/meteo_imp" class="uri">https://mone27
         previewLinks: false,
 
         // Transition style (none/fade/slide/convex/concave/zoom)
-        transition: 'slide',
+        transition: 'fade',
 
         // Transition speed (default/fast/slow)
         transitionSpeed: 'default',
@@ -25465,7 +25473,7 @@ Website: <a href="https://mone27.github.io/meteo_imp" class="uri">https://mone27
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
 
           RevealMath,
           RevealNotes,
