@@ -427,7 +427,7 @@ def _repr_html_(self: KalmanFilter):
 @patch(cls_method=True)
 def init_simple(cls: KalmanFilter,
                 n_dim, # n_dim_obs and n_dim_state
-                dtype=torch.float32):
+                dtype=torch.float64):
     """Simplest version of kalman filter parameters"""
     return cls(
         trans_matrix =     torch.eye(n_dim, dtype=dtype),
@@ -441,21 +441,43 @@ def init_simple(cls: KalmanFilter,
         init_state_cov =   torch.eye(n_dim, dtype=dtype),
     )
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 124
+# %% ../../lib_nbs/kalman/00_filter.ipynb 125
+from torch import hstack, eye, vstack, ones, zeros, tensor
+from functools import partial
+from sklearn.decomposition import PCA
+
+# %% ../../lib_nbs/kalman/00_filter.ipynb 126
+def set_dtype(*args, dtype=torch.float64):
+    return [partial(arg, dtype=dtype) for arg in args] 
+
+eye, ones, zeros, tensor = set_dtype(eye, ones, zeros, tensor)
+
+# %% ../../lib_nbs/kalman/00_filter.ipynb 127
 @patch(cls_method=True)
-def init_local_slope(cls: KalmanFilter,
-                n_dim, # n_dim_obs and n_dim_state
-                dtype=torch.float32):
-    """Simplest version of kalman filter parameters"""
-    n_dim_state = 2 * n_dim
+def init_local_slope_pca(cls: KalmanFilter,
+                n_dim_obs, # n_dim_obs and n_dim_contr
+                n_dim_state: int, # n_dim_state
+                df: pd.DataFrame|None, # dataframe for PCA init    
+                pca=True # use PCA or identity
+            ):
+    """Local Slope + PCA init"""
+    if pca:
+        comp = PCA(n_dim_state).fit(df).components_
+        obs_matrix = tensor(comp.T) # transform state -> obs
+        contr_matrix = tensor(comp) # transform obs -> state
+    else:
+        obs_matrix, contr_matrix = eye(n_dim_obs), eye(n_dim_obs)
+        
     return cls(
-        trans_matrix =     torch.eye(n_dim, dtype=dtype),
-        trans_off =        torch.zeros(n_dim, dtype=dtype),        
-        trans_cov =        torch.eye(n_dim, dtype=dtype),        
-        obs_matrix =       torch.eye(n_dim, dtype=dtype),
-        obs_off =          torch.zeros(n_dim, dtype=dtype),          
-        obs_cov =          torch.eye(n_dim, dtype=dtype),            
-        contr_matrix =     torch.zeros(n_dim, dtype=dtype),
-        init_state_mean =  torch.zeros(n_dim, dtype=dtype),        
-        init_state_cov =   torch.eye(n_dim, dtype=dtype),
-    )
+        trans_matrix =     vstack([hstack([eye(n_dim_state),                eye(n_dim_state)]),
+                                   hstack([zeros(n_dim_state, n_dim_state), eye(n_dim_state)])]),
+        trans_off =        zeros(n_dim_state * 2),        
+        trans_cov =        eye(n_dim_state * 2)*.1,        
+        obs_matrix =       hstack([obs_matrix, zeros(n_dim_obs, n_dim_state)]),
+        obs_off =          zeros(n_dim_obs),          
+        obs_cov =          eye(n_dim_obs)*.01,            
+        contr_matrix =     vstack([hstack([-contr_matrix,                  contr_matrix]),
+                                   hstack([ zeros(n_dim_state,n_dim_obs), zeros(n_dim_state, n_dim_obs)])]),
+        init_state_mean =  zeros(n_dim_state * 2),        
+        init_state_cov =   eye(n_dim_state * 2) * 3,
+    ) 
