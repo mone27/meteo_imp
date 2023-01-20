@@ -35,11 +35,14 @@ class KalmanFilter(torch.nn.Module):
             n_dim_obs: int = None,                   # Number of dimensions for observations - defaults to 1 if cannot be infered from parameters
             var_names: Iterable[str]|None = None,    # Names of variables for printing 
             contr_names: Iterable[str]|None = None,  # Names of control variables for printing
-            cov_checker: CheckPosDef = CheckPosDef() # Check covariance at every step
+            cov_checker: CheckPosDef = CheckPosDef(),# Check covariance at every step
+            use_conditional: bool = True,             # Use conditional distribution for gaps that don't have all variables missing
+            use_control: bool = True,                # Use the control in the filter
+            use_smooth: bool = True,                 # Use smoother for predictions (otherwise is filter only)
                 ):
         
         super().__init__()
-        store_attr("var_names, contr_names")
+        store_attr("var_names, contr_names, use_conditional, use_control, use_smooth")
         # check parameters are consistent
         self.n_dim_state = determine_dimensionality(
             [(trans_matrix, array2d, -2),
@@ -279,7 +282,8 @@ def _filter_all(self: KalmanFilter, obs, mask, control
     """ wrapper around `_filter`"""
     obs, mask = self._parse_obs(obs, mask)
     return _filter(
-            self.trans_matrix, self.obs_matrix, self.contr_matrix,
+            self.trans_matrix, self.obs_matrix,
+            self.contr_matrix if self.use_control else torch.zeros_like(self.contr_matrix),
             self.trans_cov, self.obs_cov,
             self.trans_off, self.obs_off,
             self.init_state_mean, self.init_state_cov,
@@ -382,19 +386,20 @@ def predict(self: KalmanFilter, obs, mask, control, smooth=True):
     obs, mask = self._parse_obs(obs, mask)
     
     pred_obs = self._obs_from_state(state)
-    # conditional predictions are slow, do only if some obs are missing 
-    cond_mask = torch.logical_xor(mask.all(-1), mask.any(-1))
+    pred_mean, pred_std = pred_obs.mean, cov2std(pred_obs.cov)
     
-    # this cannot be batched so returns a list
-    cond_preds = cond_gaussian_batched(
-        pred_obs[cond_mask], obs[cond_mask], mask[cond_mask])
+    if self.use_conditional:
+        # conditional predictions are slow, do only if some obs are missing 
+        cond_mask = torch.logical_xor(mask.all(-1), mask.any(-1))
+
+        # this cannot be batched so returns a list
+        cond_preds = cond_gaussian_batched(
+            pred_obs[cond_mask], obs[cond_mask], mask[cond_mask])
     
-    pred_mean, pred_std = pred_obs.mean, cov2std(pred_obs.cov) # multiple [] still not properly implemented in ListMNormal
-    
-    for i, c_pred in enumerate(cond_preds):
-        m = ~mask[cond_mask][i]
-        pred_mean[cond_mask][i][m] = c_pred.mean
-        pred_std [cond_mask][i][m] = cov2std(c_pred.cov)
+        for i, c_pred in enumerate(cond_preds):
+            m = ~mask[cond_mask][i]
+            pred_mean[cond_mask][i][m] = c_pred.mean
+            pred_std [cond_mask][i][m] = cov2std(c_pred.cov)
     
     return ListNormal(pred_mean, pred_std)
 
@@ -453,16 +458,17 @@ def set_dtype(*args, dtype=torch.float64):
 eye, ones, zeros, tensor = set_dtype(eye, ones, zeros, tensor)
 
 # %% ../../lib_nbs/kalman/00_filter.ipynb 127
+# @delegates(KalmanFilter)
 @patch(cls_method=True)
 def init_local_slope_pca(cls: KalmanFilter,
                 n_dim_obs, # n_dim_obs and n_dim_contr
                 n_dim_state: int, # n_dim_state
-                df: pd.DataFrame|None, # dataframe for PCA init    
-                pca=True # use PCA or identity
+                df_pca: pd.DataFrame|None = None, # dataframe for PCA init, None no PCA init
+                **kwargs
             ):
     """Local Slope + PCA init"""
-    if pca:
-        comp = PCA(n_dim_state).fit(df).components_
+    if df_pca is not None:
+        comp = PCA(n_dim_state).fit(df_pca).components_
         obs_matrix = tensor(comp.T) # transform state -> obs
         contr_matrix = tensor(comp) # transform obs -> state
     else:
@@ -480,4 +486,5 @@ def init_local_slope_pca(cls: KalmanFilter,
                                    hstack([ zeros(n_dim_state,n_dim_obs), zeros(n_dim_state, n_dim_obs)])]),
         init_state_mean =  zeros(n_dim_state * 2),        
         init_state_cov =   eye(n_dim_state * 2) * 3,
+        **kwargs
     ) 
