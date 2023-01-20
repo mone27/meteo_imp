@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.119">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>meteo_imp - Utils</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="meteo_imp - Utils">
+<meta property="og:description" content="">
+<meta property="og:site-name" content="meteo_imp">
+<meta name="twitter:title" content="meteo_imp - Utils">
+<meta name="twitter:description" content="">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">meteo_imp</span>
+    </a>
+  </div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Utils</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">GPFA Imputation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_preparation.html" class="sidebar-item-text sidebar-link">Data Preparation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./results.html" class="sidebar-item-text sidebar-link">Results</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./simplegp_imputation.html" class="sidebar-item-text sidebar-link">Simple GP Imputation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./gaussian.html" class="sidebar-item-text sidebar-link">Gaussian Distributions Utils</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./utils.html" class="sidebar-item-text sidebar-link active">Utils</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Fluxnet</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Fluxnet/gap_finder.html" class="sidebar-item-text sidebar-link">Find Gaps in Fluxnet data</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Fluxnet/hainich.html" class="sidebar-item-text sidebar-link">Fluxnet Hainich</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">GPFA</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/learner.html" class="sidebar-item-text sidebar-link">GPFA Learner</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/imputation.html" class="sidebar-item-text sidebar-link">Imputation time series</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">kalman</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/filter.html" class="sidebar-item-text sidebar-link">Kalman Filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/test_filter_pykalman.html" class="sidebar-item-text sidebar-link">Compare PyKalman</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/filter_numerical_stability.html" class="sidebar-item-text sidebar-link">Numerical stability filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/fastai.html" class="sidebar-item-text sidebar-link">Implement Kalman model using FastAI</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/learner.html" class="sidebar-item-text sidebar-link">Kalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/imputation.html" class="sidebar-item-text sidebar-link">Imputation Kalman Model</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old statsmodels - statespace.html" class="sidebar-item-text sidebar-link">[Not Working] StatsModels Kalman filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old_01_pykalman_models.html" class="sidebar-item-text sidebar-link">[OLD] PyKalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old_02_pykalman_imputation.html" class="sidebar-item-text sidebar-link">[OLD] Imputation PyKalman Model</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#disk-cache" id="toc-disk-cache" class="nav-link active" data-scroll-target="#disk-cache">Disk Cache</a>
+  <ul class="collapse">
+  <li><a href="#cache_disk" id="toc-cache_disk" class="nav-link" data-scroll-target="#cache_disk">cache_disk</a></li>
+  </ul></li>
+  <li><a href="#random" id="toc-random" class="nav-link" data-scroll-target="#random">Random</a>
+  <ul class="collapse">
+  <li><a href="#reset_seed" id="toc-reset_seed" class="nav-link" data-scroll-target="#reset_seed">reset_seed</a></li>
+  </ul></li>
+  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a>
+  <ul class="collapse">
+  <li><a href="#test_close" id="toc-test_close" class="nav-link" data-scroll-target="#test_close">test_close</a></li>
+  </ul></li>
+  <li><a href="#standard-scaler" id="toc-standard-scaler" class="nav-link" data-scroll-target="#standard-scaler">Standard Scaler</a>
+  <ul class="collapse">
+  <li><a href="#standardscaler.inverse_transform_std" id="toc-standardscaler.inverse_transform_std" class="nav-link" data-scroll-target="#standardscaler.inverse_transform_std">StandardScaler.inverse_transform_std</a></li>
+  </ul></li>
+  <li><a href="#info-visualization" id="toc-info-visualization" class="nav-link" data-scroll-target="#info-visualization">Info visualization</a>
+  <ul class="collapse">
+  <li><a href="#array2df" id="toc-array2df" class="nav-link" data-scroll-target="#array2df">array2df</a></li>
+  <li><a href="#retrieve_names" id="toc-retrieve_names" class="nav-link" data-scroll-target="#retrieve_names">retrieve_names</a></li>
+  <li><a href="#maybe_retrieve_callers_name" id="toc-maybe_retrieve_callers_name" class="nav-link" data-scroll-target="#maybe_retrieve_callers_name">maybe_retrieve_callers_name</a></li>
+  <li><a href="#show_as_row" id="toc-show_as_row" class="nav-link" data-scroll-target="#show_as_row">show_as_row</a></li>
+  <li><a href="#row_items" id="toc-row_items" class="nav-link" data-scroll-target="#row_items">row_items</a></li>
+  <li><a href="#display_as_row" id="toc-display_as_row" class="nav-link" data-scroll-target="#display_as_row">display_as_row</a></li>
+  <li><a href="#row_dfs" id="toc-row_dfs" class="nav-link" data-scroll-target="#row_dfs">row_dfs</a></li>
+  </ul></li>
+  <li><a href="#tensor-shapes" id="toc-tensor-shapes" class="nav-link" data-scroll-target="#tensor-shapes">Tensor shapes</a>
+  <ul class="collapse">
+  <li><a href="#array2d" id="toc-array2d" class="nav-link" data-scroll-target="#array2d">array2d</a></li>
+  <li><a href="#array1d" id="toc-array1d" class="nav-link" data-scroll-target="#array1d">array1d</a></li>
+  <li><a href="#last_dims" id="toc-last_dims" class="nav-link" data-scroll-target="#last_dims">last_dims</a></li>
+  <li><a href="#determine_dimensionality" id="toc-determine_dimensionality" class="nav-link" data-scroll-target="#determine_dimensionality">determine_dimensionality</a></li>
+  </ul></li>
+  <li><a href="#export" id="toc-export" class="nav-link" data-scroll-target="#export">Export</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/meteo_imp/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Utils</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<section id="disk-cache" class="level2">
+<h2 class="anchored" data-anchor-id="disk-cache">Disk Cache</h2>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L21" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="cache_disk" class="level3">
+<h3 class="anchored" data-anchor-id="cache_disk">cache_disk</h3>
+<blockquote class="blockquote">
+<pre><code> cache_disk (base_file, rm_cache=False)</code></pre>
+</blockquote>
+<p>Decorator to cache function output to disk</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tempfile <span class="im">import</span> tempdir</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cp <span class="op">=</span> Path(tempdir) <span class="op">/</span> <span class="st">"test_cache"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">@cache_disk</span>(cp)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> slow_add(a,b):</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">1</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>this time is the first time so not from the cache</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>CPU times: user 3.34 ms, sys: 1.9 ms, total: 5.23 ms
+Wall time: 1 s</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>3</code></pre>
+</div>
+</div>
+<p>now is much faster beacuse of the cache</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>CPU times: user 3 µs, sys: 1 µs, total: 4 µs
+Wall time: 4.05 µs</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>3</code></pre>
+</div>
+</div>
+<p>adding comments change the hash, so the function is still cached</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="at">@cache_disk</span>(cp)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> slow_add(a,b):</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">1</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this is a comment</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>CPU times: user 1.2 ms, sys: 1.03 ms, total: 2.22 ms
+Wall time: 1 s</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>3</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>CPU times: user 3 µs, sys: 1 µs, total: 4 µs
+Wall time: 5.25 µs</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>3</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="random" class="level2">
+<h2 class="anchored" data-anchor-id="random">Random</h2>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L55" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="reset_seed" class="level3">
+<h3 class="anchored" data-anchor-id="reset_seed">reset_seed</h3>
+<blockquote class="blockquote">
+<pre><code> reset_seed (seed=27)</code></pre>
+</blockquote>
+</section>
+</section>
+<section id="testing" class="level2">
+<h2 class="anchored" data-anchor-id="testing">Testing</h2>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L78" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="test_close" class="level3">
+<h3 class="anchored" data-anchor-id="test_close">test_close</h3>
+<blockquote class="blockquote">
+<pre><code> test_close (a, b, eps=1e-05)</code></pre>
+</blockquote>
+<p><code>test</code> that <code>a</code> is within <code>eps</code> of <code>b</code></p>
+</section>
+</section>
+<section id="standard-scaler" class="level2">
+<h2 class="anchored" data-anchor-id="standard-scaler">Standard Scaler</h2>
+<p>make a standard scaler that can also inverse transfor standard deviations. see <code>Standardizer</code> for details of implementation</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>reset_seed()</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>xx <span class="op">=</span> np.random.random((<span class="dv">4</span>, <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> StandardScaler().fit(xx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>s.transform(xx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>array([[ 0.07263978,  0.63279488, -0.9975139 ,  0.50899177,  0.15537652,
+         1.45555506,  1.56629646, -1.60237369,  1.51674974,  1.29584745],
+       [ 1.58579521,  0.83086419, -0.68281902,  0.51578245, -0.62395756,
+        -1.19720248, -0.43000476,  1.1539719 , -0.74724819, -0.85525414],
+       [-1.05809926, -1.69049694,  0.0895118 , -1.72684476, -1.08418417,
+         0.32617669, -1.16657374,  0.2345773 ,  0.26525847,  0.64349108],
+       [-0.60033573,  0.22683787,  1.59082112,  0.70207053,  1.55276521,
+        -0.58452927,  0.03028204,  0.21382449, -1.03476002, -1.08408439]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>s.mean_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>array([0.40358703, 0.6758362 , 0.77934606, 0.70748673, 0.34417949,
+       0.62067044, 0.48500116, 0.54921643, 0.34604713, 0.3660338 ])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>s.scale_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>array([0.30471427, 0.21926148, 0.04405831, 0.31536161, 0.25229864,
+       0.24649441, 0.26061043, 0.21187396, 0.26093989, 0.22927816])</code></pre>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L89" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="standardscaler.inverse_transform_std" class="level3">
+<h3 class="anchored" data-anchor-id="standardscaler.inverse_transform_std">StandardScaler.inverse_transform_std</h3>
+<blockquote class="blockquote">
+<pre><code> StandardScaler.inverse_transform_std (x_std)</code></pre>
+</blockquote>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>x_std</td>
+<td>standard deviations</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="info-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="info-visualization">Info visualization</h2>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L106" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="array2df" class="level3">
+<h3 class="anchored" data-anchor-id="array2df">array2df</h3>
+<blockquote class="blockquote">
+<pre><code> array2df (x:torch.Tensor, row_names:Optional[Collection[str]]=None,
+           col_names:Optional[Collection[str]]=None, row_var:str='')</code></pre>
+</blockquote>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>x</td>
+<td>Tensor</td>
+<td></td>
+<td>2d tensor</td>
+</tr>
+<tr class="even">
+<td>row_names</td>
+<td>Optional</td>
+<td>None</td>
+<td>names for the row</td>
+</tr>
+<tr class="odd">
+<td>col_names</td>
+<td>Optional</td>
+<td>None</td>
+<td>names for the columns</td>
+</tr>
+<tr class="even">
+<td>row_var</td>
+<td>str</td>
+<td></td>
+<td>name of the first column (the one with row names). This should describe the values of <code>row_name</code></td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.random.rand(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>display(HTML(<span class="ss">f"&lt;pre&gt; </span><span class="sc">{</span><span class="bu">repr</span>(a)<span class="sc">}</span><span class="ss"> &lt;/pre&gt;"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre> array([[[0.96646567, 0.58332229, 0.09242191],
+        [0.0136295 , 0.83693011, 0.9147879 ],
+        [0.70458626, 0.3870066 , 0.7056939 ]],
+
+       [[0.92331116, 0.28815289, 0.68401985],
+        [0.5202925 , 0.87736578, 0.92388931],
+        [0.48923016, 0.59621396, 0.26427542]]]) </pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>array([[[0.96646567, 0.58332229, 0.09242191],
+        [0.0136295 , 0.83693011, 0.9147879 ],
+        [0.70458626, 0.3870066 , 0.7056939 ]],
+
+       [[0.92331116, 0.28815289, 0.68401985],
+        [0.5202925 , 0.87736578, 0.92388931],
+        [0.48923016, 0.59621396, 0.26427542]]])</code></pre>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L129" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="retrieve_names" class="level3">
+<h3 class="anchored" data-anchor-id="retrieve_names">retrieve_names</h3>
+<blockquote class="blockquote">
+<pre><code> retrieve_names (*args)</code></pre>
+</blockquote>
+<p>Tries to retrieve the argument name in the call frame, if there are multiple matches name is ’’</p>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L120" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="maybe_retrieve_callers_name" class="level3">
+<h3 class="anchored" data-anchor-id="maybe_retrieve_callers_name">maybe_retrieve_callers_name</h3>
+<blockquote class="blockquote">
+<pre><code> maybe_retrieve_callers_name (args)</code></pre>
+</blockquote>
+<p>Tries to retrieve the argument name in the call frame, if there are multiple matches name is ’’</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>x, y, z <span class="op">=</span> <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> func(<span class="op">*</span>args):</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> maybe_retrieve_callers_name(args)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(func(x,y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['x', 'y']</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>retrieve_names(a,a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>[['_', 'a', '_32'], ['_', 'a', '_32']]</code></pre>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L143" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="show_as_row" class="level3">
+<h3 class="anchored" data-anchor-id="show_as_row">show_as_row</h3>
+<blockquote class="blockquote">
+<pre><code> show_as_row (*os, names:Iterable[str]=None, **kwargs)</code></pre>
+</blockquote>
+<p>Shows a interable of tensors on a row</p>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L139" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="row_items" class="level3">
+<h3 class="anchored" data-anchor-id="row_items">row_items</h3>
+<blockquote class="blockquote">
+<pre><code> row_items (**kwargs)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>numpy.ndarray</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>show_as_row(a,b<span class="op">=</span>a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div><p style="font-size: 1.2rem;">b</p> <pre>array([[[0.96646567, 0.58332229, 0.09242191],
+        [0.0136295 , 0.83693011, 0.9147879 ],
+        [0.70458626, 0.3870066 , 0.7056939 ]],
+
+       [[0.92331116, 0.28815289, 0.68401985],
+        [0.5202925 , 0.87736578, 0.92388931],
+        [0.48923016, 0.59621396, 0.26427542]]])</pre> </div><div><p style="font-size: 1.2rem;">a</p> <pre>array([[[0.96646567, 0.58332229, 0.09242191],
+        [0.0136295 , 0.83693011, 0.9147879 ],
+        [0.70458626, 0.3870066 , 0.7056939 ]],
+
+       [[0.92331116, 0.28815289, 0.68401985],
+        [0.5202925 , 0.87736578, 0.92388931],
+        [0.48923016, 0.59621396, 0.26427542]]])</pre> </div></div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> zip_longest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>zip_longest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>itertools.zip_longest</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>func(a,a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>['a', 'a']</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> a.copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>show_as_row([<span class="dv">1</span>], [<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div><p style="font-size: 1.2rem;">#0</p> <pre>[1]</pre> </div><div><p style="font-size: 1.2rem;">#1</p> <pre>[2]</pre> </div></div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>show_as_row(a,b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div><p style="font-size: 1.2rem;">a</p> <pre>array([[[0.96646567, 0.58332229, 0.09242191],
+        [0.0136295 , 0.83693011, 0.9147879 ],
+        [0.70458626, 0.3870066 , 0.7056939 ]],
+
+       [[0.92331116, 0.28815289, 0.68401985],
+        [0.5202925 , 0.87736578, 0.92388931],
+        [0.48923016, 0.59621396, 0.26427542]]])</pre> </div><div><p style="font-size: 1.2rem;">b</p> <pre>array([[[0.96646567, 0.58332229, 0.09242191],
+        [0.0136295 , 0.83693011, 0.9147879 ],
+        [0.70458626, 0.3870066 , 0.7056939 ]],
+
+       [[0.92331116, 0.28815289, 0.68401985],
+        [0.5202925 , 0.87736578, 0.92388931],
+        [0.48923016, 0.59621396, 0.26427542]]])</pre> </div></div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>show_as_row(a, names<span class="op">=</span><span class="st">'b'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div><p style="font-size: 1.2rem;">b</p> <pre>array([[[0.96646567, 0.58332229, 0.09242191],
+        [0.0136295 , 0.83693011, 0.9147879 ],
+        [0.70458626, 0.3870066 , 0.7056939 ]],
+
+       [[0.92331116, 0.28815289, 0.68401985],
+        [0.5202925 , 0.87736578, 0.92388931],
+        [0.48923016, 0.59621396, 0.26427542]]])</pre> </div></div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>show_as_row(c<span class="op">=</span>a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div><p style="font-size: 1.2rem;">c</p> <pre>array([[[0.96646567, 0.58332229, 0.09242191],
+        [0.0136295 , 0.83693011, 0.9147879 ],
+        [0.70458626, 0.3870066 , 0.7056939 ]],
+
+       [[0.92331116, 0.28815289, 0.68401985],
+        [0.5202925 , 0.87736578, 0.92388931],
+        [0.48923016, 0.59621396, 0.26427542]]])</pre> </div></div>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L163" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="display_as_row" class="level3">
+<h3 class="anchored" data-anchor-id="display_as_row">display_as_row</h3>
+<blockquote class="blockquote">
+<pre><code> display_as_row (dfs:dict[str,pandas.core.frame.DataFrame], title='',
+                 hide_idx=True, styler=&lt;function _style_df&gt;)</code></pre>
+</blockquote>
+<p>display multiple dataframes in the same row</p>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L155" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="row_dfs" class="level3">
+<h3 class="anchored" data-anchor-id="row_dfs">row_dfs</h3>
+<blockquote class="blockquote">
+<pre><code> row_dfs (dfs:dict[str,pandas.core.frame.DataFrame], title='',
+          hide_idx=True, styler=&lt;function _style_df&gt;)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> HTML(pd.DataFrame([<span class="dv">1</span>,<span class="dv">2</span>]).to_html(notebook<span class="op">=</span><span class="va">True</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>display_as_row({<span class="st">"test"</span>: pd.DataFrame([<span class="dv">1</span>,<span class="dv">2</span>])}, <span class="st">"hello"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table id="T_090aa" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_090aa_level0_col0" class="col_heading level0 col0">0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_090aa_row0_col0" class="data row0 col0">1</td>
+</tr>
+<tr class="even">
+<td id="T_090aa_row1_col0" class="data row1 col0">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>display_as_row({<span class="st">"test"</span>: pd.DataFrame([<span class="dv">1</span>,<span class="dv">2</span>])}, <span class="st">"hello"</span>, hide_idx<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table id="T_98f37" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th class="blank level0">&nbsp;</th>
+<th id="T_98f37_level0_col0" class="col_heading level0 col0">0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th id="T_98f37_level0_row0" class="row_heading level0 row0">0</th>
+<td id="T_98f37_row0_col0" class="data row0 col0">1</td>
+</tr>
+<tr class="even">
+<th id="T_98f37_level0_row1" class="row_heading level0 row1">1</th>
+<td id="T_98f37_row1_col0" class="data row1 col0">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>display_as_row({<span class="ss">f"test</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>: pd.DataFrame([<span class="dv">1</span>,<span class="dv">2</span>], columns<span class="op">=</span>[i]) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>)})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table id="T_cd51a" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_cd51a_level0_col0" class="col_heading level0 col0">0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_cd51a_row0_col0" class="data row0 col0">1</td>
+</tr>
+<tr class="even">
+<td id="T_cd51a_row1_col0" class="data row1 col0">2</td>
+</tr>
+</tbody>
+</table>
+<div>
+<p>test1</p>
+<table id="T_14370" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_14370_level0_col0" class="col_heading level0 col0">1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_14370_row0_col0" class="data row0 col0">1</td>
+</tr>
+<tr class="even">
+<td id="T_14370_row1_col0" class="data row1 col0">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div>
+<p>test2</p>
+<table id="T_40d56" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_40d56_level0_col0" class="col_heading level0 col0">2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_40d56_row0_col0" class="data row0 col0">1</td>
+</tr>
+<tr class="even">
+<td id="T_40d56_row1_col0" class="data row1 col0">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div>
+<p>test3</p>
+<table id="T_b49e9" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_b49e9_level0_col0" class="col_heading level0 col0">3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_b49e9_row0_col0" class="data row0 col0">1</td>
+</tr>
+<tr class="even">
+<td id="T_b49e9_row1_col0" class="data row1 col0">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div>
+<p>test4</p>
+<table id="T_36a2b" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_36a2b_level0_col0" class="col_heading level0 col0">4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_36a2b_row0_col0" class="data row0 col0">1</td>
+</tr>
+<tr class="even">
+<td id="T_36a2b_row1_col0" class="data row1 col0">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div>
+<p>test5</p>
+<table id="T_4c20c" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_4c20c_level0_col0" class="col_heading level0 col0">5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_4c20c_row0_col0" class="data row0 col0">1</td>
+</tr>
+<tr class="even">
+<td id="T_4c20c_row1_col0" class="data row1 col0">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div>
+<p>test6</p>
+<table id="T_51d0d" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_51d0d_level0_col0" class="col_heading level0 col0">6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_51d0d_row0_col0" class="data row0 col0">1</td>
+</tr>
+<tr class="even">
+<td id="T_51d0d_row1_col0" class="data row1 col0">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div>
+<p>test7</p>
+<table id="T_9a684" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_9a684_level0_col0" class="col_heading level0 col0">7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_9a684_row0_col0" class="data row0 col0">1</td>
+</tr>
+<tr class="even">
+<td id="T_9a684_row1_col0" class="data row1 col0">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div>
+<p>test8</p>
+<table id="T_b1cab" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_b1cab_level0_col0" class="col_heading level0 col0">8</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_b1cab_row0_col0" class="data row0 col0">1</td>
+</tr>
+<tr class="even">
+<td id="T_b1cab_row1_col0" class="data row1 col0">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div>
+<p>test9</p>
+<table id="T_f4a8d" class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th id="T_f4a8d_level0_col0" class="col_heading level0 col0">9</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_f4a8d_row0_col0" class="data row0 col0">1</td>
+</tr>
+<tr class="even">
+<td id="T_f4a8d_row1_col0" class="data row1 col0">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="tensor-shapes" class="level2">
+<h2 class="anchored" data-anchor-id="tensor-shapes">Tensor shapes</h2>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L172" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="array2d" class="level3">
+<h3 class="anchored" data-anchor-id="array2d">array2d</h3>
+<blockquote class="blockquote">
+<pre><code> array2d (X)</code></pre>
+</blockquote>
+<p>Returns at least 2-d array with data from X</p>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L168" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="array1d" class="level3">
+<h3 class="anchored" data-anchor-id="array1d">array1d</h3>
+<blockquote class="blockquote">
+<pre><code> array1d (X)</code></pre>
+</blockquote>
+<p>Returns at least 1-d array with data from X</p>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L216" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="last_dims" class="level3">
+<h3 class="anchored" data-anchor-id="last_dims">last_dims</h3>
+<blockquote class="blockquote">
+<pre><code> last_dims (X:torch.Tensor, t:int, ndims:int=2)</code></pre>
+</blockquote>
+<p>Extract the final dimensions of <code>X</code></p>
+<p>Extract the final <code>ndim</code> dimensions at index <code>t</code> if <code>X</code> has &gt;= <code>ndim</code> + 1 dimensions, otherwise return <code>X</code>.</p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>X</td>
+<td>Tensor</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>t</td>
+<td>int</td>
+<td></td>
+<td>index to use for the <code>ndims</code> + 1th dimension</td>
+</tr>
+<tr class="odd">
+<td>ndims</td>
+<td>int</td>
+<td>2</td>
+<td>number of dimensions in the array desired</td>
+</tr>
+<tr class="even">
+<td><strong>Returns</strong></td>
+<td><strong>array with dimension <code>ndims</code></strong></td>
+<td></td>
+<td><strong>the final <code>ndims</code> dimensions indexed by <code>t</code></strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/utils.py#L178" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="determine_dimensionality" class="level3">
+<h3 class="anchored" data-anchor-id="determine_dimensionality">determine_dimensionality</h3>
+<blockquote class="blockquote">
+<pre><code> determine_dimensionality (variables, default)</code></pre>
+</blockquote>
+<p>Derive the dimensionality of the state space</p>
+<table class="table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 38%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>variables</td>
+<td>list of ({None, array}, conversion function, index)</td>
+<td>variables, functions to convert them to arrays, and indices in those<br>arrays to derive dimensionality from.</td>
+</tr>
+<tr class="even">
+<td>default</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><strong>Returns</strong></td>
+<td><strong>int</strong></td>
+<td><strong>dimensionality of state space as derived from variables or default.</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="export" class="level2">
+<h2 class="anchored" data-anchor-id="export">Export</h2>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
