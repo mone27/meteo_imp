@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['cache_dir', 'cache_disk', 'reset_seed', 'test_close', 'array2df', 'maybe_retrieve_callers_name', 'retrieve_names',
            'row_items', 'show_as_row', 'row_dfs', 'display_as_row', 'array1d', 'array2d', 'determine_dimensionality',
-           'last_dims']
+           'last_dims', 'eye_like']
 
 # %% ../lib_nbs/99_utils.ipynb 3
 # dill is an improved version of pickle, using it to support namedtuples
@@ -239,3 +239,22 @@ def last_dims(X: Tensor, t: int, ndims: int=2):
     else:
         raise ValueError(("X only has %d dimensions when %d" +
                 " or more are required") % (len(X.shape), ndims))
+
+# %% ../lib_nbs/99_utils.ipynb 67
+def eye_like(x: torch.Tensor) -> torch.Tensor:
+    """
+    Return a tensor with same batch size as x, that has a nxn eye matrix in each sample in batch.
+
+    Args:
+        x: tensor of shape (B, n, m) or (n,m)
+
+    Returns:
+        tensor of shape (B, n, m) or (n,m) that has the same dtype and device as x.
+    """
+    eye = torch.eye(x.shape[-2], x.shape[-1], dtype=x.dtype, device=x.device)
+    if x.dim() > 2:
+        for i in range(x.dim()-2):
+            eye.unsqueeze_(0) # add as many dim in front
+        size_repeat = [x.shape[i] for i in range(x.dim()-2)] + [-1,-1]
+        eye = eye.expand(*size_repeat)
+    return eye

@@ -160,13 +160,22 @@ def get_test_data(n_obs = 10, n_dim_obs=3, n_dim_contr = 3, p_missing=.3, bs=2, 
     data[~mask] = torch.nan # ensure that the missing data cannot be used
     return data, mask, control
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 25
+# %% ../../lib_nbs/kalman/00_filter.ipynb 29
+def _fitler_predict_cov_stand(trans_matrix,trans_cov,curr_state_cov):
+    """Standard kalman filter predict for covariance"""
+    return trans_matrix @ curr_state_cov @ trans_matrix.mT + trans_cov
+
+# %% ../../lib_nbs/kalman/00_filter.ipynb 47
+def _fitler_predict_cov(trans_matrix,trans_cov,curr_state_cov):
+    """Standard kalman filter predict for covariance"""
+    return trans_matrix @ curr_state_cov @ trans_matrix.mT + trans_cov
+
+# %% ../../lib_nbs/kalman/00_filter.ipynb 48
 def unsqueeze_iter(*args, dim): return list(map(partial(torch.unsqueeze, dim=dim), args))
 unsqueeze_first = partial(unsqueeze_iter, dim=0)
 unsqueeze_last = partial(unsqueeze_iter, dim=-1)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 26
-from datetime import datetime
+# %% ../../lib_nbs/kalman/00_filter.ipynb 49
 def _filter_predict(trans_matrix,
                     trans_cov,
                     trans_off,
@@ -183,7 +192,7 @@ def _filter_predict(trans_matrix,
     cov_checker.check(pred_state_cov, caller='filter_predict')
     return (pred_state_mean, pred_state_cov)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 44
+# %% ../../lib_nbs/kalman/00_filter.ipynb 107
 def _filter_correct_batch(
                     obs_matrix,
                     obs_cov,
@@ -212,7 +221,7 @@ def _filter_correct_batch(
     cov_checker.check(pred_state_cov, caller='filter_correct')
     return (corr_state_mean, corr_state_cov)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 48
+# %% ../../lib_nbs/kalman/00_filter.ipynb 111
 def _filter_correct(obs_matrix,
                     obs_cov,
                     obs_off,
@@ -240,12 +249,12 @@ def _filter_correct(obs_matrix,
     
     return ListMNormal(corr_state_mean, corr_state_cov)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 56
+# %% ../../lib_nbs/kalman/00_filter.ipynb 119
 def _times2batch(x):
     """Permutes `x` so that the first dimension is the number of batches and not the times"""
     return x.permute(1,0,-2,-1)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 57
+# %% ../../lib_nbs/kalman/00_filter.ipynb 120
 def _filter(trans_matrix, obs_matrix, contr_matrix,
             trans_cov, obs_cov,
             trans_off, obs_off,
@@ -275,7 +284,7 @@ def _filter(trans_matrix, obs_matrix, contr_matrix,
     ret = list(maps(torch.stack, _times2batch, (pred_state_means, pred_state_covs, filt_state_means, filt_state_covs,)))
     return ret
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 64
+# %% ../../lib_nbs/kalman/00_filter.ipynb 127
 @patch
 def _filter_all(self: KalmanFilter, obs, mask, control
                ) ->Tuple[List, List, List, List]: # pred_state_means, pred_state_covs, filt_state_means, filt_state_covs
@@ -291,7 +300,7 @@ def _filter_all(self: KalmanFilter, obs, mask, control
             self.cov_checker
         )
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 69
+# %% ../../lib_nbs/kalman/00_filter.ipynb 132
 @patch
 def filter(self: KalmanFilter,
           obs: Tensor, # [n_timesteps, n_dim_obs] obs for times [0...n_timesteps-1]
@@ -302,7 +311,7 @@ def filter(self: KalmanFilter,
     _, _, filt_state_means, filt_state_covs = self._filter_all(obs, mask, control)
     return ListMNormal(filt_state_means.squeeze(-1), filt_state_covs)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 74
+# %% ../../lib_nbs/kalman/00_filter.ipynb 137
 def _smooth_update(trans_matrix,                # [n_dim_state, n_dim_state]
                    filt_state: MNormal,         # [n_dim_state] filtered state at time `t`
                    pred_state: MNormal,         # [n_dim_state] state before filtering at time `t + 1` (= using the observation until time t)
@@ -319,7 +328,7 @@ def _smooth_update(trans_matrix,                # [n_dim_state, n_dim_state]
     
     return MNormal(smoothed_state_mean, smoothed_state_cov)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 79
+# %% ../../lib_nbs/kalman/00_filter.ipynb 142
 def _smooth(trans_matrix, # `[n_dim_state, n_dim_state]`
             filt_state: ListMNormal, # `[n_timesteps, n_dim_state]`
                 # `filt_state_means[t]` is the state estimate for time t given obs from times `[0...t]`
@@ -348,7 +357,7 @@ def _smooth(trans_matrix, # `[n_dim_state, n_dim_state]`
         )
     return smoothed_state
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 85
+# %% ../../lib_nbs/kalman/00_filter.ipynb 148
 @patch
 def smooth(self: KalmanFilter,
            obs: Tensor,
@@ -366,7 +375,7 @@ def smooth(self: KalmanFilter,
     smoothed_state.mean.squeeze_(-1)
     return smoothed_state
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 97
+# %% ../../lib_nbs/kalman/00_filter.ipynb 160
 @patch
 def _obs_from_state(self: KalmanFilter, state: ListMNormal):
 
@@ -378,7 +387,7 @@ def _obs_from_state(self: KalmanFilter, state: ListMNormal):
     
     return ListMNormal(mean.squeeze(-1), cov)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 102
+# %% ../../lib_nbs/kalman/00_filter.ipynb 165
 @patch
 def predict(self: KalmanFilter, obs, mask, control, smooth=True):
     """Predicted observations at all times """
@@ -403,7 +412,7 @@ def predict(self: KalmanFilter, obs, mask, control, smooth=True):
     
     return ListNormal(pred_mean, pred_std)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 113
+# %% ../../lib_nbs/kalman/00_filter.ipynb 176
 @patch
 def get_info(self: KalmanFilter):
     out = {}
@@ -422,13 +431,13 @@ def get_info(self: KalmanFilter):
 
     return out
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 116
+# %% ../../lib_nbs/kalman/00_filter.ipynb 179
 @patch
 def _repr_html_(self: KalmanFilter):
     title = f"Kalman Filter ({self.n_dim_obs} obs, {self.n_dim_state} state, {self.n_dim_contr} contr)"
     return row_dfs(self.get_info(), title , hide_idx=True)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 120
+# %% ../../lib_nbs/kalman/00_filter.ipynb 183
 @patch(cls_method=True)
 def init_simple(cls: KalmanFilter,
                 n_dim, # n_dim_obs and n_dim_state
@@ -446,18 +455,18 @@ def init_simple(cls: KalmanFilter,
         init_state_cov =   torch.eye(n_dim, dtype=dtype),
     )
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 125
+# %% ../../lib_nbs/kalman/00_filter.ipynb 188
 from torch import hstack, eye, vstack, ones, zeros, tensor
 from functools import partial
 from sklearn.decomposition import PCA
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 126
+# %% ../../lib_nbs/kalman/00_filter.ipynb 189
 def set_dtype(*args, dtype=torch.float64):
     return [partial(arg, dtype=dtype) for arg in args] 
 
 eye, ones, zeros, tensor = set_dtype(eye, ones, zeros, tensor)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 127
+# %% ../../lib_nbs/kalman/00_filter.ipynb 190
 # @delegates(KalmanFilter)
 @patch(cls_method=True)
 def init_local_slope_pca(cls: KalmanFilter,
