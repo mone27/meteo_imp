@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['cache_dir', 'cache_disk', 'reset_seed', 'test_close', 'array2df', 'maybe_retrieve_callers_name', 'retrieve_names',
            'row_items', 'show_as_row', 'row_dfs', 'display_as_row', 'array1d', 'array2d', 'determine_dimensionality',
-           'last_dims', 'eye_like']
+           'last_dims', 'eye_like', 'is_diagonal']
 
 # %% ../lib_nbs/99_utils.ipynb 3
 # dill is an improved version of pickle, using it to support namedtuples
@@ -258,3 +258,9 @@ def eye_like(x: torch.Tensor) -> torch.Tensor:
         size_repeat = [x.shape[i] for i in range(x.dim()-2)] + [-1,-1]
         eye = eye.expand(*size_repeat)
     return eye
+
+# %% ../lib_nbs/99_utils.ipynb 75
+def is_diagonal(x: torch.Tensor):
+    """ Check that tensor is diagonal respect to the last 2 dimensions"""
+    d = torch.diagonal(x, dim1=-2, dim2=-1)
+    return (x == torch.diag_embed(d, dim1=-2, dim2=-1)).all()
