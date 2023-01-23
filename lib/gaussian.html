@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.124">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="tools to work with gaussian distributions">
+
+<title>meteo_imp - Gaussian Distributions Utils</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="meteo_imp - Gaussian Distributions Utils">
+<meta property="og:description" content="tools to work with gaussian distributions">
+<meta property="og:site-name" content="meteo_imp">
+<meta name="twitter:title" content="meteo_imp - Gaussian Distributions Utils">
+<meta name="twitter:description" content="tools to work with gaussian distributions">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">meteo_imp</span>
+    </a>
+  </div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Gaussian Distributions Utils</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">GPFA Imputation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_preparation.html" class="sidebar-item-text sidebar-link">Data Preparation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./results.html" class="sidebar-item-text sidebar-link">Results</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./simplegp_imputation.html" class="sidebar-item-text sidebar-link">Simple GP Imputation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./gaussian.html" class="sidebar-item-text sidebar-link active">Gaussian Distributions Utils</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./utils.html" class="sidebar-item-text sidebar-link">Utils</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Fluxnet</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Fluxnet/gap_finder.html" class="sidebar-item-text sidebar-link">Find Gaps in Fluxnet data</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Fluxnet/hainich.html" class="sidebar-item-text sidebar-link">Fluxnet Hainich</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">GPFA</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/gpfa.html" class="sidebar-item-text sidebar-link">Gaussian Processes Factor Analysis</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/learner.html" class="sidebar-item-text sidebar-link">GPFA Learner</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./GPFA/imputation.html" class="sidebar-item-text sidebar-link">Imputation time series</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">kalman</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/filter.html" class="sidebar-item-text sidebar-link">Kalman Filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/test_filter_pykalman.html" class="sidebar-item-text sidebar-link">Compare PyKalman</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/filter_performance-stability.html" class="sidebar-item-text sidebar-link">Filter Perfomance and Stability</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/filter_numerical_stability.html" class="sidebar-item-text sidebar-link">Numerical stability filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/fastai.html" class="sidebar-item-text sidebar-link">Implement Kalman model using FastAI</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/learner.html" class="sidebar-item-text sidebar-link">Kalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/imputation.html" class="sidebar-item-text sidebar-link">Imputation Kalman Model</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old statsmodels - statespace.html" class="sidebar-item-text sidebar-link">[Not Working] StatsModels Kalman filter</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old_01_pykalman_models.html" class="sidebar-item-text sidebar-link">[OLD] PyKalman Filter Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kalman/old_02_pykalman_imputation.html" class="sidebar-item-text sidebar-link">[OLD] Imputation PyKalman Model</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#normal-parameters" id="toc-normal-parameters" class="nav-link active" data-scroll-target="#normal-parameters">Normal Parameters</a>
+  <ul class="collapse">
+  <li><a href="#normal" id="toc-normal" class="nav-link" data-scroll-target="#normal">Normal</a></li>
+  <li><a href="#listnormal.detach" id="toc-listnormal.detach" class="nav-link" data-scroll-target="#listnormal.detach">ListNormal.detach</a></li>
+  <li><a href="#multivariate-normal" id="toc-multivariate-normal" class="nav-link" data-scroll-target="#multivariate-normal">Multivariate Normal</a></li>
+  <li><a href="#listmultinormal.detach" id="toc-listmultinormal.detach" class="nav-link" data-scroll-target="#listmultinormal.detach">ListMultiNormal.detach</a></li>
+  </ul></li>
+  <li><a href="#positive-definite" id="toc-positive-definite" class="nav-link" data-scroll-target="#positive-definite">Positive Definite</a>
+  <ul class="collapse">
+  <li><a href="#is_symmetric" id="toc-is_symmetric" class="nav-link" data-scroll-target="#is_symmetric">is_symmetric</a></li>
+  <li><a href="#symmetric_upto_batched" id="toc-symmetric_upto_batched" class="nav-link" data-scroll-target="#symmetric_upto_batched">symmetric_upto_batched</a></li>
+  <li><a href="#symmetric_upto" id="toc-symmetric_upto" class="nav-link" data-scroll-target="#symmetric_upto">symmetric_upto</a></li>
+  <li><a href="#is_posdef" id="toc-is_posdef" class="nav-link" data-scroll-target="#is_posdef">is_posdef</a></li>
+  <li><a href="#is_posdef_eigv" id="toc-is_posdef_eigv" class="nav-link" data-scroll-target="#is_posdef_eigv">is_posdef_eigv</a></li>
+  <li><a href="#pytorch-constraint" id="toc-pytorch-constraint" class="nav-link" data-scroll-target="#pytorch-constraint">Pytorch constraint</a></li>
+  <li><a href="#posdef" id="toc-posdef" class="nav-link" data-scroll-target="#posdef">PosDef</a></li>
+  <li><a href="#fuzzer" id="toc-fuzzer" class="nav-link" data-scroll-target="#fuzzer">Fuzzer</a></li>
+  <li><a href="#checker-positive-definite" id="toc-checker-positive-definite" class="nav-link" data-scroll-target="#checker-positive-definite">Checker Positive Definite</a></li>
+  <li><a href="#checkposdef" id="toc-checkposdef" class="nav-link" data-scroll-target="#checkposdef">CheckPosDef</a></li>
+  <li><a href="#diagonal-positive-definite-contraint" id="toc-diagonal-positive-definite-contraint" class="nav-link" data-scroll-target="#diagonal-positive-definite-contraint">Diagonal Positive Definite Contraint</a></li>
+  <li><a href="#to_diagposdef" id="toc-to_diagposdef" class="nav-link" data-scroll-target="#to_diagposdef">to_diagposdef</a></li>
+  <li><a href="#diagposdef" id="toc-diagposdef" class="nav-link" data-scroll-target="#diagposdef">DiagPosDef</a></li>
+  </ul></li>
+  <li><a href="#conditional-predictions" id="toc-conditional-predictions" class="nav-link" data-scroll-target="#conditional-predictions">Conditional Predictions</a>
+  <ul class="collapse">
+  <li><a href="#conditional_guassian" id="toc-conditional_guassian" class="nav-link" data-scroll-target="#conditional_guassian">conditional_guassian</a></li>
+  <li><a href="#batches" id="toc-batches" class="nav-link" data-scroll-target="#batches">Batches</a></li>
+  <li><a href="#cond_gaussian_batched" id="toc-cond_gaussian_batched" class="nav-link" data-scroll-target="#cond_gaussian_batched">cond_gaussian_batched</a></li>
+  <li><a href="#performance" id="toc-performance" class="nav-link" data-scroll-target="#performance">Performance</a></li>
+  </ul></li>
+  <li><a href="#helper" id="toc-helper" class="nav-link" data-scroll-target="#helper">Helper</a>
+  <ul class="collapse">
+  <li><a href="#cov2std" id="toc-cov2std" class="nav-link" data-scroll-target="#cov2std">cov2std</a></li>
+  <li><a href="#cov2std-1" id="toc-cov2std-1" class="nav-link" data-scroll-target="#cov2std-1">cov2std</a></li>
+  </ul></li>
+  <li><a href="#export" id="toc-export" class="nav-link" data-scroll-target="#export">Export</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/meteo_imp/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Gaussian Distributions Utils</h1>
+</div>
+
+<div>
+  <div class="description">
+    tools to work with gaussian distributions
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.test <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="normal-parameters" class="level2">
+<h2 class="anchored" data-anchor-id="normal-parameters">Normal Parameters</h2>
+<section id="normal" class="level3">
+<h3 class="anchored" data-anchor-id="normal">Normal</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/gaussian.py#L27" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="listnormal.detach" class="level3">
+<h3 class="anchored" data-anchor-id="listnormal.detach">ListNormal.detach</h3>
+<blockquote class="blockquote">
+<pre><code> ListNormal.detach ()</code></pre>
+</blockquote>
+<p>Detach both mean and cov at once</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ListNormal(torch.rand(<span class="dv">10</span>), torch.rand(<span class="dv">10</span>))[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Normal(mean=tensor(0.2471), std=tensor(0.5562))</code></pre>
+</div>
+</div>
+</section>
+<section id="multivariate-normal" class="level3">
+<h3 class="anchored" data-anchor-id="multivariate-normal">Multivariate Normal</h3>
+<hr>
+</section>
+<section id="listmultinormal.detach" class="level3">
+<h3 class="anchored" data-anchor-id="listmultinormal.detach">ListMultiNormal.detach</h3>
+<blockquote class="blockquote">
+<pre><code> ListMultiNormal.detach ()</code></pre>
+</blockquote>
+<p>Detach both mean and cov at once</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ListMNormal(torch.rand(<span class="dv">2</span>,<span class="dv">10</span>), torch.rand(<span class="dv">2</span>,<span class="dv">10</span>,<span class="dv">10</span>))[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>MultiNormal(mean=tensor([0.9849, 0.8039, 0.2593, 0.5191, 0.8813, 0.5949, 0.1033, 0.3008, 0.0098,
+        0.2953]), cov=tensor([[0.0457, 0.0883, 0.4299, 0.2061, 0.8385, 0.7318, 0.5425, 0.3360, 0.3792,
+         0.0042],
+        [0.8415, 0.9851, 0.7703, 0.8356, 0.8062, 0.7011, 0.9176, 0.9195, 0.8578,
+         0.3826],
+        [0.4932, 0.0855, 0.6626, 0.7544, 0.9201, 0.8637, 0.8359, 0.3073, 0.8873,
+         0.1936],
+        [0.1288, 0.3678, 0.7758, 0.9245, 0.5017, 0.1206, 0.9240, 0.4184, 0.9816,
+         0.6542],
+        [0.9985, 0.4027, 0.4329, 0.2357, 0.8475, 0.1958, 0.1164, 0.2320, 0.7753,
+         0.8758],
+        [0.6025, 0.3952, 0.8984, 0.5287, 0.0312, 0.0412, 0.1257, 0.2761, 0.8841,
+         0.3533],
+        [0.3464, 0.3885, 0.1485, 0.7729, 0.1047, 0.3872, 0.7191, 0.3165, 0.7575,
+         0.2744],
+        [0.8727, 0.8608, 0.8297, 0.6355, 0.1139, 0.4374, 0.4958, 0.7752, 0.0028,
+         0.9314],
+        [0.1410, 0.5399, 0.4141, 0.4138, 0.6157, 0.8635, 0.1672, 0.2649, 0.5939,
+         0.6205],
+        [0.9124, 0.2989, 0.6181, 0.8439, 0.8620, 0.5752, 0.8584, 0.1498, 0.3333,
+         0.2067]]))</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="positive-definite" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="positive-definite">Positive Definite</h2>
+<p>The covariance matrices need to be <a href="https://en.wikipedia.org/wiki/Definite_matrix">positive definite</a> Those are utilities functions to check is a matrix is positive definite and to make any matrix positive definite</p>
+<section id="other-libraries" class="level4">
+<h4 class="anchored" data-anchor-id="other-libraries">Other libraries</h4>
+<p>Most libraries that implement Kalman Filters use manually specified parameters, which often don’t have the issue of the positive definite constraint (eg. <code>pykalman</code>)</p>
+<p>From <code>statsmodels</code> statespace models: &gt;Cholesky decomposition […] requires that the matrix be positive definite. While this should generally be true, it may not be in every case. <a href="https://www.statsmodels.org/stable/generated/statsmodels.tsa.statespace.kalman_filter.KalmanFilter.set_inversion_method.html#statsmodels.tsa.statespace.kalman_filter.KalmanFilter.set_inversion_method">source</a></p>
+<p>which seems to mean that they take into account the fact that during the filter calculations may not be positive definite</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> torch.rand(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>) <span class="co"># batched random matrix used for testing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="symmetry" class="level4">
+<h4 class="anchored" data-anchor-id="symmetry">Symmetry</h4>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/gaussian.py#L60" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="is_symmetric" class="level3">
+<h3 class="anchored" data-anchor-id="is_symmetric">is_symmetric</h3>
+<blockquote class="blockquote">
+<pre><code> is_symmetric (value, atol=1e-05)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>is_symmetric(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([False, False])</code></pre>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/gaussian.py#L70" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="symmetric_upto_batched" class="level3">
+<h3 class="anchored" data-anchor-id="symmetric_upto_batched">symmetric_upto_batched</h3>
+<blockquote class="blockquote">
+<pre><code> symmetric_upto_batched (value, start=-8)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/gaussian.py#L64" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="symmetric_upto" class="level3">
+<h3 class="anchored" data-anchor-id="symmetric_upto">symmetric_upto</h3>
+<blockquote class="blockquote">
+<pre><code> symmetric_upto (value, start=-8)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>symmetric_upto_batched(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([0, 0])</code></pre>
+</div>
+</div>
+<section id="is-posdef" class="level4">
+<h4 class="anchored" data-anchor-id="is-posdef">is posdef</h4>
+<p>Default pytorch check (uses symmetry + cholesky decomposition)</p>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/gaussian.py#L74" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+</section>
+<section id="is_posdef" class="level3">
+<h3 class="anchored" data-anchor-id="is_posdef">is_posdef</h3>
+<blockquote class="blockquote">
+<pre><code> is_posdef (cov)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>is_posdef(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([False, False])</code></pre>
+</div>
+</div>
+<p>check if it is pos definite using eigenvalues. Positive definite matrix have all positive eigenvalues</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>torch.linalg.eigvalsh(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[-0.7069,  0.7046,  1.2112],
+        [-0.2981,  0.1744,  2.1954]])</code></pre>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/gaussian.py#L78" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="is_posdef_eigv" class="level3">
+<h3 class="anchored" data-anchor-id="is_posdef_eigv">is_posdef_eigv</h3>
+<blockquote class="blockquote">
+<pre><code> is_posdef_eigv (cov)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>is_posdef_eigv(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(tensor([False, False]),
+ tensor([[-0.7069,  0.7046,  1.2112],
+         [-0.2981,  0.1744,  2.1954]]))</code></pre>
+</div>
+</div>
+<p>Note that <a href="https://mone27.github.io/meteo_imp/lib/gaussian.html#is_posdef"><code>is_posdef</code></a> and <a href="https://mone27.github.io/meteo_imp/lib/gaussian.html#is_posdef_eigv"><code>is_posdef_eigv</code></a> can return different values, in general <a href="https://mone27.github.io/meteo_imp/lib/gaussian.html#is_posdef_eigv"><code>is_posdef_eigv</code></a> is more tollerant</p>
+</section>
+<section id="pytorch-constraint" class="level3">
+<h3 class="anchored" data-anchor-id="pytorch-constraint">Pytorch constraint</h3>
+<p>transform any matrix <span class="math inline">\(A\)</span> into a positive definite matrix (<span class="math inline">\(PD\)</span>) using the following formula</p>
+<p><span class="math inline">\(PD = AA^T + aI\)</span></p>
+<p>where <span class="math inline">\(AA^T\)</span> is a positive semi-definite matrix and <span class="math inline">\(a\)</span> is a small positive number that is added on the diagonal to ensure that the resulting matrix is positive definite (not semi-definite)</p>
+<p>the inverse transformation uses cholesky decomposition</p>
+<p>Another approach would be to multiple to lower triangular matrix, but they’d require a positive diagonal, which is harderd to obtain see <a href="https://en.wikipedia.org/wiki/Definite_matrix#Cholesky_decomposition">https://en.wikipedia.org/wiki/Definite_matrix#Cholesky_decomposition</a></p>
+<p>The API inspired by gpytorch constraints</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.utils <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/opt/hostedtoolcache/Python/3.10.9/x64/lib/python3.10/site-packages/pyprojroot/pyprojroot.py:51: UserWarning: Path doesn't exist: /home/runner/work/meteo_imp/meteo_imp/.cache
+  warnings.warn("Path doesn't exist: {}".format(path))</code></pre>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/gaussian.py#L91" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="posdef" class="level3">
+<h3 class="anchored" data-anchor-id="posdef">PosDef</h3>
+<blockquote class="blockquote">
+<pre><code> PosDef (noise=1e-05)</code></pre>
+</blockquote>
+<p>Positive Definite Constraint for PyTorch parameters</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>constraint <span class="op">=</span> PosDef()</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>posdef <span class="op">=</span> constraint.transform(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>constraint.noise</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>1e-05</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[[0.8326, 0.8270, 0.7612],
+         [0.7214, 0.4577, 0.1281],
+         [0.6486, 0.7839, 0.5584]],
+
+        [[0.8758, 0.8881, 0.6634],
+         [0.2476, 0.4660, 0.9299],
+         [0.4383, 0.0900, 0.4593]]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>posdef</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[[1.9565, 1.0765, 1.6134],
+         [1.0765, 0.7462, 0.8982],
+         [1.6134, 0.8982, 1.3471]],
+
+        [[1.9959, 1.2476, 0.7685],
+         [1.2476, 1.1431, 0.5776],
+         [0.7685, 0.5776, 0.4112]]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>show_as_row(is_posdef(torch.stack([posdef,A])), is_posdef_eigv(torch.stack([posdef,A])), is_symmetric(torch.stack([posdef,A])))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div><p style="font-size: 1.2rem;">#0</p> <pre>tensor([[ True,  True],
+        [False, False]])</pre> </div><div><p style="font-size: 1.2rem;">#1</p> <pre>(tensor([[ True,  True],
+        [False,  True]]), tensor([[[ 0.0097,  0.1259,  3.9142],
+         [ 0.0793,  0.2538,  3.2172]],
+
+        [[-0.2902,  0.0810,  2.0579],
+         [ 0.1686,  0.3937,  1.2389]]]))</pre> </div><div><p style="font-size: 1.2rem;">#2</p> <pre>tensor([[ True,  True],
+        [False, False]])</pre> </div></div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>test_eq(is_posdef(posdef).<span class="bu">all</span>(), <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>constraint.inverse_transform(posdef)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[[1.3988, 0.0000, 0.0000],
+         [0.7696, 0.3923, 0.0000],
+         [1.1534, 0.0266, 0.1263]],
+
+        [[1.4128, 0.0000, 0.0000],
+         [0.8831, 0.6027, 0.0000],
+         [0.5440, 0.1612, 0.2988]]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>test_close(posdef, constraint.transform(constraint.inverse_transform(posdef)), eps<span class="op">=</span><span class="fl">2e-5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>symmetric_upto(posdef[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>-8</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>reset_seed()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="fuzzer" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="fuzzer">Fuzzer</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>run_fuzzer <span class="op">=</span> <span class="va">True</span> <span class="co"># temporly disable for performance reasons</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> random_posdef(bs<span class="op">=</span><span class="dv">10</span>,n<span class="op">=</span><span class="dv">100</span>,noise<span class="op">=</span><span class="fl">1e-5</span>,n_range<span class="op">=</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="op">**</span>kwargs):</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> torch.rand(bs,n,n, <span class="op">**</span>kwargs)  <span class="op">*</span> (n_range[<span class="dv">1</span>]<span class="op">-</span>n_range[<span class="dv">0</span>]) <span class="op">+</span> n_range[<span class="dv">0</span>]</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> PosDef(noise).transform(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fuzzer</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fuzz_posdef(bs<span class="op">=</span><span class="dv">10</span>,n<span class="op">=</span><span class="dv">100</span>,noise<span class="op">=</span><span class="fl">1e-5</span>,n_range<span class="op">=</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="op">**</span>kwargs):</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    posdef <span class="op">=</span> random_posdef(bs, n, noise, <span class="op">**</span>kwargs)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>        {<span class="st">'n'</span>: [n], <span class="st">'noise'</span>: <span class="ss">f"</span><span class="sc">{</span>noise<span class="sc">:.0e}</span><span class="ss">"</span>, <span class="st">'range'</span>: <span class="bu">str</span>(n_range), <span class="st">'n_samples'</span>: bs,</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>         <span class="st">'posdef'</span>: is_posdef(posdef).<span class="bu">sum</span>().item() <span class="op">/</span> bs,</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>         <span class="st">'sym'</span>: is_symmetric(posdef).<span class="bu">sum</span>().item() <span class="op">/</span> bs, </span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>         <span class="st">'posdef_eigv'</span>: is_posdef_eigv(posdef)[<span class="dv">0</span>].<span class="bu">sum</span>().item() <span class="op">/</span> bs</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>    })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>fuzz_posdef()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped" data-border="1">
+<thead>
+<tr class="header">
+<th></th>
+<th>n</th>
+<th>noise</th>
+<th>range</th>
+<th>n_samples</th>
+<th>posdef</th>
+<th>sym</th>
+<th>posdef_eigv</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th>0</th>
+<td>100</td>
+<td>1e-05</td>
+<td>(0, 1)</td>
+<td>10</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>1.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>n_min, n_max <span class="op">=</span> <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> torch.rand(<span class="dv">2</span>,<span class="dv">100</span>,<span class="dv">100</span>)  <span class="op">*</span> (n_max<span class="op">-</span>n_min) <span class="op">+</span> n_min</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>is_posdef(to_posdef(A))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([True, True])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>ma <span class="op">=</span> torch.tensor([[<span class="dv">1</span>, <span class="dv">7</span>],</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>                   [<span class="op">-</span><span class="dv">3</span>, <span class="dv">4</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>is_posdef(to_posdef(ma))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(True)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>fuzz_posdef(device<span class="op">=</span><span class="st">'cuda'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped" data-border="1">
+<thead>
+<tr class="header">
+<th></th>
+<th>n</th>
+<th>noise</th>
+<th>range</th>
+<th>n_samples</th>
+<th>posdef</th>
+<th>sym</th>
+<th>posdef_eigv</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th>0</th>
+<td>100</td>
+<td>1e-05</td>
+<td>(0, 1)</td>
+<td>10</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>1.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># %time fuzz_posdef(bs=100, device='cuda')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>rate_posdef <span class="op">=</span> pd.concat([fuzz_posdef(n<span class="op">=</span>n, noise<span class="op">=</span>noise, bs<span class="op">=</span><span class="dv">100</span>, n_range<span class="op">=</span>n_range, device<span class="op">=</span><span class="st">'cuda'</span>) </span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>               <span class="cf">for</span> n <span class="kw">in</span> [<span class="dv">10</span>, <span class="dv">100</span>]</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>               <span class="cf">for</span> noise <span class="kw">in</span> [<span class="fl">1e-2</span>, <span class="fl">1e-5</span>, <span class="fl">1e-7</span>]</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>               <span class="cf">for</span> n_range <span class="kw">in</span> [(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>),(<span class="dv">0</span>,<span class="dv">1</span>)]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> altair <span class="im">import</span> datum</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>rate_posdef.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped" data-border="1">
+<thead>
+<tr class="header">
+<th></th>
+<th>n</th>
+<th>noise</th>
+<th>range</th>
+<th>n_samples</th>
+<th>posdef</th>
+<th>sym</th>
+<th>posdef_eigv</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th>0</th>
+<td>10</td>
+<td>1e-02</td>
+<td>(-1, 1)</td>
+<td>100</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<th>0</th>
+<td>10</td>
+<td>1e-02</td>
+<td>(0, 1)</td>
+<td>100</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<th>0</th>
+<td>10</td>
+<td>1e-05</td>
+<td>(-1, 1)</td>
+<td>100</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<th>0</th>
+<td>10</td>
+<td>1e-05</td>
+<td>(0, 1)</td>
+<td>100</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<th>0</th>
+<td>10</td>
+<td>1e-07</td>
+<td>(-1, 1)</td>
+<td>100</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>1.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _plot_var(df, var, x<span class="op">=</span><span class="st">'n:N'</span>, row<span class="op">=</span><span class="st">'range'</span>, column<span class="op">=</span><span class="st">'noise:N'</span>, y_domain<span class="op">=</span>(<span class="dv">0</span>,<span class="dv">1</span>), height<span class="op">=</span><span class="dv">70</span>, width<span class="op">=</span><span class="dv">50</span>):</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>    bar <span class="op">=</span> alt.Chart(df).mark_bar().encode(</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> alt.X(<span class="st">'n:N'</span>),</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> alt.Y(var, scale<span class="op">=</span>alt.Scale(domain<span class="op">=</span>y_domain)),</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>        color <span class="op">=</span> <span class="st">'n:N'</span>,</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>    ).properties(height<span class="op">=</span>height, width<span class="op">=</span>width, ) </span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> alt.Chart(df).mark_text(dy<span class="op">=</span><span class="dv">10</span>, color<span class="op">=</span><span class="st">'white'</span>).encode(</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> alt.X(<span class="st">'n:N'</span>),</span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> alt.Y(var),</span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>        text <span class="op">=</span> alt.Text(var, <span class="bu">format</span><span class="op">=</span><span class="st">".2f"</span>)</span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (bar <span class="op">+</span> text).facet(</span>
+<span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a>        column<span class="op">=</span>column,</span>
+<span id="cb59-16"><a href="#cb59-16" aria-hidden="true" tabindex="-1"></a>        row<span class="op">=</span>row).properties(title<span class="op">=</span>var, )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _plot_var_box(df, var, x<span class="op">=</span><span class="st">'n:N'</span>, row<span class="op">=</span><span class="st">'range'</span>, column<span class="op">=</span><span class="st">'noise:N'</span>, height<span class="op">=</span><span class="dv">70</span>, width<span class="op">=</span><span class="dv">50</span>, title<span class="op">=</span><span class="st">''</span>):</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>    box <span class="op">=</span> alt.Chart(df).mark_boxplot().encode(</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> alt.X(x),</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> alt.Y(var),</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>        color <span class="op">=</span> x,</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>    ).properties(height<span class="op">=</span>height, width<span class="op">=</span>width) </span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># text = alt.Chart(df).mark_text(dy=10, color='white').encode(</span></span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     x = alt.X('n:N'),</span></span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     y = alt.Y(var),</span></span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     text = alt.Text(var, format=".2f")</span></span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># )</span></span>
+<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (box).facet(</span>
+<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a>        column<span class="op">=</span>column,</span>
+<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a>        row<span class="op">=</span>row).properties(title<span class="op">=</span>title)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython <span class="im">import</span> display</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> vl_convert <span class="im">as</span> vlc</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> functools <span class="im">import</span> partial</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="generation-of-random-positive-definite-matrices" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="generation-of-random-positive-definite-matrices">Generation of Random positive definite matrices</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_posdef_simulation(n_s, noise_s, range_s, bs<span class="op">=</span><span class="dv">100</span>, <span class="op">**</span>kwargs):</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> run_fuzzer: <span class="cf">return</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>    rate_posdef <span class="op">=</span> pd.concat([fuzz_posdef(n<span class="op">=</span>n, noise<span class="op">=</span>noise, bs<span class="op">=</span>bs, n_range<span class="op">=</span><span class="bu">range</span>, device<span class="op">=</span><span class="st">'cuda'</span>, <span class="op">**</span>kwargs) </span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>               <span class="cf">for</span> n <span class="kw">in</span> n_s <span class="cf">for</span> noise <span class="kw">in</span> noise_s <span class="cf">for</span> <span class="bu">range</span> <span class="kw">in</span> range_s])</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>    vl_spec <span class="op">=</span> alt.hconcat(<span class="op">*</span>[_plot_var(rate_posdef, var) <span class="cf">for</span> var <span class="kw">in</span> [<span class="st">'posdef'</span>, <span class="st">'posdef_eigv'</span>]]).to_json()</span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># workaround for bug in vegalite see https://github.com/altair-viz/altair/issues/2742</span></span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>    svg <span class="op">=</span> vlc.vegalite_to_svg(vl_spec, vl_version<span class="op">=</span><span class="st">'v5.3'</span>)</span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>    display.display(display.HTML(svg))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell page-columns page-full">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>plot_posdef_simulation(n_s <span class="op">=</span> [<span class="dv">10</span>, <span class="dv">100</span>], noise_s <span class="op">=</span> [<span class="fl">1e-2</span>, <span class="fl">1e-5</span>, <span class="fl">1e-7</span>], range_s <span class="op">=</span> [(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)], bs<span class="op">=</span><span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display page-columns page-full">
+<svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1" class="marks page-columns page-full" width="647" height="189" viewbox="0 0 647 189"><rect width="647" height="189" fill="white"></rect><g fill="none" stroke-miterlimit="10" transform="translate(93,74)" class="page-columns page-full"><g class="mark-group role-frame root page-columns page-full" role="graphics-object" aria-roledescription="group mark container"><g transform="translate(0,0)" class="page-columns page-full"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z"></path><g class="page-columns page-full"><g class="mark-group role-scope concat_0_group page-columns page-full" role="graphics-object" aria-roledescription="group mark container"><g transform="translate(0,0)" class="page-columns page-full"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z"></path><g class="page-columns page-full"><g class="mark-group role-row-title row-title" role="graphics-object" aria-roledescription="group mark container"><g transform="translate(-67,35)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z"></path><g><g class="mark-group role-title"><g transform="translate(-21.000000000000004,0)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-text role-title-text" role="graphics-symbol" aria-roledescription="title" aria-label="Title text 'range'" pointer-events="none"><text text-anchor="middle" transform="translate(0,0) rotate(-90) translate(0,9)" font-family="sans-serif" font-size="11px" font-weight="bold" fill="#000" opacity="1">range</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g></g><g class="mark-group role-column-title column-title" role="graphics-object" aria-roledescription="group mark container"><g transform="translate(97,-31)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z"></path><g><g class="mark-group role-title"><g transform="translate(0,-21)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-text role-title-text" role="graphics-symbol" aria-roledescription="title" aria-label="Title text 'noise'" pointer-events="none"><text text-anchor="middle" transform="translate(0,9)" font-family="sans-serif" font-size="11px" font-weight="bold" fill="#000" opacity="1">noise</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g></g><g class="mark-group role-row-header concat_0_row_header" role="graphics-object" aria-roledescription="group mark container"><g transform="translate(-1,0)"><path class="background" aria-hidden="true" d="M0,0h0v70h0Z"></path><g><g class="mark-group role-axis" role="graphics-symbol" aria-roledescription="axis" aria-label="Y-axis titled 'posdef' for a linear scale with values from 0.0 to 1.0"><g transform="translate(0.5,0.5)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-rule role-axis-tick" pointer-events="none"><line transform="translate(0,70)" x2="-5" y2="0" stroke="#888" stroke-width="1" opacity="1"></line><line transform="translate(0,35)" x2="-5" y2="0" stroke="#888" stroke-width="1" opacity="1"></line><line transform="translate(0,0)" x2="-5" y2="0" stroke="#888" stroke-width="1" opacity="1"></line></g><g class="mark-text role-axis-label" pointer-events="none"><text text-anchor="end" transform="translate(-7,73)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">0.0</text><text text-anchor="end" transform="translate(-7,38)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">0.5</text><text text-anchor="end" transform="translate(-7,3)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">1.0</text></g><g class="mark-rule role-axis-domain" pointer-events="none"><line transform="translate(0,70)" x2="0" y2="-70" stroke="#888" stroke-width="1" opacity="1"></line></g><g class="mark-text role-axis-title" pointer-events="none"><text text-anchor="middle" transform="translate(-24.9013671875,35) rotate(-90) translate(0,-2)" font-family="sans-serif" font-size="11px" font-weight="bold" fill="#000" opacity="1">posdef</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g><g class="mark-group role-title"><g transform="translate(-55.9013671875,35)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-text role-title-text" role="graphics-symbol" aria-roledescription="title" aria-label="Title text '(-1, 1)'" pointer-events="none"><text text-anchor="middle" transform="translate(0,0) rotate(-90) translate(0,8)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">(-1, 1)</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g></g><g class="mark-group role-column-header concat_0_column_header" role="graphics-object" aria-roledescription="group mark container"><g transform="translate(0,-1)"><path class="background" aria-hidden="true" d="M0,0h50v0h-50Z"></path><g><g class="mark-group role-title"><g transform="translate(25,-20)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-text role-title-text" role="graphics-symbol" aria-roledescription="title" aria-label="Title text '1e-02'" pointer-events="none"><text text-anchor="middle" transform="translate(0,8)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">1e-02</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g><g transform="translate(72,-1)"><path class="background" aria-hidden="true" d="M0,0h50v0h-50Z"></path><g><g class="mark-group role-title"><g transform="translate(25,-20)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-text role-title-text" role="graphics-symbol" aria-roledescription="title" aria-label="Title text '1e-05'" pointer-events="none"><text text-anchor="middle" transform="translate(0,8)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">1e-05</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g><g transform="translate(144,-1)"><path class="background" aria-hidden="true" d="M0,0h50v0h-50Z"></path><g><g class="mark-group role-title"><g transform="translate(25,-20)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-text role-title-text" role="graphics-symbol" aria-roledescription="title" aria-label="Title text '1e-07'" pointer-events="none"><text text-anchor="middle" transform="translate(0,8)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">1e-07</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g></g><g class="mark-group role-column-footer concat_0_column_footer" role="graphics-object" aria-roledescription="group mark container"><g transform="translate(0,71)"><path class="background" aria-hidden="true" d="M0,0h50v0h-50Z"></path><g><g class="mark-group role-axis" role="graphics-symbol" aria-roledescription="axis" aria-label="X-axis titled 'n' for a discrete scale with 2 values: 10, 100"><g transform="translate(0.5,0.5)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-rule role-axis-tick" pointer-events="none"><line transform="translate(12,0)" x2="0" y2="5" stroke="#888" stroke-width="1" opacity="1"></line><line transform="translate(37,0)" x2="0" y2="5" stroke="#888" stroke-width="1" opacity="1"></line></g><g class="mark-text role-axis-label" pointer-events="none"><text text-anchor="end" transform="translate(12,7) rotate(270) translate(0,3)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">10</text><text text-anchor="end" transform="translate(37,7) rotate(270) translate(0,3)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">100</text></g><g class="mark-rule role-axis-domain" pointer-events="none"><line transform="translate(0,0)" x2="50" y2="0" stroke="#888" stroke-width="1" opacity="1"></line></g><g class="mark-text role-axis-title" pointer-events="none"><text text-anchor="middle" transform="translate(25,36.6845703125)" font-family="sans-serif" font-size="11px" font-weight="bold" fill="#000" opacity="1">n</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g><g transform="translate(72,71)"><path class="background" aria-hidden="true" d="M0,0h50v0h-50Z"></path><g><g class="mark-group role-axis" role="graphics-symbol" aria-roledescription="axis" aria-label="X-axis titled 'n' for a discrete scale with 2 values: 10, 100"><g transform="translate(0.5,0.5)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-rule role-axis-tick" pointer-events="none"><line transform="translate(12,0)" x2="0" y2="5" stroke="#888" stroke-width="1" opacity="1"></line><line transform="translate(37,0)" x2="0" y2="5" stroke="#888" stroke-width="1" opacity="1"></line></g><g class="mark-text role-axis-label" pointer-events="none"><text text-anchor="end" transform="translate(12,7) rotate(270) translate(0,3)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">10</text><text text-anchor="end" transform="translate(37,7) rotate(270) translate(0,3)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">100</text></g><g class="mark-rule role-axis-domain" pointer-events="none"><line transform="translate(0,0)" x2="50" y2="0" stroke="#888" stroke-width="1" opacity="1"></line></g><g class="mark-text role-axis-title" pointer-events="none"><text text-anchor="middle" transform="translate(25,36.6845703125)" font-family="sans-serif" font-size="11px" font-weight="bold" fill="#000" opacity="1">n</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g><g transform="translate(144,71)"><path class="background" aria-hidden="true" d="M0,0h50v0h-50Z"></path><g><g class="mark-group role-axis" role="graphics-symbol" aria-roledescription="axis" aria-label="X-axis titled 'n' for a discrete scale with 2 values: 10, 100"><g transform="translate(0.5,0.5)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-rule role-axis-tick" pointer-events="none"><line transform="translate(12,0)" x2="0" y2="5" stroke="#888" stroke-width="1" opacity="1"></line><line transform="translate(37,0)" x2="0" y2="5" stroke="#888" stroke-width="1" opacity="1"></line></g><g class="mark-text role-axis-label" pointer-events="none"><text text-anchor="end" transform="translate(12,7) rotate(270) translate(0,3)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">10</text><text text-anchor="end" transform="translate(37,7) rotate(270) translate(0,3)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">100</text></g><g class="mark-rule role-axis-domain" pointer-events="none"><line transform="translate(0,0)" x2="50" y2="0" stroke="#888" stroke-width="1" opacity="1"></line></g><g class="mark-text role-axis-title" pointer-events="none"><text text-anchor="middle" transform="translate(25,36.6845703125)" font-family="sans-serif" font-size="11px" font-weight="bold" fill="#000" opacity="1">n</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g></g><g class="mark-group role-scope concat_0_cell" role="graphics-object" aria-roledescription="group mark container"><g transform="translate(0,0)"><path class="background" aria-hidden="true" d="M0.5,0.5h50v70h-50Z" stroke="#ddd"></path><g><g class="mark-group role-axis" aria-hidden="true"><g transform="translate(0.5,0.5)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-rule role-axis-grid" pointer-events="none"><line transform="translate(0,70)" x2="50" y2="0" stroke="#ddd" stroke-width="1" opacity="1"></line><line transform="translate(0,35)" x2="50" y2="0" stroke="#ddd" stroke-width="1" opacity="1"></line><line transform="translate(0,0)" x2="50" y2="0" stroke="#ddd" stroke-width="1" opacity="1"></line></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g><g class="mark-rect role-mark concat_0_child_layer_0_marks" role="graphics-object" aria-roledescription="rect mark container"><path aria-label="n: 10; posdef: 1" role="graphics-symbol" aria-roledescription="bar" d="M1.25,0h22.5v70h-22.5Z" fill="#4c78a8"></path><path aria-label="n: 100; posdef: 1" role="graphics-symbol" aria-roledescription="bar" d="M26.25,0h22.5v70h-22.5Z" fill="#f58518"></path></g><g class="mark-text role-mark concat_0_child_layer_1_marks" role="graphics-object" aria-roledescription="text mark container"><text aria-label="n: 10; posdef: 1" role="graphics-symbol" aria-roledescription="text mark" text-anchor="middle" transform="translate(12.5,13)" font-family="sans-serif" font-size="11px" fill="white">1.00</text><text aria-label="n: 100; posdef: 1" role="graphics-symbol" aria-roledescription="text mark" text-anchor="middle" transform="translate(37.5,13)" font-family="sans-serif" font-size="11px" fill="white">1.00</text></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g><g transform="translate(72,0)"><path class="background" aria-hidden="true" d="M0.5,0.5h50v70h-50Z" stroke="#ddd"></path><g><g class="mark-group role-axis" aria-hidden="true"><g transform="translate(0.5,0.5)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-rule role-axis-grid" pointer-events="none"><line transform="translate(0,70)" x2="50" y2="0" stroke="#ddd" stroke-width="1" opacity="1"></line><line transform="translate(0,35)" x2="50" y2="0" stroke="#ddd" stroke-width="1" opacity="1"></line><line transform="translate(0,0)" x2="50" y2="0" stroke="#ddd" stroke-width="1" opacity="1"></line></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g><g class="mark-rect role-mark concat_0_child_layer_0_marks" role="graphics-object" aria-roledescription="rect mark container"><path aria-label="n: 10; posdef: 1" role="graphics-symbol" aria-roledescription="bar" d="M1.25,0h22.5v70h-22.5Z" fill="#4c78a8"></path><path aria-label="n: 100; posdef: 0.997" role="graphics-symbol" aria-roledescription="bar" d="M26.25,0.2100000000000002h22.5v69.79h-22.5Z" fill="#f58518"></path></g><g class="mark-text role-mark concat_0_child_layer_1_marks" role="graphics-object" aria-roledescription="text mark container"><text aria-label="n: 10; posdef: 1" role="graphics-symbol" aria-roledescription="text mark" text-anchor="middle" transform="translate(12.5,13)" font-family="sans-serif" font-size="11px" fill="white">1.00</text><text aria-label="n: 100; posdef: 0.997" role="graphics-symbol" aria-roledescription="text mark" text-anchor="middle" transform="translate(37.5,13.21)" font-family="sans-serif" font-size="11px" fill="white">1.00</text></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g><g transform="translate(144,0)"><path class="background" aria-hidden="true" d="M0.5,0.5h50v70h-50Z" stroke="#ddd"></path><g><g class="mark-group role-axis" aria-hidden="true"><g transform="translate(0.5,0.5)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-rule role-axis-grid" pointer-events="none"><line transform="translate(0,70)" x2="50" y2="0" stroke="#ddd" stroke-width="1" opacity="1"></line><line transform="translate(0,35)" x2="50" y2="0" stroke="#ddd" stroke-width="1" opacity="1"></line><line transform="translate(0,0)" x2="50" y2="0" stroke="#ddd" stroke-width="1" opacity="1"></line></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g><g class="mark-rect role-mark concat_0_child_layer_0_marks" role="graphics-object" aria-roledescription="rect mark container"><path aria-label="n: 10; posdef: 0.998" role="graphics-symbol" aria-roledescription="bar" d="M1.25,0.14000000000000012h22.5v69.86h-22.5Z" fill="#4c78a8"></path><path aria-label="n: 100; posdef: 0.961" role="graphics-symbol" aria-roledescription="bar" d="M26.25,2.730000000000002h22.5v67.27h-22.5Z" fill="#f58518"></path></g><g class="mark-text role-mark concat_0_child_layer_1_marks" role="graphics-object" aria-roledescription="text mark container"><text aria-label="n: 10; posdef: 0.998" role="graphics-symbol" aria-roledescription="text mark" text-anchor="middle" transform="translate(12.5,13.14)" font-family="sans-serif" font-size="11px" fill="white">1.00</text><text aria-label="n: 100; posdef: 0.961" role="graphics-symbol" aria-roledescription="text mark" text-anchor="middle" transform="translate(37.5,15.730000000000002)" font-family="sans-serif" font-size="11px" fill="white">0.96</text></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g></g><g class="mark-group role-title"><g transform="translate(-88,-69)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-text role-title-text" role="graphics-symbol" aria-roledescription="title" aria-label="Title text 'posdef'" pointer-events="none"><text text-anchor="start" transform="translate(0,10)" font-family="sans-serif" font-size="13px" font-weight="bold" fill="#000" opacity="1">posdef</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g></g><g class="mark-group role-scope concat_1_group page-columns page-full" role="graphics-object" aria-roledescription="group mark container"><g transform="translate(303,0)" class="page-columns page-full"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z"></path><g class="page-columns page-full"><g class="mark-group role-row-title row-title" role="graphics-object" aria-roledescription="group mark container"><g transform="translate(-67,35)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z"></path><g><g class="mark-group role-title"><g transform="translate(-21.000000000000004,0)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-text role-title-text" role="graphics-symbol" aria-roledescription="title" aria-label="Title text 'range'" pointer-events="none"><text text-anchor="middle" transform="translate(0,0) rotate(-90) translate(0,9)" font-family="sans-serif" font-size="11px" font-weight="bold" fill="#000" opacity="1">range</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g></g><g class="mark-group role-column-title column-title" role="graphics-object" aria-roledescription="group mark container"><g transform="translate(97,-31)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z"></path><g><g class="mark-group role-title"><g transform="translate(0,-21)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-text role-title-text" role="graphics-symbol" aria-roledescription="title" aria-label="Title text 'noise'" pointer-events="none"><text text-anchor="middle" transform="translate(0,9)" font-family="sans-serif" font-size="11px" font-weight="bold" fill="#000" opacity="1">noise</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g></g><g class="mark-group role-row-header concat_1_row_header" role="graphics-object" aria-roledescription="group mark container"><g transform="translate(-1,0)"><path class="background" aria-hidden="true" d="M0,0h0v70h0Z"></path><g><g class="mark-group role-axis" role="graphics-symbol" aria-roledescription="axis" aria-label="Y-axis titled 'posdef_eigv' for a linear scale with values from 0.0 to 1.0"><g transform="translate(0.5,0.5)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-rule role-axis-tick" pointer-events="none"><line transform="translate(0,70)" x2="-5" y2="0" stroke="#888" stroke-width="1" opacity="1"></line><line transform="translate(0,35)" x2="-5" y2="0" stroke="#888" stroke-width="1" opacity="1"></line><line transform="translate(0,0)" x2="-5" y2="0" stroke="#888" stroke-width="1" opacity="1"></line></g><g class="mark-text role-axis-label" pointer-events="none"><text text-anchor="end" transform="translate(-7,73)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">0.0</text><text text-anchor="end" transform="translate(-7,38)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">0.5</text><text text-anchor="end" transform="translate(-7,3)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">1.0</text></g><g class="mark-rule role-axis-domain" pointer-events="none"><line transform="translate(0,70)" x2="0" y2="-70" stroke="#888" stroke-width="1" opacity="1"></line></g><g class="mark-text role-axis-title" pointer-events="none"><text text-anchor="middle" transform="translate(-24.9013671875,35) rotate(-90) translate(0,-2)" font-family="sans-serif" font-size="11px" font-weight="bold" fill="#000" opacity="1">posdef_eigv</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g><g class="mark-group role-title"><g transform="translate(-55.9013671875,35)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-text role-title-text" role="graphics-symbol" aria-roledescription="title" aria-label="Title text '(-1, 1)'" pointer-events="none"><text text-anchor="middle" transform="translate(0,0) rotate(-90) translate(0,8)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">(-1, 1)</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g></g><g class="mark-group role-column-header concat_1_column_header" role="graphics-object" aria-roledescription="group mark container"><g transform="translate(0,-1)"><path class="background" aria-hidden="true" d="M0,0h50v0h-50Z"></path><g><g class="mark-group role-title"><g transform="translate(25,-20)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-text role-title-text" role="graphics-symbol" aria-roledescription="title" aria-label="Title text '1e-02'" pointer-events="none"><text text-anchor="middle" transform="translate(0,8)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">1e-02</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g><g transform="translate(72,-1)"><path class="background" aria-hidden="true" d="M0,0h50v0h-50Z"></path><g><g class="mark-group role-title"><g transform="translate(25,-20)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-text role-title-text" role="graphics-symbol" aria-roledescription="title" aria-label="Title text '1e-05'" pointer-events="none"><text text-anchor="middle" transform="translate(0,8)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">1e-05</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g><g transform="translate(144,-1)"><path class="background" aria-hidden="true" d="M0,0h50v0h-50Z"></path><g><g class="mark-group role-title"><g transform="translate(25,-20)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-text role-title-text" role="graphics-symbol" aria-roledescription="title" aria-label="Title text '1e-07'" pointer-events="none"><text text-anchor="middle" transform="translate(0,8)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">1e-07</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g></g><g class="mark-group role-column-footer concat_1_column_footer" role="graphics-object" aria-roledescription="group mark container"><g transform="translate(0,71)"><path class="background" aria-hidden="true" d="M0,0h50v0h-50Z"></path><g><g class="mark-group role-axis" role="graphics-symbol" aria-roledescription="axis" aria-label="X-axis titled 'n' for a discrete scale with 2 values: 10, 100"><g transform="translate(0.5,0.5)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-rule role-axis-tick" pointer-events="none"><line transform="translate(12,0)" x2="0" y2="5" stroke="#888" stroke-width="1" opacity="1"></line><line transform="translate(37,0)" x2="0" y2="5" stroke="#888" stroke-width="1" opacity="1"></line></g><g class="mark-text role-axis-label" pointer-events="none"><text text-anchor="end" transform="translate(12,7) rotate(270) translate(0,3)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">10</text><text text-anchor="end" transform="translate(37,7) rotate(270) translate(0,3)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">100</text></g><g class="mark-rule role-axis-domain" pointer-events="none"><line transform="translate(0,0)" x2="50" y2="0" stroke="#888" stroke-width="1" opacity="1"></line></g><g class="mark-text role-axis-title" pointer-events="none"><text text-anchor="middle" transform="translate(25,36.6845703125)" font-family="sans-serif" font-size="11px" font-weight="bold" fill="#000" opacity="1">n</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g><g transform="translate(72,71)"><path class="background" aria-hidden="true" d="M0,0h50v0h-50Z"></path><g><g class="mark-group role-axis" role="graphics-symbol" aria-roledescription="axis" aria-label="X-axis titled 'n' for a discrete scale with 2 values: 10, 100"><g transform="translate(0.5,0.5)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-rule role-axis-tick" pointer-events="none"><line transform="translate(12,0)" x2="0" y2="5" stroke="#888" stroke-width="1" opacity="1"></line><line transform="translate(37,0)" x2="0" y2="5" stroke="#888" stroke-width="1" opacity="1"></line></g><g class="mark-text role-axis-label" pointer-events="none"><text text-anchor="end" transform="translate(12,7) rotate(270) translate(0,3)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">10</text><text text-anchor="end" transform="translate(37,7) rotate(270) translate(0,3)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">100</text></g><g class="mark-rule role-axis-domain" pointer-events="none"><line transform="translate(0,0)" x2="50" y2="0" stroke="#888" stroke-width="1" opacity="1"></line></g><g class="mark-text role-axis-title" pointer-events="none"><text text-anchor="middle" transform="translate(25,36.6845703125)" font-family="sans-serif" font-size="11px" font-weight="bold" fill="#000" opacity="1">n</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g><g transform="translate(144,71)"><path class="background" aria-hidden="true" d="M0,0h50v0h-50Z"></path><g><g class="mark-group role-axis" role="graphics-symbol" aria-roledescription="axis" aria-label="X-axis titled 'n' for a discrete scale with 2 values: 10, 100"><g transform="translate(0.5,0.5)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-rule role-axis-tick" pointer-events="none"><line transform="translate(12,0)" x2="0" y2="5" stroke="#888" stroke-width="1" opacity="1"></line><line transform="translate(37,0)" x2="0" y2="5" stroke="#888" stroke-width="1" opacity="1"></line></g><g class="mark-text role-axis-label" pointer-events="none"><text text-anchor="end" transform="translate(12,7) rotate(270) translate(0,3)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">10</text><text text-anchor="end" transform="translate(37,7) rotate(270) translate(0,3)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">100</text></g><g class="mark-rule role-axis-domain" pointer-events="none"><line transform="translate(0,0)" x2="50" y2="0" stroke="#888" stroke-width="1" opacity="1"></line></g><g class="mark-text role-axis-title" pointer-events="none"><text text-anchor="middle" transform="translate(25,36.6845703125)" font-family="sans-serif" font-size="11px" font-weight="bold" fill="#000" opacity="1">n</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g></g><g class="mark-group role-scope concat_1_cell" role="graphics-object" aria-roledescription="group mark container"><g transform="translate(0,0)"><path class="background" aria-hidden="true" d="M0.5,0.5h50v70h-50Z" stroke="#ddd"></path><g><g class="mark-group role-axis" aria-hidden="true"><g transform="translate(0.5,0.5)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-rule role-axis-grid" pointer-events="none"><line transform="translate(0,70)" x2="50" y2="0" stroke="#ddd" stroke-width="1" opacity="1"></line><line transform="translate(0,35)" x2="50" y2="0" stroke="#ddd" stroke-width="1" opacity="1"></line><line transform="translate(0,0)" x2="50" y2="0" stroke="#ddd" stroke-width="1" opacity="1"></line></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g><g class="mark-rect role-mark concat_1_child_layer_0_marks" role="graphics-object" aria-roledescription="rect mark container"><path aria-label="n: 10; posdef_eigv: 1" role="graphics-symbol" aria-roledescription="bar" d="M1.25,0h22.5v70h-22.5Z" fill="#4c78a8"></path><path aria-label="n: 100; posdef_eigv: 1" role="graphics-symbol" aria-roledescription="bar" d="M26.25,0h22.5v70h-22.5Z" fill="#f58518"></path></g><g class="mark-text role-mark concat_1_child_layer_1_marks" role="graphics-object" aria-roledescription="text mark container"><text aria-label="n: 10; posdef_eigv: 1" role="graphics-symbol" aria-roledescription="text mark" text-anchor="middle" transform="translate(12.5,13)" font-family="sans-serif" font-size="11px" fill="white">1.00</text><text aria-label="n: 100; posdef_eigv: 1" role="graphics-symbol" aria-roledescription="text mark" text-anchor="middle" transform="translate(37.5,13)" font-family="sans-serif" font-size="11px" fill="white">1.00</text></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g><g transform="translate(72,0)"><path class="background" aria-hidden="true" d="M0.5,0.5h50v70h-50Z" stroke="#ddd"></path><g><g class="mark-group role-axis" aria-hidden="true"><g transform="translate(0.5,0.5)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-rule role-axis-grid" pointer-events="none"><line transform="translate(0,70)" x2="50" y2="0" stroke="#ddd" stroke-width="1" opacity="1"></line><line transform="translate(0,35)" x2="50" y2="0" stroke="#ddd" stroke-width="1" opacity="1"></line><line transform="translate(0,0)" x2="50" y2="0" stroke="#ddd" stroke-width="1" opacity="1"></line></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g><g class="mark-rect role-mark concat_1_child_layer_0_marks" role="graphics-object" aria-roledescription="rect mark container"><path aria-label="n: 10; posdef_eigv: 1" role="graphics-symbol" aria-roledescription="bar" d="M1.25,0h22.5v70h-22.5Z" fill="#4c78a8"></path><path aria-label="n: 100; posdef_eigv: 0.991" role="graphics-symbol" aria-roledescription="bar" d="M26.25,0.6300000000000006h22.5v69.37h-22.5Z" fill="#f58518"></path></g><g class="mark-text role-mark concat_1_child_layer_1_marks" role="graphics-object" aria-roledescription="text mark container"><text aria-label="n: 10; posdef_eigv: 1" role="graphics-symbol" aria-roledescription="text mark" text-anchor="middle" transform="translate(12.5,13)" font-family="sans-serif" font-size="11px" fill="white">1.00</text><text aria-label="n: 100; posdef_eigv: 0.991" role="graphics-symbol" aria-roledescription="text mark" text-anchor="middle" transform="translate(37.5,13.63)" font-family="sans-serif" font-size="11px" fill="white">0.99</text></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g><g transform="translate(144,0)"><path class="background" aria-hidden="true" d="M0.5,0.5h50v70h-50Z" stroke="#ddd"></path><g><g class="mark-group role-axis" aria-hidden="true"><g transform="translate(0.5,0.5)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-rule role-axis-grid" pointer-events="none"><line transform="translate(0,70)" x2="50" y2="0" stroke="#ddd" stroke-width="1" opacity="1"></line><line transform="translate(0,35)" x2="50" y2="0" stroke="#ddd" stroke-width="1" opacity="1"></line><line transform="translate(0,0)" x2="50" y2="0" stroke="#ddd" stroke-width="1" opacity="1"></line></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g><g class="mark-rect role-mark concat_1_child_layer_0_marks" role="graphics-object" aria-roledescription="rect mark container"><path aria-label="n: 10; posdef_eigv: 0.996" role="graphics-symbol" aria-roledescription="bar" d="M1.25,0.28000000000000025h22.5v69.72h-22.5Z" fill="#4c78a8"></path><path aria-label="n: 100; posdef_eigv: 0.953" role="graphics-symbol" aria-roledescription="bar" d="M26.25,3.2900000000000027h22.5v66.71h-22.5Z" fill="#f58518"></path></g><g class="mark-text role-mark concat_1_child_layer_1_marks" role="graphics-object" aria-roledescription="text mark container"><text aria-label="n: 10; posdef_eigv: 0.996" role="graphics-symbol" aria-roledescription="text mark" text-anchor="middle" transform="translate(12.5,13.280000000000001)" font-family="sans-serif" font-size="11px" fill="white">1.00</text><text aria-label="n: 100; posdef_eigv: 0.953" role="graphics-symbol" aria-roledescription="text mark" text-anchor="middle" transform="translate(37.5,16.290000000000003)" font-family="sans-serif" font-size="11px" fill="white">0.95</text></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g></g><g class="mark-group role-title"><g transform="translate(-88,-69)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-text role-title-text" role="graphics-symbol" aria-roledescription="title" aria-label="Title text 'posdef_eigv'" pointer-events="none"><text text-anchor="start" transform="translate(0,10)" font-family="sans-serif" font-size="13px" font-weight="bold" fill="#000" opacity="1">posdef_eigv</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g></g><g class="mark-group role-legend" role="graphics-symbol" aria-roledescription="legend" aria-label="Symbol legend titled 'n' for fill color with 2 values: 10, 100"><g transform="translate(516,0)"><path class="background" aria-hidden="true" d="M0,0h33v40h-33Z" pointer-events="none"></path><g><g class="mark-group role-legend-entry"><g transform="translate(0,16)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"></path><g><g class="mark-group role-scope" role="graphics-object" aria-roledescription="group mark container"><g transform="translate(0,0)"><path class="background" aria-hidden="true" d="M0,0h32.6845703125v11h-32.6845703125Z" pointer-events="none" opacity="1"></path><g><g class="mark-symbol role-legend-symbol" pointer-events="none"><path transform="translate(6,6)" d="M-5,-5h10v10h-10Z" fill="#4c78a8" stroke-width="1.5" opacity="1"></path></g><g class="mark-text role-legend-label" pointer-events="none"><text text-anchor="start" transform="translate(16,9)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">10</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g><g transform="translate(0,13)"><path class="background" aria-hidden="true" d="M0,0h32.6845703125v11h-32.6845703125Z" pointer-events="none" opacity="1"></path><g><g class="mark-symbol role-legend-symbol" pointer-events="none"><path transform="translate(6,6)" d="M-5,-5h10v10h-10Z" fill="#f58518" stroke-width="1.5" opacity="1"></path></g><g class="mark-text role-legend-label" pointer-events="none"><text text-anchor="start" transform="translate(16,9)" font-family="sans-serif" font-size="10px" fill="#000" opacity="1">100</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g><g class="mark-text role-legend-title" pointer-events="none"><text text-anchor="start" transform="translate(0,9)" font-family="sans-serif" font-size="11px" font-weight="bold" fill="#000" opacity="1">n</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"></path></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"></path></g></g></g></svg>
+</div>
+</div>
+<p>Let’s go big by using a matrix <code>1000x1000</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>plot_posdef_simulation(n_s <span class="op">=</span> [<span class="dv">1000</span>], noise_s <span class="op">=</span> [<span class="fl">1e-3</span>, <span class="fl">1e-4</span>, <span class="fl">1e-5</span>], range_s <span class="op">=</span> [(<span class="op">-</span><span class="fl">.1</span>, <span class="dv">1</span>)], bs<span class="op">=</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>KeyboardInterrupt: </code></pre>
+</div>
+</div>
+<p>for a standard noise on the diagonal less than half of the random matrices that are 1000 in size are positive definite.</p>
+<p>Let’s have a look at one of such matrices</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>posdef <span class="op">=</span> random_posdef(<span class="dv">100</span>, <span class="dv">1000</span>)</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>not_pd <span class="op">=</span> posdef[torch.argwhere(<span class="op">~</span>is_posdef_eigv(posdef)[<span class="dv">0</span>])[<span class="dv">0</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This should be positive definite but actually it’s not …</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>not_pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>trying with <code>float64</code> (for memory constraint on the GPU only using a <code>700x700</code> matrix)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>plot_posdef_simulation(n_s <span class="op">=</span> [<span class="dv">700</span>], noise_s <span class="op">=</span> [<span class="fl">1e-3</span>, <span class="fl">1e-4</span>, <span class="fl">1e-5</span>], range_s <span class="op">=</span> [(<span class="op">-</span><span class="fl">.1</span>, <span class="dv">1</span>)], bs<span class="op">=</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>plot_posdef_simulation(n_s <span class="op">=</span> [<span class="dv">700</span>], noise_s <span class="op">=</span> [<span class="fl">1e-4</span>, <span class="fl">1e-5</span>], range_s <span class="op">=</span> [(<span class="op">-</span><span class="fl">.1</span>, <span class="dv">1</span>)], bs<span class="op">=</span><span class="dv">100</span>, dtype<span class="op">=</span>torch.float64)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>All matrices now are positive definite</p>
+</section>
+<section id="multiplication" class="level4">
+<h4 class="anchored" data-anchor-id="multiplication">Multiplication</h4>
+<p>check is multiplication of matrices is not breaking the positive definite constraint</p>
+<p>If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are both positive definite matrices <span class="math inline">\(ABA\)</span> is also positive definite <a href="https://en.wikipedia.org/wiki/Definite_matrix#Multiplication">https://en.wikipedia.org/wiki/Definite_matrix#Multiplication</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fuzz_op(op, <span class="co"># operation that takes 2 pos def matrices and return one pos def matrix</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>            fn_check <span class="op">=</span> is_posdef,</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>                  n<span class="op">=</span><span class="dv">100</span>, <span class="co"># size of matrix</span></span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>                  max_t<span class="op">=</span><span class="dv">1000</span>, <span class="co"># number of multiplications</span></span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>                  noise<span class="op">=</span><span class="fl">1e-5</span>, <span class="co"># noise to add on diagonal</span></span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a>                  bs<span class="op">=</span><span class="dv">10</span>, <span class="co"># batch size</span></span>
+<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a>                  n_range<span class="op">=</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="co"># range of random numbers</span></span>
+<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a>                  <span class="op">**</span>kwargs):</span>
+<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>    pd1 <span class="op">=</span> random_posdef(bs, n, noise, n_range, <span class="op">**</span>kwargs)</span>
+<span id="cb70-10"><a href="#cb70-10" aria-hidden="true" tabindex="-1"></a>    pd2 <span class="op">=</span> random_posdef(bs, n, noise, n_range,<span class="op">**</span>kwargs)</span>
+<span id="cb70-11"><a href="#cb70-11" aria-hidden="true" tabindex="-1"></a>    stop_times <span class="op">=</span> torch.zeros(bs, <span class="op">**</span>kwargs)</span>
+<span id="cb70-12"><a href="#cb70-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb70-13"><a href="#cb70-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> t <span class="kw">in</span> torch.arange(max_t):</span>
+<span id="cb70-14"><a href="#cb70-14" aria-hidden="true" tabindex="-1"></a>        pd1 <span class="op">=</span> op(pd1, pd2)</span>
+<span id="cb70-15"><a href="#cb70-15" aria-hidden="true" tabindex="-1"></a>        check <span class="op">=</span> fn_check(pd1)</span>
+<span id="cb70-16"><a href="#cb70-16" aria-hidden="true" tabindex="-1"></a>        stop_times[torch.logical_and(stop_times <span class="op">==</span> <span class="dv">0</span>, <span class="op">~</span>check)] <span class="op">=</span> t</span>
+<span id="cb70-17"><a href="#cb70-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> check.<span class="bu">any</span>(): <span class="cf">break</span></span>
+<span id="cb70-18"><a href="#cb70-18" aria-hidden="true" tabindex="-1"></a>         </span>
+<span id="cb70-19"><a href="#cb70-19" aria-hidden="true" tabindex="-1"></a>    stop_times[stop_times <span class="op">==</span> <span class="dv">0</span>] <span class="op">=</span> t</span>
+<span id="cb70-20"><a href="#cb70-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(</span>
+<span id="cb70-21"><a href="#cb70-21" aria-hidden="true" tabindex="-1"></a>        {<span class="st">'n'</span>: [n], <span class="st">'noise'</span>: <span class="ss">f"</span><span class="sc">{</span>noise<span class="sc">:.0e}</span><span class="ss">"</span>, <span class="st">'range'</span>: <span class="bu">str</span>(n_range), <span class="st">'n_samples'</span>: bs, <span class="st">'last_t'</span>: t.item(),</span>
+<span id="cb70-22"><a href="#cb70-22" aria-hidden="true" tabindex="-1"></a>         <span class="st">'mean_stop'</span>: stop_times.mean().item(),</span>
+<span id="cb70-23"><a href="#cb70-23" aria-hidden="true" tabindex="-1"></a>         <span class="st">'std_stop'</span>: stop_times.std().item(),</span>
+<span id="cb70-24"><a href="#cb70-24" aria-hidden="true" tabindex="-1"></a>         <span class="st">'stop_times'</span>: [stop_times.cpu().numpy()]})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>fuzz_multiply <span class="op">=</span> partial(fuzz_op, <span class="kw">lambda</span> pd1, pd2: pd2 <span class="op">@</span> pd1 <span class="op">@</span> pd2)</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>fuzz_multiply_eigv <span class="op">=</span> partial(fuzz_multiply, fn_check <span class="op">=</span> <span class="kw">lambda</span> pd1: is_posdef_eigv(pd1)[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_multiply_simulation(n_s, noise_s, max_mult<span class="op">=</span><span class="dv">1000</span>, bs<span class="op">=</span><span class="dv">100</span>, <span class="op">**</span>kwargs):</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>    mult <span class="op">=</span> pd.concat([fuzz_multiply(n<span class="op">=</span>n, noise<span class="op">=</span>noise, bs<span class="op">=</span>bs, device<span class="op">=</span><span class="st">'cuda'</span>, <span class="op">**</span>kwargs) </span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>               <span class="cf">for</span> n <span class="kw">in</span> n_s <span class="cf">for</span> noise <span class="kw">in</span> noise_s]).explode(<span class="st">'stop_times'</span>)</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>    mult_eigv <span class="op">=</span> pd.concat([fuzz_multiply(n<span class="op">=</span>n, noise<span class="op">=</span>noise, bs<span class="op">=</span>bs, device<span class="op">=</span><span class="st">'cuda'</span>, <span class="op">**</span>kwargs) </span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>               <span class="cf">for</span> n <span class="kw">in</span> n_s <span class="cf">for</span> noise <span class="kw">in</span> noise_s]).explode(<span class="st">'stop_times'</span>)</span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a>    vl_spec <span class="op">=</span> alt.hconcat(<span class="op">*</span>[_plot_var_box(df, <span class="st">'stop_times'</span>) <span class="cf">for</span> df <span class="kw">in</span> [mult, mult_eigv]]).to_json()</span>
+<span id="cb72-9"><a href="#cb72-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># workaround for bug in vegalite see https://github.com/altair-viz/altair/issues/2742</span></span>
+<span id="cb72-10"><a href="#cb72-10" aria-hidden="true" tabindex="-1"></a>    svg <span class="op">=</span> vlc.vegalite_to_svg(vl_spec, vl_version<span class="op">=</span><span class="st">'v5.3'</span>)</span>
+<span id="cb72-11"><a href="#cb72-11" aria-hidden="true" tabindex="-1"></a>    display.display(display.HTML(svg))</span>
+<span id="cb72-12"><a href="#cb72-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (mult, mult_eigv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>plot_multiply_simulation(n_s<span class="op">=</span>[<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">10</span>, <span class="dv">100</span>], noise_s<span class="op">=</span>[<span class="fl">1e-3</span>, <span class="fl">1e-4</span>, <span class="fl">1e-5</span>], bs<span class="op">=</span><span class="dv">100</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="addition" class="level4">
+<h4 class="anchored" data-anchor-id="addition">Addition</h4>
+<p>check is multiplication of matrices is not breaking the positive definite constraint</p>
+<p>If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are both positive definite matrices <span class="math inline">\(A+B\)</span> is also positive definite <a href="https://en.wikipedia.org/wiki/Definite_matrix#Addition">https://en.wikipedia.org/wiki/Definite_matrix#Addition</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>pd1 <span class="op">=</span> random_posdef(<span class="dv">10</span>, <span class="dv">100</span>)</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>pd2 <span class="op">=</span> random_posdef(<span class="dv">10</span>, <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>is_posdef(pd1 <span class="op">+</span> pd2).<span class="bu">all</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>fuzz_add <span class="op">=</span> partial(fuzz_op, <span class="kw">lambda</span> pd1, pd2: pd1 <span class="op">+</span> pd2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_add_simulation(n_s, noise_s, max_ts<span class="op">=</span>[<span class="dv">1000</span>], bs<span class="op">=</span><span class="dv">100</span>, <span class="op">**</span>kwargs):</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>    add <span class="op">=</span> pd.concat([fuzz_add(n<span class="op">=</span>n, noise<span class="op">=</span>noise, bs<span class="op">=</span>bs, max_t<span class="op">=</span>max_t, device<span class="op">=</span><span class="st">'cuda'</span>, <span class="op">**</span>kwargs) </span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>               <span class="cf">for</span> n <span class="kw">in</span> n_s <span class="cf">for</span> noise <span class="kw">in</span> noise_s <span class="cf">for</span> max_t <span class="kw">in</span> max_ts]).explode(<span class="st">'stop_times'</span>)</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>    vl_spec <span class="op">=</span> _plot_var_box(add, var<span class="op">=</span><span class="st">'stop_times'</span>, height<span class="op">=</span><span class="dv">150</span>, width<span class="op">=</span><span class="dv">150</span>).to_json()</span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a>    svg <span class="op">=</span> vlc.vegalite_to_svg(vl_spec, vl_version<span class="op">=</span><span class="st">'v5.3'</span>)</span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a>    display.display(display.HTML(svg))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>cache_disk(<span class="st">"add_plot"</span>)(<span class="kw">lambda</span>: plot_add_simulation(n_s<span class="op">=</span>[<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">150</span>], noise_s<span class="op">=</span>[<span class="fl">1e-3</span>, <span class="fl">1e-4</span>, <span class="fl">1e-5</span>], bs<span class="op">=</span><span class="dv">100</span>, max_ts<span class="op">=</span>[<span class="fl">1e5</span>]))()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="numpy-posdef" class="level4">
+<h4 class="anchored" data-anchor-id="numpy-posdef">Numpy posdef</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>arr <span class="op">=</span> np.random.rand(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>arr.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>arr.transpose(<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">1</span>) <span class="op">==</span> np.moveaxis(arr, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> to_posdef_np(x, noise<span class="op">=</span><span class="fl">1e-5</span>):</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x <span class="op">@</span> np.moveaxis(x, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">2</span>) <span class="op">+</span> (noise <span class="op">*</span> np.eye(x.shape[<span class="op">-</span><span class="dv">1</span>], dtype<span class="op">=</span>arr.dtype))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>to_posdef_np(arr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fuzzer</span></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fuzz_posdef_np(n<span class="op">=</span><span class="dv">100</span>, noise<span class="op">=</span><span class="fl">1e-5</span>, bs<span class="op">=</span><span class="dv">10</span>, <span class="bu">range</span><span class="op">=</span>(<span class="dv">0</span>,<span class="dv">1</span>), dtype<span class="op">=</span>np.float32):</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> np.random.rand(bs,n,n).astype(dtype)  <span class="op">*</span> (<span class="bu">range</span>[<span class="dv">1</span>]<span class="op">-</span><span class="bu">range</span>[<span class="dv">0</span>]) <span class="op">+</span> <span class="bu">range</span>[<span class="dv">0</span>]</span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>    posdef <span class="op">=</span> torch.from_numpy(to_posdef_np(A, noise))</span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(</span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>        {<span class="st">'n'</span>: [n], <span class="st">'noise'</span>: <span class="ss">f"</span><span class="sc">{</span>noise<span class="sc">:.0e}</span><span class="ss">"</span>, <span class="st">'range'</span>: <span class="bu">str</span>(<span class="bu">range</span>), <span class="st">'n_samples'</span>: bs,</span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>         <span class="st">'posdef'</span>: is_posdef(posdef).<span class="bu">sum</span>().item() <span class="op">/</span> bs,</span>
+<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a>         <span class="st">'sym'</span>: is_symmetric(posdef).<span class="bu">sum</span>().item() <span class="op">/</span> bs, </span>
+<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a>         <span class="st">'posdef_eigv'</span>: is_posdef_eigv(posdef)[<span class="dv">0</span>].<span class="bu">sum</span>().item() <span class="op">/</span> bs</span>
+<span id="cb85-10"><a href="#cb85-10" aria-hidden="true" tabindex="-1"></a>    })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>fuzz_posdef_np(n<span class="op">=</span><span class="dv">1000</span>, dtype<span class="op">=</span>np.float32)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="checker-positive-definite" class="level3">
+<h3 class="anchored" data-anchor-id="checker-positive-definite">Checker Positive Definite</h3>
+<p>This is to help finding matrices that aren’t positive definite and debug the issues. Returns a detailed dataframe row with info about the matrix and optionally logs everything to a global object</p>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/gaussian.py#L107" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="checkposdef" class="level3">
+<h3 class="anchored" data-anchor-id="checkposdef">CheckPosDef</h3>
+<blockquote class="blockquote">
+<pre><code> CheckPosDef (do_check:bool=False, use_log:bool=True, warning:bool=True)</code></pre>
+</blockquote>
+<p>Initialize self. See help(type(self)) for accurate signature.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>do_check</td>
+<td>bool</td>
+<td>False</td>
+<td>set to True to actually check matrix</td>
+</tr>
+<tr class="even">
+<td>use_log</td>
+<td>bool</td>
+<td>True</td>
+<td>keep internal log</td>
+</tr>
+<tr class="odd">
+<td>warning</td>
+<td>bool</td>
+<td>True</td>
+<td>show a warning if a matrix is not pos def</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>CheckPosDef(<span class="va">True</span>).check(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>CheckPosDef(<span class="va">True</span>).check(A[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>checker <span class="op">=</span> CheckPosDef(<span class="va">True</span>)</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>checker.check(A, my_arg<span class="op">=</span><span class="st">"my arg"</span>) <span class="co"># this will be another col in the log</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>checker.log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>checker.add_args(show<span class="op">=</span><span class="st">"only once"</span>)</span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>checker.check(posdef)</span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>checker.check(A)</span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>checker.log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> torch.rand(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>) <span class="co"># a batch of matrices</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>is_symmetric(B).shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>checker.check(B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>test_close(B[<span class="dv">0</span>] <span class="op">@</span> A, (B <span class="op">@</span> A)[<span class="dv">0</span>]) <span class="co"># example batched matrix multiplication</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="diagonal-positive-definite-contraint" class="level3">
+<h3 class="anchored" data-anchor-id="diagonal-positive-definite-contraint">Diagonal Positive Definite Contraint</h3>
+<p>this is a simpler contraint that make the matrix diagonal and positive definite, by forcing it to have positive numbers on the diagonal.</p>
+<p>given a vector matrix <span class="math inline">\(a\)</span> it is transformed into a diagonal positive definite matrix using:</p>
+<p><span class="math inline">\(A_{diag\ pos\ def} = a^2 I\)</span></p>
+<p>the inverse transformation is the square root of the diagonal</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.utils <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/gaussian.py#L177" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="to_diagposdef" class="level3">
+<h3 class="anchored" data-anchor-id="to_diagposdef">to_diagposdef</h3>
+<blockquote class="blockquote">
+<pre><code> to_diagposdef (x)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/gaussian.py#L167" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="diagposdef" class="level3">
+<h3 class="anchored" data-anchor-id="diagposdef">DiagPosDef</h3>
+<blockquote class="blockquote">
+<pre><code> DiagPosDef ()</code></pre>
+</blockquote>
+<p>Diagonal Positive Definite Constraint for PyTorch parameters</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>DiagPosDef().transform(torch.rand(<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[0.0008, 0.0000, 0.0000],
+        [0.0000, 0.5319, 0.0000],
+        [0.0000, 0.0000, 0.4327]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>DiagPosDef().transform(torch.rand(<span class="dv">2</span>, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[[0.2185, 0.0000, 0.0000],
+         [0.0000, 0.0034, 0.0000],
+         [0.0000, 0.0000, 0.3096]],
+
+        [[0.8915, 0.0000, 0.0000],
+         [0.0000, 0.0632, 0.0000],
+         [0.0000, 0.0000, 0.7199]]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> <span class="op">-</span><span class="fl">1.2</span> <span class="op">*</span> torch.ones(<span class="dv">2</span>,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>DiagPosDef().inverse_transform(DiagPosDef().transform(v))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[-1.2000, -1.2000, -1.2000],
+        [-1.2000, -1.2000, -1.2000]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>to_diagposdef(torch.rand(<span class="dv">3</span>,<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[2.3585, 0.0000, 0.0000],
+        [0.0000, 1.0629, 0.0000],
+        [0.0000, 0.0000, 2.3738]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>dpd_const <span class="op">=</span> DiagPosDef()</span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> torch.rand(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>dpd_const.transform(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[1.1899, 0.0000, 0.0000],
+        [0.0000, 2.0571, 0.0000],
+        [0.0000, 0.0000, 1.4777]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>test_close(a, dpd_const.inverse_transform(dpd_const.transform(a)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="conditional-predictions" class="level2">
+<h2 class="anchored" data-anchor-id="conditional-predictions">Conditional Predictions</h2>
+<p>Therefore we need to compute the conditional distribution of a normal <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p><span class="math display">\[ X = \left[\begin{array}{c} x \\ o \end{array} \right] \]</span></p>
+<p><span class="math display">\[ p(X) = N\left(\left[ \begin{array}{c} \mu_x \\ \mu_o \end{array} \right], \left[\begin{array}{cc} \Sigma_{xx} &amp; \Sigma_{xo} \\ \Sigma_{ox} &amp; \Sigma_{oo} \end{array} \right]\right)\]</span></p>
+<p>where <span class="math inline">\(x\)</span> is a vector of variable that need to predicted and <span class="math inline">\(o\)</span> is a vector of the variables that have been observed</p>
+<p>then the conditional distribution is:</p>
+<p><span class="math display">\[p(x|o) = N(\mu_x + \Sigma_{xo}\Sigma_{oo}^{-1}(o - \mu_o), \Sigma_{xx} - \Sigma_{xo}\Sigma_{oo}^{-1}\Sigma_{ox})\]</span></p>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/gpfa/learner.py#L120" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="conditional_guassian" class="level3">
+<h3 class="anchored" data-anchor-id="conditional_guassian">conditional_guassian</h3>
+<blockquote class="blockquote">
+<pre><code> conditional_guassian (μ:torch.Tensor, Σ:torch.Tensor, obs:torch.Tensor,
+                       mask:torch.Tensor)</code></pre>
+</blockquote>
+<table class="table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 38%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>μ</td>
+<td>Tensor</td>
+<td>mean with shape <code>[n_vars]</code></td>
+</tr>
+<tr class="even">
+<td>Σ</td>
+<td>Tensor</td>
+<td>cov with shape <code>[n_vars, n_vars]</code></td>
+</tr>
+<tr class="odd">
+<td>obs</td>
+<td>Tensor</td>
+<td>Observations with shape <code>[n_obs]</code>, where <code>n_obs = sum(idx)</code></td>
+</tr>
+<tr class="even">
+<td>mask</td>
+<td>Tensor</td>
+<td>Boolean tensor specifying for each variable is observed (True) or not (False). Shape <code>[n_vars]</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Returns</strong></td>
+<td><strong>ListMultiNormal</strong></td>
+<td><strong>Distribution conditioned on observations. shape <code>[n_vars - n_obs]</code></strong></td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co"># example distribution with only 2 variables</span></span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>μ <span class="op">=</span> torch.tensor([<span class="fl">.5</span>, <span class="fl">1.</span>])</span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>Σ <span class="op">=</span> torch.tensor([[<span class="fl">1.</span>, <span class="fl">.5</span>], [<span class="fl">.5</span> ,<span class="fl">1.</span>]])</span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> torch.tensor([<span class="va">True</span>, <span class="va">False</span>]) <span class="co"># second variable is the observed one</span></span>
+<span id="cb114-7"><a href="#cb114-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-8"><a href="#cb114-8" aria-hidden="true" tabindex="-1"></a>obs <span class="op">=</span> torch.tensor([<span class="fl">5.</span>]) <span class="co"># value of second variable</span></span>
+<span id="cb114-9"><a href="#cb114-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-10"><a href="#cb114-10" aria-hidden="true" tabindex="-1"></a>gauss_cond <span class="op">=</span> conditional_guassian(μ, Σ, obs, mask)</span>
+<span id="cb114-11"><a href="#cb114-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-12"><a href="#cb114-12" aria-hidden="true" tabindex="-1"></a><span class="co"># hardcoded values to test that the code is working, see also for alternative implementation https://python.quantecon.org/multivariate_normal.html</span></span>
+<span id="cb114-13"><a href="#cb114-13" aria-hidden="true" tabindex="-1"></a>test_close(<span class="fl">3.25</span>, gauss_cond.mean.item())</span>
+<span id="cb114-14"><a href="#cb114-14" aria-hidden="true" tabindex="-1"></a>test_close(<span class="fl">.75</span>, gauss_cond.cov.item())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="batches" class="level3">
+<h3 class="anchored" data-anchor-id="batches">Batches</h3>
+<p>cannot have proper batch support, or at least not in a straigthforward way as the shape of the output would be different for the different batches.</p>
+<p>so using a for-loop to temporarly fix the situation</p>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/gaussian.py#L218" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="cond_gaussian_batched" class="level3">
+<h3 class="anchored" data-anchor-id="cond_gaussian_batched">cond_gaussian_batched</h3>
+<blockquote class="blockquote">
+<pre><code> cond_gaussian_batched (dist:__main__.ListMultiNormal, obs, mask)</code></pre>
+</blockquote>
+<table class="table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 38%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>dist</td>
+<td>ListMultiNormal</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>obs</td>
+<td></td>
+<td>this needs to have the same shape of the mask !!!</td>
+</tr>
+<tr class="odd">
+<td>mask</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong>Returns</strong></td>
+<td><strong>List</strong></td>
+<td><strong>lists of distributions for element in the batch</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>reset_seed(<span class="dv">10</span>)</span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>mean <span class="op">=</span> torch.rand(<span class="dv">2</span>,<span class="dv">3</span>) <span class="co"># batch</span></span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a>cov <span class="op">=</span> to_posdef(torch.rand(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>))</span>
+<span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> torch.rand(<span class="dv">2</span>,<span class="dv">3</span>) <span class="op">&gt;</span> <span class="fl">.3</span></span>
+<span id="cb116-5"><a href="#cb116-5" aria-hidden="true" tabindex="-1"></a>obs <span class="op">=</span> torch.rand(<span class="dv">2</span>,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>conditional_gaussian_batched(mean, cov, obs, mask)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>mask.shape, obs.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> mean.shape <span class="op">==</span> mask.shape</span>
+<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> mean.dim() <span class="op">==</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>obs.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a>mean_x <span class="op">=</span> mean[<span class="op">~</span>mask]</span>
+<span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a>mean_o <span class="op">=</span> mean[mask]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>mask</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>mean_x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>cov.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>cov[<span class="op">~</span>mask]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>cov</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>cov[<span class="dv">0</span>][<span class="op">~</span>mask[<span class="dv">0</span>], <span class="op">~</span>mask[<span class="dv">0</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>cov[<span class="dv">0</span>][mask[<span class="dv">0</span>],:][:, mask[<span class="dv">0</span>]].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="performance" class="level3">
+<h3 class="anchored" data-anchor-id="performance">Performance</h3>
+<p>analysis of the performance of inverting a positive definite matrix</p>
+<p>Use <code>cholesky</code> decomposition and <code>cholesky_solve</code> to improve performance of matrix inversion</p>
+<p>see the <a href="https://uni-tuebingen.de/en/180804">Probabilist machine learning course from uni Tübigen</a>, specifically the code from the <a href="https://uni-tuebingen.de/fileadmin/Uni_Tuebingen/Fakultaeten/MatNat/Fachbereiche/Informatik/Lehrstuehle/MethMaschLern/Probabilistic_ML/Notebook_Vorlesung_7___9/Gaussian_Linear_Regression.ipynb">Gaussian Regression Notebook</a> for details</p>
+<p>This is the direct implementation of the equations</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _conditional_guassian_base(</span>
+<span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a>                         μ: Tensor, <span class="co"># mean with shape `[n_vars]`</span></span>
+<span id="cb129-3"><a href="#cb129-3" aria-hidden="true" tabindex="-1"></a>                         Σ: Tensor, <span class="co"># cov with shape `[n_vars, n_vars] `</span></span>
+<span id="cb129-4"><a href="#cb129-4" aria-hidden="true" tabindex="-1"></a>                         obs: Tensor, <span class="co"># Observations with shape `[n_vars]`</span></span>
+<span id="cb129-5"><a href="#cb129-5" aria-hidden="true" tabindex="-1"></a>                         idx: Tensor <span class="co"># Boolean tensor specifying for each variable is observed (True) or not (False). Shape `[n_vars]`</span></span>
+<span id="cb129-6"><a href="#cb129-6" aria-hidden="true" tabindex="-1"></a>                        ) <span class="op">-&gt;</span> ListNormal: <span class="co"># Distribution conditioned on observations</span></span>
+<span id="cb129-7"><a href="#cb129-7" aria-hidden="true" tabindex="-1"></a>    μ_x <span class="op">=</span> μ[<span class="op">~</span>idx]</span>
+<span id="cb129-8"><a href="#cb129-8" aria-hidden="true" tabindex="-1"></a>    μ_o <span class="op">=</span> μ[idx]</span>
+<span id="cb129-9"><a href="#cb129-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb129-10"><a href="#cb129-10" aria-hidden="true" tabindex="-1"></a>    Σ_xx <span class="op">=</span> Σ[<span class="op">~</span>idx,:][:, <span class="op">~</span>idx]</span>
+<span id="cb129-11"><a href="#cb129-11" aria-hidden="true" tabindex="-1"></a>    Σ_xo <span class="op">=</span> Σ[<span class="op">~</span>idx,:][:, idx]</span>
+<span id="cb129-12"><a href="#cb129-12" aria-hidden="true" tabindex="-1"></a>    Σ_ox <span class="op">=</span> Σ[idx,:][:, <span class="op">~</span>idx]</span>
+<span id="cb129-13"><a href="#cb129-13" aria-hidden="true" tabindex="-1"></a>    Σ_oo <span class="op">=</span> Σ[idx,:][:, idx]</span>
+<span id="cb129-14"><a href="#cb129-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb129-15"><a href="#cb129-15" aria-hidden="true" tabindex="-1"></a>    Σ_oo_inv <span class="op">=</span> torch.linalg.inv(Σ_oo)</span>
+<span id="cb129-16"><a href="#cb129-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb129-17"><a href="#cb129-17" aria-hidden="true" tabindex="-1"></a>    mean <span class="op">=</span> μ_x <span class="op">+</span> Σ_xo<span class="op">@</span>Σ_oo_inv<span class="op">@</span>(obs <span class="op">-</span> μ_o)</span>
+<span id="cb129-18"><a href="#cb129-18" aria-hidden="true" tabindex="-1"></a>    cov <span class="op">=</span> Σ_xx <span class="op">-</span> Σ_xo<span class="op">@</span>Σ_oo_inv<span class="op">@</span>Σ_ox</span>
+<span id="cb129-19"><a href="#cb129-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb129-20"><a href="#cb129-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ListNormal(mean, cov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>faster version</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a>n_var <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb130-2"><a href="#cb130-2" aria-hidden="true" tabindex="-1"></a>mean <span class="op">=</span> torch.rand(n_var, dtype<span class="op">=</span>torch.float64)</span>
+<span id="cb130-3"><a href="#cb130-3" aria-hidden="true" tabindex="-1"></a>cov <span class="op">=</span> to_posdef(torch.rand(n_var, n_var, dtype<span class="op">=</span>torch.float64))</span>
+<span id="cb130-4"><a href="#cb130-4" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> MultivariateNormal(mean, cov)</span>
+<span id="cb130-5"><a href="#cb130-5" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> torch.rand(n_var, dtype<span class="op">=</span>torch.float64) <span class="op">&gt;</span> <span class="fl">.5</span></span>
+<span id="cb130-6"><a href="#cb130-6" aria-hidden="true" tabindex="-1"></a>obs <span class="op">=</span> torch.rand(n_var, dtype<span class="op">=</span>torch.float64)[idx]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a>torch.linalg.inv(cov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb132"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a>(torch.linalg.inv(cov) <span class="op">-</span> cholesky_inverse(torch.linalg.cholesky(cov))).<span class="bu">max</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>test_close(torch.linalg.inv(cov), cholesky_inverse(torch.linalg.cholesky(cov)), eps<span class="op">=</span><span class="fl">1e-2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>reset_seed()</span>
+<span id="cb134-2"><a href="#cb134-2" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> to_posdef(torch.rand(<span class="dv">1000</span>, <span class="dv">1000</span>, dtype<span class="op">=</span>torch.float64)) <span class="op">+</span> torch.eye(<span class="dv">1000</span>) <span class="op">*</span> <span class="fl">1e-3</span> <span class="co"># noise to ensure is positive definite</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>is_symmetric(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb136"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>is_posdef(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The second version is way faster</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a>test_close(conditional_guassian(mean, cov, obs, idx).mean, _conditional_guassian_base(mean, cov, obs, idx).mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb138"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> to_posdef(torch.rand(n_var, n_var, dtype<span class="op">=</span>torch.float64))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a>B <span class="op">@</span> torch.inverse(cov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb140"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a>torch.cholesky_solve(cholesky(cov), B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="helper" class="level2">
+<h2 class="anchored" data-anchor-id="helper">Helper</h2>
+<section id="cov2std" class="level3">
+<h3 class="anchored" data-anchor-id="cov2std">cov2std</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> torch.stack([torch.eye(<span class="dv">3</span>)<span class="op">*</span>i <span class="cf">for</span> i <span class="kw">in</span>  <span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">4</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb142"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a>torch.diagonal(x, dim1<span class="op">=</span><span class="dv">1</span>, dim2<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/gaussian.py#L226" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="cov2std-1" class="level3">
+<h3 class="anchored" data-anchor-id="cov2std-1">cov2std</h3>
+<blockquote class="blockquote">
+<pre><code> cov2std (x)</code></pre>
+</blockquote>
+<p>convert cov of array of covariances to array of stddev</p>
+</section>
+</section>
+<section id="export" class="level2">
+<h2 class="anchored" data-anchor-id="export">Export</h2>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>https://cs.nyu.edu/~roweis/notes/gaussid.pdf eq, 5a, 5d<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
