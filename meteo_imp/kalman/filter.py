@@ -190,11 +190,12 @@ class KalmanFilterSR(KalmanFilterBase):
     pass
 
 # %% ../../lib_nbs/kalman/00_filter.ipynb 20
-filter_classes = Union[KalmanFilterBase, KalmanFilter, KalmanFilterSR]
+filter_classes = [KalmanFilterBase, KalmanFilter, KalmanFilterSR]
 
 # %% ../../lib_nbs/kalman/00_filter.ipynb 22
-@patch(cls_method=True)
-def init_random(cls: filter_classes, n_dim_obs, n_dim_state, n_dim_contr, dtype=torch.float64, **kwargs):
+#| include: false
+@patch_to(filter_classes, cls_method=True)
+def init_random(cls, n_dim_obs, n_dim_state, n_dim_contr, dtype=torch.float64, **kwargs):
     """kalman filter with random parameters"""
     return cls(
         A  = torch.rand(n_dim_state, n_dim_state, dtype=dtype),
@@ -211,7 +212,7 @@ def init_random(cls: filter_classes, n_dim_obs, n_dim_state, n_dim_contr, dtype=
 
 # %% ../../lib_nbs/kalman/00_filter.ipynb 33
 @patch(cls_method=True)
-def init_from(cls: filter_classes, o: filter_classes # Other filter
+def init_from(cls: KalmanFilter|KalmanFilterBase|KalmanFilterSR, o: filter_classes # Other filter
              ):
     """Initialize Filter by copying all parameters from another one"""
     return cls(o.A, o.H, o.B, o.Q, o.R, o.b, o.d, o.m0, o.P0,
@@ -678,7 +679,7 @@ def filter(self: KalmanFilterSR,
     filt_state, _ = self._filter_all(obs, mask, control)
     return filt_state
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 315
+# %% ../../lib_nbs/kalman/00_filter.ipynb 313
 @patch(cls_method=True)
 def init_simple(cls: KalmanFilter,
                 n_dim, # n_dim_obs and n_dim_state
@@ -696,18 +697,18 @@ def init_simple(cls: KalmanFilter,
         P0 =   torch.eye(n_dim, dtype=dtype),
     )
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 320
+# %% ../../lib_nbs/kalman/00_filter.ipynb 318
 from torch import hstack, eye, vstack, ones, zeros, tensor
 from functools import partial
 from sklearn.decomposition import PCA
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 321
+# %% ../../lib_nbs/kalman/00_filter.ipynb 319
 def set_dtype(*args, dtype=torch.float64):
     return [partial(arg, dtype=dtype) for arg in args] 
 
 eye, ones, zeros, tensor = set_dtype(eye, ones, zeros, tensor)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 322
+# %% ../../lib_nbs/kalman/00_filter.ipynb 320
 # @delegates(KalmanFilter)
 @patch(cls_method=True)
 def init_local_slope_pca(cls: KalmanFilter,
