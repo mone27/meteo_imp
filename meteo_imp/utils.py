@@ -2,8 +2,7 @@
 
 # %% auto 0
 __all__ = ['cache_dir', 'cache_disk', 'reset_seed', 'test_close', 'array2df', 'maybe_retrieve_callers_name', 'retrieve_names',
-           'row_items', 'show_as_row', 'row_dfs', 'display_as_row', 'array1d', 'array2d', 'determine_dimensionality',
-           'last_dims', 'eye_like', 'is_diagonal']
+           'row_items', 'show_as_row', 'row_dfs', 'display_as_row', 'eye_like', 'is_diagonal']
 
 # %% ../lib_nbs/99_utils.ipynb 3
 # dill is an improved version of pickle, using it to support namedtuples
@@ -164,83 +163,7 @@ def display_as_row(dfs: dict[str, pd.DataFrame], title="", hide_idx=True, styler
     """display multiple dataframes in the same row"""
     display(HTML(row_dfs(dfs, title, hide_idx, styler)))
 
-# %% ../lib_nbs/99_utils.ipynb 62
-def array1d(X):
-    """Returns at least 1-d array with data from X"""
-    return torch.atleast_1d(torch.as_tensor(X))
-
-def array2d(X):
-    """Returns at least 2-d array with data from X"""
-    return torch.atleast_2d(torch.as_tensor(X))
-
-
-# %% ../lib_nbs/99_utils.ipynb 63
-def determine_dimensionality(variables, default):
-    """Derive the dimensionality of the state space
-
-    Parameters
-    ----------
-    variables : list of ({None, array}, conversion function, index)
-        variables, functions to convert them to arrays, and indices in those
-        arrays to derive dimensionality from.
-        
-    Returns
-    -------
-    dim : int
-        dimensionality of state space as derived from variables or default.
-    """
-    # gather possible values based on the variables
-    candidates = []
-    for (v, converter, idx) in variables:
-        if v is not None:
-            v = converter(v)
-            candidates.append(v.shape[idx])
-    
-     # also use the manually specified default
-    if default is not None:
-        candidates.append(default)
-    
-    # ensure consistency of all derived values
-    if len(candidates) == 0:
-        return 1
-    else:
-        if not torch.all(torch.tensor(candidates) == candidates[0]):
-            raise ValueError(
-                "The shape of all " +
-                "parameters is not consistent.  " +
-                "Please re-check their values."
-            )
-        return candidates[0]
-
-
-def last_dims(X: Tensor, t: int, ndims: int=2):
-    """Extract the final dimensions of `X`
-
-    Extract the final `ndim` dimensions at index `t` if `X` has >= `ndim` + 1
-    dimensions, otherwise return `X`.
-
-    Parameters
-    ----------
-    X : Tensor with at least dimension `ndims`
-    t : int
-        index to use for the `ndims` + 1th dimension
-    ndims : int, optional
-        number of dimensions in the array desired
-
-    Returns
-    -------
-    Y : array with dimension `ndims`
-        the final `ndims` dimensions indexed by `t`
-    """
-    if len(X.shape) == ndims + 1:
-        return X[t]
-    elif len(X.shape) == ndims:
-        return X
-    else:
-        raise ValueError(("X only has %d dimensions when %d" +
-                " or more are required") % (len(X.shape), ndims))
-
-# %% ../lib_nbs/99_utils.ipynb 67
+# %% ../lib_nbs/99_utils.ipynb 64
 def eye_like(x: torch.Tensor) -> torch.Tensor:
     """
     Return a tensor with same batch size as x, that has a nxn eye matrix in each sample in batch.
@@ -259,7 +182,7 @@ def eye_like(x: torch.Tensor) -> torch.Tensor:
         eye = eye.expand(*size_repeat)
     return eye
 
-# %% ../lib_nbs/99_utils.ipynb 75
+# %% ../lib_nbs/99_utils.ipynb 72
 def is_diagonal(x: torch.Tensor):
     """ Check that tensor is diagonal respect to the last 2 dimensions"""
     d = torch.diagonal(x, dim1=-2, dim2=-1)
