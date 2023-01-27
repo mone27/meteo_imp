@@ -50,11 +50,11 @@ class KalmanFilterBase(torch.nn.Module):
         #name constraint
         'A':  None        ,
         'b':  None        ,
-        'Q':  DiagPosDef(),
+        'Q':  PosDef(),
         'B':  None        ,
         'H':  None        ,
         'd':  None        ,
-        'R':  DiagPosDef(),
+        'R':  PosDef(),
         'm0': None       ,
         'P0': PosDef()   ,
         }
@@ -145,7 +145,7 @@ class KalmanFilterBase(torch.nn.Module):
     @property
     def Q_C(self):
         "Cholesky factor of Q"
-        return torch.diag_embed(self.Q_raw, dim1=-2, dim2=-1)
+        return self.Q_raw
     @property
     def Q(self): return self._get_constraint('Q')
     @Q.setter
@@ -154,7 +154,7 @@ class KalmanFilterBase(torch.nn.Module):
     @property
     def R_C(self):
         "Cholesky factor of R"
-        return torch.diag_embed(self.R_raw, dim1=-2, dim2=-1)
+        return self.R_raw
     @property
     def R(self): return self._get_constraint('R')
     @R.setter
@@ -246,9 +246,13 @@ def _repr_html_(self: filter_classes):
     return row_dfs(self.get_info(), title , hide_idx=True)
 
 # %% ../../lib_nbs/kalman/00_filter.ipynb 40
-def get_test_data(n_obs = 10, n_dim_obs=3, n_dim_contr = 3, p_missing=.3, bs=2, dtype=torch.float64, device='cpu'):
+def get_test_data(n_obs = 10, n_dim_obs=3, n_dim_contr = 3, gap=.3, fixed_gap=False, bs=2, dtype=torch.float64, device='cpu'):
     data = torch.rand(bs, n_obs, n_dim_obs, dtype=dtype, device=device)
-    mask = torch.rand(bs, n_obs, n_dim_obs, device=device) > p_missing
+    mask = torch.rand(bs, n_obs, n_dim_obs, device=device)
+    if fixed_gap:
+        mask[:, n_obs//2-gap//2,n_obs//2+gap//2, :] = False
+    else:
+        mask = mask > gap
     control = torch.rand(bs, n_obs, n_dim_contr, dtype=dtype, device=device)
     data[~mask] = torch.nan # ensure that the missing data cannot be used
     return data, mask, control
@@ -570,7 +574,7 @@ def _filter_update_cov_SR(
     return P_C, S_C
  
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 281
+# %% ../../lib_nbs/kalman/00_filter.ipynb 284
 def _filter_update_k_gain_SR(
     H,
     P_m_C, # Chol factor of $P^-$
@@ -579,7 +583,7 @@ def _filter_update_k_gain_SR(
     """kalman gain for filter update for SR filter"""
     return torch.cholesky_solve(H @ P_m_C @ P_m_C.mT, S_C).mT
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 285
+# %% ../../lib_nbs/kalman/00_filter.ipynb 288
 def _filter_update_SR(
     H, # [1, n_dim_obs, n_dim_state]
     d, # [1, n_dim_obs, 1]
@@ -594,7 +598,7 @@ def _filter_update_SR(
     m = _filter_update_mean(H, d, K, m_m, obs)
     return m, P_C
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 290
+# %% ../../lib_nbs/kalman/00_filter.ipynb 293
 def _filter_update_mask_SR(
         H, # [1, n_dim_obs, n_dim_state]
         d, # [1, n_dim_obs, 1]
@@ -609,7 +613,7 @@ def _filter_update_mask_SR(
     H_m, d_m, R_C_m, obs_m, = H[:, mask,:], d[:, mask,:], R_C[:, mask,:][:, :,mask], obs[:, mask] # _m for masked
     return _filter_update_SR(H_m, d_m, R_C_m, m_m, P_m_C, obs_m)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 294
+# %% ../../lib_nbs/kalman/00_filter.ipynb 297
 def _filter_update_mask_batch_SR(
         H, # [1, n_dim_obs, n_dim_state]
         d, # [1, n_dim_obs, 1]
@@ -637,7 +641,7 @@ def _filter_update_mask_batch_SR(
     
     return ms, P_Cs
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 299
+# %% ../../lib_nbs/kalman/00_filter.ipynb 302
 @patch
 def _filter_all(self: KalmanFilterSR,
             obs: Tensor, # `([n_batches], n_obs, [self.n_dim_obs])` where `n_batches` and `n_dim_obs` dimensions can be omitted if 1
@@ -668,7 +672,7 @@ def _filter_all(self: KalmanFilterSR,
     m_ms, P_m_Cs, ms, P_Cs = list(maps(torch.stack, _times2batch, (m_ms, P_m_Cs, ms, P_Cs,))) # reorder dimensions and convert to tensor
     return ListMNormal(ms, P_Cs), ListMNormal(m_ms, P_m_Cs) 
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 307
+# %% ../../lib_nbs/kalman/00_filter.ipynb 310
 @patch
 def filter(self: KalmanFilterSR,
             obs: Tensor, # `([n_batches], n_obs, [self.n_dim_obs])` where `n_batches` and `n_dim_obs` dimensions can be omitted if 1
@@ -679,7 +683,7 @@ def filter(self: KalmanFilterSR,
     filt_state, _ = self._filter_all(obs, mask, control)
     return filt_state
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 313
+# %% ../../lib_nbs/kalman/00_filter.ipynb 316
 @patch(cls_method=True)
 def init_simple(cls: KalmanFilter,
                 n_dim, # n_dim_obs and n_dim_state
@@ -697,18 +701,18 @@ def init_simple(cls: KalmanFilter,
         P0 =   torch.eye(n_dim, dtype=dtype),
     )
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 318
+# %% ../../lib_nbs/kalman/00_filter.ipynb 321
 from torch import hstack, eye, vstack, ones, zeros, tensor
 from functools import partial
 from sklearn.decomposition import PCA
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 319
+# %% ../../lib_nbs/kalman/00_filter.ipynb 322
 def set_dtype(*args, dtype=torch.float64):
     return [partial(arg, dtype=dtype) for arg in args] 
 
 eye, ones, zeros, tensor = set_dtype(eye, ones, zeros, tensor)
 
-# %% ../../lib_nbs/kalman/00_filter.ipynb 320
+# %% ../../lib_nbs/kalman/00_filter.ipynb 323
 # @delegates(KalmanFilter)
 @patch(cls_method=True)
 def init_local_slope_pca(cls: KalmanFilter,
