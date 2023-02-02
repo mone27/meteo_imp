@@ -2,7 +2,8 @@
 
 # %% auto 0
 __all__ = ['cache_dir', 'cache_disk', 'reset_seed', 'test_close', 'array2df', 'maybe_retrieve_callers_name', 'retrieve_names',
-           'row_items', 'show_as_row', 'row_dfs', 'display_as_row', 'eye_like', 'is_diagonal']
+           'pretty_repr', 'row_items', 'show_as_row', 'row_dfs', 'display_as_row', 'eye_like', 'is_diagonal',
+           'product_dict']
 
 # %% ../lib_nbs/99_utils.ipynb 3
 # dill is an improved version of pickle, using it to support namedtuples
@@ -135,8 +136,18 @@ def retrieve_names(*args):
     return names
 
 # %% ../lib_nbs/99_utils.ipynb 45
+from contextlib import redirect_stdout
+import io
+from pprint import pp
+
+# %% ../lib_nbs/99_utils.ipynb 47
+def pretty_repr(o):
+    trap = io.StringIO()
+    with redirect_stdout(trap):
+        pp(o)
+    return trap.getvalue()
 def row_items(**kwargs):
-    columns = [f"<div><p style='font-size: 1.2rem;'>{title}</p> <pre>{repr(o)}</pre> </div>" for title, o in kwargs.items()]
+    columns = [f"<div><p style='font-size: 1.2rem;'>{title}</p> <pre>{pretty_repr(o)}</pre> </div>" for title, o in kwargs.items()]
     out = f"<div style=\"display: flex; column-gap: 20px; flex-wrap: wrap;\" class='table table-striped table-sm'> {''.join(columns)}</div>"
     return out
 def show_as_row(*os, names: Iterable[str]=None, **kwargs):
@@ -146,7 +157,7 @@ def show_as_row(*os, names: Iterable[str]=None, **kwargs):
     out = row_items(**kwargs)
     display(HTML(out))
 
-# %% ../lib_nbs/99_utils.ipynb 56
+# %% ../lib_nbs/99_utils.ipynb 58
 def _style_df(df_style):
     """style dataframe for better printing """
     return df_style.format(precision = 4)
@@ -155,7 +166,7 @@ def row_dfs(dfs: dict[str, pd.DataFrame], title="", hide_idx = True, styler=_sty
     out = []
     for df_title, df in dfs.items():
         df_styled =  df.style.hide(axis="index") if hide_idx else df.style 
-        df_html = _style_df(df_styled).to_html()
+        df_html = styler(df_styled).to_html()
         out.append(f"<div> <p style='font-size: 1.3rem;'>{df_title}</p> {df_html} </div>")
     out = f"<div style=\"display: flex; column-gap: 20px; flex-wrap: wrap;\" class='table table-striped table-sm'> {''.join(out)}</div>"
     return f"<p style='font-size: 1.5rem; font-decoration: bold'>{title}<p>" + "".join(out)
@@ -163,7 +174,7 @@ def display_as_row(dfs: dict[str, pd.DataFrame], title="", hide_idx=True, styler
     """display multiple dataframes in the same row"""
     display(HTML(row_dfs(dfs, title, hide_idx, styler)))
 
-# %% ../lib_nbs/99_utils.ipynb 64
+# %% ../lib_nbs/99_utils.ipynb 66
 def eye_like(x: torch.Tensor) -> torch.Tensor:
     """
     Return a tensor with same batch size as x, that has a nxn eye matrix in each sample in batch.
@@ -182,8 +193,19 @@ def eye_like(x: torch.Tensor) -> torch.Tensor:
         eye = eye.expand(*size_repeat)
     return eye
 
-# %% ../lib_nbs/99_utils.ipynb 72
+# %% ../lib_nbs/99_utils.ipynb 74
 def is_diagonal(x: torch.Tensor):
     """ Check that tensor is diagonal respect to the last 2 dimensions"""
     d = torch.diagonal(x, dim1=-2, dim2=-1)
     return (x == torch.diag_embed(d, dim1=-2, dim2=-1)).all()
+
+# %% ../lib_nbs/99_utils.ipynb 79
+import itertools
+
+# %% ../lib_nbs/99_utils.ipynb 80
+# from https://stackoverflow.com/a/5228294
+def product_dict(**kwargs):
+    keys = kwargs.keys()
+    vals = kwargs.values()
+    for instance in itertools.product(*vals):
+        yield dict(zip(keys, instance))
