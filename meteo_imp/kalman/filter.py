@@ -220,7 +220,7 @@ def init_from(cls: KalmanFilter|KalmanFilterBase|KalmanFilterSR, o: filter_class
     return cls(o.A, o.H, o.B, o.Q, o.R, o.b, o.d, o.m0, o.P0,
                o.n_dim_state, o.n_dim_obs, o.n_dim_contr,
                o.var_names, o.contr_names, o.cov_checker,
-               o.use_conditional, o.use_control, o.use_smooth)
+               o.use_conditional, o.use_control, o.use_smooth, o.pred_only_gap, o.pred_std)
 
 # %% ../../lib_nbs/kalman/00_filter.ipynb 38
 @patch
