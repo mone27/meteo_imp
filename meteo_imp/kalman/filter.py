@@ -695,7 +695,9 @@ def _filter_all(self: KalmanFilterSR,
         if t == 0:
             m_ms[t], P_m_Cs[t] = self.m0.expand(bs, -1, -1), self.P0_C.expand(bs, -1, -1)
         else:
-            m_ms[t], P_m_Cs[t] = _filter_predict_SR(self.A, self.Q_C, self.b, self.B, ms[t - 1], P_Cs[t - 1], control[:,t,:])
+            m_ms[t], P_m_Cs[t] = _filter_predict_SR(self.A, self.Q_C, self.b,
+                                                    self.B if self.use_control else torch.zeros_like(self.B),
+                                                    ms[t - 1], P_Cs[t - 1], control[:,t,:])
         
         # Update
         ms[t], P_Cs[t] = _filter_update_mask_batch_SR(self.H, self.d, self.R, m_ms[t], P_m_Cs[t], obs[:,t,:], mask[:,t,:])
