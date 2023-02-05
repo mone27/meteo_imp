@@ -22,7 +22,6 @@
       "/Multi latent - GPFA Hainich.html",
       "/GPFA Hainich - multi latent var.html",
       "/notes.html",
-      "/results /result_plotting.html",
       "/exploration/pytorch_constraints.html",
       "/kalman/Process_noise.html",
       "/kalman/kalman_obs_cov.html",
@@ -30,7 +29,7 @@
       "/GPFA Hainich.html",
       "/kalman/kalman_float64.html",
       "/Train multiple latent.html",
-      "/results /train_filter_1_feb.html",
+      "/results/train_4_feb_results.html",
       "/var_distribution.html",
       "/extract_gap_all_fluxnet.html"
     ]
