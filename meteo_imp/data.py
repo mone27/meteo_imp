@@ -111,4 +111,4 @@ import altair as alt
 # %% ../lib_nbs/Fluxnet/Hainich.ipynb 39
 dark2 = ['#1B9E77', '#D95F02', '#7570B3', '#E7298A', '#66A61E', '#E6AB02', '#A6761D', '#666666']
 
-scale_meteo = alt.Scale(domain = list(units_big.keys()), range = dark2)
+scale_meteo = alt.Scale(domain = ['TA', 'SW_IN', 'LW_IN', 'VPD', 'WS', 'PA', 'P'], range = dark2)
