@@ -1,0 +1,58 @@
+\begin{table}
+\centering
+\caption{RMSE Comparison imputation methods. The best method for each gap length is highligthed in bold}
+\label{the_table}
+\begin{tabular}{p{2.1cm}c|rr|rr|rr}
+\toprule
+ &  & \multicolumn{2}{r}{KalmanFilter} & \multicolumn{2}{r}{ERA} & \multicolumn{2}{r}{MDS} \\
+ & RMSE & mean & std & mean & std & mean & std \\
+Variable & Gap [$h$] &  &  &  &  &  &  \\
+\midrule
+\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{TA} [\si{°C}]}} & 6 & \bfseries 0.510 & 0.335 & 1.443 & 1.030 & 2.624 & 1.677 \\
+ & 12 & \bfseries 0.685 & 0.412 & 1.347 & 0.788 & 2.665 & 1.546 \\
+ & 24 & \bfseries 0.898 & 0.549 & 1.460 & 0.730 & 3.024 & 1.717 \\
+ & 168 & \bfseries 1.078 & 0.561 & 1.765 & 0.714 & 3.803 & 1.232 \\
+\cline{1-8}
+\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{SW\_IN} [\si{W/m^2}]}} & 6 & 42.053 & 36.503 & \bfseries 41.878 & 57.449 & 56.796 & 79.190 \\
+ & 12 & \bfseries 49.334 & 33.321 & 51.587 & 48.850 & 63.173 & 63.886 \\
+ & 24 & \bfseries 54.067 & 26.651 & 61.879 & 38.392 & 86.693 & 63.036 \\
+ & 168 & \bfseries 59.130 & 24.263 & 66.392 & 33.962 & 99.610 & 53.139 \\
+\cline{1-8}
+\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{LW\_IN} [\si{W/m^2}]}} & 6 & \bfseries 11.647 & 8.194 & 14.299 & 13.000 & 27.309 & 15.357 \\
+ & 12 & \bfseries 14.098 & 8.483 & 15.719 & 12.606 & 29.660 & 14.269 \\
+ & 24 & \bfseries 13.846 & 7.289 & 13.970 & 11.779 & 29.612 & 13.066 \\
+ & 168 & 16.756 & 6.761 & \bfseries 15.921 & 11.370 & 32.895 & 8.250 \\
+\cline{1-8}
+\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{VPD} [\si{hPa}]}} & 6 & \bfseries 0.575 & 0.496 & 1.356 & 1.546 & 2.200 & 2.280 \\
+ & 12 & \bfseries 0.897 & 0.749 & 1.352 & 1.497 & 2.027 & 2.192 \\
+ & 24 & \bfseries 1.014 & 0.632 & 1.359 & 1.172 & 2.168 & 1.915 \\
+ & 168 & \bfseries 1.285 & 0.799 & 1.625 & 1.111 & 2.400 & 1.898 \\
+\cline{1-8}
+\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{WS} [\si{m/s}]}} & 6 & \bfseries 0.585 & 0.303 & 0.894 & 0.491 & 1.194 & 0.667 \\
+ & 12 & \bfseries 0.702 & 0.343 & 0.956 & 0.595 & 1.279 & 0.808 \\
+ & 24 & \bfseries 0.857 & 0.385 & 1.049 & 0.510 & 1.369 & 0.794 \\
+ & 168 & \bfseries 0.912 & 0.278 & 1.063 & 0.322 & 1.454 & 0.508 \\
+\cline{1-8}
+\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{PA} [\si{hPa}]}} & 6 & \bfseries 0.052 & 0.068 & 0.077 & 0.095 & 0.520 & 0.387 \\
+ & 12 & \bfseries 0.055 & 0.056 & 0.080 & 0.072 & 0.573 & 0.434 \\
+ & 24 & \bfseries 0.057 & 0.029 & 0.078 & 0.043 & 0.550 & 0.406 \\
+ & 168 & \bfseries 0.065 & 0.026 & 0.083 & 0.030 & 0.770 & 0.338 \\
+\cline{1-8}
+\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{P} [\si{mm}]}} & 6 & \bfseries 0.100 & 0.120 & 0.105 & 0.170 & 0.101 & 0.150 \\
+ & 12 & 0.125 & 0.161 & 0.131 & 0.229 & \bfseries 0.119 & 0.193 \\
+ & 24 & 0.139 & 0.177 & 0.138 & 0.220 & \bfseries 0.138 & 0.217 \\
+ & 168 & \bfseries 0.197 & 0.171 & 0.223 & 0.197 & 0.215 & 0.188 \\
+\cline{1-8}
+\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{SWC} [\si{\%}]}} & 6 & \bfseries 0.481 & 0.360 & nan & nan & 1.150 & 1.287 \\
+ & 12 & \bfseries 0.605 & 0.395 & nan & nan & 1.380 & 1.629 \\
+ & 24 & \bfseries 0.764 & 0.760 & nan & nan & 1.665 & 1.714 \\
+ & 168 & \bfseries 1.508 & 0.982 & nan & nan & 2.023 & 1.493 \\
+\cline{1-8}
+\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{TS} [\si{°C}]}} & 6 & \bfseries 0.403 & 0.457 & nan & nan & 0.983 & 1.113 \\
+ & 12 & \bfseries 0.613 & 0.764 & nan & nan & 0.975 & 0.844 \\
+ & 24 & \bfseries 0.853 & 0.767 & nan & nan & 0.977 & 0.817 \\
+ & 168 & \bfseries 1.358 & 0.697 & nan & nan & 1.507 & 0.829 \\
+\cline{1-8}
+\bottomrule
+\end{tabular}
+\end{table}

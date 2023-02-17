@@ -21,7 +21,7 @@ _def_meteo_vars = {
 }
 
 
-meteo_vars_big = {f"{var}_F" : var for var in ['TA', 'SW_IN','VPD', 'PA', 'P', 'WS', 'LW_IN',]} # | {'NETRAD': 'NETRAD'}
+meteo_vars_big = {f"{var}_F" : var for var in ['TA', 'SW_IN', 'LW_IN', 'VPD', 'WS', 'PA', 'P']} | {'SWC_F_MDS_1': 'SWC', 'TS_F_MDS_1': 'TS'}
 
 
 units = {
@@ -39,6 +39,9 @@ units_big = {
     'P': 'mm',
     'WS': 'm s-1',
     'LW_IN': 'W m-2',
+    'TS': '°C',
+    'SWC': '%'
+    
     # 'NETRAD': 'W m-2',
 }
 
@@ -111,4 +114,4 @@ import altair as alt
 # %% ../lib_nbs/Fluxnet/Hainich.ipynb 39
 dark2 = ['#1B9E77', '#D95F02', '#7570B3', '#E7298A', '#66A61E', '#E6AB02', '#A6761D', '#666666']
 
-scale_meteo = alt.Scale(domain = ['TA', 'SW_IN', 'LW_IN', 'VPD', 'WS', 'PA', 'P'], range = dark2)
+scale_meteo = alt.Scale(domain = ['TA', 'SW_IN', 'LW_IN', 'VPD', 'WS', 'PA', 'SWC', 'TS', 'P'], range = dark2)

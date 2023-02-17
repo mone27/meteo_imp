@@ -957,16 +957,25 @@ eye, ones, zeros, tensor = set_dtype(eye, ones, zeros, tensor)
 def init_local_slope_pca(cls: KalmanFilter|KalmanFilterSR,
                 n_dim_obs, # n_dim_obs and n_dim_contr
                 n_dim_state: int, # n_dim_state
-                df_pca: pd.DataFrame|None = None, # dataframe for PCA init, None no PCA init
+                n_dim_contr:int, #n dim control
+                df_pca: pd.DataFrame|None = None, # dataframe for PCA init, None no PCA init,
+                pca_contr:int = False,
                 **kwargs
             ):
     """Local Slope + PCA init"""
+    
     if df_pca is not None:
         comp = PCA(n_dim_state).fit(df_pca).components_
-        H = tensor(comp.T) # transform state -> obs
-        B = tensor(comp) # transform obs -> state
+        H = tensor(comp.T) # transform state -> obs 
+        if pca_contr:
+            if n_dim_obs != n_dim_contr:
+                raise ValueError("n dim obs and n dim contr must be the same for pca of control")
+            else:
+                B = torch.tensor(comp)
+        else:
+            B = eye(n_dim_contr)
     else:
-        H, B = eye(n_dim_obs), eye(n_dim_obs)
+        H, B = eye(n_dim_obs), eye(n_dim_contr)
         
     return cls(
         A =     vstack([hstack([eye(n_dim_state),                eye(n_dim_state)]),
@@ -977,7 +986,7 @@ def init_local_slope_pca(cls: KalmanFilter|KalmanFilterSR,
         d =          zeros(n_dim_obs),          
         R =          eye(n_dim_obs)*.01,            
         B =     vstack([hstack([-B,                  B]),
-                                   hstack([ zeros(n_dim_state,n_dim_obs), zeros(n_dim_state, n_dim_obs)])]),
+                        hstack([ zeros(2 * n_dim_state-n_dim_contr,n_dim_contr), zeros(2 * n_dim_state-n_dim_contr, n_dim_contr)])]),
         m0 =  zeros(n_dim_state * 2),        
         P0 =   eye(n_dim_state * 2) * 3,
         **kwargs

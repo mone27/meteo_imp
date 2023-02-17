@@ -13,24 +13,26 @@ import inspect
 import hashlib
 from pyprojroot import here
 
-# %% ../lib_nbs/99_utils.ipynb 5
+# %% ../lib_nbs/99_utils.ipynb 10
 cache_dir = here(".cache")
 
-# %% ../lib_nbs/99_utils.ipynb 6
+# %% ../lib_nbs/99_utils.ipynb 11
 # inspired from https://gist.github.com/shantanuo/c6a376309d6bac6bd55bf77e3961b5fb
-def cache_disk(base_file, rm_cache=False):
+def cache_disk(base_file, rm_cache=False, verbose=False):
     "Decorator to cache function output to disk"
     base_file = Path(base_file)
     def decorator(original_func):
         
-        f_hash = hashlib.md5(inspect.getsource(original_func).encode()).hexdigest()
+        f_hash = hashlib.md5(original_func.__code__.co_code).hexdigest()
         filename = base_file.parent / (base_file.stem + f_hash + ".pickle")
+        
+        if verbose: print(filename)
         
         if rm_cache: filename.unlink()
         
         try:
             cache = dill.load(open(filename, 'rb'))
-        except (IOError, ValueError):
+        except (IOError, ValueError, FileNotFoundError):
             cache = {}
 
         def save_data():
@@ -46,24 +48,24 @@ def cache_disk(base_file, rm_cache=False):
 
     return decorator
 
-# %% ../lib_nbs/99_utils.ipynb 19
+# %% ../lib_nbs/99_utils.ipynb 24
 import torch
 import numpy as np
 import random
 
-# %% ../lib_nbs/99_utils.ipynb 20
+# %% ../lib_nbs/99_utils.ipynb 25
 def reset_seed(seed=27):
     torch.manual_seed(seed)
     np.random.seed(seed)
     random.seed(seed)
 
-# %% ../lib_nbs/99_utils.ipynb 22
+# %% ../lib_nbs/99_utils.ipynb 27
 from typing import Generator, Iterable
 from functools import partial
 from fastcore.test import test
 from fastcore.basics import patch
 
-# %% ../lib_nbs/99_utils.ipynb 23
+# %% ../lib_nbs/99_utils.ipynb 28
 def is_close(a,b,eps=1e-5):
     "Is `a` within `eps` of `b`"
     if hasattr(a, '__array__') or hasattr(b,'__array__'):
@@ -74,24 +76,24 @@ def is_close(a,b,eps=1e-5):
         return all(is_close(a_, b_, eps) for a_,b_ in zip(a,b))
     return abs(a-b)<eps
 
-# %% ../lib_nbs/99_utils.ipynb 24
+# %% ../lib_nbs/99_utils.ipynb 29
 def test_close(a,b,eps=1e-5):
     "`test` that `a` is within `eps` of `b`"
     test(a,b,partial(is_close,eps=eps),'close')
 
-# %% ../lib_nbs/99_utils.ipynb 27
+# %% ../lib_nbs/99_utils.ipynb 32
 from collections import namedtuple
 from fastcore.basics import patch
 from sklearn.preprocessing import StandardScaler
 
-# %% ../lib_nbs/99_utils.ipynb 33
+# %% ../lib_nbs/99_utils.ipynb 38
 @patch
 def inverse_transform_std(self: StandardScaler, 
                          x_std # standard deviations
                         ):
     return x_std * self.scale_
 
-# %% ../lib_nbs/99_utils.ipynb 35
+# %% ../lib_nbs/99_utils.ipynb 40
 from torch import Tensor
 from typing import Collection
 import pandas as pd
@@ -102,7 +104,7 @@ from typing import Iterable
 
 from fastcore.basics import *
 
-# %% ../lib_nbs/99_utils.ipynb 36
+# %% ../lib_nbs/99_utils.ipynb 41
 def array2df(x: Tensor, # 2d tensor
              row_names: Collection[str]|None=None, # names for the row
              col_names: Collection[str]|None=None, # names for the columns
@@ -112,10 +114,10 @@ def array2df(x: Tensor, # 2d tensor
     if row_names is not None: df.insert(0, row_var, row_names)
     return df
 
-# %% ../lib_nbs/99_utils.ipynb 41
+# %% ../lib_nbs/99_utils.ipynb 46
 import inspect
 
-# %% ../lib_nbs/99_utils.ipynb 42
+# %% ../lib_nbs/99_utils.ipynb 47
 # inspired from https://stackoverflow.com/questions/18425225/ 
 def maybe_retrieve_callers_name(args):
     """Tries to retrieve the argument name in the call frame, if there are multiple matches name is ''"""
@@ -135,12 +137,12 @@ def retrieve_names(*args):
         names.append(var_names)
     return names
 
-# %% ../lib_nbs/99_utils.ipynb 45
+# %% ../lib_nbs/99_utils.ipynb 50
 from contextlib import redirect_stdout
 import io
 from pprint import pp
 
-# %% ../lib_nbs/99_utils.ipynb 47
+# %% ../lib_nbs/99_utils.ipynb 52
 def pretty_repr(o):
     trap = io.StringIO()
     with redirect_stdout(trap):
@@ -157,7 +159,7 @@ def show_as_row(*os, names: Iterable[str]=None, **kwargs):
     out = row_items(**kwargs)
     display(HTML(out))
 
-# %% ../lib_nbs/99_utils.ipynb 58
+# %% ../lib_nbs/99_utils.ipynb 63
 def _style_df(df_style):
     """style dataframe for better printing """
     return df_style.format(precision = 4)
@@ -174,7 +176,7 @@ def display_as_row(dfs: dict[str, pd.DataFrame], title="", hide_idx=True, styler
     """display multiple dataframes in the same row"""
     display(HTML(row_dfs(dfs, title, hide_idx, styler)))
 
-# %% ../lib_nbs/99_utils.ipynb 66
+# %% ../lib_nbs/99_utils.ipynb 71
 def eye_like(x: torch.Tensor) -> torch.Tensor:
     """
     Return a tensor with same batch size as x, that has a nxn eye matrix in each sample in batch.
@@ -193,16 +195,16 @@ def eye_like(x: torch.Tensor) -> torch.Tensor:
         eye = eye.expand(*size_repeat)
     return eye
 
-# %% ../lib_nbs/99_utils.ipynb 74
+# %% ../lib_nbs/99_utils.ipynb 79
 def is_diagonal(x: torch.Tensor):
     """ Check that tensor is diagonal respect to the last 2 dimensions"""
     d = torch.diagonal(x, dim1=-2, dim2=-1)
     return (x == torch.diag_embed(d, dim1=-2, dim2=-1)).all()
 
-# %% ../lib_nbs/99_utils.ipynb 79
+# %% ../lib_nbs/99_utils.ipynb 84
 import itertools
 
-# %% ../lib_nbs/99_utils.ipynb 80
+# %% ../lib_nbs/99_utils.ipynb 85
 # from https://stackoverflow.com/a/5228294
 def product_dict(**kwargs):
     keys = kwargs.keys()

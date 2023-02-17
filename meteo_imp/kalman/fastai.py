@@ -4,13 +4,13 @@
 __all__ = ['hai_control', 'rmse_mask', 'rmse_gap', 'multi_r2', 'r2_mask', 'imp_metrics', 'MeteoImpItem', 'MeteoImpIndex',
            'BlockIndexTransform', 'DataControl', 'BlockDfTransform', 'MeteoImpDf', 'AddGapTransform', 'find_gap_limits',
            'plot_missing_area', 'plot_points', 'plot_variable', 'facet_variable', 'MeteoImpTensor', 'MeteoImpDf2Tensor',
-           'get_stats', 'MeteoImpNormalize', 'ToTuple', 'as_generator', 'gen_gap_len', 'gen_var_sel', 'get_block_ids',
-           'imp_pipeline', 'imp_dataloader', 'MNormalsParams', 'NormalsParams', 'get_only_gap', 'KalmanLoss',
-           'ImpMetric', 'imp_rmse', 'SaveParams', 'Float64Callback', 'one_batch_with_items', 'CovStdTransform',
-           'buffer_pred_single', 'buffer_pred', 'maybe_buffer_pred', 'InverseNormalize', 'orig_target', 'NormalsDf',
-           'preds2df', 'unsqueeze_maybe_list', 'PredictMetrics', 'PredictLossVar', 'predict_items', 'only_gap_ctx',
-           'format_metric', 'plot_result', 'plot_results', 'get_results', 'show_results', 'results_custom_gap',
-           'CustomGap', 'InteractiveSequence', 'SaveModelsBatch']
+           'get_stats', 'MeteoImpNormalize', 'ToTuple', 'as_generator', 'gen_gap_len', 'gen_gap_len_gamma',
+           'gen_var_sel', 'gen_shifts', 'get_block_ids', 'imp_pipeline', 'imp_dataloader', 'MNormalsParams',
+           'NormalsParams', 'get_only_gap', 'KalmanLoss', 'ImpMetric', 'imp_rmse', 'SaveParams', 'Float64Callback',
+           'one_batch_with_items', 'CovStdTransform', 'buffer_pred_single', 'buffer_pred', 'maybe_buffer_pred',
+           'InverseNormalize', 'orig_target', 'NormalsDf', 'preds2df', 'unsqueeze_maybe_list', 'PredictMetrics',
+           'PredictLossVar', 'predict_items', 'only_gap_ctx', 'format_metric', 'plot_result', 'plot_results',
+           'get_results', 'show_results', 'results_custom_gap', 'CustomGap', 'InteractiveSequence', 'SaveModelsBatch']
 
 # %% ../../lib_nbs/kalman/10_fastai.ipynb 3
 from ..utils import *
@@ -168,10 +168,11 @@ def _index_var(df, var_sel):
 # %% ../../lib_nbs/kalman/10_fastai.ipynb 57
 class AddGapTransform(Transform):
     """Adds a random gap to a dataframe"""
-    def __init__(self,gap_start): store_attr()
+    def __init__(self): store_attr()
     def encodes(self, dc: DataControl) -> MeteoImpDf:
         df, control, var_sel, gap_len = dc
-        gap = _make_random_gap(gap_len, df.shape[0], self.gap_start)
+        gap_start = (len(df) - gap_len) // 2
+        gap = _make_random_gap(gap_len, df.shape[0], gap_start)
         mask = np.ones_like(df, dtype=bool)
         col_sel = L(*df.columns).argwhere(lambda x: x in var_sel)
         mask[np.argwhere(gap), col_sel] = False
@@ -218,7 +219,7 @@ def plot_rug(df, sel = def_selection(), props = {}):
             sel
         ).properties(**props) 
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 85
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 86
 def find_gap_limits(df):
     gap_starts, gap_ends = [], []
     for i in range(len(df)):
@@ -230,22 +231,22 @@ def find_gap_limits(df):
     return pd.DataFrame({'gap_start': gap_starts, 'gap_end': gap_ends})
     
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 87
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 88
 def plot_missing_area(df, sel = def_selection(), props={}):
     gap_limits = find_gap_limits(df)
     start = alt.Chart(gap_limits).mark_rule().encode(
-        x = alt.X('gap_start', axis=alt.Axis(domain=False, labels = False, ticks=False, title=None)),
+        x = alt.X('gap_start'),
     )
     end = alt.Chart(gap_limits).mark_rule().encode(
-        x = alt.X('gap_end', axis=alt.Axis(domain=False, labels = False, ticks=False, title=None))
+        x = alt.X('gap_end')
     )
     area = alt.Chart(gap_limits).mark_rect(color='black', opacity=.15).encode(
-        x = alt.X('gap_start', axis=alt.Axis(domain=False, labels = False, ticks=False, title=None)),
+        x = alt.X('gap_start'),
         x2 = 'gap_end'
     )
     return (start + end + area)#.add_params(sel).properties(**props)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 90
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 91
 def plot_points(df, y = "value", y_label = "", sel = def_selection(), props = {}):
     return alt.Chart(df).mark_point(
             color='black',
@@ -257,17 +258,17 @@ def plot_points(df, y = "value", y_label = "", sel = def_selection(), props = {}
             y = alt.Y(y, title = y_label, scale=alt.Scale(zero=False)),
             fill= alt.Fill("is_present", scale = alt.Scale(range=["#ffffff00", "gray"]),
                            legend = alt.Legend(title =["Observed data"])),
-            shape = alt.Shape("is_present", scale= alt.Scale(range=["circle", "square"])),
+            # shape = alt.Shape("is_present", scale= alt.Scale(range=["circle", "square"])),
         )
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 93
-def plot_line(df, only_present=True, y="value", y_label = "", sel = def_selection(), props = {}):
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 94
+def plot_line(df, y="value", y_label = "", color = 'variable', scale=scale_meteo, sel = def_selection(), props = {}):
     # df = df[df.is_present] if only_present else df
     # TODO remove onle_present
     return alt.Chart(df).mark_line().encode(
         x = alt.X("time", title="time"),    
         y = alt.Y(y, title = y_label, scale=alt.Scale(zero=False)),
-        color=alt.Color('variable', scale= scale_meteo)
+        color=alt.Color(color, scale= scale)
     ).add_params(
         sel
     ).properties(
@@ -278,7 +279,7 @@ def plot_line(df, only_present=True, y="value", y_label = "", sel = def_selectio
 
     
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 96
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 97
 def plot_control(df, only_present=True, y="control", y_label = "", sel = def_selection(), props = {}):
     # df = df[df.is_present] if only_present else df
     # TODO remove onle_present
@@ -291,17 +292,17 @@ def plot_control(df, only_present=True, y="control", y_label = "", sel = def_sel
         **props
     )    
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 99
-def plot_error(df, y = "value", y_label = "", sel = def_selection(), props = {}):
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 100
+def plot_error(df, y = "value", y_label = "", color = 'variable', scale = scale_meteo, sel = def_selection(), props = {}):
     df.loc[:,'err_low'] = df[y] - 2 * df['std']
     df.loc[:,'err_high'] = df[y] + 2 * df['std']
     return alt.Chart(df).mark_errorband().encode(
         x = "time",    
         y = alt.Y("err_low:Q", title = y_label, scale=alt.Scale(zero=False)),
         y2 = "err_high:Q",
-        color=alt.Color("variable",
+        color=alt.Color(color,
                         legend = alt.Legend(title=["Line: pred. mean", "area: +/- 2 std"]),
-                        scale = scale_meteo
+                        scale = scale
                        )
     ).add_params(
         sel
@@ -310,7 +311,7 @@ def plot_error(df, y = "value", y_label = "", sel = def_selection(), props = {})
     )
     
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 102
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 103
 def plot_variable(df,
                   variable, ys=["value", "value", "control"],
                   title="",
@@ -330,13 +331,13 @@ def plot_variable(df,
         plots.append(plot_missing_area(df, sel, props)) # there is a gap
     if error: plots.append(plot_error(df, y=ys[1], y_label=y_label, sel=sel, props=props))
     if control: plots.append(plot_control(df, y=ys[2], y_label=y_label, sel=sel, props=props))
-    plots.append(plot_line(df, True, ys[1], y_label, sel, props))
+    plots.append(plot_line(df = df, y=ys[1], y_label=y_label, sel=sel, props=props))
     
     return alt.layer(*plots).properties(title=title)
     
     # return alt.VConcatChart(vconcat=[(points + line), rug], spacing=-10).properties(title=title)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 108
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 109
 @delegates(plot_variable, but="y_label")
 def facet_variable(df, # tidy dataframe
                    n_cols: int = 3,
@@ -363,7 +364,7 @@ def facet_variable(df, # tidy dataframe
     
     return plot
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 110
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 111
 @patch
 def show(self: MeteoImpDf, ax=None, ctx=None, 
         n_cols: int = 3,
@@ -374,7 +375,7 @@ def show(self: MeteoImpDf, ax=None, ctx=None,
     df = self.tidy()
     return facet_variable(df, n_cols, bind_interaction, props=props)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 116
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 117
 class MeteoImpTensor(collections.abc.Sequence):
     def __init__(self,*args):
         if len(args)==3:
@@ -399,7 +400,7 @@ class MeteoImpTensor(collections.abc.Sequence):
     def _repr_html_(self):
         return row_items(data = self.data, mask = self.mask, control = self.control)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 117
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 118
 class MeteoImpDf2Tensor(Transform):
     def setups(self, items):
         self.columns = list(items[0].data.columns)
@@ -415,17 +416,17 @@ class MeteoImpDf2Tensor(Transform):
     #     control = pd.DataFrame(x.control.cpu().numpy(), columns = self.columns)
     #     return MeteoImpDf(data, mask, control)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 127
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 128
 from ..utils import *
 from fastai.torch_core import to_cpu
 
 from torch import Tensor
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 128
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 129
 def get_stats(df, repeat=1, device='cpu'):
     return torch.tensor(df.mean(axis=0).to_numpy(), device=device).repeat(repeat), torch.tensor(df.std(axis=0).to_numpy(), device=device).repeat(repeat)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 129
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 130
 class MeteoImpNormalize(Transform):
     "Normalize/denorm MeteoImpTensor column-wise "
     @property
@@ -439,15 +440,15 @@ class MeteoImpNormalize(Transform):
         f = partial(to_device, device=(x[0].device))
         return MeteoImpTensor(x.data * f(self.std_data) + f(self.mean_data), x.mask, x.control * f(self.std_control) + f(self.mean_control))
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 141
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 142
 class ToTuple(Transform):
     def encodes(self, x): return tuple(x),  tuple(x)
     def decodes(self, x): return NormalsParams(x[0], x[1])
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 147
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 148
 from collections.abc import Iterable, Generator
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 148
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 149
 def as_generator(x: Generator|object,
                  iter=False, # should generator return x or iterate over the elements of x
                 ):
@@ -455,31 +456,45 @@ def as_generator(x: Generator|object,
     if isinstance(x, Generator): return x
     else: return cycle( x if iter else (x,))
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 158
-def gen_gap_len(mean: float, min_v = 1, max_v=50): 
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 155
+def gen_gap_len(min_v = 1, max_v=50): 
+    while True:
+        yield np.random.randint(min_v, max_v)
+
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 163
+def gen_gap_len_gamma(mean: float, min_v = 1, max_v=50): 
     scale = mean*.6
     shape = mean/scale
     while True:
         v = int(np.random.gamma(scale=scale, shape=shape))
         yield max(min(v, max_v), min_v)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 164
-def gen_var_sel(vars):
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 169
+def gen_var_sel(vars, n_var=None):
     while True:
-        n_var = np.random.randint(1,1+len(vars))
+        n_var = ifnone(n_var, np.random.randint(1,1+len(vars)))
         yield list(np.random.choice(np.array(vars), size=n_var, replace=False))
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 171
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 177
 from fastai.data.transforms import *
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 177
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 180
+import numpy as np
+
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 181
+def gen_shifts(var):
+    """ Generate shifts for a random distribution with variances var"""
+    while True:
+        yield int(np.random.randn() * var)
+
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 183
 def get_block_ids(n_rep: int, # number of repetitions for each item
                   total_len: int, # total len dataframe
                   block_len: int, # len of a block
                   var_sel: Iterable|Generator, # returns `list[str]` to select variables
                   gap_len: Iterable|Generator, # returns `int` for gap len
                   shifts: Iterable|Generator|None = None, # if None make at same distance
-                  offset: int = 0, # starting point for first item (for allow for control lags)
+                  offset: int = 0, # starting point for first item (for allow for control lags and shifts)
                  ):
     var_sel = as_generator(var_sel)
     gap_len = as_generator(gap_len)
@@ -490,7 +505,7 @@ def get_block_ids(n_rep: int, # number of repetitions for each item
     return [MeteoImpItem(i, next(shifts), next(var_sel), next(gap_len))
             for i in i_s for _ in range(n_rep)] # make sure have the same `i` next to each other
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 181
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 187
 def imp_pipeline(df,
                  control,
                  var_sel,
@@ -498,19 +513,20 @@ def imp_pipeline(df,
                  block_len,
                  control_lags,
                  n_rep,
-                 shifts = None
+                 shifts = None,
+                 offset = None
                 ):
-    offset = max(control_lags)
+    offset = ifnone(offset, max(control_lags))
     block_ids = get_block_ids(n_rep, len(df), block_len, var_sel, gap_len, shifts, offset)
     return [BlockIndexTransform(df.index, block_len=block_len, offset=offset),
             BlockDfTransform(data = df, control = control,  control_lags = control_lags),
-            AddGapTransform((block_len - block_ids[0].gap_len)//2),
+            AddGapTransform(),
             MeteoImpDf2Tensor,
             MeteoImpNormalize(*get_stats(df), *get_stats(control, 1+len(control_lags))),
             ToTuple
            ], block_ids
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 198
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 204
 def imp_dataloader(df,
                  control,
                  var_sel,
@@ -518,15 +534,21 @@ def imp_dataloader(df,
                  block_len,
                  control_lags,
                  n_rep,  
-                 bs):
-    pipeline, block_ids = imp_pipeline(df, control, var_sel, gap_len, block_len, control_lags, n_rep)
+                 bs,
+                 shifts=None,
+                 offset=None
+                  ):
+    pipeline, block_ids = imp_pipeline(df=df, control=control,
+               var_sel=var_sel, gap_len=gap_len,
+               block_len=block_len, control_lags=control_lags,
+               n_rep=n_rep, shifts=shifts, offset=offset)
     splits = EndSplitter()(block_ids)
     ds = TfmdLists(block_ids, pipeline, splits=splits)
     
     return ds.dataloaders(bs=bs)
     
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 206
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 212
 class MNormalsParams(list):
     def __init__(self,*args):
         if len(args)==2:
@@ -554,7 +576,7 @@ class MNormalsParams(list):
         self.cov.squeeze_(i)
         return self
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 207
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 213
 class NormalsParams(list):
     def __init__(self,*args):
         if len(args)==2:
@@ -578,11 +600,11 @@ class NormalsParams(list):
         else: raise IndexError("index bigger than 2")
     __repr__ = basic_repr('mean, std')
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 212
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 218
 from .filter import *
 from torch.distributions import MultivariateNormal
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 219
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 225
 @patch
 def forward(self: KalmanFilter|KalmanFilterSR, meteo_data: MeteoImpTensor):
     data, mask, control = meteo_data
@@ -593,13 +615,13 @@ def forward(self: KalmanFilter|KalmanFilterSR, meteo_data: MeteoImpTensor):
                         else self._predict_filter(data, mask, control))
     return MNormalsParams(mean, cov) # to have fastai working this needs to be a tuple subclass
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 247
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 253
 def get_only_gap(mask, *args):
     """for each element in arg return only the portion where there is a gap at the time level"""
     gap_mask = ~mask.all(-1)
     return [x[gap_mask] for x in args]
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 248
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 254
 class KalmanLoss():
     def __init__(self,
                  only_gap:bool=False, # loss for all predictions or only gap. Expects predictions only for gap
@@ -613,7 +635,7 @@ class KalmanLoss():
         data, mask, _ = target
         means, covs = pred        
         # assert not covs.isnan().any(), "Nan in prediction"
-        losses = torch.empty(len(data), device=data.device, dtype=data.dtype)
+        losses = torch.empty(len(data), device=data.device, dtype=data.dtype) if self.reduction_inbatch != 'none' else [None for _ in range(len(data))]
         for i, (d, m, mean, cov) in enumerate(zip(data, mask, means, covs)):
             losses[i] = self._loss_batch(d,m,mean, cov)
         return self._reduce(losses, self.reduction)
@@ -641,17 +663,17 @@ class KalmanLoss():
 
         
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 264
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 271
 from sklearn.metrics import r2_score, mean_squared_error
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 276
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 283
 from fastai.metrics import *
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 286
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 293
 from fastai.learner import AvgMetric
 import torch.nn.functional as F
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 287
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 294
 class ImpMetric(AvgMetric):
     def __init__(self, metric, base_name, only_gap=False, flatten=False):
         store_attr()
@@ -677,26 +699,26 @@ class ImpMetric(AvgMetric):
         return metric_values.mean().item()
     
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 288
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 295
 def imp_rmse(preds, targs):
     return torch.sqrt(F.mse_loss(preds, targs))
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 289
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 296
 rmse_mask = ImpMetric(imp_rmse, 'rmse')
 rmse_gap = ImpMetric(imp_rmse, 'rmse', only_gap=True)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 296
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 303
 multi_r2 = skm_to_fastai(r2_score, flatten=False)
 r2_mask = ImpMetric(multi_r2, 'r2')
 # r2_gap = ImpMetric(multi_r2, 'r2', only_gap=True)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 299
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 306
 imp_metrics =  [rmse_mask, rmse_gap]
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 302
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 309
 from fastai.callback.all import *
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 303
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 310
 class SaveParams(Callback):
     def __init__(self, param_name):
         super().__init__()
@@ -706,7 +728,7 @@ class SaveParams(Callback):
         param = getattr(self.model, self.param_name).detach()
         self.params.append(param)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 304
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 311
 class SaveParams(Callback):
     def __init__(self, param_name):
         super().__init__()
@@ -716,7 +738,7 @@ class SaveParams(Callback):
         param = getattr(self.model, self.param_name).detach()
         self.params.append(param)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 308
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 315
 from fastai.learner import * 
 
 from fastai.tabular.all import *
@@ -725,13 +747,13 @@ from fastai.tabular.learner import *
 
 from fastai.callback.progress import ShowGraphCallback
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 318
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 325
 class Float64Callback(Callback):
     order = Recorder.order + 10 # run after Recorder 
     def before_fit(self):
         self.recorder.smooth_loss.val = torch.tensor(0, dtype=torch.float64) # default is a float 32
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 332
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 339
 def one_batch_with_items(dls, items):
     """ Makes custom dataloader that returns only one batch with items"""
     new_ds = dls.dataset.copy()
@@ -739,7 +761,7 @@ def one_batch_with_items(dls, items):
     new_ds.items =items
     return dls.new(bs = len(items), dataset = new_ds, shuffle=False).one_batch()
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 341
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 348
 class CovStdTransform(Transform):
     def encodes(self, x: MNormalsParams) -> NormalsParams:
         return NormalsParams(x.mean, self(x.cov))
@@ -747,7 +769,7 @@ class CovStdTransform(Transform):
     def encodes(self, x: list):
         return [self(o) for o in x]
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 348
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 355
 def buffer_pred_single(preds: list[Tensor],
                 masks: Tensor) -> Tensor:
     """For predictions are for gaps only add buffer of `Nan` so they have same shape of targets"""
@@ -760,13 +782,13 @@ def buffer_pred_single(preds: list[Tensor],
     assert i_p == len(preds)
     return all_pred
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 349
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 356
 def buffer_pred(preds: list[list[Tensor]],
                 masks: Tensor) -> Tensor:
     """For predictions are for gaps only add buffer of `Nan` so they have same shape of targets"""
     return torch.stack([buffer_pred_single(pred, mask) for pred, mask in zip(preds, masks)])
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 350
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 357
 def maybe_buffer_pred(preds, masks):
     """If predictions are for gaps only add buffer so they have same shape of targets"""
     if not isinstance(preds.mean, torch.Tensor):
@@ -774,10 +796,10 @@ def maybe_buffer_pred(preds, masks):
     else:
         return NormalsParams(preds.mean.detach().cpu(), preds.std.detach().cpu())
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 357
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 364
 def _maybe2np(x): return x.cpu().numpy() if isinstance(x, torch.Tensor) else x
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 358
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 365
 class InverseNormalize(Transform):
     def __init__(self, mean, std):
         self.mean_data = _maybe2np(mean)
@@ -790,12 +812,12 @@ class InverseNormalize(Transform):
     def from_dls(cls, dls):
         return cls(dls.fs[-2].mean_data, dls.fs[-2].std_data)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 363
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 370
 def orig_target(dls, items):
     pipe = Pipeline(dls.fs[:3])
     return [pipe(item) for item in items]
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 367
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 374
 class NormalsDf:
     """DataFrames of Normal parameters (mean and std)"""
     def __init__(self, mean, std): store_attr()
@@ -817,11 +839,11 @@ class NormalsDf:
     def _repr_html_(self):
         return row_dfs({'data': self.mean, 'std': self.std}, title="Normals Df", hide_idx=False)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 368
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 375
 def preds2df(preds: NormalsParams, targs):
     return [NormalsDf.from_preds(preds.mean[i], preds.std[i], targs[i]) for i in range(len(targs))]
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 372
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 379
 def unsqueeze_maybe_list(x):
     """add a dimension in front if Tensor and make a list of x if x is a list"""
     return x.unsqueeze(0) if isinstance(x, torch.Tensor) else [x]
@@ -830,7 +852,7 @@ def _n_tuple(x, n, unsqueeze = True):
     f = unsqueeze_maybe_list if unsqueeze else noop
     return type(x)(tuple(f(o[n]) for o in x))
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 377
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 384
 class PredictMetrics:
     def __init__(self, learn):
         self.metrics = {metric.name: metric for metric in learn.metrics} | {'loss': learn.loss_func}
@@ -841,7 +863,7 @@ class PredictMetrics:
             out.append({name: metric(_n_tuple(pred, i), _n_tuple(targ, i)) for name, metric in self.metrics.items()})
         return out
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 378
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 385
 class PredictLossVar:
     """Compute loss only for one variable"""
     def __init__(self, only_gap:bool, var: int):
@@ -854,7 +876,7 @@ class PredictLossVar:
         targs_new = (targs[0], mask_new, targs[2])
         return self.loss_func(preds, targs_new)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 384
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 391
 def predict_items(
     model: KalmanFilterBase,
     dls: DataLoaders,
@@ -872,11 +894,11 @@ def predict_items(
    
     return preds_5, targs, *((metric_fn(preds_0, input),) if metric_fn is not None else tuple() )
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 393
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 400
 from fastcore.xtras import ContextManagers
 from fastai.learner import replacing_yield
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 394
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 401
 def only_gap_ctx(learn, only_gap=True):
     @contextmanager
     def _set_model(): return replacing_yield(learn.model, 'pred_only_gap', only_gap)
@@ -892,12 +914,12 @@ def only_gap_ctx(learn, only_gap=True):
             yield True
     return ContextManagers([_set_model(), _set_loss(), _set_metric(), _set_cond()])
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 401
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 408
 def format_metric(name, val):
     val = f"{val:.5}" if abs(val) <1 else f"{val:.5E}"
     return f"{name}: {val}"
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 402
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 409
 @delegates(facet_variable)
 def plot_result(pred, targ, metrics=None, control_map=None, hide_no_gap=False, **kwargs):
     df = pd.merge(targ.tidy(control_map), pred.tidy(), on=["time", "variable"])
@@ -908,13 +930,13 @@ def plot_result(pred, targ, metrics=None, control_map=None, hide_no_gap=False, *
         df = df[df.variable.isin(show_vars)]
     return facet_variable(df, ys=["value", "mean", "control"], error=True, control=bool(control_map), **kwargs).properties(title=title)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 408
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 415
 def plot_results(preds, targs, metrics = None, n_cols=1, **kwargs):
     metrics = ifnone(metrics, [None for _ in range(len(preds))])
     plots = [plot_result(targ, pred, metric, n_cols=n_cols, **kwargs) for targ, pred, metric in zip(preds, targs, metrics)]
     return alt.hconcat(*plots)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 414
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 421
 def get_results(learn, n=3, items=None, dls=None):
     dls = ifnone(dls, learn.dls)
     dls = dls.valid if len(dls.valid.items) > 0 else dls
@@ -922,22 +944,22 @@ def get_results(learn, n=3, items=None, dls=None):
     print(items)
     return predict_items(learn.model, dls, items)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 416
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 423
 @delegates(plot_results)
 def show_results(learn, n=3, items=None, dls=None, **kwargs):
     return plot_results(*get_results(learn,n,items, dls), **kwargs)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 420
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 427
 from ipywidgets import IntSlider, interact_manual, Text
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 421
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 428
 def results_custom_gap(learn, df, control, items_idx, var_sel, gap_len, block_len, shift, control_lags):
     pipeline,_ = imp_pipeline(df, control, var_sel, gap_len, block_len, control_lags, n_rep=1)
     items_idx = [MeteoImpItem(i, shift, var_sel, gap_len) for i in items_idx]
     dls = TfmdLists(items_idx,pipeline).dataloaders(bs=len(items_idx)).to(learn.dls.device)
     return predict_items(learn.model, dls=dls, items=items_idx)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 423
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 430
 class CustomGap:
     def __init__(self, learn, df, control): store_attr()
     def results(self, items_idx, var_sel, gap_len, block_len, shift, control_lags):
@@ -965,11 +987,11 @@ class CustomGap:
         } | kwargs
         return interact_manual(self._show_ipy, **interact_args) 
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 428
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 435
 from ipywidgets import widgets, HBox, VBox
 from typing import Sequence
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 429
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 436
 class InteractiveSequence():
     def __init__(self,s: Sequence, start=0):
         self.s =s
@@ -1009,7 +1031,7 @@ class InteractiveSequence():
         self.update_view()
         display(VBox([HBox([self.slider, self.label]), HBox([self.button_prev, self.button_next])]), self.output)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 432
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 439
 @patch
 def copy(self: KalmanFilter|KalmanFilterSR):
     """Returns a new copy with same parameters"""
@@ -1019,7 +1041,7 @@ def copy(self: KalmanFilter|KalmanFilterSR):
                self.var_names, self.contr_names, self.cov_checker,
                self.use_conditional, self.use_control, self.use_smooth, self.pred_only_gap, self.pred_std)
 
-# %% ../../lib_nbs/kalman/10_fastai.ipynb 433
+# %% ../../lib_nbs/kalman/10_fastai.ipynb 440
 class SaveModelsBatch(TrainEvalCallback):
     run_valid = False
     def __init__(self, every=None, times_epoch=None):
