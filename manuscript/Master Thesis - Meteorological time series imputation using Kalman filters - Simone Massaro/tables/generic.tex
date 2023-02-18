@@ -1,56 +1,56 @@
 \begin{table}
 \centering
-\begin{tabular}{p{2.1cm}c|rr|rr}
+\begin{tabular}{p{2.1cm}c|rr|rr|r}
 \toprule
- & type & \multicolumn{2}{r}{Finetuned one var} & \multicolumn{2}{r}{Generic} \\
- & RMSE & mean & std & mean & std \\
-Variable & Gap [$h$] &  &  &  &  \\
+ & type & \multicolumn{2}{r}{Generic} & \multicolumn{2}{r}{Finetuned one var} &  \\
+ & RMSE Standardized & std & mean & std & mean & diff. \\
+Variable & Gap [$h$] &  &  &  &  &  \\
 \midrule
-\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{TA} [\si{°C}]}} & 3 & \bfseries 0.361 & 0.218 & 0.879 & 0.556 \\
- & 6 & \bfseries 0.516 & 0.301 & 1.319 & 0.817 \\
- & 12 & \bfseries 0.778 & 0.491 & 1.725 & 0.948 \\
- & 15 & \bfseries 0.782 & 0.386 & 1.649 & 0.929 \\
-\cline{1-6}
-\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{SW\_IN} [\si{W/m^2}]}} & 3 & \bfseries 40.067 & 41.468 & 46.200 & 43.903 \\
- & 6 & \bfseries 41.876 & 36.044 & 64.059 & 50.976 \\
- & 12 & \bfseries 51.764 & 36.886 & 74.468 & 55.727 \\
- & 15 & \bfseries 52.965 & 32.700 & 77.988 & 40.209 \\
-\cline{1-6}
-\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{LW\_IN} [\si{W/m^2}]}} & 3 & \bfseries 9.404 & 8.212 & 10.940 & 7.912 \\
- & 6 & \bfseries 10.981 & 8.009 & 14.277 & 9.797 \\
- & 12 & \bfseries 13.791 & 9.894 & 19.098 & 9.107 \\
- & 15 & \bfseries 14.679 & 9.597 & 19.144 & 8.941 \\
-\cline{1-6}
-\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{VPD} [\si{hPa}]}} & 3 & \bfseries 0.455 & 0.407 & 0.719 & 0.614 \\
- & 6 & \bfseries 0.616 & 0.466 & 1.006 & 0.671 \\
- & 12 & \bfseries 0.815 & 0.575 & 1.380 & 0.776 \\
- & 15 & \bfseries 1.041 & 0.918 & 1.483 & 0.817 \\
-\cline{1-6}
-\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{WS} [\si{m/s}]}} & 3 & \bfseries 0.503 & 0.333 & 0.551 & 0.350 \\
- & 6 & \bfseries 0.605 & 0.318 & 0.671 & 0.313 \\
- & 12 & \bfseries 0.697 & 0.333 & 0.893 & 0.429 \\
- & 15 & \bfseries 0.787 & 0.447 & 0.992 & 0.496 \\
-\cline{1-6}
-\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{PA} [\si{hPa}]}} & 3 & \bfseries 0.042 & 0.090 & 0.070 & 0.052 \\
- & 6 & \bfseries 0.045 & 0.026 & 0.102 & 0.067 \\
- & 12 & \bfseries 0.057 & 0.037 & 0.140 & 0.079 \\
- & 15 & \bfseries 0.056 & 0.027 & 0.156 & 0.117 \\
-\cline{1-6}
-\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{P} [\si{mm}]}} & 3 & 0.136 & 0.489 & \bfseries 0.121 & 0.432 \\
- & 6 & 0.115 & 0.256 & \bfseries 0.097 & 0.185 \\
- & 12 & \bfseries 0.121 & 0.173 & 0.149 & 0.254 \\
- & 15 & \bfseries 0.124 & 0.164 & 0.134 & 0.195 \\
-\cline{1-6}
-\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{SWC} [\si{\%}]}} & 3 & \bfseries 0.386 & 0.243 & 1.039 & 0.926 \\
- & 6 & \bfseries 0.493 & 0.331 & 1.830 & 1.340 \\
- & 12 & \bfseries 0.578 & 0.377 & 3.600 & 2.192 \\
- & 15 & \bfseries 0.607 & 0.415 & 4.192 & 2.400 \\
-\cline{1-6}
-\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{TS} [\si{°C}]}} & 3 & \bfseries 0.307 & 0.267 & 0.677 & 0.477 \\
- & 6 & \bfseries 0.411 & 0.285 & 0.834 & 0.596 \\
- & 12 & \bfseries 0.707 & 0.693 & 1.261 & 0.783 \\
- & 15 & \bfseries 0.738 & 0.755 & 1.571 & 1.033 \\
-\cline{1-6}
+\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{TA} [\si{°C}]}} & 6 & 0.099 & 0.161 & \bfseries 0.046 & 0.065 & 0.096 \\
+ & 12 & 0.112 & 0.210 & \bfseries 0.042 & 0.081 & 0.129 \\
+ & 24 & 0.106 & 0.225 & \bfseries 0.061 & 0.112 & 0.113 \\
+ & 168 & 0.099 & 0.274 & \bfseries 0.060 & 0.136 & 0.138 \\
+\cline{1-7}
+\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{SW\_IN} [\si{W/m^2}]}} & 6 & 0.234 & 0.302 & \bfseries 0.225 & 0.260 & 0.042 \\
+ & 12 & 0.220 & 0.374 & \bfseries 0.200 & 0.275 & 0.099 \\
+ & 24 & 0.185 & 0.420 & \bfseries 0.148 & 0.285 & 0.135 \\
+ & 168 & 0.146 & 0.453 & \bfseries 0.115 & 0.294 & 0.158 \\
+\cline{1-7}
+\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{LW\_IN} [\si{W/m^2}]}} & 6 & \bfseries 0.216 & 0.376 & 0.219 & 0.330 & 0.046 \\
+ & 12 & 0.331 & 0.477 & \bfseries 0.227 & 0.365 & 0.112 \\
+ & 24 & \bfseries 0.196 & 0.531 & 0.200 & 0.370 & 0.161 \\
+ & 168 & \bfseries 0.154 & 0.545 & 0.162 & 0.396 & 0.149 \\
+\cline{1-7}
+\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{VPD} [\si{hPa}]}} & 6 & 0.122 & 0.223 & \bfseries 0.072 & 0.126 & 0.096 \\
+ & 12 & \bfseries 0.117 & 0.250 & 0.129 & 0.184 & 0.066 \\
+ & 24 & \bfseries 0.132 & 0.327 & 0.156 & 0.269 & 0.058 \\
+ & 168 & 0.151 & 0.391 & \bfseries 0.148 & 0.273 & 0.118 \\
+\cline{1-7}
+\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{WS} [\si{m/s}]}} & 6 & 0.272 & 0.417 & \bfseries 0.184 & 0.363 & 0.055 \\
+ & 12 & 0.291 & 0.590 & \bfseries 0.189 & 0.409 & 0.180 \\
+ & 24 & \bfseries 0.222 & 0.598 & 0.254 & 0.537 & 0.061 \\
+ & 168 & 0.243 & 0.778 & \bfseries 0.197 & 0.573 & 0.206 \\
+\cline{1-7}
+\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{PA} [\si{hPa}]}} & 6 & 0.077 & 0.110 & \bfseries 0.031 & 0.049 & 0.061 \\
+ & 12 & 0.089 & 0.164 & \bfseries 0.031 & 0.065 & 0.099 \\
+ & 24 & 0.090 & 0.195 & \bfseries 0.035 & 0.070 & 0.125 \\
+ & 168 & 0.085 & 0.219 & \bfseries 0.045 & 0.078 & 0.142 \\
+\cline{1-7}
+\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{P} [\si{mm}]}} & 6 & \bfseries 0.634 & 0.325 & 0.636 & 0.371 & 0.045 \\
+ & 12 & 0.873 & 0.563 & \bfseries 0.769 & 0.482 & 0.081 \\
+ & 24 & 0.906 & 0.531 & \bfseries 0.678 & 0.522 & 0.009 \\
+ & 168 & 0.731 & 0.735 & \bfseries 0.502 & 0.633 & 0.102 \\
+\cline{1-7}
+\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{SWC} [\si{\%}]}} & 6 & 0.126 & 0.212 & \bfseries 0.038 & 0.055 & 0.157 \\
+ & 12 & 0.200 & 0.337 & \bfseries 0.037 & 0.063 & 0.274 \\
+ & 24 & 0.290 & 0.586 & \bfseries 0.070 & 0.090 & 0.495 \\
+ & 168 & 0.345 & 0.782 & \bfseries 0.104 & 0.180 & 0.601 \\
+\cline{1-7}
+\multirow[c]{4}{*}{\parbox{2.1cm}{\textbf{TS} [\si{°C}]}} & 6 & 0.117 & 0.156 & \bfseries 0.065 & 0.076 & 0.081 \\
+ & 12 & 0.130 & 0.238 & \bfseries 0.078 & 0.100 & 0.139 \\
+ & 24 & 0.176 & 0.292 & \bfseries 0.106 & 0.150 & 0.142 \\
+ & 168 & 0.174 & 0.377 & \bfseries 0.154 & 0.257 & 0.120 \\
+\cline{1-7}
 \bottomrule
 \end{tabular}
 \end{table}

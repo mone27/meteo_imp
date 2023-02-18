@@ -60,6 +60,11 @@
 % \usepackage{titlesec}
 % \titleformat*{\subparagraph}{\textit}
 
+% --- colors
+\usepackage{xcolor}
+\definecolor{KFColor}{rgb}{27, 158, 119}
+\definecolor{ERAColor}{rgb}{217, 95, 2}
+\definecolor{MDSColor}{rgb}{117, 112, 179}
 %%% === add support \subsubparagraph and \sssparagraph
 % see https://tex.stackexchange.com/questions/94402/creating-a-subsubparagraph
 % ---
@@ -158,52 +163,52 @@
 
 \subsection{Eddy Covariance and gaps in meteorological variables}
 
-Eddy Covariance (EC) is a state of the art technique for measuring green house gases and energy exchanges between ecosystems and the atmosphere \cite{aubinet_eddy_2012-1}.  The technique allows for non-destructive measurements at the ecosystem level with a high temporal resolution. Eddy Covariance data is used for ecological and physiological research of ecosystems, as well as for validation of ecosystem process models and remote sensing observations \cite{papale_ideas_2020}  ecological level.
+Eddy Covariance (EC) is a state of the art technique for measuring green house gases and energy exchanges between ecosystems and the atmosphere \cite{aubinet_eddy_2012-1}.  The technique allows for non-destructive measurements at the ecosystem level with a high temporal resolution. Eddy Covariance data is used for ecological and physiological research of ecosystems, as well as for validation of ecosystem process models and remote sensing observations \cite{papale_ideas_2020}.
 The core of Eddy Covariance site is the 3D anemometer and gas analysers, which allows estimating the fluxes of interests (e.g. \ce{CO_2}, \ce{H_2O}, \ce{CH_4}). Beside the fluxes, an Eddy Covariance setups collects measurements of meteorological variables and ecosystem parameters. This additional data provides the context to use and interpret the fluxes measurements.
 
 \paragraph{} The acquisition of the meteorological variables can be interrupted by failures in the instruments or power outages, resulting in gaps in the time series \cite{aubinet_eddy_2012-1}.
 The presence of gaps is a problem for several uses of the EC data.
 
-An important application of EC is the validation of Land Surface Models \cite{balzarolo_evaluating_2014, friend_fluxnet_2007-1, bonan_improving_2011-1, kramer_evaluation_2002}, which are process based model that estimate fluxes using meteorological conditions as input. The errors of Land Surface Models deriving from inaccuracies in the input are comparable to the errors arising from the imperfection in the models formulations \cite{zhao_how_2012}. This highlights the need of high quality continuous meteorological measurement that reflect that exact condition at the flux station are needed.
+An important application of EC is the validation of Land Surface Models \cite{balzarolo_evaluating_2014, friend_fluxnet_2007-1, bonan_improving_2011-1, kramer_evaluation_2002}, which are process based model that estimate fluxes using meteorological conditions as input. The errors of Land Surface Models deriving from inaccuracies in the input are comparable to the errors arising from the limitation in the models formulations \cite{zhao_how_2012}. This highlights the need of high quality continuous meteorological measurement that reflect that condition at the flux station.
 Meteorological observations are used as a driver to impute gaps in the fluxes measurements \cite{aubinet_eddy_2012-1}, which requires complete meteorological time series.
 Finally, the presence of gaps affects the calculation of long term averages for meteorological variables. 
 
 \paragraph{} The described use cases make it necessary to impute the gaps in the meteorological variables. The first approach to reduce the number of gaps in to have redundant instruments on the site, however is this is not always possible and statistical models are used for imputing the gaps \cite{aubinet_eddy_2012-1}. There are three different approaches that can be used to reconstruct missing data: 1) use the \emph{temporal autocorrelation} of the variables, the measurements  before and after the gap provide information on the missing data; 2) use \emph{correlation} between different variables, if not all variables are missing the correlation between variables can be used for imputing the missing variable; 3) use \emph{other measurements}, meteorological variables not only measured in EC tower and the data from nearby meteorological stations can also be used for imputation.
 
 
-\subsection{Current Imputation methods} EC post-processing pipeline impute Gap meteorological time series. Arguably the most widely used post-processing pipeline is ONEFlux \cite{pastorello_fluxnet2015_2020}, which is adopted by FLUXENT the global EC network, ICOS the European as well as AmeriFlux, the American EC network.
-ONEFlux uses two different methods for imputing the meteorological data: Marginal Distribution Sampling (MDS) and ERA-Interim (ERA-I). The final gap-filled meteorological product uses either MDS or ERA-I, dending on the quality flag of MDS.
+\subsection{Current Imputation methods} EC post-processing pipeline impute meteorological time series. Arguably the most widely used post-processing pipeline is ONEFlux \cite{pastorello_fluxnet2015_2020}, which is adopted by FLUXENT, the global EC network, ICOS the European network as well as AmeriFlux, the American EC network.
+ONEFlux uses two different methods for imputing the meteorological data: Marginal Distribution Sampling (MDS) and ERA-Interim (ERA-I). The final gap-filled meteorological product uses either MDS or ERA-I, depending on the quality flag of MDS.
 \paragraph{MDS} Marginal Distribution Sampling \cite{reichstein_separation_2005-3} estimates the value of the missing variable by using the observations of the variable from other data points with similar meteorological conditions.
-The algorithm finds all the similar conditions by taking the observations from a time window around the gap and where other meteorological variables have similar values in the gap.
+The algorithm finds all the similar conditions by taking the observations from a time window around the gap other meteorological variables have similar values in the gap.
 All the observations of the variables of interest from similar conditions are then averaged to generate the filling value.
 In case there are not similar meteorological conditions in the starting time window, the size of the time window is progressively increased. If other meteorological variables are also missing, they are not used to find similar conditions.
 
 The algorithm implemented in ONEFlux uses as drivers the incoming shortwave radiation (\texttt{SW\_IN}), air temperature (\texttt{TA}) and Vapour pressure deficit (\texttt{VPD}). If \texttt{TA} or \texttt{VPD} is missing, \texttt{SW\_IN} is used as the only driver. If all drivers are missing, the mean value at the same of the day is used for gap filling. The starting size of the time window is 7 days.
 
-MDS has a quality flag with 3 possible values (i.e. 1,2,3) that depends on the size of the time window. in ONEFlux MDS is used only if the quality flag is 1, which means that there are similar conditions are found in a time window smaller than 14 days.
+MDS has a quality flag with 3 possible values (i.e. 1,2,3) that depends on the size of the time window. In ONEFlux MDS is used only if the quality flag is 1, which means that similar conditions are found in a time window smaller than 14 days.
 
-\paragraph{ERA-Interim} ERA-Interim is a global meteoroligical dataset provided by the European Centre for Medium-range Weather Forecast (ECMWF). Weather forecast models are used to reanalyse part observations and produce a continuous and complete dataset for all the globe. The main drawback is the low spatial resolution and temporal resolution, that are respectively 0.7° (roughly 38\si{km}) and 3 hours. Moreover, only a subset of the meteoroligical variables are available in ERA-I. ONEFlux reduces the error of the ERA-I data by doing a bias correction with a linear regression and temporally downscaled to match the half-hourly frequency of FLUXNET \cite{vuichard_filling_2015}. 
+\paragraph{ERA-Interim} ERA-Interim is a global meteorological dataset provided by the European Centre for Medium-range Weather Forecast (ECMWF). Weather forecast models are used to reanalyse past observations and produce a continuous and complete dataset for all the globe. The main drawback is the low spatial resolution and temporal resolution, that are respectively 0.7° (roughly 38\si{km}) and 3 hours. Moreover, only a subset of the meteoroligical variables are available in ERA-I. ONEFlux reduces the error of the ERA-I data by doing a bias correction with a linear regression and temporally downscaled to match the half-hourly frequency of FLUXNET \cite{vuichard_filling_2015}. 
 
 
-\paragraph{Other methods} ONEFLux is not the only EC post-processing pipeline which gap fills meteorological data. The imputation approaches are very similar, in other libraries like REddyProc \cite{wutzler_basic_2018} or OzFlux \cite{isaac_ozflux_2017}). A minor difference is that OzFlux includes both ERA-Interim and the Australian Weather Service and for each gaps select the dataset with the smallest error for a window of 90 days around the gap.
+\paragraph{Other methods} ONEFLux is not the only EC post-processing pipeline which gap fills meteorological data. However, the imputation approaches in other libraries, like REddyProc \cite{wutzler_basic_2018} or OzFlux \cite{isaac_ozflux_2017} are very similar. OzFlux implementation differs as it includes data from both ERA-Interim and the Australian Weather Service and for each gaps select the dataset with the smallest error for a window of 90 days around the gap.
 \pagebreak
 \paragraph{Limitations of current methods} There are three possible direction to improve the current imputation methods  1) make a better use of temporal autocorrelation of the variables 2) combine different imputation approaches in one prediction  3) provide detailed information on the quality of imputation.
 
-\subparagraph{Temporal autocorrelation} MDS uses the temporal autocorrelation only in a limited way, as it takes the average of the missing variable across the whole time window and doesn't attribute more weight to the observations closes to the gap, which have the high correlation with the data in the gap. This is especially relevant for short and medium gaps, which are the majority of gaps in FLUXNET (Appendix figure \ref{fig:gap len dist}). The bias correction for ERA-Interim doesn't take into consideration the observations around the gap, either. Therefore, there is potential in improving the imputation performance by making a better use of the temporal autocorrelation.
+\subparagraph{Temporal autocorrelation} MDS uses the temporal autocorrelation only in a limited way, as it takes the average of the missing variable across the whole time window and doesn't attribute more weight to the observations closes to the gap, which have the highest correlation with the data in the gap. This is especially relevant for short and medium gaps, which are the majority of gaps in FLUXNET (Appendix figure \ref{fig:gap_len_dist}). The bias correction for ERA-Interim doesn't take into consideration the observations around the gap, either. Therefore, there is potential in improving the imputation performance by making a better use of the temporal autocorrelation.
 
-\subparagraph{Combination of imputation approaches} ONEFlux employs both ERA-I and MDS, but the two methods are not used together to improve the predictions, but they are used independently. The criteria to select the method to use is hardcoded in the MDS quality control flags. The information on the missing data from temporal autocorrelation, correlation with other variables and other measurements can be combined to make one more accurate prediction.
+\subparagraph{Combination of imputation approaches} ONEFlux employs both ERA-I and MDS, but the two methods are used independently, not combined to improve the predictions, but they are used independently. The criteria to select the method to use is only the MDS quality control flags. The information on the missing data from temporal autocorrelation, correlation with other variables and other measurements can be combined to make one more accurate prediction.
 
-\subparagraph{Uncertainty} A limitation of the current methods is the lack of a robust assessment of the uncertainty of the imputed values. MDS has a quality flag, but it derives from hardcoded values and has only 3 possible values, moreover in the final ONEFlux product the quality flag indicates only which gap filling method has been used. Ideally, each predicted data point has an associated uncertainty, which varies continuously and is interpretable. In this way, the level of confidence of the model in each prediction is available to the data user. The uncertainty can be used either to discard the data above a custom threshold, which can change depending on the application, or directly included in the downstream calculations.
+\subparagraph{Uncertainty} A limitation of the current methods is the lack of a robust assessment of the uncertainty of the imputed values. MDS has a quality flag, but it derives from hardcoded values and has only 3 possible values, moreover in the final ONEFlux product the quality flag indicates only which gap filling method has been used. Ideally, each predicted data point has an associated uncertainty, which varies continuously and it is interpretable. In this way, the level of confidence of the model in each prediction is available to the data user. The uncertainty can be used either to discard the data above a custom threshold, which can change depending on the application, or directly included in the downstream calculations.
 
 \subsection{Kalman Filter}
-Imputation of missing values is a topic that has been extensively researched. A wide range of methods have been developed ranging from replacing with the mean to deep neural networks. Specifically for meteorological time series there are many different methods. However, imputation in the EC contest has some specific characteristics: the absence of a spatial component (each EC site is modelled separately) and the relatively high number of variables. Moreover, the focus is to impute short and medium gaps (up to 1 week) as almost 99 \% of gaps of meteorological variables in FLUXNET are shorter than a week (Appendix figure \ref{fig:gap len dist}). For this work, we focused into methods that combine all imputation approaches, include interpretable uncertainty and can be applied globally. 
+Imputation of missing values is a topic that has been extensively researched. A wide range of methods have been developed ranging from replacing with the mean to employing deep neural networks \cite{fang_time_2020-1, buuren_mice_2011, du_saits_2022-1, zhang_dual-head_2021-2, cao_brits_nodate}. Specifically for meteorological time series there are many different methods \cite{costa_gap_2021, jing_multi-imputation_2022}. However, imputation in the EC contest has some specific characteristics: the absence of a spatial component (each EC site is modelled separately) and the relatively high number of variables. Moreover, the focus is to impute short and medium gaps (up to 1 week), as almost 99 \% of gaps of meteorological variables in FLUXNET are shorter than a week (Appendix figure \ref{fig:gap_len_dist}). For this work, we focused into methods that combine all imputation approaches, include interpretable uncertainty and can be applied globally. 
 % In the EC the focus is to impute gaps into fluxes measurements, as the number of missing observations is very high (), however the meteorological 
 % there are many different approaches for time series imputation and for  ().
 % [fluxes gap filling, deep learning ]
 % However, of meteorological variables imputation for EC has some specific requirements and conditions. To enhance the quality of the imputation  the models should include all the three point mentioned above: 1) use effectively variable autocorrelation 2) combining autocorrelation, variable correlation and other measurements in one prediction 3) provide an interpretable uncertainty for each prediction. The gap filling in this setting has also two important advantages: the availability of other measurements (e.g. ERA-I) and the fact that the majority of the gaps are not long, which simplifies the complexity of the model.
-\paragraph{} There are many families of models that can be suitable for the task. Probabilistic machine learning algorithms are particularly suited as they directly provide an interpretability uncertainty.
-Kalman Filter is a probabilistic model that models the evolution of a multivariate latent state over time using a Markov chain. The temporal autocorrelation and the variable correlation is directly considered by the model and is possible to also include ERA-I observations.
-Other modelling approaches were evaluated: Gaussian Process Factor Analysis and GP-VAE (Gaussian Processes Variational Autoencoders). Gaussian Processes Factor Analysis \cite{yu_gaussian-process_2008} uses Gaussian Processes to model a latent variable over time, this is a powerful modelling approach that is fully probabilist and that can model both short and long term changes. The main limitation is the computational complexity, which in the naive formulation scales cubically with the number of observations.
+\paragraph{} There are many families of models that can be suitable for the task. Probabilistic machine learning algorithms are particularly suited, as they directly provide an interpretability uncertainty.
+Kalman Filter is a probabilistic model that models the evolution of a multivariate latent state over time using a Markov chain. The temporal autocorrelation and the variable correlation are directly considered by the model and is possible to also include ERA-I observations.
+Other modelling approaches were evaluated: Gaussian Process Factor Analysis and GP-VAE (Gaussian Processes Variational AutoEncoders). Gaussian Processes Factor Analysis \cite{yu_gaussian-process_2008} use Gaussian Processes to model a latent variable over time, this is a powerful modelling approach and is fully probabilist. The main limitation is the computational complexity, which in the naive formulation scales cubically with the number of observations.
 GP-VAE \cite{fortuin_gp-vae_2020} combines Gaussian Processes and deep learning, to provide high quality imputation with uncertainties.
 Kalman Filter was selected, since it's the simplest model of the one considered that still fulfils all the requirements.
 % \begin{itemize}
@@ -223,10 +228,10 @@ Kalman Filter was selected, since it's the simplest model of the one considered 
 
 \subsection{Kalman Filter Theory}
 
-Kalman Filter models over time a latent variable ($x$), that represent the state of the system. The state cannot be directly observed, but we can observe meteorological variables ($y$) that reflect the state of the system. It is possible to use Kalman Filters to impute missing values, as the value of the state can be updated over time even when there are missing observations. The values of the state are hence available for all time steps, which can be used to then predict the missing observed variables.
-Kalman Filter is a probabilist machine learning algorithms, so it keeps track of the entire distribution of the latent state ($p(x_t)$). The time is considered to be discrete, the state is modelled only at specific times ($x_t$).  
+Kalman Filter models over time a latent variable $x$, that represent the state of the system. The state cannot be directly observed, but we can observe meteorological variables $y$ that reflect the state of the system. It is possible to use Kalman Filters to impute missing values, as the value of the state can be updated over time even when there are missing observations. The values of the state are hence available for all time steps, which can be used to then predict the missing observed variables.
+Kalman Filter is a probabilist machine learning algorithms, so it keeps track of the entire distribution of the latent state $p(x_t)$. The time is considered to be discrete, the state is modelled only at specific times $x_t$.  
 
-\paragraph{} In order to be to model the state over time, assumptions on the behaviour of the system are made. There are three key assumptions 1) the states are connected by a Markov chain, which means that the state at time $t$ depends only on the state at time $t-1$ and not the states at previous times $p(x_t|x_{t-1}) = p(x_t|x_{t-1}, x_{t-2}, \hdots, x_0)$ 2) The value of the observed variable depends on the latent state 3) all the relationships are linear and all distributions are Gaussian. Additionally, the mean of the state at time $t$ may depend also on an external control variable $c_t$ at time $t$. This control variable doesn't depend on the state of the models, but provide information on how the mean should change.
+\paragraph{} In order to be to model the state over time, assumptions on the behaviour of the system are made. There are three key assumptions 1) the states are connected by a Markov chain, which means that the state at time $t$ depends only on the state at time $t-1$ and not the states at previous times $p(x_t|x_{t-1}) = p(x_t|x_{t-1}, x_{t-2}, \hdots, x_0)$ 2) The value of the observed variable depends on the latent state 3) all the relationships are linear and all distributions are Gaussian. Additionally, the mean of the state at time $t$ may depend also on an external control variable. This control variable doesn't depend on the state of the models, but provide information on how the state mean should change.
 Equations \ref{eq:system_state} and \ref{eq:system_obs} describe the assumptions on the behaviour of the system:
 
 \begin{align}
@@ -249,7 +254,7 @@ The model always considers the probability distribution for the state ($p(x_t) =
 
 \subsubsection{Time update}
 
-The first step in a Kalman Filter is computing the probability distribution of the predicted state ($x^-_t$), from the state at the previous time step ($x_{t-1}$) and the control variable $c_t$. The predicted state distribution is $p(x_{t-1}) = \mathcal{N}(m_{t-1}, P_{t-1})$.  Using equation \ref{eq:system_state} and the properties of a linear map of Gaussian distributions the following equation can be derived:
+The first step in a Kalman Filter is computing the probability distribution of the predicted state $x^-_t$, from the state at the previous time step $x_{t-1}$ and the control variable $c_t$. The predicted state distribution is $p(x_{t-1}) = \mathcal{N}(m_{t-1}, P_{t-1})$.  Using equation \ref{eq:system_state} and the properties of a linear map of Gaussian distributions the following equation can be derived:
 
 \begin{align}\label{eq:time_update}
     p(x^-_t) &= \norm{x_t^-}{m_t^-}{ P_t^-}\\
@@ -489,6 +494,7 @@ This approach to numerical stability in the smoother is the same implemented in 
 \caption{Parameters of the Kalman Filter Model. $n$ is the number of dimension of the observations, $k$ the number of dimensions of the state, $n_{ctr}$ the number of dimensions of the control variable.}
 \label{table:parameters}
 \vspace{5pt}
+\centering
 \begin{tabular}{l c c c}
 \toprule
     \bfseries Parameter name & \bfseries Notation & \bfseries Shape & \bfseries Initial value\\
@@ -526,7 +532,7 @@ This implementation of the positive definite constraint makes it is that is stra
 
 \subsubsection{Parameters initialization}
 
-The model parameters could be initialized using random values, however random parameters results in an higher change of numerical stability issues and have non-deterministic training. Therefore, parameters are initialized with realist values.
+The model parameters could be initialized using random values, however this would increase numerical stability issues and increase the training time. Moreover, if the initial parameters are very distant from the optimal one the optimization algorithm would find a local minimum, which is not the global minimum.  The simplicity of the Kalman Filter and the interpretability of its parameters allows to manually initialize the parameters with realist values.
 
 \paragraph{State transition matrix} $A$ is initialized using a ``local linear trend'' model \cite{durbin_time_2012}. The idea of a local slope model is that half of the state $x_{l_{t-1}}$ represent the level of the current state and the second half the slope $x_{s_{t-1}}$ of a linear function that describes the rate of change of the state between time steps. The next state level is equal to the current level plus the slope and a random change, while the slope remains constant. In this way, the model can also keep track of the previous states.
 
@@ -556,7 +562,7 @@ Then, if the family of distribution of $q(x \mid \theta)$, where $\theta$ are th
 \end{equation}
 
 because $\prod_i q_i(x)$ is more restricted. This means that $q(x)$ can fit at least as good as $\prod_i q_i(x)$.
-For the Kalman Filter $q_i(x)$ is a Guassian distribution, so $\prod_i q_i(x)$ is also a Guassian distribution and equation \ref{eq:log_joint_geq} is true. The conclusion is that if we can fit the model by maximizing the sum of the log likelihoods at each time steps.
+For the Kalman Filter $q_i(x)$ is a Gaussian distribution, so $\prod_i q_i(x)$ is also a Gaussian distribution and equation \ref{eq:log_joint_geq} is true. The conclusion is that if we can fit the model by maximizing the sum of the log likelihoods at each time steps.
 
 \subsubsection{Metrics}
 
@@ -575,9 +581,9 @@ The iterative nature of the filter, where the current state depends on the previ
 
 \subsection{Data}
 
-\subsubsection{Dataset}
+\subsubsection{Data source}
 
-The data used to evaluate the performance of Kalman Filters is from the Hainich (Germany) site, which is managed by the University of Göttingen. The source of the data is  the FLUXNET 2015 Dataset, which includes measurements with a 30 mins frequency between 2000 and 2012 for Hainich. In total XXX observations are available. For simplicity the entire dataset was used for the model training, which includes also gap-filled observations.
+The data used to evaluate the performance of Kalman Filters is from the Hainich (Germany) site, which is managed by the University of Göttingen. The source of the data is  the FLUXNET 2015 Dataset, which includes measurements with a 30 mins frequency between 2000 and 2012 for Hainich. In total 227952 observations are available. For simplicity the entire dataset was used for the model training, which includes also gap-filled observations.
 All the meteorological variables that are gap-filled in the FLUXNET 2015 dataset were selected for the analysis (Table \ref{table:variables}).
 
 \paragraph{ERA-Interim} The control variables used in the Kalman Filter are the bias corrected and downscaled ERA-I observations included in the FLUXNET dataset. The variables of interest are also present in ERA-I, except for TS and SWC.
@@ -588,6 +594,7 @@ All the meteorological variables that are gap-filled in the FLUXNET 2015 dataset
 \caption{Meteorological variables used to evaluate the Kalman Filter imputation. ERA-I column indicates whether the variable is available in the ERA-Interim dataset}
 \label{table:variables}
 \vspace{5pt}
+\centering
 \begin{tabular}{l>{\bfseries}llc}
 \toprule
     \bfseries Variable Name & \bfseries Abbreviation & \bfseries Unit & \bfseries ERA-I \\
@@ -606,23 +613,16 @@ All the meteorological variables that are gap-filled in the FLUXNET 2015 dataset
 \end{tabular}
 \end{table}
 
-\paragraph{MDS Imputation}
-
-The implementation of the MDS used in the results comparison is from REddyProc (\cite{wutzler_basic_2018}). This package has been used because it provides an R interface, that can be easily integrated with Python. Conversely, ONEFlux implements only a C interface, whose integration in Python is significantly more challenging.  The MDS algorithm in REddyProc and ONEFlux are fully equivalent. In detail, the function \verb|REddyProc::sEddyProc_sMDSGapFill| was used, with the defaults setting of using SW\textunderscore IN, TA an VPD are driver with a tolerance of 2.5 \si{^\circ C}, 50 \si{W/m^s} and 5 \si{hPa} respectively as described in \cite{reichstein_separation_2005}.
-
-\subsection{Data processing}
 
 \subsubsection{Data preparation pipeline}
 
-The data needs to be prepared for training. The data preprocessing pipeline starts with an object that contains a) \verb|i| the index of the block b) \verb|shift|  the shift c) \verb|var_sel| the variables in the gap d) \verb|gap_len| the gap length. For every item, the pipeline 1) splits the index complete data frame from Hainich into blocks of a given length and selects the \textit{i}th element  2) add the shift to move the starting point of the data block and select the data from the data frame. For the control variable it also adds the observations adds the observations with a lag 1, so the model can use the difference in the control variable 3) create one continuous artificial gap in the middle of the block for the variables specified in \verb|var_sel| and with a length of \verb|gap_len| 4) convert from Pandas data frame to a PyTorch Tensor 5) Standardize each variable, using the mean ($\mu_Y$) and standard deviation ($\sigma_Y$) of the from the whole dataset.
+The dataset needs to be processed to be used for training by dividing into data blocks, adding an artificial gap and then standardize. The data preparation pipeline takes as input a list of items and outputs the data in a format suitable for training. Each item provides all the information about a gap with the following fields a) \verb|i| the index of the block b) \verb|shift|  the shift c) \verb|var_sel| the variables in the gap d) \verb|gap_len| the gap length. The pipeline perform the following steps: 1) split the index of complete data frame from Hainich into blocks of a given length and selects the \textit{i}th element  2) adds the shift to move the starting point of the data block and select the data from the data frame. For the control variable it also adds the observations with a lag 1, so that at the time $t$ the model has access to the control variable both at time $t$ and $t-1$ 3) creates one continuous artificial gap in the middle of the block for the variables specified in \verb|var_sel| and with a length of \verb|gap_len| 4) convert from Pandas data frame to a PyTorch Tensor 5) Standardize each variable, using the mean ($\mu_Y$) and standard deviation ($\sigma_Y$) of the whole dataset.
 
 \begin{equation}\label{standardized}
     y^z_t = \frac{(y_t - \mu_Y)}{\sigma_Y}
 \end{equation}
 
 After this, the tensors are collated into a batch and potentially moved to the GPU.
-
-The list of items to be used in the pipeline are generated by taking all possible block index and the value of the shift is sample from a normal distribution with means 0 and standard deviation 50, the variable is select by sampling one variable from the dataset and the gap length is sampled from a normal distribution between 12 (6 hours) and 336 (1 week). For example, the Hainich FLUXNET dataset has XXX with a a block length of 446 there are XXX data blocks.
 
 \subsubsection{Prediction pipeline}
 
@@ -642,9 +642,11 @@ Then using the properties of the linear projections of Gaussian distributions
 
 \subsection{Model Training}
 
-State is double of observed
+The available data is split between training and validation set, the first 80\% of the data points used for training, the remaining 20\% for validation. The split is not random, so the validation set doesn't contain periods of time close to the one measured.
 
-\paragraph{Generic model} The first model to be trained is a generic model, where each data block as a gap in one variable with the length of sampled from a uniform distribution between \num{12} (6 hours) and \num{336} (1 week). The missing variable is sampled from the list of all variables. For each block of data in the original data frame 10 different artificial gaps were created, resulting in a total of XXX data blocks used for training an XXX for validation. 
+The filter is initialized with 9 dimensions for the observations (one for each variable). For the state 18 dimensions, the first 9 dimensions are to match the number of observed variables and the other 9 are for the slope in the local trend model initialization. The control has 14 dimensions, with 7 for the control at time $t$ and the other 7 for the control at time $t-1$.
+
+\paragraph{Generic model} The first model to be trained is a generic model, where each data block has a gap in one variable with the length of sampled from a uniform distribution between \num{12} (6 hours) and \num{336} (1 week). The missing variable is sampled with equal probability from the list of all variables. The shift is sample from a normal distribution with mean 0 and standard deviation 50. For each block of data in the original data frame 10 different artificial gaps were created, resulting in a total of 2080 data blocks used for training and 520 for validation. 
 The length of the block of data is \num{446}, so that at least \num{50} observations are available to the model before and after the gap. The batch size is \num{20}.
 The model was trained for \num{3} epochs with a learning rate of \num{1e-3}.
 
@@ -654,19 +656,25 @@ The model was trained for \num{3} epochs with a learning rate of \num{1e-3}.
 
 \paragraph{No Control} The last version of the model is one where the use of the control variables was disabled. The generic model was fine-tuned for \num{3} epochs with a learning rate of \num{1e-3}.
 
+\subsection{Other methods}
+
+\subsubsection{MDS}
+
+The implementation of the MDS used in the results comparison is from REddyProc (\cite{wutzler_basic_2018}). This package has been used because it provides an R interface, that can be easily integrated with Python. Conversely, ONEFlux implements only a C interface, whose integration in Python is significantly more challenging.  The MDS algorithm in REddyProc and ONEFlux are fully equivalent. In detail, the function \verb|REddyProc::sEddyProc_sMDSGapFill| was used, with the defaults setting of using SW\textunderscore IN, TA an VPD are driver with a tolerance of 2.5 \si{^\circ C}, 50 \si{W/m^s} and 5 \si{hPa} respectively as described in \cite{reichstein_separation_2005}.
+The data provided to MDS has a context of at least 90 days around the gap, as required by REddyProc. 
+
+\subsubsection{ERA} The imputation using ERA-Interim was performed by using the ERA variables available in the FLUXNET dataset without further correction.
+
 \subsection{Code Details and Availability}
 
-The core PyTorch module has been developed and the data preparation using FastAI. The plots use Altair . The source code is available at \url{https://github.com/mone27/meteo_imp} and the documentation of the library at \url{https://mone27.github.io/meteo_imp/libs}
-
-Details model training available at ...
+The code for this project has been developed in Python. The main libraries used are PyTorch for the model,  FastAI for model training and data preparation, Altair plot plotting and Pandas and Polars for data analysis. The source code is available at \url{https://github.com/mone27/meteo_imp} and the documentation of the library at \url{https://mone27.github.io/meteo_imp/libs}. An installable package is available on PyPI at . The interactive version of the results 
 
 \section{Results}
 
 \subsection{Variables Correlation}
 
 \begin{figure}
-    \centering
-    \includegraphics[width=\imgwidth]{correlation}
+    \centerline{\includegraphics[width=7in]{correlation}}
     \caption{Correlation and Temporal autocorrelation of variables. Subfigure (a) shows the correlation between the meteorological variables. Abbreviations: Air Temperature \texttt{TA}, Incoming Shortwave Radiation \texttt{SW\_IN}, Incoming Longwave Radiation \texttt{LW\_IN}, Vapour Pressure Deficit \texttt{VPD}, Wind Speed \texttt{WS}, Air Pressure \texttt{PA}, Precipitation \texttt{P}, Soil Temperature \texttt{TS}, Soil Water Content \texttt{SWC}}
     \label{fig:correlation}
 \end{figure}
@@ -680,18 +688,39 @@ Details model training available at ...
 
 
 
-\subsection{Comparison state of art}
+\subsection{Comparison to other imputation methods}
 
 \begin{itemize}
-    \item 
+    \item Overall Kalman Filter has a smaller error than ERA that has a smaller error than MDS. Exception is for Precipitation
+    \item variation between variables
+    \item long gap the relative performance of Kalman Filter is lower
+    \item Kalman Filter has a lower variability of the error. For all variables std is smaller and the max error is smaller
+    \begin{itemize}
+    \item PA/TS/TA/SWC are the variable with the lowest error and is all comparable with standardized RMSE around .6
+    \item WS is the worse variable
+\end{itemize}
 \end{itemize}
 
 \begin{figure}
     \centerline{\includegraphics[width=\imgwidth]{the_plot}}
-\caption{Box plot to compare Root Mean Square Error(RMSE) for each variable between the different methods: Kalman Filter and the state of the art methods ERA and MDS.  Each box is delimitated by the first and third quartile, the white mark is the median and then vertical lines extend from the minimum to the maximum. For each variable and each gap length 400 artificial gaps has been made only in the variable of interest and the gap imputed using the different methods. The Kalman Filter model has been fine tuned to each variable.}
+\caption{Box plot to compare Root Mean Square Error(RMSE) for each variable between the different methods: Kalman Filter and the state of the art methods ERA and MDS.  Each box is delimitated by the first and third quartile, the white mark is the median and then vertical lines extend from the minimum to the maximum. For each variable and each gap length 400 artificial gaps has been made only in the variable of interest and the gap imputed using the different methods. The Kalman Filter model has been fine-tuned to each variable. ERA-I imputation is not available for \texttt{TS} and \texttt{SWC}}
 \label{fig:the_plot}
 \end{figure}
 
+\include{tables/the_table}
+
+\begin{itemize}
+    \item TA: KF good performance and improvement over ERA. For long gaps follows ERA but often better. For reference the accuracy of the thermometer installed at Hainich \cite{noauthor_associated_2020} is 0.1 \si{°C} \cite{noauthor_specification_nodate}.
+    \item SW\_IN: KF performance at night is not good, there are negative values up to -50 and then a lot of variation even though should be constant at 0 and the control variable is correct. During the day methods are comparable with often Kalman Filter having the best performance 
+    \item LW\_IN KF compare performance ERA. ERA has a much wider range of errors, for some gaps is very good for others is quite worse. MDS is quite bad basically predicting a constant value and the come drastic changes. LW\_IN has a "blocky" behaviour that is correctly predicted by ERA
+    \item VPD. KF is better especially for short gaps. MDS not very good miss variation at night (probably due to no change in SW\_IN)
+    \item WS has the worse standarized RMSE, a lot of short term variability that no model captures. KF still best results 
+    \item PA MDS significantly worse than other methods
+    \item P KF worse performance than other methods, but still similar performance
+    \item SWC KF has on average a better performance than MDS, especially for short gaps. However, the time series of KF are not very good. The variation in the predicted time series is often much higher than the actual one (Figure \ref{fig:ts_2_0} \ref{fig:ts_2_1} \ref{fig:ts_2_2}). ERA is not available
+    \item TS KF has on average a better performance than MDS, especially for short gaps. However, the time series of KF are not very good. The variation in the predicted time series is often much higher than the actual one when there is a small variation in the variable(Figure \ref{fig:ts_2_0} gap length 6h and 12h) conversely is much better when there is variation \ref{fig:ts_2_1} \ref{fig:ts_2_2}), specifically the KF models correctly the increase and decrease in soil temperature even though if the values may not be accurate. ERA is not available
+    
+\end{itemize}
 
 \begin{figure}
     \centerline{\includegraphics[width=\imgwidth]{the_plot_stand}}
@@ -700,25 +729,23 @@ Details model training available at ...
 \end{figure}
 
 
-\include{tables/the_table}
-
 \include{tables/the_table_stand}
 
 
 \subsubsection{Example Time series}
 
-\newgeometry{top=.in}
+\newgeometry{top=.1in}
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{timeseries_1}}
-\caption{Timeseries 1}
-\label{fig:ts_1_1}
+\caption{Example time series for \texttt{TA, SW\_IN, LW\_IN, VPD, WS}. For each variable, 3 random artificial gap (length 6 hours, 12 hours, 1 week) are imputed using the three methods: Kalman Filter (green), ERA-I (orange), MDS (purple). For the Kalman Filter the shared area show the uncertainty of the prediction $+/- 2 \sigma$. The vertical black line are the start and the beginning of the gap.}
+\label{fig:ts_1_0}
 \end{figure}
 \restoregeometry
 
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{timeseries_2}}
-\caption{Timeseries 2}
-\label{fig:ts_1_1}
+\caption{Example time series for \texttt{TA, SW\_IN, LW\_IN, VPD, WS}. For each variable, 3 random artificial gap (length 6 hours, 12 hours, 1 week) are imputed using the three methods: Kalman Filter (green), ERA-I (orange), MDS (purple). For the Kalman Filter the shared area show the uncertainty of the prediction $+/- 2 \sigma$. The vertical black line are the start and the beginning of the gap.}
+\label{fig:ts_2_0}
 \end{figure}
 
 % \textbf{goal} Show how a Kalman Filter Gap filling looks like and the uncertainty 
@@ -742,12 +769,22 @@ Details model training available at ...
 
 \subsubsection{Gap Length}
 
+\begin{itemize}
+    \item short gaps have a smaller error
+    \item then there is a steep increase for gaps up to 24 hours
+    \item after 24 hours the is no or little change into the error
+    \item the variability on of the error between gaps (std of RMSE) follows a similar partner
+    \item P and SWC are an exception from this pattern, with both the mean and std oft the error increasing for gaps longer than a day
+\end{itemize}
+
 % \textbf{goal} impact of the gap length on the gap filling
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{gap_len}}
 \caption{Gap len}
 \label{fig:gap_len}
 \end{figure}
+
+\include{tables/gap_len}
 
 \subsubsection{Gap other variable}
 
@@ -757,7 +794,18 @@ Details model training available at ...
 \label{fig:gap_single_var}
 \end{figure}
 
+\include{tables/gap_single_var}
+
 \subsubsection{Control variable}
+
+\begin{itemize}
+    \item Across all variables the control is helping achieving a better performance
+    \item generically the longer the gap the 
+    \item the difference varies a lot between variables
+    \item PA and SWC have the biggest improvement
+    \item little change for P
+    \item variability RMSE is higher for absence of control
+\end{itemize}
 
 % \textbf{goal} show how the use of the control (ERA-5 data) in the gap is impacting the predictions
 
@@ -769,6 +817,8 @@ Details model training available at ...
 \label{fig:control}
 \end{figure}
 
+\include{tables/control}
+
 \subsubsection{Generic model}
 
 \begin{figure}
@@ -777,40 +827,43 @@ Details model training available at ...
 \label{fig:generic}
 \end{figure}
 
+\include{tables/generic}
+
+
 
 \section{Discussion}
 
-\subsection{Comparison other methods}
+% \subsection{Comparison other methods}
 
-\begin{itemize}
-    \item Kalman Filter works much better than MDS as it can use observation before/after
-    \item overall low correlation between meteo variables -> MDS is limited
-    \item more precise than ERA as uses local conditions
-    \item problem with precipitation
-    \item SW IN poor performance?
-\end{itemize}
+% \begin{itemize}
+%     \item Kalman Filter works much better than MDS as it can use observation before/after
+%     \item overall low correlation between meteo variables -> MDS is limited
+%     \item more precise than ERA as uses local conditions
+%     \item problem with precipitation
+%     \item SW IN poor performance?
+% \end{itemize}
 
-\subsection{Kalman Filter Components}
+% \subsection{Kalman Filter Components}
 
-\begin{itemize}
-    \item as expected the longer gap length the worse the performance
-    \item the standard deviation of the increases with gap len
-\end{itemize}
+% \begin{itemize}
+%     \item as expected the longer gap length the worse the performance
+%     \item the standard deviation of the increases with gap len
+% \end{itemize}
 
-\begin{itemize}
-    \item the presence of other variables in the gap doesn't help a lot for gap filling
-    \item exception is TA and LW IN, which have higher correlation
-    \item control ?
-\end{itemize}
+% \begin{itemize}
+%     \item the presence of other variables in the gap doesn't help a lot for gap filling
+%     \item exception is TA and LW IN, which have higher correlation
+%     \item control ?
+% \end{itemize}
 
 
-\subsection{Impact of numerical stability}
+% \subsection{Impact of numerical stability}
 
-\begin{itemize}
-    \item max gap len is 15 hours model can be trained
-    \item Kalman filter is a local model, so for long gaps can't really use it
-    \item still need to work to improve numerical stability which should make this better (see appendix)
-\end{itemize}
+% \begin{itemize}
+%     \item max gap len is 15 hours model can be trained
+%     \item Kalman filter is a local model, so for long gaps can't really use it
+%     \item still need to work to improve numerical stability which should make this better (see appendix)
+% \end{itemize}
 
 
 \subsection{Future steps}
@@ -835,13 +888,22 @@ Details model training available at ...
 \item make a model to predict the parameters of the Kalman Filter depending on the conditions
 \item use Neural Network to process control variable
 \item training and understand variables that are weird
+\item include uncertainty of observations in the model
+\item high variability ERA data error between sites
 \end{itemize}
 
 
 
 \section{Conclusions}
 
-
+\begin{itemize}
+    \item Kalman Filter from preliminary results have the potential to improve imputation
+    \item lower variability 
+    \item on all tested variables smaller or comparable error than other methods, but P
+    \item provide interpretable uncertainty
+    \item still work needs to be done for model developement and understand the filter performance in different conditions
+    \item robust assessment of performance in real life conditions and test different sites
+\end{itemize}
 
 \section*{References}
 
@@ -858,17 +920,13 @@ Details model training available at ...
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{gap_len_dist}}
 \caption{FLUXNET gap len}
-\label{fig:gap_len_dist_small}
+\label{fig:gap_len_dist}
 \end{figure}
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{gap_len_dist_small}}
 \caption{FLUXNET gap len less than a week}
 \label{fig:gap_len_dist_small}
 \end{figure}
-
-\include{tables/control}
-\include{tables/gap_single_var}
-\include{tables/generic}
 
 \subsection{Additional Timeseries}
 
