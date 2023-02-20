@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.208">
+  <meta name="generator" content="quarto-1.3.211">
 
   <meta name="author" content="Simone Massaro - Bioclim seminar 18 Jan 2023">
   <title>Meteo Imputation - Meterological Time series Imputation using Kalman Filters</title>
@@ -387,11 +387,11 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <section id="gap-len-distribution-in-fluxnet" class="slide level2">
 <h2>Gap len distribution in Fluxnet</h2>
 
-<img data-src="plots_18_jan/gap_len_dist.png" class="r-stretch quarto-figure-center"><p class="caption">plot of distribution of gaps for all <code>TA</code>, <code>SW_IN</code> and <code>VPD</code> for all sites</p></section>
+<img data-src="plots_18_jan/gap_len_dist.png" class="r-stretch quarto-figure-center"><p class="caption">plot of distribution of gaps for all <code>TA</code>, <code>SW_IN</code> and <code>VPD</code> for all sites. 26 millions total obs</p></section>
 <section id="gap-len-distribution-in-fluxnet-1" class="slide level2">
 <h2>Gap len distribution in Fluxnet</h2>
 
-<img data-src="plots_18_jan/gap_len_dist_small.png" class="r-stretch quarto-figure-center"><p class="caption">plot of distribution of small gaps (&lt;1 week) for all <code>TA</code>, <code>SW_IN</code> and <code>VPD</code> for all sites</p></section>
+<img data-src="plots_18_jan/gap_len_dist_small.png" class="r-stretch quarto-figure-center"><p class="caption">plot of distribution of small gaps (&lt;1 week) for all <code>TA</code>, <code>SW_IN</code> and <code>VPD</code> for all sites. 26 millions total obs</p></section>
 <section id="how-to-fill-gaps" class="slide level2">
 <h2>How to fill gaps</h2>
 <ol type="1">
@@ -440,9 +440,9 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <section id="current-approaches-limitations" class="slide level2">
 <h2>Current approaches limitations</h2>
 <ul>
-<li>No uncertainty for the predictions (only a quality flag)</li>
-<li>Either MDS (variable correlation) or ERA data, don’t combine the information</li>
 <li>don’t consider the observations before and after the gap</li>
+<li>Either MDS (variable correlation) or ERA data, don’t combine the information</li>
+<li>No uncertainty for the predictions (only a quality flag)</li>
 </ul>
 </section>
 <section id="thesis-goal" class="slide level2">
@@ -488,8 +488,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 </div><div class="column center">
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-838c2cb1adebfed6c954" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-838c2cb1adebfed6c954">{"x":{
+<div id="htmlwidget-da3cc1c8a239e9a2e866" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-da3cc1c8a239e9a2e866">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -772,8 +772,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 </div><div class="column">
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-e4a74a8cbc7ea3d30288" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e4a74a8cbc7ea3d30288">{"x":{
+<div id="htmlwidget-1d296d3b88175267c1f1" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1d296d3b88175267c1f1">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -1132,8 +1132,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <h2>Gaps</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-ba94bfe271a82de26e0c" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ba94bfe271a82de26e0c">{"x":{
+<div id="htmlwidget-eacc0c6624b4f3daa7e3" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-eacc0c6624b4f3daa7e3">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -1499,8 +1499,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 </div><div class="column">
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-11a7d22a4249d780028d" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-11a7d22a4249d780028d">{"x":{
+<div id="htmlwidget-40e5e9a67dae2e35e990" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-40e5e9a67dae2e35e990">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -1976,8 +1976,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <p>Gap in two variables</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-516bdee304f642b83fad" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-516bdee304f642b83fad">{"x":{
+<div id="htmlwidget-8a31de1a19e415430917" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8a31de1a19e415430917">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -2648,8 +2648,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <p>Gap in only one variable</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-55d8a3700ee25434ab10" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-55d8a3700ee25434ab10">{"x":{
+<div id="htmlwidget-ab508cfd12a65569192c" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ab508cfd12a65569192c">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -3351,8 +3351,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <h2>Kalman Filters gap #1</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-b53e6978b67f8d98ff06" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b53e6978b67f8d98ff06">{"x":{
+<div id="htmlwidget-a7308b55946c84f421b2" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a7308b55946c84f421b2">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -10623,8 +10623,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <h2>Kalman Filters gap #2</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-3ad3fd52f28bb8de3ad7" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3ad3fd52f28bb8de3ad7">{"x":{
+<div id="htmlwidget-966a7d9bd351289ec6e3" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-966a7d9bd351289ec6e3">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -17895,8 +17895,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <h2>Kalman Filters gap #3</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-645293456bf44a30df65" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-645293456bf44a30df65">{"x":{
+<div id="htmlwidget-a5366e95a84d776b7598" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a5366e95a84d776b7598">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -25177,11 +25177,21 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <li>n observations before after/gap</li>
 <li>how to best generate artificial gaps</li>
 </ul></li>
+<li>How to assess the model?</li>
 </ul>
 </section>
-<section id="how-to-assess-the-model" class="slide level2">
-<h2>How to assess the model?</h2>
-<p>Open questions:</p>
+<section id="use-of-gap-filling" class="slide level2">
+<h2>Use of gap filling</h2>
+<ul>
+<li>what is the impact of better gap filling for data users?
+<ul>
+<li>why better filling for short/medium gaps is useful</li>
+<li>how can the uncertainty be used</li>
+</ul></li>
+</ul>
+</section>
+<section id="how-to-assess-the-model-settings" class="slide level2">
+<h2>How to assess the model? settings</h2>
 <ul>
 <li>how to choose gap lengths?</li>
 <li>how to choose number of variables missing?</li>
@@ -25236,23 +25246,10 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 </div>
 </div>
 </section>
-<section id="model-use" class="slide level2">
-<h2>Model use</h2>
-<ul>
-<li>what is the importance of the model performance?
-<ul>
-<li>can optimize kalman filter performance</li>
-</ul></li>
-<li>what is the impact of better gap filling for data users?
-<ul>
-<li>why better filling for short gaps is useful</li>
-<li>how can the uncertainty be used</li>
-</ul></li>
-</ul>
-</section>
 <section id="future-outlook" class="slide level2">
 <h2>Future outlook</h2>
 <ul>
+<li>optimize performance model</li>
 <li>provide pre-trained model on Fluxnet 2015 and then to fine-tune to local site</li>
 <li>provide web-service for filling gaps</li>
 <li>reprocess Fluxnet 2015 dataset</li>
@@ -25262,7 +25259,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <h1>Questions &amp; Comments</h1>
 <div class="footer">
 <p>Github repo: <a href="https://github.com/mone27/meteo_imp">https://github.com/mone27/meteo_imp</a><br>
-Website: <a href="https://mone27.github.io/meteo_imp" class="uri">https://mone27.github.io/meteo_imp</a></p>
+Website: <a href="https://mone27.github.io/meteo_imp" class="uri">https://mone27.github.io/meteo_imp</a><br>
+Presentation: <a href="https://mone27.github.io/meteo_imp/presentations/presentation_bioclim_18_jan_23.html" class="uri">https://mone27.github.io/meteo_imp/presentations/presentation_bioclim_18_jan_23.html</a></p>
 </div>
 
 <div class="footer footer-default">
