@@ -23,7 +23,8 @@ def cache_disk(base_file, rm_cache=False, verbose=False):
     base_file = Path(base_file)
     def decorator(original_func):
         
-        f_hash = hashlib.md5(original_func.__code__.co_code).hexdigest()
+        # remove the first line when computing the has so that parameters to `cache_disk` are not included
+        f_hash = hashlib.md5("\n".join(inspect.getsource(original_func).split("\n")[1:]).encode()).hexdigest()
         filename = base_file.parent / (base_file.stem + f_hash + ".pickle")
         
         if verbose: print(filename)

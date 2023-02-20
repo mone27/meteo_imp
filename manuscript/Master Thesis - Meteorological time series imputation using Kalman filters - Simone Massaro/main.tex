@@ -10,6 +10,7 @@
 % \newcommand{\includeimage2}[1]{\includegraphics[width=6in]{#1}}
 % \newcommand{\includeimage}[1]{\textbf{#1}}
 % \newcommand{\bb}[1]{\mathbb{#1}}
+
 \usepackage[final]{graphicx}
 \graphicspath{ {./images/} }
 \usepackage{subfigure}
@@ -125,13 +126,14 @@
 
 \begin{document}
 
+\newcommand{\vv}[1]{\texttt{#1}}
 
 \begin{titlepage}
     \begin{center}
         \vspace*{1cm}
             
         \Huge
-        \textbf{Evaluation of Kalman filter for meteorological time series imputation}
+        \textbf{Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications}
             
         \vspace{0.5cm}
         \LARGE
@@ -139,17 +141,20 @@
             
         \vspace{1.5cm}
             
-        \textbf{Simone Massaro}
-            
+        \textbf{Simone Massaro} \\
+        \vspace{1cm}
+        First Supervisor: Dr. Franziska Koebsch\\
+        Second Supervisor: Prof. Dr. Fabian Sinz 
         \vfill
             
         Master Thesis\\
-        Forest and Ecosystem Sciences
+        Forest and Ecosystem Sciences\\
+        Ecosystem Analysis and Modelling
             
         \vspace{0.3cm}
             
         \Large
-        Department Name\\
+        % Department Name\\
         Georg-August Universität Göttigen \\
         % Country\\
         February 2023
@@ -161,56 +166,64 @@
 \clearpage
 \section{Introduction}
 
-\subsection{Eddy Covariance and gaps in meteorological variables}
+% \subsection{Eddy Covariance and gaps in meteorological variables}
 
-Eddy Covariance (EC) is a state of the art technique for measuring green house gases and energy exchanges between ecosystems and the atmosphere \cite{aubinet_eddy_2012-1}.  The technique allows for non-destructive measurements at the ecosystem level with a high temporal resolution. Eddy Covariance data is used for ecological and physiological research of ecosystems, as well as for validation of ecosystem process models and remote sensing observations \cite{papale_ideas_2020}.
-The core of Eddy Covariance site is the 3D anemometer and gas analysers, which allows estimating the fluxes of interests (e.g. \ce{CO_2}, \ce{H_2O}, \ce{CH_4}). Beside the fluxes, an Eddy Covariance setups collects measurements of meteorological variables and ecosystem parameters. This additional data provides the context to use and interpret the fluxes measurements.
+\paragraph{Eddy Covariance} Eddy Covariance (EC) is a state of the art technique for measuring greenhouse gases and energy exchange between ecosystems and the atmosphere \cite{aubinet_eddy_2012-1}.  The technique allows for non-destructive measurements at the ecosystem level with a high temporal resolution. EC data is used for ecological and physiological research of ecosystems, as well as for validation of ecosystem process models and remote sensing observations \cite{papale_ideas_2020}.
+The core of EC technique a site is the 3D anemometer and a gas analyser, which allows estimating the fluxes of interests (e.g. \ce{CO_2}, \ce{H_2O}, \ce{CH_4}). Beside the fluxes, an Eddy Covariance setups commonly comprises measurements of meteorological variables and ecosystem parameters. This additional data provides the context to use and interpret the fluxes measurements.
 
-\paragraph{} The acquisition of the meteorological variables can be interrupted by failures in the instruments or power outages, resulting in gaps in the time series \cite{aubinet_eddy_2012-1}.
-The presence of gaps is a problem for several uses of the EC data.
+\paragraph{Meteorological gaps} The acquisition of the meteorological variables can be interrupted by failures in the instruments or power outages, resulting in gaps in the time series \cite{aubinet_eddy_2012-1}.
+The presence of meteorological gaps is a problem for several uses of the EC data.
 
-An important application of EC is the validation of Land Surface Models \cite{balzarolo_evaluating_2014, friend_fluxnet_2007-1, bonan_improving_2011-1, kramer_evaluation_2002}, which are process based model that estimate fluxes using meteorological conditions as input. The errors of Land Surface Models deriving from inaccuracies in the input are comparable to the errors arising from the limitation in the models formulations \cite{zhao_how_2012}. This highlights the need of high quality continuous meteorological measurement that reflect that condition at the flux station.
+An important use case of EC is the validation of Land Surface Models \cite{balzarolo_evaluating_2014, friend_fluxnet_2007-1, bonan_improving_2011-1, kramer_evaluation_2002}, which are process based model that estimate fluxes using meteorological conditions as input. The errors of Land Surface Models deriving from inaccuracies in the input are comparable to the errors arising from the limitation in the models formulations \cite{zhao_how_2012}. This highlights the need of high quality continuous meteorological measurement that reflect that condition at the flux station.
 Meteorological observations are used as a driver to impute gaps in the fluxes measurements \cite{aubinet_eddy_2012-1}, which requires complete meteorological time series.
 Finally, the presence of gaps affects the calculation of long term averages for meteorological variables. 
 
-\paragraph{} The described use cases make it necessary to impute the gaps in the meteorological variables. The first approach to reduce the number of gaps in to have redundant instruments on the site, however is this is not always possible and statistical models are used for imputing the gaps \cite{aubinet_eddy_2012-1}. There are three different approaches that can be used to reconstruct missing data: 1) use the \emph{temporal autocorrelation} of the variables, the measurements  before and after the gap provide information on the missing data; 2) use \emph{correlation} between different variables, if not all variables are missing the correlation between variables can be used for imputing the missing variable; 3) use \emph{other measurements}, meteorological variables not only measured in EC tower and the data from nearby meteorological stations can also be used for imputation.
+\paragraph{} The described use cases make it necessary to impute the gaps in the meteorological variables. The first approach to reduce the number of gaps in to have redundant instruments on the site, however is this is not always possible and statistical models are used for imputing the gaps \cite{aubinet_eddy_2012-1}.
 
+\paragraph{Imputation approaches} There are three different statical approaches that can be used to reconstruct missing data: 1) use the \emph{temporal autocorrelation} of the variables, the measurements  before and after the gap provide information on the missing data; 2) use \emph{correlation} between different variables, if not all variables are missing the correlation between variables can be used for imputing the missing variable; 3) use \emph{other measurements}, meteorological variables not only measured in EC tower and the data from nearby meteorological stations can also be used for imputation.
 
-\subsection{Current Imputation methods} EC post-processing pipeline impute meteorological time series. Arguably the most widely used post-processing pipeline is ONEFlux \cite{pastorello_fluxnet2015_2020}, which is adopted by FLUXENT, the global EC network, ICOS the European network as well as AmeriFlux, the American EC network.
+Imputation of missing values has been extensively researched. A wide range of methods have been developed ranging from simply replacing with the mean to more advanced approaches employing deep neural networks \cite{fang_time_2020-1, buuren_mice_2011, du_saits_2022-1, zhang_dual-head_2021-2, cao_brits_nodate}. Specifically for meteorological time series there are many different methods \cite{costa_gap_2021, jing_multi-imputation_2022}. However, imputation in the EC contest has some specific characteristics: the absence of a spatial component (each EC site is modelled separately) and the relatively high number of variables. Moreover, the focus is to impute short and medium gaps (up to 1 week), as almost 99 \% of gaps of meteorological variables in FLUXNET are shorter than a week (Appendix figure \ref{fig:gap_len_dist}). 
+
+\paragraph{Current method EC applications ....} EC post-processing pipeline impute meteorological time series. Arguably the most widely used post-processing pipeline is ONEFlux \cite{pastorello_fluxnet2015_2020}, which is adopted by several large networks such as FLUXENT, the global EC network, ICOS the European network as well as AmeriFlux, the American EC network.
 ONEFlux uses two different methods for imputing the meteorological data: Marginal Distribution Sampling (MDS) and ERA-Interim (ERA-I). The final gap-filled meteorological product uses either MDS or ERA-I, depending on the quality flag of MDS.
-\paragraph{MDS} Marginal Distribution Sampling \cite{reichstein_separation_2005-3} estimates the value of the missing variable by using the observations of the variable from other data points with similar meteorological conditions.
+\paragraph{MDS} Marginal Distribution Sampling \cite{reichstein_separation_2005-3} imputes the missing value by using the average of the observations from other data points temporally and physically similar. 
 The algorithm finds all the similar conditions by taking the observations from a time window around the gap other meteorological variables have similar values in the gap.
 All the observations of the variables of interest from similar conditions are then averaged to generate the filling value.
 In case there are not similar meteorological conditions in the starting time window, the size of the time window is progressively increased. If other meteorological variables are also missing, they are not used to find similar conditions.
 
 The algorithm implemented in ONEFlux uses as drivers the incoming shortwave radiation (\texttt{SW\_IN}), air temperature (\texttt{TA}) and Vapour pressure deficit (\texttt{VPD}). If \texttt{TA} or \texttt{VPD} is missing, \texttt{SW\_IN} is used as the only driver. If all drivers are missing, the mean value at the same of the day is used for gap filling. The starting size of the time window is 7 days.
 
-MDS has a quality flag with 3 possible values (i.e. 1,2,3) that depends on the size of the time window. In ONEFlux MDS is used only if the quality flag is 1, which means that similar conditions are found in a time window smaller than 14 days.
+MDS has a quality flag with 3 possible values (i.e. 1,2,3) that depends on the size of the time window. In ONEFlux MDS is used only if the quality flag is 1, which means that similar conditions are found in a time window smaller than 14 days. Add the drivers
+limitation of MDS ...
 
 \paragraph{ERA-Interim} ERA-Interim is a global meteorological dataset provided by the European Centre for Medium-range Weather Forecast (ECMWF). Weather forecast models are used to reanalyse past observations and produce a continuous and complete dataset for all the globe. The main drawback is the low spatial resolution and temporal resolution, that are respectively 0.7° (roughly 38\si{km}) and 3 hours. Moreover, only a subset of the meteoroligical variables are available in ERA-I. ONEFlux reduces the error of the ERA-I data by doing a bias correction with a linear regression and temporally downscaled to match the half-hourly frequency of FLUXNET \cite{vuichard_filling_2015}. 
+Advantages of ERA, limitations in general and of current downscaling appraoch.
 
-
-\paragraph{Other methods} ONEFLux is not the only EC post-processing pipeline which gap fills meteorological data. However, the imputation approaches in other libraries, like REddyProc \cite{wutzler_basic_2018} or OzFlux \cite{isaac_ozflux_2017} are very similar. OzFlux implementation differs as it includes data from both ERA-Interim and the Australian Weather Service and for each gaps select the dataset with the smallest error for a window of 90 days around the gap.
+\paragraph{Other methods} Beyond ONEFLux, there are serveral other established EC post-processing pipeline which gap fills meteorological data. However, the imputation approaches in other libraries, like REddyProc \cite{wutzler_basic_2018} or OzFlux \cite{isaac_ozflux_2017} are very similar. REddyProc uses only MDS and no ERA. OzFlux used MDS and then adds implementation differs as it includes data from both ERA-Interim and the Australian Weather Service and for each gaps select the dataset with the smallest error for a window of 90 days around the gap.
 \pagebreak
-\paragraph{Limitations of current methods} There are three possible direction to improve the current imputation methods  1) make a better use of temporal autocorrelation of the variables 2) combine different imputation approaches in one prediction  3) provide detailed information on the quality of imputation.
+\paragraph{Potential for further development} There are three possible direction to improve the current imputation methods  1) make a better use of temporal autocorrelation of the variables 2) combine different imputation approaches in one prediction  3) provide detailed information on the quality of imputation.
 
-\subparagraph{Temporal autocorrelation} MDS uses the temporal autocorrelation only in a limited way, as it takes the average of the missing variable across the whole time window and doesn't attribute more weight to the observations closes to the gap, which have the highest correlation with the data in the gap. This is especially relevant for short and medium gaps, which are the majority of gaps in FLUXNET (Appendix figure \ref{fig:gap_len_dist}). The bias correction for ERA-Interim doesn't take into consideration the observations around the gap, either. Therefore, there is potential in improving the imputation performance by making a better use of the temporal autocorrelation.
+\subparagraph{Temporal autocorrelation} MDS uses the temporal autocorrelation only in a limited way, as it takes the average of the missing variable across the whole time window and doesn't attribute more weight to the observations closes to the gap, which have the highest correlation with the data in the gap. This is especially relevant for short and medium gaps, which are the majority of gaps in FLUXNET (Appendix figure \ref{fig:gap_len_dist}). The bias correction for ERA-Interim doesn't take into consideration the observations around the gap, either.  Given the high temporal autocorrelation for met variables, there is .... Therefore, there is potential in improving the imputation performance by making a better use of the temporal autocorrelation.
 
-\subparagraph{Combination of imputation approaches} ONEFlux employs both ERA-I and MDS, but the two methods are used independently, not combined to improve the predictions, but they are used independently. The criteria to select the method to use is only the MDS quality control flags. The information on the missing data from temporal autocorrelation, correlation with other variables and other measurements can be combined to make one more accurate prediction.
+\subparagraph{Combination of imputation approaches} ONEFlux employs both ERA-I and MDS, but the two methods are used independently, not combined to improve the predictions. The criteria to select the method to use is only the MDS quality control flags. The information on the missing data from temporal autocorrelation, correlation with other variables and other measurements can be combined to make one more accurate prediction.
 
 \subparagraph{Uncertainty} A limitation of the current methods is the lack of a robust assessment of the uncertainty of the imputed values. MDS has a quality flag, but it derives from hardcoded values and has only 3 possible values, moreover in the final ONEFlux product the quality flag indicates only which gap filling method has been used. Ideally, each predicted data point has an associated uncertainty, which varies continuously and it is interpretable. In this way, the level of confidence of the model in each prediction is available to the data user. The uncertainty can be used either to discard the data above a custom threshold, which can change depending on the application, or directly included in the downstream calculations.
 
-\subsection{Kalman Filter}
-Imputation of missing values is a topic that has been extensively researched. A wide range of methods have been developed ranging from replacing with the mean to employing deep neural networks \cite{fang_time_2020-1, buuren_mice_2011, du_saits_2022-1, zhang_dual-head_2021-2, cao_brits_nodate}. Specifically for meteorological time series there are many different methods \cite{costa_gap_2021, jing_multi-imputation_2022}. However, imputation in the EC contest has some specific characteristics: the absence of a spatial component (each EC site is modelled separately) and the relatively high number of variables. Moreover, the focus is to impute short and medium gaps (up to 1 week), as almost 99 \% of gaps of meteorological variables in FLUXNET are shorter than a week (Appendix figure \ref{fig:gap_len_dist}). For this work, we focused into methods that combine all imputation approaches, include interpretable uncertainty and can be applied globally. 
+For this work, we focused into methods that combine all imputation approaches, include interpretable uncertainty and can be applied globally. 
+
+% \subsection{Kalman Filter}
+
 % In the EC the focus is to impute gaps into fluxes measurements, as the number of missing observations is very high (), however the meteorological 
 % there are many different approaches for time series imputation and for  ().
 % [fluxes gap filling, deep learning ]
 % However, of meteorological variables imputation for EC has some specific requirements and conditions. To enhance the quality of the imputation  the models should include all the three point mentioned above: 1) use effectively variable autocorrelation 2) combining autocorrelation, variable correlation and other measurements in one prediction 3) provide an interpretable uncertainty for each prediction. The gap filling in this setting has also two important advantages: the availability of other measurements (e.g. ERA-I) and the fact that the majority of the gaps are not long, which simplifies the complexity of the model.
-\paragraph{} There are many families of models that can be suitable for the task. Probabilistic machine learning algorithms are particularly suited, as they directly provide an interpretability uncertainty.
+\paragraph{}  Probabilistic machine learning algorithms are particularly suited, as they directly provide an interpretability uncertainty.
 Kalman Filter is a probabilistic model that models the evolution of a multivariate latent state over time using a Markov chain. The temporal autocorrelation and the variable correlation are directly considered by the model and is possible to also include ERA-I observations.
-Other modelling approaches were evaluated: Gaussian Process Factor Analysis and GP-VAE (Gaussian Processes Variational AutoEncoders). Gaussian Processes Factor Analysis \cite{yu_gaussian-process_2008} use Gaussian Processes to model a latent variable over time, this is a powerful modelling approach and is fully probabilist. The main limitation is the computational complexity, which in the naive formulation scales cubically with the number of observations.
+In this study, I further evaluated  ... modelling approaches were evaluated: Gaussian Process Factor Analysis and GP-VAE (Gaussian Processes Variational AutoEncoders). Gaussian Processes Factor Analysis \cite{yu_gaussian-process_2008} use Gaussian Processes to model a latent variable over time, this is a powerful modelling approach and is fully probabilist. The main limitation is the computational complexity, which in the naive formulation scales cubically with the number of observations.
 GP-VAE \cite{fortuin_gp-vae_2020} combines Gaussian Processes and deep learning, to provide high quality imputation with uncertainties.
-Kalman Filter was selected, since it's the simplest model of the one considered that still fulfils all the requirements.
+Kalman Filter was selected, since it's the simplest model of the one considered that still fulfils all the requirements. ... Eventually, the KF was fully implemented as gap filing routine...
+
+
 % \begin{itemize}
 % \item need to find a modelling approach that can meet those requirements
 % \item combine 3 gap filling approaches
@@ -221,7 +234,7 @@ Kalman Filter was selected, since it's the simplest model of the one considered 
 % \item kalman filter is on of the simplest model that can fit the requirements
 % \end{itemize}
 
-\paragraph{} The first goal of this work is to develop an imputation method for meteorological time series in the context of EC that employs a Kalman Filter. The imputation performance of the new method is then evaluated by comparing it with the state-of-the-art methods (ERA-I and MDS) and assessing the behaviour in different scenarios. For simplicity, only data from one EC site, Hainich (Germany), will be used.
+\paragraph{} The first goal of this work is to develop an imputation method for meteorological time series in the context of EC that employs a Kalman Filter. The imputation performance of the new method is then evaluated by comparing it with the state-of-the-art methods (ERA-I and MDS) and assessing the behaviour in different scenarios. For this initial implementation trial...., only data from one EC site, Hainich (Germany), will be used.
 
 
 \section{Methods}
@@ -239,16 +252,16 @@ p(x_t | x_{t-1}) &= \norm{x_t}{Ax_{t-1} + b + Bc}{Q} \label{eq:system_state}\\
 p(y_t | x_t) &= \norm{y_t}{Hx_t + d}{R} \label{eq:system_obs}
 \end{align}
 
-The probability distributions of the state are computed using Bayesian inference. The computational cost of probabilistic inference can be drastically reduced in this context, since all the relations are linear and all distributions are Gaussian, which means that probabilistic inference can be performed using linear algebra operations.
+The probability distributions of the state are computed using Bayesian inference. The computational cost of probabilistic inference can be drastically reduced in this context, as can be performed can be performed using linear algebra operations since all the relations are linear and all distributions are Gaussian.
 
-\paragraph{} Kalman Filter is a recursive algorithm (Figure \ref{fig:kalman_filter}), at time $t$ the \textit{predicted state} ($x^-_t$) is obtained from the previous state ($x_{t-1}$) and the \textit{control variable} ($c_t$). Then the state is update using the \textit{observation} ($y_t$) to obtain the \textit{filtered state}, observations can be partially or totally missing. This is repeated recursively for all time steps. At this point, each time step, the state $x_t$ depends only on the observations until time $t$. The \textit{smoothed state} ($x^s_t$) is the final state that depends also on all the observations after time $t$. The smoothing phase works by starting from the last time step and recursively updating $x^s_t$ using $x^s_{t+1}$, $x_{t+1}$ and $x^-_{t+1}$.
+\paragraph{} Kalman Filter is a recursive algorithm (Figure \ref{fig:kalman_filter}), at time $t$ the \textit{predicted state} ($x^-_t$) is obtained from the previous state ($x_{t-1}$) and the \textit{control variable} ($c_t$). Then the state is update using the \textit{observation} ($y_t$) to obtain the \textit{filtered state}, observations can be partially or totally missing. This is repeated recursively for all time steps. At this point, at each time step, the state $x_t$ depends only on the observations until time $t$. The \textit{smoothed state} ($x^s_t$) is the final state that depends also on all the observations after time $t$. The smoothing phase works by starting from the last time step and recursively updating $x^s_t$ using $x^s_{t+1}$, $x_{t+1}$ and $x^-_{t+1}$.
 Finally, for all the time steps where there is a gap, the \textit{predicted observations}, $\hat{y}^g_t$, are calculated from the state $x_t$.
 
-The model always considers the probability distribution for the state ($p(x_t) = \norm{x_t}{m_t}{P_t}$), for each state at each time step the mean ($m_t$) and the covariance are ($P_t$) are stored that are the parameters for a multivariate Gaussian distribution. Similarly, the model predictions are a distribution $p(\hat{y}_t) \norm{\hat{y_t}}{\mu_{y_t}}{\Sigma_{y_t}}$.
+The model always considers the probability distribution for the state $p(x_t) = \norm{x_t}{m_t}{P_t}$, for each state at each time step the mean ($m_t$) and the covariance are ($P_t$) are stored that are the parameters for a multivariate Gaussian distribution. Similarly, the model predictions are a distribution $p(\hat{y}_t) =  \norm{\hat{y_t}}{\mu_{y_t}}{\Sigma_{y_t}}$.
 
 \begin{figure}
-\includegraphics[width=\textwidth]{Kalman Filter figure.png}
-\caption{Schematic representation of a Kalman Filter}
+\centerline{\includegraphics[width=4.5in]{Kalman Filter figure.png}}
+\caption{Schematic representation of a Kalman Filter [TODO explain details figure]}
 \label{fig:kalman_filter}
 \end{figure}
 
@@ -262,9 +275,11 @@ The first step in a Kalman Filter is computing the probability distribution of t
     P_t^- &= AP_{t-1}A^T + Q \label{eq:time_update_cov}
 \end{align} 
 
+\pagebreak
+
 \subsubsection{Measurement update}
 
-The predicted probability distribution is the updated to obtain the distribution of the filtered state, using the current observation ($y_t$). Equation \ref{eq:system_obs} describes the distribution of $y_t$ given $x_t$, but using Bayes theorem is possible to compute the distribution of $x_t$ given an observation $y_t$.
+The predicted probability distribution is the updated to obtain the distribution of the filtered state, using the current observation ($y_t$). Equation \ref{eq:system_obs} describes the distribution of $y_t$ given $x_t$, using Bayes theorem is possible to compute the distribution of $x_t$ given an observation $y_t$.
 
 \begin{align}
  p(x_t|y_t) &= \mathcal{N}(x_t; m_t, P_t) \label{eq:meas_update}\\
@@ -307,7 +322,7 @@ Therefore, it is possible to perform the measurement update step when some obser
 
 \subsubsection{Smoothing}
 
-In the smoothing step, the filtered state at time $t$ is update using the state ${t+1}$ corrected by the measurement update. A set of equations for the smoothing pass of a Kalman Filter has been derived by Rauch-Tung-Striebel. They calculate the smoothed state $x_t^s$ from the smoothed, filtered and predicted state at the successive time step.
+In the smoothing step, the filtered state at time $t$ is update using the state ${t+1}$ corrected by the measurement update. A set of equations for the smoothing pass of a Kalman Filter has been derived by Rauch-Tung-Striebel \cite{rauch_maximum_1965}. They calculate the smoothed state $x_t^s$ from the smoothed, filtered and predicted state at the successive time step.
 For the last time step, the smoothed state is set to be equal to the filtered state.
 
 \begin{align}
@@ -319,10 +334,10 @@ For the last time step, the smoothed state is set to be equal to the filtered st
 
 \subsubsection{Predictions}
 
-From the state ($x_t$) it is possible to directly obtain the predictions of the model $\hat{y}^g_t$ by using equation \ref{eq:system_obs} and a mask as described in equation \ref{eq:miss_obs}
+From the state ($x_t$) it is possible to directly obtain the predictions of the model $\hat{y}^g_t$ by using equation \ref{eq:system_obs} and a mask, define like in equation \ref{eq:miss_obs}
 
-\begin{align}\label{filter_predictions}
-    p(\hat{y}^g_t) &= \norm{\hat{y}^g_t}{\mu_{y_t}}{\Sigma_t} \\
+\begin{align}\label{eq:filter_predictions}
+    p(\hat{y}^g_t) &= \norm{\hat{y}^g_t}{\mu_{y_t}}{\Sigma_{y_t}} \\
     \mu_{y_t} &= MHx_t + Md \\
     \Sigma_{y_t} &= MRM + MHP^s_tH^TM^T
 \end{align}
@@ -332,20 +347,16 @@ From the state ($x_t$) it is possible to directly obtain the predictions of the 
 
 \subsubsection{Requirements}
 
-Kalman Filter are a widely used algorithm and there are several python libraries that implement Kalman Filter (e.g. \verb|statsmodels|, \verb|pykalman|, \verb|filterpy|). However, the application of Kalman Filters in this context  we didn't manage to identify a library that meets all the requirement: support gaps and partial measurements updates, use log likelihood for maximization and use a numerically stable implementation of the smoother.
-
-support control variable
-
+Kalman Filter are a widely used algorithm and there are several python libraries that implement Kalman Filter (e.g. \verb|statsmodels|, \verb|pykalman|, \verb|filterpy|). However, no  Kalman Filter library was identified which meets all the requirements for this context. It is necessary to support gaps, partial measurements updates, control variables and be a numerically stable implementation.
 Therefore a custom library for Kalman Filters was developed using the PyTorch library, which has the advantage of automatic differentiation, possibility to use GPUs and better integration with other Machine Learning methods.
 
 \subsubsection{Numerical stability}
 
 \paragraph{Background}
-The direct implementation of the Kalman filter equations suffer by numerically stability issues \cite{mohinder_s_grewal_kalman_2001, dan_simon_optimal_2006}, hence several techniques have been developed to mitigate this.
+The direct implementation of the Kalman filter equations suffer by numerically stability issues \cite{mohinder_s_grewal_kalman_2001, dan_simon_optimal_2006}. %, hence several techniques have been developed to mitigat
+Numerical instability arises from the fact that digital computers store numbers only with a limited number of decimal digits. This results in a loss of information, so that some operations may be incorrectly performed by a  computer (e.g. summing a big number and a small number).
 
-Numerical instability arises from the fact that digital computers store numbers only with a limited number of decimal digits, which results in a loss of information, so that some operations may be incorrectly performed by a  computer (e.g. summing a big number and a small number).
-
-For Kalman Filter the components that are most affect by numerically instability are the covariance matrices. To analyse the stability of the operations on these matrices it is relevant to consider the condition number for inversion \cite{mohinder_s_grewal_kalman_2001, kaminski_discrete_1971}, which describes if the matrix is going to be singular on the numerical representation in the computer and thus cannot be inverted. The condition number ($k(A)$) is the ratio between the biggest singular value ($\sigma(A)$). $\sigma^2(A) = \lambda(AA^T)$, with  $\lambda(A)$ being the eigenvalue of $A$
+For Kalman Filter the components that are most affect by numerical instability are the covariance matrices. To analyse the stability of the operations on these matrices it is relevant to consider the condition number for inversion \cite{mohinder_s_grewal_kalman_2001, kaminski_discrete_1971}, which describes if the matrix is going to be singular on the numerical representation in the computer. The condition number $k(A)$ is the ratio between the biggest singular value and the smallest. The singular value is $\sigma^2(A) = \lambda(AA^T)$, with  $\lambda(A)$ being the eigenvalue of $A$.
 \begin{equation}\label{condition_number}
     k(A) = \frac{\sigma_{max}(A)}{\sigma_{min}(A)}
 \end{equation}
@@ -356,8 +367,11 @@ The condition number it's 1 for well-conditioned matrices and tends to infinite 
 
 \subparagraph{Machine precision} The simplest to improve the numerical stability is to use higher accuracy in the representation of numbers \cite{dan_simon_optimal_2006}. Practically, this means to use 64bit floats instead of 32bit floats, which is default in PyTorch.
 
-\subparagraph{Matrix decomposition} Another way to improve the numerical stability is to reduce the condition number of the matrices, for the Kalman filter the key matrix is the state covariance ($P$). A positive definite matrix has a square root factor, $P^{1/2}$, such as that $P = P^{1/2}(P^{1/2})^T$. If the store $P^{1/2}$ instead of $P$ the effective numerical resolution of the filter can be doubled \cite{kaminski_discrete_1971} \cite{dan_simon_optimal_2006} \cite{rutten_square-root_2013}. This is due to the fact that the eigenvalues of $P^{1/2}$ are the square root of the eigenvalues of $P$ ($\lambda(P) = \lambda^2(P^{1/2})$), thus the conditioning number of $P$ is the square of the conditioning number of $P^{1/2}$, which results in practically doubled. Therefore, if in the filter implementation $P$ is never explicitly computed, the numerical stability of the filter is significantly improved.
-There are several approached of filter implementations that follow this approach (\cite{potter_statistical_1963}, \cite{carlson_fast_1973}, \cite{bierman_numerical_1977}) and are generally called ``square-root filter''. Different implementat which have different tradeoff and often are computationally more expensive that the conventional implementation 
+\subparagraph{Matrix decomposition} Another way to improve the numerical stability is to reduce the condition number of the state covariance ($P$). A positive definite matrix has a square root factor, $P^{1/2}$, such as that $P = P^{1/2}(P^{1/2})^T=P^{1/2}(P^{T/2})$.
+The Cholesky decomposition is an algorithm to find a square root of a matrix, however the Cholesky decomposition calculates only one of possibly many square roots of the matrix.
+
+Utilizing $P^{1/2}$ instead of $P$ doubles the effective numerical resolution of the filter \cite{kaminski_discrete_1971} \cite{dan_simon_optimal_2006} \cite{rutten_square-root_2013}. This is due to the fact that the eigenvalues of $P^{1/2}$ are the square root of the eigenvalues of $P$, $\lambda(P) = \lambda^2(P^{1/2})$, thus the conditioning number of $P$ is the square of the conditioning number of $P^{1/2}$. Therefore, if in the filter implementation $P$ is never explicitly computed, the numerical stability of the filter is significantly improved.
+There are several implementations of a Kalman Filter that follow this approach (\cite{potter_statistical_1963}, \cite{carlson_fast_1973}, \cite{bierman_numerical_1977}) and are generally called ``square-root filter''.
 
 \subsubsection{Implementation in PyTorch}
 
@@ -367,49 +381,45 @@ For this reason, a square root filter that propagates Cholesky factors of the co
 
 \subsubsection{Time update Square Root Filter}
 
-The equations for the time update step of the filter are from \cite{mohinder_s_grewal_kalman_2001} eq. 6.60.
+From the equations of the time update step (eq. \ref{eq:time_update}) is possible to derive an algorithm to obtain $P_t^{1/2}$ given $P_{t-1}^{1/2}$, without explicitly computing $P_t$ or $P_{t-1}$. The equations here described are from \cite{mohinder_s_grewal_kalman_2001} eq. 6.60.
 
-For notation simplicity, we define $P_t=P_t^{1/2}P_t^{T/2}$ where $P_t^{1/2}$ is lower triangular matrix, and $P_t^{T/2} = (P_t^{1/2})^T$. In the same way, $Q=Q^{1/2}Q^{T/2}$. In the Kalman filter literature $P_t^{1/2}$, is the ``square root'' of $P_t$, hence the name of this type of filter. The Cholesky decomposition is an algorithm to find a square root of a matrix, however the Cholesky decomposition calculates only one of possibly many square roots of the matrix. In fact, $P_t^{1/2}$ is not unique.
-
-The goal is to derive from the equations of prediction step (eq. \ref{filter_predict}) an algorithm to obtain $P_t^{1/2}$ given $P_{t-1}^{1/2}$, without explicitly computing $P_t$ or $P_{t-1}$. In this way, the numerical stability of the model is effectively doubled.
-
-If we define
+Defining
 
 \begin{equation}
     W = \begin{bmatrix}AP_{t-1}^{1/2} & Q^{1/2}\end{bmatrix}
 \end{equation}
 
-then using \ref{filter_predict} we can prove that
-\begin{equation}\label{predict_SR_mult}
+from equation \ref{eq:time_update} the following is true:
+\begin{equation}\label{time_update_SR_mult}
 WW^T = P_t 
 \end{equation}
 
 \begin{multline}
-  WW^T =  \begin{bmatrix}AP_{t-1}^{1/2} & Q^{1/2}\end{bmatrix}\begin{bmatrix}P_{t-1}^{T/2}A^T \\ Q^{T/2}\end{bmatrix}\\
+  WW^T =  \begin{bmatrix}AP_{t-1}^{1/2} & Q^{1/2}\end{bmatrix}\begin{bmatrix}P_{t-1}^{T/2}A^T \\ Q^{T/2}\end{bmatrix}
   = AP_{t-1}^{1/2}P_{t-1}^{T/2}A^T + Q^{1/2}Q^{T/2} = AP_{t-1}A^T + Q = P_t
 \end{multline}
 
-If we  can factorize $W=LU$, where $L$ is a lower triangular matrix and $U$ is an orthogonal matrix, such as that $UU^T = I$. Then $WW^T = LU(LU)^T = LUU^TL^T = LL^T$ and by equation \ref{predict_SR_mult} $LL^T=P_t$. Hence, $L$ is a square root of $P_t$, which is what we were looking for.
+The next step is to factorize  $W=LU$, where $L$ is a lower triangular matrix and $U$ is an orthogonal matrix, such as that $UU^T = I$. Then $WW^T = LU(LU)^T = LUU^TL^T = LL^T=P_t$. Hence, $L$ is a square root of $P_t$.
 
-This procedure never explicitly compute $P_t$ and requires only the factorization of a matrix, which is implemented efficiently and in a numerical stable way by PyTorch \verb|torch.linalg.qr| function. 
+This procedure never explicitly compute $P_t$ and requires only the factorization of a matrix, which is implemented efficiently and in a numerical stable way in the PyTorch \verb|torch.linalg.qr| function. 
 
-\subparagraph{PyTorch implementation} PyTorch doesn't support natively a $LU$ decompositions. It implements the QR factorization: $W=QR$, where $Q$ is an orthogonal matrix and $R$ an upper triangular matrix. This can be easily converted into a $LU$ factorization, since by factorizing $W^T$ then $W^=QR=(QR^T)=R^TQ^T$ and $R^T$ is a lower triangular matrix.
+\subparagraph{PyTorch implementation} PyTorch doesn't support natively a $LU$ decompositions. It implements the QR factorization: $W=QR$, where $Q$ is an orthogonal matrix and $R$ an upper triangular matrix. This can be easily converted into a $LU$ factorization, as by factorizing $W^T$ then $W^T=QR=(QR)^T=R^TQ^T$ and $R^T$ is a lower triangular matrix.
 
 \subparagraph{Summary} The steps of the Square Root time update are:
 
 \begin{enumerate}
     \item let  $W = \begin{bmatrix}AP_{t-1}^{1/2} & Q^{1/2}\end{bmatrix}$
     \item do a QR factorization $W^T=TR$
-    \item define $P_t^{1/2} = R^T$
+    \item set $P_t^{1/2} = R^T$
 \end{enumerate}
 
 \subsubsection{Measurement update Square Root Filter}
 
 A similar procedure can be followed for the measurement update step of the filter. The equations here described are from \cite{dan_simon_optimal_2006}.
 
-The starting point is equation \ref{filter_update} and for simplicity the time subscript are omitted in the following equations
+The starting point is equation \ref{eq:meas_update}, for simplicity the time subscripts are omitted in the following equations.
 
-Letting:
+Defining:
 
 \begin{align}
     M &= \begin{bmatrix} R^{1/2} & H(P^-)^{1/2} \\ 0 & (P^-)^{1/2} \end{bmatrix} \\
@@ -417,15 +427,10 @@ Letting:
     \bar{K} &= KS^{1/2}
 \end{align}
     
-Then we can prove that 
-
+the following is true:
 \begin{equation}\label{update_SR_mult}
-    MM^T = UU^T
+    MM^T = VV^T
 \end{equation}
-
-Therefore, if we decompose $M=LU$ then $LL^T=UU^T$ and the bottom left block of size $k \times k$ of $L$ is a square root of $P$.
-
-Here we prove equation \ref{update_SR_mult}
 
 \begin{equation}
 \begin{split}
@@ -437,39 +442,42 @@ Here we prove equation \ref{update_SR_mult}
 
 \begin{equation}
 \begin{split}
-VV^T & = \begin{bmatrix} S^{1/2} & 0 \\ \bar{K} & P^{1/2} \end{bmatrix}\begin{bmatrix} S^{T/2} & \bar{K}^T \\ 0 & P^{T/2} \end{bmatrix} = \begin{bmatrix} S^{1/2}S^{T/2} & S^{1/2}\bar{K}^T \\ \bar{K}S^{T/2} & \bar{K}\bar{K}^T + P^{1/2}P^{T/2} \end{bmatrix}\\
- & = \begin{bmatrix} S & S^{1/2}S^{T/2}K^T \\ KS^{1/2}S^{T/2} & KS^{1/2}S^{T/2}K^T + P\end{bmatrix} \\
- & = \begin{bmatrix} S & HP^- \\ P^-H^T & KHP + P\end{bmatrix} \\
+    VV^T & = \begin{bmatrix} S^{1/2} & 0 \\ \bar{K} & P^{1/2} \end{bmatrix}\begin{bmatrix} S^{T/2} & \bar{K}^T \\ 0 & P^{T/2} \end{bmatrix} = \begin{bmatrix} S^{1/2}S^{T/2} & S^{1/2}\bar{K}^T \\ \bar{K}S^{T/2} & \bar{K}\bar{K}^T + P^{1/2}P^{T/2} \end{bmatrix}\\
+     & = \begin{bmatrix} S & S^{1/2}S^{T/2}K^T \\ KS^{1/2}S^{T/2} & KS^{1/2}S^{T/2}K^T + P\end{bmatrix} \\
+     & = \begin{bmatrix} S & HP^- \\ P^-H^T & KHP + P\end{bmatrix} \\
 \end{split}
 \end{equation}
 
 We can see that all blocks of $VV^T$ are directly equal to $MM^T$, but the bottom left one, which is equal due to the measurement update for the covariance (equation \ref{eq:meas_update:state_cov}).
 
+Therefore, if we decompose $M=LU$ then $MM^T=LL^T=VV^T$ and the bottom left block of $U$ of size $k \times k$ of $L$ is a square root of $P$.
+
 \subparagraph{Summary} The steps of the Square Root measurement update are:
 \begin{enumerate}
  \item let $M = \begin{bmatrix} R^{1/2} & H(P^-)^{1/2} \\ 0 & (P^-)^{1/2} \end{bmatrix}$
- \item do a QR factorization of $M^T=TV$
- \item $P^{1/2}$ is the bottom left $k \times k$ block of $V^T$
+ \item do a QR factorization of $M^T=TU$
+ \item $P^{1/2}$ is the bottom left $k \times k$ block of $U$
 \end{enumerate}
 
 \subsubsection{Predictions Square Root Filter}
 
 The prediction equation for the square root filter are similar to the equations for the time update.
 
-We define:
+defining:
 
 \begin{equation}
     W = \begin{bmatrix}HP_{t}^{1/2} & R^{1/2}\end{bmatrix}
 \end{equation}
 
-then using equation \ref{filter_predict} we can prove that
+from equation \ref{eq:filter_predictions} the following is true:
+
 \begin{equation}\label{predict_SR_mult}
-WW^T = O_t 
+WW^T = \Sigma_{y_t} 
 \end{equation}
 
 \begin{multline}
-  WW^T =  \begin{bmatrix}AP_{t}^{1/2} & R^{1/2}\end{bmatrix}\begin{bmatrix}P_{t}^{T/2}H^T \\ R^{T/2}\end{bmatrix}\\
-  = HP_{t}^{1/2}P_{t}^{T/2}H^T + R^{1/2}R^{T/2} = HP_{t}H^T + R = O_t
+  WW^T =  \begin{bmatrix}AP_{t}^{1/2} & R^{1/2}\end{bmatrix}\begin{bmatrix}P_{t}^{T/2}H^T R^{T/2}\end{bmatrix}
+  = HP_{t}^{1/2}P_{t}^{T/2}H^T + R^{1/2}R^{T/2} = HP_{t}H^T + R = \Sigma_{y_t}
 \end{multline}
 
 \subparagraph{Summary} The steps of the Square Root predictions are:
@@ -477,21 +485,22 @@ WW^T = O_t
 \begin{enumerate}
     \item let  $W = \begin{bmatrix}HP_t^{1/2} & R^{1/2}\end{bmatrix}$
     \item do a QR factorization of $W^T=TU$
-    \item define $\Sigma_{y_t}^{1/2} = U^T$
+    \item set $\Sigma_{y_t}^{1/2} = U^T$
 \end{enumerate}
 
-\subsubsection{Smoother}
+\subsubsection{Smoother Square Root Filter}
 
 The available literature for implementing Square Root Smoothing is scarce compared to Square root filter, so no solution has been identified to implement a square root smoother. Therefore, a standard smoother is employed.
-Nonetheless, steps were taken to improve the numerical stability of the smoother. The computation in the smoother that is most numerically unstable is the inversion of $P^-_{t+1}$ in equation \ref{eq:smoother:gain}. The direct matrix inversion is avoided by using the \verb|torch.cholesky_solve| function, which solves for $X$ the linear system $P^-_{t+1}X=P_tA$, which is equivalent of computing $X = (P_tA^T(P^-_{t+1})^-1)^T$. This use directly the Cholesky Factor $(P^-_{t+1})^{1/2}$ to avoid the computation of $P^-_{t+1}$. A further step to improve the numerical stability is forcing the covariance matrix to be symmetric, by averaging to upper and lower part at after every time step $P^s_{t, sym} = (P^s_t + (P^s_t)^T)/2$, as suggested in \cite{dan_simon_optimal_2006}.
-This approach to numerical stability in the smoother is the same implemented in state of the art libraries, such as `statsmodels`.
 
-\subsection{Model}
+Nonetheless, steps were taken to improve the numerical stability of the smoother. The computation in the smoother that is most numerically unstable is the inversion of $P^-_{t+1}$ in equation \ref{eq:smoother:gain} \cite{mohinder_s_grewal_kalman_2001}. The matrix inversion is avoided by using the \verb|torch.cholesky_solve| function. It solves for $X$ the linear system $P^-_{t+1}X=P_tA$, which is equivalent of computing $X = (P_tA^T(P^-_{t+1})^-1)^T$. This use directly the Cholesky Factor $(P^-_{t+1})^{1/2}$ to avoid the computation of $P^-_{t+1}$. A further step to improve the numerical stability is forcing the covariance matrix to be symmetric, by averaging to upper and lower part at after every time step $P^s_{t, sym} = (P^s_t + (P^s_t)^T)/2$, as suggested in \cite{dan_simon_optimal_2006}.
+This approach to numerical stability in the smoother is the also applied by the \texttt{statsmodels} library \cite{noauthor_statsmodelstsastatespacekalman_filterkalmanfilter_nodate}.
+
+\subsection{Kalman Filter Model}
 
 \subsubsection{Parameters}
 
 \begin{table}
-\caption{Parameters of the Kalman Filter Model. $n$ is the number of dimension of the observations, $k$ the number of dimensions of the state, $n_{ctr}$ the number of dimensions of the control variable.}
+\caption{Parameters of the Kalman Filter Model. $n$ is the number of dimension of the observations, $k$ the number of dimensions of the state, $n_{ctr}$ the number of dimensions of the control variable. $\Lambda$ is the factor loading matrix of the PCA for the entire dataset.}
 \label{table:parameters}
 \vspace{5pt}
 \centering
@@ -502,14 +511,14 @@ This approach to numerical stability in the smoother is the same implemented in 
     \noalign{\vspace{4pt}}
     State transition matrix & $A$ & $k \times k$ & $\begin{bmatrix}I & I \\ 0 & I\end{bmatrix}$ \\
     \noalign{\vspace{4pt}}
-    Observation matrix & $H$ & $n \times k$ & $\begin{bmatrix}\Lambda & 0 \end{bmatrix}$ \\
-    State transition covariance & $Q$ & $k \times k$ & $0.1 I$ \\
-    Observation covariance & $R$ & $n \times n$ & $0.01 I$\\
+    Observation matrix & $H$ & $n \times k$ & $\begin{bmatrix}\Lambda^T & 0 \end{bmatrix}$ \\
+    State transition covariance & $Q$ & $k \times k$ & diag(0.1) \\
+    Observation covariance & $R$ & $n \times n$ & diag(0.01)\\
     State transition offset & $d$ & $k$ & 0 \\
     Observation offset & $b$ & $n$ & 0 \\
     Control matrix & $B$ & $k \times n_{ctr}$ & $\begin{bmatrix} -I & I \\ 0 & 0 \end{bmatrix}$ \\
     Initial state mean & $m_0$ & $k$ & $0$ \\
-    Initial state covariance & $P_0$ & $k \times k$ & $3 I$ \\
+    Initial state covariance & $P_0$ & $k \times k$ & diag(3) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -520,11 +529,8 @@ There is no change over time of the parameters, and the state of the filter is i
 \paragraph{Constraint}
 
 An important aspect for implementing a Kalman Filter in PyTorch is constraining the parameters that represents covariance ($Q$, $R$ and $P0$) to be positive definite. To achieve this goal the optimizer works on a raw parameter, which is then transformed into a positive definite matrix.
-The transformation into a positive definite matrix is done by transforming the raw parameter into a lower triangular matrix with a positive diagonal. The diagonal is enforced to be positive by transforming the diagonal of the raw parameter with the softplus function (eq. \ref{softplus}), which is positive function. In addition to the diagonal a small offset $\num{1e-5}$ is added to avoid that the diagonal is close to zero, which would result in positive semi-definite matrix.
-
-\begin{equation}\label{softplus}
-    x = \log (1 + e^{x})
-\end{equation}
+The transformation into a positive definite matrix is done by transforming the raw parameter into a lower triangular matrix with a positive diagonal. The diagonal is enforced to be positive by transforming the diagonal of the raw parameter with the softplus function ($x = \log (1 + e^{x})$), which is a positive function.
+ In addition a small positive offset $\num{1e-5}$ is added to the diagonal in order to avoid that the diagonal is close to zero, which would result in a positive semi-definite matrix.
 
 The inverse of the positive definite transformation is implemented, so that parameters can be manually set.
 
@@ -532,47 +538,47 @@ This implementation of the positive definite constraint makes it is that is stra
 
 \subsubsection{Parameters initialization}
 
-The model parameters could be initialized using random values, however this would increase numerical stability issues and increase the training time. Moreover, if the initial parameters are very distant from the optimal one the optimization algorithm would find a local minimum, which is not the global minimum.  The simplicity of the Kalman Filter and the interpretability of its parameters allows to manually initialize the parameters with realist values.
+The model parameters could be initialized using random values, however this would increase numerical stability issues and increase the training time. Moreover, if the initial parameters are very distant from the optimal ones it is more likely for the optimization algorithm to find a local minimum.  The simplicity of the Kalman Filter and the interpretability of its parameters allows to manually initialize the parameters with realist values.
 
-\paragraph{State transition matrix} $A$ is initialized using a ``local linear trend'' model \cite{durbin_time_2012}. The idea of a local slope model is that half of the state $x_{l_{t-1}}$ represent the level of the current state and the second half the slope $x_{s_{t-1}}$ of a linear function that describes the rate of change of the state between time steps. The next state level is equal to the current level plus the slope and a random change, while the slope remains constant. In this way, the model can also keep track of the previous states.
+\paragraph{State transition matrix} $A$ is initialized using a ``local linear trend'' model \cite{durbin_time_2012}. The idea is that half of the state $x_{l_{t-1}}$ represent the level of the current state and the second half the slope $x_{s_{t-1}}$ of a linear function that describes the rate of change of the state between time steps. The next state level is equal to the current level plus the slope and a random change, while the slope remains constant. The use of a slope allows the model to retain information of several previous states.
 
-\paragraph{Observation Matrix} $H$ is initialized by using the transpose of the factor loadings matrix of the principal component analysis. This is done to have a latent variable to represent the state between different variables, so that in the presence of a gap. The second part is 0 as in a local trend model the observations don't depend on the slope but only the level of the state
+\paragraph{Observation Matrix} $H$ is initialized by using the transpose of the factor loadings matrix of the principal component analysis of the observed variables. In this way, there isn't a one  to one relation between the state and the observation, but one variable in the state contains information about several meteorological variables. This should improve the predictions in the presence of partial gaps. The second part of $H$ is 0 as in a local trend model the observations don't depend on the slope but only the level of the state
 
-\paragraph{Control matrix} $B$ is initialized to the difference between the previous observation and the current observation. The number of dimensions of the control is potentially different from the state and the observations, therefore is difficult to find a proper correspondence between the state and the control. The solution found is to initialize the upper part of the matrix to the difference between the control, which roughly correspond to the variables and then pad the rest with zero to match the correct shape.
+\paragraph{Control matrix} $B$ is initialized to the difference between the previous observation and the current observation. The number of dimensions of the control is potentially different from the state and the observations, therefore is difficult to find a proper correspondence between the state and the control. The solution found is to initialize the upper part of the matrix to the difference between the control, which roughly correspond to the variables, and then pad the rest with zero to match the correct shape.
 
-\paragraph{Covariance} The state transition covariance $Q$ and then observation covariance $R$ are initialized as diagonal matrix with values of $0.1$ and $0.01$ respectively. This number has been chosen to represent an uncertainty in the state transition that is compatible with standardized variables  and low uncertainty in the observations. 
+\paragraph{Covariance} The state transition covariance $Q$ and then observation covariance $R$ are initialized as diagonal matrix with values of $0.1$ and $0.01$ respectively. This number has been chosen to represent an uncertainty in the state transition that is compatible with the standard deviation of the variables (1 as they are standardized) and a low uncertainty in the observations. 
 
 \paragraph{Offsets} The observation and state transition offsets are initialized to zero.
 
-\paragraph{Initial state} The initial state is set to a zero mean and as covariance a matrix with 3 on the diagonal. The number 3 is an arbitrary number significantly bigger than the state transition covariance, which should represent the high level of uncertainty for the initial state.  
+\paragraph{Initial state} The initial state is set to have as mean zero and as covariance diag(3). The number 3 is an arbitrary number bigger than the state transition covariance, which should represent the high level of uncertainty for the initial state.  
 
 \subsubsection{Loss Function}
 
-The loss function is used to train the model is the negative log likelihood, computed for each data point. At each time step the model predicts a multivariate normal distribution $p(\hat{y}^g_t)$, which is used to compute the negative log likelihood given the actual observations $y_t^g$. The negative log likelihoods between different time steps in the same gaps are summed. Then negative log likelihood is averaged between batches.
+The loss function is used to train the model is the negative log likelihood, computed for each data point. At each time step, the model predicts a multivariate normal distribution $p(\hat{y}^g_t)$, which is used to compute the negative log likelihood given the actual observations $y_t^g$. The negative log likelihoods between different time steps in the same gaps are summed. Then negative log likelihood is averaged between batches.
 
-The actual loss function of the model should be the log likelihood of the joint distribution $p(Y^g)$. However, the analytical form of the joint distribution cannot to easily derived from the Kalman Filter equations and the sum of the log likelihood of marginal distributions is a lower bound to the log likelihood of the joint distribution. If we define $q(x)$ the predicted joint distribution, $p(x)$ the real joint distribution and $q_i(x)$ the marginal distribution at the \textit{i}th time step
+The actual loss function of the model should be the log likelihood of the joint distribution $p(Y^g)$. However, the analytical form of the joint distribution cannot to easily derived from the Kalman Filter equations. The log likelihood of marginal distributions is instead used, as it is a lower bound to the log likelihood of the joint distribution. Defining $q(x)$ the predicted joint distribution, $p(x)$ the real joint distribution and $q_i(x)$ the marginal distribution at the \textit{i}th time step
 \begin{equation}
     q_i(x) = \int q(x_1, ..., x_k)dx_{\neg i}
 \end{equation}
 
-Then, if the family of distribution of $q(x \mid \theta)$, where $\theta$ are the model parameters, is the same of $\prod_i q_i(x \mid \theta)$ then
+Then, if the family of distribution of $q(x \mid \theta)$,  is the same of $\prod_i q_i(x \mid \theta)$, where $\theta$ are the model parameters. Then
 
 \begin{equation}\label{eq:log_joint_geq}
     \max_\theta \E{\log q(x\mid \theta)}_{x \sim p(x)} \geq \max_\theta \E{\log \prod_i q_i(x\mid \theta)}_{x \sim p(x)}
 \end{equation}
 
-because $\prod_i q_i(x)$ is more restricted. This means that $q(x)$ can fit at least as good as $\prod_i q_i(x)$.
-For the Kalman Filter $q_i(x)$ is a Gaussian distribution, so $\prod_i q_i(x)$ is also a Gaussian distribution and equation \ref{eq:log_joint_geq} is true. The conclusion is that if we can fit the model by maximizing the sum of the log likelihoods at each time steps.
+because $\prod_i q_i(x)$ is more restricted. This means that $q(x)$ fit at least as good as $\prod_i q_i(x)$.
+For the Kalman Filter $q_i(x)$ is a Gaussian distribution, so $\prod_i q_i(x)$ is also a Gaussian distribution and equation \ref{eq:log_joint_geq} is true.
 
 \subsubsection{Metrics}
 
-The main metric used to assess the model performance is the Root Mean Square Error (RMSE). 
+The main metric used to assess the model performance is the \emph{Root Mean Square Error} (RMSE). 
 
 \begin{equation}
     RMSE = \sqrt{\frac{\sum_i^n (y^g_i - \hat{y}^g_i)^2}{n}}
 \end{equation}
 
-The advantages of the RMSE is that can be used for non-probabilistic methods (e.g. MDS) and that it's value has the same physical dimension of the observed variable. The main drawback is that is cannot be used for comparison between variables, for that the standardized RMSE is used, which is the RMSE computed on the standardized variables.
+The advantage of the RMSE is that it can be used also for non-probabilistic methods (e.g. MDS) and that its value has the same physical dimension as the observed variable. The main drawback is that is cannot be used for comparison between variables. For that, the \emph{standardized RMSE} is used, which is the RMSE computed on the standardized variables.
 
 \subsubsection{Performance considerations} 
 
@@ -583,12 +589,10 @@ The iterative nature of the filter, where the current state depends on the previ
 
 \subsubsection{Data source}
 
-The data used to evaluate the performance of Kalman Filters is from the Hainich (Germany) site, which is managed by the University of Göttingen. The source of the data is  the FLUXNET 2015 Dataset, which includes measurements with a 30 mins frequency between 2000 and 2012 for Hainich. In total 227952 observations are available. For simplicity the entire dataset was used for the model training, which includes also gap-filled observations.
+The data used to evaluate the performance of Kalman Filters is from the Hainich (Germany) site, which is managed by the University of Göttingen (FLUXNET site DE-Hai). The source of the data is  the FLUXNET 2015 Dataset \cite{pastorello_fluxnet2015_2020}, which includes measurements with a 30 mins frequency between 2000 and 2012 for Hainich. In total 227952 observations are available. For simplicity, the entire dataset was used for the model training, which includes also gap-filled observations.
 All the meteorological variables that are gap-filled in the FLUXNET 2015 dataset were selected for the analysis (Table \ref{table:variables}).
 
 \paragraph{ERA-Interim} The control variables used in the Kalman Filter are the bias corrected and downscaled ERA-I observations included in the FLUXNET dataset. The variables of interest are also present in ERA-I, except for TS and SWC.
-
-\paragraph{Gap distribution}The entire FLUXNET 2015 dataset was used to compute the distribution of gap lengths across the all the sites for each variable. A gap was definite when the QC flag of the variable is different from 0 or the data itself is missing (Appendix figure \ref{fig:gap_len_dist}).
 
 \begin{table}
 \caption{Meteorological variables used to evaluate the Kalman Filter imputation. ERA-I column indicates whether the variable is available in the ERA-Interim dataset}
@@ -613,10 +617,11 @@ All the meteorological variables that are gap-filled in the FLUXNET 2015 dataset
 \end{tabular}
 \end{table}
 
+\pagebreak
 
 \subsubsection{Data preparation pipeline}
 
-The dataset needs to be processed to be used for training by dividing into data blocks, adding an artificial gap and then standardize. The data preparation pipeline takes as input a list of items and outputs the data in a format suitable for training. Each item provides all the information about a gap with the following fields a) \verb|i| the index of the block b) \verb|shift|  the shift c) \verb|var_sel| the variables in the gap d) \verb|gap_len| the gap length. The pipeline perform the following steps: 1) split the index of complete data frame from Hainich into blocks of a given length and selects the \textit{i}th element  2) adds the shift to move the starting point of the data block and select the data from the data frame. For the control variable it also adds the observations with a lag 1, so that at the time $t$ the model has access to the control variable both at time $t$ and $t-1$ 3) creates one continuous artificial gap in the middle of the block for the variables specified in \verb|var_sel| and with a length of \verb|gap_len| 4) convert from Pandas data frame to a PyTorch Tensor 5) Standardize each variable, using the mean ($\mu_Y$) and standard deviation ($\sigma_Y$) of the whole dataset.
+The dataset needs to be pre-processed by dividing into data blocks, adding an artificial gap and then standardize. The data preparation pipeline takes as input a list of items and outputs the data in a format suitable for training. Each item provides all the information about a gap with the following fields a) \verb|i| the index of the block b) \verb|shift|  the shift c) \verb|var_sel| the variables in the gap d) \verb|gap_len| the gap length. The pipeline perform the following steps: 1) split the index of complete data frame from Hainich into blocks of a given length and selects the \textit{i}th element  2) adds the shift to move the starting point of the data block and select the data from the data frame. For the control variable it also adds the observations with a lag 1, so that at the time $t$ the model has access to the control variable both at time $t$ and $t-1$ 3) creates one continuous artificial gap in the middle of the block for the variables specified in \verb|var_sel| and with a length of \verb|gap_len| 4) convert from Pandas data frame to a PyTorch Tensor 5) Standardize each variable, using the mean ($\mu_Y$) and standard deviation ($\sigma_Y$) of the whole dataset.
 
 \begin{equation}\label{standardized}
     y^z_t = \frac{(y_t - \mu_Y)}{\sigma_Y}
@@ -626,7 +631,7 @@ After this, the tensors are collated into a batch and potentially moved to the G
 
 \subsubsection{Prediction pipeline}
 
-The model predicts the mean and the covariance for each time steps for the standardized variables. This needs to be converted back to be scale of the variable to be used for imputation. This operation needs to scale the whole distributions and not only the mean of the prediction. The standardized prediction $\hat{y}^z_t$ is distributed $p(\hat{y}^z_t) = \norm{\hat{y_t}^z}{\mu^z_{\hat{y_t}}}{\Sigma^z_{\hat{y_t}}}$, the prediction in the original scale $\hat{y}_t$ is distributed $\hat{y}_t \sim \norm{\hat{y_t}}{\mu_{\hat{y_t}}}{\Sigma_{\hat{y_t}}}$ and $\Sigma_Y = \text{diag}(\sigma_Y)$. 
+The model predicts the mean and the covariance for each time steps for the standardized variables. This needs to be converted back to be scale of the variable to be used for imputation. This operation needs to scale the whole distributions and not only the mean of the prediction. The standardized prediction $\hat{y}^z_t$ is distributed $p(\hat{y}^z_t) = \norm{\hat{y_t}^z}{\mu^z_{\hat{y_t}}}{\Sigma^z_{\hat{y_t}}}$, the prediction in the original scale $\hat{y}_t$ is distributed $p(\hat{y}_t) =  \norm{\hat{y_t}}{\mu_{\hat{y_t}}}{\Sigma_{\hat{y_t}}}$ and $\Sigma_Y = \text{diag}(\sigma_Y)$. 
 
 Then from the inverse of equation \ref{standardized}
 
@@ -667,7 +672,9 @@ The data provided to MDS has a context of at least 90 days around the gap, as re
 
 \subsection{Code Details and Availability}
 
-The code for this project has been developed in Python. The main libraries used are PyTorch for the model,  FastAI for model training and data preparation, Altair plot plotting and Pandas and Polars for data analysis. The source code is available at \url{https://github.com/mone27/meteo_imp} and the documentation of the library at \url{https://mone27.github.io/meteo_imp/libs}. An installable package is available on PyPI at . The interactive version of the results 
+The code for this project has been developed in Python. The main libraries used are PyTorch for the model,  FastAI for model training and data preparation, Altair plot plotting and Pandas and Polars for data analysis. The source code is available at \url{https://github.com/mone27/meteo_imp} and the documentation of the library at \url{https://mone27.github.io/meteo_imp/libs}. %An installable package is available on PyPI at .
+The interactive version of the results ...
+\pagebreak
 
 \section{Results}
 
@@ -680,10 +687,14 @@ The code for this project has been developed in Python. The main libraries used 
 \end{figure}
 
 \begin{itemize}
-    \item 3 variables (WS, PA, P) have a very correlation with other variables
+    \item 3 variables (WS, PA, P) have low correlation with other variables
     \item TA is the variables that has the highest correlation with other variables. TS similar to TA
     \item \texttt{SWC} correlated only temperature
     \item Other variables (\texttt{SW\_IN} \texttt{LW\_IN}, \texttt{VPD}) have a correlation ranging between .4 and .6 with at least two other variables
+    \item temporal autocorrelation is generally high across variables and decreases over tiem 
+    \item \vv{TA}, \vv{TS}, \vv{SW\_IN}, \vv{VPD} have daily pattern with higher correlation after 24 hours. in particular \vv{SW\_IN} has a negative autocorrelation for a lga of 12 hours but a high for 24 hours 
+    \item \vv{WS} and \vv{LW\_IN}, \vv{PA} have an autocorrelation the decreases over time
+    \item P has very low temporal autocorrelation
 \end{itemize}
 
 
@@ -691,13 +702,12 @@ The code for this project has been developed in Python. The main libraries used 
 \subsection{Comparison to other imputation methods}
 
 \begin{itemize}
-    \item Overall Kalman Filter has a smaller error than ERA that has a smaller error than MDS. Exception is for Precipitation
-    \item variation between variables
-    \item long gap the relative performance of Kalman Filter is lower
+    \item Overall Kalman Filter has a smaller error than ERA that has a smaller error than MDS. Exception is for \vv{P}
+    \item for long gap the relative performance of Kalman Filter is lower
     \item Kalman Filter has a lower variability of the error. For all variables std is smaller and the max error is smaller
     \begin{itemize}
-    \item PA/TS/TA/SWC are the variable with the lowest error and is all comparable with standardized RMSE around .6
-    \item WS is the worse variable
+    \item \vv{PA}/\vv{TS}/\vv{TA}/\vv{SWC} are the variable with the lowest error and is all comparable with standardized RMSE around .6
+    \item \vv{WS} is the variable with worse standardized RMSE 
 \end{itemize}
 \end{itemize}
 
@@ -710,15 +720,15 @@ The code for this project has been developed in Python. The main libraries used 
 \include{tables/the_table}
 
 \begin{itemize}
-    \item TA: KF good performance and improvement over ERA. For long gaps follows ERA but often better. For reference the accuracy of the thermometer installed at Hainich \cite{noauthor_associated_2020} is 0.1 \si{°C} \cite{noauthor_specification_nodate}.
-    \item SW\_IN: KF performance at night is not good, there are negative values up to -50 and then a lot of variation even though should be constant at 0 and the control variable is correct. During the day methods are comparable with often Kalman Filter having the best performance 
-    \item LW\_IN KF compare performance ERA. ERA has a much wider range of errors, for some gaps is very good for others is quite worse. MDS is quite bad basically predicting a constant value and the come drastic changes. LW\_IN has a "blocky" behaviour that is correctly predicted by ERA
-    \item VPD. KF is better especially for short gaps. MDS not very good miss variation at night (probably due to no change in SW\_IN)
+    \item \vv{TA}: KF good performance and improvement over ERA. For long gaps follows ERA but often better. For reference, the accuracy of the thermometer installed at Hainich \cite{noauthor_associated_2020} is 0.1 \si{°C} \cite{noauthor_specification_nodate}.
+    \item \vv{SW\_IN}: KF performance at night is not good, there are negative values up to -50 and then a lot of variation even though should be constant at 0 and the control variable is correct. During the day methods are comparable with often Kalman Filter having the best performance 
+    \item \vv{LW\_IN} KF compare performance ERA. ERA has a much wider range of errors, for some gaps is very good for others is quite worse. MDS is quite bad basically predicting a constant value and the come drastic changes. LW\_IN has a "blocky" behaviour that is correctly predicted by ERA
+    \item \vv{VPD}. KF is better especially for short gaps. MDS not very good miss variation at night (probably due to no change in SW\_IN)
     \item WS has the worse standarized RMSE, a lot of short term variability that no model captures. KF still best results 
-    \item PA MDS significantly worse than other methods
+    \item \vv{PA} KF consistently better then ERA. For MDS error 1 order of magnitude bigger
     \item P KF worse performance than other methods, but still similar performance
     \item SWC KF has on average a better performance than MDS, especially for short gaps. However, the time series of KF are not very good. The variation in the predicted time series is often much higher than the actual one (Figure \ref{fig:ts_2_0} \ref{fig:ts_2_1} \ref{fig:ts_2_2}). ERA is not available
-    \item TS KF has on average a better performance than MDS, especially for short gaps. However, the time series of KF are not very good. The variation in the predicted time series is often much higher than the actual one when there is a small variation in the variable(Figure \ref{fig:ts_2_0} gap length 6h and 12h) conversely is much better when there is variation \ref{fig:ts_2_1} \ref{fig:ts_2_2}), specifically the KF models correctly the increase and decrease in soil temperature even though if the values may not be accurate. ERA is not available
+    \item TS KF has on average a better performance than MDS, especially for short gaps. However, the time series of KF are not very good. The variation in the predicted time series is often much higher than the actual one when there is a small variation in the variable(Figure \ref{fig:ts_2_0} gap length 6h and 12h) conversely is much better when there is variation (Figure \ref{fig:ts_2_1} \ref{fig:ts_2_2}). the KF models correctly the increase and decrease in soil temperature even though if the values may not be accurate. ERA is not available
     
 \end{itemize}
 
@@ -732,12 +742,12 @@ The code for this project has been developed in Python. The main libraries used 
 \include{tables/the_table_stand}
 
 
-\subsubsection{Example Time series}
+% \subsubsection{Example Time series}
 
 \newgeometry{top=.1in}
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{timeseries_1}}
-\caption{Example time series for \texttt{TA, SW\_IN, LW\_IN, VPD, WS}. For each variable, 3 random artificial gap (length 6 hours, 12 hours, 1 week) are imputed using the three methods: Kalman Filter (green), ERA-I (orange), MDS (purple). For the Kalman Filter the shared area show the uncertainty of the prediction $+/- 2 \sigma$. The vertical black line are the start and the beginning of the gap.}
+\caption{Example time series for \texttt{TA, SW\_IN, LW\_IN, VPD, WS}. For each variable, 3 random artificial gap (length 6 hours, 12 hours, 1 week) are imputed using the three methods: Kalman Filter (green), ERA-I (orange), MDS (purple). The ERA-I prediction is the control variable of the  Kalman Filter. For the Kalman Filter the shared area show the uncertainty of the prediction $+/- 2 \sigma$. The vertical black line are the start and the beginning of the gap.}
 \label{fig:ts_1_0}
 \end{figure}
 \restoregeometry
@@ -777,6 +787,9 @@ The code for this project has been developed in Python. The main libraries used 
     \item P and SWC are an exception from this pattern, with both the mean and std oft the error increasing for gaps longer than a day
 \end{itemize}
 
+\include{tables/gap_len}
+
+
 % \textbf{goal} impact of the gap length on the gap filling
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{gap_len}}
@@ -784,9 +797,21 @@ The code for this project has been developed in Python. The main libraries used 
 \label{fig:gap_len}
 \end{figure}
 
-\include{tables/gap_len}
+\FloatBarrier
 
-\subsubsection{Gap other variable}
+\subsubsection{Variable correlation}
+
+\begin{itemize}
+    \item the max gap length is 15 because after that the model crashed due to numerical stability issues
+    \item compare a specialized model with gap in only one var and a generic model trained with gaps in all variables
+    \item Overall for short gaps variable correlation doesn't help much and actually is worse
+    \item for \vv{TA} presence other variables helps to reduce error and variability of error
+    \item for \vv{SW\_IN} worse with other variables for gap of 15 hours
+    \item for \vv{VPD} and \vv{WS} other variable help reducing both mean and std for RMSE 
+    \item for \vv{P} other variables increase error
+    \item \vv{SWC} the RMSE is higher when there are other variables in the gap
+    \item for \vv{TS} when there are other var err higher for short gaps but then comparable
+\end{itemize}
 
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{gap_single_var}}
@@ -796,15 +821,16 @@ The code for this project has been developed in Python. The main libraries used 
 
 \include{tables/gap_single_var}
 
+
 \subsubsection{Control variable}
 
 \begin{itemize}
-    \item Across all variables the control is helping achieving a better performance
-    \item generically the longer the gap the 
-    \item the difference varies a lot between variables
-    \item PA and SWC have the biggest improvement
-    \item little change for P
-    \item variability RMSE is higher for absence of control
+    \item generic model with control vs generic model without control
+    \item for short gaps the use of the control is increasing the error
+    \item for longer gaps the control is usually helping
+    \item for \vv{SWC} and \vv{TA} using the control is slightly worse
+    \item for \vv{PA} the error without control is much higher around 5 times bigger for 1 week long gaps.
+    \item for \vv{P} control is helping a bit
 \end{itemize}
 
 % \textbf{goal} show how the use of the control (ERA-5 data) in the gap is impacting the predictions
@@ -813,27 +839,52 @@ The code for this project has been developed in Python. The main libraries used 
 
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{images/use_control.png}}
-\caption{Control}
+\caption{Comparison between generic model with control variable (green) and generic model without control variable (purple). 50 samples for each variable and each gap length.}
 \label{fig:control}
 \end{figure}
 
 \include{tables/control}
 
-\subsubsection{Generic model}
+\subsubsection{Variable fine tuning}
+
+\begin{itemize}
+    \item fine-tuning the model is improving the performance across all variables
+    \item biggest increase is in \vv{SWC} and \vv{TA}, which much smaller error especially for long gap. Variability of RMSE also decreases
+\end{itemize}
 
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{images/generic.png}}
-\caption{Generic}
+\caption{Comparison model fine-tuned for each variable (green) with generic model (purple). 100 samples for each variable and gap length}
 \label{fig:generic}
 \end{figure}
 
 \include{tables/generic}
 
 
-
 \section{Discussion}
 
-% \subsection{Comparison other methods}
+\begin{itemize}
+    \item KF overall better mean and smaller RMSE
+    \item makes sense KF better for short gaps as there is a higher impact of temporal autocorrelation
+    \item poor performance \vv{P} is understandable as it has very temporal autocorrelation and correlation with other variables
+    \item unexpected low performance of \vv{SW\_IN} at night. Kalman filter models only the local change of the state, so can't model the daily pattern of \vv{SW\_IN}. The control mitigates this issue, in fact the error without control is much higher.
+    \item unexpected low performance \vv{SWC} and \vv{TS} as they have good temporal autocorrelation and the correlation with other variables 
+\end{itemize}
+
+
+\paragraph{variable correlation}
+
+\begin{itemize}
+    \item 
+\end{itemize}
+
+\paragraph{control}
+
+\begin{itemize}
+    \item 
+\end{itemize}
+% [still missing]
+\subsection{Comparison other methods}
 
 % \begin{itemize}
 %     \item Kalman Filter works much better than MDS as it can use observation before/after
@@ -843,7 +894,7 @@ The code for this project has been developed in Python. The main libraries used 
 %     \item SW IN poor performance?
 % \end{itemize}
 
-% \subsection{Kalman Filter Components}
+% \subsection{Analysis Kalman Fi}
 
 % \begin{itemize}
 %     \item as expected the longer gap length the worse the performance
@@ -866,31 +917,48 @@ The code for this project has been developed in Python. The main libraries used 
 % \end{itemize}
 
 
-\subsection{Future steps}
+\subsection{Future outlook}
 
-\subsubsection{data}
+\paragraph{current model}
 \begin{itemize}
-    \item train model for different sites and see difference between sites
-    \item use ERA-5 Land data
+    \item numerical stability smoother
+    \item parameter initialization 
+    \item more robust variable fine tuning
+    \item performance optimization
+    \item use ERA-5 Land dataset
 \end{itemize}
 
-\subsubsection{Gap filling quality assessment}
-
+\paragraph{future directions improvement}
 \begin{itemize}
-    \item can train with more realistic gaps properties (length/other variables missing/time of day)
-    \item better analysis of gaps in fluxnet
+    \item non-linear ERA bias correction. For example by processing ERA data with a neural netwrok instead of matrix multiplication
+    \item explore solutions for SW\_IN, like using the potential shortwave radiation in the model or forcing to be zero at night.
+    \item include uncertainty of observations in the model
+    \item mitigate the reduction in performance for using the control for short gap
+    \item change parameters over time. Different conditions, for example TS winter vs summer
+    \item shift in the control variable. The filter can use first derivative of the control variable 
 \end{itemize}
 
-\subsubsection{Model improvement}
-
+\paragraph{model evaluation}
 \begin{itemize}
-\item numerical stability
-\item make a model to predict the parameters of the Kalman Filter depending on the conditions
-\item use Neural Network to process control variable
-\item training and understand variables that are weird
-\item include uncertainty of observations in the model
-\item high variability ERA data error between sites
+    \item generate better artificial gaps, time of the day time of year, variable missing
+    \item consider using metric different than RMSE (eg. DILATE \cite{guen_shape_nodate}) 
+    \item assess different sites. Especially ERA error is very different between sites \cite{vuichard_filling_2015}
 \end{itemize}
+
+
+
+
+% \subsubsection{Model improvement}
+
+% \begin{itemize}
+% \item numerical stability
+% \item make a model to predict the parameters of the Kalman Filter depending on the conditions
+% \item use Neural Network to process control variable
+% \item training and understand variables that are weird
+% \item include uncertainty of observations in the model
+% \item high variability ERA data error between sites
+% \end{itemize}
+
 
 
 
@@ -898,14 +966,13 @@ The code for this project has been developed in Python. The main libraries used 
 
 \begin{itemize}
     \item Kalman Filter from preliminary results have the potential to improve imputation
-    \item lower variability 
+    \item lower RMSE and lower variability, especially for short gaps  
     \item on all tested variables smaller or comparable error than other methods, but P
     \item provide interpretable uncertainty
-    \item still work needs to be done for model developement and understand the filter performance in different conditions
+    \item still work needs to be done for model development and understand the filter performance in different conditions
     \item robust assessment of performance in real life conditions and test different sites
 \end{itemize}
 
-\section*{References}
 
 \printbibliography
 
@@ -915,6 +982,8 @@ The code for this project has been developed in Python. The main libraries used 
 
 
 \section{Additional Results}
+
+The entire FLUXNET 2015 dataset was used to compute the distribution of gap lengths across the all the sites for each variable. A gap was definite when the QC flag of the variable is different from 0 or the data itself is missing. Figure \ref{fig:gap_len_dist} shows the complete distribution of the gaps, while figure \ref{fig:gap_len_dist_small} focuses only on gaps shorter than a week.
 
 \subsection{Gap length distribution in FLUXNET}
 \begin{figure}
@@ -928,7 +997,7 @@ The code for this project has been developed in Python. The main libraries used 
 \label{fig:gap_len_dist_small}
 \end{figure}
 
-\subsection{Additional Timeseries}
+\subsection{Additional Time series}
 
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{timeseries_1_1}}
@@ -954,13 +1023,16 @@ The code for this project has been developed in Python. The main libraries used 
 \label{fig:ts_2_2}
 \end{figure}
 
-\section{Comparison Standard Square Root Kalman Filter}
-
-\subsection{Numerical Stability}
+\section{Comparison between Standard and Square Root Kalman Filter}
 
 \begin{figure}
 \includegraphics[width=\textwidth]{numerical_stability}
- \caption{Comparison of standard Kalman Filter implementation and Square Root Filter. For 100 times the filter has been initialized with random parameters (drawn from a uniform distribution range 0-1) and then filtered 62 observations. At each filter iteration calculated the Mean Absolute Error (MAE) between the state covariance from the standard filter and the square root filter. The plot shows the median, 1 and 3 quartile and the maximum of the MAE across the 100 samples. You can see that usually the two filter implementations agree, but for a few parameters combinations the error is growing with the number of iterations of the filter suggesting a numerical stability issue. After 62 iterations the standard filter crashes because the covariance is not positive definite anymore. The initial bigger error can be explained by the slightly different initial state covariance.}
+ \caption{\textbf{Numerical stability} comparison between standard Kalman Filter implementation and Square Root Filter. For 100 times the filter has been initialized with random parameters (drawn from a uniform distribution range 0-1) and then filtered 100 observations. At each filter iteration the Mean Absolute Error (MAE) was calculated between the state covariance from the standard filter and the square root filter. The plot shows the median, 1 and 3 quartile and the maximum of the MAE across the 100 samples.}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=\textwidth]{perf_sr}
+ \caption{\textbf{Performance} comparison between standard Kalman Filter implementation and Square Root Filter. 100 samples with the following settings: Number of observations: 100, dimension observations 4, dimension state: 3, dimension control: 3, batch size: 5. Data and parameters are randomly generated.}
 \end{figure}
 
 

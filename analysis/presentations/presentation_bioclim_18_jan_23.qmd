@@ -51,11 +51,11 @@ show_plot <- function(path){
 
 ## Gap len distribution in Fluxnet
 
-![plot of distribution of gaps for all `TA`, `SW_IN` and `VPD` for all sites](plots_18_jan/gap_len_dist.png)
+![plot of distribution of gaps for all `TA`, `SW_IN` and `VPD` for all sites. 26 millions total obs](plots_18_jan/gap_len_dist.png)
 
 ## Gap len distribution in Fluxnet
 
-![plot of distribution of small gaps (<1 week) for all `TA`, `SW_IN` and `VPD` for all sites](plots_18_jan/gap_len_dist_small.png)
+![plot of distribution of small gaps (<1 week) for all `TA`, `SW_IN` and `VPD` for all sites. 26 millions total obs](plots_18_jan/gap_len_dist_small.png)
 
 ## How to fill gaps
 
@@ -107,9 +107,9 @@ OneFlux pipeline (Fluxnet + ICOS + AmeriFlux)
 
 ## Current approaches limitations
 
--   No uncertainty for the predictions (only a quality flag)
--   Either MDS (variable correlation) or ERA data, don't combine the information
 -   don't consider the observations before and after the gap
+-   Either MDS (variable correlation) or ERA data, don't combine the information
+-   No uncertainty for the predictions (only a quality flag)
 
 ## Thesis goal
 
@@ -292,11 +292,15 @@ show_plot("results_gap_all_vars_g2")
 - find optimal settings for training and inference
   - n observations before after/gap
   - how to best generate artificial gaps
+- How to assess the model?
 
+## Use of gap filling
+  
+- what is the impact of better gap filling for data users?
+  - why better filling for short/medium gaps is useful
+  - how can the uncertainty be used
 
-## How to assess the model?
-
-Open questions:
+## How to assess the model? settings
 
 - how to choose gap lengths?
 - how to choose number of variables missing?
@@ -357,17 +361,9 @@ knitr::include_graphics("plots_18_jan/Tair_plot_fill_dist-1.png")
 ::::
 
 
-## Model use
-
-- what is the importance of the model performance?
-  - can optimize kalman filter performance
-  
-- what is the impact of better gap filling for data users?
-  - why better filling for short gaps is useful
-  - how can the uncertainty be used
-
 ## Future outlook
 
+- optimize performance model
 - provide pre-trained model on Fluxnet 2015 and then to fine-tune to local site
 - provide web-service for filling gaps
 - reprocess Fluxnet 2015 dataset
@@ -376,5 +372,6 @@ knitr::include_graphics("plots_18_jan/Tair_plot_fill_dist-1.png")
 
 ::: footer
 Github repo: [https://github.com/mone27/meteo_imp](https://github.com/mone27/meteo_imp)\
-Website: <https://mone27.github.io/meteo_imp>
+Website: <https://mone27.github.io/meteo_imp>\
+Presentation: <https://mone27.github.io/meteo_imp/presentations/presentation_bioclim_18_jan_23.html>
 ::: 
