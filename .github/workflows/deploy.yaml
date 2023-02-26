@@ -44,7 +44,10 @@ jobs:
           pip install -Uq git+https://github.com/fastai/nbdev.git
           
           test -f setup.py && pip install -e ".[dev]"
-          nbdev_docs
+          pip install -Uq git+https://github.com/altair-viz/altair # need to manually install last version of altair
+      - name: Generate lib docs
+        shell: bash
+        run: nbdev_docs
       - name: Enable GitHub Pages
         shell: python
         run: |
