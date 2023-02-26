@@ -197,8 +197,15 @@ filter_classes = [KalmanFilterBase, KalmanFilter, KalmanFilterSR]
 # %% ../../lib_nbs/kalman/00_filter.ipynb 22
 #| include: false
 @patch_to(filter_classes, cls_method=True)
-def init_random(cls, n_dim_obs, n_dim_state, n_dim_contr, dtype=torch.float64, **kwargs):
+def init_random(cls,
+                n_dim_obs,
+                n_dim_state,
+                n_dim_contr,
+                dtype=torch.float64,
+                seed:int|None = 27,
+                **kwargs):
     """kalman filter with random parameters"""
+    if seed is not None: torch.manual_seed(seed)
     return cls(
         A  = torch.rand(n_dim_state, n_dim_state, dtype=dtype),
         b  = torch.rand(n_dim_state, dtype=dtype),        

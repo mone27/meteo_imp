@@ -84,19 +84,19 @@ def read_fluxnet_csv(path,
            .filter(meteo_vars.keys(), axis='columns')
            .rename(columns=meteo_vars))
 
-# %% ../lib_nbs/Fluxnet/Hainich.ipynb 19
+# %% ../lib_nbs/Fluxnet/Hainich.ipynb 21
 try:
     hai = pd.read_parquet(hai_path)
 except FileNotFoundError: # for CI
     hai = pd.DataFrame()
 
-# %% ../lib_nbs/Fluxnet/Hainich.ipynb 23
+# %% ../lib_nbs/Fluxnet/Hainich.ipynb 25
 hai_era_path_raw = here("data") / "FLX_DE-Hai_FLUXNET2015_ERAI_HH_1989-2014_1-4.csv"
 hai_era_path = here("data")/"FLX_DE-Hai_FLUXNET2015_ERAI_HH_1989-2014_1-4_float32.parquet"
 hai_era_path64 = here("data")/"FLX_DE-Hai_FLUXNET2015_ERAI_HH_1989-2014_1-4_float64.parquet"
 hai_era_big_path = here("data")/"FLX_DE-Hai_FLUXNET2015_ERAI_HH_1989-2014_1-4_float64_big.parquet"
 
-# %% ../lib_nbs/Fluxnet/Hainich.ipynb 25
+# %% ../lib_nbs/Fluxnet/Hainich.ipynb 27
 era_vars = {
     'TA_ERA': 'TA_ERA',
     'SW_IN_ERA': 'SW_IN_ERA',
@@ -105,13 +105,13 @@ era_vars = {
 
 era_vars_big = {f"{var}_ERA" : f"{var}_ERA"  for var in ['TA', 'SW_IN','VPD', 'PA', 'P', 'WS', 'LW_IN',]}
 
-# %% ../lib_nbs/Fluxnet/Hainich.ipynb 34
+# %% ../lib_nbs/Fluxnet/Hainich.ipynb 36
 control_map = {f"{var}_ERA" : var  for var in ['TA', 'SW_IN','VPD', 'PA', 'P', 'WS', 'LW_IN',]}
 
-# %% ../lib_nbs/Fluxnet/Hainich.ipynb 37
+# %% ../lib_nbs/Fluxnet/Hainich.ipynb 39
 import altair as alt
 
-# %% ../lib_nbs/Fluxnet/Hainich.ipynb 39
+# %% ../lib_nbs/Fluxnet/Hainich.ipynb 41
 dark2 = ['#1B9E77', '#D95F02', '#7570B3', '#E7298A', '#66A61E', '#E6AB02', '#A6761D', '#666666']
 
 scale_meteo = alt.Scale(domain = ['TA', 'SW_IN', 'LW_IN', 'VPD', 'WS', 'PA', 'SWC', 'TS', 'P'], range = dark2)
