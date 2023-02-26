@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.220">
+<meta name="generator" content="quarto-1.3.230">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -20,6 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -229,13 +230,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p style="font-size: 1.5rem; font-decoration: bold">Kalman Filter (3 obs, 3 state, 6 contr)</p><p></p><div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div> <p style="font-size: 1.3rem;">trans matrix (A)</p> <style type="text/css">
 </style>
 
-<table id="T_456be" class="table table-sm table-striped">
+<table id="T_456be" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_456be_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_456be_level0_col1" class="col_heading level0 col1">x_0</th>
-<th id="T_456be_level0_col2" class="col_heading level0 col2">x_1</th>
-<th id="T_456be_level0_col3" class="col_heading level0 col3">x_2</th>
+<th id="T_456be_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_456be_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x_0</th>
+<th id="T_456be_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">x_1</th>
+<th id="T_456be_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">x_2</th>
 </tr>
 </thead>
 <tbody>
@@ -261,13 +262,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <div>
 <p>trans cov (Q)</p>
-<table id="T_fa991" class="table table-sm table-striped">
+<table id="T_fa991" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_fa991_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_fa991_level0_col1" class="col_heading level0 col1">x_0</th>
-<th id="T_fa991_level0_col2" class="col_heading level0 col2">x_1</th>
-<th id="T_fa991_level0_col3" class="col_heading level0 col3">x_2</th>
+<th id="T_fa991_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_fa991_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x_0</th>
+<th id="T_fa991_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">x_1</th>
+<th id="T_fa991_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">x_2</th>
 </tr>
 </thead>
 <tbody>
@@ -294,11 +295,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>trans off</p>
-<table id="T_d45a3" class="table table-sm table-striped">
+<table id="T_d45a3" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_d45a3_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_d45a3_level0_col1" class="col_heading level0 col1">offset</th>
+<th id="T_d45a3_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_d45a3_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">offset</th>
 </tr>
 </thead>
 <tbody>
@@ -319,13 +320,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>obs matrix (H)</p>
-<table id="T_d99d7" class="table table-sm table-striped">
+<table id="T_d99d7" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_d99d7_level0_col0" class="col_heading level0 col0">variable</th>
-<th id="T_d99d7_level0_col1" class="col_heading level0 col1">x_0</th>
-<th id="T_d99d7_level0_col2" class="col_heading level0 col2">x_1</th>
-<th id="T_d99d7_level0_col3" class="col_heading level0 col3">x_2</th>
+<th id="T_d99d7_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">variable</th>
+<th id="T_d99d7_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x_0</th>
+<th id="T_d99d7_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">x_1</th>
+<th id="T_d99d7_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">x_2</th>
 </tr>
 </thead>
 <tbody>
@@ -352,13 +353,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>obs cov (R)</p>
-<table id="T_8c116" class="table table-sm table-striped">
+<table id="T_8c116" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_8c116_level0_col0" class="col_heading level0 col0">variable</th>
-<th id="T_8c116_level0_col1" class="col_heading level0 col1">y_0</th>
-<th id="T_8c116_level0_col2" class="col_heading level0 col2">y_1</th>
-<th id="T_8c116_level0_col3" class="col_heading level0 col3">y_2</th>
+<th id="T_8c116_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">variable</th>
+<th id="T_8c116_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">y_0</th>
+<th id="T_8c116_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">y_1</th>
+<th id="T_8c116_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">y_2</th>
 </tr>
 </thead>
 <tbody>
@@ -385,11 +386,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>obs off</p>
-<table id="T_62a80" class="table table-sm table-striped">
+<table id="T_62a80" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_62a80_level0_col0" class="col_heading level0 col0">variable</th>
-<th id="T_62a80_level0_col1" class="col_heading level0 col1">offset</th>
+<th id="T_62a80_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">variable</th>
+<th id="T_62a80_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">offset</th>
 </tr>
 </thead>
 <tbody>
@@ -410,16 +411,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>contr matrix (B)</p>
-<table id="T_bebf1" class="table table-sm table-striped">
+<table id="T_bebf1" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_bebf1_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_bebf1_level0_col1" class="col_heading level0 col1">c_0</th>
-<th id="T_bebf1_level0_col2" class="col_heading level0 col2">c_1</th>
-<th id="T_bebf1_level0_col3" class="col_heading level0 col3">c_2</th>
-<th id="T_bebf1_level0_col4" class="col_heading level0 col4">c_3</th>
-<th id="T_bebf1_level0_col5" class="col_heading level0 col5">c_4</th>
-<th id="T_bebf1_level0_col6" class="col_heading level0 col6">c_5</th>
+<th id="T_bebf1_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_bebf1_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">c_0</th>
+<th id="T_bebf1_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">c_1</th>
+<th id="T_bebf1_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">c_2</th>
+<th id="T_bebf1_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">c_3</th>
+<th id="T_bebf1_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">c_4</th>
+<th id="T_bebf1_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">c_5</th>
 </tr>
 </thead>
 <tbody>
@@ -455,11 +456,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>init state mean</p>
-<table id="T_c0d2a" class="table table-sm table-striped">
+<table id="T_c0d2a" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_c0d2a_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_c0d2a_level0_col1" class="col_heading level0 col1">mean</th>
+<th id="T_c0d2a_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_c0d2a_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">mean</th>
 </tr>
 </thead>
 <tbody>
@@ -480,13 +481,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>init state cov</p>
-<table id="T_ada3f" class="table table-sm table-striped">
+<table id="T_ada3f" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_ada3f_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_ada3f_level0_col1" class="col_heading level0 col1">x_0</th>
-<th id="T_ada3f_level0_col2" class="col_heading level0 col2">x_1</th>
-<th id="T_ada3f_level0_col3" class="col_heading level0 col3">x_2</th>
+<th id="T_ada3f_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_ada3f_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x_0</th>
+<th id="T_ada3f_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">x_1</th>
+<th id="T_ada3f_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">x_2</th>
 </tr>
 </thead>
 <tbody>
@@ -537,17 +538,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe table table-sm table-striped" data-border="1">
+<table class="dataframe table table-sm table-striped" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
-<th>epoch</th>
-<th>train_loss</th>
-<th>valid_loss</th>
-<th>rmse</th>
-<th>rmse_gap</th>
-<th>r2</th>
-<th>r2_gap</th>
-<th>time</th>
+<th data-quarto-table-cell-role="th">epoch</th>
+<th data-quarto-table-cell-role="th">train_loss</th>
+<th data-quarto-table-cell-role="th">valid_loss</th>
+<th data-quarto-table-cell-role="th">rmse</th>
+<th data-quarto-table-cell-role="th">rmse_gap</th>
+<th data-quarto-table-cell-role="th">r2</th>
+<th data-quarto-table-cell-role="th">r2_gap</th>
+<th data-quarto-table-cell-role="th">time</th>
 </tr>
 </thead>
 <tbody>
@@ -687,17 +688,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe table table-sm table-striped" data-border="1">
+<table class="dataframe table table-sm table-striped" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
-<th>epoch</th>
-<th>train_loss</th>
-<th>valid_loss</th>
-<th>rmse</th>
-<th>rmse_gap</th>
-<th>r2</th>
-<th>r2_gap</th>
-<th>time</th>
+<th data-quarto-table-cell-role="th">epoch</th>
+<th data-quarto-table-cell-role="th">train_loss</th>
+<th data-quarto-table-cell-role="th">valid_loss</th>
+<th data-quarto-table-cell-role="th">rmse</th>
+<th data-quarto-table-cell-role="th">rmse_gap</th>
+<th data-quarto-table-cell-role="th">r2</th>
+<th data-quarto-table-cell-role="th">r2_gap</th>
+<th data-quarto-table-cell-role="th">time</th>
 </tr>
 </thead>
 <tbody>
@@ -837,17 +838,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe table table-sm table-striped" data-border="1">
+<table class="dataframe table table-sm table-striped" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
-<th>epoch</th>
-<th>train_loss</th>
-<th>valid_loss</th>
-<th>rmse</th>
-<th>rmse_gap</th>
-<th>r2</th>
-<th>r2_gap</th>
-<th>time</th>
+<th data-quarto-table-cell-role="th">epoch</th>
+<th data-quarto-table-cell-role="th">train_loss</th>
+<th data-quarto-table-cell-role="th">valid_loss</th>
+<th data-quarto-table-cell-role="th">rmse</th>
+<th data-quarto-table-cell-role="th">rmse_gap</th>
+<th data-quarto-table-cell-role="th">r2</th>
+<th data-quarto-table-cell-role="th">r2_gap</th>
+<th data-quarto-table-cell-role="th">time</th>
 </tr>
 </thead>
 <tbody>
@@ -987,17 +988,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe table table-sm table-striped" data-border="1">
+<table class="dataframe table table-sm table-striped" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
-<th>epoch</th>
-<th>train_loss</th>
-<th>valid_loss</th>
-<th>rmse</th>
-<th>rmse_gap</th>
-<th>r2</th>
-<th>r2_gap</th>
-<th>time</th>
+<th data-quarto-table-cell-role="th">epoch</th>
+<th data-quarto-table-cell-role="th">train_loss</th>
+<th data-quarto-table-cell-role="th">valid_loss</th>
+<th data-quarto-table-cell-role="th">rmse</th>
+<th data-quarto-table-cell-role="th">rmse_gap</th>
+<th data-quarto-table-cell-role="th">r2</th>
+<th data-quarto-table-cell-role="th">r2_gap</th>
+<th data-quarto-table-cell-role="th">time</th>
 </tr>
 </thead>
 <tbody>
@@ -1151,15 +1152,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe table table-sm table-striped" data-border="1">
+<table class="dataframe table table-sm table-striped" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
-<th>epoch</th>
-<th>train_loss</th>
-<th>valid_loss</th>
-<th>rmse</th>
-<th>r2</th>
-<th>time</th>
+<th data-quarto-table-cell-role="th">epoch</th>
+<th data-quarto-table-cell-role="th">train_loss</th>
+<th data-quarto-table-cell-role="th">valid_loss</th>
+<th data-quarto-table-cell-role="th">rmse</th>
+<th data-quarto-table-cell-role="th">r2</th>
+<th data-quarto-table-cell-role="th">time</th>
 </tr>
 </thead>
 <tbody>
@@ -1337,15 +1338,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe table table-sm table-striped" data-border="1">
+<table class="dataframe table table-sm table-striped" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
-<th>epoch</th>
-<th>train_loss</th>
-<th>valid_loss</th>
-<th>rmse</th>
-<th>r2</th>
-<th>time</th>
+<th data-quarto-table-cell-role="th">epoch</th>
+<th data-quarto-table-cell-role="th">train_loss</th>
+<th data-quarto-table-cell-role="th">valid_loss</th>
+<th data-quarto-table-cell-role="th">rmse</th>
+<th data-quarto-table-cell-role="th">r2</th>
+<th data-quarto-table-cell-role="th">time</th>
 </tr>
 </thead>
 <tbody>
@@ -1581,15 +1582,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe table table-sm table-striped" data-border="1">
+<table class="dataframe table table-sm table-striped" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
-<th>epoch</th>
-<th>train_loss</th>
-<th>valid_loss</th>
-<th>rmse</th>
-<th>r2</th>
-<th>time</th>
+<th data-quarto-table-cell-role="th">epoch</th>
+<th data-quarto-table-cell-role="th">train_loss</th>
+<th data-quarto-table-cell-role="th">valid_loss</th>
+<th data-quarto-table-cell-role="th">rmse</th>
+<th data-quarto-table-cell-role="th">r2</th>
+<th data-quarto-table-cell-role="th">time</th>
 </tr>
 </thead>
 <tbody>
@@ -1756,13 +1757,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p style="font-size: 1.5rem; font-decoration: bold">Kalman Filter (3 obs, 3 state, 6 contr)</p><p></p><div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div> <p style="font-size: 1.3rem;">trans matrix (A)</p> <style type="text/css">
 </style>
 
-<table id="T_ff702" class="table table-sm table-striped">
+<table id="T_ff702" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_ff702_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_ff702_level0_col1" class="col_heading level0 col1">x_0</th>
-<th id="T_ff702_level0_col2" class="col_heading level0 col2">x_1</th>
-<th id="T_ff702_level0_col3" class="col_heading level0 col3">x_2</th>
+<th id="T_ff702_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_ff702_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x_0</th>
+<th id="T_ff702_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">x_1</th>
+<th id="T_ff702_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">x_2</th>
 </tr>
 </thead>
 <tbody>
@@ -1788,13 +1789,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <div>
 <p>trans cov (Q)</p>
-<table id="T_40543" class="table table-sm table-striped">
+<table id="T_40543" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_40543_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_40543_level0_col1" class="col_heading level0 col1">x_0</th>
-<th id="T_40543_level0_col2" class="col_heading level0 col2">x_1</th>
-<th id="T_40543_level0_col3" class="col_heading level0 col3">x_2</th>
+<th id="T_40543_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_40543_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x_0</th>
+<th id="T_40543_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">x_1</th>
+<th id="T_40543_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">x_2</th>
 </tr>
 </thead>
 <tbody>
@@ -1821,11 +1822,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>trans off</p>
-<table id="T_432c9" class="table table-sm table-striped">
+<table id="T_432c9" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_432c9_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_432c9_level0_col1" class="col_heading level0 col1">offset</th>
+<th id="T_432c9_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_432c9_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">offset</th>
 </tr>
 </thead>
 <tbody>
@@ -1846,13 +1847,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>obs matrix (H)</p>
-<table id="T_4375e" class="table table-sm table-striped">
+<table id="T_4375e" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_4375e_level0_col0" class="col_heading level0 col0">variable</th>
-<th id="T_4375e_level0_col1" class="col_heading level0 col1">x_0</th>
-<th id="T_4375e_level0_col2" class="col_heading level0 col2">x_1</th>
-<th id="T_4375e_level0_col3" class="col_heading level0 col3">x_2</th>
+<th id="T_4375e_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">variable</th>
+<th id="T_4375e_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x_0</th>
+<th id="T_4375e_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">x_1</th>
+<th id="T_4375e_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">x_2</th>
 </tr>
 </thead>
 <tbody>
@@ -1879,13 +1880,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>obs cov (R)</p>
-<table id="T_f6eb3" class="table table-sm table-striped">
+<table id="T_f6eb3" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_f6eb3_level0_col0" class="col_heading level0 col0">variable</th>
-<th id="T_f6eb3_level0_col1" class="col_heading level0 col1">y_0</th>
-<th id="T_f6eb3_level0_col2" class="col_heading level0 col2">y_1</th>
-<th id="T_f6eb3_level0_col3" class="col_heading level0 col3">y_2</th>
+<th id="T_f6eb3_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">variable</th>
+<th id="T_f6eb3_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">y_0</th>
+<th id="T_f6eb3_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">y_1</th>
+<th id="T_f6eb3_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">y_2</th>
 </tr>
 </thead>
 <tbody>
@@ -1912,11 +1913,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>obs off</p>
-<table id="T_49397" class="table table-sm table-striped">
+<table id="T_49397" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_49397_level0_col0" class="col_heading level0 col0">variable</th>
-<th id="T_49397_level0_col1" class="col_heading level0 col1">offset</th>
+<th id="T_49397_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">variable</th>
+<th id="T_49397_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">offset</th>
 </tr>
 </thead>
 <tbody>
@@ -1937,16 +1938,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>contr matrix (B)</p>
-<table id="T_73b7c" class="table table-sm table-striped">
+<table id="T_73b7c" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_73b7c_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_73b7c_level0_col1" class="col_heading level0 col1">c_0</th>
-<th id="T_73b7c_level0_col2" class="col_heading level0 col2">c_1</th>
-<th id="T_73b7c_level0_col3" class="col_heading level0 col3">c_2</th>
-<th id="T_73b7c_level0_col4" class="col_heading level0 col4">c_3</th>
-<th id="T_73b7c_level0_col5" class="col_heading level0 col5">c_4</th>
-<th id="T_73b7c_level0_col6" class="col_heading level0 col6">c_5</th>
+<th id="T_73b7c_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_73b7c_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">c_0</th>
+<th id="T_73b7c_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">c_1</th>
+<th id="T_73b7c_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">c_2</th>
+<th id="T_73b7c_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">c_3</th>
+<th id="T_73b7c_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">c_4</th>
+<th id="T_73b7c_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">c_5</th>
 </tr>
 </thead>
 <tbody>
@@ -1982,11 +1983,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>init state mean</p>
-<table id="T_1b605" class="table table-sm table-striped">
+<table id="T_1b605" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_1b605_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_1b605_level0_col1" class="col_heading level0 col1">mean</th>
+<th id="T_1b605_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_1b605_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">mean</th>
 </tr>
 </thead>
 <tbody>
@@ -2007,13 +2008,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>init state cov</p>
-<table id="T_81ab3" class="table table-sm table-striped">
+<table id="T_81ab3" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_81ab3_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_81ab3_level0_col1" class="col_heading level0 col1">x_0</th>
-<th id="T_81ab3_level0_col2" class="col_heading level0 col2">x_1</th>
-<th id="T_81ab3_level0_col3" class="col_heading level0 col3">x_2</th>
+<th id="T_81ab3_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_81ab3_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x_0</th>
+<th id="T_81ab3_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">x_1</th>
+<th id="T_81ab3_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">x_2</th>
 </tr>
 </thead>
 <tbody>
@@ -2103,17 +2104,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe table table-sm table-striped" data-border="1">
+<table class="dataframe table table-sm table-striped" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
-<th>epoch</th>
-<th>train_loss</th>
-<th>valid_loss</th>
-<th>rmse</th>
-<th>rmse_gap</th>
-<th>r2</th>
-<th>r2_gap</th>
-<th>time</th>
+<th data-quarto-table-cell-role="th">epoch</th>
+<th data-quarto-table-cell-role="th">train_loss</th>
+<th data-quarto-table-cell-role="th">valid_loss</th>
+<th data-quarto-table-cell-role="th">rmse</th>
+<th data-quarto-table-cell-role="th">rmse_gap</th>
+<th data-quarto-table-cell-role="th">r2</th>
+<th data-quarto-table-cell-role="th">r2_gap</th>
+<th data-quarto-table-cell-role="th">time</th>
 </tr>
 </thead>
 <tbody>
@@ -2181,13 +2182,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p style="font-size: 1.5rem; font-decoration: bold">Kalman Filter (3 obs, 3 state, 6 contr)</p><p></p><div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div> <p style="font-size: 1.3rem;">trans matrix (A)</p> <style type="text/css">
 </style>
 
-<table id="T_c8dbf" class="table table-sm table-striped">
+<table id="T_c8dbf" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_c8dbf_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_c8dbf_level0_col1" class="col_heading level0 col1">x_0</th>
-<th id="T_c8dbf_level0_col2" class="col_heading level0 col2">x_1</th>
-<th id="T_c8dbf_level0_col3" class="col_heading level0 col3">x_2</th>
+<th id="T_c8dbf_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_c8dbf_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x_0</th>
+<th id="T_c8dbf_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">x_1</th>
+<th id="T_c8dbf_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">x_2</th>
 </tr>
 </thead>
 <tbody>
@@ -2213,13 +2214,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <div>
 <p>trans cov (Q)</p>
-<table id="T_10a38" class="table table-sm table-striped">
+<table id="T_10a38" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_10a38_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_10a38_level0_col1" class="col_heading level0 col1">x_0</th>
-<th id="T_10a38_level0_col2" class="col_heading level0 col2">x_1</th>
-<th id="T_10a38_level0_col3" class="col_heading level0 col3">x_2</th>
+<th id="T_10a38_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_10a38_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x_0</th>
+<th id="T_10a38_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">x_1</th>
+<th id="T_10a38_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">x_2</th>
 </tr>
 </thead>
 <tbody>
@@ -2246,11 +2247,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>trans off</p>
-<table id="T_34c4e" class="table table-sm table-striped">
+<table id="T_34c4e" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_34c4e_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_34c4e_level0_col1" class="col_heading level0 col1">offset</th>
+<th id="T_34c4e_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_34c4e_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">offset</th>
 </tr>
 </thead>
 <tbody>
@@ -2271,13 +2272,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>obs matrix (H)</p>
-<table id="T_b4d90" class="table table-sm table-striped">
+<table id="T_b4d90" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_b4d90_level0_col0" class="col_heading level0 col0">variable</th>
-<th id="T_b4d90_level0_col1" class="col_heading level0 col1">x_0</th>
-<th id="T_b4d90_level0_col2" class="col_heading level0 col2">x_1</th>
-<th id="T_b4d90_level0_col3" class="col_heading level0 col3">x_2</th>
+<th id="T_b4d90_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">variable</th>
+<th id="T_b4d90_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x_0</th>
+<th id="T_b4d90_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">x_1</th>
+<th id="T_b4d90_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">x_2</th>
 </tr>
 </thead>
 <tbody>
@@ -2304,13 +2305,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>obs cov (R)</p>
-<table id="T_11692" class="table table-sm table-striped">
+<table id="T_11692" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_11692_level0_col0" class="col_heading level0 col0">variable</th>
-<th id="T_11692_level0_col1" class="col_heading level0 col1">y_0</th>
-<th id="T_11692_level0_col2" class="col_heading level0 col2">y_1</th>
-<th id="T_11692_level0_col3" class="col_heading level0 col3">y_2</th>
+<th id="T_11692_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">variable</th>
+<th id="T_11692_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">y_0</th>
+<th id="T_11692_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">y_1</th>
+<th id="T_11692_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">y_2</th>
 </tr>
 </thead>
 <tbody>
@@ -2337,11 +2338,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>obs off</p>
-<table id="T_2e842" class="table table-sm table-striped">
+<table id="T_2e842" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_2e842_level0_col0" class="col_heading level0 col0">variable</th>
-<th id="T_2e842_level0_col1" class="col_heading level0 col1">offset</th>
+<th id="T_2e842_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">variable</th>
+<th id="T_2e842_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">offset</th>
 </tr>
 </thead>
 <tbody>
@@ -2362,16 +2363,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>contr matrix (B)</p>
-<table id="T_a5c79" class="table table-sm table-striped">
+<table id="T_a5c79" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_a5c79_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_a5c79_level0_col1" class="col_heading level0 col1">c_0</th>
-<th id="T_a5c79_level0_col2" class="col_heading level0 col2">c_1</th>
-<th id="T_a5c79_level0_col3" class="col_heading level0 col3">c_2</th>
-<th id="T_a5c79_level0_col4" class="col_heading level0 col4">c_3</th>
-<th id="T_a5c79_level0_col5" class="col_heading level0 col5">c_4</th>
-<th id="T_a5c79_level0_col6" class="col_heading level0 col6">c_5</th>
+<th id="T_a5c79_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_a5c79_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">c_0</th>
+<th id="T_a5c79_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">c_1</th>
+<th id="T_a5c79_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">c_2</th>
+<th id="T_a5c79_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">c_3</th>
+<th id="T_a5c79_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">c_4</th>
+<th id="T_a5c79_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">c_5</th>
 </tr>
 </thead>
 <tbody>
@@ -2407,11 +2408,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>init state mean</p>
-<table id="T_49b4a" class="table table-sm table-striped">
+<table id="T_49b4a" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_49b4a_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_49b4a_level0_col1" class="col_heading level0 col1">mean</th>
+<th id="T_49b4a_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_49b4a_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">mean</th>
 </tr>
 </thead>
 <tbody>
@@ -2432,13 +2433,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>init state cov</p>
-<table id="T_86c83" class="table table-sm table-striped">
+<table id="T_86c83" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_86c83_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_86c83_level0_col1" class="col_heading level0 col1">x_0</th>
-<th id="T_86c83_level0_col2" class="col_heading level0 col2">x_1</th>
-<th id="T_86c83_level0_col3" class="col_heading level0 col3">x_2</th>
+<th id="T_86c83_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_86c83_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x_0</th>
+<th id="T_86c83_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">x_1</th>
+<th id="T_86c83_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">x_2</th>
 </tr>
 </thead>
 <tbody>
@@ -2551,17 +2552,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe table table-sm table-striped" data-border="1">
+<table class="dataframe table table-sm table-striped" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
-<th>epoch</th>
-<th>train_loss</th>
-<th>valid_loss</th>
-<th>rmse</th>
-<th>rmse_gap</th>
-<th>r2</th>
-<th>r2_gap</th>
-<th>time</th>
+<th data-quarto-table-cell-role="th">epoch</th>
+<th data-quarto-table-cell-role="th">train_loss</th>
+<th data-quarto-table-cell-role="th">valid_loss</th>
+<th data-quarto-table-cell-role="th">rmse</th>
+<th data-quarto-table-cell-role="th">rmse_gap</th>
+<th data-quarto-table-cell-role="th">r2</th>
+<th data-quarto-table-cell-role="th">r2_gap</th>
+<th data-quarto-table-cell-role="th">time</th>
 </tr>
 </thead>
 <tbody>
@@ -2629,13 +2630,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p style="font-size: 1.5rem; font-decoration: bold">Kalman Filter (3 obs, 3 state, 6 contr)</p><p></p><div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div> <p style="font-size: 1.3rem;">trans matrix (A)</p> <style type="text/css">
 </style>
 
-<table id="T_9561b" class="table table-sm table-striped">
+<table id="T_9561b" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_9561b_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_9561b_level0_col1" class="col_heading level0 col1">x_0</th>
-<th id="T_9561b_level0_col2" class="col_heading level0 col2">x_1</th>
-<th id="T_9561b_level0_col3" class="col_heading level0 col3">x_2</th>
+<th id="T_9561b_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_9561b_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x_0</th>
+<th id="T_9561b_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">x_1</th>
+<th id="T_9561b_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">x_2</th>
 </tr>
 </thead>
 <tbody>
@@ -2661,13 +2662,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <div>
 <p>trans cov (Q)</p>
-<table id="T_a239c" class="table table-sm table-striped">
+<table id="T_a239c" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_a239c_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_a239c_level0_col1" class="col_heading level0 col1">x_0</th>
-<th id="T_a239c_level0_col2" class="col_heading level0 col2">x_1</th>
-<th id="T_a239c_level0_col3" class="col_heading level0 col3">x_2</th>
+<th id="T_a239c_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_a239c_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x_0</th>
+<th id="T_a239c_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">x_1</th>
+<th id="T_a239c_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">x_2</th>
 </tr>
 </thead>
 <tbody>
@@ -2694,11 +2695,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>trans off</p>
-<table id="T_3a14a" class="table table-sm table-striped">
+<table id="T_3a14a" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_3a14a_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_3a14a_level0_col1" class="col_heading level0 col1">offset</th>
+<th id="T_3a14a_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_3a14a_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">offset</th>
 </tr>
 </thead>
 <tbody>
@@ -2719,13 +2720,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>obs matrix (H)</p>
-<table id="T_54e38" class="table table-sm table-striped">
+<table id="T_54e38" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_54e38_level0_col0" class="col_heading level0 col0">variable</th>
-<th id="T_54e38_level0_col1" class="col_heading level0 col1">x_0</th>
-<th id="T_54e38_level0_col2" class="col_heading level0 col2">x_1</th>
-<th id="T_54e38_level0_col3" class="col_heading level0 col3">x_2</th>
+<th id="T_54e38_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">variable</th>
+<th id="T_54e38_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x_0</th>
+<th id="T_54e38_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">x_1</th>
+<th id="T_54e38_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">x_2</th>
 </tr>
 </thead>
 <tbody>
@@ -2752,13 +2753,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>obs cov (R)</p>
-<table id="T_8bbf7" class="table table-sm table-striped">
+<table id="T_8bbf7" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_8bbf7_level0_col0" class="col_heading level0 col0">variable</th>
-<th id="T_8bbf7_level0_col1" class="col_heading level0 col1">y_0</th>
-<th id="T_8bbf7_level0_col2" class="col_heading level0 col2">y_1</th>
-<th id="T_8bbf7_level0_col3" class="col_heading level0 col3">y_2</th>
+<th id="T_8bbf7_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">variable</th>
+<th id="T_8bbf7_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">y_0</th>
+<th id="T_8bbf7_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">y_1</th>
+<th id="T_8bbf7_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">y_2</th>
 </tr>
 </thead>
 <tbody>
@@ -2785,11 +2786,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>obs off</p>
-<table id="T_c1ff3" class="table table-sm table-striped">
+<table id="T_c1ff3" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_c1ff3_level0_col0" class="col_heading level0 col0">variable</th>
-<th id="T_c1ff3_level0_col1" class="col_heading level0 col1">offset</th>
+<th id="T_c1ff3_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">variable</th>
+<th id="T_c1ff3_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">offset</th>
 </tr>
 </thead>
 <tbody>
@@ -2810,16 +2811,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>contr matrix (B)</p>
-<table id="T_9bf1a" class="table table-sm table-striped">
+<table id="T_9bf1a" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_9bf1a_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_9bf1a_level0_col1" class="col_heading level0 col1">c_0</th>
-<th id="T_9bf1a_level0_col2" class="col_heading level0 col2">c_1</th>
-<th id="T_9bf1a_level0_col3" class="col_heading level0 col3">c_2</th>
-<th id="T_9bf1a_level0_col4" class="col_heading level0 col4">c_3</th>
-<th id="T_9bf1a_level0_col5" class="col_heading level0 col5">c_4</th>
-<th id="T_9bf1a_level0_col6" class="col_heading level0 col6">c_5</th>
+<th id="T_9bf1a_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_9bf1a_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">c_0</th>
+<th id="T_9bf1a_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">c_1</th>
+<th id="T_9bf1a_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">c_2</th>
+<th id="T_9bf1a_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">c_3</th>
+<th id="T_9bf1a_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">c_4</th>
+<th id="T_9bf1a_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">c_5</th>
 </tr>
 </thead>
 <tbody>
@@ -2855,11 +2856,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>init state mean</p>
-<table id="T_81651" class="table table-sm table-striped">
+<table id="T_81651" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_81651_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_81651_level0_col1" class="col_heading level0 col1">mean</th>
+<th id="T_81651_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_81651_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">mean</th>
 </tr>
 </thead>
 <tbody>
@@ -2880,13 +2881,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>init state cov</p>
-<table id="T_7bc3f" class="table table-sm table-striped">
+<table id="T_7bc3f" data-quarto-postprocess="true" class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th id="T_7bc3f_level0_col0" class="col_heading level0 col0">state</th>
-<th id="T_7bc3f_level0_col1" class="col_heading level0 col1">x_0</th>
-<th id="T_7bc3f_level0_col2" class="col_heading level0 col2">x_1</th>
-<th id="T_7bc3f_level0_col3" class="col_heading level0 col3">x_2</th>
+<th id="T_7bc3f_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
+<th id="T_7bc3f_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x_0</th>
+<th id="T_7bc3f_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">x_1</th>
+<th id="T_7bc3f_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">x_2</th>
 </tr>
 </thead>
 <tbody>
