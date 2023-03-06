@@ -3,9 +3,9 @@ website:
     contents:
       - index.ipynb
       - 00_data_preparation.ipynb
-      - 01_Results.ipynb
       - 10_SimpleGP_Imputation.ipynb
       - 20_Gaussian.ipynb
+      - 30_results.ipynb
       - 99_utils.ipynb
       - section: Fluxnet
         contents:
@@ -13,6 +13,7 @@ website:
           - Fluxnet/Hainich.ipynb
       - section: GPFA
         contents:
+          - GPFA/01_Results.ipynb
           - GPFA/0_GPFA.ipynb
           - GPFA/1_Learner.ipynb
           - GPFA/2_Imputation.ipynb

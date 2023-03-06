@@ -533,7 +533,7 @@ This implementation of the positive definite constraint makes it is that is stra
 
 The model parameters could be initialized using random values, however this would increase numerical stability issues and increase the training time. Moreover, if the initial parameters are very distant from the optimal ones, it is more likely for the optimization algorithm to find only a local minimum.  The simplicity of the Kalman Filter and the interpretability of its parameters allows to manually initialize the parameters with realist values.
 
-\paragraph{State transition matrix} $A$ is initialized using a ``local linear trend'' model \cite{durbin_time_2012}. The idea is that half of the state $x_{l_{t-1}}$ represent the level of the current state and the second half the slope $x_{s_{t-1}}$ of a linear function that describes the rate of change of the state between time steps. The next state level is equal to the current level plus the slope and a random noise, while the slope remains constant but for another random noise. The use of a slope allows the model to retain information of several previous states.
+\paragraph{State transition matrix} $A$ is initialized using a ``local linear trend'' model \cite{durbin_time_2012-1}. The idea is that half of the state $x_{l_{t-1}}$ represent the level of the current state and the second half the slope $x_{s_{t-1}}$ of a linear function that describes the rate of change of the state between time steps. The next state level is equal to the current level plus the slope and a random noise, while the slope remains constant but for another random noise. The use of a slope allows the model to retain information of several previous states.
 
 \paragraph{Observation Matrix} $H$ is initialized with an identity matrix. This means that each observed variable is modelled by one variable in the state. The second part of $H$ is 0 as in a local trend model the observations don't depend on the slope but only the level of the state.
 
@@ -678,7 +678,7 @@ The model was trained for \num{3} epochs with a learning rate of \num{1e-3}.
 \subparagraph{No Control} The last version of the model is one where the use of the control variables was disabled (\textbf{KF-Gen-Sin-6\_336-No\_Contr}). The data is the same of \textit{KF-Gen-Sin-6\_336} and the training was from scratch for \num{3} epochs with a learning rate of \num{1e-3}.
 
 \begin{figure}
-\centerline{\includegraphics[width=4.5in]{training scenarios}}
+\centerline{\includegraphics[width=\textwidth]{training scenarios}}
 \caption{Schematic representation of gap pattern for training scenarios. Each rectangle is a data block use for training, where each row is a different variable and each column a different time. The highlighted areas represent artificial gaps. In the visualization only 3 variable and a small number of data points are shown.}
 \label{fig:training}
 \end{figure}
@@ -687,7 +687,7 @@ The model was trained for \num{3} epochs with a learning rate of \num{1e-3}.
 
 \subsubsection{MDS}
 
-The implementation of the MDS used in the results comparison is from REddyProc (\cite{wutzler_basic_2018}). This package has been used because it provides an R interface, that can be easily integrated with Python. Conversely, ONEFlux implements only a C interface, whose integration in Python is significantly more challenging.  The MDS algorithm in REddyProc and ONEFlux are fully equivalent. In detail, the function \verb|REddyProc::sEddyProc_sMDSGapFill| was used, with the defaults setting of using SW\textunderscore IN, TA an VPD are driver with a tolerance of 2.5 \si{^\circ C}, 50 \si{W/m^s} and 5 \si{hPa} respectively as described in \cite{reichstein_separation_2005}.
+The implementation of the MDS used in the results comparison is from REddyProc (\cite{wutzler_basic_2018}). This package has been used because it provides an R interface, that can be easily integrated with Python. Conversely, ONEFlux implements only a C interface, whose integration in Python is significantly more challenging.  The MDS algorithm in REddyProc and ONEFlux are fully equivalent. In detail, the function \verb|REddyProc::sEddyProc_sMDSGapFill| was used, with the defaults setting of using SW\textunderscore IN, TA an VPD are driver with a tolerance of 2.5 \si{^\circ C}, 50 \si{W/m^s} and 5 \si{hPa} respectively as described in \cite{reichstein_separation_2005-3}.
 The data provided to MDS has a context of at least 90 days around the gap, as required by REddyProc. 
 
 \subsubsection{ERA} The imputation using ERA-Interim was performed by using the ERA variables available in the FLUXNET dataset without further correction.
@@ -731,47 +731,70 @@ The analysis of the pattern in the variable temporal autocorrelation and inter-v
 
 \subsection{Comparison to other imputation methods}
 
-The Kalman Filter (KF) has an overall better imputation performance than the other imputation methods: ERA-I and MDS. For scenarios, KF is the always best methods, while ERA-I constantly outperforms MDS (Figure \ref{fig:the_plot} and Table \ref{the_table}). The only exception from this pattern is the precipitation, for which the three methods are roughly equivalent.
-I compared the models by creating artificial gaps in a single variable with four different gap lengths (i.e. 6 hours, 12 hours, 1 day, 1 week). For each combination of variable and gap length, 500 artificial gaps were generated and imputed using the 3 methods. The performance was measured using the RMSE (Figure \ref{fig:the_plot} and Table \ref{the_table}) and the standardized RMSE (Appendix Figure \ref{fig:the_plot_stand} and Table \ref{the_table_stand}). In addition, the imputation performance is compared visually using three different example time series for each variable for three gap lengths (Figures \ref{fig:ts_1_0}, \ref{fig:ts_2_1} and Appendix figures \ref{fig:ts_2_2} \ref{fig:ts_2_0}, \ref{fig:ts_2_1}, \ref{fig:ts_2_2}). For each variable, the fine-tuned KF model has been used (\textit{KF-\textlangle var\textrangle-Sin-6\_336} figure \ref{fig:training}).
+The Kalman Filter (KF) has an overall better imputation performance than the other imputation methods: ERA-I and MDS. In all tested scenario, except for precipitation, there is the same pattern: KF is the method with the smallest imputation error, ERA-I is the second-best method while MDS is the worst performing approach (Figure \ref{fig:the_plot} and Table \ref{the_table}). For precipitation, the three methods are equivalent.
 
-The average error reduction across all variable ang gap length is 33\% reduction of error compared to ERA-I 57\% compared to MDS, if \vv{P} is excluded. The improvement of the KF compared to the best model strongly depends on the variable analysed and the gap length, ranging from 54\% for \vv{TA} to 5\% for \vv{LW\_IN}. Moreover, across the tested gaps the standard deviation and the maximum value of the KF RMSE is constantly smaller compared to other methods. % This suggests that there are no scenerios where the error of the KF is signifi
+\paragraph{} I compared the models by creating artificial gaps in a single variable with four different gap lengths (i.e. 6 hours, 12 hours, 1 day, 1 week). For each combination of variable and gap length, 500 artificial gaps were generated and imputed using the 3 methods. The performance was measured using the RMSE (Figure \ref{fig:the_plot} and Table \ref{the_table}) and the standardized RMSE (appendix Figure \ref{fig:the_plot_stand} and Table \ref{the_table_stand}). In addition, the imputation performance is compared visually using three different example time series for all the combinations of each variable and three gap lengths: 6 hours, 12 hours and 1 week (Figures \ref{fig:ts_1-1}, \ref{fig:ts_1-2} and appendix Figures \ref{fig:ts_2-1} \ref{fig:ts_2-2}, \ref{fig:ts_3-1}, \ref{fig:ts_3-2}). For each variable, the fine-tuned KF model has been used (\textit{KF-\textlangle var\textrangle-Sin-6\_336}).
 
-The variable with the highest Standarized RSME ....
+\paragraph{}
+The average error reduction across all variable and gap lengths is 33\% compared to ERA-I and 57\% compared to MDS, if precipitation (\vv{P}) is excluded. The improvement of the KF compared to the best ERA-I (best performing state-of-the-art model) strongly depends on the variable analysed and the gap length, ranging from 54\% for air temperature (\vv{TA}) to 5\% for incoming longwave radiation (\vv{LW\_IN}).
 
-\begin{itemize}
-    \item Overall Kalman Filter is better than state of the art
-    \item creation artificial gaps for different lengths
-    \item using a fine-tuned model
-    \item information results: RMSE plot + visually time series
-    \item numbers of average performance improvement: 33\% reduction of error compared to RMSE and 57\% to MDS (excluding \vv{P})
-    % \item a smaller error than ERA that has a smaller error than MDS. Exception is for \vv{P}
-    \item for long gap the relative performance of Kalman Filter is lower
-    \item Kalman Filter has a lower variability of the error. For all variables std is smaller and the max error is smaller
-    \item the max gap length is 15 because after that the model crashed due to numerical stability
-    \item uncertainty - doesn't vary much between variables and gaps
-    \item Standardized RMSE
-    \begin{itemize}
-    \item \vv{PA}/\vv{TS}/\vv{TA}/\vv{SWC} are the variable with the lowest error and is all comparable with standardized RMSE around .6
-    \item \vv{WS} is the variable with worse standardized RMSE 
-\end{itemize}
-\end{itemize}
+Furthermore, by analysing multiple artificial gaps for the same conditions (i.e. missing variable and gap length) the maximum value and the standard deviation of the gaps' RMSE is computed. For virtually every scenario, the KF is the method with the smallest maximum and standard deviation of the RMSE (Figure \ref{fig:the_plot} and Table \ref{the_table}). 
+
+The imputation performance between different variable can be compared by analysing the standardized RMSE, which measure the imputation error relative to the variable standard deviation. There is a wide range of imputation performance, with the standardized RMSE of the worst variable being 10 times the one of the best variable.
+The variables with the best imputation quality are:
+Air Pressure (\vv{PA}, $\text{RMSE}_{\text{stand}} = 0.06$),
+Air Temperature (\vv{TA}, $\text{RMSE}_{\text{stand}} = 0.08$)
+and Soil Water Content (\vv{SWC}, $\text{RMSE}_{\text{stand}} = 0.09$).
+Soil Temperature (\vv{TS} , $\text{RMSE}_{\text{stand}} = 0.14$),
+Vapour Pressure Deficit (\vv{VPD}, $\text{RMSE}_{\text{stand}} = 0.17$),
+Incoming Shortwave Radiation (\vv{SW\_IN}, $\text{RMSE}_{\text{stand}} = 0.25$)
+Incoming Longwave Radiation (\vv{LW\_IN}, $\text{RMSE}_{\text{stand}} = 0.33$)
+have an intermediate imputation quality.
+While the variable with the highest imputation error are: Wind Speed (\vv{WS}, $\text{RMSE}_{\text{stand}} = 0.47$) and  Precipitation (\vv{P}, $\text{RMSE}_{\text{stand}} = 0.67$).
+
+
+
+
+
+% The variable with the highest Standarized RSME ....
+
+% \begin{itemize}
+%     \item Overall Kalman Filter is better than state of the art
+%     \item creation artificial gaps for different lengths
+%     \item using a fine-tuned model
+%     \item information results: RMSE plot + visually time series
+%     \item numbers of average performance improvement: 33\% reduction of error compared to RMSE and 57\% to MDS (excluding \vv{P})
+%     % \item a smaller error than ERA that has a smaller error than MDS. Exception is for \vv{P}
+%     \item for long gap the relative performance of Kalman Filter is lower
+%     \item Kalman Filter has a lower variability of the error. For all variables std is smaller and the max error is smaller
+%     \item the max gap length is 15 because after that the model crashed due to numerical stability
+%     \item uncertainty - doesn't vary much between variables and gaps
+%     \item Standardized RMSE
+%     \begin{itemize}
+%     \item \vv{PA}/\vv{TS}/\vv{TA}/\vv{SWC} are the variable with the lowest error and is all comparable with standardized RMSE around .6
+%     \item \vv{WS} is the variable with worse standardized RMSE 
+% \end{itemize}
+% \end{itemize}
 
 \begin{figure}
     \centerline{\includegraphics[width=\imgwidth]{images2/the_plot}}
-\caption{ Imputation performance of the Kalman filter in comparison to the state of art methods: ERA-Interim (ERA-I) and Marginal Distribution Sampling (MDS) to compare. The performance was assessed calculating for each method the \textit{Root Mean Square Error} (RMSE) for an artificial gap, with a single variable missing. For each combination of variable and gap length a sample of 500 random gaps has been used (total 18000 artificial gaps).
-The Kalman Filter model has been fine-tuned to each variable. ERA-I dataset doesn't contain \texttt{TS} and \texttt{SWC} so cannot be used for their imputation. The extent of the box plot vertical lines represent the maximum and minimum value.}
+\caption{ Imputation performance of the Kalman filter (in green) in comparison to the state of art methods: ERA-Interim (ERA-I in orange) and Marginal Distribution Sampling (MDS in purple). The performance was assessed calculating for each method the \textit{Root Mean Square Error} (RMSE) for an artificial gap, with a single variable missing. For each combination of variable and gap length a sample of 500 random gaps has been used (total 18000 artificial gaps).
+The Kalman Filter model has been fine-tuned to each variable (\textit{KF-\textlangle var\textrangle-Sin-6\_336}). ERA-I dataset doesn't contain \texttt{TS} and \texttt{SWC}, so cannot be used for their imputation. The extent of the box plot vertical lines represent the maximum and minimum value of a gap RMSE.}
 \label{fig:the_plot}
 \end{figure}
 
+% the tables are generated from pandas and the caption in included there, but by defining a custom command is easy to customized the caption also after
+\newcommand{\CapTheTable}{Imputation performance of the Kalman filter in comparison to the state-of-the-art
+methods: ERA-Interim (ERA-I) and Marginal Distribution Sampling (MDS), using mean and standard deviation of the \textit{Root Mean Square Error} (RMSE). The best method for each gap length is highlighted in bold.}
 \include{tables2/the_table}
 
-The performance of the KF for each variable is analysed in detail and compared with the other methods
+The performance of the KF for each variable is analysed in detail and compared with the other methods:
 
 \paragraph{Air Temperature} Air temperature is the variable with the biggest improvement in performance, up to XX for 6 hours long gaps. KF outperforms ERA-I also for long gaps and the compared to MDS there is a 77\% reduction in the RMSE. The visual inspection of the time series indicate an overall very good reconstruction on the missing data. 
 
 \paragraph{Incoming shortwave radiation} The KF is the method with the smaller average RMSE, but the relative improvement is small, only 12\% compared to ERA-I. The highest error is at night, where \vv{SW\_IN} is by definition always 0, but the KF often predicts sudden changes with errors in the order of 50 \si{W/m^2}. However, this means that during the day the KF is consistently better than other methods, which is also confirmed by visual inspections of the time series. The main factor behind the changes in \vv{SW\_IN} is the cloud cover, which ERA-I often correctly predicts and consequently the KF can access this information, while the MDS is unable to model this type of changes.
 
-\paragraph{Incoming Longwave radiation} The imputation performance of the KF is comparable with ERA-I. For short gaps KF is better (20 \% improvement for 6 hours long gaps). This can be visualized in figure \ref{fig:ts_2_0}, where in the 12 hours long gap ERA is incorrect by an offset of roughly 50 \si{W/m^2}, while the KF prediction is more accurate towards the edges of the gap. KF The imputation performance of MDS is poor, especially for long gaps.
+\paragraph{Incoming Longwave radiation} The imputation performance of the KF is comparable with ERA-I. For short gaps KF is better (20 \% improvement for 6 hours long gaps). This can be visualized in figure \ref{fig:ts_2-1}, where in the 12 hours long gap ERA is incorrect by an offset of roughly 50 \si{W/m^2}, while the KF prediction is more accurate towards the edges of the gap. KF The imputation performance of MDS is poor, especially for long gaps.
 
 \paragraph{Vapour Pressure Deficit} KF is the best model for all gap lengths, the relative performance is higher for short gaps (XX compared to ERA) and progressively smaller for longer gaps. The analysis of the time series suggest that the KF is overall good at reconstructing the higher frequency changes of \vv{VPD}, but in some scenarios KF wrongly predicts short term variation (gap 1 week figure \ref{fig:ts_2-1}).
 
@@ -885,7 +908,7 @@ The variable where the use of the control results in the biggest improvement is 
 
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{images2/use_control.png}}
-\caption{Comparison between KF with control variables (in green \textit{KF-Gen-Sin-6\_336}) and KF without control variable (in purple \textit{KF-Gen-Sin-6\_336-No\_Contr}). For each combination of variable and each gap length, 500 artificial gaps were created.}
+\caption{Comparison between KF with control variables (in green \textit{KF-Gen-Sin-6\_336}) and KF without control variable (in purple \textit{KF-Gen-Sin-6\_336-No\_Contr}). For each combination of variable and gap length, 500 artificial gaps were created.}
 \label{fig:control}
 \end{figure}
 
@@ -910,7 +933,7 @@ Across the different variables, there is an increase in the absolute values of t
 
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{images2/gap_single_var}}
-\caption{Gap single var}
+\caption{Comparison of imputation performance between a gap in only the variable of interest (green) and the same gap with all other variables missing (purple). The model used for imputation is always: \textit{KF-Gen-Mulit-6\_336}). For each combination of variable and gap length, 500 artificial gaps were created.}
 \label{fig:gap_single_var}
 \end{figure}
 
@@ -920,23 +943,37 @@ Across the different variables, there is an increase in the absolute values of t
 
 The performance of the KF is improved if the model is fine-tuned with gaps only for one variable (e.g. only for \vv{TA}). For each variable a different model has been used (\textit{KF-\textlangle var \textrangle-Sin-6\_336}) and the performance compared to a generic model that has been trained with one gap in any variable (\textit{KF-Gen-Sin-6\_336}). For each combination of gap length and variable, 500 artificial gaps were created.
 
-The fine-tuning is reducing the error for all the variables (figure \ref{fig:generic} and appendix table \ref{ta} \ref{fig:generic})
-\begin{itemize}
-    \item fine-tuning the model is improving the performance across all variables
-    \item biggest increase is in \vv{SWC} and \vv{TA}, which much smaller error especially for long gap. Variability of RMSE also decreases
-\end{itemize}
+The fine-tuning is reducing the error for all the variables (figure \ref{fig:generic} and appendix table \ref{generic}). The entity of the error reduction changes depending on the variable, ranging from 75\% for \vv{SWC} to 12\% for \vv{LW\_IN}.
+The precipitation is not only variable that is not fine-tuned, as during the training no consistent improvement in performance was found.
+For the majority of variables, the variability of the RMSE between gaps of the fine-tuned model and the maximum RMSE is also smaller for the fine-tuned model.
+
+% \begin{itemize}
+%     \item fine-tuning the model is improving the performance across all variables
+%     \item biggest increase is in \vv{SWC} and \vv{TA}, which much smaller error especially for long gap. Variability of RMSE also decreases
+% \end{itemize}
 
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{images2/generic.png}}
-\caption{Comparison model fine-tuned for each variable (green) with generic model (purple). 100 samples for each variable and gap length}
+\caption{Comparison between KF models fine-tuned to each variable (in green \textit{KF-\textlangle var\textrangle-Sin-6\_336}) and generic model trained for gaps in any variable (in purple \textit{KF-Gen-Sin-6\_336}). For each combination of variable and gap length, 500 artificial gaps were created.}
 \label{fig:generic}
 \end{figure}
 
 \subsubsection{Training limitations}
 
+During the training of different KF versions I experienced limitation in the ability of the KF to learn the optimal parameters. For instance, if the KF is initialized with random parameters it will never achieve the same performance of a KF initialized with the local trend model. The training conditions are the same, so the model that starts with random parameters should be able to learn the same parameters, but this is often not the case.
+
+The difficulty to train the KF model is represented in figure \ref{fig:train_compare}.
+There three models are compared: a model trained with gaps in multiple variables (\textit{KF-Gen-Multi-6\_336}), a mode trained with gaps of only one variable (\textit{KF-Gen-Sin-6\_336}) and one model trained with gaps in multiple variables but initialized with random parameters (\textit{KF-Gen-Multi-6\_336-Rand}).
+All models are trained until there is no improvement in the validation loss. The three models are used to impute a gap where only one variable is missing.
+The expectation is that they should have comparable performance, but this is not the case (figure \ref{fig:train_compare} and appendix table \ref{train_compare}). The training conditions between \textit{KF-Gen-Mulit-6\_336} and \textit{KF-Gen-Multi-6\_336-Rand} are exactly the same, so they should be able to achieve the same performance. The other model, \textit{KF-Gen-Sin-6\_336}, is trained on the same conditions that are used for testing, so it should not perform worse than \textit{KF-Multi-Sin-6\_336}.
+
+The best model is always \textit{KF-Gen-Sin-6\_336}, while depending on variables the second best model is either \textit{KF-Gen-Sin-6\_336} or \textit{KF-Gen-Multi-6\_336-Rand}.
+
+
+
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{images2/train_compare.png}}
-\caption{Comparison of different training conditions}
+\caption{Visualization of KF training difficulties. For a gap in one variable, three models are compared: a model trained with gaps in multiple variables (in green \textit{KF-Gen-Multi-6\_336}), a mode trained with gaps of only one variable (in purple \textit{KF-Gen-Sin-6\_336}) and one model trained with gaps in multiple variables but initialized with random parameters (in orange \textit{KF-Gen-Multi-6\_336-Rand}). The models are expected to have the same performance. For each combination of variable and gap length, 500 artificial gaps were created.}
 \label{fig:train_compare}
 \end{figure}
 
@@ -948,22 +985,25 @@ The fine-tuning is reducing the error for all the variables (figure \ref{fig:gen
 
 \subsection{Kalman Filter performance}
 
-The results confirm the hypothesis that temporal autocorrelation is a key approach for imputing gaps in meteorological variables. One of the biggest strength of the KF is that it make better use of temporal autocorrelation, which is the likely the biggest single factor behind the improved performance. The fact that the error is increasing with the gap length only for the first 24 hours is confirming this. Moreover, the variables the relative performance of the filter is higher for variables that have a higher temporal correlation (\vv{TA}, \vv{PA} and \vv{VPD})
+The results confirm the hypothesis that temporal autocorrelation is a key approach for imputing gaps in meteorological variables. One of the biggest strength of the KF is that it make better use of temporal autocorrelation, which is the likely the biggest single factor behind the improved performance of the KF. The fact that the error is increasing with the gap length only for the first 24 hours is confirming this. Moreover, the variables the relative performance of the filter is higher for variables that have a higher temporal correlation (\vv{TA}, \vv{PA} and \vv{VPD})
 
 The improvement of KF performance across all variables when including the control variables confirms the hypothesis that the combination of the imputation approaches can produce better predictions. In line with the expectations, the use of the ERA-I data is crucial for the filter performance for long gaps, but results only in limited improvements for short gaps. Notably, the use of the control improve the predictions also for \vv{SWC} and \vv{TS}, which even if they are directly present in the ERA-I dataset, they correlated with other variables that are present in the control.
 
 The results suggest that depending on the length of the gap the optimal imputation strategy is different, for short gaps the most important aspect is the temporal autocorrelation, while for longer gaps the control variable and inter-variable correlation plays a bigger role. This is expected, as for many variable the observations before and after the gap can provide a lot of information to reconstruct the missing data, but the effect is reduced with the gap length and other source of information are needed to correctly model the missing variable.
 
-The numerical stability issues limited our analysis of the effect of the inter-variable correlation for short gaps, where we expect the effect to be limited. In fact, the presence of the information of other variables
-The results, for the of figure \ref{fig:gap_single_var}, highlight a limitation of the model training. The model trained with the gap in  only one variable, should be able to learn to ignore the information of the other variable and achieve the same performance as the model trained with gaps in all variables. However, this is not the case, which is likely due to the optimizer finding a local minimum.
-The low importance of inter-variable correlation may also depend on the parameter initialization, where each observed variables is directly mapped to a state variable. This issue in the model training may be the source of the excessive variability in the predictions of  \vv{TS} and \vv{SWC}.
-Further research would be needed to understand the behaviour of the model training and the impact of the initial parameters.
+The model is able to exploit inter-variable correlation to improve the predictions. Overall, the variables with the highest correlation benefit the most when other variables are present in the gaps, which match the expectation.
+This relation is not perfect, though, for instance \vv{TS} has a high correlation with other variables but still only a relatively small improvement in prediction performance.
+Moreover, this analysis was limited to short gaps, but we would expect that for longer gaps inter-variable correlation plays a bigger role in the KF predictions.
 
-The best imputation of the KF is achieved only when the model parameters are fine-tuned to the specific conditions. We tested the fine-tuning of the model both to one variable and to short gaps, with both scenarios producing an increase in the performance. Moreover, we expect that further tuning the model to more granular conditions would improve the performance. For instance, the rate of change of the soil temperature is significantly  higher in dry summer day compared to winter day with the ground covered in snow. Therefore, the optimal KF parameters would be different between those conditions.
+% The numerical stability issues limited our analysis of the effect of the inter-variable correlation for short gaps, where we expect the effect to be limited. In fact, the presence of the information of other variables
+% The results, for the of figure \ref{fig:gap_single_var}, highlight a limitation of the model training. The model trained with the gap in  only one variable, should be able to learn to ignore the information of the other variable and achieve the same performance as the model trained with gaps in all variables. However, this is not the case, which is likely due to the optimizer finding a local minimum.
+% The low importance of inter-variable correlation may also depend on the parameter initialization, where each observed variables is directly mapped to a state variable. This issue in the model training may be the source of the excessive variability in the predictions of  \vv{TS} and \vv{SWC}.
+% Further research would be needed to understand the behaviour of the model training and the impact of the initial parameters.
+
 
 \paragraph{Variables considerations}
 
-\subparagraph{Shortwave radiation} The low performance of the \vv{SW\_IN} at night highlights a limitation of the Kalman filter.  At its core the filter considers only the evolution of the filter between consecutive time steps, and since  hence it cannot model the daily pattern of \vv{SW\_IN}. Moreover, the rate of change of \vv{SW\_IN} between consecutive time steps is between the day and the night is very different and since the KF uses constant parameters cannot include this variability. The control variable is the main source of information for the filter, which is confirmed by the results.
+\subparagraph{Shortwave radiation} The low performance of the \vv{SW\_IN} at night highlights a limitation of the Kalman filter.  At its core, the KF considers only the evolution of the filter between consecutive time steps, hence it cannot model the daily pattern of \vv{SW\_IN}. Moreover, the rate of change of \vv{SW\_IN} between consecutive time steps is between the day and the night is very different and since the KF uses constant parameters cannot include this variability. The control variable is therefore main source of information on the daily pattern of \vv{SW\_IN}, which is confirmed in the results.
 
 \subparagraph{Precipitation} The precipitation has a low temporal autocorrelation and low correlation with other variables, this significantly limits the ability of the KF to accurately impute missing values. The accuracy of ERA-I is limited as well, in  bias correction is done using annual sums and not the precipitation at 30 mins intervals, because the timing is considered not accurate enough. Moreover, there is no precipitation in the majority of the observations (over 90\% data points in Hainich), for which the RMSE is a well suited metric. In fact, \cite{chivers_imputation_2020} developed a spatial and temporal imputation method for precipitation, that employs two different models: first they predict for each data point, whether there is precipitation or not and then use another models to predict the amount of precipitation.  Overall the precipitation has a high spatial and temporal variability \cite{mital_sequential_2020} and different characteristics  than other meteorological variable. The KF is not suited for the imputation precipitation, which would require a tailored modelling approach that is beyond the scope of this work.
 
@@ -971,7 +1011,14 @@ The best imputation of the KF is achieved only when the model parameters are fin
 This is scenario shows the limitations of the simplicity KF, while a properly designed Gaussian Process should be able to model the high frequency variation. Nonetheless, the KF has a better performance than the current imputation methods. 
 
 
-\paragraph{Training}
+\paragraph{Model Training}
+The best imputation of the KF is achieved only when the model parameters are fine-tuned to the specific conditions. 
+% We tested the fine-tuning of the model both to one variable and to short gaps, with both scenarios producing an increase in the performance.
+Moreover, I expect that further tuning the model to more granular conditions would improve the performance.
+For instance, the rate of change of the soil temperature is significantly  higher in dry summer day compared to winter day with the ground covered in snow. Therefore, the optimal KF parameters would be different between those conditions.
+
+One of the key outcomes of this work is that the KF is able to achieve good performances for imputation, but it may be difficulty to learn the  model parameters. The initialization of the parameters with a local trend model is a way to mitigate .... . However is likely the the current models parameters are in reality not the best one, for instance the KF performance for \vv{TS} is suprisingly poor for long gaps, even though is a variable with an high temporal autocorrelation and the correlation with other variables, hence is possible that that the limite performance is due to limitation on the training process and not the KF.
+Further research would be needed
 
 \paragraph{Numerical stability} becomes not positive definite, hence is impossible to compute the log likelihood
 appendix figures
@@ -1001,7 +1048,7 @@ I identify further directions...
 
 \subparagraph{ERA-5 Land} The European Centre for Medium-Range Weather Forecasts recently released two new weather reanalysis datasets: ERA5 in 2020 \cite{hersbach_era5_2020} and ERA-5 Land  in 2021 \cite{munoz-sabater_era5-land_2021}, which supersede the ERA-Interim dataset. The ERA5-Land dataset coves only the continent, but has a much higher spatial resolution (9 km vs 80km) ad higher temporal resolution (1 hour instead of 3 hour). The use ERA5-Land data as control variable for the KF has the potential to improve the imputation performance.
 
-\subparagraph{Parameter initialization and Training} Our analysis suggest initial parameters have significant influence on the final parameters and thus the performance of the model. There are several approaches to initialize a Kalman Filter \cite{durbin_time_2012-4} and a robust comparison between the different methods may reveal a better initialization strategy than the linear trend model.  
+\subparagraph{Parameter initialization and Training} Our analysis suggest initial parameters have significant influence on the final parameters and thus the performance of the model. There are several approaches to initialize a Kalman Filter \cite{durbin_time_2012} and a robust comparison between the different methods may reveal a better initialization strategy than the linear trend model.  
 
 \subparagraph{Model Filter Parameters} One of the advantages of the iterative nature of the KF formulation is the ability to change the parameters between time step. This opens the possibility to have a model that predicts the parameters of the filter depending on the conditions, which should overcome the necessity to fine-tune the KF parameters to each condition. 
 
@@ -1056,35 +1103,38 @@ Finally, the impact of the KF imputation can be evaluated by the reduction in th
 \label{fig:the_plot_stand}
 \end{figure}
 
-
+\newcommand{\CapTheTableStand}{Imputation performance of the Kalman filter in comparison to the state-of-the-art
+methods: ERA-Interim (ERA-I) and Marginal Distribution Sampling (MDS), using mean and standard deviation of the \textit{Root Mean Square Error} (RMSE). The best method for each gap length is highlighted in bold.}
 \include{tables2/the_table_stand}
 \subsection{Additional Time series}
 
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{images2/timeseries_1_1}}
-\caption{Timeseries 1}
+\caption{Example time series 2}
 \label{fig:ts_2-1}
 \end{figure}
 
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{images2/timeseries_2_1}}
-\caption{Timeseries 1}
+\caption{Example time series 2}
 \label{fig:ts_2-2}
 \end{figure}
 
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{images2/timeseries_1_2}}
-\caption{Timeseries 1}
+\caption{Example time series 3}
 \label{fig:ts_3-1}
 \end{figure}
 
 \begin{figure}
 \centerline{\includegraphics[width=\imgwidth]{images2/timeseries_2_2}}
-\caption{Timeseries 1}
+\caption{Example time series 3}
 \label{fig:ts_3-2}
 \end{figure}
 \subsection{Additional Tables}
 
+\newcommand{\CapGapLen}{Imputation performance of the Kalman filter in comparison to the state-of-the-art
+methods: ERA-Interim (ERA-I) and Marginal Distribution Sampling (MDS), using mean and standard deviation of the \textit{Root Mean Square Error} (RMSE). The best method for each gap length is highlighted in bold.}
 \include{tables2/gap_len}
 
 \include{tables2/gap_single_var}

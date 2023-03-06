@@ -1,5 +1,5 @@
 #' Fill gaps using EddyProc
-#' dataset should contain a column called `gap` which is 0 where there is not gap and 1 wehre there is a gap
+#' `data` should contain a column called `gap` which is 0 where there is not gap and 1 where there is a gap
 #' @param data
 #' @param var character of variable to be gap-filled
 fill_gaps_EProc <- function(data, var, V_names = default_V_vars, T_values = default_T_values){
@@ -10,12 +10,14 @@ fill_gaps_EProc <- function(data, var, V_names = default_V_vars, T_values = defa
   EProc$sExportResults()
 }
 
+#' default values for drivers
 default_V_vars <- list(
   V1 = "SW_IN",
   V2 = "VPD",
   V3 = "Tair"
 )
 
+#' default values of drivers thresholds
 default_T_values <- list(
   T1 = 50,
   T2 = 5,
@@ -23,8 +25,11 @@ default_T_values <- list(
 )
 
 
-#' Creates a random gap of given length and fill it
-#' @param use_vars other variable to remove
+#' Creates a random gap of given length and fill it using REddyProc
+#' @param data dataset
+#' @param var variable to fill
+#' @param gap_length length of gap
+#' @param use_vars drivers for MDS imputation
 gap_fill_random_gap_EProc <- function(data, var, gap_length, use_vars = list(names = default_V_vars, values = default_T_values)) {
 
   data_gap <- data %>%
@@ -40,20 +45,32 @@ gap_fill_random_gap_EProc <- function(data, var, gap_length, use_vars = list(nam
   tibble(gap_length = gap_length, data = list(data_filled))
 }
 
-#' Vectorized version of gap legths
+#' Vectorized version for `gap_length` of `gap_fill_random_gap_EProc`
+#' @param data dataset
+#' @param var variable to fill
+#' @param gap_length length of gap
+#' @param use_vars drivers for MDS imputation
 gap_fill_random_gap_EProc_vec <- function(data, var, gap_lengths, use_vars = list(names = default_V_vars, values = default_T_values)){
   map_dfr(gap_lengths, ~gap_fill_random_gap_EProc(data, var, .x, use_vars))
 }
 
 
-#' Set to NA the given variables in the gap
+#' Set to NA the given variables in the gap (where the col `gap` is 1)
+#' this ensure that data that should be missing cannot be used in gap-filling
+#' @param data dataset
+#' @param remove_vars variables that are missing in the gap
 remove_var_gap <- function(data, remove_vars){
   data[as.logical(data$gap), remove_vars] <-  NA
   print(colSums(is.na(data)))
   data
 }
 
-#' generate random gaps of for the given lengths and then fills them with
+#' Generate random gaps of for the given lengths and then fills them with MDS
+#' @param site_data dataset
+#' @param gap_length length of gap
+#' @param var variable to fill
+#' @param n_workers number of parallel processes to start
+#' @param use_vars drivers for MDS imputation
 gap_fill_multiple_gaps_EProc <- function(site_data, gaps_lengths, var, n_workers = 4, use_vars = list(names = default_V_vars, values = default_T_values)){
   suppressWarnings({
     suppressMessages({
@@ -79,5 +96,4 @@ gap_rmse <- function(data, var){
 
 pretty_gap_len <- function(gap_length){
   str_glue("{prettyunits::pretty_dt(as.difftime(gap_length * 30, units=\"mins\"))} ({gap_length} obs.)")
-
 }

@@ -1,7 +1,10 @@
+fluxnet_all/
+
+_cache/
 _docs/
 _proc/
 .virtual_documents/
-data
+#data
 # Quarto build artifacts
 .html
 *_files/
