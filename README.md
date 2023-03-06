@@ -12,6 +12,10 @@ Eddy-Covariance applications.
 Models developed: - Gaussian Processes Factor Analysis (GPFA) - space
 state models (Kalman Filter)
 
+## Repository Structure
+
+## Other imputation methods
+
 ## License
 
 The code under `model_imp.kalman.filter` has the following license

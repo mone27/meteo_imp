@@ -2,30 +2,13 @@ website:
   sidebar:
     contents:
       - index.ipynb
-      - 00_data_preparation.ipynb
-      - 01_Results.ipynb
-      - 10_SimpleGP_Imputation.ipynb
-      - 20_Gaussian.ipynb
+      - 00_Gaussian.ipynb
+      - 10_Kalman_Filter.ipynb
+      - 11_training.ipynb
+      - 12_filter_performance_stability.ipynb
+      - 20_results.ipynb
       - 99_utils.ipynb
       - section: Fluxnet
         contents:
           - Fluxnet/00_gap_finder.ipynb
           - Fluxnet/Hainich.ipynb
-      - section: GPFA
-        contents:
-          - GPFA/0_GPFA.ipynb
-          - GPFA/1_Learner.ipynb
-          - GPFA/2_Imputation.ipynb
-      - section: kalman
-        contents:
-          - kalman/00_filter.ipynb
-          - kalman/01_test_filter_pykalman.ipynb
-          - kalman/03_filter_performance-stability.ipynb
-          - kalman/04_filter_numerical_stability.ipynb
-          - kalman/10_fastai.ipynb
-          - kalman/11_fastai_OLD.ipynb
-          - kalman/20_learner.ipynb
-          - kalman/21_imputation.ipynb
-          - kalman/OLD StatsModels - StateSpace.ipynb
-          - kalman/OLD_01_PyKalman_Models.ipynb
-          - kalman/OLD_02_PyKalman_Imputation.ipynb
