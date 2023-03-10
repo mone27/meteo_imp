@@ -2,15 +2,15 @@
 
 # %% auto 0
 __all__ = ['path_r', 'rmse_mask', 'var_type', 'method_type', 'base_path', 'method_scale', 'meteo_scale', 'plot_formatter',
-           'renames_table_latex', 'renames_table_latex_stand', 'err_type', 'PredictLossVar', 'PredictLikelihoodVar',
-           'MultiMetrics', 'KalmanImputation', 'KalmanImputationVar', 'importr_install', 'setupR', 'pd2R', 'R2pd',
-           'add_buffer', 'item2REddy', 'gap_fill_item', 'MDSImputation', 'ERAImputation', 'MaskedMetric', 'rmse',
-           'normalize', 'NormalizedMetric', 'format_gap_len', 'prep_df', 'timeseriesAgg', 'RMSEAgg', 'ImpComparison',
-           'l_model', 'KalmanImpComparison', 'facet_wrap', 'facet_grid', 'PlotFormatter', 'the_plot', 'the_plot_stand',
-           'the_plot_stand2', 'custom_boxplot_nooutlier', 'the_plot_stand3', 'agg_gap_len', 'plot_gap_len',
-           'plot_compare', 'unnest_predictions', 'plot_timeseries', 'highlight_min_method', 'style_the_table',
-           'the_table', 'the_table_latex', 'table_compare', 'table_compare_latex', 'table_compare3',
-           'table_compare3_latex', 'table_gap_len', 'table_gap_len_latex']
+           'renames_table_latex', 'renames_table_latex_stand', 'err_type', 'err_type_rev', 'PredictLossVar',
+           'PredictLikelihoodVar', 'MultiMetrics', 'KalmanImputation', 'KalmanImputationVar', 'importr_install',
+           'setupR', 'pd2R', 'R2pd', 'add_buffer', 'item2REddy', 'gap_fill_item', 'MDSImputation', 'ERAImputation',
+           'MaskedMetric', 'rmse', 'normalize', 'NormalizedMetric', 'format_gap_len', 'prep_df', 'timeseriesAgg',
+           'RMSEAgg', 'ImpComparison', 'l_model', 'KalmanImpComparison', 'facet_wrap', 'facet_grid', 'PlotFormatter',
+           'the_plot', 'the_plot_stand', 'the_plot_stand2', 'custom_boxplot_nooutlier', 'the_plot_stand3',
+           'agg_gap_len', 'plot_gap_len', 'plot_compare', 'unnest_predictions', 'plot_timeseries',
+           'highlight_min_method', 'style_the_table', 'the_table', 'the_table_latex', 'table_compare',
+           'table_compare_latex', 'table_compare3', 'table_compare3_latex', 'table_gap_len', 'table_gap_len_latex']
 
 # %% ../../lib_nbs/20_results.ipynb 6
 from fastcore.test import *
@@ -496,7 +496,7 @@ def facet_grid(data: pd.DataFrame, # full dataset
     n_cols = len(data[col].unique())
     plots = []
     for row_val, y_label in zip_longest(row_vals, listify(y_labels)):
-        plot = facet_wrap(data[data[row]==row_val].copy(), plot_fn, col, y_label, n_cols=n_cols).properties(title=row_val)
+        plot = facet_wrap(data[data[row]==row_val].copy(), plot_fn, col, [y_label]*n_cols, n_cols=n_cols).properties(title=row_val)
         plots.append(plot)
     return alt.vconcat(*plots)
 
@@ -563,11 +563,11 @@ def the_plot(data):
 def the_plot_stand(data):
     # data = data.query("method == 'KalmanFilter'")
     return alt.Chart(data).mark_boxplot(extent="min-max").encode(
-        x = alt.X('var', title='gap_len [h]', axis=alt.Axis(labelAngle=0)),
+        x = alt.X('var', title='Variable', axis=alt.Axis(labelAngle=0)),
         y = alt.Y('rmse_stand', title="Standardized RMSE", axis=alt.Axis(grid=True)),
         color=alt.Color('method', title="Method", scale=method_scale, legend=plot_formatter.color_legend),
         xOffset=alt.XOffset('method:N', scale= alt.Scale(domain=method_scale.domain)),
-    ).properties(width=600, height=300).pipe(plot_formatter)
+    ).properties(width=600, height=300)#.pipe(plot_formatter)
 
 # %% ../../lib_nbs/20_results.ipynb 146
 def the_plot_stand2(data):
@@ -616,7 +616,7 @@ def _plot_gap_len(data, y_label):
         x = alt.X('gap_len', title="Gap length [h]", axis=alt.Axis(labelAngle=0)),
         y = alt.Y('median', title=y_label),
         color=alt.Color('var', scale=meteo_scale)
-    ).properties(height=150, width=200)
+    ).properties(width=250, height=200)
     Qs = alt.Chart(data).mark_errorband().encode(x = 'gap_len', y = alt.Y('Q1', title=y_label), y2= 'Q3', color='var')
     # min = alt.Chart(gap_len_agg).mark_point().encode(x = 'gap_len', y = 'min', color='var')
     # max = alt.Chart(gap_len_agg).mark_point().encode(x = 'gap_len', y = 'max', color='var')
@@ -724,7 +724,7 @@ def plot_timeseries(data, idx_rep:int|None=None, gap_len:int|None = None, max_id
     data_plot = pd.concat([unnest_predictions(row, ctx_len[row.gap_len]) for _, row in data_plot.iterrows()])
     data_plot = data_plot.astype({'idx_rep': str, 'gap_len_f': str})
     data_plot['gap_len_f'] = data_plot['gap_len_f'].apply(lambda x: "Gap " + x)
-    y_labels = _get_labels(data, 'rmse', None)
+    y_labels = _get_labels(data, 'mean', None)
     return (facet_grid(data_plot, partial(_plot_timeseries, scale_color=scale_color, compare=compare),
                       row="var", col=facet_var, y_labels=y_labels)
             .pipe(plot_formatter))
@@ -769,21 +769,7 @@ renames_table_latex = {name: f"\\parbox{{2.1cm}}{{{val}}}" for name, val in
           }.items()}
 
 # %% ../../lib_nbs/20_results.ipynb 223
-renames_table_latex = {name: f"{{{val}}}" for name, val in 
-                 {'SW_IN': "\\textbf{SW\\_IN} [\\si{W/m^2}]",
-               'LW_IN': '\\textbf{LW\\_IN} [\\si{W/m^2}]',
-               'TA': "\\textbf{TA} [\\si{°C}]",
-               'VPD': "\\textbf{VPD} [\\si{hPa}]",
-               'PA': "\\textbf{PA} [\\si{hPa}]",
-               'P': "\\textbf{P} [\\si{mm}]",
-               'WS': "\\textbf{WS} [\\si{m/s}]",
-               'TS': "\\textbf{TS} [\\si{°C}]",
-               'SWC': "\\textbf{SWC} [\\si{\%}]",
-          }.items()}
-
-# %% ../../lib_nbs/20_results.ipynb 224
-renames_table_latex_stand = {name: f"\\parbox{{2.1cm}}{{{val}}}" for name, val in 
-                 {'SW_IN': "\\textbf{SW\\_IN}",
+renames_table_latex_stand = {'SW_IN': "\\textbf{SW\\_IN}",
                'LW_IN': '\\textbf{LW\\_IN}',
                'TA': "\\textbf{TA}",
                'VPD': "\\textbf{VPD}",
@@ -792,92 +778,102 @@ renames_table_latex_stand = {name: f"\\parbox{{2.1cm}}{{{val}}}" for name, val i
                'WS': "\\textbf{WS}",
                'TS': "\\textbf{TS}",
                'SWC': "\\textbf{SWC}",
-          }.items()}
+          }
 
-# %% ../../lib_nbs/20_results.ipynb 229
+# %% ../../lib_nbs/20_results.ipynb 228
+from fastcore.basics import noop
+
+# %% ../../lib_nbs/20_results.ipynb 230
+err_type = CategoricalDtype(categories=["mean", "std", "se", "diff."], ordered=True)
+err_type_rev = CategoricalDtype(categories=["se", "std", "mean", "diff."], ordered=True)
+
+# %% ../../lib_nbs/20_results.ipynb 231
 def the_table(data, y='rmse', y_name="RMSE"):
-    data = data.groupby(['method', 'var', 'gap_len']).agg({y: ['mean', 'std']}).unstack(level=0)
+    data = data.groupby(['method', 'var', 'gap_len_f']).agg({y: ['mean', 'std']}).unstack(level=0)
 
     data_cols = data.columns.droplevel()
     data_cols.names = [y_name, None]
+    data_cols = pd.MultiIndex.from_frame(data_cols.to_frame().astype({y_name: err_type}))
+    data_cols.names = [y_name, None]
     data.columns = data_cols
-    data.index.names = ["Variable", "Gap [$h$]"]
+    
+    data.index.names = ["Variable", "Gap"]
+        
     return data.sort_index(axis=1, level=1).swaplevel(axis=1)   
 
-# %% ../../lib_nbs/20_results.ipynb 231
+# %% ../../lib_nbs/20_results.ipynb 233
 def the_table_latex(table, file, caption="", label="", stand=False):
     renames = renames_table_latex if not stand else renames_table_latex_stand
     styled = table.rename(index = renames).style.pipe(style_the_table).format(na_rep="-", precision=3)
     latex = styled.to_latex(convert_css=True, hrules=True, clines="skip-last;data",
-                            column_format="p{2.1cm}c|rr|rr|rr", caption=caption, label=label, position_float="centering")
+                            column_format="p{2.1cm}l|rr|rr|rr", caption=caption, label=label, position_float="centering")
     with open(file, 'w') as f:
         f.write(latex)
     return file
 
-# %% ../../lib_nbs/20_results.ipynb 234
-err_type = CategoricalDtype(categories=["se", "std", "mean", "diff."], ordered=True)
+# %% ../../lib_nbs/20_results.ipynb 236
 def table_compare(data, compare:str, y = 'rmse_stand', compare_ascending=True):
-    data = data.groupby([compare, 'var', 'gap_len']).agg({y: ['mean', 'std', ('se', 'sem')]}).unstack(level=0).droplevel(level=0, axis=1)
+    data = data.groupby([compare, 'var', 'gap_len_f']).agg({y: ['mean', 'std', ('se', 'sem')]}).unstack(level=0).droplevel(level=0, axis=1)
     
     data["diff."] = (data.iloc[:, 0] - data.iloc[:, 1])
     
     data_cols = data.columns
-    data_cols.names = ['RMSE Standardized', compare]
+    data_cols.names = ['Stand. RMSE', compare]
     # support custom sorting order
-    data.columns = pd.MultiIndex.from_frame(data_cols.to_frame().astype({'RMSE Standardized': err_type}))
-    data.index.names = ["Variable", "Gap [$h$]"]
+    data.columns = pd.MultiIndex.from_frame(data_cols.to_frame().astype({'Stand. RMSE': err_type_rev}))
+    data.index.names = ["Variable", "Gap"]
     return data.sort_index(axis=1, level=1, ascending=False).swaplevel(axis=1) 
 
-# %% ../../lib_nbs/20_results.ipynb 236
+# %% ../../lib_nbs/20_results.ipynb 238
 def table_compare_latex(table, file, caption="", label=""):
     styled = table.rename(index = renames_table_latex_stand).style.pipe(partial(style_the_table, cols=[0,3]))
     latex = styled.to_latex(convert_css=True, hrules=True, clines="skip-last;data",
-                            column_format="p{2.1cm}c|rrr|rrr|r", caption=caption, label=label, position_float="centering")
+                            column_format="p{2.1cm}l|rrr|rrr|r", caption=caption, label=label, position_float="centering")
     with open(file, 'w') as f:
         f.write(latex)
     return file
 
-# %% ../../lib_nbs/20_results.ipynb 239
+# %% ../../lib_nbs/20_results.ipynb 241
 def table_compare3(data, compare:str, y = 'rmse_stand', compare_ascending=True):
-    data = data.groupby([compare, 'var', 'gap_len']).agg({y: ['mean', 'std']}).unstack(level=0).droplevel(level=0, axis=1)
+    data = data.groupby([compare, 'var', 'gap_len_f']).agg({y: ['mean', 'std']}).unstack(level=0).droplevel(level=0, axis=1)
     
     data_cols = data.columns
-    data_cols.names = ['RMSE Standardized', compare]
+    data_cols.names = ['Stand. RMSE', compare]
     data.index.names = ["Variable", "Gap [$h$]"]
     return data.sort_index(axis=1, level=1, ascending=True).swaplevel(axis=1) 
 
-# %% ../../lib_nbs/20_results.ipynb 240
+# %% ../../lib_nbs/20_results.ipynb 242
 def table_compare3_latex(table, file, caption="", label=""):
     styled = table.rename(index = renames_table_latex_stand).style.pipe(partial(style_the_table, cols=[0,2,4]))
     latex = styled.to_latex(convert_css=True, hrules=True, clines="skip-last;data",
-                            column_format="p{2.1cm}c|rr|rr|rr", caption=caption, label=label, position_float="centering")
+                            column_format="p{2.1cm}l|rr|rr|rr", caption=caption, label=label, position_float="centering")
     with open(file, 'w') as f:
         f.write(latex)
     return file
 
-# %% ../../lib_nbs/20_results.ipynb 245
-def table_gap_len(data, y = 'rmse'):
+# %% ../../lib_nbs/20_results.ipynb 247
+def table_gap_len(data, y = 'rmse_stand'):
     t = (data
-         .groupby(['var', 'gap_len']).agg({y: ['mean', 'std']})
+         .groupby(['var', 'gap_len_f']).agg({y: ['mean', 'std']})
         .droplevel(level=0, axis=1)
          .reset_index()
-         .melt(id_vars=['var', 'gap_len'], var_name='rmse')
-         .pivot(index = ['var', y], columns=['gap_len'])
+         .melt(id_vars=['var', 'gap_len_f'], var_name='rmse_stand')
+         .pivot(index = ['var', y], columns=['gap_len_f'])
          .droplevel(level=0, axis=1)
         ) 
     
-    t.columns.names = ["Gap [$h$]"]
-    t.index.names = ("Variable", "RMSE")
+    t.columns.names = ["Gap"]
+    t.index.names = ("Variable", "Stand. RMSE")
     
     return t.sort_index(axis=1, level=1)
 
-# %% ../../lib_nbs/20_results.ipynb 247
+# %% ../../lib_nbs/20_results.ipynb 249
 def table_gap_len_latex(table, file, caption="", label=""):
-    table.columns = [f"{col:.0f}" for col in list(table.columns)]
+    # table.columns = [f"{col:.0f}" for col in list(table.columns)]
     styled = table.rename(index = renames_table_latex_stand).style.format(precision=3, na_rep='-')
-    table_cols = 'c' * len(table.columns)
+    table_cols = '>{\\centering\\arraybackslash}p{0.07\\textwidth}' * len(table.columns)
     latex = styled.to_latex(convert_css=True, hrules=True, clines="skip-last;data",
-                            column_format="p{2.1cm}l|" + table_cols, caption=caption, label=label, position_float="centering")
+                            column_format="lp{0.07\\textwidth}|" + table_cols, caption=caption, label=label, position_float="centering")
     with open(file, 'w') as f:
         f.write(latex)
     return file

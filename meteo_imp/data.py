@@ -39,10 +39,9 @@ units_big = {
     'P': 'mm',
     'WS': 'm s-1',
     'LW_IN': 'W m-2',
+    'SWC': '%',
     'TS': '°C',
-    'SWC': '%'
     
-    # 'NETRAD': 'W m-2',
 }
 
 hai_path_raw = here("data/Hainich") / "FLX_DE-Hai_FLUXNET2015_FULLSET_HH_2000-2012_1-4.csv"

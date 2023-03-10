@@ -73,7 +73,6 @@
   urldate = {2022-11-11},
   abstract = {In this paper we modify the expectation maximization algorithm in order to estimate the parameters of the dynamic factor model on a dataset with an arbitrary pattern of missing data. We also extend the model to the case with a serially correlated idiosyncratic component. The framework allows us to handle efficiently and in an automatic manner sets of indicators characterized by different publication delays, frequencies and sample lengths. This can be relevant, for example, for young economies for which many indicators have been compiled only recently. We evaluate the methodology in a Monte Carlo experiment and we apply it to nowcasting of the euro area gross domestic product. Copyright © 2012 John Wiley \& Sons, Ltd.},
   langid = {english},
-  annotation = {\_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1002/jae.2306},
   file = {/home/simone/Zotero/storage/I6SBZCQU/Bańbura and Modugno - 2014 - Maximum Likelihood Estimation of Factor Models on .pdf;/home/simone/Zotero/storage/4UAK4EDY/jae.html}
 }
 
@@ -84,13 +83,12 @@
   number = {arXiv:2103.01600},
   eprint = {2103.01600},
   eprinttype = {arxiv},
-  primaryclass = {cs},
+  eprintclass = {cs},
   publisher = {{arXiv}},
   doi = {10.48550/arXiv.2103.01600},
   url = {http://arxiv.org/abs/2103.01600},
   urldate = {2022-05-14},
   abstract = {We present DeepMVI, a deep learning method for missing value imputation in multidimensional time-series datasets. Missing values are commonplace in decision support platforms that aggregate data over long time stretches from disparate sources, and reliable data analytics calls for careful handling of missing data. One strategy is imputing the missing values, and a wide variety of algorithms exist spanning simple interpolation, matrix factorization methods like SVD, statistical models like Kalman filters, and recent deep learning methods. We show that often these provide worse results on aggregate analytics compared to just excluding the missing data. DeepMVI uses a neural network to combine fine-grained and coarse-grained patterns along a time series, and trends from related series across categorical dimensions. After failing with off-the-shelf neural architectures, we design our own network that includes a temporal transformer with a novel convolutional window feature, and kernel regression with learned embeddings. The parameters and their training are designed carefully to generalize across different placements of missing blocks and data characteristics. Experiments across nine real datasets, four different missing scenarios, comparing seven existing methods show that DeepMVI is significantly more accurate, reducing error by more than 50\% in more than half the cases, compared to the best existing method. Although slower than simpler matrix factorization methods, we justify the increased time overheads by showing that DeepMVI is the only option that provided overall more accurate analytics than dropping missing values.},
-  archiveprefix = {arXiv},
   keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning},
   file = {/home/simone/Zotero/storage/EMEP4Y9S/Bansal et al. - 2021 - Missing Value Imputation on Multidimensional Time .pdf;/home/simone/Zotero/storage/GXPGC6GY/2103.html}
 }
@@ -116,7 +114,7 @@
 
 @article{besnard_quantifying_2018,
   title = {Quantifying the Effect of Forest Age in Annual Net Forest Carbon Balance},
-  author = {Besnard, Simon and Carvalhais, Nuno and Arain, M. Altaf and Black, Andrew and de Bruin, Sytze and Buchmann, Nina and Cescatti, Alessandro and Chen, Jiquan and Clevers, Jan G. P. W. and Desai, Ankur R. and Gough, Christopher M. and Havrankova, Katerina and Herold, Martin and Hörtnagl, Lukas and Jung, Martin and Knohl, Alexander and Kruijt, Bart and Krupkova, Lenka and Law, Beverly E. and Lindroth, Anders and Noormets, Asko and Roupsard, Olivier and Steinbrecher, Rainer and Varlagin, Andrej and Vincke, Caroline and Reichstein, Markus},
+  author = {Besnard, Simon and Carvalhais, Nuno and Arain, M. Altaf and Black, Andrew and family=Bruin, given=Sytze, prefix=de, useprefix=false and Buchmann, Nina and Cescatti, Alessandro and Chen, Jiquan and Clevers, Jan G. P. W. and Desai, Ankur R. and Gough, Christopher M. and Havrankova, Katerina and Herold, Martin and Hörtnagl, Lukas and Jung, Martin and Knohl, Alexander and Kruijt, Bart and Krupkova, Lenka and Law, Beverly E. and Lindroth, Anders and Noormets, Asko and Roupsard, Olivier and Steinbrecher, Rainer and Varlagin, Andrej and Vincke, Caroline and Reichstein, Markus},
   date = {2018-12},
   journaltitle = {Environmental Research Letters},
   shortjournal = {Environ. Res. Lett.},
@@ -201,14 +199,13 @@
   abstract = {The Community Land Model version 4 (CLM4) overestimates gross primary production (GPP) compared with data-driven estimates and other process models. We use global, spatially gridded GPP and latent heat flux upscaled from the FLUXNET network of eddy covariance towers to evaluate and improve canopy processes in CLM4. We investigate differences in GPP and latent heat flux arising from model parameterizations (termed model structural error) and from uncertainty in the photosynthetic parameter Vcmax (termed model parameter uncertainty). Model structural errors entail radiative transfer, leaf photosynthesis and stomatal conductance, and canopy scaling of leaf processes. Model structural revisions reduce global GPP over the period 1982–2004 from 165 Pg C yr−1 to 130 Pg C yr−1, and global evapotranspiration decreases from 68,000 km3 yr−1 to 65,000 km3 yr−1, within the uncertainty of FLUXNET-based estimates. Colimitation of photosynthesis is a cause of the improvements, as are revisions to photosynthetic parameters and their temperature dependency. Improvements are seen in all regions and seasonally over the course of the year. Similar improvements occur in latent heat flux. Uncertainty in Vcmax produces effects of comparable magnitude as model structural errors, but of offsetting sign. This suggests that model structural errors can be compensated by parameter adjustment, and this may explain the lack of consensus in values for Vcmax used in terrestrial biosphere models. Our analyses show that despite inherent uncertainties global flux fields empirically inferred from FLUXNET data are a valuable tool to guide terrestrial biosphere model development and evaluation.},
   langid = {english},
   keywords = {biosphere model,evapotranspiration,FLUXNET,gross primary production,land surface model},
-  annotation = {\_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1029/2010JG001593},
   file = {/home/simone/Zotero/storage/YV5J8SK5/Bonan et al. - 2011 - Improving canopy processes in the Community Land M.pdf;/home/simone/Zotero/storage/J2X2C3Q7/2010JG001593.html}
 }
 
 @article{buuren_mice_2011,
   title = {Mice: {{Multivariate Imputation}} by {{Chained Equations}} in {{R}}},
   shorttitle = {Mice},
-  author = {van Buuren, Stef and Groothuis-Oudshoorn, Karin},
+  author = {family=Buuren, given=Stef, prefix=van, useprefix=false and Groothuis-Oudshoorn, Karin},
   date = {2011-12-12},
   journaltitle = {Journal of Statistical Software},
   volume = {45},
@@ -221,21 +218,19 @@
   langid = {english}
 }
 
-@misc{cao_brits_2018,
+@online{cao_brits_2018,
   title = {{{BRITS}}: {{Bidirectional Recurrent Imputation}} for {{Time Series}}},
   shorttitle = {{{BRITS}}},
   author = {Cao, Wei and Wang, Dong and Li, Jian and Zhou, Hao and Li, Lei and Li, Yitan},
   date = {2018-05-26},
   number = {arXiv:1805.10572},
-  eprint = {1805.10572},
+  eprint = {arXiv:1805.10572},
   eprinttype = {arxiv},
-  primaryclass = {cs, stat},
-  publisher = {{arXiv}},
   doi = {10.48550/arXiv.1805.10572},
   url = {http://arxiv.org/abs/1805.10572},
   urldate = {2022-06-16},
   abstract = {Time series are widely used as signals in many classification/regression tasks. It is ubiquitous that time series contains many missing values. Given multiple correlated time series data, how to fill in missing values and to predict their class labels? Existing imputation methods often impose strong assumptions of the underlying data generating process, such as linear dynamics in the state space. In this paper, we propose BRITS, a novel method based on recurrent neural networks for missing value imputation in time series data. Our proposed method directly learns the missing values in a bidirectional recurrent dynamical system, without any specific assumption. The imputed values are treated as variables of RNN graph and can be effectively updated during the backpropagation.BRITS has three advantages: (a) it can handle multiple correlated missing values in time series; (b) it generalizes to time series with nonlinear dynamics underlying; (c) it provides a data-driven imputation procedure and applies to general settings with missing data.We evaluate our model on three real-world datasets, including an air quality dataset, a health-care data, and a localization data for human activity. Experiments show that our model outperforms the state-of-the-art methods in both imputation and classification/regression accuracies.},
-  archiveprefix = {arXiv},
+  pubstate = {preprint},
   keywords = {Computer Science - Machine Learning,Statistics - Machine Learning},
   file = {/home/simone/Zotero/storage/A9RLV2K4/Cao et al. - 2018 - BRITS Bidirectional Recurrent Imputation for Time.pdf;/home/simone/Zotero/storage/KIZ6DKID/1805.html}
 }
@@ -262,7 +257,6 @@
   doi = {10.2514/3.6907},
   url = {https://doi.org/10.2514/3.6907},
   urldate = {2023-02-15},
-  annotation = {\_eprint: https://doi.org/10.2514/3.6907},
   file = {/home/simone/Zotero/storage/H3CEAURC/3.html}
 }
 
@@ -287,8 +281,7 @@
 
 @article{costa_gap_2021,
   title = {Gap {{Filling}} and {{Quality Control Applied}} to {{Meteorological Variables Measured}} in the {{Northeast Region}} of {{Brazil}}},
-  author = {Costa, Rafaela Lisboa and Barros Gomes, Heliofábio and Cavalcante Pinto, David Duarte and da Rocha Júnior, Rodrigo Lins and dos Santos Silva, Fabrício Daniel and Barros Gomes, Helber and Lemos da Silva, Maria Cristina and Luís Herdies, Dirceu},
-  options = {useprefix=true},
+  author = {Costa, Rafaela Lisboa and Barros Gomes, Heliofábio and Cavalcante Pinto, David Duarte and family=Rocha Júnior, given=Rodrigo Lins, prefix=da, useprefix=true and family=Santos Silva, given=Fabrício Daniel, prefix=dos, useprefix=true and Barros Gomes, Helber and Lemos da Silva, Maria Cristina and Luís Herdies, Dirceu},
   date = {2021-10},
   journaltitle = {Atmosphere},
   volume = {12},
@@ -317,8 +310,7 @@
 @article{dee_era-interim_2011,
   title = {The {{ERA-Interim}} Reanalysis: Configuration and Performance of the Data Assimilation System},
   shorttitle = {The {{ERA-Interim}} Reanalysis},
-  author = {Dee, D. P. and Uppala, S. M. and Simmons, A. J. and Berrisford, P. and Poli, P. and Kobayashi, S. and Andrae, U. and Balmaseda, M. A. and Balsamo, G. and Bauer, P. and Bechtold, P. and Beljaars, A. C. M. and van de Berg, L. and Bidlot, J. and Bormann, N. and Delsol, C. and Dragani, R. and Fuentes, M. and Geer, A. J. and Haimberger, L. and Healy, S. B. and Hersbach, H. and Hólm, E. V. and Isaksen, L. and Kållberg, P. and Köhler, M. and Matricardi, M. and McNally, A. P. and Monge-Sanz, B. M. and Morcrette, J.-J. and Park, B.-K. and Peubey, C. and de Rosnay, P. and Tavolato, C. and Thépaut, J.-N. and Vitart, F.},
-  options = {useprefix=true},
+  author = {Dee, D. P. and Uppala, S. M. and Simmons, A. J. and Berrisford, P. and Poli, P. and Kobayashi, S. and Andrae, U. and Balmaseda, M. A. and Balsamo, G. and Bauer, P. and Bechtold, P. and Beljaars, A. C. M. and family=Berg, given=L., prefix=van de, useprefix=true and Bidlot, J. and Bormann, N. and Delsol, C. and Dragani, R. and Fuentes, M. and Geer, A. J. and Haimberger, L. and Healy, S. B. and Hersbach, H. and Hólm, E. V. and Isaksen, L. and Kållberg, P. and Köhler, M. and Matricardi, M. and McNally, A. P. and Monge-Sanz, B. M. and Morcrette, J.-J. and Park, B.-K. and Peubey, C. and family=Rosnay, given=P., prefix=de, useprefix=true and Tavolato, C. and Thépaut, J.-N. and Vitart, F.},
   date = {2011},
   journaltitle = {Quarterly Journal of the Royal Meteorological Society},
   volume = {137},
@@ -331,7 +323,6 @@
   abstract = {ERA-Interim is the latest global atmospheric reanalysis produced by the European Centre for Medium-Range Weather Forecasts (ECMWF). The ERA-Interim project was conducted in part to prepare for a new atmospheric reanalysis to replace ERA-40, which will extend back to the early part of the twentieth century. This article describes the forecast model, data assimilation method, and input datasets used to produce ERA-Interim, and discusses the performance of the system. Special emphasis is placed on various difficulties encountered in the production of ERA-40, including the representation of the hydrological cycle, the quality of the stratospheric circulation, and the consistency in time of the reanalysed fields. We provide evidence for substantial improvements in each of these aspects. We also identify areas where further work is needed and describe opportunities and objectives for future reanalysis projects at ECMWF. Copyright © 2011 Royal Meteorological Society},
   langid = {english},
   keywords = {4D-Var,ERA-40,forecast model,hydrological cycle,observations,stratospheric circulation},
-  annotation = {\_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1002/qj.828},
   file = {/home/simone/Zotero/storage/GAKXFGK5/Dee et al. - 2011 - The ERA-Interim reanalysis configuration and perf.pdf;/home/simone/Zotero/storage/3SVDB2AI/qj.html}
 }
 
@@ -363,32 +354,29 @@
   number = {arXiv:2202.08516},
   eprint = {2202.08516},
   eprinttype = {arxiv},
-  primaryclass = {cs},
+  eprintclass = {cs},
   publisher = {{arXiv}},
   doi = {10.48550/arXiv.2202.08516},
   url = {http://arxiv.org/abs/2202.08516},
   urldate = {2022-05-14},
   abstract = {Missing data in time series is a pervasive problem that puts obstacles in the way of advanced analysis. A popular solution is imputation, where the fundamental challenge is to determine what values should be filled in. This paper proposes SAITS, a novel method based on the self-attention mechanism for missing value imputation in multivariate time series. Trained by a joint-optimization approach, SAITS learns missing values from a weighted combination of two diagonally-masked self-attention (DMSA) blocks. DMSA explicitly captures both the temporal dependencies and feature correlations between time steps, which improves imputation accuracy and training speed. Meanwhile, the weighted-combination design enables SAITS to dynamically assign weights to the learned representations from two DMSA blocks according to the attention map and the missingness information. Extensive experiments quantitatively and qualitatively demonstrate that SAITS outperforms the state-of-the-art methods on the time-series imputation task efficiently and reveal SAITS' potential to improve the learning performance of pattern recognition models on incomplete time-series data from the real world.},
-  archiveprefix = {arXiv},
   keywords = {Computer Science - Machine Learning},
   file = {/home/simone/Zotero/storage/IMCRV64Z/Du et al. - 2022 - SAITS Self-Attention-based Imputation for Time Se.pdf;/home/simone/Zotero/storage/QEKTBAF5/2202.html}
 }
 
-@misc{du_saits_2022-1,
+@online{du_saits_2022-1,
   title = {{{SAITS}}: {{Self-Attention-based Imputation}} for {{Time Series}}},
   shorttitle = {{{SAITS}}},
   author = {Du, Wenjie and Cote, David and Liu, Yan},
   date = {2022-05-09},
   number = {arXiv:2202.08516},
-  eprint = {2202.08516},
+  eprint = {arXiv:2202.08516},
   eprinttype = {arxiv},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
   url = {http://arxiv.org/abs/2202.08516},
   urldate = {2022-05-14},
   abstract = {Missing data in time series is a pervasive problem that puts obstacles in the way of advanced analysis. A popular solution is imputation, where the fundamental challenge is to determine what values should be filled in. This paper proposes SAITS, a novel method based on the self-attention mechanism for missing value imputation in multivariate time series. Trained by a joint-optimization approach, SAITS learns missing values from a weighted combination of two diagonally-masked self-attention (DMSA) blocks. DMSA explicitly captures both the temporal dependencies and feature correlations between time steps, which improves imputation accuracy and training speed. Meanwhile, the weightedcombination design enables SAITS to dynamically assign weights to the learned representations from two DMSA blocks according to the attention map and the missingness information. Extensive experiments quantitatively and qualitatively demonstrate that SAITS outperforms the state-of-the-art methods on the time-series imputation task efficiently and reveal SAITS’ potential to improve the learning performance of pattern recognition models on incomplete time-series data from the real world.},
-  archiveprefix = {arXiv},
   langid = {english},
+  pubstate = {preprint},
   keywords = {Computer Science - Machine Learning},
   file = {/home/simone/Zotero/storage/T6JN5ASV/Du et al. - 2022 - SAITS Self-Attention-based Imputation for Time Se.pdf}
 }
@@ -492,31 +480,28 @@
   date = {2020-11-23},
   eprint = {2011.11347},
   eprinttype = {arxiv},
-  primaryclass = {cs},
+  eprintclass = {cs},
   url = {http://arxiv.org/abs/2011.11347},
   urldate = {2022-05-12},
   abstract = {Time series are all around in real-world applications. However, unexpected accidents for example broken sensors or missing of the signals will cause missing values in time series, making the data hard to be utilized. It then does harm to the downstream applications such as traditional classification or regression, sequential data integration and forecasting tasks, thus raising the demand for data imputation. Currently, time series data imputation is a well-studied problem with different categories of methods. However, these works rarely take the temporal relations among the observations and treat the time series as normal structured data, losing the information from the time data. In recent, deep learning models have raised great attention. Time series methods based on deep learning have made progress with the usage of models like RNN, since it captures time information from data. In this paper, we mainly focus on time series imputation technique with deep learning methods, which recently made progress in this field. We will review and discuss their model architectures, their pros and cons as well as their effects to show the development of the time series imputation methods.},
-  archiveprefix = {arXiv},
   langid = {english},
   keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning},
   file = {/home/simone/Zotero/storage/Y3PEVSW8/Fang and Wang - 2020 - Time Series Data Imputation A Survey on Deep Lear.pdf}
 }
 
-@misc{fortuin_gp-vae_2020,
+@online{fortuin_gp-vae_2020,
   title = {{{GP-VAE}}: {{Deep Probabilistic Time Series Imputation}}},
   shorttitle = {{{GP-VAE}}},
   author = {Fortuin, Vincent and Baranchuk, Dmitry and Rätsch, Gunnar and Mandt, Stephan},
   date = {2020-02-20},
   number = {arXiv:1907.04155},
-  eprint = {1907.04155},
+  eprint = {arXiv:1907.04155},
   eprinttype = {arxiv},
-  primaryclass = {cs, stat},
-  publisher = {{arXiv}},
   doi = {10.48550/arXiv.1907.04155},
   url = {http://arxiv.org/abs/1907.04155},
   urldate = {2022-07-28},
   abstract = {Multivariate time series with missing values are common in areas such as healthcare and finance, and have grown in number and complexity over the years. This raises the question whether deep learning methodologies can outperform classical data imputation methods in this domain. However, naive applications of deep learning fall short in giving reliable confidence estimates and lack interpretability. We propose a new deep sequential latent variable model for dimensionality reduction and data imputation. Our modeling assumption is simple and interpretable: the high dimensional time series has a lower-dimensional representation which evolves smoothly in time according to a Gaussian process. The non-linear dimensionality reduction in the presence of missing data is achieved using a VAE approach with a novel structured variational approximation. We demonstrate that our approach outperforms several classical and deep learning-based data imputation methods on high-dimensional data from the domains of computer vision and healthcare, while additionally improving the smoothness of the imputations and providing interpretable uncertainty estimates.},
-  archiveprefix = {arXiv},
+  pubstate = {preprint},
   keywords = {Computer Science - Machine Learning,Statistics - Machine Learning},
   file = {/home/simone/Zotero/storage/7MIR996R/Fortuin et al. - 2020 - GP-VAE Deep Probabilistic Time Series Imputation.pdf;/home/simone/Zotero/storage/C4M3XGNN/1907.html}
 }
@@ -536,42 +521,37 @@
   abstract = {Measurements of the net CO2 flux between terrestrial ecosystems and the atmosphere using the eddy covariance technique have the potential to underpin our interpretation of regional CO2 source–sink patterns, CO2 flux responses to forcings, and predictions of the future terrestrial C balance. Information contained in FLUXNET eddy covariance data has multiple uses for the development and application of global carbon models, including evaluation/validation, calibration, process parameterization, and data assimilation. This paper reviews examples of these uses, compares global estimates of the dynamics of the global carbon cycle, and suggests ways of improving the utility of such data for global carbon modelling. Net ecosystem exchange of CO2 (NEE) predicted by different terrestrial biosphere models compares favourably with FLUXNET observations at diurnal and seasonal timescales. However, complete model validation, particularly over the full annual cycle, requires information on the balance between assimilation and decomposition processes, information not readily available for most FLUXNET sites. Site history, when known, can greatly help constrain the model-data comparison. Flux measurements made over four vegetation types were used to calibrate the land-surface scheme of the Goddard Institute for Space Studies global climate model, significantly improving simulated climate and demonstrating the utility of diurnal FLUXNET data for climate modelling. Land-surface temperatures in many regions cool due to higher canopy conductances and latent heat fluxes, and the spatial distribution of CO2 uptake provides a significant additional constraint on the realism of simulated surface fluxes. FLUXNET data are used to calibrate a global production efficiency model (PEM). This model is forced by satellite-measured absorbed radiation and suggests that global net primary production (NPP) increased 6.2\% over 1982–1999. Good agreement is found between global trends in NPP estimated by the PEM and a dynamic global vegetation model (DGVM), and between the DGVM and estimates of global NEE derived from a global inversion of atmospheric CO2 measurements. Combining the PEM, DGVM, and inversion results suggests that CO2 fertilization is playing a major role in current increases in NPP, with lesser impacts from increasing N deposition and growing season length. Both the PEM and the inversion identify the Amazon basin as a key region for the current net terrestrial CO2 uptake (i.e. 33\% of global NEE), as well as its interannual variability. The inversion's global NEE estimate of −1.2 Pg [C] yr−1 for 1982–1995 is compatible with the PEM- and DGVM-predicted trends in NPP. There is, thus, a convergence in understanding derived from process-based models, remote-sensing-based observations, and inversion of atmospheric data. Future advances in field measurement techniques, including eddy covariance (particularly concerning the problem of night-time fluxes in dense canopies and of advection or flow distortion over complex terrain), will result in improved constraints on land-atmosphere CO2 fluxes and the rigorous attribution of mechanisms to the current terrestrial net CO2 uptake and its spatial and temporal heterogeneity. Global ecosystem models play a fundamental role in linking information derived from FLUXNET measurements to atmospheric CO2 variability. A number of recommendations concerning FLUXNET data are made, including a request for more comprehensive site data (particularly historical information), more measurements in undisturbed ecosystems, and the systematic provision of error estimates. The greatest value of current FLUXNET data for global carbon cycle modelling is in evaluating process representations, rather than in providing an unbiased estimate of net CO2 exchange.},
   langid = {english},
   keywords = {CO2 exchange,eddy covariance,FLUXNET,global carbon cycle,inversion,model},
-  annotation = {\_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1365-2486.2006.01223.x},
   file = {/home/simone/Zotero/storage/UNLXF76S/Friend et al. - 2007 - FLUXNET and modelling the global carbon cycle.pdf;/home/simone/Zotero/storage/IY23XHR3/j.1365-2486.2006.01223.html}
 }
 
-@misc{garnelo_conditional_2018,
+@online{garnelo_conditional_2018,
   title = {Conditional {{Neural Processes}}},
   author = {Garnelo, Marta and Rosenbaum, Dan and Maddison, Chris J. and Ramalho, Tiago and Saxton, David and Shanahan, Murray and Teh, Yee Whye and Rezende, Danilo J. and Eslami, S. M. Ali},
   date = {2018-07-04},
   number = {arXiv:1807.01613},
-  eprint = {1807.01613},
+  eprint = {arXiv:1807.01613},
   eprinttype = {arxiv},
-  primaryclass = {cs, stat},
-  publisher = {{arXiv}},
   doi = {10.48550/arXiv.1807.01613},
   url = {http://arxiv.org/abs/1807.01613},
   urldate = {2022-06-23},
   abstract = {Deep neural networks excel at function approximation, yet they are typically trained from scratch for each new function. On the other hand, Bayesian methods, such as Gaussian Processes (GPs), exploit prior knowledge to quickly infer the shape of a new function at test time. Yet GPs are computationally expensive, and it can be hard to design appropriate priors. In this paper we propose a family of neural models, Conditional Neural Processes (CNPs), that combine the benefits of both. CNPs are inspired by the flexibility of stochastic processes such as GPs, but are structured as neural networks and trained via gradient descent. CNPs make accurate predictions after observing only a handful of training data points, yet scale to complex functions and large datasets. We demonstrate the performance and versatility of the approach on a range of canonical machine learning tasks, including regression, classification and image completion.},
-  archiveprefix = {arXiv},
+  pubstate = {preprint},
   keywords = {Computer Science - Machine Learning,Statistics - Machine Learning},
   file = {/home/simone/Zotero/storage/2KWI4I2B/chapter 12 - Particle filtering - Time Series Analysis by State Space Methods.pdf;/home/simone/Zotero/storage/2WT32PC7/chapter 8 - Illustration of the use of linear model - Time Series Analysis by State Space Methods.pdf;/home/simone/Zotero/storage/5QWILWR7/chpater 11 - Importance sampling for smoothing.pdf;/home/simone/Zotero/storage/5Y23RW3T/Chapter 7 - Maximium likelihood estimation of parameters - Time Series Analysis by State Space Methods.pdf;/home/simone/Zotero/storage/BFM2VHAA/chapter 1 - Introduction - Time Series Analysis by State Space Methods.pdf;/home/simone/Zotero/storage/BUINT5A3/chapter 13 - Bayesan estimantors - Time Series Analysis by State Space Methods.pdf;/home/simone/Zotero/storage/CEWWJ4EL/chapter 10 - Aproximate filtering and smoothing - Time Series Analysis by State Space Methods.pdf;/home/simone/Zotero/storage/DVGTCTUS/chapter 14 - Non-guassian non-linear illustration - Time Series Analysis by State Space Methods.pdf;/home/simone/Zotero/storage/EBNWLBSU/chapter 9 - special case of non-linear and non-guassian models - Time Series Analysis by State Space Methods.pdf;/home/simone/Zotero/storage/GGM2PC9D/Chapter 5 - initialization of filter and smoother.pdf;/home/simone/Zotero/storage/JPXX3RH3/Garnelo et al. - 2018 - Conditional Neural Processes.pdf;/home/simone/Zotero/storage/PP3CAXL2/Chapter 2 - Local level model - Time Series Analysis by State Space Methods.pdf;/home/simone/Zotero/storage/SE8LUDLL/Chapter 5 - further computation aspects - Time Series Analysis by State Space Methods.pdf;/home/simone/Zotero/storage/UCTEMRUH/Chapter 3 - Linear state space models - Time Series Analysis by State Space Methods.pdf;/home/simone/Zotero/storage/WHG9UQ6E/1807.html}
 }
 
-@misc{garnelo_neural_2018,
+@online{garnelo_neural_2018,
   title = {Neural {{Processes}}},
   author = {Garnelo, Marta and Schwarz, Jonathan and Rosenbaum, Dan and Viola, Fabio and Rezende, Danilo J. and Eslami, S. M. Ali and Teh, Yee Whye},
   date = {2018-07-04},
   number = {arXiv:1807.01622},
-  eprint = {1807.01622},
+  eprint = {arXiv:1807.01622},
   eprinttype = {arxiv},
-  primaryclass = {cs, stat},
-  publisher = {{arXiv}},
   doi = {10.48550/arXiv.1807.01622},
   url = {http://arxiv.org/abs/1807.01622},
   urldate = {2022-06-23},
   abstract = {A neural network (NN) is a parameterised function that can be tuned via gradient descent to approximate a labelled collection of data with high precision. A Gaussian process (GP), on the other hand, is a probabilistic model that defines a distribution over possible functions, and is updated in light of data via the rules of probabilistic inference. GPs are probabilistic, data-efficient and flexible, however they are also computationally intensive and thus limited in their applicability. We introduce a class of neural latent variable models which we call Neural Processes (NPs), combining the best of both worlds. Like GPs, NPs define distributions over functions, are capable of rapid adaptation to new observations, and can estimate the uncertainty in their predictions. Like NNs, NPs are computationally efficient during training and evaluation but also learn to adapt their priors to data. We demonstrate the performance of NPs on a range of learning tasks, including regression and optimisation, and compare and contrast with related models in the literature.},
-  archiveprefix = {arXiv},
+  pubstate = {preprint},
   keywords = {Computer Science - Machine Learning,Statistics - Machine Learning},
   file = {/home/simone/Zotero/storage/4F5XTHVB/Garnelo et al. - 2018 - Neural Processes.pdf;/home/simone/Zotero/storage/S78MUD4Q/1807.html}
 }
@@ -618,8 +598,7 @@
 
 @article{hersbach_era5_2020,
   title = {The {{ERA5}} Global Reanalysis},
-  author = {Hersbach, Hans and Bell, Bill and Berrisford, Paul and Hirahara, Shoji and Horányi, András and Muñoz-Sabater, Joaquín and Nicolas, Julien and Peubey, Carole and Radu, Raluca and Schepers, Dinand and Simmons, Adrian and Soci, Cornel and Abdalla, Saleh and Abellan, Xavier and Balsamo, Gianpaolo and Bechtold, Peter and Biavati, Gionata and Bidlot, Jean and Bonavita, Massimo and De Chiara, Giovanna and Dahlgren, Per and Dee, Dick and Diamantakis, Michail and Dragani, Rossana and Flemming, Johannes and Forbes, Richard and Fuentes, Manuel and Geer, Alan and Haimberger, Leo and Healy, Sean and Hogan, Robin J. and Hólm, Elías and Janisková, Marta and Keeley, Sarah and Laloyaux, Patrick and Lopez, Philippe and Lupu, Cristina and Radnoti, Gabor and de Rosnay, Patricia and Rozum, Iryna and Vamborg, Freja and Villaume, Sebastien and Thépaut, Jean-Noël},
-  options = {useprefix=true},
+  author = {Hersbach, Hans and Bell, Bill and Berrisford, Paul and Hirahara, Shoji and Horányi, András and Muñoz-Sabater, Joaquín and Nicolas, Julien and Peubey, Carole and Radu, Raluca and Schepers, Dinand and Simmons, Adrian and Soci, Cornel and Abdalla, Saleh and Abellan, Xavier and Balsamo, Gianpaolo and Bechtold, Peter and Biavati, Gionata and Bidlot, Jean and Bonavita, Massimo and De Chiara, Giovanna and Dahlgren, Per and Dee, Dick and Diamantakis, Michail and Dragani, Rossana and Flemming, Johannes and Forbes, Richard and Fuentes, Manuel and Geer, Alan and Haimberger, Leo and Healy, Sean and Hogan, Robin J. and Hólm, Elías and Janisková, Marta and Keeley, Sarah and Laloyaux, Patrick and Lopez, Philippe and Lupu, Cristina and Radnoti, Gabor and family=Rosnay, given=Patricia, prefix=de, useprefix=true and Rozum, Iryna and Vamborg, Freja and Villaume, Sebastien and Thépaut, Jean-Noël},
   date = {2020},
   journaltitle = {Quarterly Journal of the Royal Meteorological Society},
   volume = {146},
@@ -632,7 +611,6 @@
   abstract = {Within the Copernicus Climate Change Service (C3S), ECMWF is producing the ERA5 reanalysis which, once completed, will embody a detailed record of the global atmosphere, land surface and ocean waves from 1950 onwards. This new reanalysis replaces the ERA-Interim reanalysis (spanning 1979 onwards) which was started in 2006. ERA5 is based on the Integrated Forecasting System (IFS) Cy41r2 which was operational in 2016. ERA5 thus benefits from a decade of developments in model physics, core dynamics and data assimilation. In addition to a significantly enhanced horizontal resolution of 31 km, compared to 80 km for ERA-Interim, ERA5 has hourly output throughout, and an uncertainty estimate from an ensemble (3-hourly at half the horizontal resolution). This paper describes the general set-up of ERA5, as well as a basic evaluation of characteristics and performance, with a focus on the dataset from 1979 onwards which is currently publicly available. Re-forecasts from ERA5 analyses show a gain of up to one day in skill with respect to ERA-Interim. Comparison with radiosonde and PILOT data prior to assimilation shows an improved fit for temperature, wind and humidity in the troposphere, but not the stratosphere. A comparison with independent buoy data shows a much improved fit for ocean wave height. The uncertainty estimate reflects the evolution of the observing systems used in ERA5. The enhanced temporal and spatial resolution allows for a detailed evolution of weather systems. For precipitation, global-mean correlation with monthly-mean GPCP data is increased from 67\% to 77\%. In general, low-frequency variability is found to be well represented and from 10 hPa downwards general patterns of anomalies in temperature match those from the ERA-Interim, MERRA-2 and JRA-55 reanalyses.},
   langid = {english},
   keywords = {climate reanalysis,Copernicus Climate Change Service,data assimilation,ERA5,historical observations},
-  annotation = {\_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1002/qj.3803},
   file = {/home/simone/Zotero/storage/4QMGZ33T/Hersbach et al. - 2020 - The ERA5 global reanalysis.pdf;/home/simone/Zotero/storage/QUP395ND/qj.html}
 }
 
@@ -652,6 +630,28 @@
   abstract = {Missing data are common in statistical analyses, and imputation methods based on random forests (RF) are becoming popular for handling missing data especially in biomedical research. Unlike standard imputation approaches, RF-based imputation methods do not assume normality or require specification of parametric models. However, it is still inconclusive how they perform for non-normally distributed data or when there are non-linear relationships or interactions.},
   keywords = {Imputation accuracy,Missing data imputation,Random forest},
   file = {/home/simone/Zotero/storage/3KAXTWZA/Hong and Lynn - 2020 - Accuracy of random-forest-based imputation of miss.pdf;/home/simone/Zotero/storage/IGI24ZYX/s12874-020-01080-1.html}
+}
+
+@article{howard_fastai_2020,
+  title = {Fastai: {{A Layered API}} for {{Deep Learning}}},
+  shorttitle = {Fastai},
+  author = {Howard, Jeremy and Gugger, Sylvain},
+  date = {2020-02-16},
+  journaltitle = {Information},
+  shortjournal = {Information},
+  volume = {11},
+  number = {2},
+  eprint = {2002.04688},
+  eprinttype = {arxiv},
+  eprintclass = {cs, stat},
+  pages = {108},
+  issn = {2078-2489},
+  doi = {10.3390/info11020108},
+  url = {http://arxiv.org/abs/2002.04688},
+  urldate = {2023-02-28},
+  abstract = {fastai is a deep learning library which provides practitioners with high-level components that can quickly and easily provide state-of-the-art results in standard deep learning domains, and provides researchers with low-level components that can be mixed and matched to build new approaches. It aims to do both things without substantial compromises in ease of use, flexibility, or performance. This is possible thanks to a carefully layered architecture, which expresses common underlying patterns of many deep learning and data processing techniques in terms of decoupled abstractions. These abstractions can be expressed concisely and clearly by leveraging the dynamism of the underlying Python language and the flexibility of the PyTorch library. fastai includes: a new type dispatch system for Python along with a semantic type hierarchy for tensors; a GPU-optimized computer vision library which can be extended in pure Python; an optimizer which refactors out the common functionality of modern optimizers into two basic pieces, allowing optimization algorithms to be implemented in 4-5 lines of code; a novel 2-way callback system that can access any part of the data, model, or optimizer and change it at any point during training; a new data block API; and much more. We have used this library to successfully create a complete deep learning course, which we were able to write more quickly than using previous approaches, and the code was more clear. The library is already in wide use in research, industry, and teaching. NB: This paper covers fastai v2, which is currently in pre-release at http://dev.fast.ai/},
+  keywords = {Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning,Computer Science - Neural and Evolutionary Computing,Statistics - Machine Learning},
+  file = {/home/simone/Zotero/storage/IRVAURHA/Howard and Gugger - 2020 - fastai A Layered API for Deep Learning.pdf;/home/simone/Zotero/storage/PWLY9DVK/2002.html}
 }
 
 @article{hui_gap-filling_2004,
@@ -695,8 +695,7 @@
 @article{isaac_ozflux_2017,
   title = {{{OzFlux}} Data: Network Integration from Collection to Curation},
   shorttitle = {{{OzFlux}} Data},
-  author = {Isaac, Peter and Cleverly, James and McHugh, Ian and van Gorsel, Eva and Ewenz, Cacilia and Beringer, Jason},
-  options = {useprefix=true},
+  author = {Isaac, Peter and Cleverly, James and McHugh, Ian and family=Gorsel, given=Eva, prefix=van, useprefix=true and Ewenz, Cacilia and Beringer, Jason},
   date = {2017-06-19},
   journaltitle = {Biogeosciences},
   volume = {14},
@@ -763,20 +762,18 @@
   file = {/home/simone/Zotero/storage/JP6YW73U/Khayati et al. - 2020 - Mind the Gap.pdf;/home/simone/Zotero/storage/A3AE2YKK/309429.html}
 }
 
-@misc{kim_attentive_2019,
+@online{kim_attentive_2019,
   title = {Attentive {{Neural Processes}}},
   author = {Kim, Hyunjik and Mnih, Andriy and Schwarz, Jonathan and Garnelo, Marta and Eslami, Ali and Rosenbaum, Dan and Vinyals, Oriol and Teh, Yee Whye},
   date = {2019-07-09},
   number = {arXiv:1901.05761},
-  eprint = {1901.05761},
+  eprint = {arXiv:1901.05761},
   eprinttype = {arxiv},
-  primaryclass = {cs, stat},
-  publisher = {{arXiv}},
   doi = {10.48550/arXiv.1901.05761},
   url = {http://arxiv.org/abs/1901.05761},
   urldate = {2022-06-24},
   abstract = {Neural Processes (NPs) (Garnelo et al 2018a;b) approach regression by learning to map a context set of observed input-output pairs to a distribution over regression functions. Each function models the distribution of the output given an input, conditioned on the context. NPs have the benefit of fitting observed data efficiently with linear complexity in the number of context input-output pairs, and can learn a wide family of conditional distributions; they learn predictive distributions conditioned on context sets of arbitrary size. Nonetheless, we show that NPs suffer a fundamental drawback of underfitting, giving inaccurate predictions at the inputs of the observed data they condition on. We address this issue by incorporating attention into NPs, allowing each input location to attend to the relevant context points for the prediction. We show that this greatly improves the accuracy of predictions, results in noticeably faster training, and expands the range of functions that can be modelled.},
-  archiveprefix = {arXiv},
+  pubstate = {preprint},
   keywords = {Computer Science - Machine Learning,Statistics - Machine Learning},
   file = {/home/simone/Zotero/storage/2SISZIB7/Kim et al. - 2019 - Attentive Neural Processes.pdf;/home/simone/Zotero/storage/49DXUR9S/1901.html}
 }
@@ -797,25 +794,22 @@
   abstract = {Methane flux (FCH4) measurements using the eddy covariance technique have increased over the past decade. FCH4 measurements commonly include data gaps, as is the case with CO2 and energy fluxes. However, gap-filling FCH4 data are more challenging than other fluxes due to its unique characteristics including multidriver dependency, variabilities across multiple timescales, nonstationarity, spatial heterogeneity of flux footprints, and lagged influence of biophysical drivers. Some researchers have applied a marginal distribution sampling (MDS) algorithm, a standard gap-filling method for other fluxes, to FCH4 datasets, and others have applied artificial neural networks (ANN) to resolve the challenging characteristics of FCH4. However, there is still no consensus regarding FCH4 gap-filling methods due to limited comparative research. We are not aware of the applications of machine learning (ML) algorithms beyond ANN to FCH4 datasets. Here, we compare the performance of MDS and three ML algorithms (ANN, random forest [RF], and support vector machine [SVM]) using multiple combinations of ancillary variables. In addition, we applied principal component analysis (PCA) as an input to the algorithms to address multidriver dependency of FCH4 and reduce the internal complexity of the algorithmic structures. We applied this approach to five benchmark FCH4 datasets from both natural and managed systems located in temperate and tropical wetlands and rice paddies. Results indicate that PCA improved the performance of MDS compared to traditional inputs. ML algorithms performed better when using all available biophysical variables compared to using PCA-derived inputs. Overall, RF was found to outperform other techniques for all sites. We found gap-filling uncertainty is much larger than measurement uncertainty in accumulated CH4 budget. Therefore, the approach used for FCH4 gap filling can have important implications for characterizing annual ecosystem-scale methane budgets, the accuracy of which is important for evaluating natural and managed systems and their interactions with global change processes.},
   langid = {english},
   keywords = {artificial neural network,comparison of gap-filling techniques,eddy covariance,machine learning,marginal distribution sampling,methane flux,random forest,support vector machine},
-  annotation = {\_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/gcb.14845},
   file = {/home/simone/Zotero/storage/PKU6MQNW/gcb.html}
 }
 
-@misc{kingma_adam_2017,
+@online{kingma_adam_2017,
   title = {Adam: {{A Method}} for {{Stochastic Optimization}}},
   shorttitle = {Adam},
   author = {Kingma, Diederik P. and Ba, Jimmy},
   date = {2017-01-29},
   number = {arXiv:1412.6980},
-  eprint = {1412.6980},
+  eprint = {arXiv:1412.6980},
   eprinttype = {arxiv},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
   doi = {10.48550/arXiv.1412.6980},
   url = {http://arxiv.org/abs/1412.6980},
   urldate = {2023-02-26},
   abstract = {We introduce Adam, an algorithm for first-order gradient-based optimization of stochastic objective functions, based on adaptive estimates of lower-order moments. The method is straightforward to implement, is computationally efficient, has little memory requirements, is invariant to diagonal rescaling of the gradients, and is well suited for problems that are large in terms of data and/or parameters. The method is also appropriate for non-stationary objectives and problems with very noisy and/or sparse gradients. The hyper-parameters have intuitive interpretations and typically require little tuning. Some connections to related algorithms, on which Adam was inspired, are discussed. We also analyze the theoretical convergence properties of the algorithm and provide a regret bound on the convergence rate that is comparable to the best known results under the online convex optimization framework. Empirical results demonstrate that Adam works well in practice and compares favorably to other stochastic optimization methods. Finally, we discuss AdaMax, a variant of Adam based on the infinity norm.},
-  archiveprefix = {arXiv},
+  pubstate = {preprint},
   keywords = {Computer Science - Machine Learning},
   file = {/home/simone/Zotero/storage/MKZH6HK6/Kingma and Ba - 2017 - Adam A Method for Stochastic Optimization.pdf;/home/simone/Zotero/storage/74WZC8LB/1412.html}
 }
@@ -835,7 +829,6 @@
   abstract = {Reliable models are required to assess the impacts of climate change on forest ecosystems. Precise and independent data are essential to assess this accuracy. The flux measurements collected by the EUROFLUX project over a wide range of forest types and climatic regions in Europe allow a critical testing of the process-based models which were developed in the LTEEF project. The ECOCRAFT project complements this with a wealth of independent plant physiological measurements. Thus, it was aimed in this study to test six process-based forest growth models against the flux measurements of six European forest types, taking advantage of a large database with plant physiological parameters. The reliability of both the flux data and parameter values itself was not under discussion in this study. The data provided by the researchers of the EUROFLUX sites, possibly with local corrections, were used with a minor gap-filling procedure to avoid the loss of many days with observations. The model performance is discussed based on their accuracy, generality and realism. Accuracy was evaluated based on the goodness-of-fit with observed values of daily net ecosystem exchange, gross primary production and ecosystem respiration (gC m−2 d−1), and transpiration (kg H2O m−2 d−1). Moreover, accuracy was also evaluated based on systematic and unsystematic errors. Generality was characterized by the applicability of the models to different European forest ecosystems. Reality was evaluated by comparing the modelled and observed responses of gross primary production, ecosystem respiration to radiation and temperature. The results indicated that: Accuracy. All models showed similar high correlation with the measured carbon flux data, and also low systematic and unsystematic prediction errors at one or more sites of flux measurements. The results were similar in the case of several models when the water fluxes were considered. Most models fulfilled the criteria of sufficient accuracy for the ability to predict the carbon and water exchange between forests and the atmosphere. Generality. Three models of six could be applied for both deciduous and coniferous forests. Furthermore, four models were applied both for boreal and temperate conditions. However, no severe water-limited conditions were encountered, and no year-to-year variability could be tested. Realism. Most models fulfil the criterion of realism that the relationships between the modelled phenomena (carbon and water exchange) and environment are described causally. Again several of the models were able to reproduce the responses of measurable variables such as gross primary production (GPP), ecosystem respiration and transpiration to environmental driving factors such as radiation and temperature. Stomatal conductance appears to be the most critical process causing differences in predicted fluxes of carbon and water between those models that accurately describe the annual totals of GPP, ecosystem respiration and transpiration. As a conclusion, several process-based models are available that produce accurate estimates of carbon and water fluxes at several forest sites of Europe. This considerable accuracy fulfils one requirement of models to be able to predict the impacts of climate change on the carbon balance of European forests. However, the generality of the models should be further evaluated by expanding the range of testing over both time and space. In addition, differences in behaviour between models at the process level indicate requirement of further model testing, with special emphasis on modelling stomatal conductance realistically.},
   langid = {english},
   keywords = {accuracy,climate change,generality,process models,realism,water and carbon fluxes},
-  annotation = {\_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1046/j.1365-2486.2002.00471.x},
   file = {/home/simone/Zotero/storage/2TMMGCL2/j.1365-2486.2002.00471.html}
 }
 
@@ -879,13 +872,12 @@
   number = {arXiv:2112.06247},
   eprint = {2112.06247},
   eprinttype = {arxiv},
-  primaryclass = {cs},
+  eprintclass = {cs},
   publisher = {{arXiv}},
   doi = {10.48550/arXiv.2112.06247},
   url = {http://arxiv.org/abs/2112.06247},
   urldate = {2022-05-15},
   abstract = {Time series (TS) anomaly detection (AD) plays an essential role in various applications, e.g., fraud detection in finance and healthcare monitoring. Due to the inherently unpredictable and highly varied nature of anomalies and the lack of anomaly labels in historical data, the AD problem is typically formulated as an unsupervised learning problem. The performance of existing solutions is often not satisfactory, especially in data-scarce scenarios. To tackle this problem, we propose a novel self-supervised learning technique for AD in time series, namely \textbackslash emph\{DeepFIB\}. We model the problem as a \textbackslash emph\{Fill In the Blank\} game by masking some elements in the TS and imputing them with the rest. Considering the two common anomaly shapes (point- or sequence-outliers) in TS data, we implement two masking strategies with many self-generated training samples. The corresponding self-imputation networks can extract more robust temporal relations than existing AD solutions and effectively facilitate identifying the two types of anomalies. For continuous outliers, we also propose an anomaly localization algorithm that dramatically reduces AD errors. Experiments on various real-world TS datasets demonstrate that DeepFIB outperforms state-of-the-art methods by a large margin, achieving up to \$65.2\textbackslash\%\$ relative improvement in F1-score.},
-  archiveprefix = {arXiv},
   keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning},
   file = {/home/simone/Zotero/storage/XXYSSPLZ/Liu et al. - 2021 - DeepFIB Self-Imputation for Time Series Anomaly D.pdf;/home/simone/Zotero/storage/D86ND7FB/2112.html}
 }
@@ -898,13 +890,12 @@
   number = {arXiv:2112.06247},
   eprint = {2112.06247},
   eprinttype = {arxiv},
-  primaryclass = {cs},
+  eprintclass = {cs},
   publisher = {{arXiv}},
   doi = {10.48550/arXiv.2112.06247},
   url = {http://arxiv.org/abs/2112.06247},
   urldate = {2022-05-14},
   abstract = {Time series (TS) anomaly detection (AD) plays an essential role in various applications, e.g., fraud detection in finance and healthcare monitoring. Due to the inherently unpredictable and highly varied nature of anomalies and the lack of anomaly labels in historical data, the AD problem is typically formulated as an unsupervised learning problem. The performance of existing solutions is often not satisfactory, especially in data-scarce scenarios. To tackle this problem, we propose a novel self-supervised learning technique for AD in time series, namely \textbackslash emph\{DeepFIB\}. We model the problem as a \textbackslash emph\{Fill In the Blank\} game by masking some elements in the TS and imputing them with the rest. Considering the two common anomaly shapes (point- or sequence-outliers) in TS data, we implement two masking strategies with many self-generated training samples. The corresponding self-imputation networks can extract more robust temporal relations than existing AD solutions and effectively facilitate identifying the two types of anomalies. For continuous outliers, we also propose an anomaly localization algorithm that dramatically reduces AD errors. Experiments on various real-world TS datasets demonstrate that DeepFIB outperforms state-of-the-art methods by a large margin, achieving up to \$65.2\textbackslash\%\$ relative improvement in F1-score.},
-  archiveprefix = {arXiv},
   keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning},
   file = {/home/simone/Zotero/storage/AJNL53U3/Liu et al. - 2021 - DeepFIB Self-Imputation for Time Series Anomaly D.pdf;/home/simone/Zotero/storage/SUS74QXZ/2112.html}
 }
@@ -1054,6 +1045,14 @@
   file = {/home/simone/Documents/uni/Thesis/books/epdf.tips_kalman-filtering-theory-and-practice-using-matlab.pdf}
 }
 
+@article{moritz_comparison_nodate,
+  title = {Comparison of Different {{Methods}} for {{Univariate Time Series Imputation}} in {{R}}},
+  author = {Moritz, Steffen},
+  abstract = {Missing values in datasets are a well-known problem and there are quite a lot of R packages offering imputation functions. But while imputation in general is well covered within R, it is hard to find functions for imputation of univariate time series. The problem is, most standard imputation techniques can not be applied directly. Most algorithms rely on inter-attribute correlations, while univariate time series imputation needs to employ time dependencies. This paper provides an overview of univariate time series imputation in general and an in-detail insight into the respective implementations within R packages. Furthermore, we experimentally compare the R functions on different time series using four different ratios of missing data. Our results show that either an interpolation with seasonal kalman filter from the zoo package or a linear interpolation on seasonal loess decomposed data from the forecast package were the most effective methods for dealing with missing data in most of the scenarios assessed in this paper.},
+  langid = {english},
+  file = {/home/simone/Zotero/storage/29585DBD/Moritz - Comparison of different Methods for Univariate Tim.pdf}
+}
+
 @article{moritz_r_2017,
   title = {The {{R Journal}}: {{imputeTS}}: {{Time Series Missing Value Imputation}} in {{R}}},
   shorttitle = {The {{R Journal}}},
@@ -1088,6 +1087,16 @@
   abstract = {Framed within the Copernicus Climate Change Service (C3S) of the European Commission, the European Centre for Medium-Range Weather Forecasts (ECMWF) is producing an enhanced global dataset for the land component of the fifth generation of European ReAnalysis (ERA5), hereafter referred to as ERA5-Land. Once completed, the period covered will span from 1950 to the present, with continuous updates to support land monitoring applications. ERA5-Land describes the evolution of the water and energy cycles over land in a consistent manner over the production period, which, among others, could be used to analyse trends and anomalies. This is achieved through global high-resolution numerical integrations of the ECMWF land surface model driven by the downscaled meteorological forcing from the ERA5 climate reanalysis, including an elevation correction for the thermodynamic near-surface state. ERA5-Land shares with ERA5 most of the parameterizations that guarantees the use of the state-of-the-art land surface modelling applied to numerical weather prediction (NWP) models. A main advantage of ERA5-Land compared to ERA5 and the older ERA-Interim is the horizontal resolution, which is enhanced globally to 9 km compared to 31 km (ERA5) or 80 km (ERA-Interim), whereas the temporal resolution is hourly as in ERA5. Evaluation against independent in situ observations and global model or satellite-based reference datasets shows the added value of ERA5-Land in the description of the hydrological cycle, in particular with enhanced soil moisture and lake description, and an overall better agreement of river discharge estimations with available observations. However, ERA5-Land snow depth fields present a mixed performance when compared to those of ERA5, depending on geographical location and altitude. The description of the energy cycle shows comparable results with ERA5. Nevertheless, ERA5-Land reduces the global averaged root mean square error of the skin temperature, taking as reference MODIS data, mainly due to the contribution of coastal points where spatial resolution is important. Since January 2020, the ERA5-Land period available has extended from January 1981 to the near present, with a 2- to 3-month delay with respect to real time. The segment prior to 1981 is in production, aiming for a release of the whole dataset in summer/autumn 2021. The high spatial and temporal resolution of ERA5-Land, its extended period, and the consistency of the fields produced makes it a valuable dataset to support hydrological studies, to initialize NWP and climate models, and to support diverse applications dealing with water resource, land, and environmental management.  The full ERA5-Land hourly (Muñoz-Sabater, 2019a) and monthly (Muñoz-Sabater, 2019b) averaged datasets presented in this paper are available through the C3S Climate Data Store at https://doi.org/10.24381/cds.e2161bac and https://doi.org/10.24381/cds.68d2bb30, respectively.},
   langid = {english},
   file = {/home/simone/Zotero/storage/6FRTJX3W/Muñoz-Sabater et al. - 2021 - ERA5-Land a state-of-the-art global reanalysis da.pdf}
+}
+
+@incollection{NEURIPS2019_9015,
+  title = {{{PyTorch}}: {{An}} Imperative Style, High-Performance Deep Learning Library},
+  booktitle = {Advances in Neural Information Processing Systems 32},
+  author = {Paszke, Adam and Gross, Sam and Massa, Francisco and Lerer, Adam and Bradbury, James and Chanan, Gregory and Killeen, Trevor and Lin, Zeming and Gimelshein, Natalia and Antiga, Luca and Desmaison, Alban and Kopf, Andreas and Yang, Edward and DeVito, Zachary and Raison, Martin and Tejani, Alykhan and Chilamkurthy, Sasank and Steiner, Benoit and Fang, Lu and Bai, Junjie and Chintala, Soumith},
+  date = {2019},
+  pages = {8024--8035},
+  publisher = {{Curran Associates, Inc.}},
+  url = {http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-performance-deep-learning-library.pdf}
 }
 
 @online{noauthor_application_nodate,
@@ -1159,13 +1168,12 @@
   number = {arXiv:2202.12441},
   eprint = {2202.12441},
   eprinttype = {arxiv},
-  primaryclass = {cs, math, stat},
+  eprintclass = {cs, math, stat},
   publisher = {{arXiv}},
   doi = {10.48550/arXiv.2202.12441},
   url = {http://arxiv.org/abs/2202.12441},
   urldate = {2022-05-14},
   abstract = {We present an approach that uses a deep learning model, in particular, a MultiLayer Perceptron (MLP), for estimating the missing values of a variable in multivariate time series data. We focus on filling a long continuous gap (e.g., multiple months of missing daily observations) rather than on individual randomly missing observations. Our proposed gap filling algorithm uses an automated method for determining the optimal MLP model architecture, thus allowing for optimal prediction performance for the given time series. We tested our approach by filling gaps of various lengths (three months to three years) in three environmental datasets with different time series characteristics, namely daily groundwater levels, daily soil moisture, and hourly Net Ecosystem Exchange. We compared the accuracy of the gap-filled values obtained with our approach to the widely-used R-based time series gap filling methods ImputeTS and mtsdi. The results indicate that using an MLP for filling a large gap leads to better results, especially when the data behave nonlinearly. Thus, our approach enables the use of datasets that have a large gap in one variable, which is common in many long-term environmental monitoring observations.},
-  archiveprefix = {arXiv},
   keywords = {Computer Science - Machine Learning,Mathematics - Optimization and Control,Statistics - Applications},
   file = {/home/simone/Zotero/storage/9TFCBLTU/Park et al. - 2022 - Long-Term Missing Value Imputation for Time Series.pdf;/home/simone/Zotero/storage/E8YW8FCQ/2202.html}
 }
@@ -1204,7 +1212,7 @@
 
 @article{park_square-root_1995-1,
   title = {Square-Root {{RTS}} Smoothing Algorithms},
-  author = {PARK, POOGYEON and KAILATH, THOMAS},
+  author = {family=PARK, given=POOGYEON, given-i=POOGYEON and family=KAILATH, given=THOMAS, given-i=THOMAS},
   date = {1995-11-01},
   journaltitle = {International Journal of Control},
   volume = {62},
@@ -1215,13 +1223,12 @@
   doi = {10.1080/00207179508921582},
   url = {https://doi.org/10.1080/00207179508921582},
   urldate = {2023-01-24},
-  abstract = {Two kinds of new square-root algorithms for Rauch-Tung-Striebel (RTS) smoothing formulas are suggested: stable square-root algorithms and a fast square-root (or so-called Chandrasekhar-type) algorithm. The new stable square-root algorithms use square-root arrays composed of smoothed estimates and their error covariances. These square-root algorithms provide many advantages over the conventional algorithms with respect to systolic array and parallel implementations as well as numerical stability and conditioning. For the case of constant-parameter systems, a fast square-root algorithm is suggested, which requires less computation than others.},
-  annotation = {\_eprint: https://doi.org/10.1080/00207179508921582}
+  abstract = {Two kinds of new square-root algorithms for Rauch-Tung-Striebel (RTS) smoothing formulas are suggested: stable square-root algorithms and a fast square-root (or so-called Chandrasekhar-type) algorithm. The new stable square-root algorithms use square-root arrays composed of smoothed estimates and their error covariances. These square-root algorithms provide many advantages over the conventional algorithms with respect to systolic array and parallel implementations as well as numerical stability and conditioning. For the case of constant-parameter systems, a fast square-root algorithm is suggested, which requires less computation than others.}
 }
 
 @article{park_square-root_1995-2,
   title = {Square-Root {{RTS}} Smoothing Algorithms},
-  author = {PARK, POOGYEON and KAILATH, THOMAS},
+  author = {family=PARK, given=POOGYEON, given-i=POOGYEON and family=KAILATH, given=THOMAS, given-i=THOMAS},
   date = {1995-11-01},
   journaltitle = {International Journal of Control},
   volume = {62},
@@ -1233,13 +1240,12 @@
   url = {https://doi.org/10.1080/00207179508921582},
   urldate = {2023-01-24},
   abstract = {Two kinds of new square-root algorithms for Rauch-Tung-Striebel (RTS) smoothing formulas are suggested: stable square-root algorithms and a fast square-root (or so-called Chandrasekhar-type) algorithm. The new stable square-root algorithms use square-root arrays composed of smoothed estimates and their error covariances. These square-root algorithms provide many advantages over the conventional algorithms with respect to systolic array and parallel implementations as well as numerical stability and conditioning. For the case of constant-parameter systems, a fast square-root algorithm is suggested, which requires less computation than others.},
-  annotation = {\_eprint: https://doi.org/10.1080/00207179508921582},
   file = {/home/simone/Zotero/storage/AUPFVF3R/PARK and KAILATH - 1995 - Square-root RTS smoothing algorithms.pdf}
 }
 
 @article{park_square-root_2007,
   title = {Square-Root {{RTS}} Smoothing Algorithms},
-  author = {PARK, POOGYEON and KAILATH, THOMAS},
+  author = {family=PARK, given=POOGYEON, given-i=POOGYEON and family=KAILATH, given=THOMAS, given-i=THOMAS},
   date = {2007-02-24},
   journaltitle = {International Journal of Control},
   publisher = {{Taylor \& Francis Group}},
@@ -1253,8 +1259,7 @@
 
 @article{pastorello_fluxnet2015_2020,
   title = {The {{FLUXNET2015}} Dataset and the {{ONEFlux}} Processing Pipeline for Eddy Covariance Data},
-  author = {Pastorello, Gilberto and Trotta, Carlo and Canfora, Eleonora and Chu, Housen and Christianson, Danielle and Cheah, You-Wei and Poindexter, Cristina and Chen, Jiquan and Elbashandy, Abdelrahman and Humphrey, Marty and Isaac, Peter and Polidori, Diego and Reichstein, Markus and Ribeca, Alessio and van Ingen, Catharine and Vuichard, Nicolas and Zhang, Leiming and Amiro, Brian and Ammann, Christof and Arain, M. Altaf and Ardö, Jonas and Arkebauer, Timothy and Arndt, Stefan K. and Arriga, Nicola and Aubinet, Marc and Aurela, Mika and Baldocchi, Dennis and Barr, Alan and Beamesderfer, Eric and Marchesini, Luca Belelli and Bergeron, Onil and Beringer, Jason and Bernhofer, Christian and Berveiller, Daniel and Billesbach, Dave and Black, Thomas Andrew and Blanken, Peter D. and Bohrer, Gil and Boike, Julia and Bolstad, Paul V. and Bonal, Damien and Bonnefond, Jean-Marc and Bowling, David R. and Bracho, Rosvel and Brodeur, Jason and Brümmer, Christian and Buchmann, Nina and Burban, Benoit and Burns, Sean P. and Buysse, Pauline and Cale, Peter and Cavagna, Mauro and Cellier, Pierre and Chen, Shiping and Chini, Isaac and Christensen, Torben R. and Cleverly, James and Collalti, Alessio and Consalvo, Claudia and Cook, Bruce D. and Cook, David and Coursolle, Carole and Cremonese, Edoardo and Curtis, Peter S. and D’Andrea, Ettore and da Rocha, Humberto and Dai, Xiaoqin and Davis, Kenneth J. and Cinti, Bruno De and de Grandcourt, Agnes and Ligne, Anne De and De Oliveira, Raimundo C. and Delpierre, Nicolas and Desai, Ankur R. and Di Bella, Carlos Marcelo and di Tommasi, Paul and Dolman, Han and Domingo, Francisco and Dong, Gang and Dore, Sabina and Duce, Pierpaolo and Dufrêne, Eric and Dunn, Allison and Dušek, Jiří and Eamus, Derek and Eichelmann, Uwe and ElKhidir, Hatim Abdalla M. and Eugster, Werner and Ewenz, Cacilia M. and Ewers, Brent and Famulari, Daniela and Fares, Silvano and Feigenwinter, Iris and Feitz, Andrew and Fensholt, Rasmus and Filippa, Gianluca and Fischer, Marc and Frank, John and Galvagno, Marta and Gharun, Mana and Gianelle, Damiano and Gielen, Bert and Gioli, Beniamino and Gitelson, Anatoly and Goded, Ignacio and Goeckede, Mathias and Goldstein, Allen H. and Gough, Christopher M. and Goulden, Michael L. and Graf, Alexander and Griebel, Anne and Gruening, Carsten and Grünwald, Thomas and Hammerle, Albin and Han, Shijie and Han, Xingguo and Hansen, Birger Ulf and Hanson, Chad and Hatakka, Juha and He, Yongtao and Hehn, Markus and Heinesch, Bernard and Hinko-Najera, Nina and Hörtnagl, Lukas and Hutley, Lindsay and Ibrom, Andreas and Ikawa, Hiroki and Jackowicz-Korczynski, Marcin and Janouš, Dalibor and Jans, Wilma and Jassal, Rachhpal and Jiang, Shicheng and Kato, Tomomichi and Khomik, Myroslava and Klatt, Janina and Knohl, Alexander and Knox, Sara and Kobayashi, Hideki and Koerber, Georgia and Kolle, Olaf and Kosugi, Yoshiko and Kotani, Ayumi and Kowalski, Andrew and Kruijt, Bart and Kurbatova, Julia and Kutsch, Werner L. and Kwon, Hyojung and Launiainen, Samuli and Laurila, Tuomas and Law, Bev and Leuning, Ray and Li, Yingnian and Liddell, Michael and Limousin, Jean-Marc and Lion, Marryanna and Liska, Adam J. and Lohila, Annalea and López-Ballesteros, Ana and López-Blanco, Efrén and Loubet, Benjamin and Loustau, Denis and Lucas-Moffat, Antje and Lüers, Johannes and Ma, Siyan and Macfarlane, Craig and Magliulo, Vincenzo and Maier, Regine and Mammarella, Ivan and Manca, Giovanni and Marcolla, Barbara and Margolis, Hank A. and Marras, Serena and Massman, William and Mastepanov, Mikhail and Matamala, Roser and Matthes, Jaclyn Hatala and Mazzenga, Francesco and McCaughey, Harry and McHugh, Ian and McMillan, Andrew M. S. and Merbold, Lutz and Meyer, Wayne and Meyers, Tilden and Miller, Scott D. and Minerbi, Stefano and Moderow, Uta and Monson, Russell K. and Montagnani, Leonardo and Moore, Caitlin E. and Moors, Eddy and Moreaux, Virginie and Moureaux, Christine and Munger, J. William and Nakai, Taro and Neirynck, Johan and Nesic, Zoran and Nicolini, Giacomo and Noormets, Asko and Northwood, Matthew and Nosetto, Marcelo and Nouvellon, Yann and Novick, Kimberly and Oechel, Walter and Olesen, Jørgen Eivind and Ourcival, Jean-Marc and Papuga, Shirley A. and Parmentier, Frans-Jan and Paul-Limoges, Eugenie and Pavelka, Marian and Peichl, Matthias and Pendall, Elise and Phillips, Richard P. and Pilegaard, Kim and Pirk, Norbert and Posse, Gabriela and Powell, Thomas and Prasse, Heiko and Prober, Suzanne M. and Rambal, Serge and Rannik, Üllar and Raz-Yaseef, Naama and Rebmann, Corinna and Reed, David and de Dios, Victor Resco and Restrepo-Coupe, Natalia and Reverter, Borja R. and Roland, Marilyn and Sabbatini, Simone and Sachs, Torsten and Saleska, Scott R. and Sánchez-Cañete, Enrique P. and Sanchez-Mejia, Zulia M. and Schmid, Hans Peter and Schmidt, Marius and Schneider, Karl and Schrader, Frederik and Schroder, Ivan and Scott, Russell L. and Sedlák, Pavel and Serrano-Ortíz, Penélope and Shao, Changliang and Shi, Peili and Shironya, Ivan and Siebicke, Lukas and Šigut, Ladislav and Silberstein, Richard and Sirca, Costantino and Spano, Donatella and Steinbrecher, Rainer and Stevens, Robert M. and Sturtevant, Cove and Suyker, Andy and Tagesson, Torbern and Takanashi, Satoru and Tang, Yanhong and Tapper, Nigel and Thom, Jonathan and Tomassucci, Michele and Tuovinen, Juha-Pekka and Urbanski, Shawn and Valentini, Riccardo and van der Molen, Michiel and van Gorsel, Eva and van Huissteden, Ko and Varlagin, Andrej and Verfaillie, Joseph and Vesala, Timo and Vincke, Caroline and Vitale, Domenico and Vygodskaya, Natalia and Walker, Jeffrey P. and Walter-Shea, Elizabeth and Wang, Huimin and Weber, Robin and Westermann, Sebastian and Wille, Christian and Wofsy, Steven and Wohlfahrt, Georg and Wolf, Sebastian and Woodgate, William and Li, Yuelin and Zampedri, Roberto and Zhang, Junhui and Zhou, Guoyi and Zona, Donatella and Agarwal, Deb and Biraud, Sebastien and Torn, Margaret and Papale, Dario},
-  options = {useprefix=true},
+  author = {Pastorello, Gilberto and Trotta, Carlo and Canfora, Eleonora and Chu, Housen and Christianson, Danielle and Cheah, You-Wei and Poindexter, Cristina and Chen, Jiquan and Elbashandy, Abdelrahman and Humphrey, Marty and Isaac, Peter and Polidori, Diego and Reichstein, Markus and Ribeca, Alessio and family=Ingen, given=Catharine, prefix=van, useprefix=true and Vuichard, Nicolas and Zhang, Leiming and Amiro, Brian and Ammann, Christof and Arain, M. Altaf and Ardö, Jonas and Arkebauer, Timothy and Arndt, Stefan K. and Arriga, Nicola and Aubinet, Marc and Aurela, Mika and Baldocchi, Dennis and Barr, Alan and Beamesderfer, Eric and Marchesini, Luca Belelli and Bergeron, Onil and Beringer, Jason and Bernhofer, Christian and Berveiller, Daniel and Billesbach, Dave and Black, Thomas Andrew and Blanken, Peter D. and Bohrer, Gil and Boike, Julia and Bolstad, Paul V. and Bonal, Damien and Bonnefond, Jean-Marc and Bowling, David R. and Bracho, Rosvel and Brodeur, Jason and Brümmer, Christian and Buchmann, Nina and Burban, Benoit and Burns, Sean P. and Buysse, Pauline and Cale, Peter and Cavagna, Mauro and Cellier, Pierre and Chen, Shiping and Chini, Isaac and Christensen, Torben R. and Cleverly, James and Collalti, Alessio and Consalvo, Claudia and Cook, Bruce D. and Cook, David and Coursolle, Carole and Cremonese, Edoardo and Curtis, Peter S. and D’Andrea, Ettore and family=Rocha, given=Humberto, prefix=da, useprefix=true and Dai, Xiaoqin and Davis, Kenneth J. and Cinti, Bruno De and family=Grandcourt, given=Agnes, prefix=de, useprefix=false and Ligne, Anne De and De Oliveira, Raimundo C. and Delpierre, Nicolas and Desai, Ankur R. and Di Bella, Carlos Marcelo and family=Tommasi, given=Paul, prefix=di, useprefix=false and Dolman, Han and Domingo, Francisco and Dong, Gang and Dore, Sabina and Duce, Pierpaolo and Dufrêne, Eric and Dunn, Allison and Dušek, Jiří and Eamus, Derek and Eichelmann, Uwe and ElKhidir, Hatim Abdalla M. and Eugster, Werner and Ewenz, Cacilia M. and Ewers, Brent and Famulari, Daniela and Fares, Silvano and Feigenwinter, Iris and Feitz, Andrew and Fensholt, Rasmus and Filippa, Gianluca and Fischer, Marc and Frank, John and Galvagno, Marta and Gharun, Mana and Gianelle, Damiano and Gielen, Bert and Gioli, Beniamino and Gitelson, Anatoly and Goded, Ignacio and Goeckede, Mathias and Goldstein, Allen H. and Gough, Christopher M. and Goulden, Michael L. and Graf, Alexander and Griebel, Anne and Gruening, Carsten and Grünwald, Thomas and Hammerle, Albin and Han, Shijie and Han, Xingguo and Hansen, Birger Ulf and Hanson, Chad and Hatakka, Juha and He, Yongtao and Hehn, Markus and Heinesch, Bernard and Hinko-Najera, Nina and Hörtnagl, Lukas and Hutley, Lindsay and Ibrom, Andreas and Ikawa, Hiroki and Jackowicz-Korczynski, Marcin and Janouš, Dalibor and Jans, Wilma and Jassal, Rachhpal and Jiang, Shicheng and Kato, Tomomichi and Khomik, Myroslava and Klatt, Janina and Knohl, Alexander and Knox, Sara and Kobayashi, Hideki and Koerber, Georgia and Kolle, Olaf and Kosugi, Yoshiko and Kotani, Ayumi and Kowalski, Andrew and Kruijt, Bart and Kurbatova, Julia and Kutsch, Werner L. and Kwon, Hyojung and Launiainen, Samuli and Laurila, Tuomas and Law, Bev and Leuning, Ray and Li, Yingnian and Liddell, Michael and Limousin, Jean-Marc and Lion, Marryanna and Liska, Adam J. and Lohila, Annalea and López-Ballesteros, Ana and López-Blanco, Efrén and Loubet, Benjamin and Loustau, Denis and Lucas-Moffat, Antje and Lüers, Johannes and Ma, Siyan and Macfarlane, Craig and Magliulo, Vincenzo and Maier, Regine and Mammarella, Ivan and Manca, Giovanni and Marcolla, Barbara and Margolis, Hank A. and Marras, Serena and Massman, William and Mastepanov, Mikhail and Matamala, Roser and Matthes, Jaclyn Hatala and Mazzenga, Francesco and McCaughey, Harry and McHugh, Ian and McMillan, Andrew M. S. and Merbold, Lutz and Meyer, Wayne and Meyers, Tilden and Miller, Scott D. and Minerbi, Stefano and Moderow, Uta and Monson, Russell K. and Montagnani, Leonardo and Moore, Caitlin E. and Moors, Eddy and Moreaux, Virginie and Moureaux, Christine and Munger, J. William and Nakai, Taro and Neirynck, Johan and Nesic, Zoran and Nicolini, Giacomo and Noormets, Asko and Northwood, Matthew and Nosetto, Marcelo and Nouvellon, Yann and Novick, Kimberly and Oechel, Walter and Olesen, Jørgen Eivind and Ourcival, Jean-Marc and Papuga, Shirley A. and Parmentier, Frans-Jan and Paul-Limoges, Eugenie and Pavelka, Marian and Peichl, Matthias and Pendall, Elise and Phillips, Richard P. and Pilegaard, Kim and Pirk, Norbert and Posse, Gabriela and Powell, Thomas and Prasse, Heiko and Prober, Suzanne M. and Rambal, Serge and Rannik, Üllar and Raz-Yaseef, Naama and Rebmann, Corinna and Reed, David and family=Dios, given=Victor Resco, prefix=de, useprefix=false and Restrepo-Coupe, Natalia and Reverter, Borja R. and Roland, Marilyn and Sabbatini, Simone and Sachs, Torsten and Saleska, Scott R. and Sánchez-Cañete, Enrique P. and Sanchez-Mejia, Zulia M. and Schmid, Hans Peter and Schmidt, Marius and Schneider, Karl and Schrader, Frederik and Schroder, Ivan and Scott, Russell L. and Sedlák, Pavel and Serrano-Ortíz, Penélope and Shao, Changliang and Shi, Peili and Shironya, Ivan and Siebicke, Lukas and Šigut, Ladislav and Silberstein, Richard and Sirca, Costantino and Spano, Donatella and Steinbrecher, Rainer and Stevens, Robert M. and Sturtevant, Cove and Suyker, Andy and Tagesson, Torbern and Takanashi, Satoru and Tang, Yanhong and Tapper, Nigel and Thom, Jonathan and Tomassucci, Michele and Tuovinen, Juha-Pekka and Urbanski, Shawn and Valentini, Riccardo and family=Molen, given=Michiel, prefix=van der, useprefix=true and family=Gorsel, given=Eva, prefix=van, useprefix=true and family=Huissteden, given=Ko, prefix=van, useprefix=true and Varlagin, Andrej and Verfaillie, Joseph and Vesala, Timo and Vincke, Caroline and Vitale, Domenico and Vygodskaya, Natalia and Walker, Jeffrey P. and Walter-Shea, Elizabeth and Wang, Huimin and Weber, Robin and Westermann, Sebastian and Wille, Christian and Wofsy, Steven and Wohlfahrt, Georg and Wolf, Sebastian and Woodgate, William and Li, Yuelin and Zampedri, Roberto and Zhang, Junhui and Zhou, Guoyi and Zona, Donatella and Agarwal, Deb and Biraud, Sebastien and Torn, Margaret and Papale, Dario},
   date = {2020-07-09},
   journaltitle = {Scientific Data},
   shortjournal = {Sci Data},
@@ -1276,14 +1281,29 @@
 @incollection{potter_statistical_1963,
   title = {{{STATISTICAL FILTERING OF SPACE NAVIGATION MEASUREMENTS}}},
   booktitle = {Guidance and {{Control Conference}}},
-  author = {POTTER, JAMES and STERN, ROBERT},
+  author = {family=POTTER, given=JAMES, given-i=JAMES and family=STERN, given=ROBERT, given-i=ROBERT},
   date = {1963},
   publisher = {{American Institute of Aeronautics and Astronautics}},
   doi = {10.2514/6.1963-333},
   url = {https://arc.aiaa.org/doi/abs/10.2514/6.1963-333},
   urldate = {2023-01-13},
-  annotation = {\_eprint: https://arc.aiaa.org/doi/pdf/10.2514/6.1963-333},
   file = {/home/simone/Zotero/storage/NPXBZ7TS/POTTER and STERN - STATISTICAL FILTERING OF SPACE NAVIGATION MEASUREM.pdf;/home/simone/Zotero/storage/IJAB4XMG/6.html}
+}
+
+@online{rahaman_general_2022,
+  title = {A {{General Purpose Neural Architecture}} for {{Geospatial Systems}}},
+  author = {Rahaman, Nasim and Weiss, Martin and Träuble, Frederik and Locatello, Francesco and Lacoste, Alexandre and Bengio, Yoshua and Pal, Chris and Li, Li Erran and Schölkopf, Bernhard},
+  date = {2022-11-04},
+  number = {arXiv:2211.02348},
+  eprint = {arXiv:2211.02348},
+  eprinttype = {arxiv},
+  url = {http://arxiv.org/abs/2211.02348},
+  urldate = {2023-03-08},
+  abstract = {Geospatial Information Systems are used by researchers and Humanitarian Assistance and Disaster Response (HADR) practitioners to support a wide variety of important applications. However, collaboration between these actors is difficult due to the heterogeneous nature of geospatial data modalities (e.g., multi-spectral images of various resolutions, timeseries, weather data) and diversity of tasks (e.g., regression of human activity indicators or detecting forest fires). In this work, we present a roadmap towards the construction of a general-purpose neural architecture (GPNA) with a geospatial inductive bias, pre-trained on large amounts of unlabelled earth observation data in a self-supervised manner. We envision how such a model may facilitate cooperation between members of the community. We show preliminary results on the first step of the roadmap, where we instantiate an architecture that can process a wide variety of geospatial data modalities and demonstrate that it can achieve competitive performance with domain-specific architectures on tasks relating to the U.N.’s Sustainable Development Goals.},
+  langid = {english},
+  pubstate = {preprint},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computers and Society,Computer Science - Machine Learning},
+  file = {/home/simone/Zotero/storage/B3VAMV5I/Rahaman et al. - 2022 - A General Purpose Neural Architecture for Geospati.pdf}
 }
 
 @article{rauch_maximum_1965,
@@ -1299,7 +1319,6 @@
   doi = {10.2514/3.3166},
   url = {https://doi.org/10.2514/3.3166},
   urldate = {2023-02-19},
-  annotation = {\_eprint: https://doi.org/10.2514/3.3166},
   file = {/home/simone/Zotero/storage/TVX4THZ3/3.html}
 }
 
@@ -1317,7 +1336,6 @@
   abstract = {Pioneering work in the last century has resulted in a widely accepted paradigm that primary production is strongly positively related to temperature and water availability such that the northern hemispheric forest carbon sink may increase under conditions of global warming. However, the terrestrial carbon sink at the ecosystem level (i.e. net ecosystem productivity, NEP) depends on the net balance between gross primary productivity (GPP) and ecosystem respiration (TER). Through an analysis of European eddy covariance flux data sets, we find that the common climate relationships for primary production do not hold for NEP. This is explained by the fact that decreases in GPP are largely compensated by parallel decreases in TER when climatic factors become more limiting. Moreover, we found overall that water availability was a significant modulator of NEP, while the multivariate effect of mean annual temperature is small and not significant. These results indicate that climate- and particularly temperature-based projections of net carbon balance may be misleading. Future research should focus on interactions between the water and carbon cycles and the effects of disturbances on the carbon balance of terrestrial ecosystems.},
   langid = {english},
   keywords = {carbon-water cycle,eddy covariance},
-  annotation = {\_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1029/2006GL027880},
   file = {/home/simone/Zotero/storage/TN8UA6KL/Reichstein et al. - 2007 - Determinants of terrestrial ecosystem carbon balan.pdf;/home/simone/Zotero/storage/A59JB8EF/2006GL027880.html}
 }
 
@@ -1337,7 +1355,6 @@
   abstract = {This paper discusses the advantages and disadvantages of the different methods that separate net ecosystem exchange (NEE) into its major components, gross ecosystem carbon uptake (GEP) and ecosystem respiration (Reco). In particular, we analyse the effect of the extrapolation of night-time values of ecosystem respiration into the daytime; this is usually done with a temperature response function that is derived from long-term data sets. For this analysis, we used 16 one-year-long data sets of carbon dioxide exchange measurements from European and US-American eddy covariance networks. These sites span from the boreal to Mediterranean climates, and include deciduous and evergreen forest, scrubland and crop ecosystems. We show that the temperature sensitivity of Reco, derived from long-term (annual) data sets, does not reflect the short-term temperature sensitivity that is effective when extrapolating from night- to daytime. Specifically, in summer active ecosystems the long-term temperature sensitivity exceeds the short-term sensitivity. Thus, in those ecosystems, the application of a long-term temperature sensitivity to the extrapolation of respiration from night to day leads to a systematic overestimation of ecosystem respiration from half-hourly to annual time-scales, which can reach {$>$}25\% for an annual budget and which consequently affects estimates of GEP. Conversely, in summer passive (Mediterranean) ecosystems, the long-term temperature sensitivity is lower than the short-term temperature sensitivity resulting in underestimation of annual sums of respiration. We introduce a new generic algorithm that derives a short-term temperature sensitivity of Reco from eddy covariance data that applies this to the extrapolation from night- to daytime, and that further performs a filling of data gaps that exploits both, the covariance between fluxes and meteorological drivers and the temporal structure of the fluxes. While this algorithm should give less biased estimates of GEP and Reco, we discuss the remaining biases and recommend that eddy covariance measurements are still backed by ancillary flux measurements that can reduce the uncertainties inherent in the eddy covariance data.},
   langid = {english},
   keywords = {carbon balance,computational methods,ecosystem respiration,eddy covariance,gross carbon uptake,temperature sensitivity of respiration},
-  annotation = {\_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1365-2486.2005.001002.x},
   file = {/home/simone/Zotero/storage/UFS5CNLT/Reichstein et al. - 2005 - On the separation of net ecosystem exchange into a.pdf}
 }
 
@@ -1411,21 +1428,19 @@
   publisher = {{IEEE}}
 }
 
-@misc{shan_nrtsi_2021,
+@online{shan_nrtsi_2021,
   title = {{{NRTSI}}: {{Non-Recurrent Time Series Imputation}}},
   shorttitle = {{{NRTSI}}},
   author = {Shan, Siyuan and Li, Yang and Oliva, Junier B.},
   date = {2021-05-27},
   number = {arXiv:2102.03340},
-  eprint = {2102.03340},
+  eprint = {arXiv:2102.03340},
   eprinttype = {arxiv},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
   doi = {10.48550/arXiv.2102.03340},
   url = {http://arxiv.org/abs/2102.03340},
   urldate = {2022-06-15},
   abstract = {Time series imputation is a fundamental task for understanding time series with missing data. Existing methods either do not directly handle irregularly-sampled data or degrade severely with sparsely observed data. In this work, we reformulate time series as permutation-equivariant sets and propose a novel imputation model NRTSI that does not impose any recurrent structures. Taking advantage of the permutation equivariant formulation, we design a principled and efficient hierarchical imputation procedure. In addition, NRTSI can directly handle irregularly-sampled time series, perform multiple-mode stochastic imputation, and handle data with partially observed dimensions. Empirically, we show that NRTSI achieves state-of-the-art performance across a wide range of time series imputation benchmarks.},
-  archiveprefix = {arXiv},
+  pubstate = {preprint},
   keywords = {Computer Science - Machine Learning},
   file = {/home/simone/Zotero/storage/YU9S5DUU/Shan et al. - 2021 - NRTSI Non-Recurrent Time Series Imputation.pdf;/home/simone/Zotero/storage/BTRQHF25/2102.html}
 }
@@ -1462,6 +1477,25 @@
   file = {/home/simone/Zotero/storage/AYWPKKBH/Tardivo and Berti - 2012 - A Dynamic Method for Gap Filling in Daily Temperat.pdf;/home/simone/Zotero/storage/E44NPVVC/jamc-d-11-0117.1.html}
 }
 
+@article{tjostheim_statistical_2022,
+  title = {Statistical {{Dependence}}: {{Beyond Pearson}}’s ρ},
+  shorttitle = {Statistical {{Dependence}}},
+  author = {Tjøstheim, Dag and Otneim, Håkon and Støve, Bård},
+  date = {2022-02},
+  journaltitle = {Statistical Science},
+  volume = {37},
+  number = {1},
+  pages = {90--109},
+  publisher = {{Institute of Mathematical Statistics}},
+  issn = {0883-4237, 2168-8745},
+  doi = {10.1214/21-STS823},
+  url = {https://projecteuclid.org/journals/statistical-science/volume-37/issue-1/Statistical-Dependence-Beyond-Pearsons-%cf%81/10.1214/21-STS823.full},
+  urldate = {2023-03-08},
+  abstract = {Pearson’s ρ is the most used measure of statistical dependence. It gives a complete characterization of dependence in the Gaussian case, and it also works well in some non-Gaussian situations. It is well known; however, that it has a number of shortcomings; in particular, for heavy tailed distributions and in nonlinear situations, where it may produce misleading, and even disastrous results. In recent years, a number of alternatives have been proposed. In this paper, we will survey these developments, especially results obtained in the last couple of decades. Among measures discussed are the copula, distribution-based measures, the distance covariance, the HSIC measure popular in machine learning and finally the local Gaussian correlation, which is a local version of Pearson’s ρ. Throughout, we put the emphasis on conceptual developments and a comparison of these. We point out relevant references to technical details as well as comparative empirical and simulated experiments. There is a broad selection of references under each topic treated.},
+  keywords = {distance covariance,HSIC,local Gaussian correlation,mutual information,Nonlinear dependence,Pearson’s ρ,Statistical dependence},
+  file = {/home/simone/Zotero/storage/TMUKYSKY/Tjøstheim et al. - 2022 - Statistical Dependence Beyond Pearson’s ρ.pdf}
+}
+
 @article{VanderPlas2018,
   title = {Altair: {{Interactive}} Statistical Visualizations for Python},
   author = {VanderPlas, Jacob and Granger, Brian and Heer, Jeffrey and Moritz, Dominik and Wongsuphasawat, Kanit and Satyanarayan, Arvind and Lees, Eitan and Timofeev, Ilia and Welsh, Ben and Sievert, Scott},
@@ -1478,7 +1512,7 @@
 @article{ventura_mannga_2019,
   title = {{{MANNGA}}: {{A Robust Method}} for {{Gap Filling Meteorological Data}}},
   shorttitle = {{{MANNGA}}},
-  author = {Ventura, Thiago Meirelles and Martins, Claudia Aparecida and de Figueiredo, Josiel Maimone and de Oliveira, Allan Gonçalves and Montanher, Johnata Rodrigo Pinheiro},
+  author = {Ventura, Thiago Meirelles and Martins, Claudia Aparecida and family=Figueiredo, given=Josiel Maimone, prefix=de, useprefix=false and family=Oliveira, given=Allan Gonçalves, prefix=de, useprefix=false and Montanher, Johnata Rodrigo Pinheiro},
   date = {2019-08-05},
   journaltitle = {Revista Brasileira de Meteorologia},
   shortjournal = {Rev. bras. meteorol.},
@@ -1607,21 +1641,18 @@
   file = {/home/simone/Zotero/storage/UVRI3ZIJ/Yang et al. - 2020 - Adversarial Recurrent Time Series Imputation.pdf;/home/simone/Zotero/storage/WQETXTIF/9158560.html}
 }
 
-@misc{yoon_estimating_2017,
+@online{yoon_estimating_2017,
   title = {Estimating {{Missing Data}} in {{Temporal Data Streams Using Multi-directional Recurrent Neural Networks}}},
-  author = {Yoon, Jinsung and Zame, William R. and van der Schaar, Mihaela},
-  options = {useprefix=true},
+  author = {Yoon, Jinsung and Zame, William R. and family=Schaar, given=Mihaela, prefix=van der, useprefix=true},
   date = {2017-11-23},
   number = {arXiv:1711.08742},
-  eprint = {1711.08742},
+  eprint = {arXiv:1711.08742},
   eprinttype = {arxiv},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
   url = {http://arxiv.org/abs/1711.08742},
   urldate = {2022-06-16},
   abstract = {Missing data is a ubiquitous problem. It is especially challenging in medical settings because many streams of measurements are collected at different – and often irregular – times. Accurate estimation of those missing measurements is critical for many reasons, including diagnosis, prognosis and treatment. Existing methods address this estimation problem by interpolating within data streams or imputing across data streams (both of which ignore important information) or ignoring the temporal aspect of the data and imposing strong assumptions about the nature of the data-generating process and/or the pattern of missing data (both of which are especially problematic for medical data). We propose a new approach, based on a novel deep learning architecture that we call a Multi-directional Recurrent Neural Network (M-RNN) that interpolates within data streams and imputes across data streams. We demonstrate the power of our approach by applying it to five real-world medical datasets. We show that it provides dramatically improved estimation of missing measurements in comparison to 11 state-of-the-art benchmarks (including Spline and Cubic Interpolations, MICE, MissForest, matrix completion and several RNN methods); typical improvements in Root Mean Square Error are between 35\% - 50\%. Additional experiments based on the same five datasets demonstrate that the improvements provided by our method are extremely robust.},
-  archiveprefix = {arXiv},
   langid = {english},
+  pubstate = {preprint},
   keywords = {Computer Science - Machine Learning},
   file = {/home/simone/Zotero/storage/Q72JEMRZ/Yoon et al. - 2017 - Estimating Missing Data in Temporal Data Streams U.pdf}
 }

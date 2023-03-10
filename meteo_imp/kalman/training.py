@@ -258,7 +258,7 @@ def plot_points(df, y = "value", y_label = "", sel = def_selection(), props = {}
         ).encode(
             x = alt.X("time", axis=alt.Axis(domain=True, labels = True, ticks=True, title="time")),
             y = alt.Y(y, title = y_label, scale=alt.Scale(zero=False)),
-            fill= alt.Fill("is_present", scale = alt.Scale(range=["gray", "#ffffff00"], domain = [True, False]),
+            fill= alt.Fill("is_present", scale = alt.Scale(range=["#ffffff00", "gray"], domain = [True, False]),
                            legend = alt.Legend(title =["Gap"])),
             # shape = alt.Shape("is_present", scale= alt.Scale(range=["circle", "square"])),
         )
@@ -305,7 +305,7 @@ def plot_error(df, y = "value", y_label = "", color = 'variable', scale = scale_
         y = alt.Y("err_low:Q", title = y_label, scale=alt.Scale(zero=False)),
         y2 = "err_high:Q",
         color=alt.Color(color,
-                        legend = alt.Legend(title=["Line: pred. mean", "area: +/- 2 std"]),
+                        # legend = alt.Legend(title=["Line: pred. mean", "area: +/- 2 std"]),
                         scale = scale
                        )
     ).add_params(
