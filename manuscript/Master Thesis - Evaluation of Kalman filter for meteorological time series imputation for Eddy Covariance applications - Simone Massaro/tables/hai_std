@@ -1,0 +1,21 @@
+\begin{table}
+\centering
+\caption{\CapStd}
+\label{tbl:hai_std}
+\begin{tabular}{lr}
+\toprule
+ & std \\
+Variable &  \\
+\midrule
+\parbox{2.1cm}{\textbf{TA} [\si{°C}]} & 7.924611 \\
+\parbox{2.1cm}{\textbf{SW\_IN} [\si{W/m^2}]} & 204.002561 \\
+\parbox{2.1cm}{\textbf{LW\_IN} [\si{W/m^2}]} & 41.955741 \\
+\parbox{2.1cm}{\textbf{VPD} [\si{hPa}]} & 4.368417 \\
+\parbox{2.1cm}{\textbf{WS} [\si{m/s}]} & 1.625425 \\
+\parbox{2.1cm}{\textbf{PA} [\si{hPa}]} & 0.855159 \\
+\parbox{2.1cm}{\textbf{P} [\si{mm}]} & 0.280276 \\
+\parbox{2.1cm}{\textbf{SWC} [\si{\%}]} & 8.913119 \\
+\parbox{2.1cm}{\textbf{TS} [\si{°C}]} & 5.658643 \\
+\bottomrule
+\end{tabular}
+\end{table}
