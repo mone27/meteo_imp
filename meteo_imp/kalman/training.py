@@ -240,7 +240,7 @@ def plot_missing_area(df, sel = def_selection(), props={}):
     end = alt.Chart(gap_limits).mark_rule().encode(
         x = alt.X('gap_end')
     )
-    area = alt.Chart(gap_limits).mark_rect(color='black', opacity=.15).encode(
+    area = alt.Chart(gap_limits).mark_rect(color='black', opacity=.10).encode(
         x = alt.X('gap_start'),
         x2 = 'gap_end'
     )
@@ -248,6 +248,8 @@ def plot_missing_area(df, sel = def_selection(), props={}):
 
 # %% ../../lib_nbs/11_training.ipynb 91
 def plot_points(df, y = "value", y_label = "", sel = def_selection(), props = {}):
+    df = df.copy()
+    df.is_present = ~ df.is_present
     return alt.Chart(df).mark_point(
             color='black',
             strokeWidth = 1,
@@ -256,19 +258,21 @@ def plot_points(df, y = "value", y_label = "", sel = def_selection(), props = {}
         ).encode(
             x = alt.X("time", axis=alt.Axis(domain=True, labels = True, ticks=True, title="time")),
             y = alt.Y(y, title = y_label, scale=alt.Scale(zero=False)),
-            fill= alt.Fill("is_present", scale = alt.Scale(range=["#ffffff00", "gray"]),
-                           legend = alt.Legend(title =["Observed data"])),
+            fill= alt.Fill("is_present", scale = alt.Scale(range=["gray", "#ffffff00"], domain = [True, False]),
+                           legend = alt.Legend(title =["Gap"])),
             # shape = alt.Shape("is_present", scale= alt.Scale(range=["circle", "square"])),
         )
 
 # %% ../../lib_nbs/11_training.ipynb 94
-def plot_line(df, y="value", y_label = "", color = 'variable', scale=scale_meteo, sel = def_selection(), props = {}):
+def plot_line(df, y="value", y_label = "", color = 'variable', 
+              color_title = None,
+              scale=scale_meteo, sel = def_selection(), props = {}):
     # df = df[df.is_present] if only_present else df
     # TODO remove onle_present
     return alt.Chart(df).mark_line().encode(
         x = alt.X("time", title="time"),    
         y = alt.Y(y, title = y_label, scale=alt.Scale(zero=False)),
-        color=alt.Color(color, scale= scale)
+        color=alt.Color(color, scale= scale, title = ifnone(color_title, color))
     ).add_params(
         sel
     ).properties(

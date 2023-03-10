@@ -45,10 +45,10 @@ units_big = {
     # 'NETRAD': 'W m-2',
 }
 
-hai_path_raw = here("data") / "FLX_DE-Hai_FLUXNET2015_FULLSET_HH_2000-2012_1-4.csv"
-hai_path = here("data") / "FLX_DE-Hai_FLUXNET2015_FULLSET_HH_2000-2012_1-4_float32.parquet"
-hai_path64 = here("data") / "FLX_DE-Hai_FLUXNET2015_FULLSET_HH_2000-2012_1-4_float64.parquet"
-hai_big_path = here("data") / "FLX_DE-Hai_FLUXNET2015_FULLSET_HH_2000-2012_1-4_float64_big.parquet"
+hai_path_raw = here("data/Hainich") / "FLX_DE-Hai_FLUXNET2015_FULLSET_HH_2000-2012_1-4.csv"
+hai_path = here("data/Hainich") / "FLX_DE-Hai_FLUXNET2015_FULLSET_HH_2000-2012_1-4_float32.parquet"
+hai_path64 = here("data/Hainich") / "FLX_DE-Hai_FLUXNET2015_FULLSET_HH_2000-2012_1-4_float64.parquet"
+hai_big_path = here("data/Hainich") / "FLX_DE-Hai_FLUXNET2015_FULLSET_HH_2000-2012_1-4_float64_big.parquet"
 
 # %% ../lib_nbs/Fluxnet/Hainich.ipynb 6
 def get_dtype(col_name: str, num_dtype=np.float32):
@@ -91,10 +91,10 @@ except FileNotFoundError: # for CI
     hai = pd.DataFrame()
 
 # %% ../lib_nbs/Fluxnet/Hainich.ipynb 25
-hai_era_path_raw = here("data") / "FLX_DE-Hai_FLUXNET2015_ERAI_HH_1989-2014_1-4.csv"
-hai_era_path = here("data")/"FLX_DE-Hai_FLUXNET2015_ERAI_HH_1989-2014_1-4_float32.parquet"
-hai_era_path64 = here("data")/"FLX_DE-Hai_FLUXNET2015_ERAI_HH_1989-2014_1-4_float64.parquet"
-hai_era_big_path = here("data")/"FLX_DE-Hai_FLUXNET2015_ERAI_HH_1989-2014_1-4_float64_big.parquet"
+hai_era_path_raw = here("data/Hainich") / "FLX_DE-Hai_FLUXNET2015_ERAI_HH_1989-2014_1-4.csv"
+hai_era_path = here("data/Hainich")/"FLX_DE-Hai_FLUXNET2015_ERAI_HH_1989-2014_1-4_float32.parquet"
+hai_era_path64 = here("data/Hainich")/"FLX_DE-Hai_FLUXNET2015_ERAI_HH_1989-2014_1-4_float64.parquet"
+hai_era_big_path = here("data/Hainich")/"FLX_DE-Hai_FLUXNET2015_ERAI_HH_1989-2014_1-4_float64_big.parquet"
 
 # %% ../lib_nbs/Fluxnet/Hainich.ipynb 27
 era_vars = {
