@@ -1,0 +1,2860 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.255">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>meteo_imp - Find Gaps in Fluxnet data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="meteo_imp - Find Gaps in Fluxnet data">
+<meta property="og:description" content="">
+<meta property="og:site-name" content="meteo_imp">
+<meta name="twitter:title" content="meteo_imp - Find Gaps in Fluxnet data">
+<meta name="twitter:description" content="">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">meteo_imp</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools ms-auto">
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Fluxnet/gap_finder.html">Fluxnet</a></li><li class="breadcrumb-item"><a href="../Fluxnet/gap_finder.html">Find Gaps in Fluxnet data</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">GPFA Imputation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gaussian.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gaussian Distributions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../kalman_filter.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Kalman Filter</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../training.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Implement Kalman model using FastAI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../filter_performance_stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Filter Perfomance and Stability</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../results.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Results</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../utils.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Utils</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Fluxnet</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Fluxnet/gap_finder.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Find Gaps in Fluxnet data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Fluxnet/hainich.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fluxnet Hainich</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#find_gap" id="toc-find_gap" class="nav-link active" data-scroll-target="#find_gap">find_gap</a></li>
+  <li><a href="#scan_fluxnet_csv" id="toc-scan_fluxnet_csv" class="nav-link" data-scroll-target="#scan_fluxnet_csv">scan_fluxnet_csv</a></li>
+  <li><a href="#get_site_info" id="toc-get_site_info" class="nav-link" data-scroll-target="#get_site_info">get_site_info</a></li>
+  <li><a href="#find_gaps_fluxnet_archive" id="toc-find_gaps_fluxnet_archive" class="nav-link" data-scroll-target="#find_gaps_fluxnet_archive">find_gaps_fluxnet_archive</a></li>
+  <li><a href="#find_all_gaps" id="toc-find_all_gaps" class="nav-link" data-scroll-target="#find_all_gaps">find_all_gaps</a></li>
+  <li><a href="#download_fluxnet" id="toc-download_fluxnet" class="nav-link" data-scroll-target="#download_fluxnet">download_fluxnet</a></li>
+  <li><a href="#find-gaps" id="toc-find-gaps" class="nav-link" data-scroll-target="#find-gaps">Find gaps</a>
+  <ul class="collapse">
+  <li><a href="#download_and_find_gaps" id="toc-download_and_find_gaps" class="nav-link" data-scroll-target="#download_and_find_gaps">download_and_find_gaps</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mone27/meteo_imp/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Find Gaps in Fluxnet data</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>test_file_zip <span class="op">=</span> here() <span class="op">/</span> Path(<span class="st">"../fluxnet/FLX_DE-Hai_FLUXNET2015_FULLSET_2000-2012_1-4.zip"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>test_file <span class="op">=</span> here() <span class="op">/</span> Path(<span class="st">"../fluxnet/FLX_DE-Hai_FLUXNET2015_FULLSET_2000-2012_1-4/FLX_DE-Hai_FLUXNET2015_FULLSET_HH_2000-2012_1-4.csv"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>tmp_dir <span class="op">=</span> Path(<span class="st">"/tmp"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>out_dir <span class="op">=</span> here() <span class="op">/</span> Path(<span class="st">"../fluxnet/gap_stat"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>download_dir <span class="op">=</span> Path(<span class="st">"/run/media/simone/Simone DATI/fluxnet_all"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>test_file_zip</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>PosixPath('/home/simone/Documents/uni/Thesis/GPFA_imputation/../fluxnet/FLX_DE-Hai_FLUXNET2015_FULLSET_2000-2012_1-4.zip')</code></pre>
+</div>
+</div>
+<p>unzip the file and load it lazily with polars</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>zipf <span class="op">=</span> zipfile.ZipFile(test_file_zip).extract(<span class="st">'FLX_DE-Hai_FLUXNET2015_FULLSET_HH_2000-2012_1-4.csv'</span>, path<span class="op">=</span>tmp_dir)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>zipf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>'/tmp/FLX_DE-Hai_FLUXNET2015_FULLSET_HH_2000-2012_1-4.csv'</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load columns names</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>col_names <span class="op">=</span> pl.read_csv(zipf, n_rows<span class="op">=</span><span class="dv">1</span>).columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>types <span class="op">=</span> {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">**</span>{</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># pl.Uint8 should be enough for a QC flag, but some columns are floats in the csv ...</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        col_name: pl.Float32 <span class="cf">if</span> col_name.endswith(<span class="st">"_QC"</span>) <span class="cf">else</span> pl.Float64 <span class="cf">for</span> col_name <span class="kw">in</span> col_names</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TIMESTAMP_START"</span>: pl.Int64,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TIMESTAMP_END"</span>: pl.Int64</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load df with correct types</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pl.scan_csv(zipf, null_values<span class="op">=</span>[<span class="st">"-9999"</span>, <span class="st">"-9999.99"</span>], dtypes<span class="op">=</span>types)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df.head().collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+
+<span class="small">shape: (5, 238)</span>
+TIMESTAMP_START
+TIMESTAMP_END
+TA_F_MDS
+TA_F_MDS_QC
+TA_ERA
+TA_F
+TA_F_QC
+SW_IN_POT
+SW_IN_F_MDS
+SW_IN_F_MDS_QC
+SW_IN_ERA
+SW_IN_F
+SW_IN_F_QC
+LW_IN_F_MDS
+LW_IN_F_MDS_QC
+LW_IN_ERA
+LW_IN_F
+LW_IN_F_QC
+LW_IN_JSB
+LW_IN_JSB_QC
+LW_IN_JSB_ERA
+LW_IN_JSB_F
+LW_IN_JSB_F_QC
+VPD_F_MDS
+VPD_F_MDS_QC
+VPD_ERA
+VPD_F
+VPD_F_QC
+PA
+PA_ERA
+PA_F
+PA_F_QC
+P
+P_ERA
+P_F
+P_F_QC
+WS
+...
+RECO_DT_VUT_75
+RECO_DT_VUT_84
+RECO_DT_VUT_95
+RECO_DT_CUT_REF
+RECO_DT_CUT_USTAR50
+RECO_DT_CUT_MEAN
+RECO_DT_CUT_SE
+RECO_DT_CUT_05
+RECO_DT_CUT_16
+RECO_DT_CUT_25
+RECO_DT_CUT_50
+RECO_DT_CUT_75
+RECO_DT_CUT_84
+RECO_DT_CUT_95
+GPP_DT_VUT_REF
+GPP_DT_VUT_USTAR50
+GPP_DT_VUT_MEAN
+GPP_DT_VUT_SE
+GPP_DT_VUT_05
+GPP_DT_VUT_16
+GPP_DT_VUT_25
+GPP_DT_VUT_50
+GPP_DT_VUT_75
+GPP_DT_VUT_84
+GPP_DT_VUT_95
+GPP_DT_CUT_REF
+GPP_DT_CUT_USTAR50
+GPP_DT_CUT_MEAN
+GPP_DT_CUT_SE
+GPP_DT_CUT_05
+GPP_DT_CUT_16
+GPP_DT_CUT_25
+GPP_DT_CUT_50
+GPP_DT_CUT_75
+GPP_DT_CUT_84
+GPP_DT_CUT_95
+RECO_SR
+i64
+i64
+f64
+f32
+f64
+f64
+f32
+f64
+f64
+f32
+f64
+f64
+f32
+f64
+f32
+f64
+f64
+f32
+f64
+f32
+f64
+f64
+f32
+f64
+f32
+f64
+f64
+f32
+f64
+f64
+f64
+f32
+f64
+f64
+f64
+f32
+f64
+...
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+200001010000
+200001010030
+-0.6
+0.0
+-0.349
+-0.6
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+null
+null
+302.475
+302.475
+2.0
+270.92
+0.0
+307.452
+270.92
+0.0
+0.222
+0.0
+0.403
+0.222
+0.0
+96.63
+96.671
+96.63
+0.0
+0.0
+0.011
+0.0
+0.0
+2.05
+...
+1.04549
+1.04774
+1.04848
+1.02086
+1.02913
+1.02528
+0.006221
+0.938402
+0.965572
+1.0197
+1.03409
+1.04549
+1.04669
+1.04848
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+1.23379
+200001010030
+200001010100
+-0.65
+0.0
+-0.39
+-0.65
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+null
+null
+302.475
+302.475
+2.0
+271.265
+0.0
+307.452
+271.265
+0.0
+0.122
+0.0
+0.399
+0.122
+0.0
+96.58
+96.676
+96.58
+0.0
+0.0
+0.011
+0.0
+0.0
+2.53
+...
+1.04422
+1.04647
+1.0472
+1.01962
+1.02788
+1.02403
+0.006213
+0.937264
+0.964401
+1.01847
+1.03283
+1.04422
+1.04542
+1.0472
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+1.23238
+200001010100
+200001010130
+-0.58
+0.0
+-0.43
+-0.58
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+null
+null
+301.677
+301.677
+2.0
+271.958
+0.0
+306.541
+271.958
+0.0
+0.09
+0.0
+0.396
+0.09
+0.0
+96.56
+96.682
+96.56
+0.0
+0.0
+0.0
+0.0
+0.0
+3.15
+...
+1.046
+1.04825
+1.04898
+1.02135
+1.02963
+1.02577
+0.006224
+0.938856
+0.96604
+1.0202
+1.03459
+1.046
+1.0472
+1.04898
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+1.23238
+200001010130
+200001010200
+-0.51
+0.0
+-0.439
+-0.51
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+null
+null
+301.677
+301.677
+2.0
+272.292
+0.0
+306.541
+272.292
+0.0
+0.11
+0.0
+0.411
+0.11
+0.0
+96.56
+96.673
+96.56
+0.0
+0.0
+0.0
+0.0
+0.0
+3.12
+...
+1.04777
+1.05003
+1.05076
+1.02308
+1.03137
+1.02751
+0.006234
+0.940447
+0.967676
+1.02193
+1.03634
+1.04777
+1.04897
+1.05076
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+1.23521
+200001010200
+200001010230
+-0.49
+0.0
+-0.449
+-0.49
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+null
+null
+301.677
+301.677
+2.0
+272.481
+0.0
+306.541
+272.481
+0.0
+0.102
+0.0
+0.426
+0.102
+0.0
+96.57
+96.665
+96.57
+0.0
+0.0
+0.0
+0.0
+0.0
+3.04
+...
+1.04827
+1.05054
+1.05127
+1.02357
+1.03187
+1.02801
+0.006237
+0.940901
+0.968143
+1.02242
+1.03684
+1.04827
+1.04948
+1.05127
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+1.23379
+
+</div>
+</div>
+</div>
+<p>columns selection, interested only in QC columns to find gaps</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df.head().select(pl.col(<span class="st">"^.*_QC$"</span>)).collect().columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>['TA_F_MDS_QC',
+ 'TA_F_QC',
+ 'SW_IN_F_MDS_QC',
+ 'SW_IN_F_QC',
+ 'LW_IN_F_MDS_QC',
+ 'LW_IN_F_QC',
+ 'LW_IN_JSB_QC',
+ 'LW_IN_JSB_F_QC',
+ 'VPD_F_MDS_QC',
+ 'VPD_F_QC',
+ 'PA_F_QC',
+ 'P_F_QC',
+ 'WS_F_QC',
+ 'CO2_F_MDS_QC',
+ 'TS_F_MDS_1_QC',
+ 'TS_F_MDS_2_QC',
+ 'TS_F_MDS_3_QC',
+ 'TS_F_MDS_4_QC',
+ 'TS_F_MDS_5_QC',
+ 'SWC_F_MDS_1_QC',
+ 'SWC_F_MDS_2_QC',
+ 'SWC_F_MDS_3_QC',
+ 'G_F_MDS_QC',
+ 'LE_F_MDS_QC',
+ 'H_F_MDS_QC',
+ 'NEE_CUT_REF_QC',
+ 'NEE_VUT_REF_QC',
+ 'NEE_CUT_USTAR50_QC',
+ 'NEE_VUT_USTAR50_QC',
+ 'NEE_CUT_MEAN_QC',
+ 'NEE_VUT_MEAN_QC',
+ 'NEE_CUT_05_QC',
+ 'NEE_CUT_16_QC',
+ 'NEE_CUT_25_QC',
+ 'NEE_CUT_50_QC',
+ 'NEE_CUT_75_QC',
+ 'NEE_CUT_84_QC',
+ 'NEE_CUT_95_QC',
+ 'NEE_VUT_05_QC',
+ 'NEE_VUT_16_QC',
+ 'NEE_VUT_25_QC',
+ 'NEE_VUT_50_QC',
+ 'NEE_VUT_75_QC',
+ 'NEE_VUT_84_QC',
+ 'NEE_VUT_95_QC']</code></pre>
+</div>
+</div>
+<p>The goal is to find where the data is missing in the dataset (which means that it has been gap-filled) and find:</p>
+<ul>
+<li>start time of gap</li>
+<li>length of the gap</li>
+</ul>
+<p>we filter out the rows where there is no gap (QC =0)</p>
+<p>then find the start and end of gap by comparing with the original row number of the previous entry</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df.select(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>        [pl.col(<span class="st">"TA_F_QC"</span>), <span class="st">"TIMESTAMP_START"</span>]</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    ).with_column(</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        pl.first().cumcount().alias(<span class="st">"row_num"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    ).<span class="bu">filter</span>(</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"TA_F_QC"</span>) <span class="op">!=</span> <span class="dv">0</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    ).<span class="bu">slice</span>(<span class="dv">10</span>, <span class="dv">10</span>).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+
+<span class="small">shape: (10, 3)</span>
+TA_F_QC
+TIMESTAMP_START
+row_num
+f32
+i64
+u32
+1.0
+200112201230
+34537
+1.0
+200206051100
+42550
+1.0
+200211081330
+50043
+1.0
+200404200930
+75427
+2.0
+200404201000
+75428
+2.0
+200404201030
+75429
+2.0
+200404201100
+75430
+2.0
+200404201130
+75431
+2.0
+200404201200
+75432
+2.0
+200404201230
+75433
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df.select(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>        [pl.col(<span class="st">"TA_F_QC"</span>), <span class="st">"TIMESTAMP_START"</span>]</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    ).with_column(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        pl.first().cumcount().alias(<span class="st">"row_num"</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    ).<span class="bu">filter</span>(</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"TA_F_QC"</span>) <span class="op">!=</span> <span class="dv">0</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    ).<span class="bu">slice</span>(<span class="dv">10</span>, <span class="dv">15</span>).with_columns([</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"row_num"</span>) <span class="op">-</span> pl.col(<span class="st">"row_num"</span>).shift() ).alias(<span class="st">"before"</span>),</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"row_num"</span>).shift(<span class="op">-</span><span class="dv">1</span>) <span class="op">-</span> pl.col(<span class="st">"row_num"</span>)).alias(<span class="st">"after"</span>),</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    ]).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+
+<span class="small">shape: (15, 5)</span>
+TA_F_QC
+TIMESTAMP_START
+row_num
+before
+after
+f32
+i64
+u32
+u32
+u32
+1.0
+200112201230
+34537
+null
+8013
+1.0
+200206051100
+42550
+8013
+7493
+1.0
+200211081330
+50043
+7493
+25384
+1.0
+200404200930
+75427
+25384
+1
+2.0
+200404201000
+75428
+1
+1
+2.0
+200404201030
+75429
+1
+1
+2.0
+200404201100
+75430
+1
+1
+2.0
+200404201130
+75431
+1
+1
+2.0
+200404201200
+75432
+1
+1
+2.0
+200404201230
+75433
+1
+1
+1.0
+200404201300
+75434
+1
+46940
+1.0
+200612241100
+122374
+46940
+1
+1.0
+200612241130
+122375
+1
+1
+1.0
+200612241200
+122376
+1
+1
+1.0
+200612241230
+122377
+1
+null
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df.select(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>        [pl.col(<span class="st">"TA_F_QC"</span>), <span class="st">"TIMESTAMP_START"</span>]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    ).with_column(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        pl.first().cumcount().alias(<span class="st">"row_num"</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    ).<span class="bu">filter</span>(</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"TA_F_QC"</span>) <span class="op">!=</span> <span class="dv">0</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    ).<span class="bu">slice</span>(<span class="dv">10</span>, <span class="dv">15</span>).with_columns([</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"row_num"</span>) <span class="op">-</span> pl.col(<span class="st">"row_num"</span>).shift() ).alias(<span class="st">"before"</span>),</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"row_num"</span>).shift(<span class="op">-</span><span class="dv">1</span>) <span class="op">-</span> pl.col(<span class="st">"row_num"</span>)).alias(<span class="st">"after"</span>),</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    ]).<span class="bu">filter</span>(</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"before"</span>) <span class="op">!=</span> <span class="dv">1</span>) <span class="op">|</span> (pl.col(<span class="st">"after"</span>) <span class="op">!=</span> <span class="dv">1</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    ).with_column(</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>        (pl.when((pl.col(<span class="st">"before"</span>) <span class="op">!=</span> <span class="dv">1</span>) <span class="op">&amp;</span> (pl.col(<span class="st">"after"</span>) <span class="op">!=</span> <span class="dv">1</span>))</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>        .then(<span class="dv">1</span>)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>        .otherwise(pl.col(<span class="st">"row_num"</span>).shift(<span class="op">-</span><span class="dv">1</span>) <span class="op">-</span> pl.col(<span class="st">"row_num"</span>) <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>        .alias(<span class="st">"gap_len"</span>))</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    ).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+
+<span class="small">shape: (7, 6)</span>
+TA_F_QC
+TIMESTAMP_START
+row_num
+before
+after
+gap_len
+f32
+i64
+u32
+u32
+u32
+u32
+1.0
+200112201230
+34537
+null
+8013
+1
+1.0
+200206051100
+42550
+8013
+7493
+1
+1.0
+200211081330
+50043
+7493
+25384
+1
+1.0
+200404200930
+75427
+25384
+1
+8
+1.0
+200404201300
+75434
+1
+46940
+46941
+1.0
+200612241100
+122374
+46940
+1
+4
+1.0
+200612241230
+122377
+1
+null
+null
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>gaps <span class="op">=</span> df.select(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>        [pl.col(<span class="st">"TA_F_QC"</span>), <span class="st">"TIMESTAMP_START"</span>]</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    ).with_column(</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>        pl.first().cumcount().alias(<span class="st">"row_num"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    ).<span class="bu">filter</span>(</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"TA_F_QC"</span>) <span class="op">!=</span> <span class="dv">0</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    ).with_columns([</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"row_num"</span>) <span class="op">-</span> pl.col(<span class="st">"row_num"</span>).shift() ).alias(<span class="st">"before"</span>),</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"row_num"</span>).shift(<span class="op">-</span><span class="dv">1</span>) <span class="op">-</span> pl.col(<span class="st">"row_num"</span>)).alias(<span class="st">"after"</span>),</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    ]).<span class="bu">filter</span>(</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"before"</span>) <span class="op">!=</span> <span class="dv">1</span>) <span class="op">|</span> (pl.col(<span class="st">"after"</span>) <span class="op">!=</span> <span class="dv">1</span>)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    ).with_column(</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        (pl.when((pl.col(<span class="st">"before"</span>) <span class="op">!=</span> <span class="dv">1</span>) <span class="op">&amp;</span> (pl.col(<span class="st">"after"</span>) <span class="op">!=</span> <span class="dv">1</span>))</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>        .then(<span class="dv">1</span>)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>        .otherwise(pl.col(<span class="st">"row_num"</span>).shift(<span class="op">-</span><span class="dv">1</span>) <span class="op">-</span> pl.col(<span class="st">"row_num"</span>) <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>        .alias(<span class="st">"gap_len"</span>))</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    ).<span class="bu">filter</span>(</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"before"</span>) <span class="op">!=</span> <span class="dv">1</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    ).select(</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"TIMESTAMP_START"</span>, <span class="st">"gap_len"</span>]</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    ).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>gaps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+
+<span class="small">shape: (25, 2)</span>
+TIMESTAMP_START
+gap_len
+i64
+u32
+200007261130
+1
+200007271230
+1
+200008021000
+1
+200008161200
+1
+200008231030
+1
+200009201200
+1
+200012040100
+1
+200107121630
+1
+200108190930
+1
+200110231230
+1
+200112201230
+1
+200206051100
+1
+200211081330
+1
+200404200930
+8
+200612241100
+15
+200904021230
+1
+200912281130
+341
+201003161130
+1490
+201007010000
+22
+201104211030
+1
+201105051030
+1
+201108111030
+1008
+201206042230
+4
+201209250930
+47
+201210090930
+3
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>gaps.select(pl.col(<span class="st">"gap_len"</span>).<span class="bu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+
+<span class="small">shape: (1, 1)</span>
+gap_len
+u32
+2954
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df.select(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>        [pl.col(<span class="st">"TA_F_QC"</span>), <span class="st">"TIMESTAMP_START"</span>]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    ).with_column(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        pl.first().cumcount().alias(<span class="st">"row_num"</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    ).<span class="bu">filter</span>(</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"TA_F_QC"</span>) <span class="op">!=</span> <span class="dv">0</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    ).collect().shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(2954, 3)</code></pre>
+</div>
+</div>
+<p>it works!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_gap(df, col_name):</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df.select(</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>        [col_name, pl.col(<span class="st">"TIMESTAMP_END"</span>).alias(<span class="st">"gap_start"</span>)]</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    ).with_column(</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>        pl.first().cumcount().alias(<span class="st">"row_num"</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    ).<span class="bu">filter</span>(</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>        pl.col(col_name) <span class="op">!=</span> <span class="dv">0</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    ).with_columns([</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"row_num"</span>) <span class="op">-</span> pl.col(<span class="st">"row_num"</span>).shift() ).alias(<span class="st">"before"</span>),</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"row_num"</span>).shift(<span class="op">-</span><span class="dv">1</span>) <span class="op">-</span> pl.col(<span class="st">"row_num"</span>)).alias(<span class="st">"after"</span>),</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    ]).<span class="bu">filter</span>(</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"before"</span>) <span class="op">!=</span> <span class="dv">1</span>) <span class="op">|</span> (pl.col(<span class="st">"after"</span>) <span class="op">!=</span> <span class="dv">1</span>)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    ).with_column(</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        (pl.when((pl.col(<span class="st">"before"</span>) <span class="op">!=</span> <span class="dv">1</span>) <span class="op">&amp;</span> (pl.col(<span class="st">"after"</span>) <span class="op">!=</span> <span class="dv">1</span>))</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        .then(pl.col(<span class="st">"gap_start"</span>))</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>        .otherwise(pl.col(<span class="st">"gap_start"</span>).shift(<span class="op">-</span><span class="dv">1</span>))</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>        .alias(<span class="st">"gap_end"</span>))</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    ).<span class="bu">filter</span>(</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"before"</span>) <span class="op">!=</span> <span class="dv">1</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    ).select(</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"gap_start"</span>, <span class="st">"gap_end"</span>, pl.lit(col_name).alias(<span class="st">"variable"</span>)]</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/fluxnet/gap_finder.py#L17" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="find_gap" class="level3">
+<h3 class="anchored" data-anchor-id="find_gap">find_gap</h3>
+<blockquote class="blockquote">
+<pre><code> find_gap (df, col_name)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df_test <span class="op">=</span> pl.DataFrame({<span class="st">'var'</span>: [<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>], <span class="st">'TIMESTAMP_END'</span>: df.head(<span class="dv">14</span>).collect()[<span class="st">'TIMESTAMP_END'</span>]})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>find_gap(df_test, <span class="st">'var'</span>).with_column( (pl.col(<span class="st">"gap_end"</span>) <span class="op">-</span> pl.col(<span class="st">"gap_start"</span>)).alias(<span class="st">"gap_len"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+
+<span class="small">shape: (2, 4)</span>
+gap_start
+gap_end
+variable
+gap_len
+i64
+i64
+str
+i64
+200001010300
+200001010430
+"var"
+130
+200001010600
+200001010630
+"var"
+30
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> scan_fluxnet_csv(f, convert_dates<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># col names may be different between the stations, so read them from the csv before parsing the whole file</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    col_names <span class="op">=</span> pl.read_csv(f, n_rows<span class="op">=</span><span class="dv">1</span>).columns</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    types <span class="op">=</span> {</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>        <span class="op">**</span>{</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>            <span class="co"># pl.Uint8 should be enough for a QC flag, but some columns are floats in the csv ...</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>            col_name: pl.Float32 <span class="cf">if</span> col_name.endswith(<span class="st">"_QC"</span>) <span class="cf">else</span> pl.Float64 <span class="cf">for</span> col_name <span class="kw">in</span> col_names</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>        },</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"TIMESTAMP_START"</span>: pl.Int64, <span class="co"># for now keep as int convert to dates at the end</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"TIMESTAMP_END"</span>: pl.Int64</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    } </span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pl.scan_csv(</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>        f, null_values<span class="op">=</span>[<span class="st">"-9999"</span>, <span class="st">"-9999.99"</span>], dtypes<span class="op">=</span>types</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>        ).rename({</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>            <span class="st">"TIMESTAMP_START"</span>: <span class="st">"start"</span>,</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>            <span class="st">"TIMESTAMP_END"</span>: <span class="st">"end"</span>, </span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> convert_dates:</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> df.with_columns([</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>            pl.col(<span class="st">"start"</span>).cast(pl.Utf8).<span class="bu">str</span>.strptime(pl.Datetime, <span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">%H%M"</span>),</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>            pl.col(<span class="st">"end"</span>).cast(pl.Utf8).<span class="bu">str</span>.strptime(pl.Datetime, <span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">%H%M"</span>),</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>        ])</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/fluxnet/gap_finder.py#L41" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="scan_fluxnet_csv" class="level3">
+<h3 class="anchored" data-anchor-id="scan_fluxnet_csv">scan_fluxnet_csv</h3>
+<blockquote class="blockquote">
+<pre><code> scan_fluxnet_csv (f, convert_dates=False)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>scan_fluxnet_csv(test_file).head().collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+
+<span class="small">shape: (5, 238)</span>
+start
+end
+TA_F_MDS
+TA_F_MDS_QC
+TA_ERA
+TA_F
+TA_F_QC
+SW_IN_POT
+SW_IN_F_MDS
+SW_IN_F_MDS_QC
+SW_IN_ERA
+SW_IN_F
+SW_IN_F_QC
+LW_IN_F_MDS
+LW_IN_F_MDS_QC
+LW_IN_ERA
+LW_IN_F
+LW_IN_F_QC
+LW_IN_JSB
+LW_IN_JSB_QC
+LW_IN_JSB_ERA
+LW_IN_JSB_F
+LW_IN_JSB_F_QC
+VPD_F_MDS
+VPD_F_MDS_QC
+VPD_ERA
+VPD_F
+VPD_F_QC
+PA
+PA_ERA
+PA_F
+PA_F_QC
+P
+P_ERA
+P_F
+P_F_QC
+WS
+...
+RECO_DT_VUT_75
+RECO_DT_VUT_84
+RECO_DT_VUT_95
+RECO_DT_CUT_REF
+RECO_DT_CUT_USTAR50
+RECO_DT_CUT_MEAN
+RECO_DT_CUT_SE
+RECO_DT_CUT_05
+RECO_DT_CUT_16
+RECO_DT_CUT_25
+RECO_DT_CUT_50
+RECO_DT_CUT_75
+RECO_DT_CUT_84
+RECO_DT_CUT_95
+GPP_DT_VUT_REF
+GPP_DT_VUT_USTAR50
+GPP_DT_VUT_MEAN
+GPP_DT_VUT_SE
+GPP_DT_VUT_05
+GPP_DT_VUT_16
+GPP_DT_VUT_25
+GPP_DT_VUT_50
+GPP_DT_VUT_75
+GPP_DT_VUT_84
+GPP_DT_VUT_95
+GPP_DT_CUT_REF
+GPP_DT_CUT_USTAR50
+GPP_DT_CUT_MEAN
+GPP_DT_CUT_SE
+GPP_DT_CUT_05
+GPP_DT_CUT_16
+GPP_DT_CUT_25
+GPP_DT_CUT_50
+GPP_DT_CUT_75
+GPP_DT_CUT_84
+GPP_DT_CUT_95
+RECO_SR
+i64
+i64
+f64
+f32
+f64
+f64
+f32
+f64
+f64
+f32
+f64
+f64
+f32
+f64
+f32
+f64
+f64
+f32
+f64
+f32
+f64
+f64
+f32
+f64
+f32
+f64
+f64
+f32
+f64
+f64
+f64
+f32
+f64
+f64
+f64
+f32
+f64
+...
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+f64
+200001010000
+200001010030
+-0.6
+0.0
+-0.349
+-0.6
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+null
+null
+302.475
+302.475
+2.0
+270.92
+0.0
+307.452
+270.92
+0.0
+0.222
+0.0
+0.403
+0.222
+0.0
+96.63
+96.671
+96.63
+0.0
+0.0
+0.011
+0.0
+0.0
+2.05
+...
+1.04549
+1.04774
+1.04848
+1.02086
+1.02913
+1.02528
+0.006221
+0.938402
+0.965572
+1.0197
+1.03409
+1.04549
+1.04669
+1.04848
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+1.23379
+200001010030
+200001010100
+-0.65
+0.0
+-0.39
+-0.65
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+null
+null
+302.475
+302.475
+2.0
+271.265
+0.0
+307.452
+271.265
+0.0
+0.122
+0.0
+0.399
+0.122
+0.0
+96.58
+96.676
+96.58
+0.0
+0.0
+0.011
+0.0
+0.0
+2.53
+...
+1.04422
+1.04647
+1.0472
+1.01962
+1.02788
+1.02403
+0.006213
+0.937264
+0.964401
+1.01847
+1.03283
+1.04422
+1.04542
+1.0472
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+1.23238
+200001010100
+200001010130
+-0.58
+0.0
+-0.43
+-0.58
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+null
+null
+301.677
+301.677
+2.0
+271.958
+0.0
+306.541
+271.958
+0.0
+0.09
+0.0
+0.396
+0.09
+0.0
+96.56
+96.682
+96.56
+0.0
+0.0
+0.0
+0.0
+0.0
+3.15
+...
+1.046
+1.04825
+1.04898
+1.02135
+1.02963
+1.02577
+0.006224
+0.938856
+0.96604
+1.0202
+1.03459
+1.046
+1.0472
+1.04898
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+1.23238
+200001010130
+200001010200
+-0.51
+0.0
+-0.439
+-0.51
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+null
+null
+301.677
+301.677
+2.0
+272.292
+0.0
+306.541
+272.292
+0.0
+0.11
+0.0
+0.411
+0.11
+0.0
+96.56
+96.673
+96.56
+0.0
+0.0
+0.0
+0.0
+0.0
+3.12
+...
+1.04777
+1.05003
+1.05076
+1.02308
+1.03137
+1.02751
+0.006234
+0.940447
+0.967676
+1.02193
+1.03634
+1.04777
+1.04897
+1.05076
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+1.23521
+200001010200
+200001010230
+-0.49
+0.0
+-0.449
+-0.49
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+null
+null
+301.677
+301.677
+2.0
+272.481
+0.0
+306.541
+272.481
+0.0
+0.102
+0.0
+0.426
+0.102
+0.0
+96.57
+96.665
+96.57
+0.0
+0.0
+0.0
+0.0
+0.0
+3.04
+...
+1.04827
+1.05054
+1.05127
+1.02357
+1.03187
+1.02801
+0.006237
+0.940901
+0.968143
+1.02242
+1.03684
+1.04827
+1.04948
+1.05127
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+1.23379
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_site_info(df):</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df.select([</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"start"</span>).first(),</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"end"</span>).last()</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    ]).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/fluxnet/gap_finder.py#L71" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="get_site_info" class="level3">
+<h3 class="anchored" data-anchor-id="get_site_info">get_site_info</h3>
+<blockquote class="blockquote">
+<pre><code> get_site_info (df)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _get_site_url(url): <span class="cf">return</span> re.search(<span class="vs">r"[A-Z]</span><span class="sc">{2}</span><span class="vs">-[A-z0-9]</span><span class="sc">{3}</span><span class="vs">"</span>, url).group()</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_gaps_fluxnet_archive(path_zip, <span class="co"># zip file path that uses fluxnet </span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                  out_dir,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                  tmp_dir,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                  delete_file <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>                         ):</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>        fname <span class="op">=</span> path_zip.stem.replace(<span class="st">"FULLSET"</span>, <span class="st">"FULLSET_HH"</span>) </span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>        out_name <span class="op">=</span> out_dir <span class="op">/</span> <span class="ss">f"GAPS_stat_</span><span class="sc">{</span>fname<span class="sc">}</span><span class="ss">.parquet"</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>        f <span class="op">=</span> zipfile.ZipFile(path_zip).extract(fname <span class="op">+</span> <span class="st">".csv"</span>, path<span class="op">=</span>tmp_dir)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>        fname <span class="op">=</span> path_zip.stem.replace(<span class="st">"FULLSET"</span>, <span class="st">"FULLSET_HR"</span>) <span class="co"># some sites are naed differently</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>        out_name <span class="op">=</span> out_dir <span class="op">/</span> <span class="ss">f"GAPS_stat_</span><span class="sc">{</span>fname<span class="sc">}</span><span class="ss">.parquet"</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>        f <span class="op">=</span> zipfile.ZipFile(path_zip).extract(fname <span class="op">+</span> <span class="st">".csv"</span>, path<span class="op">=</span>tmp_dir)</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> scan_fluxnet_csv(f)</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>    gaps <span class="op">=</span> find_all_gaps(df).collect()</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># site info</span></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>    site <span class="op">=</span> _get_site_url(fname)</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>    site_info <span class="op">=</span> get_site_info(df, site)</span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>    gaps <span class="op">=</span> gaps.with_column(</span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>        pl.lit(site_info[<span class="dv">0</span>, <span class="st">"site_start"</span>]).alias(<span class="st">"site_start"</span>),</span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>        pl.lit(site_info[<span class="dv">0</span>, <span class="st">"site_end"</span>]).alias(<span class="st">"site_end"</span>),</span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>        pl.lit(site).alias(<span class="st">"site"</span>),</span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># convert dates to correct type</span></span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>    gaps <span class="op">=</span> gaps.with_column(</span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>       pl.col(<span class="st">"start"</span>).<span class="bu">str</span>.strptime(pl.Datetime, <span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">%H%M"</span>), </span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a>       pl.col(<span class="st">"end"</span>).<span class="bu">str</span>.strptime(pl.Datetime, <span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">%H%M"</span>), </span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a>    gaps.write_parquet(out_name)</span>
+<span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-41"><a href="#cb30-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> delete_file: Path(f).unlink()</span>
+<span id="cb30-42"><a href="#cb30-42" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-43"><a href="#cb30-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fname, site_info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/fluxnet/gap_finder.py#L80" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="find_gaps_fluxnet_archive" class="level3">
+<h3 class="anchored" data-anchor-id="find_gaps_fluxnet_archive">find_gaps_fluxnet_archive</h3>
+<blockquote class="blockquote">
+<pre><code> find_gaps_fluxnet_archive (path_zip, out_dir, tmp_dir, delete_file=True)</code></pre>
+</blockquote>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>path_zip</td>
+<td></td>
+<td></td>
+<td>zip file path that uses fluxnet</td>
+</tr>
+<tr class="even">
+<td>out_dir</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>tmp_dir</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>delete_file</td>
+<td>bool</td>
+<td>True</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_all_gaps(df):</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pl.concat(</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>        [find_gap(df, col_name) <span class="cf">for</span> col_name <span class="kw">in</span> df.select(pl.col(<span class="st">"^.*_QC$"</span>)).columns]</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/fluxnet/gap_finder.py#L123" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="find_all_gaps" class="level3">
+<h3 class="anchored" data-anchor-id="find_all_gaps">find_all_gaps</h3>
+<blockquote class="blockquote">
+<pre><code> find_all_gaps (df)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>gaps_all <span class="op">=</span> find_all_gaps(df).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>gaps_all</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+
+<span class="small">shape: (388218, 3)</span>
+gap_start
+gap_end
+variable
+i64
+i64
+str
+200007261200
+200007261200
+"TA_F_MDS_QC"
+200007271300
+200007271300
+"TA_F_MDS_QC"
+200008021030
+200008021030
+"TA_F_MDS_QC"
+200008161230
+200008161230
+"TA_F_MDS_QC"
+200008231100
+200008231100
+"TA_F_MDS_QC"
+200009201230
+200009201230
+"TA_F_MDS_QC"
+200012040130
+200012040130
+"TA_F_MDS_QC"
+200107121700
+200107121700
+"TA_F_MDS_QC"
+200108191000
+200108191000
+"TA_F_MDS_QC"
+200110231300
+200110231300
+"TA_F_MDS_QC"
+200112201300
+200112201300
+"TA_F_MDS_QC"
+200206051130
+200206051130
+"TA_F_MDS_QC"
+...
+...
+...
+201212292200
+201212292300
+"NEE_VUT_95_QC"
+201212300030
+201212300330
+"NEE_VUT_95_QC"
+201212300800
+201212300900
+"NEE_VUT_95_QC"
+201212301000
+201212301200
+"NEE_VUT_95_QC"
+201212301430
+201212301700
+"NEE_VUT_95_QC"
+201212301800
+201212301900
+"NEE_VUT_95_QC"
+201212302230
+201212302300
+"NEE_VUT_95_QC"
+201212310130
+201212310200
+"NEE_VUT_95_QC"
+201212310300
+201212310330
+"NEE_VUT_95_QC"
+201212310930
+201212311030
+"NEE_VUT_95_QC"
+201212311500
+201212311530
+"NEE_VUT_95_QC"
+201212311630
+201212311700
+"NEE_VUT_95_QC"
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>find_gaps_fluxnet_archive(test_file_zip, out_dir, tmp_dir)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>NotFoundError: TIMESTAMP_END</code></pre>
+</div>
+</div>
+<p>loading correctly from disk</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>pl.read_parquet(out_dir <span class="op">/</span> <span class="st">"GAPS_stat_FLX_DE-Hai_FLUXNET2015_FULLSET_HH_2000-2012_1-4.parquet"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+
+<span class="small">shape: (388218, 3)</span>
+TIMESTAMP_END
+gap_len
+variable
+i64
+u32
+str
+200007261200
+1
+"TA_F_MDS_QC"
+200007271300
+1
+"TA_F_MDS_QC"
+200008021030
+1
+"TA_F_MDS_QC"
+200008161230
+1
+"TA_F_MDS_QC"
+200008231100
+1
+"TA_F_MDS_QC"
+200009201230
+1
+"TA_F_MDS_QC"
+200012040130
+1
+"TA_F_MDS_QC"
+200107121700
+1
+"TA_F_MDS_QC"
+200108191000
+1
+"TA_F_MDS_QC"
+200110231300
+1
+"TA_F_MDS_QC"
+200112201300
+1
+"TA_F_MDS_QC"
+200206051130
+1
+"TA_F_MDS_QC"
+...
+...
+...
+201212292200
+3
+"NEE_VUT_95_QC"
+201212300030
+7
+"NEE_VUT_95_QC"
+201212300800
+3
+"NEE_VUT_95_QC"
+201212301000
+5
+"NEE_VUT_95_QC"
+201212301430
+6
+"NEE_VUT_95_QC"
+201212301800
+3
+"NEE_VUT_95_QC"
+201212302230
+2
+"NEE_VUT_95_QC"
+201212310130
+2
+"NEE_VUT_95_QC"
+201212310300
+2
+"NEE_VUT_95_QC"
+201212310930
+3
+"NEE_VUT_95_QC"
+201212311500
+2
+"NEE_VUT_95_QC"
+201212311630
+2
+"NEE_VUT_95_QC"
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://ftp.fluxdata.org/.fluxnet_downloads_86523/FLUXNET2015/FLX_AU-Cpr_FLUXNET2015_FULLSET_2010-2014_2-4.zip?=mone27"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>re.search(<span class="vs">r"[A-Z]</span><span class="sc">{2}</span><span class="vs">-[A-z]</span><span class="sc">{3}</span><span class="vs">"</span>, url).group()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>'AU-Cpr'</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>re.search(<span class="vs">r"([^/]*)\?"</span>, url).group()[:<span class="op">-</span><span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>'FLX_AU-Cpr_FLUXNET2015_FULLSET_2010-2014_2-4.zip'</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>re.search(<span class="vs">r"([^/]*)\?"</span>, url).group()[:<span class="op">-</span><span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>'FLX_AU-Cpr_FLUXNET2015_FULLSET_2010-2014_2-4.zip'</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>requests.head(url).headers[<span class="st">'Content-Length'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>'48304433'</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> download_fluxnet(url, download_dir):</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    file_name <span class="op">=</span> download_dir <span class="op">/</span> re.search(<span class="vs">r"([^/]*)\?"</span>, url).group()[:<span class="op">-</span><span class="dv">1</span>] </span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> file_name.exists(): <span class="cf">return</span> file_name</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    n_iter <span class="op">=</span> <span class="bu">int</span>(requests.head(url).headers[<span class="st">'Content-Length'</span>]) <span class="op">/</span> <span class="dv">1024</span></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> requests.get(url, allow_redirects<span class="op">=</span><span class="va">True</span>, stream<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>    n_iter <span class="op">=</span> <span class="bu">int</span>(r.headers[<span class="st">'Content-Length'</span>])</span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(file_name, <span class="st">'wb'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> tqdm(total<span class="op">=</span>n_iter, unit_divisor<span class="op">=</span><span class="dv">1024</span>, unit_scale<span class="op">=</span><span class="va">True</span>, unit<span class="op">=</span><span class="st">'B'</span>) <span class="im">as</span> pbar:</span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> chunk <span class="kw">in</span> r.iter_content(chunk_size<span class="op">=</span><span class="dv">1024</span>):</span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> chunk:</span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">file</span>.write(chunk)</span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>                    pbar.set_postfix(site<span class="op">=</span>file_name.name[:<span class="dv">10</span>], refresh<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>                    pbar.update(<span class="dv">1024</span>) <span class="co"># one chunck</span></span>
+<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> file_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/fluxnet/gap_finder.py#L129" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="download_fluxnet" class="level3">
+<h3 class="anchored" data-anchor-id="download_fluxnet">download_fluxnet</h3>
+<blockquote class="blockquote">
+<pre><code> download_fluxnet (url, download_dir)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>download_fluxnet(<span class="st">"https://ftp.fluxdata.org/.fluxnet_downloads_86523/FLUXNET2015/FLX_AU-Cpr_FLUXNET2015_FULLSET_2010-2014_2-4.zip?=mone27"</span>, download_dir)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/run/media/simone/Simone DATI/fluxnet_all/FLX_AU-Cpr_FLUXNET2015_FULLSET_2010-2014_2-4.zip'</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>Path(<span class="st">"/home/simone/Downloads/fluxnet_all"</span>).exists()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="find-gaps" class="level2">
+<h2 class="anchored" data-anchor-id="find-gaps">Find gaps</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _find_gap_df(df, col_name):</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Find gaps with a df with a single QC column"</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df.<span class="bu">filter</span>(</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>        pl.col(col_name) <span class="op">!=</span> <span class="dv">0</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>    ).with_columns([</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"row_num"</span>) <span class="op">-</span> pl.col(<span class="st">"row_num"</span>).shift() ).alias(<span class="st">"before"</span>),</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"row_num"</span>).shift(<span class="op">-</span><span class="dv">1</span>) <span class="op">-</span> pl.col(<span class="st">"row_num"</span>)).alias(<span class="st">"after"</span>),</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>    ]).<span class="bu">filter</span>(</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"before"</span>) <span class="op">!=</span> <span class="dv">1</span>) <span class="op">|</span> (pl.col(<span class="st">"after"</span>) <span class="op">!=</span> <span class="dv">1</span>)</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>    ).with_column(</span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>        (pl.when((pl.col(<span class="st">"before"</span>) <span class="op">!=</span> <span class="dv">1</span>) <span class="op">&amp;</span> (pl.col(<span class="st">"after"</span>) <span class="op">!=</span> <span class="dv">1</span>))</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>        .then(pl.col(<span class="st">"start"</span>))</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>        .otherwise(pl.col(<span class="st">"start"</span>).shift(<span class="op">-</span><span class="dv">1</span>))</span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>        .alias(<span class="st">"gap_end"</span>))</span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>    ).<span class="bu">filter</span>(</span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"before"</span>) <span class="op">!=</span> <span class="dv">1</span></span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a>    ).select(</span>
+<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a>        [pl.col(<span class="st">"start"</span>).alias(<span class="st">"gap_start"</span>), <span class="st">"gap_end"</span>]</span>
+<span id="cb53-19"><a href="#cb53-19" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_gap_variable(df, col_name):</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># row numembering has to happen before filtering</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.with_column(</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>        pl.first().cumcount().alias(<span class="st">"row_num"</span>)</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># start with null values</span></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>    dff <span class="op">=</span> df.<span class="bu">filter</span>(</span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>            pl.col(col_name).is_null()</span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>    gaps <span class="op">=</span> [</span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>        _find_gap_df(dff, col_name).with_columns(</span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>            pl.lit(<span class="va">None</span>).alias(<span class="st">"gap_value"</span>)</span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>        )]</span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># all other values</span></span>
+<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># here the QC flags are merged together as we we not interested in the QC alg only if there is a gap</span></span>
+<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>    dff <span class="op">=</span> df.<span class="bu">filter</span>(</span>
+<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a>            <span class="op">~</span>pl.col(col_name).is_null()</span>
+<span id="cb54-22"><a href="#cb54-22" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb54-23"><a href="#cb54-23" aria-hidden="true" tabindex="-1"></a>    gaps.append(</span>
+<span id="cb54-24"><a href="#cb54-24" aria-hidden="true" tabindex="-1"></a>        _find_gap_df(dff, col_name).with_columns(</span>
+<span id="cb54-25"><a href="#cb54-25" aria-hidden="true" tabindex="-1"></a>            pl.lit(<span class="dv">1</span>).alias(<span class="st">"gap_value"</span>)</span>
+<span id="cb54-26"><a href="#cb54-26" aria-hidden="true" tabindex="-1"></a>        ))</span>
+<span id="cb54-27"><a href="#cb54-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-28"><a href="#cb54-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pl.concat(gaps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>find_gap_variable(df, <span class="st">"SW_IN_F_QC"</span>).collect().head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>gaps_all.groupby(<span class="st">"variable"</span>).agg(pl.col(<span class="st">"gap_len"</span>).<span class="bu">sum</span>() <span class="op">/</span> df.collect().shape[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> download_and_find_gaps(urls, download_dir, out_dir, tmp_dir):</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    site_infos <span class="op">=</span> []</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> url <span class="kw">in</span> tqdm(urls):</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>        file_zip <span class="op">=</span> download_fluxnet(url, download_dir)</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">file</span>, site_info <span class="op">=</span> find_gaps_fluxnet_archive(file_zip, out_dir, tmp_dir)</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>        site_infos.append(site_info)</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="bu">file</span>)</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pl.concat(site_infos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><a href="https://github.com/mone27/meteo_imp/blob/master/meteo_imp/fluxnet/gap_finder.py#L150" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="download_and_find_gaps" class="level3">
+<h3 class="anchored" data-anchor-id="download_and_find_gaps">download_and_find_gaps</h3>
+<blockquote class="blockquote">
+<pre><code> download_and_find_gaps (urls, download_dir, out_dir, tmp_dir)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>urls <span class="op">=</span> [<span class="st">"https://ftp.fluxdata.org/.fluxnet_downloads_86523/FLUXNET2015/FLX_AR-SLu_FLUXNET2015_FULLSET_2009-2011_1-4.zip?=mone27"</span>,</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="st">"https://ftp.fluxdata.org/.fluxnet_downloads_86523/FLUXNET2015/FLX_AR-Vir_FLUXNET2015_FULLSET_2009-2012_1-4.zip?=mone27"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>download_and_find_gaps(urls, download_dir, out_dir, tmp_dir)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
