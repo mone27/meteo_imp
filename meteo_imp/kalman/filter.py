@@ -931,7 +931,7 @@ def _predict_filter(self: KalmanFilterSR, data, mask, control):
 
 # %% ../../lib_nbs/10_Kalman_Filter.ipynb 416
 @patch(cls_method=True)
-def init_simple(cls: KalmanFilter,
+def init_simple(cls: KalmanFilter|KalmanFilterSR,
                 n_dim, # n_dim_obs and n_dim_state
                 dtype=torch.float64):
     """Simplest version of kalman filter parameters"""
