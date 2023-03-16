@@ -864,6 +864,22 @@
   file = {/home/simone/Zotero/storage/FUIQ78VS/Lawrence - 2003 - Gaussian Process Latent Variable Models for Visual.pdf}
 }
 
+@online{leibfried_tutorial_2022,
+  title = {A {{Tutorial}} on {{Sparse Gaussian Processes}} and {{Variational Inference}}},
+  author = {Leibfried, Felix and Dutordoir, Vincent and John, S. T. and Durrande, Nicolas},
+  date = {2022-12-18},
+  number = {arXiv:2012.13962},
+  eprint = {arXiv:2012.13962},
+  eprinttype = {arxiv},
+  doi = {10.48550/arXiv.2012.13962},
+  url = {http://arxiv.org/abs/2012.13962},
+  urldate = {2023-03-14},
+  abstract = {Gaussian processes (GPs) provide a framework for Bayesian inference that can offer principled uncertainty estimates for a large range of problems. For example, if we consider regression problems with Gaussian likelihoods, a GP model enjoys a posterior in closed form. However, identifying the posterior GP scales cubically with the number of training examples and requires to store all examples in memory. In order to overcome these obstacles, sparse GPs have been proposed that approximate the true posterior GP with pseudo-training examples. Importantly, the number of pseudo-training examples is user-defined and enables control over computational and memory complexity. In the general case, sparse GPs do not enjoy closed-form solutions and one has to resort to approximate inference. In this context, a convenient choice for approximate inference is variational inference (VI), where the problem of Bayesian inference is cast as an optimization problem -- namely, to maximize a lower bound of the log marginal likelihood. This paves the way for a powerful and versatile framework, where pseudo-training examples are treated as optimization arguments of the approximate posterior that are jointly identified together with hyperparameters of the generative model (i.e. prior and likelihood). The framework can naturally handle a wide scope of supervised learning problems, ranging from regression with heteroscedastic and non-Gaussian likelihoods to classification problems with discrete labels, but also problems with multidimensional labels. The purpose of this tutorial is to provide access to the basic matter for readers without prior knowledge in both GPs and VI. A proper exposition to the subject enables also access to more recent advances (like importance-weighted VI as well as interdomain, multioutput and deep GPs) that can serve as an inspiration for new research ideas.},
+  pubstate = {preprint},
+  keywords = {Computer Science - Machine Learning,Statistics - Machine Learning},
+  file = {/home/simone/Zotero/storage/84JGA7V6/Leibfried et al. - 2022 - A Tutorial on Sparse Gaussian Processes and Variat.pdf;/home/simone/Zotero/storage/CK9S2VWX/2012.html}
+}
+
 @unpublished{liu_deepfib_2021,
   title = {{{DeepFIB}}: {{Self-Imputation}} for {{Time Series Anomaly Detection}}},
   shorttitle = {{{DeepFIB}}},
@@ -1576,6 +1592,25 @@
   abstract = {{$<$}p{$><$}strong class="journal-contentHeaderColor"{$>$}Abstract.{$<$}/strong{$>$} Exchanges of carbon, water and energy between the land surface and the atmosphere are monitored by eddy covariance technique at the ecosystem level. Currently, the FLUXNET database contains more than 500 registered sites, and up to 250 of them share data (free fair-use data set). Many modelling groups use the FLUXNET data set for evaluating ecosystem models' performance, but this requires uninterrupted time series for the meteorological variables used as input. Because original in situ data often contain gaps, from very short (few hours) up to relatively long (some months) ones, we develop a new and robust method for filling the gaps in meteorological data measured at site level. Our approach has the benefit of making use of continuous data available globally (ERA-Interim) and a high temporal resolution spanning from 1989 to today. These data are, however, not measured at site level, and for this reason a method to downscale and correct the ERA-Interim data is needed. We apply this method to the level 4 data (L4) from the La Thuile collection, freely available after registration under a fair-use policy. The performance of the developed method varies across sites and is also function of the meteorological variable. On average over all sites, applying the bias correction method to the ERA-Interim data reduced the mismatch with the in situ data by 10 to 36 \%, depending on the meteorological variable considered. In comparison to the internal variability of the in situ data, the root mean square error (RMSE) between the in situ data and the unbiased ERA-I (ERA-Interim) data remains relatively large (on average over all sites, from 27 to 76 \% of the standard deviation of in situ data, depending on the meteorological variable considered). The performance of the method remains poor for the wind speed field, in particular regarding its capacity to conserve a standard deviation similar to the one measured at FLUXNET stations. {$<$}br{$><$}br{$>$} The ERA-Interim reanalysis data de-biased at FLUXNET sites can be downloaded from the PANGAEA data centre ({$<$}a href="http://doi.pangaea.de/10.1594/PANGAEA.838234" target="\_blank"{$>$}http://doi.pangaea.de/10.1594/PANGAEA.838234{$<$}/a{$>$}).{$<$}/p{$>$}},
   langid = {english},
   file = {/home/simone/Zotero/storage/E4K6LFW6/Vuichard and Papale - 2015 - Filling the gaps in meteorological continuous data.pdf;/home/simone/Zotero/storage/QWTEVIR4/2015.html}
+}
+
+@article{wang_machine_2022,
+  title = {Machine Learning in Modelling Land-Use and Land Cover-Change ({{LULCC}}): {{Current}} Status, Challenges and Prospects},
+  shorttitle = {Machine Learning in Modelling Land-Use and Land Cover-Change ({{LULCC}})},
+  author = {Wang, Junye and Bretz, Michael and Dewan, M. Ali Akber and Delavar, Mojtaba Aghajani},
+  date = {2022-05-20},
+  journaltitle = {Science of The Total Environment},
+  shortjournal = {Science of The Total Environment},
+  volume = {822},
+  pages = {153559},
+  issn = {0048-9697},
+  doi = {10.1016/j.scitotenv.2022.153559},
+  url = {https://www.sciencedirect.com/science/article/pii/S0048969722006519},
+  urldate = {2023-03-10},
+  abstract = {Land-use and land-cover change (LULCC) are of importance in natural resource management, environmental modelling and assessment, and agricultural production management. However, LULCC detection and modelling is a complex, data-driven process in the remote sensing field due to the processing of massive historical and current data, real-time interaction of scenario data, and spatial environmental data. In this paper, we review principles and methods of LULCC modelling, using machine learning and beyond, such as traditional cellular automata (CA). Then, we examine the characteristics, capabilities, limitations, and perspectives of machine learning. Machine learning has not yet been dramatic in modelling LULCC, such as urbanization prediction and crop yield prediction because competition and transition between land cover types are dynamic at a local scale under varying natural drivers and human activities. Upcoming challenges of machine learning in modelling LULCC remain in the detection and prediction of LULC evolutionary processes if considering their applicability and feasibility, such as the spatio-temporal transition mechanisms to describe occurrence, transition, spreading, and spatial patterns of changes, availability of training data of all the change drivers, particularly sequence data, and identification and inclusion of local ecological, hydrological, and social-economic drivers in addressing the spectral feature change. This review points out the need for multidisciplinary research beyond image processing and pattern recognition of machine learning in accelerating and advancing studies of LULCC modelling. Despite this, we believe that machine learning has strong potentials to incorporate new exploratory variables in modelling LULCC through expanding remote sensing big data and advancing transient algorithms.},
+  langid = {english},
+  keywords = {Artificial neural network,Cellular automata,Deep learning,LULC,Machine learning,Remote sensing,Self-organizing map},
+  file = {/home/simone/Zotero/storage/VW6394AH/S0048969722006519.html}
 }
 
 @article{welch_introduction_2006,

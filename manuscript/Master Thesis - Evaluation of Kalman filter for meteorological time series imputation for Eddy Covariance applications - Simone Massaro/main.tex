@@ -50,12 +50,12 @@
 \hypersetup{
     colorlinks=true,
     linkcolor=blue,
-    filecolor=magenta,      
+    filecolor=magenta,
     urlcolor=cyan,
     citecolor=black,
     pdftitle={Master Thesis}
     }
-    
+
 %%% removeparagraph indent
 \parindent=0pt
 
@@ -140,45 +140,46 @@
 \begin{titlepage}
     \begin{center}
         \vspace*{1cm}
-            
+
         \Huge
         \textbf{Evaluation of Kalman Filter for meteorological time series imputation for Eddy Covariance applications}
-            
+
         \vspace{0.5cm}
         \LARGE
         % Thesis Subtitle
-            
+
         \vspace{1.5cm}
-            
+
         \textbf{Simone Massaro} \\
         \vspace{1.5cm}
         \Large
         First Supervisor: Dr. Franziska Koebsch\\
-        Second Supervisor: Prof. Dr. Fabian Sinz 
+        Second Supervisor: Prof. Dr. Fabian Sinz
         \vfill
-            
+
         Master Thesis\\
         Forest and Ecosystem Sciences\\
         Ecosystem Analysis and Modelling
-            
+
         \vspace{0.8cm}
-            
+
         \Large
         Faculty of Forestry and Forest Ecology \\
         Georg-August-Universität Göttingen \\
         % Country\\
         \vspace{1cm}
         21 March 2023
-            
+
     \end{center}
 \end{titlepage}
 \clearpage
 
 \section*{Abstract}
 
-Eddy Covariance (EC) is a state-of-the-art technique to measure greenhouse gases exchanges. EC towers include measurement of meteorological variables, but due to instrument failures the data is not always available. Many use cases of EC data, especially land surface modelling, require continuous meteorological time series as input. Therefore, it is necessary to impute the gaps in the meteorological time series. ONEFlux, one of the most widely used EC post-processing pipelines, imputes the missing data using either Marginal Distribution Sampling (MDS), which uses other observations from similar meteorological conditions, or ERA-Interim (ERA-I), that is a global meteorological dataset. The imputation performance of those methods is limited for short and medium gaps (up to 1 week), which constitute the majority of EC meteorological gaps.
+Eddy Covariance (EC) is a state-of-the-art technique to measure greenhouse gases exchanges. EC towers include measurement of meteorological variables, but due to instrument failures the data is not always available. Many use cases of EC data, especially land surface modelling, require continuous meteorological time series as input. Therefore, it is necessary to impute the gaps in the meteorological time series. ONEFlux, one of the most widely used EC post-processing pipeline, imputes the missing data using either Marginal Distribution Sampling (MDS), which uses other observations from similar meteorological conditions, or ERA-Interim (ERA-I), that is a global meteorological dataset. The imputation performance of those methods is limited for short and medium gaps (up to 1 week), which constitute the majority of EC meteorological gaps.
 
-In this work, I assess an imputation method for meteorological variables based on a Kalman Filter (KF). It has the advantages of combining in the prediction information from the ERA-I dataset, inter-variable correlation and  temporal autocorrelation. Moreover, the KF is a probabilistic method, so for each data point the prediction is not a single value but an entire distribution, which provides an interpretable quantification of uncertainty of the model predictions.
+In this work, I assess an imputation method for meteorological variables based on a Kalman Filter (KF).
+It has the advantages of combining in the prediction information from the ERA-I dataset, inter-variable correlation and  temporal autocorrelation. Moreover, the KF is a probabilistic method, so for each data point the prediction is not a single value but an entire distribution, which provides an interpretable quantification of uncertainty of the model predictions.
 
 I evaluate the KF by  comparing the imputation performance with the state-of-the-art approaches (MDS and ERA-I) using data from the FLUXNET 2015 site of Hainich (DE-Hai) with gaps up to one week long. The KF outperforms the state-of-the-art approaches across all analyzed variables, except for precipitation, for which all methods are comparable. I observed an average reduction of the imputation error of 33 \% compared to ERA-I and  57 \% compared to MDS, when excluding precipitation. I further explore aspects that influence the performance of the KF: in general the error increases with the gap length only up to 24 hours, the use of ERA-I data improves the model predictions and the inter-variable correlation is effectively utilized.
 The main limitations of KF approach are: 1) the best performance is achieved only when fine-tuning the model parameters to the specific conditions of the gap, which increases the deployment complexity; 2) the current implementation of the KF is affected by numerical stability issues, which in case all variables are missing limits the maximum gap length to 15 hours; 3) careful initialization of the KF parameters and selection of the training conditions are required to mitigate the difficulty in learning the models parameters. However, I expect that all those issues will be resolved or significantly mitigated by further research.
@@ -198,28 +199,28 @@ The main limitations of KF approach are: 1) the best performance is achieved onl
 At its core, the EC technique utilizes a 3D anemometer and a gas analyzer, which allows estimating the fluxes of interests (e.g. \ce{CO_2}, \ce{H_2O}, \ce{CH_4}). Beside the fluxes, an EC setup commonly comprises measurements of meteorological variables and ecosystem parameters. This additional data provides the context to use and interpret the fluxes measurements.
 
 \paragraph{Gaps in meteorological variables} The acquisition of  meteorological variables can be interrupted by failures in the instruments or power outages, resulting in gaps in the time series \cite{aubinet_eddy_2012-1}.
-The presence of meteorological gaps is a problem for several uses of the EC data. An important use case of EC is the validation of Land Surface Models (LSM) \cite{balzarolo_evaluating_2014, friend_fluxnet_2007-1, bonan_improving_2011-1, kramer_evaluation_2002}, which are process based model that estimate fluxes and include meteorological conditions as inputs. The errors of Land Surface Models deriving from inaccuracies in the input are comparable to the errors arising from the limitation in the models' formulation \cite{zhao_how_2012}. 
+The presence of meteorological gaps is a problem for several uses of the EC data. An important use case of EC is the validation of Land Surface Models (LSM) \cite{balzarolo_evaluating_2014, friend_fluxnet_2007-1, bonan_improving_2011-1, kramer_evaluation_2002}, which are process based model that estimate fluxes and include meteorological conditions as inputs. The errors of Land Surface Models deriving from inaccuracies in the input are comparable to the errors arising from the limitation in the models' formulation \cite{zhao_how_2012}.
 Secondly, meteorological observations are used as a driver to impute gaps in the fluxes measurements \cite{aubinet_eddy_2012-1}, which in turn requires complete meteorological time series.
-Finally, if the observations are aggregated, for example to compute the weekly average of meteorological conditions, the missing data leads to inaccurate results. 
+Finally, if the observations are aggregated, for example to compute the weekly average of meteorological conditions, the missing data leads to inaccurate results.
 
 The described use cases highlight the need for high quality continuous meteorological measurements, that reflect the condition at the EC station. Redundant instruments and power supply on the site, reduce the amount of missing data \cite{aubinet_eddy_2012-1}. However, even a redundant system is subject to failures, hence statistical models are used for imputing the remaining gaps \cite{aubinet_eddy_2012-1}.
 
 \paragraph{Imputation approaches} In general there are three approaches to obtain information on missing values in a multivariate time series and thus impute gaps:
 1) use other observations of the missing variable to make predictions about the gap, in particular the variable \emph{temporal autocorrelation} can be exploited to reconstruct the missing data \cite{moritz_comparison_nodate};
 2) use \emph{statistical dependency} between variables, if not all variables are missing then the dependency between variables can be used for imputing the missing variable \cite{moffat_comprehensive_2007};
-3) use \emph{other independent measurements}, if another compatible and continuous time series are available they can be used for imputation \cite{vuichard_filling_2015}. For instance, in the case of EC meteorological variables, an independent time series can be obtained from a nearby meteorological station or a weather model reanalysis. 
+3) use \emph{other independent measurements}, if another compatible and continuous time series are available they can be used for imputation \cite{vuichard_filling_2015}. For instance, in the case of EC meteorological variables, an independent time series can be obtained from a nearby meteorological station or a weather model reanalysis.
 
-Imputation of missing values has been extensively researched and a wide range of methods have been developed, ranging from simply replacing with the mean to more advanced approaches employing deep neural networks \cite{moritz_r_2017, fang_time_2020-1, buuren_mice_2011, du_saits_2022-1, zhang_dual-head_2021-2, cao_brits_nodate}. There exist several methods specifically developed to impute meteorological time series \cite{costa_gap_2021, jing_multi-imputation_2022}. However, those methods cannot be directly employed for the imputation of EC data, as it has some specific characteristics: the absence of a spatial component (i.e. EC sites are too distant from each other), the high temporal resolution and the relatively high number of variables. 
+Imputation of missing values has been extensively researched and a wide range of methods have been developed, ranging from simply replacing with the mean to more advanced approaches employing deep neural networks \cite{moritz_r_2017, fang_time_2020-1, buuren_mice_2011, du_saits_2022-1, zhang_dual-head_2021-2, cao_brits_nodate}. There exist several methods specifically developed to impute meteorological time series \cite{costa_gap_2021, jing_multi-imputation_2022}. However, those methods cannot be directly employed for the imputation of EC data, as it has some specific characteristics: the absence of a spatial component (i.e. EC sites are too distant from each other), the high temporal resolution and the relatively high number of variables.
 
 \paragraph{Current imputation methods EC community} EC post-processing pipelines impute meteorological time series. Arguably the most widely used post-processing pipeline is \textsf{ONEFlux} \cite{pastorello_fluxnet2015_2020}, which is adopted by several large networks such as FLUXNET, the global EC network, ICOS the European network as well as AmeriFlux, the American EC network.
 \textsf{ONEFlux} uses two different methods for imputing the meteorological data: Marginal Distribution Sampling (MDS) and ERA-Interim (ERA-I). The final gap-filled meteorological product uses either MDS or ERA-I, depending on the quality flag from MDS.
-\subparagraph{MDS} Marginal Distribution Sampling \cite{reichstein_separation_2005-3} imputes the missing value by using the average of all the other data points observed in similar conditions. The similarity is both temporal, only observations from a limited time window around the gap are considered, and meteorological, the data points are restricted to times when other variables are similar. 
-The algorithm selects all the data points where the value of the driver variables (other meteorological variables) is within a fixed threshold of the values observed at the missing data point. All the observations of the variable of interest from the selected data points are then averaged to generate the filling value. MDS starts with a time window of 7 days and if no similar conditions are found in this time frame the window is progressively increased. If a driver variable is also missing, it is not used in the selection of similar conditions. 
+\subparagraph{MDS} Marginal Distribution Sampling \cite{reichstein_separation_2005-3} imputes the missing value by using the average of all the other data points observed in similar conditions. The similarity is both temporal, only observations from a limited time window around the gap are considered, and meteorological, the data points are restricted to times when other variables are similar.
+The algorithm selects all the data points where the value of the driver variables (other meteorological variables) is within a fixed threshold of the values observed at the missing data point. All the observations of the variable of interest from the selected data points are then averaged to generate the filling value. MDS starts with a time window of 7 days and if no similar conditions are found in this time frame the window is progressively increased. If a driver variable is also missing, it is not used in the selection of similar conditions.
 In case no similar conditions are found in a time window of 14 days or all drivers are missing, the MDS fails and the imputation is done using the average value at the same time of the day. For gaps longer than 140 days the method cannot impute the gap.
-MDS imputes each data point and each variable separately. It mainly uses statistical dependency between variables and in a limited way the variable's temporal autocorrelation. 
+MDS imputes each data point and each variable separately. It mainly uses statistical dependency between variables and in a limited way the variable's temporal autocorrelation.
 
-The algorithm implemented in \textsf{ONEFlux} uses as drivers the Incoming Shortwave Radiation (\texttt{SW\_IN}), the Air Temperature (\texttt{TA}) and Vapor Pressure Deficit (\texttt{VPD}). If either \texttt{TA} or \texttt{VPD} is missing, \texttt{SW\_IN} is used as the only driver. 
-MDS has a quality flag with three possible values (i.e. 1,2,3) that depends on the size of the time window. In \textsf{ONEFlux} MDS is used only if the quality flag is 1, which in general means that similar conditions are found in a time window smaller than 14 days (see Figure A1 in \textcite{reichstein_separation_2005-3} for details). 
+The algorithm implemented in \textsf{ONEFlux} uses as drivers the Incoming Shortwave Radiation (\texttt{SW\_IN}), the Air Temperature (\texttt{TA}) and Vapor Pressure Deficit (\texttt{VPD}). If either \texttt{TA} or \texttt{VPD} is missing, \texttt{SW\_IN} is used as the only driver.
+MDS has a quality flag with three possible values (i.e. 1,2,3) that depends on the size of the time window. In \textsf{ONEFlux} MDS is used only if the quality flag is 1, which in general means that similar conditions are found in a time window smaller than 14 days (see Figure A1 in \textcite{reichstein_separation_2005-3} for details).
 
 \subparagraph{ERA-Interim} ERA-Interim (ERA-I) is a global meteorological dataset provided by the European Centre for Medium-range Weather Forecast (ECMWF) \cite{dee_era-interim_2011}. Weather forecast models are used to reanalyze past observations and produce a continuous and complete meteorological dataset  for the entire globe. The main drawback is the low spatial resolution and temporal resolution, that are respectively 80km and 3 hours. Moreover, only a subset of the meteorological variables are available in ERA-I (Table \ref{table:variables}) and the data is not available in real-time but with a three months delay.
 
@@ -249,7 +250,7 @@ In FLUXNET 2015 \cite{pastorello_fluxnet2015_2020}, the most extensive EC datase
 
 \subsection{Contribution of this work}
 In this work, I focused on a method that combines all three imputation approaches and includes interpretable quantification of uncertainty. Probabilistic machine learning algorithms are particularly suited, as they directly provide uncertainty for the predictions.
-Gaussian Processes (GP) are one of the most important probabilistic algorithms \cite{2020_hennig_pml}. GP can model interactions between all data points, for example they can consider both a yearly and a daily pattern in the data. This, however, is connected to their main drawback: the computation cost scales cubically with the number of observations, making the use of GP computationally prohibitive. To overcome this limitation, several approximations, such as sparse GP, have been developed. 
+Gaussian Processes (GP) are one of the most important probabilistic algorithms \cite{2020_hennig_pml}. GP can model interactions between all data points, for example they can consider both a yearly and a daily pattern in the data. This, however, is connected to their main drawback: the computation cost scales cubically with the number of observations, making the use of GP computationally prohibitive. To overcome this limitation, several approximations, such as sparse GP, have been developed.
 The Kalman Filter (KF) can be viewed as a special kind of GP, which models the time at discrete steps and where all the information about past and future observations is stored in a latent state. This drastically improves the computation efficiency, which scales linearly in the number of observations, but limits the ability to model processes with long time scales. However, in the context of EC meteorological imputation, this is an acceptable tradeoff as the majority of gaps are not long. Another advantage of the KF is the ability to include the ERA-I data in the predictions.
 
 The aim of this work is to develop and test an imputation method for meteorological time series in the context of EC that employs a KF, as it promises more accurate predictions through a more efficient use of temporal autocorrelation in combination with the ERA-I data. Moreover, the KF provides a quantification of the predictions' uncertainty.
@@ -260,7 +261,7 @@ The imputation performance of the KF is evaluated by comparing it with the state
 
 \subsection{Kalman Filter theory}
 
-Kalman Filter (KF) models over time a latent variable $x$, that represents the state of the system. The state cannot be directly observed, but it is possible to observe meteorological variables $y$ that reflect the state of the system. 
+Kalman Filter (KF) models over time a latent variable $x$, that represents the state of the system. The state cannot be directly observed, but it is possible to observe meteorological variables $y$ that reflect the state of the system.
 KF is a probabilistic machine learning algorithm, so it keeps track of the entire distribution of the latent variable \cite{bishop_pattern_2006}.
 The KF can update the state also when there are missing observations, hence the state is available for all time steps, which can in turn be used to predict the missing data points.
 
@@ -294,7 +295,7 @@ The model always considers the entire probability distribution for the state, wh
 % The final step is to update the distribution of the state by using also the observations after time $t$ and computing for every $t$ $p(x_t|Y)$. The smoothing phase works by starting from the last time step and recursively updating $x^s_t$ using $x^s_{t+1}$.
 
 
-% The predicted state is the conditional distribution of the state given all the observations until time $t-1$ ($Y_{1:t-1}$), for the first time steps the predicted state is Equation to the 
+% The predicted state is the conditional distribution of the state given all the observations until time $t-1$ ($Y_{1:t-1}$), for the first time steps the predicted state is Equation to the
 % % For the first time step the distribution is conditioned only on state $p(x_1|x$
 
 
@@ -309,7 +310,7 @@ The model always considers the entire probability distribution for the state, wh
 \begin{figure}
 \centerline{\includegraphics[width=4.5in]{Kalman Filter figure}}
 \caption{Schematic representation of an example Kalman Filter. The green squares represent the observations of a single variable at a specific time, the observations may be missing (red squares). The blue circles represent the latent state, specifically the three versions of the state modelled by the KF: filtered state (cyan), predicted state (light blue) and smoother state (dark blue). The control variables are shown in purple.
-All the arrows show a direct dependency for the computation of each element. 
+All the arrows show a direct dependency for the computation of each element.
 % The Figure displays the state and the predictions similarly to the observations, but the former are random variables with a probability distributions while the latter are single values.
 }
 \label{fig:kalman_filter}
@@ -340,13 +341,13 @@ The predicted state is updated to obtain the distribution of the filtered state,
      S_t &= HP_t^-H^\top + R \\
      K_t &= P_t^-H^\top S_t^{-1} \\
      m_t &= m_t^- + K_t(y_t - z_t) \\
-     P_t &= (I-K_tH)P_t^- 
+     P_t &= (I-K_tH)P_t^-
 \end{aligned}
 \end{equation}
-    
+
 \subparagraph{Missing observations}
 
-The KF is able do deal with missing observations and can update the state even in that case. 
+The KF is able do deal with missing observations and can update the state even in that case.
 If all the observations at time $t$ are missing, the measurement update step is skipped and the filtered, $x^f_t$, is the same of the predicted state, $x_t^-$. If only some observations in $y_t$ are missing, then a partial measurement step is performed.
 The vector containing the observations that are not missing at time $t$, $y^{ng}_t$, can be expressed as a linear transformation of $y_t$:
 \begin{equation}\label{eq:miss_obs}
@@ -362,7 +363,7 @@ For example, if $y_t = [y_{0,t}, y_{1,t}, y_{2,t}]^\top$ and $y_{0,t}$ is the mi
 \end{array}\right]
 \end{equation*}
 
-Using the properties of linear projections of a Gaussian distribution, it is possible to derive the distribution $p(y^{ng}_t \mid x_t)$ from $p(y_t \mid x_t)$: 
+Using the properties of linear projections of a Gaussian distribution, it is possible to derive the distribution $p(y^{ng}_t \mid x_t)$ from $p(y_t \mid x_t)$:
  \begin{align*}
    p(y^{ng}_t|x_t) = p(M^{ng}_ty_t|x_t) &=   \norm{y^{ng}_t}{M^{ng}_tHx_t + M^{ng}_tb}{M^{ng}_tR(M^{ng}_t)^\top}%\label{eq:partial_obs_state}
 \end{align*}
@@ -376,7 +377,7 @@ In the smoothing step, the filtered state at time $t$ is updated using the obser
     p(x_t \mid Y^{ng}, C) &= \norm{x_t}{m_t^s}{P_t^s} \\
     G_t &= P_tA^\top(P_{t+1}^-)^{-1}\\
     m_t^s &= m_t + G_t(m_{t+1}^s - m_{t+1}^-) \\
-    P_t^s &= P_t + G_t(P_{t+1}^s - P_{t+1}^-)G_t^\top 
+    P_t^s &= P_t + G_t(P_{t+1}^s - P_{t+1}^-)G_t^\top
 \end{aligned}
 \end{equation}
 For the last time step, the smoothed state is set to be equal to the filtered state.
@@ -393,7 +394,7 @@ The following equation can see derived (appendix Equation \ref{eq:deriv_predicti
 \end{aligned}
 \end{equation}
 
-The output of the KF model is the distributions of $p(y^g_t)$ for all gaps in the observed variables. 
+The output of the KF model is the distributions of $p(y^g_t)$ for all gaps in the observed variables.
 
 \subsection{Kalman Filter implementation}
 
@@ -448,7 +449,7 @@ from Equation \ref{eq:time_update} the following is true:
 \end{align*}
 
 The next step is to factorize  $W=LU$, where $L$ is a lower triangular matrix and $U$ is an orthogonal matrix, such as that $UU^\top = I$. Then $WW^\top = LU(LU)^\top = LUU^\top L^\top = LL^\top=P_t$. Hence, $L$ is a square root of $P_t$.
-This procedure never explicitly computes $P_t$ and requires only the factorization of a matrix, which is implemented efficiently and in a numerical stable way in the \textsf{PyTorch} \verb|torch.linalg.qr| function. 
+This procedure never explicitly computes $P_t$ and requires only the factorization of a matrix, which is implemented efficiently and in a numerical stable way in the \textsf{PyTorch} \verb|torch.linalg.qr| function.
 PyTorch does not support natively a $LU$ decomposition, but it implements the QR factorization: $W=QR$, where $Q$ is an orthogonal matrix and $R$ an upper triangular matrix. This can be used to compute the $LU$ factorization by performing a $QR$ factorization of $W^\top$ and defining $L = R^\top$, as $W=(W^\top)^\top=(QR)^\top=R^\top Q^\top=LU$.
 The steps of the Square Root time update are:
 
@@ -464,7 +465,7 @@ The steps of the Square Root time update are:
     V &= \begin{bmatrix} S^{1/2} & 0 \\ \bar{K} & P^{1/2} \end{bmatrix} \quad&
     \bar{K} &= KS^{1/2}
 \end{alignat*}
-    
+
 then $MM^\top = VV^\top$ (appendix Equation \ref{eq:deriv_meas_update_sr}). Therefore, by decomposing $M=LU$, then $MM^\top=LL^\top=VV^\top$ and the bottom right block of size $k \times k$ of $L$ is a square root of $P$, where $k$ is the number of dimensions of the state, $x_t \in \mathbb{R}^k$.
 The steps of the Square Root measurement update are:
 \begin{enumerate}
@@ -493,7 +494,8 @@ The steps of the Square Root predictions are:
 \end{enumerate}
 
 \paragraph{Smoothing Square Root Filter} The available literature for implementing a square root smoother is scarce compared to a square root filter. Therefore no solution has been identified to implement a square root smoother and a standard smoother is employed.
-Nonetheless, steps were taken to improve the numerical stability of the smoother. The computation in the smoother that is most numerically unstable is the inversion of $P^-_{t+1}$ in Equation \ref{eq:smoother} \cite{mohinder_s_grewal_kalman_2001}. The matrix inversion is avoided by using the \verb|torch.cholesky_solve| function. It solves for $X$ the linear system $P^-_{t+1}X=P_tA$, which is equivalent of computing $X = (P_tA^\top(P^-_{t+1})^{-1})^\top$. This uses directly the square root $(P^-_{t+1})^{1/2}$ to avoid the computation of $P^-_{t+1}$. A further step to improve the numerical stability is forcing the covariance matrix to be symmetric, by averaging to upper and lower part at after every time step, $P^s_{t, sym} = (P^s_t + (P^s_t)^\top)/2$, as suggested in \textcite{dan_simon_optimal_2006}.
+Nonetheless, steps were taken to improve the numerical stability of the smoother.
+The computation in the smoother that is most numerically unstable is the inversion of $P^-_{t+1}$ in Equation \ref{eq:smoother} \cite{mohinder_s_grewal_kalman_2001}. The matrix inversion is avoided by using the \verb|torch.cholesky_solve| function. It solves for $X$ the linear system $P^-_{t+1}X=P_tA$, which is equivalent of computing $X = (P_tA^\top(P^-_{t+1})^{-1})^\top$. This uses directly the square root $(P^-_{t+1})^{1/2}$ to avoid the computation of $P^-_{t+1}$. A further step to improve the numerical stability is forcing the covariance matrix to be symmetric, by averaging to upper and lower part at after every time step, $P^s_{t, sym} = (P^s_t + (P^s_t)^\top)/2$, as suggested in \textcite{dan_simon_optimal_2006}.
 This approach to numerical stability in the smoother is the same as applied by the \textsf{statsmodels} library \cite{noauthor_statsmodelstsastatespacekalman_filterkalmanfilter_nodate}.
 
 \subsection{Kalman Filter model}
@@ -550,7 +552,7 @@ The parameters are initialized using a local linear trend model \cite{durbin_tim
     x_{l_t} &= x_{l_{t-1}} + x_{s_{t-1}} + \nu_{t-1} \quad \quad & p(\nu_{t-1}) &= \norm{\nu}{0}{Q_\nu}\\
     x_{s_t} &= x_{s_{t-1}} + \xi_{t-1} \quad & p(\xi_{t-1}) &= \norm{\xi}{0}{Q_\xi} \\
     % x_t &= \begin{bmatrix} x_{l_t} \\ x_{s_t} \end{bmatrix} &&
-    \end{alignedat} 
+    \end{alignedat}
 \end{equation*}
 
 A KF can be used to model a system described above by selecting suitable parameters:
@@ -558,7 +560,7 @@ A KF can be used to model a system described above by selecting suitable paramet
 \begin{equation*}\label{eq:local_slope}
 \begin{alignedat}{3}
     A &= \begin{bmatrix}I & I \\ 0 & I\end{bmatrix} \quad & Q &= \begin{bmatrix}Q_\varepsilon & 0 \\ 0 & Q_\nu \end{bmatrix}  \quad & H &= \begin{bmatrix}I & 0 \end{bmatrix}
-\end{alignedat} 
+\end{alignedat}
 \end{equation*}
 
 The use of the slope component allows the KF to retain information about several previous and following observations, while a KF with only a level compotent would be limited to use only the obsevation one time step before or after the gap.
@@ -569,7 +571,7 @@ In the context of this work, the ERA-I dataset is used for the control variable.
 B = \begin{bmatrix}-I & I \\ 0 & 0\end{bmatrix} \quad B \in \mathbb{R}^{k \times n_{ctr}} \quad I \in \mathbb{R}^{n_{ctr} \times n_{ctr}}
 \]
 
-% where 
+% where
 
 
 % In order to have the information about the change the the difference between the control variables is used to ...
@@ -577,10 +579,10 @@ B = \begin{bmatrix}-I & I \\ 0 & 0\end{bmatrix} \quad B \in \mathbb{R}^{k \times
 
 % The majority of the observed variables are also present in the ERA-I.
 
-% The state slope should not be affected by the 
+% The state slope should not be affected by the
 
 % \begin{equation}
-%     x_t = \begin{bmatrix} x_{l_t} \\ x_{s_t} \end{bmatrix} =  Bc_t + Ax_{t-1} + \zeta = 
+%     x_t = \begin{bmatrix} x_{l_t} \\ x_{s_t} \end{bmatrix} =  Bc_t + Ax_{t-1} + \zeta =
 %     \begin{bmatrix} 1 & 0 \end{bmatrix}
 % \end{equation}
 
@@ -595,7 +597,7 @@ B = \begin{bmatrix}-I & I \\ 0 & 0\end{bmatrix} \quad B \in \mathbb{R}^{k \times
 %     x_{l_t} &= x_{l_{t-1}} + x_{s_{t-1}} + c_t + \nu_{t-1} \quad \quad & p(\varepsilon_{t-1}) &= \norm{\varepsilon}{0}{Q_\nu}\\
 %     x_{s_t} &= x_{s_{t-1}} + \xi_{t-1} \quad & p(\xi_{t-1}) &= \norm{\xi}{0}{Q_\xi} \\
 %     x_t &= \begin{bmatrix} x_{l_t} \\ x_{s_t} \end{bmatrix} &&
-%     \end{alignedat} 
+%     \end{alignedat}
 % \end{equation}
 
 % from this can derive the values of the parameters of the Kalman Filter
@@ -610,9 +612,9 @@ B = \begin{bmatrix}-I & I \\ 0 & 0\end{bmatrix} \quad B \in \mathbb{R}^{k \times
 
 % The control matrix, $B$, is initialized to the difference between the previous observation and the current observation. The number of  variables in the control may be different than the observed variables. In this initialization, the assumption is that $n_{ctr} < n$ and that there is a correspondence between the control and first $n_{ctr}$ variables of the observations and hence of the state.
 
-The state transition covariance $Q$ and then observation covariance $R$ are initialized as diagonal matrix with values of $0.1$ and $0.01$ respectively. These numbers have been chosen to represent an uncertainty in the state transition that is compatible with the standard deviation of the variables (i.e $\sigma = 1$ after standarization) and a low uncertainty in the observations. 
+The state transition covariance $Q$ and then observation covariance $R$ are initialized as diagonal matrix with values of $0.1$ and $0.01$ respectively. These numbers have been chosen to represent an uncertainty in the state transition that is compatible with the standard deviation of the variables (i.e $\sigma = 1$ after standarization) and a low uncertainty in the observations.
 
-The observation and state transition offsets are initialized to zero. The initial state is set to have as mean zero and as covariance $\text{diag}(3)$. The number 3 is an arbitrary number bigger than the state transition covariance, which represents an high level of uncertainty for the initial state.  
+The observation and state transition offsets are initialized to zero. The initial state is set to have as mean zero and as covariance $\text{diag}(3)$. The number 3 is an arbitrary number bigger than the state transition covariance, which represents an high level of uncertainty for the initial state.
 
 \paragraph{Loss Function}
 
@@ -638,13 +640,13 @@ For the KF $q_i(x)$ is a Gaussian distribution, so $\prod_i q_i(x)$ is also a Ga
 
 The advantage of the RMSE is that it can also be used for non-probabilistic methods (e.g. MDS) and that its value has the same physical dimension as the observed variable. The main drawback is that it cannot be used for comparison between variables. For that, the \emph{Standardized} RMSE is used, which is the RMSE computed on the standardized variables (Equation \ref{eq:standardized}). It can be computed by transforming the RMSE (appendix Equation \ref{eq:deriv_stand_rmse}):
 \begin{equation*}
-    \text{RMSE}_{\text{stand}} = \frac{\text{RMSE}}{\sigma_Y} 
+    \text{RMSE}_{\text{stand}} = \frac{\text{RMSE}}{\sigma_Y}
 \end{equation*}
 
 Other metrics, like the $R^2$ score and the Mean Absolute Percentage Error (MAPE) were evaluated, however none of them are suitable for this application. The $R^2$ is defined as $R^2 = 1 - (\sum_{i}^{n} (y_i - \hat{y}_i)^2)/(\sum_{i}^{n} (y_i - \bar{y})^2)$, if the denominator is close to zero, then value of $R^2$ tends to $- \infty$. Since the gaps are often short and several variables are constant over short periods (e.g. \vv{SW\_IN}, \vv{SWC}) the denominator of the $R^2$ would be close to zero and the metrics cannot be effectively used. The mean absolute percentage error is defined as $\text{MAPE} = \frac{1}{n} \sum_{i=0}^{n_-1} (\left| y_i - \hat{y}_i \right|)/(\left| y_i \right|)$, which tends to $\infty$ when $y_i$ tends to 0, as zero is a possible value of several variables (e.g. \vv{SW\_IN}, \vv{TA}) this metric cannot be employed.
-It would be possible to use $R^2$ or MAPE for a subset of variables and gap lengths, but this limits the ability to perform comparisons across different settings. 
+It would be possible to use $R^2$ or MAPE for a subset of variables and gap lengths, but this limits the ability to perform comparisons across different settings.
 
-\paragraph{Performance considerations} 
+\paragraph{Performance considerations}
 
 The iterative nature of the KF, where the current state depends on the previous state, makes it impossible to use \textsf{PyTorch} vectorization across different time steps. This can significantly limit the performance of the KF, especially when executed on GPUs. In order to  mitigate this issue, all functions in the KF library support batches, so at every time step different data is processed in parallel.
 
@@ -712,22 +714,32 @@ The model is trained using gradient descend, by minimizing the loss function. It
 
 Several versions of the KF are trained using data with different patterns in the gaps. Figure \ref{fig:training} shows the different combinations. Each model version is named in a way to reflect to training conditions and it uses this pattern: , that  \textit{KF-\textlangle var missing\textrangle-\textlangle n var missing\textrangle-\textlangle range gap lengths\textrangle[-\textlangle modifier\textrangle]}.
 
-\paragraph{Generic model} The first model to be trained is a generic model (\textbf{KF-Gen-Sin-6\_336}), where each data block had a gap in one variable with the length sampled from a uniform distribution between \num{6} (3 hours) and \num{336} (1 week). For each gap, only one variable was missing, which was sampled with equal probability from the list of all variables. The shift was sampled from a normal distribution with mean 0 and standard deviation 50. For each block of data in the original data frame, 10 different artificial gaps were created, resulting in a total of 4080 data blocks used for training and 520 for validation. 
-The length of the block of data was \num{446}, so that at least \num{50} observations were available to the model before and after the gap. The batch size was \num{20}. 
+\paragraph{Generic model} The first model to be trained is a generic model (\textbf{KF-Gen-Sin-6\_336}), where each data block had a gap in one variable with the length sampled from a uniform distribution between \num{6} (3 hours) and \num{336} (1 week). For each gap, only one variable was missing, which was sampled with equal probability from the list of all variables. The shift was sampled from a normal distribution with mean 0 and standard deviation 50. For each block of data in the original data frame, 10 different artificial gaps were created, resulting in a total of 4080 data blocks used for training and 520 for validation.
+The length of the block of data was \num{446}, so that at least \num{50} observations were available to the model before and after the gap. The batch size was \num{20}.
 The model was trained for \num{3} epochs with a learning rate of \num{1e-3}.
 
-\paragraph{Variable fine-tuning} The generic model was fine tuned for each variable (\textbf{KF-\textlangle var \textrangle-Sin-6\_336}), resulting in 9 different models. The training settings were the same for the generic model, expect that the gaps were only in one variable and then number of repetitions for each was 5 (training 2040 blocks, validation 260 blocks). Each variable was fine-tuned with a different combination of epochs and learning rates (lr): \vv{TA} 3 epochs with lr \num{1e-3} and 1 epoch with lr \num{1e-5}, \vv{SW\_IN} \num{7} epochs with lr \num{1e-3}, LW\_ iNI\num{3} epochs with lr \num{1e-3}, \vv{VPD} \num{6} epochs with lr \num{1e-3}, \vv{WS} \num{3} epochs with lr \num{1e-3}, \vv{PA} \num{3} epochs with lr \num{1e-3} and 1 epoch with lr \num{1e-5}, \vv{P} no additional training, \vv{TS} \num{6} epochs, \vv{SWC} \num{8} epochs with lr \num{1e-3} and 1 epoch with lr \num{1e-5}.
+\paragraph{Variable fine-tuning} The generic model was fine tuned for each variable (\textbf{KF-\textlangle var \textrangle-Sin-6\_336}), resulting in 9 different models. The training settings were the same for the generic model, expect that the gaps were only in one variable and then number of repetitions for each was 5 (training 2040 blocks, validation 260 blocks). Each variable was fine-tuned with a different combination of epochs and learning rates (lr):
+\begin{itemize}
+    \item \vv{TA} 3 epochs with lr \num{1e-3} and 1 epoch with lr \num{1e-5}
+    \item \vv{SW\_IN} \num{7} epochs with lr \num{1e-3}
+    \item \vv{LW\_ IN} \num{3} epochs with lr \num{1e-3}, \vv{VPD} \num{6} epochs with lr \num{1e-3}
+    \item \vv{WS} \num{3} epochs with lr \num{1e-3}
+    \item \vv{PA} \num{3} epochs with lr \num{1e-3} and 1 epoch with lr \num{1e-5}
+    \item \vv{P} no additional training
+    \item  \vv{TS} \num{6} epochs with lr \num{1e-3}
+    \item \vv{SWC} \num{8} epochs with lr \num{1e-3} and 1 epoch with lr \num{1e-5}
+\end{itemize}
 
-\paragraph{Short gaps} The numerical stability issue limits the gap length to 30 observations (15 hours) if all variables are missing. Therefore, an additional set of models has been trained with gaps in multiple variables.  
-A version of the model was trained only with gaps in all variables (\textbf{KF-Gen-All-6\_30}). The length of the gap ranged from 6 to 30 (3 to 15 hours). The training set contained 7000 unique data blocks and 1760 for validation. The training started from the generic model and lasted for 3 epochs, with a learning rate of \num{3e-4}. 
+\paragraph{Short gaps} The numerical stability issue limits the gap length to 30 observations (15 hours) if all variables are missing. Therefore, an additional set of models has been trained with gaps in multiple variables.
+A version of the model was trained only with gaps in all variables (\textbf{KF-Gen-All-6\_30}). The length of the gap ranged from 6 to 30 (3 to 15 hours). The training set contained 7000 unique data blocks and 1760 for validation. The training started from the generic model and lasted for 3 epochs, with a learning rate of \num{3e-4}.
 
 The generic model was also fine tuned for short gaps (\textbf{KF-Gen-Sin-6\_30}). The training was for 3 epochs with a learning rate of \num{3e-4}.
 
 Another version of the model was trained with gaps in any number of variable (\textbf{KF-Gen-Multi-6\_30}). The number of variables missing was drawn from a uniform distribution  from 1 to $n$, and the variables missing sampled with equal probability. The total gap length ranged from 6 to 30 (3 to 15 hours). For each original data block, 20 different artificial gaps were generated for a total of 28000 blocks in the training set and 7020 in validation. The model was trained starting from \textit{KF-Gen-Sin-6\_336} for 3 epochs with a learning rate of \num{5e-5} and then 1 epoch with a learning rate of \num{1e-5}.
 
-\paragraph{Additional version} Two more model have been trained, where the difference is in the model characteristics instead of the data.
+\paragraph{Additional version} Two more model have been trained, with the difference being in the model characteristics instead of the data.
 
-A model has been initialized with random parameters, drawn from a uniform distribution between 0 and 1 (\textbf{KF-Gen-Multi-6\_30-Rand}). The data used for training was the same of  \textit{KF-Gen-Multi-6\_30}. The model was trained for 3 epochs with a lr of \num{1e-3} and 3 epochs with a lr of \num{1e-4}. 
+A model has been initialized with random parameters, drawn from a uniform distribution between 0 and 1 (\textbf{KF-Gen-Multi-6\_30-Rand}). The data used for training was the same of  \textit{KF-Gen-Multi-6\_30}. The model was trained for 3 epochs with a lr of \num{1e-3} and 3 epochs with a lr of \num{1e-4}.
 
 For the last version of the model the use of the control variables was disabled (\textbf{KF-Gen-Sin-6\_336-No\_Contr}). The data was the same of \textit{KF-Gen-Sin-6\_336} and the training was from scratch for \num{3} epochs with a learning rate of \num{1e-3}.
 
@@ -739,8 +751,8 @@ For the last version of the model the use of the control variables was disabled 
 
 \subsection{Other methods}
 
-The implementation of the MDS used in the results comparison is from \textsf{REddyProc} \cite{wutzler_basic_2018}. This package has been used because it provides an R interface, that can be easily integrated with Python. Conversely, \textsf{ONEFlux} implements only a C interface, whose integration in Python is significantly more challenging.  The MDS algorithm in \textsf{REddyProc} and \textsf{ONEFlux} are fully equivalent. In detail, the function \verb|REddyProc::sEddyProc_sMDSGapFill| was used, with the defaults setting of using \vv{SW\_IN}, \vv{TA} an \vv{VPD} as drivers with a tolerance of 2.5 \si{^\circ C}, 50 \si{W/m^s} and 5 \si{hPa} respectively as described in \textcite{reichstein_separation_2005-3}.
-The data provided to MDS had a context of at least 90 days around the gap, as required by \textsf{REddyProc}. 
+The implementation of the MDS used in the results comparison is from \textsf{REddyProc} \cite{wutzler_basic_2018}. This package has been used because it provides an R interface, that can be easily integrated with Python. Conversely, \textsf{ONEFlux} implements only a C interface, whose integration in Python is significantly more challenging.  The MDS algorithm in \textsf{REddyProc} and \textsf{ONEFlux} are fully equivalent. In detail, the function \verb|REddyProc::sEddyProc_sMDSGapFill| was used, with the default settings of using \vv{SW\_IN}, \vv{TA} an \vv{VPD} as drivers with a tolerance of 2.5 \si{^\circ C}, 50 \si{W/m^s} and 5 \si{hPa} respectively as described in \textcite{reichstein_separation_2005-3}.
+The data provided to MDS had a context of at least 90 days around the gap, as required by \textsf{REddyProc}.
 
 The imputation using ERA-Interim was performed by using the ERA-I variables available in the FLUXNET 2015 dataset without further correction.
 
@@ -760,7 +772,7 @@ The code for this project has been developed in Python. The main libraries used 
     \includegraphics[width=4.5in]{temporal_autocorrelation}
     \caption{Temporal autocorrelation}%
     \label{fig:temp_autocorr}
-\end{subfigure} 
+\end{subfigure}
 \begin{subfigure}{\textwidth}
         \centering%
         \includegraphics[width=4in]{correlation}%
@@ -769,13 +781,13 @@ The code for this project has been developed in Python. The main libraries used 
 \end{subfigure}
 \caption{Temporal autocorrelation (a) and inter-variable correlation (b) of meteorological variables.  Abbreviations: Air Temperature \texttt{TA}, Incoming Shortwave Radiation \texttt{SW\_IN}, Incoming Longwave Radiation \texttt{LW\_IN}, Vapor Pressure Deficit \texttt{VPD}, Wind Speed \texttt{WS}, Air Pressure \texttt{PA}, Precipitation \texttt{P}, Soil Temperature \texttt{TS}, Soil Water Content \texttt{SWC}.}
     \label{fig:correlation}
-\end{figure} 
+\end{figure}
 
 The analysis of the pattern in the variable temporal autocorrelation and inter-variable correlation supports the interpretation of the results on the performance of imputation methods, as it highlights which mechanisms are available to the models to impute each variable.
 
 The temporal autocorrelation, for a lag up to 48 hours, is shown in Figure \ref{fig:temp_autocorr}. Overall, the meteorological variables have a high temporal autocorrelation, that decreases with the lag. The only exception is the Precipitation (\vv{P}), which has a very low temporal autocorrelation. Moreover, several variables (i.e. Air Temperature \texttt{TA}, Incoming Shortwave Radiation \texttt{SW\_IN},  Vapor Pressure Deficit \texttt{VPD}, Soil Temperature \texttt{TS}) have a daily pattern with the highest temporal autocorrelation for lags that are multiple of 24 hours and the lowest for lags that are multiple of 12 hours. This is particularly evident in \vv{SW\_IN}, that has a negative correlation for a lag of 12 hours.
 
-The variable with the highest correlation with other variable is \vv{TA} (Figure \ref{fig:corr}), which is correlated with fivw other variables (correlation coefficient bigger than 0.4). \vv{TS} is highly correlated with the air temperature, thus following a similar pattern. Four variables: \texttt{SW\_IN} \texttt{LW\_IN}, \texttt{VPD}, \vv{SWC} have a correlation ranging between 0.4 and 0.6 with at least two other variables, while the remaining three variables, Wind Speed (\vv{WS}), Air Pressure (\vv{PA}) and Precipitation (\vv{P}), have a low correlation with other variables.  
+The variable with the highest correlation with other variable is \vv{TA} (Figure \ref{fig:corr}), which is correlated with fivw other variables (correlation coefficient bigger than 0.4). \vv{TS} is highly correlated with the air temperature, thus following a similar pattern. Four variables: \texttt{SW\_IN} \texttt{LW\_IN}, \texttt{VPD}, \vv{SWC} have a correlation ranging between 0.4 and 0.6 with at least two other variables, while the remaining three variables, Wind Speed (\vv{WS}), Air Pressure (\vv{PA}) and Precipitation (\vv{P}), have a low correlation with other variables.
 
 
 \subsection{Comparison to other imputation methods}
@@ -786,7 +798,7 @@ I compared the models by creating artificial gaps in a single variable with four
 
 The average error reduction across all variable and gap lengths is 33\% compared to ERA-I and 57\% compared to MDS, if Precipitation (\vv{P}) is excluded. The improvement average of the KF compared to ERA-I (i.e. the best performing state-of-the-art model) strongly depends on the variable analyzed and the gap length, ranging from 54\% for \vv{TA} to 5\% for \vv{LW\_IN}.
 
-Furthermore, by analyzing multiple artificial gaps for the same conditions (i.e. missing variable and gap length) the maximum value and the standard deviation of the gaps' RMSE is computed. For virtually every scenario, the KF is the method with the smallest maximum and standard deviation of the RMSE (Figure \ref{fig:the_plot} and Table \ref{tbl:the_table}). 
+Furthermore, by analyzing multiple artificial gaps for the same conditions (i.e. missing variable and gap length) the maximum value and the standard deviation of the gaps' RMSE is computed. For virtually every scenario, the KF is the method with the smallest maximum and standard deviation of the RMSE (Figure \ref{fig:the_plot} and Table \ref{tbl:the_table}).
 
 The imputation performance between different variable can be compared by analyzing the standardized RMSE, which measure the imputation error relative to the variable standard deviation. There is a wide range in imputation performance, with the standardized RMSE of the worst variable being one order of magnitude bigger of the one of the best variable.
 The variables with the best imputation quality are:
@@ -795,7 +807,7 @@ Air Temperature (\vv{TA}, $\text{RMSE}_{\text{stand}} = 0.08$)
 and Soil Water Content (\vv{SWC}, $\text{RMSE}_{\text{stand}} = 0.09$).
 Soil Temperature (\vv{TS} , $\text{RMSE}_{\text{stand}} = 0.14$),
 Vapor Pressure Deficit (\vv{VPD}, $\text{RMSE}_{\text{stand}} = 0.17$).
-Incoming Shortwave Radiation (\vv{SW\_IN}, $\text{RMSE}_{\text{stand}} = 0.25$) and 
+Incoming Shortwave Radiation (\vv{SW\_IN}, $\text{RMSE}_{\text{stand}} = 0.25$) and
 Incoming Longwave Radiation (\vv{LW\_IN}, $\text{RMSE}_{\text{stand}} = 0.33$)
 have an intermediate imputation quality.
 The variables with the highest imputation error are: Wind Speed (\vv{WS}, $\text{RMSE}_{\text{stand}} = 0.47$) and  Precipitation (\vv{P}, $\text{RMSE}_{\text{stand}} = 0.67$).
@@ -816,7 +828,7 @@ methods: ERA-Interim (ERA-I) and Marginal Distribution Sampling (MDS), using mea
 The performance of the KF for each variable is here analyzed in detail and compared with the other methods.
 
 \paragraph{Air Temperature} Air temperature is the variable where there is the with the biggest improvement in performance when using KF. It outperforms ERA-I for all gap lengths, with an average reduction in the RMSE of 54\%, compared to MDS there is 77\% reduction in RMSE. Comparing KF with ERA-I, the relative improvement in RMSE decrease with the gap length (69 \% for 6 hours gaps, 41\% for 1 week long gaps), while the average difference in RMSE increases with the gap length (0.29 °C  for 6 hours gaps, 0.34 °C for 1 week long gaps).
-The visual inspection of the time series indicate an overall very good reconstruction of the missing data by the KF. 
+The visual inspection of the time series indicate an overall very good reconstruction of the missing data by the KF.
 
 \paragraph{Incoming Shortwave Radiation} The KF is the method with the smaller average RMSE, but the relative improvement is small, only 12\% compared to ERA-I. The highest error is at night, where \vv{SW\_IN} is by definition always 0, but the KF often predicts sudden changes and negative values with errors in the order of 50 \si{W/m^2}. However, during the day, which is the most important condition in \vv{SW\_IN} imputation, the KF is better than other methods. This is also confirmed by visual inspections of the time series.
 
@@ -828,7 +840,7 @@ The visual inspection of the time series indicate an overall very good reconstru
 
 \paragraph{Air Pressure} The imputation error of \vv{PA} is low for KF and ERA-I. The KF outperforms ERA-I with an improvement ranging from 36\% for 6 hours long gaps to 20\% for 1 week long gaps. The visual analysis of the time series suggest that the KF slightly overestimate the short term variability for \vv{PA}. MDS is significantly worse, with the imputation error one order of magnitude bigger than the one of the other methods.
 
-\paragraph{Precipitation} The Precipitation is a variable where no methods perform well, with models in some case predicting precipitation event that do not exist and in other missing the real precipitation. The RMSE of the three methods is comparable. However, the RMSE is not an accurate metric for \vv{P} imputation, due to the very high number of data points with no precipitation (over 90\% in Hainich). For reference, the RMSE of a null model (i.e. always predicts 0) is 0.28 \si{mm}, which is comparable with the errors of all imputation methods. 
+\paragraph{Precipitation} The Precipitation is a variable where no methods perform well, with models in some case predicting precipitation event that do not exist and in other missing the real precipitation. The RMSE of the three methods is comparable. However, the RMSE is not an accurate metric for \vv{P} imputation, due to the very high number of data points with no precipitation (over 90\% in Hainich). For reference, the RMSE of a null model (i.e. always predicts 0) is 0.28 \si{mm}, which is comparable with the errors of all imputation methods.
 The visual analysis of the time series shows that ERA-I predictions are the only one that are physically realistic, even though the precipitation amount is often incorrect, while the KF often predicts negative values for \vv{P}, which is physically impossible and MDS in a tested scenario (appendix Figure \ref{fig:ts_2-2}) predicts an unlikely constant low amount of \vv{P} for a long period.
 
 \paragraph{Soil Water Content} The KF is the best imputation method, for short gaps there is an error reduction of 61\% compared to MDS, while for long gap (1 week) the absolute error of the KF roughly doubles and the improvement is performance is limited to 23\%. \vv{SWC} is a variable that is not available in ERA-I, so KF and MDS are the only available methods and the KF does not have access to a control variable for \vv{SWC}.
@@ -898,7 +910,7 @@ Across the different variables, there is an increase in the absolute values of t
 
 \subsection{Kalman Filter training}
 
-\paragraph{Variable fine-tuning} The performance of the KF is improved if the model is fine-tuned on gaps only for one variable (e.g. only for \vv{TA}). For each variable a different model has been used (\textit{KF-\textlangle var \textrangle-Sin-6\_336}) and the performance compared to a generic model that has been trained with gaps in any variable (\textit{KF-Gen-Sin-6\_336}). 
+\paragraph{Variable fine-tuning} The performance of the KF is improved if the model is fine-tuned on gaps only for one variable (e.g. only for \vv{TA}). For each variable a different model has been used (\textit{KF-\textlangle var \textrangle-Sin-6\_336}) and the performance compared to a generic model that has been trained with gaps in any variable (\textit{KF-Gen-Sin-6\_336}).
 % For each combination of gap length and variable, 500 artificial gaps were created.
 
 The fine-tuning is reducing the error for all the variables (Figure \ref{fig:generic} and appendix Table \ref{tbl:generic}). The entity of the error reduction changes depending on the variable, ranging from 75\% for \vv{SWC} to 12\% for \vv{LW\_IN}.
@@ -950,16 +962,16 @@ The limited performance of the \vv{SW\_IN} at night can also be explained by the
 \subparagraph{Precipitation} The precipitation has low temporal autocorrelation and low correlation with other variables. Moreover, it has high temporal and spatial variability \cite{mital_sequential_2020}, especially on short time scales. In fact, ERA-I predictions have a high error for \vv{P}, which is further worsened by the temporal downscaling. The authors of the paper that introduced ERA-I for EC meteorological imputation \cite{vuichard_filling_2015}, considered the timing of the precipitation in ERA-I not accurate enough for a direct comparison of the time series.
 Therefore, the poor performance of the KF is expected as none of the mechanisms used for imputations (i.e. temporal autocorrelation, inter-variable correlation and control variables) can be effectively applied to gaps in \vv{P}. Furthermore, the peculiar distribution of \vv{P}, where zero is by far the most common value, further limits the potential of using the KF.
 
-Precipitation has unique characteristics compared to the other meteorological variables, which make it necessary to employ tailored imputation approaches. For instance, considering the method developed in \textcite{chivers_imputation_2020}, the prediction is performed in two steps: a first model predicts whether there is going to be precipitation and a second model predicts the amount of precipitation. 
+Precipitation has unique characteristics compared to the other meteorological variables, which make it necessary to employ tailored imputation approaches. For instance, considering the method developed in \textcite{chivers_imputation_2020}, the prediction is performed in two steps: a first model predicts whether there is going to be precipitation and a second model predicts the amount of precipitation.
 
 \subparagraph{Wind Speed} The KF does not model accurately the high frequency variation of the wind speed. This is consistent with the limitations of ERA-I \cite{vuichard_filling_2015}. The KF cannot extract the information about the high frequency variation from other observations of the wind sped, KF is able to model higher frequency variations only if the information is present in either the control variable or in other variables. As for \vv{WS}, this is not the case, as ERA-I has the same limitation and no other variable has a high correlation with the wind speed. This limitation of ERA-I is also the likely reason behind the increased error in \vv{WS} when using the control for short gap length, where low variability in ERA-I negatively affects the model prediction.
-This is scenario shows one limitation arising from the simplicity of the KF, as a properly designed Gaussian Process should be able to model the high frequency variation in \vv{WS}. Nonetheless, the KF has a better performance than the current imputation methods. 
+This is scenario shows one limitation arising from the simplicity of the KF, as a properly designed Gaussian Process should be able to model the high frequency variation in \vv{WS}. Nonetheless, the KF has a better performance than the current imputation methods.
 
-\paragraph{Model Training} The KF achieves the best imputation performance only when the model is fine-tuned to each variable. 
+\paragraph{Model Training} The KF achieves the best imputation performance only when the model is fine-tuned to each variable.
 Moreover, I expect that by tuning the model further to more granular conditions the performance would improve.
 For instance, the rate of change of the soil temperature is significantly  higher in a dry summer day compared to a winter day, when the ground is covered in snow. Therefore, the optimal KF parameters would be different between those conditions.
 Furthermore, the optimal parameters are likely different between short gaps and long gaps, as in the first case more importance should be given to the temporal autocorrelation, while in the second case inter-variable correlation and control variables should have a bigger weight. Therefore, I expect improvements in the KF performance if the model is trained only on gaps with a similar length.
-Finally, if the KF is applied to other EC sites, then it will likely require further fine-tuning, as there are different climatic conditions and the error in ERA-I data (i.e. the control variables) is a very different between EC sites \cite{vuichard_filling_2015}. 
+Finally, if the KF is applied to other EC sites, then it will likely require further fine-tuning, as there are different climatic conditions and the error in ERA-I data (i.e. the control variables) is a very different between EC sites \cite{vuichard_filling_2015}.
 
 An important outcome of this work is that the KF is able to achieve good performance, but it may be difficulty to learn the  model parameters. The initialization of the parameters with a local trend model helped to mitigate this issue, however it is probable that the KF parameters trained in this work are still not the optimal ones. For instance, the KF performance for \vv{TS} is relatively poor for long gaps, even though it is a variable with high temporal autocorrelation and correlation with other variables, which suggest that that limiting factor is the ability to learn and not the structure of the KF. Moreover, for short gaps, the model trained on gaps of multiple variables (i.e. in each gap a different number of variables is missing) outperforms the model trained on gaps with only one variable missing. The numerical stability issue did not allow testing this training condition on longer gaps, but it is likely that a similar pattern would be observed.
 
@@ -983,14 +995,14 @@ There are different approaches to deploying a KF, ranging from using only a gene
 
 A promising approach is to pre-train models for different conditions (e.g. variable missing, site, time of the year), then for each gap select the KF model trained on the closest conditions. The advantages of this system are the simplicity and the computational efficiency. The  only computation overhead arises from the use of variable-specific models in gaps in multiple variables, which would require several iterations to complete the imputation when more than one variable is missing.
 The main limitations of this approach are that the model parameters may be suboptimal and that it requires to train and deploy several models, one for every combinations of conditions.
-Moreover, if the conditions of the gap are not similar to any trained model (e.g. a different EC site), there can be a significant decrease in performance. 
+Moreover, if the conditions of the gap are not similar to any trained model (e.g. a different EC site), there can be a significant decrease in performance.
 
 A variation of the approach above is to use the similarity between the training and inference condtion to select a set of candidate models, instead of only one. Then each candidate model will be used to impute artificial gaps created with conditions similar to the missing data, and the model with the smallest error will be eventually employed to impute the gap. This method is better at finding the best parameters for new conditions, but it requires additional computational resources to test the different candidate models.
 
 The last method is to fine tune the model to the conditions of each gap. This provides the best performance and flexibility at the cost of increased computational cost. Moreover, this requires the development of criteria to automatically stop the training. Furthermore, the training difficulties of the KF may prevent the parameter optimization.
 
 The best KF deployment approach depends on the speficic application (e.g. imputation of a single site or multiple sites).
-% The necessity to fine-tune the KF to a specific conditions is a not critical limitation to the use of KG, but results in increased computation cost and the deployment complexity. 
+% The necessity to fine-tune the KF to a specific conditions is a not critical limitation to the use of KG, but results in increased computation cost and the deployment complexity.
 
 \subsection{Future outlook}
 
@@ -1000,18 +1012,18 @@ The best KF deployment approach depends on the speficic application (e.g. imputa
 As described in the previous section, there are two main issues that would prevent the use of the KF in a real world scenario.
 The numerical instability of the current KF implementation limits the gaps to 15 hours, when all variables are missing.
 % The current implementation is a hybrid between a square root filter and standard Kalman Filter. The use of the full covariance matrices in the smoothing pass and the in the log-likelihood computations is the source of the numerical instability.
-More research is needed to a suitable formulation of a square root smoother, which the available literature suggests that is possible to methode to derive \cite{rutten_square-root_2013, park_new_1996}. 
+More research is needed to a suitable formulation of a square root smoother, which the available literature suggests that is possible to methode to derive \cite{rutten_square-root_2013, park_new_1996}.
 The negative predictions of \vv{SW\_IN} at night can be solved by using the KF to predict \vv{SW\_IN} during the day, and then replacing all the predictions with zero for the night. The exact time of the sunrise and sunset, and so nighttime, can be easily computed from the day of the year and the geographic coordinates.
 
 The European Centre for Medium-Range Weather Forecasts recently released two new weather reanalysis datasets: ERA5 in 2020 \cite{hersbach_era5_2020} and ERA-5 Land  in 2021 \cite{munoz-sabater_era5-land_2021}, which supersede the ERA-Interim dataset. The ERA5-Land dataset coves only the continents, but has a much higher spatial resolution (9 km instaed of 80 km) and higher temporal resolution (1 hour instead of 3 hours) compared to ERA-I. Therefore, the prediction of the KF can be improved by using ERA5-Land data instead of ERA-I as the control variable.
 
-My analysis suggests that initial parameters have significant influence on the parameters after training and thus the performance of the model. There are several approaches to initialize a KF \cite{durbin_time_2012}, and a robust comparison between the different methods may reveal a better initialization strategy than the linear trend model.  
+My analysis suggests that initial parameters have significant influence on the parameters after training and thus the performance of the model. There are several approaches to initialize a KF \cite{durbin_time_2012}, and a robust comparison between the different methods may reveal a better initialization strategy than the linear trend model.
 
 % \subparagraph{Non-linear relationships} 
 The current KF implementation is limited to model only linear relationship between the state and between the control and the state. There exist non-linear versions of the KF, such as the Extended Kalman Filter and the Unscented Kalman Filter \cite{dan_simon_optimal_2006}, that approximate non-linear relationship between successive states.
 The relation between the ERA-I data and the observed variables is also non-linear \cite{vuichard_filling_2015}. The KF does not require linear relationship between the state and the control, so any arbitrary transformation could be applied. For instance, the use of Neural Network could be assessed. This would also integrate well with the \textsf{PyTorch} implementation of the KF.
 
-One parameter of the KF is the observation covariance ($R$). Currently, this parameter is estimated by the general optimization procedure, but the actual value of the observations' noise can be derived from the instrument accuracy. This is a strength of the probabilistic nature of the KF and could prevent overly confident predictions. 
+One parameter of the KF is the observation covariance ($R$). Currently, this parameter is estimated by the general optimization procedure, but the actual value of the observations' noise can be derived from the instrument accuracy. This is a strength of the probabilistic nature of the KF and could prevent overly confident predictions.
 
 One of the advantages of the iterative nature of the KF formulation is the ability to change the parameters between time steps.
 This opens the possibility to utilize a model to predict the parameters of the KF depending on the conditions, which should overcome the necessity to fine-tune the KF parameters to each condition.
@@ -1025,13 +1037,13 @@ Another aspect is to test the imputation performance using observations from dif
 
 The metric used for the evaluation is also important. The RMSE measure the average distance between the predictions and the observations, but does not compare other characteristics of the time series such as the variance, the shape or the presence of a time-shift \cite{guen_shape_nodate}. In this study, the visual inspection of the time series was used to assess the imputation quality. This method is, however, time-consuming and is quantitative. Additional metrics, such as DILATE \cite{guen_shape_nodate}, that measure other aspect of the predictions can improve the understanding of the quality of the imputation.
 
-Finally, the performance of the KF imputation can be evaluated by computing the reduction in the error of Land Surface Models compared to state-of-the-art methods. This would allow to directly measure the actual impact of the improved imputation of meteorological variables. 
+Finally, the performance of the KF imputation can be evaluated by computing the reduction in the error of Land Surface Models compared to state-of-the-art methods. This would allow to directly measure the actual impact of the improved imputation of meteorological variables.
 
 % \pagebreak
 
 \section{Conclusions}
 
-The imputation of meteorological time series is necessary for the EC applications. The Kalman Filter (KF) outperforms the state-of-the-art methods (ERA-I and MDS) for all variables but precipitation. The strengths of the KF are: the ability to combine different imputation approaches; the effective use of the variable temporal autocorrelation; the quantification of the predictions' uncertainty. 
+The imputation of meteorological time series is necessary for the EC applications. The Kalman Filter (KF) outperforms the state-of-the-art methods (ERA-I and MDS) for all variables but precipitation. The strengths of the KF are: the ability to combine different imputation approaches; the effective use of the variable temporal autocorrelation; the quantification of the predictions' uncertainty.
 
 The imputation performance of the KF depends on the missing variable: the smallest error is for air temperature, air pressure, soil temperature and vapor pressure deficit. The air temperature is the variable with the biggest error reduction compared to state-of-the-art methods. The KF has an intermediate performance for the incoming shortwave, longwave radiation, and the wind speed. For the wind, the KF is limited in modelling the short term variability. The KF, like the other methods, has a poor imputation performance for the precipitation, whose unique characteristics do not make the KF a suitable method.
 
@@ -1047,16 +1059,16 @@ This work shows the potential of applying the KF for EC meteorological time seri
 \appendix
 
 % add separate numering for appendix
-\renewcommand\thefigure{\thesection.\arabic{figure}} 
-\renewcommand\thetable{\thesection.\arabic{table}} 
-\renewcommand\theequation{\thesection.\arabic{equation}} 
+\renewcommand\thefigure{\thesection.\arabic{figure}}
+\renewcommand\thetable{\thesection.\arabic{table}}
+\renewcommand\theequation{\thesection.\arabic{equation}}
 
 \FloatBarrier
 
 \section{Additional Results}
 
-\setcounter{figure}{0} 
-\setcounter{table}{0} 
+\setcounter{figure}{0}
+\setcounter{table}{0}
 
 % \subsection{Comparison to other imputation methods}
 
@@ -1154,11 +1166,11 @@ methods: ERA-Interim (ERA-I) and Marginal Distribution Sampling (MDS), using mea
 
 \section{Derivations}
 
-\setcounter{equation}{0} 
+\setcounter{equation}{0}
 
 \begin{equation}\label{eq:deriv_predictions}
 \begin{split}
-    p(y_t^g \mid Y^{ng}, C) &= \int p(y^g_t \mid x_t) p(x_t \mid Y^{ng}, C) dx_t\\
+    p(y_t^g \mid Y^{ng}) &= \int p(y^g_t \mid x_t) p(x_t \mid Y^{ng}) dx_t\\
     & = \int \norm{y_t^g}{MHx_t + Mb}{MRM^\top} \norm{x^s_t}{m^s_t}{P^s_t} dx_t\\
     & = \norm{y^{ng}_t}{MHm^s_t + Mb}{MRM^\top + MHP^s_tH^\top M^\top}
 \end{split}
