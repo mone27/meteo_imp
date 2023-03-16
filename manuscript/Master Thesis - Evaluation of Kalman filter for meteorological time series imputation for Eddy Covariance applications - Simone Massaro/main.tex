@@ -276,42 +276,17 @@ p(y_t | x_t) &= \norm{y_t}{Hx_t + b}{R} \label{eq:system_obs}
 The probability distributions of the state are computed using Bayesian inference. The computational cost of probabilistic inference is drastically reduced in this context, as can be performed using only linear algebra operations since all the relations are linear and all distributions are Gaussian.
 
 The aim of the KF is to compute for every data point the probability distribution of the missing observations, $y^g_t$, given all the other observations, $Y^{ng}$, and the control variable, $C$: $p(\hat{y}^g_t \mid Y^{ng}, C$). To achieve this, the KF recursively computes intermediate distributions (Figure \ref{fig:kalman_filter}) with the same set of operations repeated for every time $t$.
-% The first step is to compute the conditional distribution of the state given all observations until time $t-1$: $p(x_t \mid Y_{1:t-1})$.
-% Then the observation at time is $t$, $y_t$, is used to update the distribution of state by computing $p(x_t \mid Y_{1:})$. Observations can be partially or totally missing.
-% These two steps are iteratively repeated for every time in the observed dataset, starting from time $0$.
-% The final step is to update the distribution of the state by using also the observations after time $t$ and computing for every $t$ $p(x_t|Y)$. This step is performed iteratively starting from the last time step.
-% The Kalman Filter is a recursive algorithm (Figure \ref{fig:kalman_filter}).
 
 The first step is to compute the \textit{predicted state}, $x^-_t$, that is obtained from the previous state, $x_{t-1}$, and the \textit{control variable}, $c_t$. This represents the conditional distribution of the state, given all observations until time $t-1$, $Y^{ng}_{0:t-1}$, and the control variable until time $t$: $C_{0:t}$, $p(x_t \mid Y^{ng}_{0:t-1}, C_{0:t})$.
 The second step is to update the predicted state using the \textit{observations} at time $t$, $y_t$, to obtain the \textit{filtered state}, $x^f_t$. Observations can be partially or totally missing. This is the conditional distribution of the state given all the observation until time $t$: $p(x_t \mid Y^{ng}_{0:t}, C_{0:t})$.
 These two steps make the filtering pass of the KF and are iteratively repeated for every time step in the observed dataset, starting from time $0$.
 The last operation is to compute the smoothed state $x^s_t$, which is obtained by updating the filtered state using the information from the observations after time $t$. This computes the conditional distribution of the state given all the observations and control variables: $p(x_t \mid Y^{ng}, C)$.
-% Finally, for all the time steps where there is a gap, the \textit{predicted observations}, $\hat{y}^g_t$, are calculated from the smoothed state $x^s_t$. The smoothing phase works by starting from the last time step and recursively updates $x^s_t$ using $x^s_{t+1}$.
 Finally, the distribution of the missing observations, $p(y^g_t \mid Y^{ng}, C)$, can be computed directly from the smoothed state for each time step.
 
 The model always considers the entire probability distribution for the state, which is a Gaussian distribution,  $p(x_t) = \norm{x_t}{m_t}{P_t}$, so stores for each state at each time step the mean, $m_t$, and the covariance, $P_t$. Similarly, the model predictions are a multivariate Gaussian distribution $p(y_t \mid Y^{ng}, C) =  \norm{y_t}{\mu_{y_t}}{\Sigma_{y_t}}$.
-
-% \textit{smoothed state} $x^s_t$ is the
-% The final step is to update the distribution of the state by using also the observations after time $t$ and computing for every $t$ $p(x_t|Y)$. The smoothing phase works by starting from the last time step and recursively updating $x^s_t$ using $x^s_{t+1}$.
-
-
-% The predicted state is the conditional distribution of the state given all the observations until time $t-1$ ($Y_{1:t-1}$), for the first time steps the predicted state is Equation to the
-% % For the first time step the distribution is conditioned only on state $p(x_1|x$
-
-
-% Then the state is updated using the \textit{observation} ($y_t$) to obtain the \textit{filtered state}, observations can be partially or totally missing. This is repeated recursively for all time steps. At this point, at each time step, the state $x_t$ depends only on the observations until time $t$.
-
-
-% The \textit{smoothed state} $x^s_t$ is the final state that depends also on all the observations after time $t$. The smoothing phase works by starting from the last time step and recursively updating $x^s_t$ using $x^s_{t+1}$.
-% Finally, for all the time steps where there is a gap, the \textit{predicted observations}, $\hat{y}^g_t$, are calculated from the smoothed state $x^s_t$.
-
-% The model always considers the entire probability distribution for the state $p(x_t) = \norm{x_t}{m_t}{P_t}$, so stores for each state at each time step the mean ($m_t$) and the covariance are ($P_t$). Similarly, the model predictions are a multivariate Gaussian distribution $p(\hat{y}_t) =  \norm{\hat{y_t}}{\mu_{y_t}}{\Sigma_{y_t}}$.
-
-\begin{figure}
 \centerline{\includegraphics[width=4.5in]{Kalman Filter figure}}
 \caption{Schematic representation of an example Kalman Filter. The green squares represent the observations of a single variable at a specific time, the observations may be missing (red squares). The blue circles represent the latent state, specifically the three versions of the state modelled by the KF: filtered state (cyan), predicted state (light blue) and smoother state (dark blue). The control variables are shown in purple.
 All the arrows show a direct dependency for the computation of each element.
-% The Figure displays the state and the predictions similarly to the observations, but the former are random variables with a probability distributions while the latter are single values.
 }
 \label{fig:kalman_filter}
 \end{figure}
@@ -570,48 +545,6 @@ In the context of this work, the ERA-I dataset is used for the control variable.
 \[
 B = \begin{bmatrix}-I & I \\ 0 & 0\end{bmatrix} \quad B \in \mathbb{R}^{k \times n_{ctr}} \quad I \in \mathbb{R}^{n_{ctr} \times n_{ctr}}
 \]
-
-% where
-
-
-% In order to have the information about the change the the difference between the control variables is used to ...
-
-
-% The majority of the observed variables are also present in the ERA-I.
-
-% The state slope should not be affected by the
-
-% \begin{equation}
-%     x_t = \begin{bmatrix} x_{l_t} \\ x_{s_t} \end{bmatrix} =  Bc_t + Ax_{t-1} + \zeta =
-%     \begin{bmatrix} 1 & 0 \end{bmatrix}
-% \end{equation}
-
-
-% where $\zeta = [\nu, \xi]^\top$
-
-% The state transition matrix, $A$, is initialized using a local linear trend model \cite{durbin_time_2012-1}. The idea is that half of the state $x_{l_{t-1}}$ represent the level of the current state and the second half the slope $x_{s_{t-1}}$ of a linear function that describes the rate of change of the state between time steps. The next state level is equal to the current level plus the slope and a random noise, while the slope remains constant but for another random noise. The use of a slope allows the model to retain information of several previous states.
-
-% \begin{equation}
-%   \begin{alignedat}{2}
-%     y_t &= x_{l_t} + \varepsilon_t & p(\varepsilon_t) \quad &= \norm{\varepsilon}{0}{R}\\
-%     x_{l_t} &= x_{l_{t-1}} + x_{s_{t-1}} + c_t + \nu_{t-1} \quad \quad & p(\varepsilon_{t-1}) &= \norm{\varepsilon}{0}{Q_\nu}\\
-%     x_{s_t} &= x_{s_{t-1}} + \xi_{t-1} \quad & p(\xi_{t-1}) &= \norm{\xi}{0}{Q_\xi} \\
-%     x_t &= \begin{bmatrix} x_{l_t} \\ x_{s_t} \end{bmatrix} &&
-%     \end{alignedat}
-% \end{equation}
-
-% from this can derive the values of the parameters of the Kalman Filter
-
-% \begin{equation}
-%     x_t = \begin{bmatrix} x_{l_t} \\ x_{s_t} \end{bmatrix}
-% \end{equation}
-
-% $x_t = [x_{l_t}, x_{s_t}]^\top$
-
-% The observation matrix, $H$, is initialized with an identity matrix. This means that each observed variable is modelled by one variable in the state. The second part of $H$ is 0 as in a local trend model the observations do not depend on the slope but only the level of the state.
-
-% The control matrix, $B$, is initialized to the difference between the previous observation and the current observation. The number of  variables in the control may be different than the observed variables. In this initialization, the assumption is that $n_{ctr} < n$ and that there is a correspondence between the control and first $n_{ctr}$ variables of the observations and hence of the state.
-
 The state transition covariance $Q$ and then observation covariance $R$ are initialized as diagonal matrix with values of $0.1$ and $0.01$ respectively. These numbers have been chosen to represent an uncertainty in the state transition that is compatible with the standard deviation of the variables (i.e $\sigma = 1$ after standarization) and a low uncertainty in the observations.
 
 The observation and state transition offsets are initialized to zero. The initial state is set to have as mean zero and as covariance $\text{diag}(3)$. The number 3 is an arbitrary number bigger than the state transition covariance, which represents an high level of uncertainty for the initial state.
@@ -723,6 +656,7 @@ The model was trained for \num{3} epochs with a learning rate of \num{1e-3}.
     \item \vv{TA} 3 epochs with lr \num{1e-3} and 1 epoch with lr \num{1e-5}
     \item \vv{SW\_IN} \num{7} epochs with lr \num{1e-3}
     \item \vv{LW\_ IN} \num{3} epochs with lr \num{1e-3}, \vv{VPD} \num{6} epochs with lr \num{1e-3}
+    \item \vv{VPD} \num{5} epochs with lr \num{1e-3}
     \item \vv{WS} \num{3} epochs with lr \num{1e-3}
     \item \vv{PA} \num{3} epochs with lr \num{1e-3} and 1 epoch with lr \num{1e-5}
     \item \vv{P} no additional training
@@ -794,9 +728,11 @@ The variable with the highest correlation with other variable is \vv{TA} (Figure
 
 The Kalman Filter (KF) has an overall better imputation performance than the other imputation methods: ERA-I and MDS. In general, across all tested scenario it exhibits the same pattern: KF is the method with the smallest imputation error, ERA-I is the second-best method while MDS is the worst performing approach (Figure \ref{fig:the_plot} and Table \ref{tbl:the_table}). The only exception is precipitation, the three methods are equivalent.
 
-I compared the models by creating artificial gaps in a single variable with four different gap lengths (i.e. 6 hours, 12 hours, 1 day, 1 week). For each combination of variable and gap length, 500 artificial gaps were generated and imputed using the 3 methods. The performance was measured using the RMSE (Figure \ref{fig:the_plot} and Table \ref{tbl:the_table}) and the standardized RMSE (appendix Figure \ref{fig:the_plot_stand} and Table \ref{tbl:the_table_stand}). In addition, the imputation performance was compared visually using three different example time series for all the combinations of each variable and three gap lengths: 6 hours, 12 hours and 1 week (Figures \ref{fig:ts_1-1}, \ref{fig:ts_1-2} and appendix Figures \ref{fig:ts_2-1} \ref{fig:ts_2-2}, \ref{fig:ts_3-1}, \ref{fig:ts_3-2}). For each variable, the fine-tuned KF model has been used (\textit{KF-\textlangle var\textrangle-Sin-6\_336}).
+I compared the models by creating artificial gaps in a single variable with four different gap lengths (i.e. 6 hours, 12 hours, 1 day, 1 week).
+For each combination of variable and gap length, 500 artificial gaps were generated and imputed using the 3 methods. The performance was measured using the RMSE (Figure \ref{fig:the_plot} and Table \ref{tbl:the_table}) and the standardized RMSE (appendix Figure \ref{fig:the_plot_stand} and Table \ref{tbl:the_table_stand}). In addition, the imputation performance was compared visually using three different example time series for all the combinations of each variable and three gap lengths: 6 hours, 12 hours and 1 week (Figures \ref{fig:ts_1-1}, \ref{fig:ts_1-2} and appendix Figures \ref{fig:ts_2-1} \ref{fig:ts_2-2}, \ref{fig:ts_3-1}, \ref{fig:ts_3-2}). For each variable, the fine-tuned KF model has been used (\textit{KF-\textlangle var\textrangle-Sin-6\_336}).
 
-The average error reduction across all variable and gap lengths is 33\% compared to ERA-I and 57\% compared to MDS, if Precipitation (\vv{P}) is excluded. The improvement average of the KF compared to ERA-I (i.e. the best performing state-of-the-art model) strongly depends on the variable analyzed and the gap length, ranging from 54\% for \vv{TA} to 5\% for \vv{LW\_IN}.
+The average error reduction across all variable and gap lengths is 33\% compared to ERA-I and 57\% compared to MDS, if Precipitation (\vv{P}) is excluded.
+The improvement average of the KF compared to ERA-I (i.e. the best performing state-of-the-art model) strongly depends on the variable analyzed and the gap length, ranging from 54\% for \vv{TA} to 5\% for \vv{LW\_IN}.
 
 Furthermore, by analyzing multiple artificial gaps for the same conditions (i.e. missing variable and gap length) the maximum value and the standard deviation of the gaps' RMSE is computed. For virtually every scenario, the KF is the method with the smallest maximum and standard deviation of the RMSE (Figure \ref{fig:the_plot} and Table \ref{tbl:the_table}).
 
