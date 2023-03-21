@@ -9,7 +9,7 @@ format:
     page-layout: full
 
 website:
-  title: "Meteo Imputation"
+  title: "Meteo Imp Analsyis"
   site-url: "https://mone27.github.io/meteo_imp"
   description: "Meteo Imputation"
   repo-branch: master
