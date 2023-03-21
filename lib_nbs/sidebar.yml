@@ -2,13 +2,19 @@ website:
   sidebar:
     contents:
       - index.ipynb
-      - 00_Gaussian.ipynb
-      - 10_Kalman_Filter.ipynb
-      - 11_training.ipynb
-      - 12_filter_performance_stability.ipynb
-      - 20_results.ipynb
-      - 99_utils.ipynb
       - section: Fluxnet
         contents:
           - Fluxnet/00_gap_finder.ipynb
           - Fluxnet/Hainich.ipynb
+      - section: Foundations
+        contents:
+          - Foundations/00_Gaussian.ipynb
+          - Foundations/99_utils.ipynb
+      - section: Kalman Filter
+        contents:
+          - Kalman Filter/10_Kalman_Filter.ipynb
+          - Kalman Filter/11_training.ipynb
+          - Kalman Filter/12_filter_performance_stability.ipynb
+      - section: results
+        contents:
+          - results/20_results.ipynb
