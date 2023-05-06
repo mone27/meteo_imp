@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.280">
+<meta name="generator" content="quarto-1.4.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -196,14 +196,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p>This notebook produces all results plots. It generates some gap in the data, fill with a method (filter, MDS …), compute metrics and then makes all relevant plots</p>
-<div class="cell">
+<div id="8f5d0618-2625-43ff-84f2-59b3e946bd99" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext autoreload</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>autoreload <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="6f195049-d6ed-47fc-9628-74e6c2d2aa80" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="97717125-2e40-474e-a9a6-2ae949d96757" class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.kalman.results <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.data <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.utils <span class="im">import</span> <span class="op">*</span></span>
@@ -227,7 +227,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>the generation of a proper pdf is complex as <code>altair_render</code> doesn’t support <code>XOffset</code>, so plotsare first renderder to svg using <code>vl-convert</code> and then to pdf using <code>cairosvg</code>. However this last methods doesn’t support negative numbers …</p>
 <p>Due to the high number of samples also cannot use the browser render in the notebook so using <code>vl-convert</code> to a png for the visualization in the notebook</p>
-<div class="cell">
+<div id="01c42271-bc8d-40df-8030-b086e33ceb90" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> vl_convert <span class="im">as</span> vlc</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyprojroot <span class="im">import</span> here</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>base_path_img <span class="op">=</span> here(<span class="st">"manuscript/Master Thesis - Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications - Simone Massaro/images/"</span>)</span>
@@ -254,15 +254,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    png_data <span class="op">=</span> vlc.vegalite_to_png(vl_spec<span class="op">=</span>plot.to_json(), scale<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Image(png_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="1daee753-a9dc-4aa7-b72b-cdb83ab44ee5" class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>reset_seed()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>n_rep <span class="op">=</span> <span class="dv">500</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="17ea6bc9-8ada-48a1-89fb-fcf0f5a1206e" class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>hai <span class="op">=</span> pd.read_parquet(hai_big_path).reindex(columns<span class="op">=</span>var_type.categories)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>hai_era <span class="op">=</span> pd.read_parquet(hai_era_big_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="14812163-c5a3-4fca-ab12-209e79e9e5c6" class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>alt.data_transformers.disable_max_rows() <span class="co"># it is safe to do so as the plots are rendered using vl-convert and then showed as images</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>DataTransformerRegistry.enable('default')</code></pre>
@@ -270,24 +270,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="correlation" class="level2">
 <h2 class="anchored" data-anchor-id="correlation">Correlation</h2>
-<div class="cell">
+<div id="169ed21b-07a5-46c1-ad54-1cb6c60f55f5" class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="e4759b4c-b1ff-4b20-9d75-de80a4f04359" class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="e7d833d5-c0f8-48f3-8b45-7985e39aed67" class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> auto_corr_df(data, nlags<span class="op">=</span><span class="dv">96</span>):</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    autocorr <span class="op">=</span> {}</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> col <span class="kw">in</span> data.columns:</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        autocorr[col] <span class="op">=</span> sm.tsa.acf(data[col], nlags<span class="op">=</span>nlags)</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(autocorr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="d808c4ae-8701-4f03-ba24-11650e2c4942" class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>auto_corr <span class="op">=</span> auto_corr_df(hai).reset_index(names<span class="op">=</span><span class="st">"gap_len"</span>).melt(id_vars<span class="op">=</span><span class="st">"gap_len"</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>auto_corr.gap_len <span class="op">=</span> auto_corr.gap_len <span class="op">/</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="00298220-255c-4eb3-ac62-8a7fb1c26478" class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>auto_corr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -376,7 +376,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="72a0760c-99d0-40d6-b8b4-eb6636901450" class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> (alt.Chart(auto_corr).mark_line().encode(</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> alt.X(<span class="st">'gap_len'</span>, title<span class="op">=</span><span class="st">"Gap length [h]"</span>, axis <span class="op">=</span> alt.Axis(values<span class="op">=</span> [<span class="dv">12</span>, <span class="dv">24</span>, <span class="dv">36</span>, <span class="dv">48</span>])),</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> alt.Y(<span class="st">"value"</span>, title<span class="op">=</span><span class="st">"correlation"</span>),</span>
@@ -390,10 +390,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>save_show_plot(p, <span class="st">"temporal_autocorrelation"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="result_plots_files/figure-html/cell-14-output-1.png" class="quarto-discovered-preview-image img-fluid"></p>
+<p><img src="result_plots_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="21f6a40a-e089-482c-a10e-7469942c9a6d" class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> get_grid(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">8</span>))</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(font_scale<span class="op">=</span><span class="fl">1.25</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>sns.heatmap(hai.corr(), annot<span class="op">=</span><span class="va">True</span>,     vmin<span class="op">=-</span><span class="dv">1</span>, vmax<span class="op">=</span><span class="dv">1</span>, center<span class="op">=</span><span class="dv">0</span>,</span>
@@ -420,13 +420,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="comparison-imputation-methods" class="level2">
 <h2 class="anchored" data-anchor-id="comparison-imputation-methods">Comparison Imputation methods</h2>
-<div class="cell">
+<div id="23c020cf-9f43-4bba-911a-56ab02eb1fd8" class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>base_path <span class="op">=</span> here(<span class="st">"analysis/results/trained_models"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="f81cbb90-5b73-453d-9399-948e347d97fb" class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> l_model(x, base_path<span class="op">=</span>base_path): <span class="cf">return</span> torch.load(base_path <span class="op">/</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="920200e1-d0e7-4f08-a81c-f9e5758e0a98" class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>models_var <span class="op">=</span> pd.DataFrame.from_records([</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'var'</span>: <span class="st">'TA'</span>,    <span class="st">'model'</span>: l_model(<span class="st">"TA_specialized_gap_6-336_v3_0.pickle"</span>,base_path)},</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'var'</span>: <span class="st">'SW_IN'</span>, <span class="st">'model'</span>: l_model(<span class="st">"SW_IN_specialized_gap_6-336_v2_0.pickle"</span>,base_path)},</span>
@@ -439,7 +439,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'var'</span>: <span class="st">'SWC'</span>,   <span class="st">'model'</span>: l_model(<span class="st">"SWC_specialized_gap_6-336_v2_1.pickle"</span>,base_path)},</span>
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="67787142-2082-4fea-a508-9df332733ed4" class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="at">@cache_disk</span>(cache_dir <span class="op">/</span> <span class="st">"the_results"</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_the_results(n_rep<span class="op">=</span><span class="dv">20</span>):</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    reset_seed()</span>
@@ -452,7 +452,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="state-of-the-art" class="level3">
 <h3 class="anchored" data-anchor-id="state-of-the-art">State of the art</h3>
 <p>the first plot is a time series using only state-of-the-art methods</p>
-<div class="cell">
+<div id="40fd8e27-1119-45e7-90a0-51f2562a2b48" class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>reset_seed()</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>comp_ts <span class="op">=</span> ImpComparison(models <span class="op">=</span> models_var, df <span class="op">=</span> hai, control <span class="op">=</span> hai_era, block_len <span class="op">=</span> <span class="dv">48</span><span class="op">+</span><span class="dv">100</span>, time_series<span class="op">=</span><span class="va">True</span>, rmse<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>results_ts <span class="op">=</span> comp_ts.compare(gap_len <span class="op">=</span> [<span class="dv">48</span>], var<span class="op">=</span><span class="bu">list</span>(hai.columns), n_rep<span class="op">=</span><span class="dv">1</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -507,14 +507,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-<div class="cell">
+<div id="1a6d201d-74b9-4683-9ae2-d892e2236184" class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>res_ts <span class="op">=</span> results_ts.query(<span class="st">"method != 'Kalman Filter'"</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>res_ts_plot <span class="op">=</span> pd.concat([unnest_predictions(row, ctx_len<span class="op">=</span><span class="dv">72</span>) <span class="cf">for</span> _,row <span class="kw">in</span> res_ts.iterrows()])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cf6f0b95-2b82-41a9-bb96-9a00fa229bfd" class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>scale_sota <span class="op">=</span> alt.Scale(domain<span class="op">=</span>[<span class="st">"ERA-I"</span>, <span class="st">"MDS"</span>], <span class="bu">range</span><span class="op">=</span><span class="bu">list</span>(sns.color_palette(<span class="st">'Dark2'</span>, <span class="dv">3</span>).as_hex())[<span class="dv">1</span>:])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="8269dd8c-f51f-4039-8fb2-268beecd3291" class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> (facet_wrap(res_ts_plot, partial(_plot_timeseries, scale_color<span class="op">=</span>scale_sota, err_band <span class="op">=</span> <span class="va">False</span>), col<span class="op">=</span><span class="st">"var"</span>,</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                y_labels <span class="op">=</span> _get_labels(res_ts_plot, <span class="st">'mean'</span>, <span class="va">None</span>),</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>               )</span>
@@ -528,17 +528,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="percentage-improvement" class="level3">
 <h3 class="anchored" data-anchor-id="percentage-improvement">Percentage improvement</h3>
-<div class="cell">
+<div id="16567f9c-6192-48d9-ba25-2319a7b78a15" class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>results_Av.method.unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>['Kalman Filter', 'ERA-I', 'MDS']
 Categories (3, object): ['Kalman Filter' &lt; 'ERA-I' &lt; 'MDS']</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="9057734c-2b07-4a1d-931c-7c5b80760375" class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>all_res <span class="op">=</span> results_Av.query(<span class="st">'var != "P"'</span>).groupby([<span class="st">'method'</span>]).agg({<span class="st">'rmse_stand'</span>: <span class="st">'mean'</span>}).T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="5736d5ed-99d4-4081-8961-71599ea0a71b" class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>all_res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -567,27 +567,27 @@ Categories (3, object): ['Kalman Filter' &lt; 'ERA-I' &lt; 'MDS']</code></pre>
 </div>
 </div>
 <p>percentage of improvement across all variables</p>
-<div class="cell">
+<div id="23b3aa36-9858-47c3-adeb-c89e757b1bf6" class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>(all_res[<span class="st">"ERA-I"</span>] <span class="op">-</span> all_res[<span class="st">"Kalman Filter"</span>]) <span class="op">/</span> all_res[<span class="st">"ERA-I"</span>] <span class="op">*</span> <span class="dv">100</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>rmse_stand    33.42398
 dtype: float64</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="84a4700d-94ca-451c-9b1b-dc4f05fa1ce3" class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>(all_res[<span class="st">"MDS"</span>] <span class="op">-</span> all_res[<span class="st">"Kalman Filter"</span>]) <span class="op">/</span> all_res[<span class="st">"MDS"</span>] <span class="op">*</span> <span class="dv">100</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>rmse_stand    57.619542
 dtype: float64</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="56c7d661-0b5f-4e2e-a72a-5c2e9d64272c" class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>res_var <span class="op">=</span> results_Av.groupby([<span class="st">'method'</span>, <span class="st">'var'</span>]).agg({<span class="st">'rmse_stand'</span>: <span class="st">'mean'</span>}) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="263c34e7-3e24-45cd-95c1-457bbde62acd" class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>res_var <span class="op">=</span> res_var.reset_index().pivot(columns<span class="op">=</span><span class="st">'method'</span>, values<span class="op">=</span><span class="st">'rmse_stand'</span>, index<span class="op">=</span><span class="st">'var'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="5ea7a661-e605-4e10-9cd6-ad96382d20f4" class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">'ERA'</span>: (res_var[<span class="st">"ERA-I"</span>] <span class="op">-</span> res_var[<span class="st">"Kalman Filter"</span>]) <span class="op">/</span> res_var[<span class="st">"ERA-I"</span>] <span class="op">*</span> <span class="dv">100</span>, <span class="st">'MDS'</span>: (res_var[<span class="st">"MDS"</span>] <span class="op">-</span> res_var[<span class="st">"Kalman Filter"</span>]) <span class="op">/</span> res_var[<span class="st">"MDS"</span>] <span class="op">*</span> <span class="dv">100</span> })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -658,13 +658,13 @@ dtype: float64</code></pre>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="944b2dea-e64b-40d8-b03f-efede94e6dce" class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>res_var2 <span class="op">=</span> results_Av.groupby([<span class="st">'method'</span>, <span class="st">'var'</span>, <span class="st">'gap_len'</span>]).agg({<span class="st">'rmse_stand'</span>: <span class="st">'mean'</span>}) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="868e8136-ff81-4f98-a2c8-bcfdb01dc6c3" class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>res_var2 <span class="op">=</span> res_var2.reset_index().pivot(columns<span class="op">=</span><span class="st">'method'</span>, values<span class="op">=</span><span class="st">'rmse_stand'</span>, index<span class="op">=</span>[<span class="st">'var'</span>, <span class="st">'gap_len'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="a57b84f8-df19-4d12-881f-bab424c28c36" class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">'ERA'</span>: (res_var2[<span class="st">"ERA-I"</span>] <span class="op">-</span> res_var2[<span class="st">"Kalman Filter"</span>]) <span class="op">/</span> res_var2[<span class="st">"ERA-I"</span>] <span class="op">*</span> <span class="dv">100</span>, <span class="st">'MDS'</span>: (res_var2[<span class="st">"MDS"</span>] <span class="op">-</span> res_var2[<span class="st">"Kalman Filter"</span>]) <span class="op">/</span> res_var2[<span class="st">"MDS"</span>] <span class="op">*</span> <span class="dv">100</span> })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -884,18 +884,18 @@ dtype: float64</code></pre>
 </section>
 <section id="main-plot" class="level3">
 <h3 class="anchored" data-anchor-id="main-plot">Main plot</h3>
-<div class="cell">
+<div id="1121a833-5d71-4ec6-a914-4514fb6fb6c0" class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> product</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="ed796888-cb28-4260-b4b7-419a6b9806d5" class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> the_plot(results_Av)</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>save_show_plot(p, <span class="st">"the_plot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="result_plots_files/figure-html/cell-37-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="c78a9ea6-5348-4f5d-ae7e-b5edae12b5a6" class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> the_plot_stand(results_Av)</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>save_show_plot(p, <span class="st">"the_plot_stand"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -905,7 +905,7 @@ dtype: float64</code></pre>
 </section>
 <section id="table" class="level3">
 <h3 class="anchored" data-anchor-id="table">Table</h3>
-<div class="cell">
+<div id="9916df10-d3d4-43d6-bf82-da9e8083f8a3" class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> the_table(results_Av)</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>the_table_latex(t, base_path_tbl <span class="op">/</span> <span class="st">"the_table.tex"</span>, label<span class="op">=</span><span class="st">"tbl:the_table"</span>,</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                caption<span class="op">=</span><span class="st">"</span><span class="ch">\\</span><span class="st">CapTheTable"</span>)</span>
@@ -1284,7 +1284,7 @@ dtype: float64</code></pre>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="1bce37cd-0884-49a1-9b40-31411cccf1de" class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> the_table(results_Av, <span class="st">'rmse_stand'</span>, y_name<span class="op">=</span><span class="st">"Stand. RMSE"</span>)</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>the_table_latex(t, base_path_tbl <span class="op">/</span> <span class="st">"the_table_stand.tex"</span>, stand <span class="op">=</span> <span class="va">True</span>, label<span class="op">=</span><span class="st">"tbl:the_table_stand"</span>, </span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                caption <span class="op">=</span> <span class="st">"</span><span class="ch">\\</span><span class="st">CapTheTableStand"</span>)</span>
@@ -1666,7 +1666,7 @@ dtype: float64</code></pre>
 </section>
 <section id="timeseries" class="level3">
 <h3 class="anchored" data-anchor-id="timeseries">Timeseries</h3>
-<div class="cell">
+<div id="64571a34-6e5d-4fd9-aa39-523ce11a37ad" class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="at">@cache_disk</span>(cache_dir <span class="op">/</span> <span class="st">"the_results_ts"</span>)</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_the_results_ts():</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    reset_seed()</span>
@@ -1676,14 +1676,14 @@ dtype: float64</code></pre>
 <span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>results_ts <span class="op">=</span> get_the_results_ts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="63bb0e8f-8766-42ee-9c61-a5984e05220f" class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>ts <span class="op">=</span> plot_timeseries(results_ts.query(<span class="st">"var in ['TA', 'SW_IN', 'LW_IN', 'VPD', 'WS']"</span>), idx_rep<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>save_show_plot(ts, <span class="st">"timeseries_1"</span>, altair_render<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="result_plots_files/figure-html/cell-42-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="e057820b-1321-40a9-a078-b6a0c114ac8a" class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>time ts <span class="op">=</span> plot_timeseries(results_ts.query(<span class="st">"var in ['PA', 'P', 'TS', 'SWC']"</span>), idx_rep<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>time save_show_plot(ts, <span class="st">"timeseries_2"</span>, altair_render<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1696,10 +1696,10 @@ Wall time: 13.3 s</code></pre>
 <p><img src="result_plots_files/figure-html/cell-43-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="27c02102-1f65-4e0e-bab1-c65435391096" class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm.auto <span class="im">import</span> tqdm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="9d5f993c-4c8d-4850-a1f1-bc10916b39f8" class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># @cache_disk(cache_dir / "ts_plot", rm_cache=True)</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_additional_ts():</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx <span class="kw">in</span> tqdm(results_ts.idx_rep.unique()):</span>
@@ -1709,7 +1709,7 @@ Wall time: 13.3 s</code></pre>
 <span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>        ts2 <span class="op">=</span> plot_timeseries(results_ts.query(<span class="st">"var in ['PA', 'P', 'TS', 'SWC']"</span>), idx_rep<span class="op">=</span>idx)</span>
 <span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>        save_show_plot(ts2, <span class="ss">f"timeseries_2_</span><span class="sc">{</span>idx<span class="sc">}</span><span class="ss">"</span>, altair_render<span class="op">=</span><span class="va">True</span>)        </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="c76bd137-8ba6-4ac2-b25e-9a22befa7695" class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>plot_additional_ts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
@@ -1723,13 +1723,13 @@ Wall time: 13.3 s</code></pre>
 <h2 class="anchored" data-anchor-id="kalman-filter-analysis">Kalman Filter analysis</h2>
 <section id="gap-len" class="level3">
 <h3 class="anchored" data-anchor-id="gap-len">Gap len</h3>
-<div class="cell">
+<div id="83d3f8d8-54ae-45be-b755-66929a78c1f8" class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="at">@cache_disk</span>(cache_dir <span class="op">/</span> <span class="st">"gap_len"</span>)</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_g_len(n_rep<span class="op">=</span>n_rep):</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    reset_seed()</span>
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> KalmanImpComparison(models_var, hai, hai_era, block_len<span class="op">=</span><span class="dv">48</span><span class="op">*</span><span class="dv">7</span><span class="op">+</span><span class="dv">100</span>).compare(gap_len <span class="op">=</span> [<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">12</span>,<span class="dv">24</span>,<span class="dv">48</span>,<span class="dv">48</span><span class="op">*</span><span class="dv">2</span>, <span class="dv">48</span><span class="op">*</span><span class="dv">3</span>, <span class="dv">48</span><span class="op">*</span><span class="dv">7</span>], var<span class="op">=</span><span class="bu">list</span>(hai.columns), n_rep<span class="op">=</span>n_rep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="7f972e3d-64fe-4b8d-acd8-2b1c28d4c9c6" class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>gap_len <span class="op">=</span> get_g_len(n_rep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
@@ -1740,49 +1740,49 @@ Wall time: 13.3 s</code></pre>
 <pre><code>KeyboardInterrupt: </code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="98820596-cedf-40a5-bd4e-b2ac25700351" class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> plot_gap_len(gap_len, hai, hai_era)</span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>save_show_plot(p, <span class="st">"gap_len"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="1637ad8a-20ab-4c74-a8b7-9660602f3c08" class="cell">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> table_gap_len(gap_len)</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>table_gap_len_latex(t, base_path_tbl <span class="op">/</span> <span class="st">"gap_len.tex"</span>, label<span class="op">=</span><span class="st">"gap_len"</span>,</span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>                caption<span class="op">=</span><span class="st">"</span><span class="ch">\\</span><span class="st">CapGapLen"</span>)</span>
 <span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>t</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="d0d85b51-bcbf-4484-80ee-961385c3c4eb" class="cell">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>g_len_agg <span class="op">=</span> gap_len.groupby(<span class="st">'gap_len'</span>).agg({<span class="st">'rmse_stand'</span>: <span class="st">'mean'</span>})</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>(g_len_agg.iloc[<span class="dv">0</span>])<span class="op">/</span>g_len_agg.iloc[<span class="op">-</span><span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="f3c0a8a6-b7cc-4d67-871f-50c4c5a8f7c9" class="cell">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>g_len_agg <span class="op">=</span> gap_len.groupby([<span class="st">'gap_len'</span>, <span class="st">'var'</span>]).agg({<span class="st">'rmse_stand'</span>: <span class="st">'mean'</span>})</span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>(g_len_agg.loc[<span class="fl">1.</span>])<span class="op">/</span>g_len_agg.loc[<span class="fl">168.</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="931f0d21-cc62-42c0-b251-7385a2e13856" class="cell">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>g_len_agg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="1013abdb-d9ad-4e41-943c-8fa974cb9d8e" class="cell">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>g_len_agg_std <span class="op">=</span> gap_len.groupby(<span class="st">'gap_len'</span>).agg({<span class="st">'rmse_stand'</span>: <span class="st">'std'</span>})</span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>(g_len_agg_std.iloc[<span class="dv">0</span>])<span class="op">/</span>g_len_agg_std.iloc[<span class="op">-</span><span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="ee210669-895e-4071-96aa-5db324600ddd" class="cell">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>(gap_len.groupby([<span class="st">'gap_len'</span>, <span class="st">'var'</span>]).agg({<span class="st">'rmse_stand'</span>: <span class="st">'std'</span>})</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>    .unstack(<span class="st">"var"</span>)</span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>    .droplevel(<span class="dv">0</span>, <span class="dv">1</span>) </span>
 <span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>    .plot(subplots<span class="op">=</span><span class="va">True</span>, layout<span class="op">=</span>(<span class="dv">3</span>,<span class="dv">3</span>), figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="0531aba9-217f-409e-a401-e5d2c1f0aa3f" class="cell">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># with open(base_path_tbl / "gap_len.tex") as f:</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(f.readlines())</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="control" class="level3">
 <h3 class="anchored" data-anchor-id="control">Control</h3>
-<div class="cell">
+<div id="720d4c18-35a5-4c34-b779-5d18d5c33fc1" class="cell">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>models_nc <span class="op">=</span> pd.DataFrame({<span class="st">'model'</span>: [ l_model(<span class="st">"1_gap_varying_336_no_control_v1.pickle"</span>), l_model(<span class="st">"1_gap_varying_6-336_v3.pickle"</span>)],</span>
 <span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>                          <span class="st">'type'</span>:   [ <span class="st">'No Control'</span>,                                       <span class="st">'Use Control'</span>                         ]})                                        </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="4e57f5ba-203b-4854-8585-08e84828be34" class="cell">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="at">@cache_disk</span>(cache_dir <span class="op">/</span> <span class="st">"use_control"</span>)</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_control(n_rep<span class="op">=</span>n_rep):</span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>    reset_seed()</span>
@@ -1793,24 +1793,24 @@ Wall time: 13.3 s</code></pre>
 <span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> k_results_control</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="d112df90-f6bf-4417-8aaf-19762f57a150" class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> time <span class="im">import</span> sleep</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="3aa1f654-c763-48b0-b29c-c4761513e9fe" class="cell">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>k_results_control <span class="op">=</span> get_control(n_rep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="2d9d436f-d053-4c3e-a92e-008e74503bf7" class="cell">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>k_results_control</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="318c8ade-732d-4735-92a5-7760ee0c4f49" class="cell">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> plot_compare(k_results_control, <span class="st">'type'</span>, y <span class="op">=</span> <span class="st">'rmse'</span>, scale_domain<span class="op">=</span>[<span class="st">"Use Control"</span>, <span class="st">"No Control"</span>])</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>save_show_plot(p, <span class="st">"use_control"</span>)</span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="6cf80b36-e10d-4cc8-b9e5-ace3bf26c2fc" class="cell">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> functools <span class="im">import</span> partial</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="ea3c7efa-188d-4e27-95c5-9868cc84f9b7" class="cell">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> table_compare(k_results_control, <span class="st">'type'</span>)</span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>table_compare_latex(t, base_path_tbl <span class="op">/</span> <span class="st">"control.tex"</span>, label<span class="op">=</span><span class="st">"tbl:control"</span>,</span>
 <span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>                caption<span class="op">=</span><span class="st">"</span><span class="ch">\\</span><span class="st">CapControl"</span>)</span>
@@ -1819,66 +1819,66 @@ Wall time: 13.3 s</code></pre>
 </section>
 <section id="gap-in-other-variables" class="level3">
 <h3 class="anchored" data-anchor-id="gap-in-other-variables">Gap in Other variables</h3>
-<div class="cell">
+<div id="8023d9c6-e8ac-48cc-a23f-720d1254235d" class="cell">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>models_gap_single <span class="op">=</span> pd.DataFrame.from_records([</span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'Gap'</span>:  <span class="st">'All variables'</span>, <span class="st">'gap_single_var'</span>: <span class="va">False</span>, <span class="st">'model'</span>: l_model(<span class="st">"all_varying_gap_varying_len_6-30_v3.pickle"</span>)},</span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'Gap'</span>:  <span class="st">'Only one var'</span>,  <span class="st">'gap_single_var'</span>: <span class="va">True</span>,  <span class="st">'model'</span>: l_model(<span class="st">"all_varying_gap_varying_len_6-30_v3.pickle"</span>)},</span>
 <span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="985f5eab-c744-431c-a4ec-fe11cd839e53" class="cell">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="at">@cache_disk</span>(cache_dir <span class="op">/</span> <span class="st">"gap_single"</span>)</span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_gap_single(n_rep):</span>
 <span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>    kcomp_single <span class="op">=</span> KalmanImpComparison(models_gap_single, hai, hai_era, block_len<span class="op">=</span><span class="dv">130</span>)</span>
 <span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> kcomp_single.compare(n_rep <span class="op">=</span>n_rep, gap_len <span class="op">=</span> [<span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">24</span>, <span class="dv">30</span>], var <span class="op">=</span> <span class="bu">list</span>(hai.columns))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="8bc62c78-5727-4975-9844-fe316b74d363" class="cell">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>res_single <span class="op">=</span> get_gap_single(n_rep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="5b6d26b1-fef2-420b-9fed-a5fb974df443" class="cell">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> plot_compare(res_single, <span class="st">"Gap"</span>, y <span class="op">=</span> <span class="st">'rmse'</span>, scale_domain<span class="op">=</span>[<span class="st">"Only one var"</span>, <span class="st">"All variables"</span>])</span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>save_show_plot(p, <span class="st">"gap_single_var"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="827c2902-5cff-4fd5-9477-9688429cbe57" class="cell">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> table_compare(res_single, <span class="st">'Gap'</span>)</span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>table_compare_latex(t, base_path_tbl <span class="op">/</span> <span class="st">"gap_single_var.tex"</span>, caption<span class="op">=</span><span class="st">"</span><span class="ch">\\</span><span class="st">CapGapSingle"</span>, label<span class="op">=</span><span class="st">"tbl:gap_single_var"</span>)</span>
 <span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>t</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="9a097d8a-a68f-4b5c-a469-ee217993facb" class="cell">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>res_singl_perc <span class="op">=</span> res_single.groupby([<span class="st">'Gap'</span>, <span class="st">'var'</span>, <span class="st">'gap_len'</span>]).agg({<span class="st">'rmse_stand'</span>: <span class="st">'mean'</span>}).reset_index().pivot(columns <span class="op">=</span> <span class="st">'Gap'</span>, values<span class="op">=</span><span class="st">'rmse_stand'</span>, index<span class="op">=</span>[<span class="st">'var'</span>, <span class="st">'gap_len'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="49b0bf1e-fb07-4931-98b1-b32033627123" class="cell">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">'Only one var'</span>: (res_singl_perc[<span class="st">"All variables"</span>] <span class="op">-</span> res_singl_perc[<span class="st">"Only one var"</span>]) <span class="op">/</span> res_singl_perc[<span class="st">"All variables"</span>] <span class="op">*</span> <span class="dv">100</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="454f9adf-63d7-4d7b-af19-587ad23935a3" class="cell">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>res_singl_perc <span class="op">=</span> res_single.groupby([<span class="st">'Gap'</span>, <span class="st">'var'</span>]).agg({<span class="st">'rmse_stand'</span>: <span class="st">'mean'</span>}).reset_index().pivot(columns <span class="op">=</span> <span class="st">'Gap'</span>, values<span class="op">=</span><span class="st">'rmse_stand'</span>, index<span class="op">=</span>[<span class="st">'var'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="5cb5a0bd-5c38-4585-adca-d20fce278557" class="cell">
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">'Only one var'</span>: (res_singl_perc[<span class="st">"All variables"</span>] <span class="op">-</span> res_singl_perc[<span class="st">"Only one var"</span>]) <span class="op">/</span> res_singl_perc[<span class="st">"All variables"</span>] <span class="op">*</span> <span class="dv">100</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="generic-vs-specialized" class="level3">
 <h3 class="anchored" data-anchor-id="generic-vs-specialized">Generic vs Specialized</h3>
-<div class="cell">
+<div id="5340f94d-d601-438d-8648-1d15a3ef0b50" class="cell">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>models_generic <span class="op">=</span> models_var.copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="7fb66af5-2b64-44d0-aa09-70d59345c4aa" class="cell">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>models_generic.model <span class="op">=</span> l_model(<span class="st">"1_gap_varying_6-336_v3.pickle"</span>) </span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>models_generic[<span class="st">'type'</span>] <span class="op">=</span> <span class="st">'Generic'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="4c53d933-d68c-4905-a6ba-e0d4e555c3a7" class="cell">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>models_generic</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="7252fb9f-7a94-494f-bcc1-4abd95a7ee54" class="cell">
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>models_var[<span class="st">'type'</span>] <span class="op">=</span> <span class="st">'Fine-tuned one var'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="832af682-b202-482c-8996-e106061c032c" class="cell">
 <div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>models_gen_vs_spec <span class="op">=</span> pd.concat([models_generic, models_var])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="256981d8-5000-44fb-b9aa-133eeace76bd" class="cell">
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>models_gen_vs_spec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="82255c8d-7903-4d0c-a231-c01d3b10031c" class="cell">
 <div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="at">@cache_disk</span>(cache_dir <span class="op">/</span> <span class="st">"generic"</span>)</span>
 <span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_generic(n_rep<span class="op">=</span>n_rep):</span>
 <span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>    reset_seed()</span>
@@ -1888,29 +1888,29 @@ Wall time: 13.3 s</code></pre>
 <span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> comp_generic.compare(n_rep <span class="op">=</span>n_rep, gap_len <span class="op">=</span> [<span class="dv">12</span>, <span class="dv">24</span>, <span class="dv">48</span>, <span class="dv">48</span><span class="op">*</span><span class="dv">7</span>], var <span class="op">=</span> <span class="bu">list</span>(hai.columns))</span>
 <span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>k_results_generic <span class="op">=</span> get_generic(n_rep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="fc250543-d4e5-437c-b92d-12d00d002bc9" class="cell">
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>plot_formatter.legend_symbol_size <span class="op">=</span> <span class="dv">300</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="82943e19-5bdd-4278-9647-da1055456766" class="cell">
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> plot_compare(k_results_generic, <span class="st">'type'</span>, y <span class="op">=</span> <span class="st">'rmse'</span>, scale_domain<span class="op">=</span>[<span class="st">"Fine-tuned one var"</span>, <span class="st">"Generic"</span>])</span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>save_show_plot(p, <span class="st">"generic"</span>)</span>
 <span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="705be3a4-9176-45b8-9276-f94524db3eb9" class="cell">
 <div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> table_compare(k_results_generic, <span class="st">'type'</span>)</span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>table_compare_latex(t, base_path_tbl <span class="op">/</span> <span class="st">"generic.tex"</span>, label<span class="op">=</span><span class="st">'tbl:generic'</span>, caption<span class="op">=</span><span class="st">"</span><span class="ch">\\</span><span class="st">CapGeneric"</span>)</span>
 <span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>t</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="b900c498-264d-4f4f-be72-62aeb55e48d0" class="cell">
 <div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>res_singl_perc <span class="op">=</span> k_results_generic.groupby([<span class="st">'type'</span>, <span class="st">'var'</span>]).agg({<span class="st">'rmse_stand'</span>: <span class="st">'mean'</span>}).reset_index().pivot(columns <span class="op">=</span> <span class="st">'type'</span>, values<span class="op">=</span><span class="st">'rmse_stand'</span>, index<span class="op">=</span>[<span class="st">'var'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="3b1c245d-c0e4-45b7-9ac1-c3faf31471d1" class="cell">
 <div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>(res_singl_perc[<span class="st">"Generic"</span>] <span class="op">-</span> res_singl_perc[<span class="st">"Fine-tuned one var"</span>]) <span class="op">/</span> res_singl_perc[<span class="st">"Generic"</span>] <span class="op">*</span> <span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="training" class="level3">
 <h3 class="anchored" data-anchor-id="training">Training</h3>
-<div class="cell">
+<div id="907dde25-1790-4c4a-a71d-aeab0111bfa2" class="cell">
 <div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>models_train <span class="op">=</span> pd.DataFrame.from_records([</span>
 <span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># {'Train':  'All variables',  'model': l_model("All_gap_all_30_v1.pickle")  },</span></span>
 <span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'Train'</span>:  <span class="st">'Only one var'</span>,   <span class="st">'model'</span>: l_model(<span class="st">"1_gap_varying_6-336_v3.pickle"</span>)  },</span>
@@ -1918,10 +1918,10 @@ Wall time: 13.3 s</code></pre>
 <span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'Train'</span>:  <span class="st">'Random params'</span>,  <span class="st">'model'</span>: l_model(<span class="st">"rand_all_varying_gap_varying_len_6-30_v4.pickle"</span>)  }</span>
 <span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="6bdeba9a-9646-4cd0-9a3d-681cc45b1e63" class="cell">
 <div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>models_train</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="b2361971-a85a-4c21-8b42-748a88eeaa09" class="cell">
 <div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="at">@cache_disk</span>(cache_dir <span class="op">/</span> <span class="st">"train"</span>)</span>
 <span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_train(n_rep):</span>
 <span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>    reset_seed()</span>
@@ -1929,20 +1929,20 @@ Wall time: 13.3 s</code></pre>
 <span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> kcomp.compare(n_rep <span class="op">=</span>n_rep, gap_len <span class="op">=</span> [<span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">24</span>, <span class="dv">30</span>], var <span class="op">=</span> <span class="bu">list</span>(hai.columns))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="e5da6966-7909-4a7e-9903-2dfcab88aaca" class="cell">
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>res_train <span class="op">=</span> get_train(n_rep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="ad5d3a6a-c46a-4ead-8f6f-f02d9cb827a5" class="cell">
 <div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>res_train_agg <span class="op">=</span> res_train.groupby([<span class="st">'Train'</span>, <span class="st">'gap_len'</span>]).agg({<span class="st">'rmse_stand'</span>: <span class="st">'mean'</span>}).reset_index()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="3c3fc7b9-2c3e-4f38-b1d5-7fa7715cf3ae" class="cell">
 <div class="sourceCode cell-code" id="cb95"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>res_train_agg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="60766fdd-0767-4acd-825f-4262def4c193" class="cell">
 <div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> plot_compare(res_train, <span class="st">"Train"</span>, y<span class="op">=</span><span class="st">'rmse'</span>, scale_domain<span class="op">=</span>[<span class="st">"Multi vars"</span>, <span class="st">"Only one var"</span>, <span class="st">"Random params"</span>])</span>
 <span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>save_show_plot(p, <span class="st">"train_compare"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="eef738f9-9807-4d3b-b98f-71594aa06bbb" class="cell">
 <div class="sourceCode cell-code" id="cb97"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> table_compare3(res_train, <span class="st">'Train'</span>)</span>
 <span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>table_compare3_latex(t, base_path_tbl <span class="op">/</span> <span class="st">"train.tex"</span>, label<span class="op">=</span><span class="st">"tbl:train_compare"</span>, caption<span class="op">=</span><span class="st">"</span><span class="ch">\\</span><span class="st">CapTrain"</span>)</span>
 <span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>t</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1953,12 +1953,12 @@ Wall time: 13.3 s</code></pre>
 <h2 class="anchored" data-anchor-id="extra-results">Extra results</h2>
 <section id="standard-deviations" class="level3">
 <h3 class="anchored" data-anchor-id="standard-deviations">Standard deviations</h3>
-<div class="cell">
+<div id="3208491d-9860-4130-ba68-807ffd5b649c" class="cell">
 <div class="sourceCode cell-code" id="cb98"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>hai_std <span class="op">=</span> hai.std().to_frame(name<span class="op">=</span><span class="st">'std'</span>)</span>
 <span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>hai_std.index.name <span class="op">=</span> <span class="st">"Variable"</span></span>
 <span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>hai_std <span class="op">=</span> hai_std.reset_index().assign(unit<span class="op">=</span>[<span class="ss">f"</span><span class="ch">\\</span><span class="ss">si</span><span class="ch">{{</span><span class="sc">{</span>unit<span class="sc">}</span><span class="ch">}}</span><span class="ss">"</span> <span class="cf">for</span> unit <span class="kw">in</span> units_big.values()])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="c7f0bc7b-f5e1-4e01-b858-4e3f7cb929c8" class="cell">
 <div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>hai_std</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -2034,7 +2034,7 @@ Wall time: 13.3 s</code></pre>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="9dd4359b-60e6-4423-8301-80f07b43bbba" class="cell">
 <div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>latex <span class="op">=</span> hai_std.style.hide(axis<span class="op">=</span><span class="st">"index"</span>).<span class="bu">format</span>(precision<span class="op">=</span><span class="dv">3</span>).to_latex(hrules<span class="op">=</span><span class="va">True</span>, caption<span class="op">=</span><span class="st">"</span><span class="ch">\\</span><span class="st">CapStd"</span>, label<span class="op">=</span><span class="st">"tbl:hai_std"</span>, position_float<span class="op">=</span><span class="st">"centering"</span>)</span>
 <span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(base_path_tbl <span class="op">/</span> <span class="st">"hai_std.tex"</span>, <span class="st">'w'</span>) <span class="im">as</span> f:</span>
@@ -2043,22 +2043,22 @@ Wall time: 13.3 s</code></pre>
 </section>
 <section id="gap-distribution" class="level3">
 <h3 class="anchored" data-anchor-id="gap-distribution">Gap distribution</h3>
-<div class="cell">
+<div id="5183a92b-9f9f-400b-a63a-96235cdbef2c" class="cell">
 <div class="sourceCode cell-code" id="cb101"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>out_dir <span class="op">=</span> here(<span class="st">"../fluxnet/gap_stat"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="ce4082ac-d395-4143-b326-3f0e199cd595" class="cell">
 <div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>site_info <span class="op">=</span> pl.read_parquet(out_dir <span class="op">/</span> <span class="st">"../site_info.parquet"</span>).select([</span>
 <span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"start"</span>).cast(pl.Utf8).<span class="bu">str</span>.strptime(pl.Datetime, <span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">%H%M"</span>),</span>
 <span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"end"</span>).cast(pl.Utf8).<span class="bu">str</span>.strptime(pl.Datetime, <span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">%H%M"</span>),</span>
 <span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"site"</span>).cast(pl.Categorical).sort()</span>
 <span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="e124c9f1-39fe-465b-8911-287f3bbf7a34" class="cell">
 <div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> duration_n_obs(duration):</span>
 <span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"converts a duration into a n of fluxnet observations"</span></span>
 <span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">abs</span>(<span class="bu">int</span>(duration.total_seconds() <span class="op">/</span> (<span class="dv">30</span> <span class="op">*</span> <span class="dv">60</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="4349f71f-2fd4-41f9-93c8-a71e6af9b223" class="cell">
 <div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> out_dir.ls()</span>
 <span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>files.sort() <span class="co"># need to sort to match the site_info</span></span>
 <span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>sites <span class="op">=</span> []</span>
@@ -2071,9 +2071,10 @@ Wall time: 13.3 s</code></pre>
 <span id="cb104-10"><a href="#cb104-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb104-11"><a href="#cb104-11" aria-hidden="true" tabindex="-1"></a>gap_stat <span class="op">=</span> pl.concat(sites)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="4d843ec6-ec8f-4ab7-a59d-ae1f12755e83" class="cell">
 <div class="sourceCode cell-code" id="cb105"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>pl.read_parquet(files[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2104,96 +2105,317 @@ Wall time: 13.3 s</code></pre>
         line-height: 95%;
     }
 </style>
+<small>shape: (31574, 3)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (31574, 3)</span>
+<thead>
+<tr>
+<th>
 TIMESTAMP_END
+</th>
+<th>
 gap_len
+</th>
+<th>
 variable
+</th>
+</tr>
+<tr>
+<td>
 i64
+</td>
+<td>
 u32
+</td>
+<td>
 str
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 200901010030
+</td>
+<td>
 16992
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+</tr>
+<tr>
+<td>
 200912211100
+</td>
+<td>
 5
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+</tr>
+<tr>
+<td>
 200912211700
+</td>
+<td>
 1
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+</tr>
+<tr>
+<td>
 201001061300
+</td>
+<td>
 1
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+</tr>
+<tr>
+<td>
 201001071300
+</td>
+<td>
 3
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+</tr>
+<tr>
+<td>
 201001081130
+</td>
+<td>
 2
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+</tr>
+<tr>
+<td>
 201001081830
+</td>
+<td>
 1
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+</tr>
+<tr>
+<td>
 201001091000
+</td>
+<td>
 2
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+</tr>
+<tr>
+<td>
 201001191000
+</td>
+<td>
 1
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+</tr>
+<tr>
+<td>
 201001191130
+</td>
+<td>
 2
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+</tr>
+<tr>
+<td>
 201001291900
+</td>
+<td>
 1
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+</tr>
+<tr>
+<td>
 201002131030
+</td>
+<td>
 2
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+</tr>
+<tr>
+<td>
 ...
+</td>
+<td>
 ...
+</td>
+<td>
 ...
+</td>
+</tr>
+<tr>
+<td>
 201103241630
+</td>
+<td>
 3
+</td>
+<td>
 "NEE_VUT_95_QC"
+</td>
+</tr>
+<tr>
+<td>
 201103241930
+</td>
+<td>
 29
+</td>
+<td>
 "NEE_VUT_95_QC"
+</td>
+</tr>
+<tr>
+<td>
 201103251900
+</td>
+<td>
 8
+</td>
+<td>
 "NEE_VUT_95_QC"
+</td>
+</tr>
+<tr>
+<td>
 201103260030
+</td>
+<td>
 1
+</td>
+<td>
 "NEE_VUT_95_QC"
+</td>
+</tr>
+<tr>
+<td>
 201103260200
+</td>
+<td>
 1
+</td>
+<td>
 "NEE_VUT_95_QC"
+</td>
+</tr>
+<tr>
+<td>
 201103260300
+</td>
+<td>
 1
+</td>
+<td>
 "NEE_VUT_95_QC"
+</td>
+</tr>
+<tr>
+<td>
 201103261230
+</td>
+<td>
 1
+</td>
+<td>
 "NEE_VUT_95_QC"
+</td>
+</tr>
+<tr>
+<td>
 201103261330
+</td>
+<td>
 2
+</td>
+<td>
 "NEE_VUT_95_QC"
+</td>
+</tr>
+<tr>
+<td>
 201103261630
+</td>
+<td>
 1
+</td>
+<td>
 "NEE_VUT_95_QC"
+</td>
+</tr>
+<tr>
+<td>
 201103261930
+</td>
+<td>
 2
+</td>
+<td>
 "NEE_VUT_95_QC"
+</td>
+</tr>
+<tr>
+<td>
 201103262100
+</td>
+<td>
 1
+</td>
+<td>
 "NEE_VUT_95_QC"
+</td>
+</tr>
+<tr>
+<td>
 201103270000
+</td>
+<td>
 13441
+</td>
+<td>
 "NEE_VUT_95_QC"
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="9a63d5aa-6f7a-40e1-a7f9-9e9adfe76e23" class="cell">
 <div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>gap_stat.head().collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2224,48 +2446,136 @@ str
         line-height: 95%;
     }
 </style>
+<small>shape: (5, 5)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (5, 5)</span>
+<thead>
+<tr>
+<th>
 gap_len
+</th>
+<th>
 variable
+</th>
+<th>
 site
+</th>
+<th>
 total_obs
+</th>
+<th>
 end
+</th>
+</tr>
+<tr>
+<td>
 u32
+</td>
+<td>
 str
+</td>
+<td>
 str
+</td>
+<td>
 i32
+</td>
+<td>
 datetime[μs]
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 16992
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+<td>
 "AR-SLu"
+</td>
+<td>
 52559
+</td>
+<td>
 2009-01-01 00:30:00
+</td>
+</tr>
+<tr>
+<td>
 5
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+<td>
 "AR-SLu"
+</td>
+<td>
 52559
+</td>
+<td>
 2009-12-21 11:00:00
+</td>
+</tr>
+<tr>
+<td>
 1
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+<td>
 "AR-SLu"
+</td>
+<td>
 52559
+</td>
+<td>
 2009-12-21 17:00:00
+</td>
+</tr>
+<tr>
+<td>
 1
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+<td>
 "AR-SLu"
+</td>
+<td>
 52559
+</td>
+<td>
 2010-01-06 13:00:00
+</td>
+</tr>
+<tr>
+<td>
 3
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+<td>
 "AR-SLu"
+</td>
+<td>
 52559
+</td>
+<td>
 2010-01-07 13:00:00
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="8306c005-a1ca-4195-ab61-db2b6b11a8fe" class="cell">
 <div class="sourceCode cell-code" id="cb107"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_var_dist(var, small<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ax <span class="kw">is</span> <span class="va">None</span>: ax <span class="op">=</span> get_grid(<span class="dv">1</span>)[<span class="dv">0</span>]</span>
 <span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a>    ta_gaps <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
@@ -2279,16 +2589,16 @@ datetime[μs]
 <span id="cb107-11"><a href="#cb107-11" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="ss">f"</span><span class="sc">{</span><span class="st">'Log'</span> <span class="cf">if</span> <span class="kw">not</span> small <span class="cf">else</span> <span class="st">''</span><span class="sc">}</span><span class="ss"> n gaps"</span>)</span>
 <span id="cb107-12"><a href="#cb107-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># plt.xscale('log') </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="5151ce36-b5d3-4f66-8442-5e5738703f89" class="cell">
 <div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>plot_var_dist(<span class="st">'TA_F_QC'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="result_plots_files/figure-html/cell-104-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="2cc83c14-5c96-4bf4-9c39-a795c98b4268" class="cell">
 <div class="sourceCode cell-code" id="cb109"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>color_map <span class="op">=</span> <span class="bu">dict</span>(<span class="bu">zip</span>(scale_meteo.domain, <span class="bu">list</span>(sns.color_palette(<span class="st">'Set2'</span>, n_colors<span class="op">=</span><span class="bu">len</span>(hai.columns)).as_hex())))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="8a2139c7-8d43-4762-b2e5-db37d3583fe9" class="cell">
 <div class="sourceCode cell-code" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>qc_map <span class="op">=</span> {</span>
 <span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TA'</span>: <span class="st">'TA_F_QC'</span>,</span>
 <span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'SW_IN'</span>: <span class="st">'SW_IN_F_QC'</span>,</span>
@@ -2301,14 +2611,14 @@ datetime[μs]
 <span id="cb110-10"><a href="#cb110-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'SWC'</span>: <span class="st">'SWC_F_MDS_1_QC'</span>,</span>
 <span id="cb110-11"><a href="#cb110-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="4766cd78-a07d-487d-8b14-e04bd62b01c6" class="cell">
 <div class="sourceCode cell-code" id="cb111"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> pl_in(col, values):</span>
 <span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>    expr <span class="op">=</span> <span class="va">False</span></span>
 <span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> val <span class="kw">in</span> values:</span>
 <span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a>        expr <span class="op">|=</span> pl.col(col) <span class="op">==</span> val</span>
 <span id="cb111-5"><a href="#cb111-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> expr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="f58bbc5d-35d0-454e-8f22-2644efc72de2" class="cell">
 <div class="sourceCode cell-code" id="cb112"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>gap_stat.<span class="bu">filter</span>(pl_in(<span class="st">'variable'</span>, qc_map.values())</span>
 <span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>               ).with_columns([</span>
 <span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>    pl.when(pl.col(<span class="st">"gap_len"</span>) <span class="op">&lt;</span> <span class="dv">48</span><span class="op">*</span><span class="dv">7</span>).then(<span class="va">True</span>).otherwise(<span class="va">False</span>).alias(<span class="st">"short"</span>),</span>
@@ -2319,6 +2629,7 @@ datetime[μs]
 <span id="cb112-8"><a href="#cb112-8" aria-hidden="true" tabindex="-1"></a>    (pl.col(<span class="st">"gap_len"</span>).<span class="bu">sum</span>() <span class="op">/</span> pl.col(<span class="st">"total len"</span>)).alias(<span class="st">"frac_len"</span>)</span>
 <span id="cb112-9"><a href="#cb112-9" aria-hidden="true" tabindex="-1"></a>]).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2349,25 +2660,61 @@ datetime[μs]
         line-height: 95%;
     }
 </style>
+<small>shape: (2, 3)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (2, 3)</span>
+<thead>
+<tr>
+<th>
 short
+</th>
+<th>
 frac_num
+</th>
+<th>
 frac_len
+</th>
+</tr>
+<tr>
+<td>
 bool
+</td>
+<td>
 list[f64]
+</td>
+<td>
 list[f64]
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 false
+</td>
+<td>
 [0.010775, 0.010775, ... 0.010775]
+</td>
+<td>
 [63.844386, 63.844386, ... 63.844386]
+</td>
+</tr>
+<tr>
+<td>
 true
+</td>
+<td>
 [0.989225, 0.989225, ... 0.989225]
+</td>
+<td>
 [7.261655, 7.261655, ... 7.261655]
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="87ec5de0-243c-4382-98b0-7a9075b98001" class="cell">
 <div class="sourceCode cell-code" id="cb113"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>gap_stat.<span class="bu">filter</span>(pl_in(<span class="st">'variable'</span>, qc_map.values())</span>
 <span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>               ).with_columns([</span>
 <span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>    pl.when(pl.col(<span class="st">"gap_len"</span>) <span class="op">&lt;</span> <span class="dv">48</span><span class="op">*</span><span class="dv">7</span>).then(<span class="va">True</span>).otherwise(<span class="va">False</span>).alias(<span class="st">"short"</span>),</span>
@@ -2378,6 +2725,7 @@ true
 <span id="cb113-8"><a href="#cb113-8" aria-hidden="true" tabindex="-1"></a>    (pl.col(<span class="st">"gap_len"</span>).<span class="bu">sum</span>() <span class="op">/</span> pl.col(<span class="st">"total len"</span>)).alias(<span class="st">"frac_len"</span>)</span>
 <span id="cb113-9"><a href="#cb113-9" aria-hidden="true" tabindex="-1"></a>]).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2408,25 +2756,61 @@ true
         line-height: 95%;
     }
 </style>
+<small>shape: (2, 3)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (2, 3)</span>
+<thead>
+<tr>
+<th>
 short
+</th>
+<th>
 frac_num
+</th>
+<th>
 frac_len
+</th>
+</tr>
+<tr>
+<td>
 bool
+</td>
+<td>
 list[f64]
+</td>
+<td>
 list[f64]
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 false
+</td>
+<td>
 [0.010775, 0.010775, ... 0.010775]
+</td>
+<td>
 [63.844386, 63.844386, ... 63.844386]
+</td>
+</tr>
+<tr>
+<td>
 true
+</td>
+<td>
 [0.989225, 0.989225, ... 0.989225]
+</td>
+<td>
 [7.261655, 7.261655, ... 7.261655]
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="03950e63-1c2c-400d-8918-8b3e1a9c4d67" class="cell">
 <div class="sourceCode cell-code" id="cb114"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>frac_miss <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
 <span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>    pl_in(<span class="st">'variable'</span>, qc_map.values())</span>
 <span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>).groupby([<span class="st">"site"</span>, <span class="st">"variable"</span>]).agg([</span>
@@ -2434,7 +2818,7 @@ true
 <span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a>    (pl.col(<span class="st">"gap_len"</span>).<span class="bu">sum</span>() <span class="op">/</span> pl.col(<span class="st">"total_obs"</span>).first()).alias(<span class="st">"frac_gap"</span>)</span>
 <span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="94004145-cc6c-46b6-8e40-d96855a54af6" class="cell">
 <div class="sourceCode cell-code" id="cb115"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>frac_miss.groupby(<span class="st">'variable'</span>).agg([</span>
 <span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"frac_gap"</span>).<span class="bu">max</span>().alias(<span class="st">"max"</span>),</span>
 <span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"frac_gap"</span>).<span class="bu">min</span>().alias(<span class="st">"min"</span>),</span>
@@ -2442,6 +2826,7 @@ true
 <span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"frac_gap"</span>).mean().alias(<span class="st">"mean"</span>),</span>
 <span id="cb115-6"><a href="#cb115-6" aria-hidden="true" tabindex="-1"></a>]).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2472,70 +2857,207 @@ true
         line-height: 95%;
     }
 </style>
+<small>shape: (9, 5)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (9, 5)</span>
+<thead>
+<tr>
+<th>
 variable
+</th>
+<th>
 max
+</th>
+<th>
 min
+</th>
+<th>
 std
+</th>
+<th>
 mean
+</th>
+</tr>
+<tr>
+<td>
 str
+</td>
+<td>
 f64
+</td>
+<td>
 f64
+</td>
+<td>
 f64
+</td>
+<td>
 f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 7.074603
+</td>
+<td>
 0.000019
+</td>
+<td>
 0.704469
+</td>
+<td>
 0.578246
+</td>
+</tr>
+<tr>
+<td>
 "TS_F_MDS_1_QC"
+</td>
+<td>
 3.090642
+</td>
+<td>
 0.000011
+</td>
+<td>
 0.38542
+</td>
+<td>
 0.282106
+</td>
+</tr>
+<tr>
+<td>
 "WS_F_QC"
+</td>
+<td>
 2.675324
+</td>
+<td>
 0.000798
+</td>
+<td>
 0.323944
+</td>
+<td>
 0.257303
+</td>
+</tr>
+<tr>
+<td>
 "SW_IN_F_QC"
+</td>
+<td>
 2.193984
+</td>
+<td>
 0.000038
+</td>
+<td>
 0.21952
+</td>
+<td>
 0.16772
+</td>
+</tr>
+<tr>
+<td>
 "P_F_QC"
+</td>
+<td>
 1.503296
+</td>
+<td>
 0.000011
+</td>
+<td>
 0.330422
+</td>
+<td>
 0.311598
+</td>
+</tr>
+<tr>
+<td>
 "PA_F_QC"
+</td>
+<td>
 2.675381
+</td>
+<td>
 0.000011
+</td>
+<td>
 0.420542
+</td>
+<td>
 0.387658
+</td>
+</tr>
+<tr>
+<td>
 "TA_F_QC"
+</td>
+<td>
 2.299027
+</td>
+<td>
 0.000011
+</td>
+<td>
 0.256043
+</td>
+<td>
 0.198846
+</td>
+</tr>
+<tr>
+<td>
 "SWC_F_MDS_1_QC...
+</td>
+<td>
 1.487143
+</td>
+<td>
 0.000011
+</td>
+<td>
 0.29985
+</td>
+<td>
 0.314847
+</td>
+</tr>
+<tr>
+<td>
 "VPD_F_QC"
+</td>
+<td>
 2.298799
+</td>
+<td>
 0.000011
+</td>
+<td>
 0.297668
+</td>
+<td>
 0.245457
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="44b9c4fb-2fb8-47a4-ac47-29f239b75ce1" class="cell">
 <div class="sourceCode cell-code" id="cb116"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>frac_miss.sort(<span class="st">"frac_gap"</span>, reverse<span class="op">=</span><span class="va">True</span>).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2566,123 +3088,398 @@ f64
         line-height: 95%;
     }
 </style>
+<small>shape: (1798, 4)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (1798, 4)</span>
+<thead>
+<tr>
+<th>
 site
+</th>
+<th>
 variable
+</th>
+<th>
 mean
+</th>
+<th>
 frac_gap
+</th>
+</tr>
+<tr>
+<td>
 str
+</td>
+<td>
 str
+</td>
+<td>
 f64
+</td>
+<td>
 f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 "US-LWW"
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 11267.590909
+</td>
+<td>
 7.074603
+</td>
+</tr>
+<tr>
+<td>
 "US-Wi5"
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 70128.0
+</td>
+<td>
 3.992031
+</td>
+</tr>
+<tr>
+<td>
 "ES-LgS"
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 175344.0
+</td>
+<td>
 3.333093
+</td>
+</tr>
+<tr>
+<td>
 "US-LWW"
+</td>
+<td>
 "TS_F_MDS_1_QC"
+</td>
+<td>
 1320.646341
+</td>
+<td>
 3.090642
+</td>
+</tr>
+<tr>
+<td>
 "US-Wi5"
+</td>
+<td>
 "TS_F_MDS_1_QC"
+</td>
+<td>
 62.142857
+</td>
+<td>
 2.897194
+</td>
+</tr>
+<tr>
+<td>
 "US-Wi0"
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 1369.694444
+</td>
+<td>
 2.814601
+</td>
+</tr>
+<tr>
+<td>
 "US-ORv"
+</td>
+<td>
 "PA_F_QC"
+</td>
+<td>
 3.899334
+</td>
+<td>
 2.675381
+</td>
+</tr>
+<tr>
+<td>
 "US-ORv"
+</td>
+<td>
 "WS_F_QC"
+</td>
+<td>
 3.899251
+</td>
+<td>
 2.675324
+</td>
+</tr>
+<tr>
+<td>
 "US-LWW"
+</td>
+<td>
 "PA_F_QC"
+</td>
+<td>
 409.701754
+</td>
+<td>
 2.665944
+</td>
+</tr>
+<tr>
+<td>
 "US-Wi5"
+</td>
+<td>
 "WS_F_QC"
+</td>
+<td>
 39.57814
+</td>
+<td>
 2.349861
+</td>
+</tr>
+<tr>
+<td>
 "US-Wi5"
+</td>
+<td>
 "PA_F_QC"
+</td>
+<td>
 51.453972
+</td>
+<td>
 2.322707
+</td>
+</tr>
+<tr>
+<td>
 "US-Wi5"
+</td>
+<td>
 "TA_F_QC"
+</td>
+<td>
 45.790249
+</td>
+<td>
 2.299027
+</td>
+</tr>
+<tr>
+<td>
 ...
+</td>
+<td>
 ...
+</td>
+<td>
 ...
+</td>
+<td>
 ...
+</td>
+</tr>
+<tr>
+<td>
 "CN-Ha2"
+</td>
+<td>
 "P_F_QC"
+</td>
+<td>
 1.0
+</td>
+<td>
 0.000019
+</td>
+</tr>
+<tr>
+<td>
 "CN-Qia"
+</td>
+<td>
 "P_F_QC"
+</td>
+<td>
 1.0
+</td>
+<td>
 0.000019
+</td>
+</tr>
+<tr>
+<td>
 "FI-Lom"
+</td>
+<td>
 "P_F_QC"
+</td>
+<td>
 1.0
+</td>
+<td>
 0.000019
+</td>
+</tr>
+<tr>
+<td>
 "CN-Ha2"
+</td>
+<td>
 "TA_F_QC"
+</td>
+<td>
 1.0
+</td>
+<td>
 0.000019
+</td>
+</tr>
+<tr>
+<td>
 "CN-Cha"
+</td>
+<td>
 "TA_F_QC"
+</td>
+<td>
 1.0
+</td>
+<td>
 0.000019
+</td>
+</tr>
+<tr>
+<td>
 "CN-Qia"
+</td>
+<td>
 "SWC_F_MDS_1_QC...
+</td>
+<td>
 1.0
+</td>
+<td>
 0.000019
+</td>
+</tr>
+<tr>
+<td>
 "US-Me6"
+</td>
+<td>
 "VPD_F_QC"
+</td>
+<td>
 1.0
+</td>
+<td>
 0.000011
+</td>
+</tr>
+<tr>
+<td>
 "US-Me6"
+</td>
+<td>
 "P_F_QC"
+</td>
+<td>
 1.0
+</td>
+<td>
 0.000011
+</td>
+</tr>
+<tr>
+<td>
 "US-Me6"
+</td>
+<td>
 "TS_F_MDS_1_QC"
+</td>
+<td>
 1.0
+</td>
+<td>
 0.000011
+</td>
+</tr>
+<tr>
+<td>
 "US-Me6"
+</td>
+<td>
 "PA_F_QC"
+</td>
+<td>
 1.0
+</td>
+<td>
 0.000011
+</td>
+</tr>
+<tr>
+<td>
 "US-Me6"
+</td>
+<td>
 "SWC_F_MDS_1_QC...
+</td>
+<td>
 1.0
+</td>
+<td>
 0.000011
+</td>
+</tr>
+<tr>
+<td>
 "US-Me6"
+</td>
+<td>
 "TA_F_QC"
+</td>
+<td>
 1.0
+</td>
+<td>
 0.000011
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="439adf16-e254-432c-86cb-79c50375f132" class="cell">
 <div class="sourceCode cell-code" id="cb117"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>site_info.<span class="bu">filter</span>((pl.col(<span class="st">"site"</span>) <span class="op">==</span> <span class="st">"US-LWW"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2713,24 +3510,53 @@ f64
         line-height: 95%;
     }
 </style>
+<small>shape: (1, 3)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (1, 3)</span>
+<thead>
+<tr>
+<th>
 start
+</th>
+<th>
 end
+</th>
+<th>
 site
+</th>
+</tr>
+<tr>
+<td>
 datetime[μs]
+</td>
+<td>
 datetime[μs]
+</td>
+<td>
 cat
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 1997-01-01 00:30:00
+</td>
+<td>
 1999-01-01 00:00:00
+</td>
+<td>
 "US-LWW"
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="cc1f4f53-3fdc-407e-8f23-2249acf444ca" class="cell">
 <div class="sourceCode cell-code" id="cb118"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>gap_stat.<span class="bu">filter</span>((pl.col(<span class="st">"site"</span>) <span class="op">==</span> <span class="st">"US-LWW"</span>) <span class="op">&amp;</span> (pl.col(<span class="st">"variable"</span>) <span class="op">==</span> <span class="st">"LW_IN_F_QC"</span> )).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2761,140 +3587,432 @@ cat
         line-height: 95%;
     }
 </style>
+<small>shape: (22, 5)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (22, 5)</span>
+<thead>
+<tr>
+<th>
 gap_len
+</th>
+<th>
 variable
+</th>
+<th>
 site
+</th>
+<th>
 total_obs
+</th>
+<th>
 end
+</th>
+</tr>
+<tr>
+<td>
 u32
+</td>
+<td>
 str
+</td>
+<td>
 str
+</td>
+<td>
 i32
+</td>
+<td>
 datetime[μs]
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 246556
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2000-01-01 00:30:00
+</td>
+</tr>
+<tr>
+<td>
 19
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-02-11 08:30:00
+</td>
+</tr>
+<tr>
+<td>
 6
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-03-08 08:00:00
+</td>
+</tr>
+<tr>
+<td>
 1
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-03-08 11:30:00
+</td>
+</tr>
+<tr>
+<td>
 1
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-03-08 13:00:00
+</td>
+</tr>
+<tr>
+<td>
 50
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-11-18 13:00:00
+</td>
+</tr>
+<tr>
+<td>
 21
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-11-19 22:30:00
+</td>
+</tr>
+<tr>
+<td>
 22
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-11-24 23:30:00
+</td>
+</tr>
+<tr>
+<td>
 55
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-11-26 06:30:00
+</td>
+</tr>
+<tr>
+<td>
 172
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-11-27 19:30:00
+</td>
+</tr>
+<tr>
+<td>
 70
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-12-01 23:00:00
+</td>
+</tr>
+<tr>
+<td>
 3
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-12-03 11:30:00
+</td>
+</tr>
+<tr>
+<td>
 35
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-12-03 16:30:00
+</td>
+</tr>
+<tr>
+<td>
 92
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-12-04 11:00:00
+</td>
+</tr>
+<tr>
+<td>
 14
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-12-11 05:00:00
+</td>
+</tr>
+<tr>
+<td>
 36
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-12-11 18:00:00
+</td>
+</tr>
+<tr>
+<td>
 36
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-12-12 17:30:00
+</td>
+</tr>
+<tr>
+<td>
 87
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-12-13 18:00:00
+</td>
+</tr>
+<tr>
+<td>
 70
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-12-16 01:30:00
+</td>
+</tr>
+<tr>
+<td>
 37
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-12-17 16:00:00
+</td>
+</tr>
+<tr>
+<td>
 10
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-12-21 07:30:00
+</td>
+</tr>
+<tr>
+<td>
 494
+</td>
+<td>
 "LW_IN_F_QC"
+</td>
+<td>
 "US-LWW"
+</td>
+<td>
 35039
+</td>
+<td>
 2014-12-21 17:30:00
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="22042ad0-1fb5-4844-aabf-23802f1572e2" class="cell">
 <div class="sourceCode cell-code" id="cb119"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="21ffe2c7-77ae-47c5-b856-36ce5b1fc6fb" class="cell">
 <div class="sourceCode cell-code" id="cb120"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>matplotlib.rcParams.update({<span class="st">'font.size'</span>: <span class="dv">22</span>})</span>
 <span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a>sns.set_style(<span class="st">"whitegrid"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="336e6897-d0af-43af-a6fd-283746d8e9ec" class="cell">
 <div class="sourceCode cell-code" id="cb121"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_var_dist(var, ax<span class="op">=</span><span class="va">None</span>, small<span class="op">=</span><span class="va">True</span>):</span>
 <span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ax <span class="kw">is</span> <span class="va">None</span>: ax <span class="op">=</span> get_grid(<span class="dv">1</span>)[<span class="dv">0</span>]</span>
 <span id="cb121-3"><a href="#cb121-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -2912,12 +4030,13 @@ datetime[μs]
 <span id="cb121-15"><a href="#cb121-15" aria-hidden="true" tabindex="-1"></a>    ax.set_yscale(<span class="st">'log'</span>) </span>
 <span id="cb121-16"><a href="#cb121-16" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="0c525c83-10e6-4005-a7be-799701680136" class="cell">
 <div class="sourceCode cell-code" id="cb122"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="bu">vars</span> <span class="op">=</span> gap_stat.select(pl.col(<span class="st">"variable"</span>).unique()).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="479e9671-1226-49c3-910a-bc3dd0277430" class="cell">
 <div class="sourceCode cell-code" id="cb123"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="bu">vars</span>.<span class="bu">filter</span>(pl.col(<span class="st">"variable"</span>).<span class="bu">str</span>.contains(<span class="st">"TA"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2948,19 +4067,47 @@ datetime[μs]
         line-height: 95%;
     }
 </style>
+<small>shape: (4, 1)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (4, 1)</span>
+<thead>
+<tr>
+<th>
 variable
+</th>
+</tr>
+<tr>
+<td>
 str
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 "TA_F_MDS_QC"
+</td>
+</tr>
+<tr>
+<td>
 "NEE_CUT_USTAR5...
+</td>
+</tr>
+<tr>
+<td>
 "NEE_VUT_USTAR5...
+</td>
+</tr>
+<tr>
+<td>
 "TA_F_QC"
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="10486e73-722d-4b8c-964c-59c0d5d84adb" class="cell">
 <div class="sourceCode cell-code" id="cb124"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, var <span class="kw">in</span> <span class="bu">zip</span>(get_grid(<span class="dv">9</span>,<span class="dv">3</span>,<span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">12</span>), sharey<span class="op">=</span><span class="va">False</span>), <span class="bu">list</span>(var_type.categories)):</span>
 <span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a>    plot_var_dist(var, ax<span class="op">=</span>ax)</span>
 <span id="cb124-3"><a href="#cb124-3" aria-hidden="true" tabindex="-1"></a>plt.savefig(base_path_img <span class="op">/</span> <span class="st">"gap_len_dist_small.pdf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2968,7 +4115,7 @@ str
 <p><img src="result_plots_files/figure-html/cell-120-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="d2750729-3ef6-42a4-a424-6118e7db5c91" class="cell">
 <div class="sourceCode cell-code" id="cb125"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, var <span class="kw">in</span> <span class="bu">zip</span>(get_grid(<span class="dv">9</span>,<span class="dv">3</span>,<span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">12</span>), sharey<span class="op">=</span><span class="va">False</span>), <span class="bu">list</span>(var_type.categories)):</span>
 <span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a>    plot_var_dist(var, ax<span class="op">=</span>ax, small<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a>plt.savefig(base_path_img <span class="op">/</span> <span class="st">"gap_len_dist.pdf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2981,13 +4128,13 @@ str
 <h3 class="anchored" data-anchor-id="square-root-filter">Square Root Filter</h3>
 <section id="numerical-stability" class="level4">
 <h4 class="anchored" data-anchor-id="numerical-stability">Numerical Stability</h4>
-<div class="cell">
+<div id="676c68d5-8752-417f-9dce-6e131116a35c" class="cell">
 <div class="sourceCode cell-code" id="cb126"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.kalman.performance <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="1d38080d-30a4-429f-b1a2-900abc32afa6" class="cell">
 <div class="sourceCode cell-code" id="cb127"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>err <span class="op">=</span> cache_disk(cache_dir <span class="op">/</span> <span class="st">"fuzz_sr"</span>)(fuzz_filter_SR)(<span class="dv">100</span>, <span class="dv">110</span>) <span class="co"># this is already handling the random seed</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="3488c66e-280d-4d14-8e54-8f0bd6c3df46" class="cell">
 <div class="sourceCode cell-code" id="cb128"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> plot_err_sr_filter(err)</span>
 <span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>save_show_plot(p, <span class="st">"numerical_stability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -2997,7 +4144,7 @@ str
 </section>
 <section id="performance" class="level4">
 <h4 class="anchored" data-anchor-id="performance">Performance</h4>
-<div class="cell">
+<div id="4717692b-843e-439f-abd4-22545c526f89" class="cell">
 <div class="sourceCode cell-code" id="cb129"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="at">@cache_disk</span>(cache_dir <span class="op">/</span> <span class="st">"perf_sr"</span>)</span>
 <span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_perf_sr():</span>
 <span id="cb129-3"><a href="#cb129-3" aria-hidden="true" tabindex="-1"></a>    reset_seed()</span>
@@ -3011,7 +4158,7 @@ str
 <span id="cb129-11"><a href="#cb129-11" aria-hidden="true" tabindex="-1"></a>                           init_method <span class="op">=</span> <span class="st">'local_slope'</span></span>
 <span id="cb129-12"><a href="#cb129-12" aria-hidden="true" tabindex="-1"></a>                           ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="fc30fc0b-162e-473a-8824-78d148fc9d01" class="cell">
 <div class="sourceCode cell-code" id="cb130"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a>perf1 <span class="op">=</span> (get_perf_sr()</span>
 <span id="cb130-2"><a href="#cb130-2" aria-hidden="true" tabindex="-1"></a>    .groupby(<span class="st">'use_sr_filter'</span>)</span>
 <span id="cb130-3"><a href="#cb130-3" aria-hidden="true" tabindex="-1"></a>    .agg(pl.col(<span class="st">"time"</span>).mean())</span>
@@ -3022,9 +4169,10 @@ str
 <span id="cb130-8"><a href="#cb130-8" aria-hidden="true" tabindex="-1"></a>        .alias(<span class="st">"Filter type"</span>)</span>
 <span id="cb130-9"><a href="#cb130-9" aria-hidden="true" tabindex="-1"></a>    ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="d87f45fa-77ad-4fe1-b358-cb69cd1f4537" class="cell">
 <div class="sourceCode cell-code" id="cb131"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a>perf1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -3055,31 +4203,67 @@ str
         line-height: 95%;
     }
 </style>
+<small>shape: (2, 3)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (2, 3)</span>
+<thead>
+<tr>
+<th>
 use_sr_filter
+</th>
+<th>
 time
+</th>
+<th>
 Filter type
+</th>
+</tr>
+<tr>
+<td>
 bool
+</td>
+<td>
 f64
+</td>
+<td>
 str
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 true
+</td>
+<td>
 0.231654
+</td>
+<td>
 "Square Root Fi...
+</td>
+</tr>
+<tr>
+<td>
 false
+</td>
+<td>
 0.150772
+</td>
+<td>
 "Standard Filte...
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="b232bb84-1b69-449e-a52c-914542a2ca91" class="cell">
 <div class="sourceCode cell-code" id="cb132"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a>(perf1[<span class="dv">0</span>, <span class="st">'time'</span>] <span class="op">-</span> perf1[<span class="dv">1</span>, <span class="st">'time'</span>]) <span class="op">/</span> perf1[<span class="dv">1</span>, <span class="st">'time'</span>] <span class="op">*</span> <span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>53.645095282102254</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="5ec603fd-466a-48f2-b071-89905d231656" class="cell">
 <div class="sourceCode cell-code" id="cb134"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>plot_perf_sr <span class="op">=</span> alt.Chart(perf1.to_pandas()).mark_bar(size <span class="op">=</span> <span class="dv">50</span>).encode(</span>
 <span id="cb134-2"><a href="#cb134-2" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>alt.X(<span class="st">'Filter type'</span>, axis<span class="op">=</span>alt.Axis(labelAngle<span class="op">=</span><span class="dv">0</span>)),</span>
 <span id="cb134-3"><a href="#cb134-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>alt.Y(<span class="st">'time'</span>, scale<span class="op">=</span>alt.Scale(zero<span class="op">=</span><span class="va">False</span>), title<span class="op">=</span><span class="st">"time [s]"</span>),</span>
@@ -3087,7 +4271,7 @@ false
 <span id="cb134-5"><a href="#cb134-5" aria-hidden="true" tabindex="-1"></a>                    scale <span class="op">=</span> alt.Scale(scheme <span class="op">=</span> <span class="st">'accent'</span>))</span>
 <span id="cb134-6"><a href="#cb134-6" aria-hidden="true" tabindex="-1"></a>).properties(width<span class="op">=</span><span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="790b10e8-3b26-42d5-9f17-f2ea68b1eb48" class="cell">
 <div class="sourceCode cell-code" id="cb135"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>save_show_plot(plot_perf_sr, <span class="st">"perf_sr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="result_plots_files/figure-html/cell-130-output-1.png" class="img-fluid"></p>
@@ -3209,6 +4393,30 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, function() {
+      let href = xref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children.length > 2) {
+          for (let i = 0; i < 2; i++) {
+            container.appendChild(note.children[i].cloneNode(true));
+          }
+          return container.innerHTML
+        } else {
+          return note.innerHTML;
+        }
+      } else {
+        return note.innerHTML;
+      }
     });
   }
       let selectedAnnoteEl;

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.280">
+<meta name="generator" content="quarto-1.4.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -182,11 +182,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div class="cell">
+<div id="fa22293c-08d4-4733-a5d4-ff61ac0c06a0" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext autoreload</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>autoreload <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="a9f7737e-12ae-4ef6-93ee-f55692f31aca" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.kalman.training <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.kalman.<span class="bu">filter</span> <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.utils <span class="im">import</span> <span class="op">*</span></span>
@@ -214,30 +214,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm.auto <span class="im">import</span> tqdm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="8e825841-6433-456e-8d11-1cccf6f2e104" class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.basics <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="5cb21045-b02f-4259-a46e-f3498abd9483" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>show_metrics <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="f515e01f-b05e-46d2-ac49-39d7f4ea1ae8" class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>reset_seed()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="55cd2189-c3b4-4bc8-8306-9c7a42062244" class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>hai <span class="op">=</span> pd.read_parquet(hai_big_path)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>hai_era <span class="op">=</span> pd.read_parquet(hai_era_big_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="f53ffa6b-467e-48b9-80f2-ea833593e26d" class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>base <span class="op">=</span> here(<span class="st">"analysis/results/trained_models"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="d138745b-ad43-436b-9bfd-20cbd4ac967f" class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>base.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="ad720847-ed69-45a1-926b-74aa136f8680" class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_end(<span class="va">self</span>: PosixPath, end): <span class="cf">return</span> <span class="va">self</span>.parent <span class="op">/</span> (<span class="va">self</span>.name <span class="op">+</span> end)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="6573106d-3eab-42f2-9688-d3f99b498c87" class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train_or_load(model, dls, lr, n, path, keep<span class="op">=</span><span class="va">True</span>):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    save_models <span class="op">=</span> SaveModelsBatch(times_epoch<span class="op">=</span><span class="dv">5</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    csv_logger <span class="op">=</span> CSVLogger(path.add_end(<span class="st">"log.csv"</span>))</span>
@@ -256,7 +256,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        plt.savefig(path.add_end(<span class="st">"_loss_plot.png"</span>))</span>
 <span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> learn, items                           </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="83dd5f35-719a-440d-88b6-b7d5b365be5e" class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> metric_valid(learn, dls<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    nrmse <span class="op">=</span> []</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    losses <span class="op">=</span> []</span>
@@ -268,7 +268,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    metric <span class="op">=</span> pd.DataFrame({<span class="st">'loss'</span>: losses, <span class="st">'rmse'</span>: nrmse})</span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> metric.agg([<span class="st">'mean'</span>, <span class="st">'std'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="8054b56b-8425-4e5d-8475-a722baf3400f" class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>hai.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>Index(['TA', 'SW_IN', 'LW_IN', 'VPD', 'WS', 'PA', 'P', 'SWC', 'TS'], dtype='object')</code></pre>
@@ -276,7 +276,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="generic-model-gap-len-3-336-gap-1-random" class="level2">
 <h2 class="anchored" data-anchor-id="generic-model-gap-len-3-336-gap-1-random">Generic model | gap len 3-336 | gap 1 random</h2>
-<div class="cell">
+<div id="18da095b-9803-4cc9-9448-76d67b4d26c4" class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dls_A1v <span class="op">=</span> imp_dataloader(</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> hai,</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    control <span class="op">=</span> hai_era,</span>
@@ -288,19 +288,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    shifts<span class="op">=</span>gen_shifts(<span class="dv">50</span>),</span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    n_rep<span class="op">=</span><span class="dv">5</span>).cpu()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="36f6dcfe-fb68-4a77-b23a-301e70d56da0" class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(hai)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>227952</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="843d0e7a-c212-4926-b5ed-8a7a75ea68d2" class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(dls_A1v.train)<span class="op">*</span><span class="dv">20</span>, <span class="bu">len</span>(dls_A1v.valid)<span class="op">*</span><span class="dv">20</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>(2080, 520)</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="2204a027-adb2-4976-ac11-e7cfd4e88a81" class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>model_A1v <span class="op">=</span> KalmanFilterSR.init_local_slope_pca(</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    n_dim_obs<span class="op">=</span> <span class="bu">len</span>(hai.columns),</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    n_dim_state<span class="op">=</span><span class="bu">len</span>(hai.columns),</span>
@@ -308,13 +308,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    df_pca <span class="op">=</span> <span class="va">None</span>, </span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    pred_only_gap<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="912862a8-baee-452b-9b07-06e46a1a6bfc" class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>model_A1v.B.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>torch.Size([1, 18, 14])</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="ff933474-ddc5-4b15-9f77-15d237133834" class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>learn_A1v, items_A1v <span class="op">=</span> train_or_load(model_A1v, dls_A1v, <span class="dv">3</span>, <span class="fl">1e-3</span>, base <span class="op">/</span> <span class="st">"1_gap_varying_6-336_v1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -362,10 +362,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-20-output-2.png" class="quarto-discovered-preview-image img-fluid"></p>
+<p><img src="model_training_files/figure-html/cell-20-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="5384f6cc-6414-4630-80f1-31709170e7d6" class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>learn_A1v, items_A1v <span class="op">=</span> train_or_load(model_A1v, dls_A1v, <span class="dv">1</span>, <span class="fl">1e-4</span>, base <span class="op">/</span> <span class="st">"1_gap_varying_6-336_v2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -400,7 +400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="model_training_files/figure-html/cell-21-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="13cfe8f8-c37a-4616-a789-654ae1590cdf" class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>learn_A1v, items_A1v <span class="op">=</span> train_or_load(model_A1v, dls_A1v, <span class="dv">1</span>, <span class="fl">1e-6</span>, base <span class="op">/</span> <span class="st">"1_gap_varying_6-336_v3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -438,7 +438,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="var-gap---varying-336---no-control" class="level2">
 <h2 class="anchored" data-anchor-id="var-gap---varying-336---no-control">1 var gap - varying 336 - No Control</h2>
-<div class="cell">
+<div id="61e7a083-c840-4553-b1af-ee3ed57d6088" class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>model_A1v_nc <span class="op">=</span> KalmanFilterSR.init_local_slope_pca(</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    n_dim_obs<span class="op">=</span> <span class="bu">len</span>(hai.columns),</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    n_dim_state<span class="op">=</span><span class="bu">len</span>(hai.columns),</span>
@@ -448,7 +448,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    use_control<span class="op">=</span><span class="va">False</span></span>
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="a8cacad1-f392-468c-a4a1-9ec521516455" class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>learn_A1v_nc, items_A1v_nc <span class="op">=</span> train_or_load(model_A1v_nc, dls_A1v, <span class="dv">3</span>, <span class="fl">1e-3</span>, base <span class="op">/</span> <span class="st">"1_gap_varying_336_no_control_v1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -504,7 +504,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="short-gaps">Short gaps</h2>
 <section id="all-variables---30-all" class="level3">
 <h3 class="anchored" data-anchor-id="all-variables---30-all">All variables - 30 all</h3>
-<div class="cell">
+<div id="c39da15a-256a-40e2-bd08-ec4ba0de1226" class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dls_Aa <span class="op">=</span> imp_dataloader(</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> hai,</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    control <span class="op">=</span> hai_era,</span>
@@ -517,16 +517,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    n_rep<span class="op">=</span><span class="dv">5</span></span>
 <span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>).cpu()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="58f04313-5287-46c6-99d5-6cea1fc80953" class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>dls_Aa <span class="op">=</span> imp_dataloader(hai, hai_era, var_sel <span class="op">=</span> <span class="bu">list</span>(hai.columns), block_len<span class="op">=</span><span class="dv">120</span>, gap_len<span class="op">=</span>gen_gap_len(<span class="dv">6</span>,<span class="dv">30</span>), bs<span class="op">=</span><span class="dv">20</span>, control_lags<span class="op">=</span>[<span class="dv">1</span>], n_rep<span class="op">=</span><span class="dv">10</span>).cpu()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="2b2f3e80-5e0b-42bf-b725-e1268b67d5cd" class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>model_Aa <span class="op">=</span> learn_A1v.model.copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="1f957fb7-7f97-4580-8e14-5ca37c044715" class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> show_metrics: display(metric_valid(learn_A1v, dls<span class="op">=</span>dls_Aa.valid))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="7b8d25a9-1eb0-4195-9465-ca073332f30f" class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>dls_A1v30 <span class="op">=</span> imp_dataloader(</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> hai,</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    control <span class="op">=</span> hai_era,</span>
@@ -538,10 +538,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    shifts<span class="op">=</span>gen_shifts(<span class="dv">50</span>),</span>
 <span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    n_rep<span class="op">=</span><span class="dv">5</span>).cpu()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="344328bd-b0f9-49e7-b08d-6ca43e2d2242" class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> show_metrics: display(metric_valid(learn_A1v, dls<span class="op">=</span>dls_A1v30.valid))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="0ca65c92-e77b-4128-adf2-d0fbdf57cb0b" class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>learn_Aa, items_Aa <span class="op">=</span> train_or_load(model_Aa, dls_Aa, <span class="dv">3</span>, <span class="fl">3e-4</span>, base <span class="op">/</span> <span class="st">"All_gap_all_30_v1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -592,7 +592,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="model_training_files/figure-html/cell-31-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="221d9216-a7d7-4602-808c-f2c7027b81c5" class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>learn_A1v30, items_A1v30 <span class="op">=</span> train_or_load(learn_A1v.model.copy(), dls_A1v30, <span class="dv">3</span>, <span class="fl">3e-4</span>, base <span class="op">/</span> <span class="st">"1_gap_varying_tuned_6-30_v1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -647,7 +647,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="varying-number-of-variables-missing-short-gaps-6-30" class="level3">
 <h3 class="anchored" data-anchor-id="varying-number-of-variables-missing-short-gaps-6-30">Varying number of variables missing | short gaps 6-30</h3>
-<div class="cell">
+<div id="ff4cd727-4210-45e9-a943-63f0669b82af" class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>dls_Vv30 <span class="op">=</span> imp_dataloader(</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> hai,</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    control <span class="op">=</span> hai_era,</span>
@@ -659,7 +659,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    shifts<span class="op">=</span>gen_shifts(<span class="dv">50</span>),</span>
 <span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    n_rep<span class="op">=</span><span class="dv">20</span>).cpu()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="9b2ea65b-c48c-45b4-8942-9f99ba9be439" class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>learn_Vv30, items_Vv30 <span class="op">=</span> train_or_load(learn_Aa.model, dls_Vv30, <span class="dv">3</span>, <span class="fl">5e-4</span>, base <span class="op">/</span> <span class="st">"all_varying_gap_varying_len_6-30_v1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -710,7 +710,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="model_training_files/figure-html/cell-34-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="e1ca3712-84dd-4bb8-a3df-c2954bbc2f36" class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>learn_Vv30, items_Vv30 <span class="op">=</span> train_or_load(learn_Aa.model, dls_Vv30, <span class="dv">1</span>, <span class="fl">1e-5</span>, base <span class="op">/</span> <span class="st">"all_varying_gap_varying_len_6-30_v2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -745,7 +745,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="model_training_files/figure-html/cell-35-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="25e4f635-086f-4fc6-9055-5a49a5d521f2" class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>learn_Vv30, items_Vv30 <span class="op">=</span> train_or_load(learn_Aa.model, dls_Vv30, <span class="dv">1</span>, <span class="fl">1e-5</span>, base <span class="op">/</span> <span class="st">"all_varying_gap_varying_len_6-30_v3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -783,7 +783,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="random-parameters" class="level3">
 <h3 class="anchored" data-anchor-id="random-parameters">Random parameters</h3>
-<div class="cell">
+<div id="0b60732d-106a-41da-aded-9ab291588230" class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>model_Vv_rand <span class="op">=</span> KalmanFilterSR.init_random(</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    n_dim_obs<span class="op">=</span> <span class="bu">len</span>(hai.columns),</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    n_dim_state<span class="op">=</span><span class="dv">2</span><span class="op">*</span><span class="bu">len</span>(hai.columns),</span>
@@ -791,7 +791,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="dv">27</span>,</span>
 <span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    pred_only_gap<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="bba70f1d-964a-4227-bb63-ebc49287761c" class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>learn_Vv_rand, items_Vv_rand <span class="op">=</span> train_or_load(model_Vv_rand, dls_Vv30, <span class="dv">3</span>, <span class="fl">1e-3</span>, base <span class="op">/</span> <span class="st">"rand_all_varying_gap_varying_len_6-30_v1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
@@ -851,7 +851,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="model_training_files/figure-html/cell-38-output-3.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="61940797-7341-45ab-bbec-4bf95d4ca896" class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>learn_Vv_rand, items_Vv_rand <span class="op">=</span> train_or_load(learn_Vv_rand.model, dls_Vv30, <span class="dv">3</span>, <span class="fl">1e-4</span>, base <span class="op">/</span> <span class="st">"rand_all_varying_gap_varying_len_6-30_v2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
@@ -911,7 +911,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="model_training_files/figure-html/cell-39-output-3.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="6ab13dfc-aa85-4f1a-a87e-a2aae4c3fa0d" class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>learn_Vv_rand, items_Vv_rand <span class="op">=</span> train_or_load(learn_Vv_rand.model, dls_Vv30, <span class="dv">3</span>, <span class="fl">1e-5</span>, base <span class="op">/</span> <span class="st">"rand_all_varying_gap_varying_len_6-30_v3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
@@ -971,7 +971,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="model_training_files/figure-html/cell-40-output-3.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="8bd5cc7e-611e-4194-9fb5-e86801303f73" class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>learn_Vv_rand, items_Vv_rand <span class="op">=</span> train_or_load(learn_Vv_rand.model, dls_Vv30, <span class="dv">3</span>, <span class="fl">1e-5</span>, base <span class="op">/</span> <span class="st">"rand_all_varying_gap_varying_len_6-30_v4"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
@@ -1031,7 +1031,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="model_training_files/figure-html/cell-41-output-3.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="88c01c39-d40e-4678-9010-839a6324f4f2" class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>model_Vv_rand</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
@@ -3169,13 +3169,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="fine-tune-variable-gap-only-for-one-variable-gap-len-6-336" class="level3">
 <h3 class="anchored" data-anchor-id="fine-tune-variable-gap-only-for-one-variable-gap-len-6-336">Fine tune Variable | gap only for one variable | gap len 6-336</h3>
 <p>fine tune the model to only one variable</p>
-<div class="cell">
+<div id="901fc688-f1ba-4d62-b052-793a1fbdb509" class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.basics <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="7ac7c2b4-4b97-4edf-bf07-9a90da49d55f" class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="9f6b1965-03e0-4740-be14-5cd7010082ff" class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>var_learning <span class="op">=</span> {</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TA'</span>: [{<span class="st">'lr'</span>: <span class="fl">1e-3</span>, <span class="st">'n'</span>: <span class="dv">3</span>}],  </span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'SW_IN'</span>: [{<span class="st">'lr'</span>: <span class="fl">1e-3</span>, <span class="st">'n'</span>: <span class="dv">4</span>}],  </span>
@@ -3195,7 +3195,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   warn(f"You are shadowing an attribute ({name}) that exists in the learner. Use `self.learn.{name}` to avoid this")</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="8789b45b-e683-4c55-a08a-30a92f42ab09" class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fine_tune(var_learning, learn):</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    spec_models <span class="op">=</span> {}</span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    spec_dls <span class="op">=</span> {}</span>
@@ -3215,7 +3215,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a>            plt.show()</span>
 <span id="cb49-18"><a href="#cb49-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> spec_models, spec_dls, spec_learn, spec_items</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="fbf8c552-93e1-46c2-bb34-12899aca0fee" class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>spec_models, spec_dls, spec_learn, spec_items <span class="op">=</span> fine_tune(var_learning, learn_A1v)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
@@ -3706,7 +3706,7 @@ train 0
 <p><img src="model_training_files/figure-html/cell-47-output-36.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="a30fed78-cf24-4bde-9b7f-6b4a73b928f4" class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>var_learning2 <span class="op">=</span> {</span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TA'</span>: [{<span class="st">'lr'</span>: <span class="fl">1e-3</span>, <span class="st">'n'</span>: <span class="dv">3</span>}],  </span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'VPD'</span>: [{<span class="st">'lr'</span>: <span class="fl">1e-3</span>, <span class="st">'n'</span>: <span class="dv">2</span>}],  </span>
@@ -3715,7 +3715,7 @@ train 0
 <span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TS'</span> : [{<span class="st">'lr'</span>: <span class="fl">1e-3</span>, <span class="st">'n'</span>: <span class="dv">2</span>}],</span>
 <span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="830e8e43-720d-4dd8-ac48-f3bcccf99b1c" class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fine_tune2(var_learning, spec_dls, spec_learn, spec_items):</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    spec_learn <span class="op">=</span> spec_learn.copy()</span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> var <span class="kw">in</span> tqdm(var_learning.keys()):</span>
@@ -3728,7 +3728,7 @@ train 0
 <span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>            plt.show()</span>
 <span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> spec_dls, spec_learn, spec_items</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="c3a4b4a0-4186-4d25-92c5-0fd0cc79b0b0" class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>spec_dls2, spec_learn2, spec_items2 <span class="op">=</span> fine_tune2(var_learning2, spec_dls, spec_learn, spec_items)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
@@ -4243,13 +4243,13 @@ train 0
 <p><img src="model_training_files/figure-html/cell-50-output-36.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="41a301cd-47b6-4206-9e88-472054e33f2e" class="cell">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>var_learning3 <span class="op">=</span> {</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TA'</span>: [{<span class="st">'lr'</span>: <span class="fl">1e-5</span>, <span class="st">'n'</span>: <span class="dv">1</span>, <span class="st">'v'</span>: <span class="dv">3</span>}],  </span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'PA'</span>: [{<span class="st">'lr'</span>: <span class="fl">1e-5</span>, <span class="st">'n'</span>: <span class="dv">1</span>, <span class="st">'v'</span>: <span class="dv">3</span>}],  </span>
 <span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="76c7b9c0-b140-4cc8-8d73-0eb3b538d8c8" class="cell">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>spec_dls3, spec_learn3, spec_items3 <span class="op">=</span> fine_tune2(var_learning3, spec_dls, spec_learn, spec_items)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
@@ -4470,6 +4470,30 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, function() {
+      let href = xref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children.length > 2) {
+          for (let i = 0; i < 2; i++) {
+            container.appendChild(note.children[i].cloneNode(true));
+          }
+          return container.innerHTML
+        } else {
+          return note.innerHTML;
+        }
+      } else {
+        return note.innerHTML;
+      }
     });
   }
       let selectedAnnoteEl;

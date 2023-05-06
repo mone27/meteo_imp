@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.280">
+<meta name="generator" content="quarto-1.4.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -178,11 +178,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>::: {.cell 0=‘h’ 1=‘i’ 2=‘d’ 3=‘e’}</p>
+<p>::: {#b87acfa4-b43e-4cbe-9bc2-103a084ec5a2 .cell 0=‘h’ 1=‘i’ 2=‘d’ 3=‘e’}</p>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext autoreload</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>autoreload <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>:::</p>
-<div class="cell">
+<div id="37a4e31c-089b-41df-b025-bb77eb6cdfc3" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteo_imp.kalman.<span class="bu">filter</span> <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -193,31 +193,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyprojroot <span class="im">import</span> here</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="c0a08c6b-d319-4528-a798-9cf1ce92857f" class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n_obs <span class="op">=</span> <span class="dv">20</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>base_dir <span class="op">=</span> here(<span class="st">"presentations/plots_18_jan"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>base_dir.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="6321e535-da4c-4f9b-b028-bd3a2db71214" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> save_plot(p, path):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    f_name <span class="op">=</span> base_dir <span class="op">/</span> (path <span class="op">+</span> <span class="st">".vl.json"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(f_name, <span class="st">'w'</span>) <span class="im">as</span> f:</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        f.write(p.to_json())</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> f_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="b4eba982-7334-417f-8d36-400b01fa09e5" class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>plt_props <span class="op">=</span> {<span class="st">'width'</span>: <span class="dv">460</span>, <span class="st">'height'</span>: <span class="dv">400</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="only-state" class="level2">
 <h2 class="anchored" data-anchor-id="only-state">Only state</h2>
 <p><span class="math display">\[ x_t = A\color{blue}{x_{-1}} + \varepsilon\]</span></p>
-<div class="cell">
+<div id="32fca7bf-0d9c-4058-9041-04deed83e6b3" class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>torch.tensor([[<span class="fl">0.</span>]]).shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>torch.Size([1, 1])</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="20fbce04-9279-44aa-915f-ea86d7070c32" class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>k0 <span class="op">=</span> KalmanFilter(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    trans_matrix <span class="op">=</span> torch.tensor([<span class="fl">1.</span>]),</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    obs_matrix <span class="op">=</span> torch.tensor([<span class="fl">0.</span>]),        </span>
@@ -230,23 +230,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    init_state_cov <span class="op">=</span> torch.tensor([[<span class="fl">0.01</span>]]),</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="5c89a4db-9cee-4da2-814a-4e01e86893db" class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pred0 <span class="op">=</span> k0.smooth(torch.ones(<span class="dv">1</span>,n_obs,<span class="dv">1</span>), torch.zeros(<span class="dv">1</span>,n_obs,<span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">bool</span>), torch.zeros(<span class="dv">1</span>,n_obs,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="b6b46ffb-3c45-478f-8a56-838bd1e71c3b" class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> pd.Index(<span class="bu">range</span>(n_obs), name<span class="op">=</span><span class="st">"time"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="f28d9420-bcda-4581-a1a2-6ab8f28873bf" class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pred0.cov.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>torch.Size([1, 20, 1, 1])</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="7db39ec4-c707-49a6-8370-5dcb69b9931a" class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pred0_df <span class="op">=</span> NormalsDf(pd.DataFrame(pred0.mean.squeeze(<span class="dv">0</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"state"</span>]),</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                     pd.DataFrame(pred0.cov.squeeze(<span class="dv">0</span>).squeeze(<span class="op">-</span><span class="dv">1</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"state"</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="44ec1e26-2b79-4d0f-bb3f-a2b7bfb3a228" class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p0 <span class="op">=</span> facet_variable(pred0_df.tidy(), ys<span class="op">=</span>[<span class="st">"mean"</span>, <span class="st">"mean"</span>], error<span class="op">=</span><span class="va">True</span>, point<span class="op">=</span><span class="va">False</span>, gap_area<span class="op">=</span><span class="va">False</span>, props<span class="op">=</span>plt_props)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>p0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -307,7 +307,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-<div class="cell">
+<div id="11378d1e-51c8-461b-96f7-389444ff56a0" class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>save_plot(p0, <span class="st">"only_state"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>Path('/home/simone/Documents/uni/Thesis/GPFA_imputation/presentations/plots_18_jan/only_state.vl.json')</code></pre>
@@ -316,13 +316,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="observations" class="level2">
 <h2 class="anchored" data-anchor-id="observations">Observations</h2>
-<div class="cell">
+<div id="055cca7d-2f24-4efc-9985-cfc6ec179692" class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>torch.tensor([[<span class="fl">0.</span>]]).shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>torch.Size([1, 1])</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="adcebf28-ee5e-46dd-a56a-14753f5951a4" class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>k1 <span class="op">=</span> KalmanFilter(</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    trans_matrix <span class="op">=</span> torch.tensor([<span class="fl">1.</span>]),</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    obs_matrix <span class="op">=</span> torch.tensor([<span class="fl">1.</span>]),        </span>
@@ -335,42 +335,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    init_state_cov <span class="op">=</span> torch.tensor([[<span class="fl">0.001</span>]]),</span>
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="f9120233-0cd1-45fe-8a96-74489f045e72" class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>obs <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> torch.sin(torch.arange(n_obs) <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> torch.pi <span class="op">/</span> (n_obs<span class="op">-</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="727c4452-3a7f-46b0-8635-08a226f44941" class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>plt.plot(obs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="plots_for_presentation_18_jan_23_files/figure-html/cell-18-output-1.png" class="quarto-discovered-preview-image img-fluid"></p>
+<p><img src="plots_for_presentation_18_jan_23_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="cb48746b-9209-443e-8087-29873c7cadf4" class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>mask1 <span class="op">=</span> torch.ones(<span class="dv">1</span>,n_obs,<span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">bool</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="6bdcf28a-1bcb-4f3e-91a2-b6a04374ccca" class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pred1 <span class="op">=</span> k1.smooth(obs.unsqueeze(<span class="dv">0</span>).unsqueeze(<span class="op">-</span><span class="dv">1</span>), mask1, torch.zeros(<span class="dv">1</span>,n_obs,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="da081482-631c-469a-a68b-1afa720e4f13" class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> pd.Index(<span class="bu">range</span>(n_obs), name<span class="op">=</span><span class="st">"time"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="dab7a151-6c25-490c-ad2e-54aece24d8c0" class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pred1.cov.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>torch.Size([1, 20, 1, 1])</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="9cfb4a0f-b5ce-4ae0-ad7b-ba6c8e19b14c" class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pred_df1 <span class="op">=</span> NormalsDf(pd.DataFrame(pred1.mean.squeeze(<span class="dv">0</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var"</span>]),</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                     pd.DataFrame(pred1.cov.squeeze(<span class="dv">0</span>).squeeze(<span class="op">-</span><span class="dv">1</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var"</span>])).tidy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="0da60261-1f1d-49df-89ee-2c03266a5515" class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>obs_df1 <span class="op">=</span> pd.DataFrame({<span class="st">'time'</span>: time, <span class="st">'var'</span>: obs.numpy(),</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'is_present'</span>: mask1[<span class="dv">0</span>,:,<span class="dv">0</span>].numpy()}).melt([<span class="st">"time"</span>, <span class="st">"is_present"</span>]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="013e18aa-dec1-4cfb-a50b-9f82f48456a8" class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>plot_df1 <span class="op">=</span> pd.merge(obs_df1, pred_df1, on<span class="op">=</span>[<span class="st">'time'</span>, <span class="st">'variable'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="9fcc515a-d7f9-4d2c-9d7b-7645306b1768" class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> facet_variable(plot_df1, ys<span class="op">=</span>[<span class="st">"value"</span>, <span class="st">"mean"</span>], error<span class="op">=</span><span class="va">True</span>, gap_area<span class="op">=</span><span class="va">False</span>, props<span class="op">=</span>plt_props)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>p1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -431,7 +431,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-<div class="cell">
+<div id="4560b9f8-1517-447a-ad3e-ae5a7dafb69f" class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>save_plot(p1, <span class="st">"obs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>Path('/home/simone/Documents/uni/Thesis/GPFA_imputation/presentations/plots_18_jan/obs.vl.json')</code></pre>
@@ -440,7 +440,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="gaps" class="level2">
 <h2 class="anchored" data-anchor-id="gaps">Gaps</h2>
-<div class="cell">
+<div id="c13e96cd-fcd9-4aea-b9e7-68dee9172f49" class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>k2 <span class="op">=</span> KalmanFilter(</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    trans_matrix <span class="op">=</span> torch.tensor([<span class="fl">1.</span>]),</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    obs_matrix <span class="op">=</span> torch.tensor([<span class="fl">1.</span>]),        </span>
@@ -453,7 +453,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    init_state_cov <span class="op">=</span> torch.tensor([[<span class="fl">0.001</span>]]),</span>
 <span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="e0275585-c273-40c3-9384-5d2b40c2b8cf" class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>mask2 <span class="op">=</span> torch.ones(<span class="dv">1</span>,n_obs,<span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">bool</span>)</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>mask2[<span class="dv">0</span>,<span class="dv">11</span>:<span class="dv">16</span>,<span class="dv">0</span>] <span class="op">=</span> <span class="va">False</span></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>mask2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -480,21 +480,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
          [ True]]])</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="602c03c7-eddd-4b50-8665-a7445016103d" class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>pred2 <span class="op">=</span> k2.smooth(obs.unsqueeze(<span class="dv">0</span>).unsqueeze(<span class="op">-</span><span class="dv">1</span>), mask2, torch.zeros(<span class="dv">1</span>,n_obs,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="fa142d3e-cee1-40f3-ae21-10011eabd724" class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>pred_df2 <span class="op">=</span> NormalsDf(pd.DataFrame(pred2.mean.squeeze(<span class="dv">0</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var"</span>]),</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>                     pd.DataFrame(pred2.cov.squeeze(<span class="dv">0</span>).squeeze(<span class="op">-</span><span class="dv">1</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var"</span>])).tidy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="6204eade-9652-4800-813e-03e40c9d55a3" class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>obs_df2 <span class="op">=</span> pd.DataFrame({<span class="st">'time'</span>: time, <span class="st">'var'</span>: obs.numpy(),</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'is_present'</span>: mask2[<span class="dv">0</span>,:,<span class="dv">0</span>].numpy()}).melt([<span class="st">"time"</span>, <span class="st">"is_present"</span>]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="dd6fa695-5844-4d8e-9027-40d4b50b45eb" class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>plot_df2 <span class="op">=</span> pd.merge(obs_df2, pred_df2, on<span class="op">=</span>[<span class="st">'time'</span>, <span class="st">'variable'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="0ab87ef0-5fb8-46d2-8707-06b4ae570ee5" class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> facet_variable(plot_df2, ys<span class="op">=</span>[<span class="st">"value"</span>, <span class="st">"mean"</span>], error<span class="op">=</span><span class="va">True</span>, gap_area<span class="op">=</span><span class="va">False</span>, props<span class="op">=</span>{<span class="st">'width'</span>: <span class="dv">750</span>, <span class="st">'height'</span>: <span class="dv">500</span>})</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -555,7 +555,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-<div class="cell">
+<div id="200cbff1-c5d3-46ec-b1e4-36d08f3c06b8" class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>save_plot(p2, <span class="st">"gaps"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>Path('/home/simone/Documents/uni/Thesis/GPFA_imputation/presentations/plots_18_jan/gaps.vl.json')</code></pre>
@@ -564,7 +564,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="control" class="level2">
 <h2 class="anchored" data-anchor-id="control">Control</h2>
-<div class="cell">
+<div id="eea0a9dd-4cf2-4b67-8f90-db8a867400d1" class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>k3 <span class="op">=</span> KalmanFilter(</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    trans_matrix <span class="op">=</span> torch.tensor([<span class="fl">1.</span>]),</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    obs_matrix <span class="op">=</span> torch.tensor([<span class="fl">1.</span>]),        </span>
@@ -577,7 +577,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>    init_state_cov <span class="op">=</span> torch.tensor([[<span class="fl">0.001</span>]]),</span>
 <span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="79a4d7ab-5198-4bc0-bf12-9fb116a35013" class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>mask3 <span class="op">=</span> torch.ones(<span class="dv">1</span>,n_obs,<span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">bool</span>)</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>mask3[<span class="dv">0</span>,<span class="dv">11</span>:<span class="dv">16</span>,<span class="dv">0</span>] <span class="op">=</span> <span class="va">False</span></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>mask3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -604,37 +604,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
          [ True]]])</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="29deded5-3cca-4e72-a3c0-82130df4153e" class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>contr <span class="op">=</span> torch.stack([(obs <span class="op">+</span> <span class="fl">0.5</span>)<span class="op">*</span><span class="fl">1.2</span>, ((obs <span class="op">+</span> <span class="fl">0.5</span>)<span class="op">*</span><span class="fl">1.2</span>).roll(<span class="op">-</span><span class="dv">1</span>)], dim<span class="op">=-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="d29d81a3-7af8-4e59-96f6-74af9bf8a07e" class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>contr.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>torch.Size([20, 2])</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="ee84077e-4b9a-47df-8960-4f64e82f2c0a" class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>plt.plot(contr[:,<span class="dv">0</span>])</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>plt.plot(contr[:,<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="plots_for_presentation_18_jan_23_files/figure-html/cell-40-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="c2825e9f-761d-48a4-b117-495dd74828ae" class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>pred3 <span class="op">=</span> k3.smooth(obs.unsqueeze(<span class="dv">0</span>).unsqueeze(<span class="op">-</span><span class="dv">1</span>), mask3, contr.unsqueeze(<span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="b3075113-7dae-4548-a2e2-a64f9c8eb485" class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>pred_df3 <span class="op">=</span> NormalsDf(pd.DataFrame(pred3.mean.squeeze(<span class="dv">0</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var"</span>]),</span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>                     pd.DataFrame(pred3.cov.squeeze(<span class="dv">0</span>).squeeze(<span class="op">-</span><span class="dv">1</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var"</span>])).tidy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="50791905-41e6-44c7-8a1b-223f03adede5" class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>obs_df3 <span class="op">=</span> pd.DataFrame({<span class="st">'time'</span>: time, <span class="st">'var'</span>: obs.numpy(),</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'is_present'</span>: mask3[<span class="dv">0</span>,:,<span class="dv">0</span>].numpy()}).melt([<span class="st">"time"</span>, <span class="st">"is_present"</span>]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="58802fc0-c82d-49a7-9129-f3b3dc9c2e13" class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>plot_df3 <span class="op">=</span> pd.merge(obs_df3, pred_df3, on<span class="op">=</span>[<span class="st">'time'</span>, <span class="st">'variable'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="85654bde-519f-4fb0-90ad-4fd31e16ea77" class="cell">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>p3 <span class="op">=</span> (plot_variable(plot_df3, variable<span class="op">=</span><span class="st">"var"</span>, ys<span class="op">=</span>[<span class="st">"value"</span>, <span class="st">"mean"</span>], error<span class="op">=</span><span class="va">True</span>, gap_area<span class="op">=</span><span class="va">False</span>, props<span class="op">=</span>plt_props) <span class="op">+</span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(pd.DataFrame({<span class="st">'contr'</span>:contr[:,<span class="dv">0</span>], <span class="st">'time'</span>: time, <span class="st">'col'</span>: <span class="st">'control'</span>})).mark_line(strokeDash<span class="op">=</span>[<span class="dv">6</span>,<span class="dv">3</span>], color<span class="op">=</span><span class="st">'orange'</span>).encode(x<span class="op">=</span><span class="st">'time'</span>, y<span class="op">=</span><span class="st">'contr'</span>))</span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>p3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -696,7 +696,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-<div class="cell">
+<div id="d57fa7a8-de4e-485c-ba76-6d1cf1e45198" class="cell">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>save_plot(p3, <span class="st">"control"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>Path('/home/simone/Documents/uni/Thesis/GPFA_imputation/presentations/plots_18_jan/control.vl.json')</code></pre>
@@ -705,7 +705,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="variables-correlation" class="level2">
 <h2 class="anchored" data-anchor-id="variables-correlation">Variables correlation</h2>
-<div class="cell">
+<div id="3e410762-a7c9-4602-b382-4b4ef791ca88" class="cell">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>k4 <span class="op">=</span> KalmanFilter(</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    trans_matrix <span class="op">=</span> torch.tensor([<span class="fl">1.</span>]),</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    obs_matrix <span class="op">=</span> torch.tensor([[<span class="fl">.7</span>], [<span class="fl">.3</span>]]),        </span>
@@ -718,7 +718,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>    init_state_cov <span class="op">=</span> torch.tensor([[<span class="fl">0.01</span>]]),</span>
 <span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="7139cd67-8d91-4dc3-9ad3-d799484119b6" class="cell">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>k4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
@@ -894,7 +894,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  </div></div>
 </div>
 </div>
-<div class="cell">
+<div id="fc45e039-4271-4541-914d-2d9fd32912e2" class="cell">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>mask4 <span class="op">=</span> torch.ones(<span class="dv">1</span>,n_obs,<span class="dv">2</span>, dtype<span class="op">=</span><span class="bu">bool</span>)</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>mask4[<span class="dv">0</span>,<span class="dv">11</span>:<span class="dv">16</span>,<span class="dv">0</span>] <span class="op">=</span> <span class="va">False</span></span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>mask4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -921,45 +921,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
          [ True,  True]]])</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="dc47f4a1-f44e-49f6-bd96-5e227e98c97d" class="cell">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>obs4 <span class="op">=</span> torch.stack([</span>
 <span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>    obs <span class="op">*</span><span class="fl">.7</span> <span class="op">+</span> torch.randn_like(obs) <span class="op">*</span> <span class="fl">.1</span>,</span>
 <span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>    obs <span class="op">*</span><span class="fl">.3</span> <span class="op">+</span> torch.randn_like(obs) <span class="op">*</span> <span class="fl">.1</span></span>
 <span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>], dim<span class="op">=-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cba310d4-464b-421c-8ab0-b9cf1a1c3f78" class="cell">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>plt.plot(obs4)</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>plt.plot(obs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="plots_for_presentation_18_jan_23_files/figure-html/cell-51-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="66e285de-4ea4-4a3b-8ce0-ec2f316ad0df" class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>obs4.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>torch.Size([20, 2])</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="219f8f11-432d-4696-900b-f2e6413c32a2" class="cell">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>pred4 <span class="op">=</span> k4.predict(obs4.unsqueeze(<span class="dv">0</span>), mask4, torch.zeros(<span class="dv">1</span>,n_obs,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="d6012037-edc3-4c8e-915a-daaa0bf72b9a" class="cell">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>pred_df4 <span class="op">=</span> NormalsDf(pd.DataFrame(pred4.mean.squeeze(<span class="dv">0</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var1"</span>, <span class="st">"var2"</span>]),</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>                     pd.DataFrame(pred4.std.squeeze(<span class="dv">0</span>).squeeze(<span class="op">-</span><span class="dv">1</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var1"</span>, <span class="st">"var2"</span>])).tidy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="9cb37fb8-3a69-42ba-9265-bdfd08f438e7" class="cell">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>obs_df4_0 <span class="op">=</span> pd.DataFrame({<span class="st">'time'</span>: time, <span class="st">'var1'</span>: obs4[:,<span class="dv">0</span>].numpy(),</span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'is_present'</span>: mask4[<span class="dv">0</span>,:,<span class="dv">0</span>].numpy()}).melt([<span class="st">"time"</span>, <span class="st">"is_present"</span>]) </span>
 <span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>obs_df4_1 <span class="op">=</span> pd.DataFrame({<span class="st">'time'</span>: time, <span class="st">'var2'</span>: obs4[:,<span class="dv">1</span>].numpy(),</span>
 <span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'is_present'</span>: mask4[<span class="dv">0</span>,:,<span class="dv">1</span>].numpy()}).melt([<span class="st">"time"</span>, <span class="st">"is_present"</span>]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="8b431749-4945-460b-9ec7-50b6db9d2af2" class="cell">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>obs_df4 <span class="op">=</span> pd.concat([obs_df4_0, obs_df4_1])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="dbdbf57a-d276-427b-a80c-a56a382d303a" class="cell">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>plot_df4 <span class="op">=</span> pd.merge(obs_df4, pred_df4, on<span class="op">=</span>[<span class="st">'time'</span>, <span class="st">'variable'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cd350cd6-6bc1-4477-bebb-6c6e58ac9912" class="cell">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>p4 <span class="op">=</span> facet_variable(plot_df4, ys<span class="op">=</span>[<span class="st">"value"</span>, <span class="st">"mean"</span>], error<span class="op">=</span><span class="va">True</span>, gap_area<span class="op">=</span><span class="va">False</span>, props<span class="op">=</span>{<span class="st">'width'</span>: <span class="dv">350</span>, <span class="st">'height'</span>: <span class="dv">220</span>}, n_cols<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>p4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -1020,13 +1020,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-<div class="cell">
+<div id="6f54a41c-4bc0-462a-8d2c-944bf1fa2af8" class="cell">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>save_plot(p4, <span class="st">"var_corr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>Path('/home/simone/Documents/uni/Thesis/GPFA_imputation/presentations/plots_18_jan/var_corr.vl.json')</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="44085460-05d0-40b0-bd2d-16010698e553" class="cell">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>mask5 <span class="op">=</span> torch.ones(<span class="dv">1</span>,n_obs,<span class="dv">2</span>, dtype<span class="op">=</span><span class="bu">bool</span>)</span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>mask5[<span class="dv">0</span>,<span class="dv">11</span>:<span class="dv">16</span>,:] <span class="op">=</span> <span class="va">False</span></span>
 <span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>mask5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1053,26 +1053,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
          [ True,  True]]])</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="7dfb24fd-244c-49a3-b089-e6820e71c29a" class="cell">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>pred5 <span class="op">=</span> k4.predict(obs4.unsqueeze(<span class="dv">0</span>), mask5, torch.zeros(<span class="dv">1</span>,n_obs,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="db5a0695-3e07-46f2-a41a-24689e31e95a" class="cell">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>pred_df5 <span class="op">=</span> NormalsDf(pd.DataFrame(pred5.mean.squeeze(<span class="dv">0</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var1"</span>, <span class="st">"var2"</span>]),</span>
 <span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>                     pd.DataFrame(pred5.std.squeeze(<span class="dv">0</span>).squeeze(<span class="op">-</span><span class="dv">1</span>), index<span class="op">=</span>time, columns<span class="op">=</span>[<span class="st">"var1"</span>, <span class="st">"var2"</span>])).tidy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="4a8828c8-273b-4223-b1bb-0ee6c1ee9ef3" class="cell">
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>obs_df5_0 <span class="op">=</span> pd.DataFrame({<span class="st">'time'</span>: time, <span class="st">'var1'</span>: obs4[:,<span class="dv">0</span>].numpy(),</span>
 <span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'is_present'</span>: mask5[<span class="dv">0</span>,:,<span class="dv">0</span>].numpy()}).melt([<span class="st">"time"</span>, <span class="st">"is_present"</span>]) </span>
 <span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>obs_df5_1 <span class="op">=</span> pd.DataFrame({<span class="st">'time'</span>: time, <span class="st">'var2'</span>: obs4[:,<span class="dv">1</span>].numpy(),</span>
 <span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'is_present'</span>: mask5[<span class="dv">0</span>,:,<span class="dv">1</span>].numpy()}).melt([<span class="st">"time"</span>, <span class="st">"is_present"</span>]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="2113dc6f-9c05-4172-9bc5-ad88c96bc77a" class="cell">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>obs_df5 <span class="op">=</span> pd.concat([obs_df5_0, obs_df5_1])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="119e7b88-06f5-44e1-92ae-53ae920def81" class="cell">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>plot_df5 <span class="op">=</span> pd.merge(obs_df4, pred_df5, on<span class="op">=</span>[<span class="st">'time'</span>, <span class="st">'variable'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="d6feeb76-7e66-41a9-b6b3-d2c20dfcad98" class="cell">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>p5 <span class="op">=</span> facet_variable(plot_df5, ys<span class="op">=</span>[<span class="st">"value"</span>, <span class="st">"mean"</span>], error<span class="op">=</span><span class="va">True</span>, gap_area<span class="op">=</span><span class="va">False</span>, props<span class="op">=</span>{<span class="st">'width'</span>: <span class="dv">350</span>, <span class="st">'height'</span>: <span class="dv">220</span>}, n_cols<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>p5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -1133,7 +1133,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-<div class="cell">
+<div id="f886e6ad-36b5-4274-850e-f923579c4f0d" class="cell">
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>save_plot(p5, <span class="st">"var_no_corr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>Path('/home/simone/Documents/uni/Thesis/GPFA_imputation/presentations/plots_18_jan/var_no_corr.vl.json')</code></pre>
@@ -1250,6 +1250,30 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, function() {
+      let href = xref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children.length > 2) {
+          for (let i = 0; i < 2; i++) {
+            container.appendChild(note.children[i].cloneNode(true));
+          }
+          return container.innerHTML
+        } else {
+          return note.innerHTML;
+        }
+      } else {
+        return note.innerHTML;
+      }
     });
   }
       let selectedAnnoteEl;

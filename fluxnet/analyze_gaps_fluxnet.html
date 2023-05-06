@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.280">
+<meta name="generator" content="quarto-1.4.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -175,11 +175,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div class="cell">
+<div id="063f9258-aa0e-46c4-8d5e-eded0e384c1d" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipywidgets <span class="im">import</span> widgets, interact</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="a623c1e9-a04d-43e2-b409-0a3db28b2fdd" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
@@ -187,20 +187,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="9b08a47e-5851-4a7f-bc2a-b27a7774ede6" class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>out_dir <span class="op">=</span> Path(<span class="st">"../../fluxnet/gap_stat"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>download_dir <span class="op">=</span> Path(<span class="st">"/run/media/simone/Simone DATI/fluxnet_all"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="13b3a966-4f74-4380-b690-2569b25ac9da" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>site_info <span class="op">=</span> pl.read_parquet(out_dir <span class="op">/</span> <span class="st">"../site_info.parquet"</span>).select([</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"start"</span>).cast(pl.Utf8).<span class="bu">str</span>.strptime(pl.Datetime, <span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">%H%M"</span>),</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"end"</span>).cast(pl.Utf8).<span class="bu">str</span>.strptime(pl.Datetime, <span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">%H%M"</span>),</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"site"</span>).cast(pl.Categorical).sort()</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="ccf7c682-922f-4cff-a677-dd5a47c55f0d" class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>site_info.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -231,53 +232,114 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         line-height: 95%;
     }
 </style>
+<small>shape: (5, 3)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (5, 3)</span>
+<thead>
+<tr>
+<th>
 start
+</th>
+<th>
 end
+</th>
+<th>
 site
+</th>
+</tr>
+<tr>
+<td>
 datetime[μs]
+</td>
+<td>
 datetime[μs]
+</td>
+<td>
 cat
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 2009-01-01 00:30:00
+</td>
+<td>
 2012-01-01 00:00:00
+</td>
+<td>
 "AR-SLu"
+</td>
+</tr>
+<tr>
+<td>
 2009-01-01 00:30:00
+</td>
+<td>
 2013-01-01 00:00:00
+</td>
+<td>
 "AR-Vir"
+</td>
+</tr>
+<tr>
+<td>
 2002-01-01 00:30:00
+</td>
+<td>
 2013-01-01 00:00:00
+</td>
+<td>
 "AT-Neu"
+</td>
+</tr>
+<tr>
+<td>
 2007-01-01 00:30:00
+</td>
+<td>
 2010-01-01 00:00:00
+</td>
+<td>
 "AU-Ade"
+</td>
+</tr>
+<tr>
+<td>
 2010-01-01 00:30:00
+</td>
+<td>
 2015-01-01 00:00:00
+</td>
+<td>
 "AU-ASM"
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="50858dc6-8fd8-47c2-8448-151428eba3f2" class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> duration_n_obs(duration):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"converts a duration into a n of fluxnet observations"</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">abs</span>(<span class="bu">int</span>(duration.total_seconds() <span class="op">/</span> (<span class="dv">30</span> <span class="op">*</span> <span class="dv">60</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="415d82b7-66e5-4da2-9301-29214932ee54" class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>duration_n_obs(site_info[<span class="dv">1</span>, <span class="st">"start"</span>] <span class="op">-</span> site_info[<span class="dv">1</span>, <span class="st">"end"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>70127</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="ce783d10-a3f9-4b32-987f-f4f1c5df67a2" class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>duration_n_obs(site_info[<span class="dv">0</span>, <span class="st">"start"</span>] <span class="op">-</span> site_info[<span class="dv">0</span>, <span class="st">"end"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>52559</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="9737cf6f-4c79-459b-8a31-c85edb881756" class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>site_info.select((pl.col(<span class="st">"end"</span>)<span class="op">-</span>pl.col(<span class="st">"start"</span>)).dt.minutes() <span class="op">//</span> <span class="dv">30</span>).<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -308,25 +370,41 @@ cat
         line-height: 95%;
     }
 </style>
+<small>shape: (1, 1)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (1, 1)</span>
+<thead>
+<tr>
+<th>
 end
+</th>
+</tr>
+<tr>
+<td>
 i64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 26175287
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="c833844e-a6c6-43d3-b14d-4a6cf90a4cfd" class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sp <span class="op">=</span> site_info.to_pandas()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="a6a69003-ed22-4e54-b827-d4aa61b49b37" class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>((sp.end <span class="op">-</span> sp.start).dt.total_seconds() <span class="op">/</span> (<span class="dv">30</span><span class="op">*</span><span class="dv">60</span>)).astype(<span class="bu">int</span>).<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>26175287</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="6d8d9fcf-a778-4bba-881b-174a7379e6bb" class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># maybe this code should actually go in 20_gap_finding</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> out_dir.ls()</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>files.sort() <span class="co"># need to sort to match the site_info</span></span>
@@ -338,12 +416,13 @@ i64
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"TIMESTAMP_END"</span>).cast(pl.Utf8).<span class="bu">str</span>.strptime(pl.Datetime, <span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">%H%M"</span>).alias(<span class="st">"end"</span>),</span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    ]).drop(<span class="st">"TIMESTAMP_END"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="023f4731-36db-448c-83c9-f69d7a432d3f" class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>gap_stat <span class="op">=</span> pl.concat(sites)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="37d52d9e-298e-4ae9-b239-24dd418f5de1" class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>gap_stat.head().fetch(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -374,55 +453,143 @@ i64
         line-height: 95%;
     }
 </style>
+<small>shape: (5, 5)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (5, 5)</span>
+<thead>
+<tr>
+<th>
 gap_len
+</th>
+<th>
 variable
+</th>
+<th>
 site
+</th>
+<th>
 total_obs
+</th>
+<th>
 end
+</th>
+</tr>
+<tr>
+<td>
 u32
+</td>
+<td>
 str
+</td>
+<td>
 str
+</td>
+<td>
 i32
+</td>
+<td>
 datetime[μs]
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 16992
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+<td>
 "AR-SLu"
+</td>
+<td>
 52559
+</td>
+<td>
 2009-01-01 00:30:00
+</td>
+</tr>
+<tr>
+<td>
 5
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+<td>
 "AR-SLu"
+</td>
+<td>
 52559
+</td>
+<td>
 2009-12-21 11:00:00
+</td>
+</tr>
+<tr>
+<td>
 1
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+<td>
 "AR-SLu"
+</td>
+<td>
 52559
+</td>
+<td>
 2009-12-21 17:00:00
+</td>
+</tr>
+<tr>
+<td>
 1
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+<td>
 "AR-SLu"
+</td>
+<td>
 52559
+</td>
+<td>
 2010-01-06 13:00:00
+</td>
+</tr>
+<tr>
+<td>
 3
+</td>
+<td>
 "TA_F_MDS_QC"
+</td>
+<td>
 "AR-SLu"
+</td>
+<td>
 52559
+</td>
+<td>
 2010-01-07 13:00:00
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="4de25174-a033-435a-b9ce-54daa9fae735" class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> filter_variables(variables <span class="op">=</span> [<span class="st">"TA_F_QC"</span>, <span class="st">"SW_IN_QC"</span>, <span class="st">"LW_IN_QC"</span>, <span class="st">"VPD_F_QC"</span>]):</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    expr <span class="op">=</span> <span class="va">False</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> var <span class="kw">in</span> variables:</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        expr <span class="op">|=</span> pl.col(<span class="st">"variable"</span>) <span class="op">==</span> var</span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> expr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="4766cd78-a07d-487d-8b14-e04bd62b01c6" class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> pl_in(col, values):</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    expr <span class="op">=</span> <span class="va">False</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> val <span class="kw">in</span> values:</span>
@@ -431,7 +598,7 @@ datetime[μs]
 </div>
 <p>some sites have a lot of data missing, with the avg gap length of several years, so is seems that the year can have an impact</p>
 <p>Important! here the 3 possibles gap value of a QC variable are considered as one (null, 1, 2) we should co</p>
-<div class="cell">
+<div id="46fe661b-0981-44c9-805c-b041e814a9c1" class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>gap_stat.<span class="bu">filter</span>(</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"variable"</span>) <span class="op">==</span> <span class="st">"TA_F_QC"</span> </span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>).groupby(<span class="st">"site"</span>).agg([</span>
@@ -439,6 +606,7 @@ datetime[μs]
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    (pl.col(<span class="st">"gap_len"</span>).<span class="bu">sum</span>() <span class="op">/</span> pl.col(<span class="st">"total_obs"</span>).first()).alias(<span class="st">"frac_gap"</span>)</span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>]).collect().describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -469,56 +637,151 @@ datetime[μs]
         line-height: 95%;
     }
 </style>
+<small>shape: (7, 4)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (7, 4)</span>
+<thead>
+<tr>
+<th>
 describe
+</th>
+<th>
 site
+</th>
+<th>
 mean
+</th>
+<th>
 frac_gap
+</th>
+</tr>
+<tr>
+<td>
 str
+</td>
+<td>
 str
+</td>
+<td>
 f64
+</td>
+<td>
 f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 "count"
+</td>
+<td>
 "205"
+</td>
+<td>
 205.0
+</td>
+<td>
 205.0
+</td>
+</tr>
+<tr>
+<td>
 "null_count"
+</td>
+<td>
 "0"
+</td>
+<td>
 0.0
+</td>
+<td>
 0.0
+</td>
+</tr>
+<tr>
+<td>
 "mean"
+</td>
+<td>
 null
+</td>
+<td>
 1327.107552
+</td>
+<td>
 0.198846
+</td>
+</tr>
+<tr>
+<td>
 "std"
+</td>
+<td>
 null
+</td>
+<td>
 4421.109085
+</td>
+<td>
 0.256043
+</td>
+</tr>
+<tr>
+<td>
 "min"
+</td>
+<td>
 "AR-SLu"
+</td>
+<td>
 1.0
+</td>
+<td>
 0.000011
+</td>
+</tr>
+<tr>
+<td>
 "max"
+</td>
+<td>
 "ZM-Mon"
+</td>
+<td>
 52608.0
+</td>
+<td>
 2.299027
+</td>
+</tr>
+<tr>
+<td>
 "median"
+</td>
+<td>
 null
+</td>
+<td>
 214.365854
+</td>
+<td>
 0.141903
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 <section id="mean-gap-len" class="level3">
 <h3 class="anchored" data-anchor-id="mean-gap-len">Mean gap len</h3>
-<div class="cell">
+<div id="6dbff1b6-d5b0-41cf-b8a0-4e77b1be734e" class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>short_gaps <span class="op">=</span> gap_stat.<span class="bu">filter</span>(pl_in(<span class="st">'variable'</span>, [<span class="st">'TA_F_QC'</span>, <span class="st">'SW_IN_F_QC'</span>, <span class="st">'VPD_F_QC'</span>])).<span class="bu">filter</span>(pl.col(<span class="st">'gap_len'</span>) <span class="op">&lt;</span> <span class="dv">200</span>).groupby(<span class="st">'variable'</span>).agg(pl.col(<span class="st">'gap_len'</span>).mean()).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="736f595e-91c6-4c93-b882-4ec1d0d2fc67" class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>short_gaps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -549,23 +812,57 @@ null
         line-height: 95%;
     }
 </style>
+<small>shape: (3, 2)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (3, 2)</span>
+<thead>
+<tr>
+<th>
 variable
+</th>
+<th>
 gap_len
+</th>
+</tr>
+<tr>
+<td>
 str
+</td>
+<td>
 f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 "VPD_F_QC"
+</td>
+<td>
 9.642444
+</td>
+</tr>
+<tr>
+<td>
 "TA_F_QC"
+</td>
+<td>
 11.33915
+</td>
+</tr>
+<tr>
+<td>
 "SW_IN_F_QC"
+</td>
+<td>
 5.726891
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="331fc4a5-d607-42b1-949f-d3c512f1a004" class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(short_gaps.to_pandas().to_markdown())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>|    | variable   |   gap_len |
@@ -575,7 +872,7 @@ f64
 |  2 | SW_IN_F_QC |   5.72689 |</code></pre>
 </div>
 </div>
-<div class="cell">
+<div id="fbca052f-bcac-4bca-81d2-de71445316eb" class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>gaps_year_site_ta <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"variable"</span>) <span class="op">==</span> <span class="st">"TA_F_QC"</span> </span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>).with_column(</span>
@@ -585,9 +882,10 @@ f64
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    (pl.col(<span class="st">"gap_len"</span>).<span class="bu">sum</span>() <span class="op">/</span> (<span class="dv">48</span> <span class="op">*</span> <span class="dv">365</span>)).alias(<span class="st">"frac_gap"</span>)</span>
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>]).sort([<span class="st">"site"</span>, <span class="st">"year"</span>]).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="6e18bd4c-debe-422b-95c6-f0f1a3a23a0e" class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>gaps_year_site_ta.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -618,60 +916,173 @@ f64
         line-height: 95%;
     }
 </style>
+<small>shape: (7, 5)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (7, 5)</span>
+<thead>
+<tr>
+<th>
 describe
+</th>
+<th>
 site
+</th>
+<th>
 year
+</th>
+<th>
 mean
+</th>
+<th>
 frac_gap
+</th>
+</tr>
+<tr>
+<td>
 str
+</td>
+<td>
 str
+</td>
+<td>
 f64
+</td>
+<td>
 f64
+</td>
+<td>
 f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 "count"
+</td>
+<td>
 "1232"
+</td>
+<td>
 1232.0
+</td>
+<td>
 1232.0
+</td>
+<td>
 1232.0
+</td>
+</tr>
+<tr>
+<td>
 "null_count"
+</td>
+<td>
 "0"
+</td>
+<td>
 0.0
+</td>
+<td>
 0.0
+</td>
+<td>
 0.0
+</td>
+</tr>
+<tr>
+<td>
 "mean"
+</td>
+<td>
 null
+</td>
+<td>
 2007.18263
+</td>
+<td>
 826.696712
+</td>
+<td>
 0.156607
+</td>
+</tr>
+<tr>
+<td>
 "std"
+</td>
+<td>
 null
+</td>
+<td>
 4.633427
+</td>
+<td>
 3339.649175
+</td>
+<td>
 0.350794
+</td>
+</tr>
+<tr>
+<td>
 "min"
+</td>
+<td>
 "AR-SLu"
+</td>
+<td>
 1991.0
+</td>
+<td>
 1.0
+</td>
+<td>
 0.000057
+</td>
+</tr>
+<tr>
+<td>
 "max"
+</td>
+<td>
 "ZM-Mon"
+</td>
+<td>
 2015.0
+</td>
+<td>
 52608.0
+</td>
+<td>
 7.686073
+</td>
+</tr>
+<tr>
+<td>
 "median"
+</td>
+<td>
 null
+</td>
+<td>
 2008.0
+</td>
+<td>
 42.166667
+</td>
+<td>
 0.030822
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="e3107955-1ed6-4d03-bf57-b1f6177e5733" class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>gaps_year_site_ta.<span class="bu">filter</span>(pl.col(<span class="st">"frac_gap"</span>) <span class="op">&gt;=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -702,85 +1113,260 @@ null
         line-height: 95%;
     }
 </style>
+<small>shape: (15, 4)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (15, 4)</span>
+<thead>
+<tr>
+<th>
 site
+</th>
+<th>
 year
+</th>
+<th>
 mean
+</th>
+<th>
 frac_gap
+</th>
+</tr>
+<tr>
+<td>
 str
+</td>
+<td>
 i32
+</td>
+<td>
 f64
+</td>
+<td>
 f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 "BE-Bra"
+</td>
+<td>
 2003
+</td>
+<td>
 17738.0
+</td>
+<td>
 1.012443
+</td>
+</tr>
+<tr>
+<td>
 "BR-Sa1"
+</td>
+<td>
 2006
+</td>
+<td>
 4167.4
+</td>
+<td>
 1.189326
+</td>
+</tr>
+<tr>
+<td>
 "CA-NS1"
+</td>
+<td>
 2001
+</td>
+<td>
 1219.941176
+</td>
+<td>
 1.183733
+</td>
+</tr>
+<tr>
+<td>
 "CA-NS3"
+</td>
+<td>
 2002
+</td>
+<td>
 4580.8
+</td>
+<td>
 1.307306
+</td>
+</tr>
+<tr>
+<td>
 "DE-Lnf"
+</td>
+<td>
 2007
+</td>
+<td>
 52608.0
+</td>
+<td>
 3.00274
+</td>
+</tr>
+<tr>
+<td>
 "IT-Cpz"
+</td>
+<td>
 1998
+</td>
+<td>
 228.990566
+</td>
+<td>
 1.385445
+</td>
+</tr>
+<tr>
+<td>
 "IT-Ro2"
+</td>
+<td>
 2008
+</td>
+<td>
 1464.5
+</td>
+<td>
 1.504623
+</td>
+</tr>
+<tr>
+<td>
 "RU-Cok"
+</td>
+<td>
 2003
+</td>
+<td>
 411.729167
+</td>
+<td>
 1.128025
+</td>
+</tr>
+<tr>
+<td>
 "SJ-Adv"
+</td>
+<td>
 2011
+</td>
+<td>
 7235.0
+</td>
+<td>
 1.23887
+</td>
+</tr>
+<tr>
+<td>
 "US-Blo"
+</td>
+<td>
 1997
+</td>
+<td>
 292.784615
+</td>
+<td>
 1.086244
+</td>
+</tr>
+<tr>
+<td>
 "US-CRT"
+</td>
+<td>
 2004
+</td>
+<td>
 17545.0
+</td>
+<td>
 1.001427
+</td>
+</tr>
+<tr>
+<td>
 "US-LWW"
+</td>
+<td>
 2011
+</td>
+<td>
 52608.0
+</td>
+<td>
 3.00274
+</td>
+</tr>
+<tr>
+<td>
 "US-Syv"
+</td>
+<td>
 2009
+</td>
+<td>
 52560.0
+</td>
+<td>
 3.0
+</td>
+</tr>
+<tr>
+<td>
 "US-WCr"
+</td>
+<td>
 2007
+</td>
+<td>
 17520.0
+</td>
+<td>
 1.0
+</td>
+</tr>
+<tr>
+<td>
 "ZM-Mon"
+</td>
+<td>
 2000
+</td>
+<td>
 22443.333333
+</td>
+<td>
 7.686073
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="fcc7da99-32d8-4423-b3e1-192065f98fda" class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>gap_stat.<span class="bu">filter</span>(</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"variable"</span>) <span class="op">==</span> <span class="st">"TA_F_QC"</span> </span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>).<span class="bu">filter</span>(pl_in(<span class="st">"site"</span>, [<span class="st">"ZM-Mon"</span>])).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -811,67 +1397,192 @@ f64
         line-height: 95%;
     }
 </style>
+<small>shape: (8, 5)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (8, 5)</span>
+<thead>
+<tr>
+<th>
 gap_len
+</th>
+<th>
 variable
+</th>
+<th>
 site
+</th>
+<th>
 total_obs
+</th>
+<th>
 end
+</th>
+</tr>
+<tr>
+<td>
 u32
+</td>
+<td>
 str
+</td>
+<td>
 str
+</td>
+<td>
 i32
+</td>
+<td>
 datetime[μs]
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 2913
+</td>
+<td>
 "TA_F_QC"
+</td>
+<td>
 "ZM-Mon"
+</td>
+<td>
 175343
+</td>
+<td>
 2000-01-01 00:30:00
+</td>
+</tr>
+<tr>
+<td>
 1
+</td>
+<td>
 "TA_F_QC"
+</td>
+<td>
 "ZM-Mon"
+</td>
+<td>
 175343
+</td>
+<td>
 2000-03-02 17:30:00
+</td>
+</tr>
+<tr>
+<td>
 1
+</td>
+<td>
 "TA_F_QC"
+</td>
+<td>
 "ZM-Mon"
+</td>
+<td>
 175343
+</td>
+<td>
 2000-03-04 04:30:00
+</td>
+</tr>
+<tr>
+<td>
 1
+</td>
+<td>
 "TA_F_QC"
+</td>
+<td>
 "ZM-Mon"
+</td>
+<td>
 175343
+</td>
+<td>
 2000-03-04 09:00:00
+</td>
+</tr>
+<tr>
+<td>
 1
+</td>
+<td>
 "TA_F_QC"
+</td>
+<td>
 "ZM-Mon"
+</td>
+<td>
 175343
+</td>
+<td>
 2000-03-10 11:30:00
+</td>
+</tr>
+<tr>
+<td>
 131743
+</td>
+<td>
 "TA_F_QC"
+</td>
+<td>
 "ZM-Mon"
+</td>
+<td>
 175343
+</td>
+<td>
 2000-03-11 02:00:00
+</td>
+</tr>
+<tr>
+<td>
 1
+</td>
+<td>
 "TA_F_QC"
+</td>
+<td>
 "ZM-Mon"
+</td>
+<td>
 175343
+</td>
+<td>
 2008-01-30 12:00:00
+</td>
+</tr>
+<tr>
+<td>
 7753
+</td>
+<td>
 "TA_F_QC"
+</td>
+<td>
 "ZM-Mon"
+</td>
+<td>
 175343
+</td>
+<td>
 2009-07-23 12:00:00
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="1403577c-b397-4e7c-a59a-49f9359b4a61" class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>gap_stat.<span class="bu">filter</span>(</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"variable"</span>) <span class="op">==</span> <span class="st">"TA_F_QC"</span> </span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>).<span class="bu">filter</span>(pl_in(<span class="st">"site"</span>, [<span class="st">"DE-Lnf"</span>])).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
+
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -902,62 +1613,162 @@ datetime[μs]
         line-height: 95%;
     }
 </style>
+<small>shape: (6, 5)</small><table class="dataframe table table-sm table-striped small">
 
-<span class="small">shape: (6, 5)</span>
+<thead>
+<tr>
+<th>
 gap_len
+</th>
+<th>
 variable
+</th>
+<th>
 site
+</th>
+<th>
 total_obs
+</th>
+<th>
 end
+</th>
+</tr>
+<tr>
+<td>
 u32
+</td>
+<td>
 str
+</td>
+<td>
 str
+</td>
+<td>
 i32
+</td>
+<td>
 datetime[μs]
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 5116
+</td>
+<td>
 "TA_F_QC"
+</td>
+<td>
 "DE-Lnf"
+</td>
+<td>
 192863
+</td>
+<td>
 2002-01-01 00:30:00
+</td>
+</tr>
+<tr>
+<td>
 52608
+</td>
+<td>
 "TA_F_QC"
+</td>
+<td>
 "DE-Lnf"
+</td>
+<td>
 192863
+</td>
+<td>
 2007-01-01 00:30:00
+</td>
+</tr>
+<tr>
+<td>
 1
+</td>
+<td>
 "TA_F_QC"
+</td>
+<td>
 "DE-Lnf"
+</td>
+<td>
 192863
+</td>
+<td>
 2010-04-15 10:00:00
+</td>
+</tr>
+<tr>
+<td>
 20
+</td>
+<td>
 "TA_F_QC"
+</td>
+<td>
 "DE-Lnf"
+</td>
+<td>
 192863
+</td>
+<td>
 2012-08-14 13:00:00
+</td>
+</tr>
+<tr>
+<td>
 45
+</td>
+<td>
 "TA_F_QC"
+</td>
+<td>
 "DE-Lnf"
+</td>
+<td>
 192863
+</td>
+<td>
 2012-10-09 14:00:00
+</td>
+</tr>
+<tr>
+<td>
 2
+</td>
+<td>
 "TA_F_QC"
+</td>
+<td>
 "DE-Lnf"
+</td>
+<td>
 192863
+</td>
+<td>
 2012-10-16 13:30:00
-
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="cell">
+<div id="05c40cb0-8718-4f3c-9f4d-6d3696466c03" class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> visualize_by_site(df):</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    sites <span class="op">=</span> df[<span class="st">"site"</span>].unique()</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> site <span class="kw">in</span> sites:</span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">yield</span> df.<span class="bu">filter</span>(pl.col(<span class="st">"site"</span>) <span class="op">==</span> site)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="da12555d-d62d-4501-8275-cf932b69ac38" class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>by_site <span class="op">=</span> <span class="bu">list</span>(visualize_by_site(gaps_year_site_ta))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="feaeeab1-8937-49bd-a48b-5a06886445e8" class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>button_next <span class="op">=</span> widgets.Button(description<span class="op">=</span><span class="st">"Next"</span>, icon<span class="op">=</span><span class="st">"arrow-right"</span>)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>button_prev <span class="op">=</span> widgets.Button(description<span class="op">=</span><span class="st">"Previous"</span>, icon<span class="op">=</span><span class="st">"arrow-left"</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> widgets.Output()</span>
@@ -1007,25 +1818,25 @@ datetime[μs]
 </script>
 </div>
 </div>
-<div class="cell">
+<div id="132da75c-4de5-4a91-9164-ffcc22b610f4" class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>ta_gaps <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"variable"</span>) <span class="op">==</span> <span class="st">"TA_F_QC"</span> </span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="47af467d-92ba-4ecb-b371-19a99d0db924" class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>ta_gaps.to_pandas().hist(column<span class="op">=</span><span class="st">"gap_len"</span>)</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>plt.yscale(<span class="st">'log'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="analyze_gaps_fluxnet_files/figure-html/cell-31-output-1.png" class="quarto-discovered-preview-image img-fluid"></p>
+<p><img src="analyze_gaps_fluxnet_files/figure-html/cell-31-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
 <section id="interactive-histograms" class="level2">
 <h2 class="anchored" data-anchor-id="interactive-histograms">Interactive histograms</h2>
-<div class="cell">
+<div id="4cce33cd-67c7-448c-801e-255df8681e00" class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>all_vars <span class="op">=</span> gap_stat.select(pl.col(<span class="st">"variable"</span>).unique().sort()).collect()[<span class="st">"variable"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="9dae2ea9-197e-4b17-9981-7550f4181083" class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="at">@interact</span>(var <span class="op">=</span> all_vars)</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_var_dist(var):</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    ta_gaps <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
@@ -1039,10 +1850,10 @@ datetime[μs]
 </script>
 </div>
 </div>
-<div class="cell">
+<div id="c0a440ad-2c60-482e-8329-94fda42e1202" class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>all_sites <span class="op">=</span> gap_stat.select(pl.col(<span class="st">"site"</span>).unique().sort()).collect()[<span class="st">"site"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="44ee409b-4ac7-4330-9795-c649c707d1df" class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="at">@interact</span>(var <span class="op">=</span> all_vars, site <span class="op">=</span> all_sites)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_var_dist(var, site):</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    ta_gaps <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
@@ -1056,7 +1867,7 @@ datetime[μs]
 </script>
 </div>
 </div>
-<div class="cell">
+<div id="fe26b967-f2e0-4418-9c50-0ead39c53fa6" class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="at">@interact</span>(var <span class="op">=</span> all_vars, site <span class="op">=</span> all_sites)</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_var_dist(var, site, small<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    ta_gaps <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
@@ -1071,7 +1882,7 @@ datetime[μs]
 </script>
 </div>
 </div>
-<div class="cell">
+<div id="518e135c-27a5-46eb-8955-66745b335d10" class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="at">@interact</span>(var <span class="op">=</span> all_vars)</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_var_dist(var, small<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    ta_gaps <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
@@ -1088,11 +1899,11 @@ datetime[μs]
 </script>
 </div>
 </div>
-<div class="cell">
+<div id="29ab790d-c6de-4446-ac33-1812d1c8e9a5" class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.data <span class="im">import</span> get_grid</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyprojroot <span class="im">import</span> here</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="fef8af31-2f87-43cf-ba96-9c2b6f59e641" class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_var_dist(var, small<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ax <span class="kw">is</span> <span class="va">None</span>: ax <span class="op">=</span> get_grid(<span class="dv">1</span>)[<span class="dv">0</span>]</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    ta_gaps <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
@@ -1106,7 +1917,7 @@ datetime[μs]
 <span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="ss">f"</span><span class="sc">{</span><span class="st">'Log'</span> <span class="cf">if</span> <span class="kw">not</span> small <span class="cf">else</span> <span class="st">''</span><span class="sc">}</span><span class="ss"> n gaps"</span>)</span>
 <span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># plt.xscale('log') </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="ca40564a-4a96-45de-abed-5b44d33745ae" class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, var <span class="kw">in</span> <span class="bu">zip</span>(get_grid(<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">8</span>), sharey<span class="op">=</span><span class="va">True</span>), [<span class="st">'TA_F_QC'</span>, <span class="st">'SW_IN_F_QC'</span>, <span class="st">'VPD_F_QC'</span>]):</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    plot_var_dist(var, ax<span class="op">=</span>ax)</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>plt.savefig(here(<span class="st">"analysis/presentations/plots_18_jan/gap_len_dist.png"</span>, warn<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1114,7 +1925,7 @@ datetime[μs]
 <p><img src="analyze_gaps_fluxnet_files/figure-html/cell-40-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="336e6897-d0af-43af-a6fd-283746d8e9ec" class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_var_dist_small(var, ax<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ax <span class="kw">is</span> <span class="va">None</span>: ax <span class="op">=</span> get_grid(<span class="dv">1</span>)[<span class="dv">0</span>]</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    ta_gaps <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
@@ -1127,7 +1938,7 @@ datetime[μs]
 <span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="ss">f"Log n gaps"</span>)</span>
 <span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>    ax.set_yscale(<span class="st">'log'</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="1b7c083d-ed7a-4d0b-b9e3-0d6ed9395822" class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, var <span class="kw">in</span> <span class="bu">zip</span>(get_grid(<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">8</span>), sharey<span class="op">=</span><span class="va">True</span>), [<span class="st">'TA_F_QC'</span>, <span class="st">'SW_IN_F_QC'</span>, <span class="st">'VPD_F_QC'</span>]):</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    plot_var_dist_small(var, ax<span class="op">=</span>ax)</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>plt.savefig(here(<span class="st">"analysis/presentations/plots_18_jan/gap_len_dist_small.png"</span>, warn<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1135,7 +1946,7 @@ datetime[μs]
 <p><img src="analyze_gaps_fluxnet_files/figure-html/cell-42-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
+<div id="782ad97e-d7ae-4563-9249-19d080476248" class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_var_dist_cum(var, ax<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ax <span class="kw">is</span> <span class="va">None</span>: ax <span class="op">=</span> get_grid(<span class="dv">1</span>)[<span class="dv">0</span>]</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -1154,7 +1965,7 @@ datetime[μs]
 </section>
 <section id="difference-sites" class="level2">
 <h2 class="anchored" data-anchor-id="difference-sites">Difference sites</h2>
-<div class="cell">
+<div id="104e9a5d-f327-4708-be3f-b079eccf7826" class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>var_gaps <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>        (pl.col(<span class="st">"variable"</span>) <span class="op">==</span> <span class="st">'TA_F_QC'</span>)</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    ).<span class="bu">filter</span>(</span>
@@ -1163,20 +1974,20 @@ datetime[μs]
 <span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>        </span>
 <span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    ).collect().to_pandas()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="bdae55ba-7d3c-4e56-a504-86adf95cd174" class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>alt.data_transformers.enable(<span class="st">'data_server'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="04ebdf66-4975-4401-8520-9e5e8522c3e3" class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a> </span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(var_gaps).mark_boxplot().encode(</span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>alt.Y(<span class="st">'site'</span>, sort<span class="op">=</span>alt.Sort(alt.EncodingSortField(field<span class="op">=</span><span class="st">"y"</span>, op<span class="op">=</span><span class="st">"mean"</span>, order<span class="op">=</span><span class="st">"ascending"</span>))),</span>
 <span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">'gap_len'</span></span>
 <span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="f483344a-4d55-4c16-b51e-87361b0d056d" class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>widgets.IntSlider?</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="2e9fb32c-c6fc-4743-a40d-f698a084fb58" class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="at">@interact</span>(var <span class="op">=</span> all_vars)</span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_var_dist(var, max_len<span class="op">=</span>widgets.IntSlider(<span class="dv">1000</span>, <span class="dv">100</span>, <span class="dv">20_000</span>, <span class="dv">100</span>)):</span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    var_gaps <span class="op">=</span> gap_stat.<span class="bu">filter</span>(</span>
@@ -1190,24 +2001,24 @@ datetime[μs]
 <span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="st">'gap_len'</span></span>
 <span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>    ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="27b229a0-6ab7-4c41-a46d-7b546f2ea2cb" class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>gap_stat.with_columns(</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    (pl.col(<span class="st">"gap_len"</span>) <span class="op">/</span> pl.col(<span class="st">"total_obs"</span>)).alias(<span class="st">"frac_gap"</span>)</span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>).head().collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="905d9493-6583-4d7a-87ca-a57873bdf8c5" class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>gap_stat.with_columns(</span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    (pl.col(<span class="st">"gap_len"</span>) <span class="op">/</span> pl.col(<span class="st">"total_obs"</span>)).alias(<span class="st">"frac_gap"</span>)</span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>).groupby([<span class="st">"variable"</span>, <span class="st">"site"</span>]).agg(pl.col(<span class="st">"gap_len"</span>).<span class="bu">sum</span>()).head().collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="a84e9429-20ea-4a5f-8f60-758a1646589a" class="cell">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>gap_stat.with_columns(</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    (pl.col(<span class="st">"gap_len"</span>) <span class="op">/</span> pl.col(<span class="st">"total_obs"</span>)).alias(<span class="st">"frac_gap"</span>)</span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>).groupby([<span class="st">"variable"</span>, <span class="st">"site"</span>]).agg(</span>
 <span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"gap_len"</span>).<span class="bu">sum</span>() <span class="op">/</span> pl.col(<span class="st">"total_obs"</span>).first()</span>
 <span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>).groupby(<span class="st">"variable"</span>).agg(pl.col(<span class="st">"gap_len"</span>).mean()).collect()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="142e6843-b9ed-404d-ab2b-589cd5ed807e" class="cell">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>gap_stat.with_columns(</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>    (pl.col(<span class="st">"gap_len"</span>) <span class="op">/</span> pl.col(<span class="st">"total_obs"</span>)).alias(<span class="st">"frac_gap"</span>)</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>).groupby([<span class="st">"variable"</span>, <span class="st">"site"</span>]).agg(</span>
@@ -1328,6 +2139,30 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, function() {
+      let href = xref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children.length > 2) {
+          for (let i = 0; i < 2; i++) {
+            container.appendChild(note.children[i].cloneNode(true));
+          }
+          return container.innerHTML
+        } else {
+          return note.innerHTML;
+        }
+      } else {
+        return note.innerHTML;
+      }
     });
   }
       let selectedAnnoteEl;
