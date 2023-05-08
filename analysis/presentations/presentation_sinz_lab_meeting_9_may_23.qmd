@@ -1,0 +1,491 @@
+---
+title: Evaluation of Kalman filter for meteorological time series imputation  for Eddy Covariance applications
+author: Simone Massaro - Sinz Lab meeting 9 May 2023
+Date: "18 Jan 2023"
+format:
+  revealjs:
+    transition: fade
+    slide-number: true
+    chalkboard: true
+---
+
+```{r}
+#| include: false
+library(vegawidget)
+library(magrittr)
+library(here)
+
+base_path <- here::here("analysis/presentations/plots_18_jan/")
+show_plot <- function(path){
+  f_name = paste0(base_path, path, ".vl.json")
+  as_vegaspec(f_name)
+}
+
+img_dir <- here::here("manuscript/Master Thesis - Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications - Simone Massaro/images")
+
+```
+
+
+## Outline
+
+1.  Introduction
+2.  Kalman Filter
+3.  Preliminary results
+4.  Next steps
+
+# 1. Introduction
+
+## About me
+
+- just finished master in Forest and Ecosystem Sciences at university of Göttingen
+- master thesis 
+
+## Background
+
+-   
+
+Eddy Covariance (EC) tower measures also meteorological variables (eg. air temperature, wind speed)
+-   technical issues (eg. broken sensor) result in **meteo time series** with **gaps**
+-   Presence of gaps is a problem in many EC data applications (eg. ecosystem modelling)
+- over 98% f gaps are shorter than a week
+
+## How to impute gaps
+
+in multivariate time series:
+
+- use other observations before and after the gap and exploit the variable temporal autocorrelation
+- use statistical dependency with other (non missing) variables
+- use other timeseries that measure similar variables
+
+## State of the art
+
+1. Marginal Distribution Sampling (MDS)
+  
+  - use mean of all other observations from similar meteorological conditions (close in time and in values of other variables)
+  - most commonly used method and default for short gaps
+  
+2. Global meteorological dataset (ERA-I)
+
+  - global dataset using weather models
+  - limited spatial/temporal resolution
+  - not all variables are available
+  
+## Example imputation
+
+![](`r here::here("manuscript/Master Thesis - Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications - Simone Massaro/images/timeseries_sota.svg")`)
+
+## Potentail for Improvements
+
+- **temporal autocorrelation**: observations closer to the gap should have a stronger weight in the prediction
+
+- **combine imputation approaches**: use information both from the local time series and the global dataset 
+
+- **Uncertainty**: provide a quantifiable and interpretable uncertainty in the predictions
+
+## Contributions of this work
+
+develop a new imputation methods that uses Kalman Filter as it allows to:
+  - use variable temporal autocorrelation
+  - use inter-variable correlation
+  - use global dataset
+  - uncertainty of predictions
+  - computationally efficient
+  
+- assess the KF imputation performance and the aspect 
+
+expect limited performance for long gaps
+
+# Kalman Filter
+
+## Kalman Filter assumptions
+
+- the observed variables ($y_t$) depend on a latent state of system
+- the latent states ($x_t$) are connected by a Markov Chain $p(x_t|x_{t-1}) = p(x_t|x_{t-1}, x_{t-2}, \hdots, x_0)$
+- all distributions are Gaussian and relationship are linear
+
+
+
+## Kalman Filter for imputation
+
+- predict time at next time state ($x_{t+1}$) using current state ($x_{t+1}$) and potentially a control variable
+- correct the state distribution using the observed variable ($y_t$) **if available**
+- if the 
+
+
+## Kalman Filter with equations
+
+$$
+\begin{align}
+p(x_t | x_{t-1}) &= \mathcal{N}(x_t; Ax_{t-1} + d + Bc_t, Q) \\
+p(y_t | x_t) &= \mathcal{N}(y_t; Hx_t + b, R)
+\end{align}
+$$
+
+## Kalman Filter with images
+
+
+## Kalman Filter implementation
+
+- KF equations derived using Bayesian inference + properties of Gaussian distributions
+- naive equations are numerically unstable
+- custom implementation in PyTorch
+
+## Model training
+
+- artificial gaps
+- find optimal parameters using gradient descend
+
+# Results
+
+## KF vs SoTA
+
+
+
+# Discussion and Conclusions
+
+## Conclusions
+
+- KF consistently outperform state-of-the-art methods
+- KF provides uncertainty predictions
+- imputation performance changes a lot between variables
+- numerical stability issues limit applications of current implementation for long gaps in all variables
+- difficult to train the KF: parameters initialisation and training data
+
+
+
+## Future outlook
+
+## 
+
+## More details
+
+- Master Thesis
+- code
+- this presentation: 
+
+## Gap len distribution in Fluxnet
+
+![plot of distribution of gaps for all `TA`, `SW_IN` and `VPD` for all sites. 26 millions total obs](plots_18_jan/gap_len_dist.png)
+
+## Gap len distribution in Fluxnet
+
+![plot of distribution of small gaps (<1 week) for all `TA`, `SW_IN` and `VPD` for all sites. 26 millions total obs](plots_18_jan/gap_len_dist_small.png)
+
+## How to fill gaps
+
+1.  use previous and following measurements for one variable and temporal auto-correlation (eg. diurnal cycles)
+2.  correlation with other variables measures (eg. solar radiation and temperature)
+3.  other measurements of meteo variables (eg. nearby station)
+
+## State of the art
+
+OneFlux pipeline (Fluxnet + ICOS + AmeriFlux)
+
+- Short and medium gaps using Marginal Distribution Sampling (MDS)
+
+- Long gaps filled with ERA data (global meteo dataset) using linear transformation to reduce site bias
+    
+## How MDS (Marginal Distribution Sampling) works {.smaller}
+
+:::: {.columns}
+::: {.column}
+- take a time window (7 days) around the gap
+- use 3 predictors variables (`TA`, `SW_IN` and `VPD`) and divide them in n discrete bins
+- for each bin (combination of conditions) find the average value of the missing variable
+- for each gap find the closest condition and fill with the average value
+- if necessary increase the time window 
+- quality flag depends on the time window size
+:::
+
+::: {.column}
+![](plots_18_jan/Tair_dist-1.png)
+
+:::
+::::
+
+## MDS - gap filling `TA`
+
+
+![](plots_18_jan/Tair_plot_timeseries_gap_10-1.png)
+
+## MDS - gap filling `SW_IN`
+
+
+![](plots_18_jan/SW_IN_plot_timeseries_gap_10-1.png)
+
+
+## MDS - gap filling `VPD`
+
+![](plots_18_jan/VPD_plot_timeseries_gap_10-1.png)
+
+
+## Current approaches limitations
+
+-   don't consider the observations before and after the gap
+-   Either MDS (variable correlation) or ERA data, don't combine the information
+-   No uncertainty for the predictions (only a quality flag)
+
+## Thesis goal
+
+-   develop model to impute missing data in meteorological time series
+-   include all 3 imputation approaches
+-   provide an uncertainty of the predictions
+
+
+# 3. Model: Kalman Filter
+
+## How Kalman Filter works
+
+:::: {.columns}
+::: {.column width=60%}
+Models over time a **latent** variable (we are not observing it), the **state** of the system.
+
+The current state $x_t$ depends using:
+
+1. the previous state $\color{blue}{x_{t-1}}$
+2. current observation $\color{green}{y_t}$
+3. control variable $\color{purple}{c_t}$ (ERA data)
+
+:::
+::: {.column width=40%}
+![](plots_18_jan/latent_var.png)
+:::
+::::
+
+## 1. Previous state {.smaller}
+
+:::: {.columns}
+
+:::{.column}
+$$ x_t = A\color{blue}{x_{t-1}} + \varepsilon $$
+where:
+
+- $x_{t}$ is the current state
+- $\color{blue}{x_{t-1}}$ is the previous state
+- $A$ is a linear transformation of $\color{blue}{x_{t-1}}$
+- $\varepsilon$ is the "process" noise which is a random variable with a normal distribution with mean 0
+:::
+
+:::{.column .center}
+
+```{r}
+#| fig.cap="Example of Kalman Filter $A=1$"
+show_plot("only_state")
+```
+:::
+
+::::
+
+## 2. Current Observation {.smaller}
+
+:::: {.columns}
+
+:::{.column}
+$$ \begin{aligned}x_t &= A\color{blue}{x_{t-1}} + \varepsilon \\\color{green}{y_t} &= Hx_t + \nu\end{aligned}$$
+
+where:
+
+- $\color{green}{y_{t}}$ is the current observation
+- $H$ is a linear transformation of $\color{green}{y_{t}}$
+- $\nu$ is the "observation" noise which is a random variable with a normal distribution with mean 0
+
+using the rules of probabilistic inference if we observe $y_t$ you can update the distribution of $x_t$
+:::
+
+:::{.column}
+
+```{r}
+#| fig.cap="Example of Kalman Filter $H=1$ $A=1$"
+show_plot("obs")
+```
+:::
+
+::::
+
+## Gaps
+
+
+```{r}
+#| fig.cap="Example of Kalman Filter $H=1$ $A=1$"
+show_plot("gaps")
+```
+
+## 3. Control variable {.smaller}
+
+:::: {.columns}
+
+:::{.column}
+$$ \begin{aligned}x_t &= A\color{blue}{x_{t-1}} + B\color{purple}{c_t} + \varepsilon \\\color{green}{y_t} &= Hx_t + \nu\end{aligned}$$
+
+where:
+
+- $B$ is a linear transformation of $\color{purple}{c_t}$
+
+Use the difference between current and previous value of control variable 
+:::
+
+:::{.column}
+
+```{r}
+#| fig.cap="Example of Kalman Filter $H=1$ $A=1$ $B=[-1,1]$"
+show_plot("control")
+```
+:::
+
+::::
+
+## Extra: Variable correlation
+
+:::: {.columns}
+
+:::{.column}
+
+Gap in two variables
+```{r}
+show_plot("var_no_corr")
+```
+
+:::
+
+:::{.column .fragment}
+
+Gap in only one variable
+```{r}
+show_plot("var_corr")
+```
+:::
+
+::::
+
+## How to find model parameters {.incremental}
+
+- create artificial gaps
+- predicting gap in the model
+- compute the log likelihood of the predictions
+- maximise the log likelihood
+
+## Kalman Filter
+
+pros:
+
+- Probabilist model: the output of the model is a **distribution of predictions**, not a single value
+- Combines **all** 3 approaches to gap filling in one model
+- interpretable paramters
+- computationally efficient
+
+cons:
+
+- keeps tracks only of the local state
+
+# 2. Preliminary results
+
+
+## Kalman Filters gap #1
+
+```{r}
+show_plot("results_gap_all_vars_g0")
+```
+
+## Kalman Filters gap #2
+
+```{r}
+show_plot("results_gap_all_vars_g1")
+```
+
+## Kalman Filters gap #3
+
+```{r}
+show_plot("results_gap_all_vars_g2")
+```
+
+# Next steps
+
+## What is missing in the model development
+
+- improve numerical stability of model (work in progress)
+- find optimal settings for training and inference
+  - n observations before after/gap
+  - how to best generate artificial gaps
+- How to assess the model?
+
+## Use of gap filling
+  
+- what is the impact of better gap filling for data users?
+  - why better filling for short/medium gaps is useful
+  - how can the uncertainty be used
+
+## How to assess the model? settings
+
+- how to choose gap lengths?
+- how to choose number of variables missing?
+- which variable to focus on?
+
+
+## How to assess the model? Metrics
+
+- RMSE - interpretation difficult as it's relative to the variable
+- r2 - gaps are often too short to interpret properly
+- ? 
+
+## How to assess the model? Figures
+:::: {.columns}
+::: {.column}
+
+Time series
+
+```{r}
+knitr::include_graphics("plots_18_jan/Tair_plot_timeseries_gap_10-1.png")
+```
+
+:::
+
+::: {.column}
+
+Scatter plots
+
+```{r}
+knitr::include_graphics("plots_18_jan/Tair_plot_scatter-1.png")
+```
+
+:::
+::::
+
+## How to assess the model? Figures
+
+:::: {.columns}
+::: {.column}
+
+Gap length / mean RMSE
+
+```{r}
+knitr::include_graphics("plots_18_jan/Tair_plot_rmse-1.png")
+```
+
+:::
+
+::: {.column}
+
+Distribution gaps vs filled
+
+```{r}
+knitr::include_graphics("plots_18_jan/Tair_plot_fill_dist-1.png")
+```
+
+:::
+::::
+
+
+## Future outlook
+
+- optimize performance model
+- provide pre-trained model on Fluxnet 2015 and then to fine-tune to local site
+- provide web-service for filling gaps
+- reprocess Fluxnet 2015 dataset
+
+# Questions & Comments
+
+::: footer
+Github repo: [https://github.com/mone27/meteo_imp](https://github.com/mone27/meteo_imp)\
+Website: <https://mone27.github.io/meteo_imp>\
+Presentation: <https://mone27.github.io/meteo_imp/presentations/presentation_bioclim_18_jan_23.html>
+::: 
