@@ -1,0 +1,239 @@
+---
+title: Evaluation of Kalman filter for meteorological time series imputation  for Eddy Covariance applications
+author: Simone Massaro - Sinz Lab meeting 9 May 2023
+Date: "18 Jan 2023"
+format:
+  revealjs:
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    pointer:
+      - pointerSize: 17
+---
+
+```{r}
+#| include: false
+library(vegawidget)
+library(magrittr)
+library(here)
+
+base_path <- here::here("analysis/presentations/plots_18_jan/")
+show_plot <- function(path){
+  f_name = paste0(base_path, path, ".vl.json")
+  as_vegaspec(f_name)
+}
+
+img_dir <- here::here("manuscript/Master Thesis - Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications - Simone Massaro/images/")
+
+library(fs)
+
+img <- function(img_name){
+  path_join(c(img_dir, img_name))
+}
+
+```
+
+
+## Outline
+
+1.  Introduction
+2.  Kalman Filter
+3.  Preliminary results
+4.  Next steps
+
+# 1. Introduction
+
+## About me
+
+
+
+:::: {.columns}
+
+::: {.column width="50%"}
+- just finished master in Forest and Ecosystem Sciences at university of Göttingen
+- master thesis with Fabian as supervisor
+:::
+
+::: {.column width="30%"}
+
+![](images/simone_profile_pic.JPG)
+
+:::
+
+::::
+
+
+
+
+## Background
+
+-   "Eddy Covariance" state of the art technique to measure **greenhouse gas exchanges**
+-   measurement set-up includes instruments for meteorological variables (eg. air temperature, wind speed)
+-   technical issues (eg. broken sensor) result in **meteo time series** with **gaps**
+-   presence of gaps is a problem for many applications of the Eddy Covariance data (eg. ecosystem modelling)
+-   gaps are filled using models
+
+## How to impute gaps
+
+in multivariate time series:
+
+- use other observations before and after the gap and exploit the variable temporal autocorrelation
+- use statistical dependency with other (non missing) variables
+- use other timeseries that measure similar variables
+
+
+## State of the art
+
+:::: {.columns}
+
+::: {.column width="50%"}
+Marginal Distribution Sampling (MDS)
+  
+  - use mean of all other observations from similar meteorological conditions (close in time and in values of other variables)
+  - most commonly used method and default for short gaps
+:::
+
+::: {.column width="50%"}
+Global meteorological dataset (ERA-I)
+
+  - global dataset using weather models
+  - limited spatial/temporal resolution
+  - not all variables are available
+:::
+
+::::
+  
+## Example imputation
+
+![](`r img("timeseries_sota.svg")`){fig-align="center"}
+
+## Potential for Improvements
+
+- **temporal autocorrelation**: observations closer to the gap should have a stronger weight in the prediction
+
+- **combine imputation approaches**: use information both from the local time series and the global dataset 
+
+- **Uncertainty**: provide a quantifiable and interpretable uncertainty in the predictions
+
+## Contributions of this work {.smaller}
+
+1. develop a new imputation methods that uses Kalman Filter as it allows to:
+
+    - use variable temporal autocorrelation
+    - use inter-variable correlation
+    - use global dataset
+    - uncertainty of predictions
+    - computationally efficient
+  
+2. evaluate the KF imputation performance
+
+    - compare with SoTA methods
+    - explore aspects affect KF performance
+
+# Kalman Filter
+
+## Kalman Filter assumptions
+
+- the observed variables ($y_t$) depend on a latent state of system
+- the latent states ($x_t$) are connected by a Markov Chain $p(x_t|x_{t-1}) = p(x_t|x_{t-1}, x_{t-2}, ..., x_0)$
+- all distributions are Gaussian and relationship are linear
+
+
+## Kalman Filter for imputation
+
+- predict time at next time state ($x_{t+1}$) using current state ($x_{t+1}$) and potentially a control variable
+- correct the state distribution using the observed variable ($y_t$) **if available**
+- update state backward in time (smoothing)
+- the missing observations can be then predicted from the state
+
+
+
+## Kalman Filter with images
+
+![](`r img("Kalman Filter figure.svg")`){fig-align="center"}
+
+## Kalman Filter with equations
+
+$$
+\begin{align}
+p(x_t | x_{t-1}) &= \mathcal{N}(x_t; Ax_{t-1} + d + Bc_t, Q) \\
+p(y_t | x_t) &= \mathcal{N}(y_t; Hx_t + b, R)
+\end{align}
+$$
+
+## Kalman Filter implementation
+
+- KF equations derived using Bayesian inference + properties of Gaussian distributions
+- naive equations are numerically unstable
+- custom implementation in PyTorch
+
+
+## Model training
+
+- data from one site (Hainich, Germany) 
+- ERA-I as control variable
+- create artificial gaps
+- find optimal parameters using gradient descend
+- loss function negative log likelihood
+
+# Results
+
+## KF vs SoTA
+
+![](`r img("the_plot.svg")`){fig-align="center"}
+
+## Gap length
+
+![](`r img("gap_len.svg")`){fig-align="center"}
+
+
+## Control variable
+
+![](`r img("use_control.svg")`){fig-align="center"}
+
+## Other variables availability
+
+![](`r img("gap_single_var.svg")`){fig-align="center"}
+
+## Fine tuning to individual variables
+
+![](`r img("generic.svg")`){fig-align="center"}
+
+## Training conditions
+
+![](`r img("train_compare.svg")`){fig-align="center"}
+
+# Discussion and Conclusions
+
+## Conclusions
+
+- KF consistently outperforms state-of-the-art methods
+- KF provides uncertainty predictions
+- imputation performance changes a lot between variables
+- KF performance decreases for longer gaps
+- numerical stability issues limit applications of current implementation for long gaps in all variables
+- difficult to train the KF: parameters initialisation and training data
+
+## KF application
+
+- can be applied now to improve imputation (especially short gaps)
+- need to indentify best approach to fine-tune model to each condition/variable
+- should not be used for precipitation
+
+## Future outlook
+
+- better mitigation numerical stability
+- use latest ERA-I data
+- add non-linear relationships
+- more robust model evaluation
+
+
+# Questions & Comments
+
+::: footer
+[Master thesis PDF](https://github.com/mone27/meteo_imp/blob/master/manuscript/Master%20Thesis%20-%20Evaluation%20of%20Kalman%20filter%20for%20meteorological%20time%20series%20imputation%20for%20Eddy%20Covariance%20applications%20-%20Simone%20Massaro/Thesis.pdf)\
+Github repo: [https://github.com/mone27/meteo_imp](https://github.com/mone27/meteo_imp)\
+Website: <https://mone27.github.io/meteo_imp>\
+This presentation: <https://mone27.github.io/meteo_imp/presentations/presentation_sinz_lab_9_may_2023.html>
+::: 
+
