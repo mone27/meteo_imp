@@ -350,6 +350,328 @@
     "text": "Future outlook\n\noptimize performance model\nprovide pre-trained model on Fluxnet 2015 and then to fine-tune to local site\nprovide web-service for filling gaps\nreprocess Fluxnet 2015 dataset"
   },
   {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#outline",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#outline",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Outline",
+    "text": "Outline\n\nIntroduction\nKalman Filter\nPreliminary results\nNext steps"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#about-me",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#about-me",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "About me",
+    "text": "About me\n\njust finished master in Forest and Ecosystem Sciences at university of Göttingen\nmaster thesis"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#background",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#background",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Background",
+    "text": "Background\n\n\n\nEddy Covariance (EC) tower measures also meteorological variables (eg. air temperature, wind speed) - technical issues (eg. broken sensor) result in meteo time series with gaps - Presence of gaps is a problem in many EC data applications (eg. ecosystem modelling) - over 98% f gaps are shorter than a week"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#how-to-impute-gaps",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#how-to-impute-gaps",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "How to impute gaps",
+    "text": "How to impute gaps\nin multivariate time series:\n\nuse other observations before and after the gap and exploit the variable temporal autocorrelation\nuse statistical dependency with other (non missing) variables\nuse other timeseries that measure similar variables"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#state-of-the-art",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#state-of-the-art",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "State of the art",
+    "text": "State of the art\n\nMarginal Distribution Sampling (MDS)\n\n\nuse mean of all other observations from similar meteorological conditions (close in time and in values of other variables)\nmost commonly used method and default for short gaps\n\n\nGlobal meteorological dataset (ERA-I)\n\n\nglobal dataset using weather models\nlimited spatial/temporal resolution\nnot all variables are available"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#example-imputation",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#example-imputation",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Example imputation",
+    "text": "Example imputation"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#potentail-for-improvements",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#potentail-for-improvements",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Potentail for Improvements",
+    "text": "Potentail for Improvements\n\ntemporal autocorrelation: observations closer to the gap should have a stronger weight in the prediction\ncombine imputation approaches: use information both from the local time series and the global dataset\nUncertainty: provide a quantifiable and interpretable uncertainty in the predictions"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#contributions-of-this-work",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#contributions-of-this-work",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Contributions of this work",
+    "text": "Contributions of this work\ndevelop a new imputation methods that uses Kalman Filter as it allows to: - use variable temporal autocorrelation - use inter-variable correlation - use global dataset - uncertainty of predictions - computationally efficient\n\nassess the KF imputation performance and the aspect\n\nexpect limited performance for long gaps"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kalman-filter-assumptions",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kalman-filter-assumptions",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Kalman Filter assumptions",
+    "text": "Kalman Filter assumptions\n\nthe observed variables (\\(y_t\\)) depend on a latent state of system\nthe latent states (\\(x_t\\)) are connected by a Markov Chain \\(p(x_t|x_{t-1}) = p(x_t|x_{t-1}, x_{t-2}, \\hdots, x_0)\\)\nall distributions are Gaussian and relationship are linear"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kalman-filter-for-imputation",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kalman-filter-for-imputation",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Kalman Filter for imputation",
+    "text": "Kalman Filter for imputation\n\npredict time at next time state (\\(x_{t+1}\\)) using current state (\\(x_{t+1}\\)) and potentially a control variable\ncorrect the state distribution using the observed variable (\\(y_t\\)) if available\nif the"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kalman-filter-with-equations",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kalman-filter-with-equations",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Kalman Filter with equations",
+    "text": "Kalman Filter with equations\n\\[\n\\begin{align}\np(x_t | x_{t-1}) &= \\mathcal{N}(x_t; Ax_{t-1} + d + Bc_t, Q) \\\\\np(y_t | x_t) &= \\mathcal{N}(y_t; Hx_t + b, R)\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kalman-filter-with-images",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kalman-filter-with-images",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Kalman Filter with images",
+    "text": "Kalman Filter with images"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kalman-filter-implementation",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kalman-filter-implementation",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Kalman Filter implementation",
+    "text": "Kalman Filter implementation\n\nKF equations derived using Bayesian inference + properties of Gaussian distributions\nnaive equations are numerically unstable\ncustom implementation in PyTorch"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#model-training",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#model-training",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Model training",
+    "text": "Model training\n\nartificial gaps\nfind optimal parameters using gradient descend"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kf-vs-sota",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kf-vs-sota",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "KF vs SoTA",
+    "text": "KF vs SoTA"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#conclusions",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#conclusions",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Conclusions",
+    "text": "Conclusions\n\nKF consistently outperform state-of-the-art methods\nKF provides uncertainty predictions\nimputation performance changes a lot between variables\nnumerical stability issues limit applications of current implementation for long gaps in all variables\ndifficult to train the KF: parameters initialisation and training data"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#future-outlook",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#future-outlook",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Future outlook",
+    "text": "Future outlook"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#more-details",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#more-details",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "More details",
+    "text": "More details\n\nMaster Thesis\ncode\nthis presentation:"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#gap-len-distribution-in-fluxnet",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#gap-len-distribution-in-fluxnet",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Gap len distribution in Fluxnet",
+    "text": "Gap len distribution in Fluxnet\n\nplot of distribution of gaps for all TA, SW_IN and VPD for all sites. 26 millions total obs"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#gap-len-distribution-in-fluxnet-1",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#gap-len-distribution-in-fluxnet-1",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Gap len distribution in Fluxnet",
+    "text": "Gap len distribution in Fluxnet\n\nplot of distribution of small gaps (&lt;1 week) for all TA, SW_IN and VPD for all sites. 26 millions total obs"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#how-to-fill-gaps",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#how-to-fill-gaps",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "How to fill gaps",
+    "text": "How to fill gaps\n\nuse previous and following measurements for one variable and temporal auto-correlation (eg. diurnal cycles)\ncorrelation with other variables measures (eg. solar radiation and temperature)\nother measurements of meteo variables (eg. nearby station)"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#state-of-the-art-1",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#state-of-the-art-1",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "State of the art",
+    "text": "State of the art\nOneFlux pipeline (Fluxnet + ICOS + AmeriFlux)\n\nShort and medium gaps using Marginal Distribution Sampling (MDS)\nLong gaps filled with ERA data (global meteo dataset) using linear transformation to reduce site bias"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#how-mds-marginal-distribution-sampling-works",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#how-mds-marginal-distribution-sampling-works",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "How MDS (Marginal Distribution Sampling) works",
+    "text": "How MDS (Marginal Distribution Sampling) works\n\n\n\ntake a time window (7 days) around the gap\nuse 3 predictors variables (TA, SW_IN and VPD) and divide them in n discrete bins\nfor each bin (combination of conditions) find the average value of the missing variable\nfor each gap find the closest condition and fill with the average value\nif necessary increase the time window\nquality flag depends on the time window size"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#mds---gap-filling-ta",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#mds---gap-filling-ta",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "MDS - gap filling TA",
+    "text": "MDS - gap filling TA"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#mds---gap-filling-sw_in",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#mds---gap-filling-sw_in",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "MDS - gap filling SW_IN",
+    "text": "MDS - gap filling SW_IN"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#mds---gap-filling-vpd",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#mds---gap-filling-vpd",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "MDS - gap filling VPD",
+    "text": "MDS - gap filling VPD"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#current-approaches-limitations",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#current-approaches-limitations",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Current approaches limitations",
+    "text": "Current approaches limitations\n\ndon’t consider the observations before and after the gap\nEither MDS (variable correlation) or ERA data, don’t combine the information\nNo uncertainty for the predictions (only a quality flag)"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#thesis-goal",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#thesis-goal",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Thesis goal",
+    "text": "Thesis goal\n\ndevelop model to impute missing data in meteorological time series\ninclude all 3 imputation approaches\nprovide an uncertainty of the predictions"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#how-kalman-filter-works",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#how-kalman-filter-works",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "How Kalman Filter works",
+    "text": "How Kalman Filter works\n\n\nModels over time a latent variable (we are not observing it), the state of the system.\nThe current state \\(x_t\\) depends using:\n\nthe previous state \\(\\color{blue}{x_{t-1}}\\)\ncurrent observation \\(\\color{green}{y_t}\\)\ncontrol variable \\(\\color{purple}{c_t}\\) (ERA data)"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#previous-state",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#previous-state",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "1. Previous state",
+    "text": "1. Previous state\n\n\n\\[ x_t = A\\color{blue}{x_{t-1}} + \\varepsilon \\] where:\n\n\\(x_{t}\\) is the current state\n\\(\\color{blue}{x_{t-1}}\\) is the previous state\n\\(A\\) is a linear transformation of \\(\\color{blue}{x_{t-1}}\\)\n\\(\\varepsilon\\) is the “process” noise which is a random variable with a normal distribution with mean 0\n\n\n\n\n\n\nExample of Kalman Filter \\(A=1\\)"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#current-observation",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#current-observation",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "2. Current Observation",
+    "text": "2. Current Observation\n\n\n\\[ \\begin{aligned}x_t &= A\\color{blue}{x_{t-1}} + \\varepsilon \\\\\\color{green}{y_t} &= Hx_t + \\nu\\end{aligned}\\]\nwhere:\n\n\\(\\color{green}{y_{t}}\\) is the current observation\n\\(H\\) is a linear transformation of \\(\\color{green}{y_{t}}\\)\n\\(\\nu\\) is the “observation” noise which is a random variable with a normal distribution with mean 0\n\nusing the rules of probabilistic inference if we observe \\(y_t\\) you can update the distribution of \\(x_t\\)\n\n\n\n\n\nExample of Kalman Filter \\(H=1\\) \\(A=1\\)"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#gaps",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#gaps",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Gaps",
+    "text": "Gaps\n\n\n\n\nExample of Kalman Filter \\(H=1\\) \\(A=1\\)"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#control-variable",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#control-variable",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "3. Control variable",
+    "text": "3. Control variable\n\n\n\\[ \\begin{aligned}x_t &= A\\color{blue}{x_{t-1}} + B\\color{purple}{c_t} + \\varepsilon \\\\\\color{green}{y_t} &= Hx_t + \\nu\\end{aligned}\\]\nwhere:\n\n\\(B\\) is a linear transformation of \\(\\color{purple}{c_t}\\)\n\nUse the difference between current and previous value of control variable\n\n\n\n\n\nExample of Kalman Filter \\(H=1\\) \\(A=1\\) \\(B=[-1,1]\\)"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#extra-variable-correlation",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#extra-variable-correlation",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Extra: Variable correlation",
+    "text": "Extra: Variable correlation\n\n\nGap in two variables\n\n\n\n\n\n\n\nGap in only one variable"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#how-to-find-model-parameters",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#how-to-find-model-parameters",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "How to find model parameters",
+    "text": "How to find model parameters\n\ncreate artificial gaps\npredicting gap in the model\ncompute the log likelihood of the predictions\nmaximise the log likelihood"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kalman-filter-1",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kalman-filter-1",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Kalman Filter",
+    "text": "Kalman Filter\npros:\n\nProbabilist model: the output of the model is a distribution of predictions, not a single value\nCombines all 3 approaches to gap filling in one model\ninterpretable paramters\ncomputationally efficient\n\ncons:\n\nkeeps tracks only of the local state"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kalman-filters-gap-1",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kalman-filters-gap-1",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Kalman Filters gap #1",
+    "text": "Kalman Filters gap #1"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kalman-filters-gap-2",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kalman-filters-gap-2",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Kalman Filters gap #2",
+    "text": "Kalman Filters gap #2"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kalman-filters-gap-3",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#kalman-filters-gap-3",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Kalman Filters gap #3",
+    "text": "Kalman Filters gap #3"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#what-is-missing-in-the-model-development",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#what-is-missing-in-the-model-development",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "What is missing in the model development",
+    "text": "What is missing in the model development\n\nimprove numerical stability of model (work in progress)\nfind optimal settings for training and inference\n\nn observations before after/gap\nhow to best generate artificial gaps\n\nHow to assess the model?"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#use-of-gap-filling",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#use-of-gap-filling",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Use of gap filling",
+    "text": "Use of gap filling\n\nwhat is the impact of better gap filling for data users?\n\nwhy better filling for short/medium gaps is useful\nhow can the uncertainty be used"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#how-to-assess-the-model-settings",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#how-to-assess-the-model-settings",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "How to assess the model? settings",
+    "text": "How to assess the model? settings\n\nhow to choose gap lengths?\nhow to choose number of variables missing?\nwhich variable to focus on?"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#how-to-assess-the-model-metrics",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#how-to-assess-the-model-metrics",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "How to assess the model? Metrics",
+    "text": "How to assess the model? Metrics\n\nRMSE - interpretation difficult as it’s relative to the variable\nr2 - gaps are often too short to interpret properly\n?"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#how-to-assess-the-model-figures",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#how-to-assess-the-model-figures",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "How to assess the model? Figures",
+    "text": "How to assess the model? Figures\n\n\nTime series\n\n\n\n\n\n\nScatter plots"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#how-to-assess-the-model-figures-1",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#how-to-assess-the-model-figures-1",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "How to assess the model? Figures",
+    "text": "How to assess the model? Figures\n\n\nGap length / mean RMSE\n\n\n\n\n\n\nDistribution gaps vs filled"
+  },
+  {
+    "objectID": "presentations/presentation_sinz_lab_meeting_9_may_23.html#future-outlook-1",
+    "href": "presentations/presentation_sinz_lab_meeting_9_may_23.html#future-outlook-1",
+    "title": "Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications",
+    "section": "Future outlook",
+    "text": "Future outlook\n\noptimize performance model\nprovide pre-trained model on Fluxnet 2015 and then to fine-tune to local site\nprovide web-service for filling gaps\nreprocess Fluxnet 2015 dataset"
+  },
+  {
     "objectID": "presentations/plots_for_presentation_18_jan_23.html",
     "href": "presentations/plots_for_presentation_18_jan_23.html",
     "title": "Code for presentation of 18th January",

@@ -10,8 +10,8 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.4.37">
 
-  <meta name="author" content="Simone Massaro - Bioclim seminar 18 Jan 2023">
-  <title>Meteo Imp Analsyis - Meterological Time series Imputation using Kalman Filters</title>
+  <meta name="author" content="Simone Massaro - Sinz Lab meeting 9 May 2023">
+  <title>Meteo Imp Analsyis - Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -327,9 +327,9 @@
   <link href="../site_libs/vega-embed-6.20.8/vega-embed.css" rel="stylesheet">
   <script src="../site_libs/vega-embed-6.20.8/vega-embed@6.20.8.min.js"></script>
   <script src="../site_libs/vegawidget-vl5-binding-0.4.2/vegawidget-vl5.js"></script>
-<meta property="og:title" content="Meteo Imp Analsyis - Meterological Time series Imputation using Kalman Filters">
+<meta property="og:title" content="Meteo Imp Analsyis - Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications">
 <meta property="og:site-name" content="Meteo Imp Analsyis">
-<meta name="twitter:title" content="Meteo Imp Analsyis - Meterological Time series Imputation using Kalman Filters">
+<meta name="twitter:title" content="Meteo Imp Analsyis - Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications">
 <meta name="twitter:card" content="summary">
 </head>
 <body class="quarto-light">
@@ -337,12 +337,12 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Meterological Time series Imputation using Kalman Filters</h1>
+  <h1 class="title">Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Simone Massaro - Bioclim seminar 18 Jan 2023 
+Simone Massaro - Sinz Lab meeting 9 May 2023 
 </div>
 </div>
 </div>
@@ -362,26 +362,150 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <h1>1. Introduction</h1>
 
 </section>
+<section id="about-me" class="slide level2">
+<h2>About me</h2>
+<ul>
+<li>just finished master in Forest and Ecosystem Sciences at university of Göttingen</li>
+<li>master thesis</li>
+</ul>
+</section>
 <section id="background" class="slide level2">
 <h2>Background</h2>
 <ul>
-<li>EC tower measures also meteorological variables (eg. air temperature, wind speed)</li>
-<li>technical issues (eg. broken sensor) result in <strong>meteo time series</strong> with <strong>gaps</strong></li>
-<li>Presence of gaps is a problem in many EC data applications (eg. ecosystem modelling)</li>
+<li></li>
+</ul>
+<p>Eddy Covariance (EC) tower measures also meteorological variables (eg. air temperature, wind speed) - technical issues (eg. broken sensor) result in <strong>meteo time series</strong> with <strong>gaps</strong> - Presence of gaps is a problem in many EC data applications (eg. ecosystem modelling) - over 98% f gaps are shorter than a week</p>
+</section>
+<section id="how-to-impute-gaps" class="slide level2">
+<h2>How to impute gaps</h2>
+<p>in multivariate time series:</p>
+<ul>
+<li>use other observations before and after the gap and exploit the variable temporal autocorrelation</li>
+<li>use statistical dependency with other (non missing) variables</li>
+<li>use other timeseries that measure similar variables</li>
 </ul>
 </section>
-<section id="dataset" class="slide level2">
-<h2>Dataset</h2>
+<section id="state-of-the-art" class="slide level2">
+<h2>State of the art</h2>
+<ol type="1">
+<li>Marginal Distribution Sampling (MDS)</li>
+</ol>
 <ul>
-<li>Fluxnet 2015 data from Hainich (more 20 years)</li>
-<li>Global meteo dataset (downscaled ERA-Interim from Fluxnet 2015)</li>
-<li>meteorological measurements every 30 mins</li>
-<li>focusing on 3 variables
+<li>use mean of all other observations from similar meteorological conditions (close in time and in values of other variables)</li>
+<li>most commonly used method and default for short gaps</li>
+</ul>
+<ol start="2" type="1">
+<li>Global meteorological dataset (ERA-I)</li>
+</ol>
 <ul>
-<li>Air temperature: <code>TA</code></li>
-<li>Incoming shortwave radiation: <code>SW_IN</code></li>
-<li>Vapour Pressure Deficit: <code>VPD</code></li>
-</ul></li>
+<li>global dataset using weather models</li>
+<li>limited spatial/temporal resolution</li>
+<li>not all variables are available</li>
+</ul>
+</section>
+<section id="example-imputation" class="slide level2">
+<h2>Example imputation</h2>
+
+<img data-src="../home/runner/work/meteo_imp/meteo_imp/manuscript/Master Thesis - Evaluation of Kalman filter for meteorological time series imputation for Eddy Covariance applications - Simone Massaro/images/timeseries_sota.svg" class="r-stretch"></section>
+<section id="potentail-for-improvements" class="slide level2">
+<h2>Potentail for Improvements</h2>
+<ul>
+<li><p><strong>temporal autocorrelation</strong>: observations closer to the gap should have a stronger weight in the prediction</p></li>
+<li><p><strong>combine imputation approaches</strong>: use information both from the local time series and the global dataset</p></li>
+<li><p><strong>Uncertainty</strong>: provide a quantifiable and interpretable uncertainty in the predictions</p></li>
+</ul>
+</section>
+<section id="contributions-of-this-work" class="slide level2">
+<h2>Contributions of this work</h2>
+<p>develop a new imputation methods that uses Kalman Filter as it allows to: - use variable temporal autocorrelation - use inter-variable correlation - use global dataset - uncertainty of predictions - computationally efficient</p>
+<ul>
+<li>assess the KF imputation performance and the aspect</li>
+</ul>
+<p>expect limited performance for long gaps</p>
+</section></section>
+<section>
+<section id="kalman-filter" class="title-slide slide level1 center">
+<h1>Kalman Filter</h1>
+
+</section>
+<section id="kalman-filter-assumptions" class="slide level2">
+<h2>Kalman Filter assumptions</h2>
+<ul>
+<li>the observed variables (<span class="math inline">\(y_t\)</span>) depend on a latent state of system</li>
+<li>the latent states (<span class="math inline">\(x_t\)</span>) are connected by a Markov Chain <span class="math inline">\(p(x_t|x_{t-1}) = p(x_t|x_{t-1}, x_{t-2}, \hdots, x_0)\)</span></li>
+<li>all distributions are Gaussian and relationship are linear</li>
+</ul>
+</section>
+<section id="kalman-filter-for-imputation" class="slide level2">
+<h2>Kalman Filter for imputation</h2>
+<ul>
+<li>predict time at next time state (<span class="math inline">\(x_{t+1}\)</span>) using current state (<span class="math inline">\(x_{t+1}\)</span>) and potentially a control variable</li>
+<li>correct the state distribution using the observed variable (<span class="math inline">\(y_t\)</span>) <strong>if available</strong></li>
+<li>if the</li>
+</ul>
+</section>
+<section id="kalman-filter-with-equations" class="slide level2">
+<h2>Kalman Filter with equations</h2>
+<p><span class="math display">\[
+\begin{align}
+p(x_t | x_{t-1}) &amp;= \mathcal{N}(x_t; Ax_{t-1} + d + Bc_t, Q) \\
+p(y_t | x_t) &amp;= \mathcal{N}(y_t; Hx_t + b, R)
+\end{align}
+\]</span></p>
+</section>
+<section id="kalman-filter-with-images" class="slide level2">
+<h2>Kalman Filter with images</h2>
+</section>
+<section id="kalman-filter-implementation" class="slide level2">
+<h2>Kalman Filter implementation</h2>
+<ul>
+<li>KF equations derived using Bayesian inference + properties of Gaussian distributions</li>
+<li>naive equations are numerically unstable</li>
+<li>custom implementation in PyTorch</li>
+</ul>
+</section>
+<section id="model-training" class="slide level2">
+<h2>Model training</h2>
+<ul>
+<li>artificial gaps</li>
+<li>find optimal parameters using gradient descend</li>
+</ul>
+</section></section>
+<section>
+<section id="results" class="title-slide slide level1 center">
+<h1>Results</h1>
+
+</section>
+<section id="kf-vs-sota" class="slide level2">
+<h2>KF vs SoTA</h2>
+</section></section>
+<section>
+<section id="discussion-and-conclusions" class="title-slide slide level1 center">
+<h1>Discussion and Conclusions</h1>
+
+</section>
+<section id="conclusions" class="slide level2">
+<h2>Conclusions</h2>
+<ul>
+<li>KF consistently outperform state-of-the-art methods</li>
+<li>KF provides uncertainty predictions</li>
+<li>imputation performance changes a lot between variables</li>
+<li>numerical stability issues limit applications of current implementation for long gaps in all variables</li>
+<li>difficult to train the KF: parameters initialisation and training data</li>
+</ul>
+</section>
+<section id="future-outlook" class="slide level2">
+<h2>Future outlook</h2>
+</section>
+<section id="section" class="slide level2">
+<h2></h2>
+</section>
+<section id="more-details" class="slide level2">
+<h2>More details</h2>
+<ul>
+<li>Master Thesis</li>
+<li>code</li>
+<li>this presentation:</li>
 </ul>
 </section>
 <section id="gap-len-distribution-in-fluxnet" class="slide level2">
@@ -400,7 +524,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <li>other measurements of meteo variables (eg. nearby station)</li>
 </ol>
 </section>
-<section id="state-of-the-art" class="slide level2">
+<section id="state-of-the-art-1" class="slide level2">
 <h2>State of the art</h2>
 <p>OneFlux pipeline (Fluxnet + ICOS + AmeriFlux)</p>
 <ul>
@@ -488,8 +612,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 </div><div class="column center">
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-781a2a9f2a2fe5761ac6" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-781a2a9f2a2fe5761ac6">{"x":{
+<div id="htmlwidget-a7e4365e564007fa6650" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a7e4365e564007fa6650">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -772,8 +896,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 </div><div class="column">
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-045f278d82993298fcc8" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-045f278d82993298fcc8">{"x":{
+<div id="htmlwidget-4f5a3aa565983d248a28" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4f5a3aa565983d248a28">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -1132,8 +1256,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <h2>Gaps</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-3a993c9256193d9d9016" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3a993c9256193d9d9016">{"x":{
+<div id="htmlwidget-16d99d4b3d79fb8f72f2" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-16d99d4b3d79fb8f72f2">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -1499,8 +1623,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 </div><div class="column">
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-9ac04683eda4af38fb3a" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9ac04683eda4af38fb3a">{"x":{
+<div id="htmlwidget-fb48478a883261136a6a" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-fb48478a883261136a6a">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -1976,8 +2100,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <p>Gap in two variables</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-41e45868428dea6675af" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-41e45868428dea6675af">{"x":{
+<div id="htmlwidget-d78bf5f33664d63a117b" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d78bf5f33664d63a117b">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -2648,8 +2772,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <p>Gap in only one variable</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-6c1f63a2e354e8607f74" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6c1f63a2e354e8607f74">{"x":{
+<div id="htmlwidget-307ef1a273ea744ddc42" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-307ef1a273ea744ddc42">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -3328,7 +3452,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <li>maximise the log likelihood</li>
 </ul>
 </section>
-<section id="kalman-filter" class="slide level2">
+<section id="kalman-filter-1" class="slide level2">
 <h2>Kalman Filter</h2>
 <p>pros:</p>
 <ul>
@@ -3351,8 +3475,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <h2>Kalman Filters gap #1</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-955f0846043f078b7b9c" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-955f0846043f078b7b9c">{"x":{
+<div id="htmlwidget-05b0adfd7c4e902d75d3" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-05b0adfd7c4e902d75d3">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -10623,8 +10747,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <h2>Kalman Filters gap #2</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-8392c87224d6f47309c0" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8392c87224d6f47309c0">{"x":{
+<div id="htmlwidget-404cb5e4affa1ae9cba8" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-404cb5e4affa1ae9cba8">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -17895,8 +18019,8 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 <h2>Kalman Filters gap #3</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-e6c6585ab4c13ab9940b" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e6c6585ab4c13ab9940b">{"x":{
+<div id="htmlwidget-9b123768347d07b09257" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9b123768347d07b09257">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json",
     "config": {
@@ -25246,7 +25370,7 @@ Simone Massaro - Bioclim seminar 18 Jan 2023
 </div>
 </div>
 </section>
-<section id="future-outlook" class="slide level2">
+<section id="future-outlook-1" class="slide level2">
 <h2>Future outlook</h2>
 <ul>
 <li>optimize performance model</li>
