@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.37">
+<meta name="generator" content="quarto-1.7.4">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Meteo Imp Analsyis - Training Kalman Filter for Results</title>
+<title>Training Kalman Filter for Results – Meteo Imp Analsyis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -69,17 +69,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c9f28ac3654e8145e3f329489cfce6b3.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-b639d1ae7fba4b2406dd7e01c700a741.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -88,22 +94,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 <script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Meteo Imp Analsyis - Training Kalman Filter for Results">
+<meta property="og:title" content="Training Kalman Filter for Results – Meteo Imp Analsyis">
 <meta property="og:image" content="https://mone27.github.io/meteo_imp/results/model_training_files/figure-html/cell-20-output-2.png">
-<meta property="og:site-name" content="Meteo Imp Analsyis">
+<meta property="og:site_name" content="Meteo Imp Analsyis">
 <meta property="og:image:height" content="288">
 <meta property="og:image:width" content="432">
-<meta name="twitter:title" content="Meteo Imp Analsyis - Training Kalman Filter for Results">
+<meta name="twitter:title" content="Training Kalman Filter for Results – Meteo Imp Analsyis">
 <meta name="twitter:image" content="https://mone27.github.io/meteo_imp/results/model_training_files/figure-html/cell-20-output-2.png">
 <meta name="twitter:image-height" content="288">
 <meta name="twitter:image-width" content="432">
@@ -114,27 +122,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Meteo Imp Analsyis</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../lib" rel="" target="">
- <span class="menu-text">Library Docs</span></a>
+    <a class="nav-link" href="../lib"> 
+<span class="menu-text">Library Docs</span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
-</div>
           </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -172,7 +180,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -180,7 +188,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <div id="fa22293c-08d4-4733-a5d4-ff61ac0c06a0" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext autoreload</span>
@@ -320,7 +330,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -362,7 +372,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-20-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-20-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <div id="5384f6cc-6414-4630-80f1-31709170e7d6" class="cell">
@@ -371,7 +385,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -397,7 +411,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-21-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-21-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <div id="13cfe8f8-c37a-4616-a789-654ae1590cdf" class="cell">
@@ -406,7 +424,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -432,7 +450,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-22-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-22-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -454,7 +476,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -496,7 +518,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-24-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-24-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -547,7 +573,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -589,7 +615,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-31-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-31-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <div id="221d9216-a7d7-4602-808c-f2c7027b81c5" class="cell">
@@ -598,7 +628,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -640,7 +670,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-32-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-32-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>so this is not working …</p>
@@ -665,7 +699,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -707,7 +741,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-34-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-34-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <div id="e1ca3712-84dd-4bb8-a3df-c2954bbc2f36" class="cell">
@@ -716,7 +754,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -742,7 +780,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-35-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-35-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <div id="25e4f635-086f-4fc6-9055-5a49a5d521f2" class="cell">
@@ -751,7 +793,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -777,7 +819,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-36-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-36-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -812,7 +858,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">epoch</th>
@@ -848,7 +894,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-38-output-3.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-38-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <div id="61940797-7341-45ab-bbec-4bf95d4ca896" class="cell">
@@ -872,7 +922,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">epoch</th>
@@ -908,7 +958,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-39-output-3.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-39-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <div id="6ab13dfc-aa85-4f1a-a87e-a2aae4c3fa0d" class="cell">
@@ -932,7 +986,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">epoch</th>
@@ -968,7 +1022,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-40-output-3.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-40-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <div id="8bd5cc7e-611e-4194-9fb5-e86801303f73" class="cell">
@@ -992,7 +1050,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">epoch</th>
@@ -1028,17 +1086,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-41-output-3.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-41-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <div id="88c01c39-d40e-4678-9010-839a6324f4f2" class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>model_Vv_rand</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-
 <p style="font-size: 1.5rem; font-decoration: bold">Kalman Filter (9 obs, 18 state, 14 contr)</p><p></p><div style="display: flex; column-gap: 20px; flex-wrap: wrap;" class="table table-striped table-sm"> <div> <p style="font-size: 1.3rem;">$A$</p> <style type="text/css">
 </style>
 
-<table id="T_cd2f4" data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table id="T_cd2f4" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th id="T_cd2f4_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
@@ -1443,9 +1504,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<div>
-<p>$Q$</p>
-<table id="T_c3337" data-quarto-postprocess="true" class="table table-sm table-striped small">
+
+ </div><div> <p style="font-size: 1.3rem;">$Q$</p> <style type="text/css">
+</style>
+
+<table id="T_c3337" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th id="T_c3337_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
@@ -1850,10 +1913,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-</div>
-<div>
-<p>$b$</p>
-<table id="T_06470" data-quarto-postprocess="true" class="table table-sm table-striped small">
+
+ </div><div> <p style="font-size: 1.3rem;">$b$</p> <style type="text/css">
+</style>
+
+<table id="T_06470" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th id="T_06470_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
@@ -1935,10 +1999,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-</div>
-<div>
-<p>$H$</p>
-<table id="T_06bde" data-quarto-postprocess="true" class="table table-sm table-striped small">
+
+ </div><div> <p style="font-size: 1.3rem;">$H$</p> <style type="text/css">
+</style>
+
+<table id="T_06bde" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th id="T_06bde_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">variable</th>
@@ -2154,10 +2219,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-</div>
-<div>
-<p>$R$</p>
-<table id="T_4e623" data-quarto-postprocess="true" class="table table-sm table-striped small">
+
+ </div><div> <p style="font-size: 1.3rem;">$R$</p> <style type="text/css">
+</style>
+
+<table id="T_4e623" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th id="T_4e623_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">variable</th>
@@ -2283,10 +2349,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-</div>
-<div>
-<p>$d$</p>
-<table id="T_b8daf" data-quarto-postprocess="true" class="table table-sm table-striped small">
+
+ </div><div> <p style="font-size: 1.3rem;">$d$</p> <style type="text/css">
+</style>
+
+<table id="T_b8daf" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th id="T_b8daf_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">variable</th>
@@ -2332,10 +2399,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-</div>
-<div>
-<p>$B$</p>
-<table id="T_8c66a" data-quarto-postprocess="true" class="table table-sm table-striped small">
+
+ </div><div> <p style="font-size: 1.3rem;">$B$</p> <style type="text/css">
+</style>
+
+<table id="T_8c66a" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th id="T_8c66a_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
@@ -2664,10 +2732,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-</div>
-<div>
-<p>$m_0$</p>
-<table id="T_40bea" data-quarto-postprocess="true" class="table table-sm table-striped small">
+
+ </div><div> <p style="font-size: 1.3rem;">$m_0$</p> <style type="text/css">
+</style>
+
+<table id="T_40bea" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th id="T_40bea_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
@@ -2749,10 +2818,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-</div>
-<div>
-<p>$P_0$</p>
-<table id="T_065f4" data-quarto-postprocess="true" class="table table-sm table-striped small">
+
+ </div><div> <p style="font-size: 1.3rem;">$P_0$</p> <style type="text/css">
+</style>
+
+<table id="T_065f4" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th id="T_065f4_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">state</th>
@@ -3157,7 +3227,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-</div>
 
  </div></div>
 </div>
@@ -3232,7 +3301,7 @@ train 0
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -3274,7 +3343,11 @@ train 0
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-47-output-5.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-47-output-5.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 <div class="cell-output cell-output-display">
 <h4 class="anchored"> SW_IN | Gap len 6-336  finetune</h4>
@@ -3286,7 +3359,7 @@ train 0
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -3328,7 +3401,11 @@ train 0
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-47-output-9.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-47-output-9.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 <div class="cell-output cell-output-display">
 <h4 class="anchored"> LW_IN | Gap len 6-336  finetune</h4>
@@ -3340,7 +3417,7 @@ train 0
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -3382,7 +3459,11 @@ train 0
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-47-output-13.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-47-output-13.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 <div class="cell-output cell-output-display">
 <h4 class="anchored"> VPD | Gap len 6-336  finetune</h4>
@@ -3394,7 +3475,7 @@ train 0
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -3436,7 +3517,11 @@ train 0
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-47-output-17.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-47-output-17.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 <div class="cell-output cell-output-display">
 <h4 class="anchored"> WS | Gap len 6-336  finetune</h4>
@@ -3448,7 +3533,7 @@ train 0
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -3490,7 +3575,11 @@ train 0
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-47-output-21.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-47-output-21.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 <div class="cell-output cell-output-display">
 <h4 class="anchored"> PA | Gap len 6-336  finetune</h4>
@@ -3502,7 +3591,7 @@ train 0
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -3544,7 +3633,11 @@ train 0
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-47-output-25.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-47-output-25.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 <div class="cell-output cell-output-display">
 <h4 class="anchored"> SWC | Gap len 6-336  finetune</h4>
@@ -3556,7 +3649,7 @@ train 0
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -3598,7 +3691,11 @@ train 0
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-47-output-29.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-47-output-29.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 <div class="cell-output cell-output-display">
 train 1
@@ -3607,7 +3704,7 @@ train 1
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -3649,7 +3746,11 @@ train 1
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-47-output-32.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-47-output-32.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 <div class="cell-output cell-output-display">
 <h4 class="anchored"> TS | Gap len 6-336  finetune</h4>
@@ -3661,7 +3762,7 @@ train 0
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -3703,7 +3804,11 @@ train 0
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-47-output-36.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-47-output-36.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <div id="a30fed78-cf24-4bde-9b7f-6b4a73b928f4" class="cell">
@@ -3745,7 +3850,7 @@ train 0
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -3787,7 +3892,11 @@ train 0
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-50-output-5.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-50-output-5.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 <div class="cell-output cell-output-display">
 <h4 class="anchored"> SW_IN | Gap len 6-336  finetune 2 </h4>
@@ -3799,7 +3908,7 @@ train 0
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -3849,7 +3958,11 @@ train 0
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-50-output-9.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-50-output-9.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 <div class="cell-output cell-output-display">
 <h4 class="anchored"> LW_IN | Gap len 6-336  finetune 2 </h4>
@@ -3861,7 +3974,7 @@ train 0
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -3903,7 +4016,11 @@ train 0
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-50-output-13.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-50-output-13.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 <div class="cell-output cell-output-display">
 <h4 class="anchored"> VPD | Gap len 6-336  finetune 2 </h4>
@@ -3915,7 +4032,7 @@ train 0
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -3957,7 +4074,11 @@ train 0
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-50-output-17.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-50-output-17.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 <div class="cell-output cell-output-display">
 <h4 class="anchored"> WS | Gap len 6-336  finetune 2 </h4>
@@ -3969,7 +4090,7 @@ train 0
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -4011,7 +4132,11 @@ train 0
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-50-output-21.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-50-output-21.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 <div class="cell-output cell-output-display">
 <h4 class="anchored"> PA | Gap len 6-336  finetune 2 </h4>
@@ -4023,7 +4148,7 @@ train 0
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -4065,7 +4190,11 @@ train 0
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-50-output-25.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-50-output-25.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 <div class="cell-output cell-output-display">
 <h4 class="anchored"> SWC | Gap len 6-336  finetune 2 </h4>
@@ -4077,7 +4206,7 @@ train 0
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -4135,7 +4264,11 @@ train 0
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-50-output-29.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-50-output-29.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 <div class="cell-output cell-output-display">
 train 1
@@ -4144,7 +4277,7 @@ train 1
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -4170,7 +4303,11 @@ train 1
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-50-output-32.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-50-output-32.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 <div class="cell-output cell-output-display">
 <h4 class="anchored"> TS | Gap len 6-336  finetune 2 </h4>
@@ -4182,7 +4319,7 @@ train 0
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -4240,7 +4377,11 @@ train 0
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-50-output-36.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-50-output-36.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <div id="41a301cd-47b6-4206-9e88-472054e33f2e" class="cell">
@@ -4281,7 +4422,7 @@ train 0
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">epoch</th>
@@ -4303,7 +4444,11 @@ train 0
 </table>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-52-output-6.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-52-output-6.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 <div class="cell-output cell-output-display">
 <h4 class="anchored"> PA | Gap len 6-336  finetune 2 </h4>
@@ -4330,7 +4475,7 @@ train 0
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">epoch</th>
@@ -4352,7 +4497,11 @@ train 0
 </table>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="model_training_files/figure-html/cell-52-output-11.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="model_training_files/figure-html/cell-52-output-11.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 
@@ -4399,18 +4548,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -4442,11 +4580,48 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/mone27\.github\.io\/meteo_imp");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -4456,8 +4631,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -4469,31 +4653,129 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, function() {
-      let href = xref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (id.startsWith('sec-')) {
-        // Special case sections, only their first couple elements
-        const container = document.createElement("div");
-        if (note.children.length > 2) {
-          for (let i = 0; i < 2; i++) {
-            container.appendChild(note.children[i].cloneNode(true));
-          }
-          return container.innerHTML
-        } else {
-          return note.innerHTML;
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
         }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
       } else {
         return note.innerHTML;
       }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -4537,6 +4819,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -4562,6 +4845,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -4622,6 +4931,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
